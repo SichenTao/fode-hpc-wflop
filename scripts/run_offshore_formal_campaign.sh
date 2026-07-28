@@ -110,6 +110,24 @@ validate_result() {
 
 mapfile -t seeds < <(jq -r '.seeds[]' "${contract}")
 mapfile -t all_cases < <(jq -r '.cases[]' "${contract}")
+for case_id in "${all_cases[@]}"; do
+  problem="${assets}/${case_id}.wfp"
+  if [[ ! -f "${problem}" ]]; then
+    echo "Contract case has no frozen asset: ${problem}" >&2
+    exit 2
+  fi
+  if ! jq -e --arg case_id "${case_id}" \
+      'any(.cases[]; .case == $case_id)' \
+      "${assets}/manifest.json" >/dev/null; then
+    echo "Contract case is absent from the frozen asset manifest: ${case_id}" >&2
+    exit 2
+  fi
+done
+manifest_case_count="$(jq '.cases | length' "${assets}/manifest.json")"
+if [[ "${#all_cases[@]}" -ne "${manifest_case_count}" ]]; then
+  echo "Contract case count ${#all_cases[@]} != frozen manifest case count ${manifest_case_count}" >&2
+  exit 2
+fi
 for profile_index in $(seq 0 "$(( $(jq '.profiles | length' "${contract}") - 1 ))"); do
   algorithm="$(jq -r ".profiles[${profile_index}].algorithm_id" "${contract}")"
   method="$(jq -r ".profiles[${profile_index}].method_id" "${contract}")"
