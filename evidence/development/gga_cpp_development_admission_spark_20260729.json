@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "receipt_id": "gga_cpp_development_admission_spark_20260729",
+  "status": "development_admission_pass",
+  "source_revision": "a112195bce9f7ffb460beb491bd21d4f4542601d",
+  "upstream_source": {
+    "url": "https://github.com/zbh0528/WFLO-GGA",
+    "commit": "6ce41326e6c1d3685a01e038baf6d1d07aa46126",
+    "sorted_tree_manifest_sha256": "6e23bb6ad67312e782f90e2b5cdab53492141483bce386b4ccb50955938dbeee"
+  },
+  "problem_id": "gga2026_layout_cable",
+  "problem_semantics_id": "geojson_radians_ct_rss_repaired_v1",
+  "physical_fes_definition": "One completed layout evaluation including sector-based cable routing, all 12 by 4 joint wind states, AEP, capacity factor, and LCOE.",
+  "host": {
+    "hostname": "spark-9b6f",
+    "kernel": "Linux 6.14.0-1015-nvidia",
+    "architecture": "aarch64",
+    "visible_processors": 20,
+    "compiler": "gcc 11.5.0",
+    "cmake": "3.28.3"
+  },
+  "asset_gate": {
+    "status": "pass",
+    "case_count": 8,
+    "checks": [
+      "GeoJSON containment",
+      "candidate cardinality",
+      "minimum pairwise spacing",
+      "radian wind sectors",
+      "joint probability cardinality and unit sum",
+      "inner cable capacities 5, 8, and 11",
+      "snapshot SHA-256"
+    ],
+    "snapshot_sha256": {
+      "China_Zhuhai_Guishan_Hai": "d8e5e451d1ee5a4d025d3e9a174b95f3d12360e646816068dfe0ba68b64097f8",
+      "Netherlands_Egmond_aan_Zee": "451eca5bf6764ad093153c83f47bfae45e2296c8c7ec300a9a54035b3a2aa214",
+      "China_Shanghai_Lingang": "fa031c22969fa3e6f1160e764ede6f3d1883011512ac851b30204121e2ac120a",
+      "Netherlands_Prinses_Amaliawindpark": "46843f06f5ce6166016de4f6dfb95b8358dba058d081d399feb18c8a6cd4964a",
+      "Denmark_Nysted": "920cb61b0dc1415af4b6908252799d703c884f2eeaec9ba7b9590c42d40791c4",
+      "UK_Sheringham_Shoal": "48dbb9c6405d6adf1cb5af1670c3fde8c543eda2c5ab74fd35efbcd86ba84494",
+      "Denmark_Rodsand_II": "8469713c9fdce945b0a57159d223724079c6f00cf1ecd0ec0da586d64318a863",
+      "UK_London_Array": "5f84e224d7c5fe6b1a11ca07ef55a773283dc9ed570c0029332e24932153ab84"
+    }
+  },
+  "independent_evaluator_oracle": {
+    "status": "pass",
+    "oracle": "independent Python/SciPy not-a-knot wake, BSR, cost, and LCOE implementation",
+    "case_count": 8,
+    "layout_fixture": "first turbine_count candidates in each frozen candidate set",
+    "maximum_scaled_relative_error": 4.441684900785787e-16,
+    "maximum_lcoe_absolute_error": 4.163336342344337e-17,
+    "maximum_cable_cost_absolute_error": 0.0
+  },
+  "optimizer_smoke": {
+    "status": "pass",
+    "workers": 20,
+    "optimizer_seed": 20260316,
+    "physical_fes_per_case": 60,
+    "case_count": 8,
+    "best_lcoe": {
+      "China_Zhuhai_Guishan_Hai": 0.06934023121068497,
+      "Netherlands_Egmond_aan_Zee": 0.04940976543652775,
+      "China_Shanghai_Lingang": 0.06141630022756341,
+      "Netherlands_Prinses_Amaliawindpark": 0.050663235087019774,
+      "Denmark_Nysted": 0.04799648823590755,
+      "UK_Sheringham_Shoal": 0.047325418459222175,
+      "Denmark_Rodsand_II": 0.04768150194585605,
+      "UK_London_Array": 0.04975648500744237
+    }
+  },
+  "worker_count_semantics": {
+    "status": "exact_pass",
+    "case_id": "Netherlands_Egmond_aan_Zee",
+    "optimizer_seed": 20260316,
+    "physical_fes": 3000,
+    "worker_counts": [
+      1,
+      20
+    ],
+    "exact_fields": [
+      "problem semantics",
+      "case",
+      "seed",
+      "physical FES",
+      "generation count",
+      "best LCOE",
+      "capacity factor",
+      "AEP",
+      "cable cost",
+      "layout"
+    ]
+  },
+  "sanitizer_gate": {
+    "status": "pass",
+    "case_id": "UK_London_Array",
+    "turbine_count": 175,
+    "physical_fes": 60,
+    "workers": 20,
+    "address_sanitizer": "pass",
+    "undefined_behavior_sanitizer": "pass",
+    "leak_detection": "enabled"
+  },
+  "development_timing_diagnostic": {
+    "status": "diagnostic_only",
+    "case_id": "Netherlands_Egmond_aan_Zee",
+    "optimizer_seed": 20260316,
+    "physical_fes": 3000,
+    "repeat_count": 5,
+    "one_worker_end_to_end_seconds": [
+      0.307345223,
+      0.296837264,
+      0.297887168,
+      0.284329855,
+      0.284843495
+    ],
+    "twenty_worker_end_to_end_seconds": [
+      0.026528777,
+      0.02745713,
+      0.028104448,
+      0.026766102,
+      0.0286174
+    ],
+    "median_end_to_end_speedup": 10.810935593049965,
+    "median_evaluator_speedup": 12.283420414121986
+  },
+  "project_test_gate": {
+    "status": "pass",
+    "ctest_passed": 10,
+    "ctest_failed": 0
+  },
+  "evidence_boundary": [
+    "This is a Spark development-admission receipt, not a Waffle formal performance result.",
+    "The timing diagnostic compares the same pure C++ source with one and twenty workers; it is not a MATLAB-to-C++ speedup.",
+    "The repaired physical profile is not pooled with the upstream MATLAB source-replay profile.",
+    "The upstream MATLAB entrypoint has not yet been replayed from the pinned source on Spark.",
+    "No 25-seed formal quality campaign is claimed here."
+  ]
+}
