@@ -2,11 +2,11 @@
 
 FODE-HPC-WFLOP is a reproducible, pure C++20 benchmark for studying
 high-performance evolutionary optimization of wind-farm layouts. The current
-release freezes one common physical problem, one exact work budget, and twelve
+development branch provides one common physical problem, one exact work budget, and fourteen
 registered algorithm state machines:
 
 ```text
-FODE  AGA  SUGGA  ISE  AGPSO  CGPSO  LSHADE  CLSHADE  CEDE  MS-SHADE  BDE  HGPSO
+FODE  AGA  SUGGA  ISE  AGPSO  CGPSO  LSHADE  CLSHADE  CEDE  MS-SHADE  BDE  HGPSO  AIGA  CIGA
 ```
 
 The benchmark contains 50 wind-farm cases: 10 wind scenarios crossed with
@@ -19,7 +19,7 @@ at exactly 24,000 completed physical FES.
 
 - one shared Jensen/Park wake and power evaluator;
 - one canonical 50-case contract;
-- twelve clean-room C++ algorithm implementations on the common problem;
+- eight clean-room C++ algorithm implementations on the common problem;
 - deterministic, schedule-independent random events;
 - one persistent OpenMP team for algorithm-safe population work and evaluation;
 - exact physical-FES accounting;
@@ -31,7 +31,10 @@ ISE and CLSHADE are explicitly paper-derived reconstructions because no public
 author implementation was available. The other algorithms use the provenance
 declared in `shared/contracts/algorithm_provenance.tsv`. CEDE and MS-SHADE use
 paper-first profiles because their paper equations and archived MATLAB behavior
-diverge; BDE and HGPSO also have paper/source operator, stage, or budget conflicts. Every conflict is listed in
+diverge; BDE and HGPSO also have paper/source operator, stage, or budget conflicts.
+The development branch adds CEDE, MS-SHADE, BDE, HGPSO, AIGA, and CIGA after
+their development gates; these additions are not part of the v0.1.0 tag.
+AIGA and CIGA are paper-derived explicit reconstructions because no author source was found. Every conflict and reconstruction is listed in
 `docs/semantic_discrepancy_ledger.tsv`. NDE is not part of this public
 benchmark.
 

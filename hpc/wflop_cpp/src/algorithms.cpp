@@ -712,6 +712,476 @@ RunResult optimize_ga(
     );
 }
 
+RunResult optimize_aiga(
+    const fode::CaseData& data,
+    const RunConfig& config
+) {
+    const auto started = Clock::now();
+    Runtime runtime(config);
+    const int population_size = 60;
+    const int dimension = data.turbine_count;
+    const int grid = data.rows * data.cols;
+    const auto blocked = blocked_mask(data);
+    if (runtime.budget < static_cast<std::uint64_t>(population_size)) {
+        throw std::runtime_error("budget is below AIGA initialization");
+    }
+    Matrix population = initialize_population(
+        population_size, data, runtime.rng, runtime.executor, 1050
+    );
+    auto initial = runtime.evaluate(
+        population,
+        population_size,
+        data,
+        fode::EvaluationDetail::TotalAndPerTurbine
+    );
+    std::vector<double> fitness = initial.fitness;
+    std::vector<int> turbine_order =
+        initial.turbine_position_order_1based;
+    std::vector<double> cell_power(static_cast<std::size_t>(grid), 0.0);
+    auto accumulate = [&](const fode::Evaluation& evaluated, int rows) {
+        for (int row = 0; row < rows; ++row) {
+            const double total =
+                evaluated.fitness[static_cast<std::size_t>(row)];
+            if (total <= 0.0) {
+                continue;
+            }
+            for (int rank = 0; rank < dimension; ++rank) {
+                const int cell =
+                    evaluated.turbine_position_order_1based[
+                        at(row, rank, dimension)
+                    ];
+                cell_power[static_cast<std::size_t>(cell - 1)] +=
+                    evaluated.accumulated_turbine_power_kw[
+                        at(row, rank, dimension)
+                    ] / total;
+            }
+        }
+    };
+    accumulate(initial, population_size);
+
+    while (runtime.fes < runtime.budget) {
+        ++runtime.generations;
+        const auto ranking = stable_rank_descending(fitness);
+        const int parent_count = 36;
+        Matrix adapted = population;
+        runtime.executor.parallel_for(0, parent_count, [&](int rank) {
+            const int row = ranking[static_cast<std::size_t>(rank)];
+            std::vector<char> occupied = blocked;
+            for (int d = 0; d < dimension; ++d) {
+                const int cell = static_cast<int>(std::llround(
+                    adapted[at(row, d, dimension)]
+                ));
+                occupied[static_cast<std::size_t>(cell - 1)] = 1;
+            }
+            std::vector<int> candidates;
+            candidates.reserve(static_cast<std::size_t>(grid - dimension));
+            for (int cell = 1; cell <= grid; ++cell) {
+                if (occupied[static_cast<std::size_t>(cell - 1)] == 0) {
+                    candidates.push_back(cell);
+                }
+            }
+            std::stable_sort(
+                candidates.begin(),
+                candidates.end(),
+                [&](int lhs, int rhs) {
+                    return cell_power[static_cast<std::size_t>(lhs - 1)]
+                        > cell_power[static_cast<std::size_t>(rhs - 1)];
+                }
+            );
+            const int top_count = std::max(
+                1,
+                static_cast<int>(std::ceil(
+                    0.15 * static_cast<double>(candidates.size())
+                ))
+            );
+            double total_weight = 0.0;
+            for (int index = 0; index < top_count; ++index) {
+                total_weight += std::max(
+                    0.0,
+                    cell_power[static_cast<std::size_t>(
+                        candidates[static_cast<std::size_t>(index)] - 1
+                    )]
+                );
+            }
+            int inserted = candidates.front();
+            if (total_weight > 0.0) {
+                const double threshold = runtime.rng.uniform(
+                    runtime.generations,
+                    1051,
+                    static_cast<std::uint64_t>(row)
+                ) * total_weight;
+                double cumulative = 0.0;
+                for (int index = 0; index < top_count; ++index) {
+                    const int cell =
+                        candidates[static_cast<std::size_t>(index)];
+                    cumulative += std::max(
+                        0.0,
+                        cell_power[static_cast<std::size_t>(cell - 1)]
+                    );
+                    if (threshold <= cumulative) {
+                        inserted = cell;
+                        break;
+                    }
+                }
+            } else {
+                inserted = candidates[static_cast<std::size_t>(
+                    runtime.rng.integer(
+                        0,
+                        top_count,
+                        runtime.generations,
+                        1052,
+                        static_cast<std::uint64_t>(row)
+                    )
+                )];
+            }
+            replace_cell(
+                adapted,
+                row,
+                dimension,
+                turbine_order[at(row, 0, dimension)],
+                inserted
+            );
+        });
+
+        const int offspring_count = static_cast<int>(
+            std::min<std::uint64_t>(
+                static_cast<std::uint64_t>(population_size),
+                runtime.budget - runtime.fes
+            )
+        );
+        Matrix offspring(
+            static_cast<std::size_t>(offspring_count * dimension),
+            0.0
+        );
+        runtime.executor.parallel_for(0, offspring_count, [&](int row) {
+            const int first =
+                ranking[static_cast<std::size_t>(runtime.rng.integer(
+                    0,
+                    parent_count,
+                    runtime.generations,
+                    1053,
+                    static_cast<std::uint64_t>(row)
+                ))];
+            const int second =
+                ranking[static_cast<std::size_t>(runtime.rng.integer(
+                    0,
+                    parent_count,
+                    runtime.generations,
+                    1054,
+                    static_cast<std::uint64_t>(row)
+                ))];
+            copy_row(offspring, row, adapted, first, dimension);
+            if (dimension > 1
+                && runtime.rng.uniform(
+                    runtime.generations,
+                    1055,
+                    static_cast<std::uint64_t>(row)
+                ) < 0.6) {
+                std::vector<int> valid_cuts;
+                for (int cut = 1; cut < dimension; ++cut) {
+                    if (adapted[at(first, cut - 1, dimension)]
+                        < adapted[at(second, cut, dimension)]) {
+                        valid_cuts.push_back(cut);
+                    }
+                }
+                if (!valid_cuts.empty()) {
+                    const int cut = valid_cuts[static_cast<std::size_t>(
+                        runtime.rng.integer(
+                            0,
+                            static_cast<int>(valid_cuts.size()),
+                            runtime.generations,
+                            1056,
+                            static_cast<std::uint64_t>(row)
+                        )
+                    )];
+                    for (int d = cut; d < dimension; ++d) {
+                        offspring[at(row, d, dimension)] =
+                            adapted[at(second, d, dimension)];
+                    }
+                }
+            }
+            if (runtime.rng.uniform(
+                    runtime.generations,
+                    1057,
+                    static_cast<std::uint64_t>(row)
+                ) < 0.5) {
+                const int d = runtime.rng.integer(
+                    0,
+                    dimension,
+                    runtime.generations,
+                    1058,
+                    static_cast<std::uint64_t>(row)
+                );
+                offspring[at(row, d, dimension)] =
+                    static_cast<double>(runtime.rng.integer(
+                        1,
+                        grid + 1,
+                        runtime.generations,
+                        1059,
+                        static_cast<std::uint64_t>(row)
+                    ));
+            }
+        });
+        repair_population(
+            offspring,
+            offspring_count,
+            data,
+            runtime.rng,
+            runtime.executor,
+            runtime.generations,
+            1060
+        );
+        auto evaluated = runtime.evaluate(
+            offspring,
+            offspring_count,
+            data,
+            fode::EvaluationDetail::TotalAndPerTurbine
+        );
+        accumulate(evaluated, offspring_count);
+        if (offspring_count < population_size) {
+            break;
+        }
+
+        std::vector<double> combined_fitness = fitness;
+        combined_fitness.insert(
+            combined_fitness.end(),
+            evaluated.fitness.begin(),
+            evaluated.fitness.end()
+        );
+        const auto combined_ranking =
+            stable_rank_descending(combined_fitness);
+        Matrix next_population(population.size(), 0.0);
+        std::vector<double> next_fitness(
+            static_cast<std::size_t>(population_size),
+            0.0
+        );
+        std::vector<int> next_order(
+            static_cast<std::size_t>(population_size * dimension),
+            0
+        );
+        for (int row = 0; row < population_size; ++row) {
+            const int source =
+                combined_ranking[static_cast<std::size_t>(row)];
+            next_fitness[static_cast<std::size_t>(row)] =
+                combined_fitness[static_cast<std::size_t>(source)];
+            if (source < population_size) {
+                copy_row(
+                    next_population,
+                    row,
+                    population,
+                    source,
+                    dimension
+                );
+                for (int rank = 0; rank < dimension; ++rank) {
+                    next_order[at(row, rank, dimension)] =
+                        turbine_order[at(source, rank, dimension)];
+                }
+            } else {
+                const int child = source - population_size;
+                copy_row(
+                    next_population,
+                    row,
+                    offspring,
+                    child,
+                    dimension
+                );
+                for (int rank = 0; rank < dimension; ++rank) {
+                    next_order[at(row, rank, dimension)] =
+                        evaluated.turbine_position_order_1based[
+                            at(child, rank, dimension)
+                        ];
+                }
+            }
+        }
+        population = std::move(next_population);
+        fitness = std::move(next_fitness);
+        turbine_order = std::move(next_order);
+    }
+
+    return finish_result(
+        data,
+        config,
+        runtime,
+        population_size,
+        population_size,
+        started
+    );
+}
+
+RunResult optimize_ciga(
+    const fode::CaseData& data,
+    const RunConfig& config
+) {
+    const auto started = Clock::now();
+    Runtime runtime(config);
+    const int population_size = 60;
+    const int dimension = data.turbine_count;
+    const int grid = data.rows * data.cols;
+    if (runtime.budget < static_cast<std::uint64_t>(population_size)) {
+        throw std::runtime_error("budget is below CIGA initialization");
+    }
+    Matrix population = initialize_population(
+        population_size, data, runtime.rng, runtime.executor, 1100
+    );
+    auto initial = runtime.evaluate(
+        population,
+        population_size,
+        data,
+        fode::EvaluationDetail::TotalOnly
+    );
+    std::vector<double> fitness = initial.fitness;
+    double chaos = 0.6180339887498949;
+
+    while (runtime.fes < runtime.budget) {
+        ++runtime.generations;
+        const auto ranking = stable_rank_descending(fitness);
+        const int parent_count = 36;
+        const int offspring_count = static_cast<int>(
+            std::min<std::uint64_t>(
+                static_cast<std::uint64_t>(population_size),
+                runtime.budget - runtime.fes
+            )
+        );
+        std::vector<double> chaos_values(
+            static_cast<std::size_t>(offspring_count),
+            0.0
+        );
+        for (int row = 0; row < offspring_count; ++row) {
+            chaos = 3.9 * chaos * (1.0 - chaos);
+            chaos_values[static_cast<std::size_t>(row)] = chaos;
+        }
+        const double shrink = std::max(
+            0.0,
+            1.0 - static_cast<double>(runtime.fes)
+                / static_cast<double>(runtime.budget)
+        );
+        Matrix offspring(
+            static_cast<std::size_t>(offspring_count * dimension),
+            0.0
+        );
+        runtime.executor.parallel_for(0, offspring_count, [&](int row) {
+            const int first =
+                ranking[static_cast<std::size_t>(runtime.rng.integer(
+                    0,
+                    parent_count,
+                    runtime.generations,
+                    1101,
+                    static_cast<std::uint64_t>(row)
+                ))];
+            const int second =
+                ranking[static_cast<std::size_t>(runtime.rng.integer(
+                    0,
+                    parent_count,
+                    runtime.generations,
+                    1102,
+                    static_cast<std::uint64_t>(row)
+                ))];
+            copy_row(offspring, row, population, first, dimension);
+            if (dimension > 1
+                && runtime.rng.uniform(
+                    runtime.generations,
+                    1103,
+                    static_cast<std::uint64_t>(row)
+                ) < 0.6) {
+                const int cut = runtime.rng.integer(
+                    1,
+                    dimension,
+                    runtime.generations,
+                    1104,
+                    static_cast<std::uint64_t>(row)
+                );
+                for (int d = cut; d < dimension; ++d) {
+                    offspring[at(row, d, dimension)] =
+                        population[at(second, d, dimension)];
+                }
+            }
+            if (runtime.rng.uniform(
+                    runtime.generations,
+                    1105,
+                    static_cast<std::uint64_t>(row)
+                ) < 0.5) {
+                const int d = runtime.rng.integer(
+                    0,
+                    dimension,
+                    runtime.generations,
+                    1106,
+                    static_cast<std::uint64_t>(row)
+                );
+                offspring[at(row, d, dimension)] +=
+                    shrink * static_cast<double>(grid - 1)
+                    * (
+                        chaos_values[static_cast<std::size_t>(row)]
+                        - 0.5
+                    );
+            }
+        });
+        repair_population(
+            offspring,
+            offspring_count,
+            data,
+            runtime.rng,
+            runtime.executor,
+            runtime.generations,
+            1107
+        );
+        auto evaluated = runtime.evaluate(
+            offspring,
+            offspring_count,
+            data,
+            fode::EvaluationDetail::TotalOnly
+        );
+        if (offspring_count < population_size) {
+            break;
+        }
+        std::vector<double> combined_fitness = fitness;
+        combined_fitness.insert(
+            combined_fitness.end(),
+            evaluated.fitness.begin(),
+            evaluated.fitness.end()
+        );
+        const auto combined_ranking =
+            stable_rank_descending(combined_fitness);
+        Matrix next_population(population.size(), 0.0);
+        std::vector<double> next_fitness(
+            static_cast<std::size_t>(population_size),
+            0.0
+        );
+        for (int row = 0; row < population_size; ++row) {
+            const int source =
+                combined_ranking[static_cast<std::size_t>(row)];
+            next_fitness[static_cast<std::size_t>(row)] =
+                combined_fitness[static_cast<std::size_t>(source)];
+            if (source < population_size) {
+                copy_row(
+                    next_population,
+                    row,
+                    population,
+                    source,
+                    dimension
+                );
+            } else {
+                copy_row(
+                    next_population,
+                    row,
+                    offspring,
+                    source - population_size,
+                    dimension
+                );
+            }
+        }
+        population = std::move(next_population);
+        fitness = std::move(next_fitness);
+    }
+    return finish_result(
+        data,
+        config,
+        runtime,
+        population_size,
+        population_size,
+        started
+    );
+}
+
 double positive_cauchy(
     const fode::CounterRng& rng,
     double location,
@@ -3229,6 +3699,12 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
     }
     if (config.algorithm_id == "hgpso") {
         return optimize_hgpso(data, config);
+    }
+    if (config.algorithm_id == "aiga") {
+        return optimize_aiga(data, config);
+    }
+    if (config.algorithm_id == "ciga") {
+        return optimize_ciga(data, config);
     }
     throw std::invalid_argument("unknown algorithm: " + config.algorithm_id);
 }

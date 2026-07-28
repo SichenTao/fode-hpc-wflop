@@ -15,7 +15,9 @@
     "cede",
     "msshade",
     "bde",
-    "hgpso"
+    "hgpso",
+    "aiga",
+    "ciga"
   ],
   "implementation_ids": [
     "matlab_reference_timing_anchor",

@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "receipt_id": "aiga_50_case_smoke_20260729",
+  "purpose": "development_semantic_smoke_only",
+  "host": {
+    "hostname": "spark-9b6f",
+    "architecture": "aarch64",
+    "visible_logical_cores": 20
+  },
+  "algorithm_ids": [
+    "aiga"
+  ],
+  "case_count": 50,
+  "result_count": 50,
+  "physical_fes_per_result": 1500,
+  "requested_workers": 20,
+  "observed_workers": [
+    20
+  ],
+  "all_exact_fes": true,
+  "all_finite": true,
+  "representative_exact_worker_pair": {
+    "case_id": "WS10tn80",
+    "physical_fes": 24000,
+    "seed": 20260727,
+    "one_worker_end_to_end_seconds": 2.743643577,
+    "twenty_worker_end_to_end_seconds": 1.960982859,
+    "end_to_end_ratio_one_over_twenty": 1.3991,
+    "non_timing_fields_exact": true
+  },
+  "raw_sha256": "321182ddc03f009d7bd1bf51e35c41d1c7d69d4fb4c3bdbc8fc84f0da48be98b",
+  "raw_data_bundled": false,
+  "status": "pass",
+  "evidence_boundary": "This smoke validates the registered paper-derived reconstruction, exact physical work, feasibility, deterministic worker-count semantics, and result-schema coverage. It does not establish identity with unavailable author source or a formal performance claim."
+}

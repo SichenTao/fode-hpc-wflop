@@ -1,6 +1,6 @@
 {
-  "schema_version": 4,
-  "semantics_set_id": "fode_e0_paper_first_registered_algorithms_v4",
+  "schema_version": 6,
+  "semantics_set_id": "fode_e0_paper_first_registered_algorithms_v6",
   "problem_semantics": {
     "id": "FODE-E0-L",
     "objective": "maximize joint-direction-speed expected farm power in kW",
@@ -103,6 +103,20 @@
       "evaluation_detail": "TotalAndPerTurbine",
       "pso_update_semantics": "paper_hierarchical_staged_parallel",
       "physical_fes_rule": "count one reference evaluation and one final-trial evaluation for each complete target transition"
+    },
+    "aiga": {
+      "method_id": "AIGA_CPP_HPC_FULL",
+      "state_semantics": "paper Eqs. 10-12 and selected orthogonal parameters with registered parent-pool, roulette, and elitist-survival reconstructions",
+      "parallel_semantics": "ranked generation snapshot; independent adaptive parent replacement, crossover, mutation, repair, and offspring evaluation; deterministic parent-offspring elitist merge",
+      "evaluation_detail": "TotalAndPerTurbine",
+      "reconstruction_status": "explicit_pre_result_no_author_source"
+    },
+    "ciga": {
+      "method_id": "CIGA_CPP_HPC_FULL",
+      "state_semantics": "paper Eqs. 8-10 with mu=3.9 and registered same-author GA parameter, chaos-initialization, shrink, and survival reconstructions",
+      "parallel_semantics": "ranked generation snapshot; deterministic precomputed logistic sequence; independent crossover, chaos mutation, repair, and evaluation; deterministic parent-offspring elitist merge",
+      "evaluation_detail": "TotalOnly",
+      "reconstruction_status": "explicit_pre_result_no_author_source"
     }
   },
   "unresolved_active_conflicts": 14

@@ -130,6 +130,22 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "paper_first_local_source_discrepancy_registered",
             "hgpso_paper_equations_physical_fes_v1",
             {"fode_e0_common"}
+        },
+        {
+            "aiga",
+            "AIGA",
+            "10.1007/s42235-024-00498-3",
+            "paper_derived_explicit_reconstruction",
+            "aiga_paper_derived_e0_physical_fes_v1",
+            {"fode_e0_common"}
+        },
+        {
+            "ciga",
+            "CIGA",
+            "10.1145/3766671.3766786",
+            "paper_derived_explicit_reconstruction",
+            "ciga_paper_derived_e0_physical_fes_v1",
+            {"fode_e0_common"}
         }
     };
     return descriptors;

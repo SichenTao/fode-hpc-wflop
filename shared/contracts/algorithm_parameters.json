@@ -1,6 +1,6 @@
 {
-  "schema_version": 6,
-  "parameter_set_id": "fode_e0_paper_first_registered_algorithm_parameters_v6",
+  "schema_version": 8,
+  "parameter_set_id": "fode_e0_paper_first_registered_algorithm_parameters_v8",
   "problem_identity": "FODE-E0-L",
   "problem_semantics_id": "fode_wflop_e0_legacy_v1",
   "source_manifest_alias": "fode_wflop_e0_v1",
@@ -386,6 +386,57 @@
         "worst_replacement_pool_size": "floor(0.1 * available_grid_domain_size) + turbine_count, capped by the grid size",
         "parallel_semantics": "generation snapshot, parallel reference batch, deterministic selection barrier, parallel hierarchical trial batch, deterministic selection barrier",
         "source_replay_profile": "registered for diagnostics and excluded from formal pooling"
+      }
+    },
+    "aiga": {
+      "display_label": "AIGA",
+      "implementation_provenance": "paper_derived_explicit_reconstruction",
+      "formal_admission": "pending_50_case_single_seed_admission",
+      "parameter_evidence": [
+        "Zheng et al. 2024 Table 1 and Section 4.1 select orthogonal-design row 8: crossover rate 0.6, mutation rate 0.5, selection probability 0.6, and selection size 60",
+        "Zheng et al. 2024 Eq. 10 selects a replacement from the top 15 percent of unselected positions and replaces the lowest-power turbine",
+        "Zheng et al. 2024 Eq. 11 defines feasible one-point integer crossover and Eq. 12 defines integer-position mutation",
+        "No author source was found; parent-pool cardinality, roulette weights, and survivor selection are pre-result explicit reconstructions"
+      ],
+      "hpc": {
+        "population_size": 60,
+        "parent_selection_rate": 0.6,
+        "parent_count": 36,
+        "crossover_rate": 0.6,
+        "mutation_rate": 0.5,
+        "adaptive_replacement_top_rate": 0.15
+      },
+      "derived_rules": {
+        "adaptive_replacement": "roulette over nonnegative accumulated cell-power scores in the top 15 percent of currently unoccupied cells; uniform fallback when all weights are zero",
+        "crossover": "one-point crossover over a paper-feasible cut followed by common discrete repair",
+        "survival": "best 60 layouts from the evaluated parent and offspring union",
+        "parallel_semantics": "independent adaptive parent preparation and offspring generation from a ranked snapshot, parallel evaluation, deterministic elitist merge"
+      }
+    },
+    "ciga": {
+      "display_label": "CIGA",
+      "implementation_provenance": "paper_derived_explicit_reconstruction",
+      "formal_admission": "pending_50_case_single_seed_admission",
+      "parameter_evidence": [
+        "Zheng et al. 2025 Eqs. 8-10 define integer crossover, logistic-map chaos, and shrinking chaos-driven mutation",
+        "Zheng et al. 2025 reports that mu=3.9 gives the best tested chaos balance",
+        "The paper omits population size, operator probabilities, chaos initial value, shrink schedule, and survivor merge",
+        "The reconstruction inherits population 60, parent rate 0.6, crossover 0.6, and mutation 0.5 from the same-author AIGA selected configuration"
+      ],
+      "hpc": {
+        "population_size": 60,
+        "parent_selection_rate": 0.6,
+        "parent_count": 36,
+        "crossover_rate": 0.6,
+        "mutation_rate": 0.5,
+        "logistic_mu": 3.9,
+        "logistic_initial_value": 0.6180339887498949
+      },
+      "derived_rules": {
+        "crossover": "literal one-cut Equation 8 followed by common discrete repair",
+        "mutation_shrink": "one minus completed physical FES divided by the physical-FES budget",
+        "survival": "best 60 layouts from the evaluated parent and offspring union",
+        "parallel_semantics": "precompute the deterministic logistic sequence, generate and evaluate offspring independently, then perform an ordered elitist merge"
       }
     }
   }
