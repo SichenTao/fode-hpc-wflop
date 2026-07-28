@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "evidence_id": "formal_campaign_runner_admission_spark_20260729",
+  "status": "passed",
+  "evidence_boundary": "Development admission of campaign control, result validation, and resume behavior on Spark. This is not Waffle formal-result or performance evidence.",
+  "tested_git_head": "a6eadf294736e19e36d764c90018d53941893660",
+  "host": {
+    "hostname": "spark-9b6f",
+    "visible_processors": 20
+  },
+  "common_fode_e0_matrix": {
+    "algorithms": 18,
+    "physical_cases": 50,
+    "independent_seeds": 1,
+    "optimization_runs": 900,
+    "complete_layout_evaluations_per_run": 1500,
+    "complete_layout_evaluations": 1350000,
+    "finite_objectives": true,
+    "all_visible_processors_recorded": true,
+    "second_pass_reused_complete_seed_file": true,
+    "manifest_sha256": "87fc4179571e4fa2670b277425c516de2e2780ed2d22c8b30bba5d2900512bd0"
+  },
+  "three_objective_matrix": {
+    "algorithms": 1,
+    "wind_scenarios": 1,
+    "turbine_counts": 1,
+    "independent_seeds": 1,
+    "optimization_runs": 1,
+    "complete_layout_evaluations_per_run": 10100,
+    "complete_layout_evaluations": 10100,
+    "front_and_summary_validated": true,
+    "second_pass_completed_from_validated_file_matrix": true,
+    "receipt_sha256": "db9616e50ca00093a532551898464912455d5a64e5e14a831637569061deb5f0"
+  },
+  "offshore_matrix": {
+    "profiles": [
+      "gga",
+      "geoga",
+      "tmoea"
+    ],
+    "frozen_physical_cases": 8,
+    "independent_seeds": 1,
+    "optimization_runs": 17,
+    "complete_layout_evaluations": 1340,
+    "all_visible_processors_recorded": true,
+    "result_identity_layout_objective_and_front_validation": true,
+    "second_pass_reused_all_validated_results": true,
+    "manifest_sha256": "ea537b65c2c43d15671b267389ebc03e1e5a8047bd27e8004b29fd0a3e3c277d",
+    "receipt_sha256": "ac434883c679c4fa96cd44be372254e2a9eead2715d45bd74b465646e209e244"
+  },
+  "repository_tests": {
+    "ctest_total": 18,
+    "ctest_passed": 18
+  },
+  "formal_next_step": "Launch formal/contracts/waffle_campaign_suite_v1.json through scripts/run_all_waffle_formal_campaigns.sh after Waffle becomes reachable."
+}

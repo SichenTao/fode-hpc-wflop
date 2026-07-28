@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "suite_id": "waffle_campaign_suite_v1",
+  "execution_host": "Waffle",
+  "worker_policy": "all processors visible to the job",
+  "processes_at_once": 1,
+  "repeat_policy": "25 predetermined independent seeds per admitted experiment cell",
+  "campaigns": [
+    {
+      "contract": "formal/contracts/eighteen_algorithm_cpp_hpc_waffle_v1.json",
+      "campaign_id": "eighteen_algorithm_cpp_hpc_waffle_v1",
+      "scientific_scope": "eighteen algorithms on the common FODE-E0 fifty-case benchmark",
+      "optimization_runs": 22500,
+      "complete_layout_evaluations": 540000000
+    },
+    {
+      "contract": "formal/contracts/pbea_six_algorithm_waffle_v1.json",
+      "campaign_id": "pbea_six_algorithm_waffle_v1",
+      "scientific_scope": "six multiobjective algorithms on the repaired three-objective WS1/WS2 benchmark",
+      "optimization_runs": 4800,
+      "complete_layout_evaluations": 48480000
+    },
+    {
+      "contract": "formal/contracts/offshore_cpp_hpc_waffle_v1.json",
+      "campaign_id": "offshore_cpp_hpc_waffle_v1",
+      "scientific_scope": "GGA, GeoGA, and T-MOEA under their separately declared offshore asset profiles",
+      "optimization_runs": 425,
+      "complete_layout_evaluations": 2675000
+    }
+  ],
+  "total_optimization_runs": 27725,
+  "total_complete_layout_evaluations": 591155000,
+  "claim_boundary": "The three campaigns have different mathematical problems and provenance levels. Their quality results and reproduction claims remain separate even though they share the C++ HPC infrastructure.",
+  "blocked_methods_excluded": [
+    "alga",
+    "taae",
+    "rlpso",
+    "rlfode"
+  ],
+  "status": "development_admitted_waiting_for_waffle"
+}

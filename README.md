@@ -171,6 +171,10 @@ that process internally. The three result families remain separate:
 three-objective T46 problem, and GGA/GeoGA/T-MOEA on their declared offshore
 profiles. ALGA, TAAE, RLPSO, and RL-FODE remain excluded by the learned-state
 guard. Every family records a machine receipt and supports validated resume.
+The suite contract freezes 27,725 independent optimization runs and
+591,155,000 complete layout evaluations. The three mathematical problem
+families retain separate quality and reproduction claims; the shared suite
+only standardizes execution, validation, provenance, and recovery.
 
 The platform also contains the paper-repaired three-objective TWFLO package
 from Zhang et al. (2025), exposed as `pbea_cpp_hpc`. It evaluates expected
