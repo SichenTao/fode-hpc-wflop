@@ -7,3 +7,7 @@ agpso	AGPSO	paper_first_source_completed	Lei et al. 2022 Algorithm 1 and Eq. 21;
 cgpso	CGPSO	paper_first_source_completed	Lei et al. 2023 Algorithm 1; archived source fills chaotic-search details	10.1109/JAS.2023.123387	cgpso_paper_staged_parallel_e0_physical_fes_v1
 lshade	LSHADE	paper_first_archived_matlab_completed	Tanabe and Fukunaga 2014 Algorithm 2 plus SHADE memory equations and archived LSHADE.m	10.1109/CEC.2014.6900380	lshade_paper_first_e0_physical_fes_v1
 clshade	CLSHADE	paper_derived	Yu et al. 2023 Algorithm 1 and Eqs. 19-29	10.1016/j.asoc.2023.110306	clshade_paper_derived_e0_physical_fes_v1
+cede	CEDE	paper_first_local_source_discrepancy_registered	Tao et al. 2024 Algorithm 1 and Eqs. 18-21; local source differences registered separately	10.3390/math12233762	cede_paper_equations_physical_fes_v1
+msshade	MS-SHADE	paper_first_local_source_discrepancy_registered	Yang et al. 2024 Algorithm 1 and Eqs. 9-12; local source differences registered separately	10.3390/electronics13163196	msshade_paper_equations_physical_fes_v1
+bde	BDE	paper_first_official_source_discrepancy_registered	Li et al. 2025 Eqs. 19-24; official MATLAB source differences registered separately	10.1016/j.energy.2025.137885	bde_paper_equations_physical_fes_v1
+hgpso	HGPSO	paper_first_local_source_discrepancy_registered	Zheng et al. 2026 Algorithm 1 and Eqs. 15-22; local MATLAB source differences registered separately	10.26599/tst.2026.9010059	hgpso_paper_equations_physical_fes_v1

@@ -4,7 +4,7 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 build_dir="${WFLOP_BUILD_DIR:-${repo_root}/build}"
 binary="${build_dir}/hpc/wflop_cpp/wflop_cpp_hpc"
-contract="${repo_root}/formal/contracts/eight_algorithm_cpp_hpc_spark2_v2.json"
+contract="${WFLOP_CAMPAIGN_CONTRACT:-${repo_root}/formal/contracts/eight_algorithm_cpp_hpc_spark2_v2.json}"
 result_root="${WFLOP_RESULT_DIR:-${repo_root}/results/fixed-work}"
 workers="${WFLOP_WORKERS:-$(nproc)}"
 cases="${repo_root}/shared/contracts/benchmark_cases.json"
@@ -21,6 +21,10 @@ fi
 
 mkdir -p "${result_root}"
 physical_fes="$(jq -r '.physical_fes_per_run' "${contract}")"
+algorithm_csv="$(jq -r '.algorithms | join(",")' "${contract}")"
+expected_algorithms="$(jq -c '.algorithms' "${contract}")"
+expected_cases="$(jq -r '.cases' "${contract}")"
+expected_results="$(( $(jq -r '.algorithms | length' "${contract}") * expected_cases ))"
 mapfile -t seeds < <(jq -r '.seeds[]' "${contract}")
 
 validate_seed_file() {
@@ -30,9 +34,13 @@ validate_seed_file() {
     --argjson seed "${seed}" \
     --argjson fes "${physical_fes}" \
     --argjson workers "${workers}" \
-    'length == 400
-     and ([.[].algorithm_id] | unique | length) == 8
-     and ([.[].case_id] | unique | length) == 50
+    --argjson expected_algorithms "${expected_algorithms}" \
+    --argjson expected_cases "${expected_cases}" \
+    --argjson expected_results "${expected_results}" \
+    'length == $expected_results
+     and (([.[].algorithm_id] | unique | sort)
+          == ($expected_algorithms | sort))
+     and ([.[].case_id] | unique | length) == $expected_cases
      and all(.[];
        .seed == $seed
        and .physical_fes == $fes
@@ -41,21 +49,21 @@ validate_seed_file() {
        and (.best_expected_power_kw | isfinite)
        and (.best_layout_1based | length > 0))
      and ([.[] | [.algorithm_id, .case_id] | join(":")]
-          | unique | length) == 400' \
+          | unique | length) == $expected_results' \
     "${path}" >/dev/null
 }
 
 for seed in "${seeds[@]}"; do
   output="${result_root}/seed_${seed}.jsonl"
   if [[ -s "${output}" ]] && validate_seed_file "${output}" "${seed}"; then
-    echo "reuse seed ${seed}: 400-result receipt passes"
+    echo "reuse seed ${seed}: ${expected_results}-result receipt passes"
     continue
   fi
   temporary="${output}.partial"
   rm -f "${temporary}"
   OMP_DYNAMIC=FALSE OMP_NUM_THREADS="${workers}" \
     "${binary}" \
-      --all-algorithms \
+      --algorithms "${algorithm_csv}" \
       --all-cases \
       --physical-fes "${physical_fes}" \
       --seed "${seed}" \
@@ -72,5 +80,5 @@ find "${result_root}" -maxdepth 1 -name 'seed_*.jsonl' -type f -print0 \
   | sort -z \
   | xargs -0 sha256sum > "${manifest}"
 
-echo "Fixed-work campaign complete: ${#seeds[@]} seeds × 8 algorithms × 50 cases."
+echo "Fixed-work campaign complete: ${#seeds[@]} seeds × $(jq -r '.algorithms | length' "${contract}") algorithms × ${expected_cases} cases."
 echo "Results: ${result_root}"

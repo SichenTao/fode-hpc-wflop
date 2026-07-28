@@ -1,6 +1,6 @@
 {
-  "schema_version": 1,
-  "semantics_set_id": "fode_e0_paper_first_eight_algorithm_v1",
+  "schema_version": 4,
+  "semantics_set_id": "fode_e0_paper_first_registered_algorithms_v4",
   "problem_semantics": {
     "id": "FODE-E0-L",
     "objective": "maximize joint-direction-speed expected farm power in kW",
@@ -74,7 +74,36 @@
       "state_semantics": "paper-derived CLSHADE equations and Algorithm 1 with L=50 success/failure map memory and registered r0=0.01 reconstruction",
       "parallel_semantics": "parallel L-SHADE offspring batch, then ordered one-candidate chaotic local search and deterministic memory update",
       "evaluation_detail": "TotalOnly"
+    },
+    "cede": {
+      "method_id": "CEDE_CPP_HPC_FULL",
+      "state_semantics": "paper Eqs. 18-21 competitive genetic learning around a success-history current-to-pbest DE state machine with linear population reduction",
+      "parallel_semantics": "generation snapshot; independent DE trials; deterministic archive-memory merge; independent mutation and genetic-learning batches; deterministic global-best replacement",
+      "evaluation_detail": "TotalOnly",
+      "physical_fes_rule": "count the DE trial, the Eq. 18 mutation evaluation needed by Eq. 19, and the final genetic-learning candidate as distinct complete-layout evaluations"
+    },
+    "msshade": {
+      "method_id": "MSSHADE_CPP_HPC_FULL",
+      "state_semantics": "paper Eq. 9 per-individual roulette selection among rand pbest and gbest mutation with Eqs. 10-12 parameter memory",
+      "parallel_semantics": "generation snapshot; independent strategy sampling, mutation, crossover, repair and evaluation; deterministic archive and memory merge",
+      "evaluation_detail": "TotalOnly"
+    },
+    "bde": {
+      "method_id": "BDE_CPP_HPC_FULL",
+      "state_semantics": "paper Eqs. 19-24 ranking-based half-population fusion, superior-population DE update and exact physical-FES stopping",
+      "parallel_semantics": "deterministic ranking and fusion; generation snapshot; independent mutation, crossover, repair and evaluation for the superior half; indexed deterministic replacement",
+      "evaluation_detail": "TotalOnly",
+      "canonical_scale_schedule": "literal paper Equation 23",
+      "source_replay_scale_schedule": "registered separately because the official MATLAB denominator differs"
+    },
+    "hgpso": {
+      "method_id": "HGPSO_CPP_HPC_FULL",
+      "state_semantics": "paper Algorithm 1 and Eqs. 15-22 with evaluated reference selection, six-case hierarchical trial update, cumulative-power replacement, and exact physical-FES stopping",
+      "parallel_semantics": "generation snapshot; independent reference construction, repair, and evaluation; deterministic selection and tournament barrier; independent hierarchical trial construction, repair, replacement, and evaluation; indexed deterministic survival",
+      "evaluation_detail": "TotalAndPerTurbine",
+      "pso_update_semantics": "paper_hierarchical_staged_parallel",
+      "physical_fes_rule": "count one reference evaluation and one final-trial evaluation for each complete target transition"
     }
   },
-  "unresolved_active_conflicts": 0
+  "unresolved_active_conflicts": 14
 }

@@ -22,6 +22,8 @@ struct Arguments {
     std::string cases_path = "shared/contracts/benchmark_cases.json";
     std::string models_path = "shared/models/sugga_cpp";
     std::string algorithm = "fode";
+    std::vector<std::string> algorithms;
+    std::string problem = "fode_e0_common";
     std::string case_id = "WS5tn30";
     std::string output_path;
     std::uint64_t seed = 20260728;
@@ -30,6 +32,7 @@ struct Arguments {
     bool all_cases = false;
     bool all_algorithms = false;
     bool list_algorithms = false;
+    bool list_problems = false;
     bool self_check = false;
     bool check_ise_rename = false;
 };
@@ -41,6 +44,32 @@ std::uint64_t parse_u64(const std::string& text, const std::string& flag) {
         throw std::runtime_error("invalid value for " + flag + ": " + text);
     }
     return value;
+}
+
+std::vector<std::string> parse_algorithm_list(const std::string& text) {
+    std::vector<std::string> result;
+    std::size_t start = 0;
+    while (start <= text.size()) {
+        const std::size_t delimiter = text.find(',', start);
+        const std::size_t end = delimiter == std::string::npos
+            ? text.size()
+            : delimiter;
+        const std::string id = text.substr(start, end - start);
+        if (id.empty()) {
+            throw std::runtime_error(
+                "empty algorithm identifier in --algorithms"
+            );
+        }
+        result.push_back(id);
+        if (delimiter == std::string::npos) {
+            break;
+        }
+        start = delimiter + 1;
+    }
+    if (result.empty()) {
+        throw std::runtime_error("--algorithms requires at least one ID");
+    }
+    return result;
 }
 
 Arguments parse_arguments(int argc, char** argv) {
@@ -59,6 +88,10 @@ Arguments parse_arguments(int argc, char** argv) {
             result.models_path = next();
         } else if (flag == "--algorithm") {
             result.algorithm = next();
+        } else if (flag == "--algorithms") {
+            result.algorithms = parse_algorithm_list(next());
+        } else if (flag == "--problem") {
+            result.problem = next();
         } else if (flag == "--case") {
             result.case_id = next();
         } else if (flag == "--output") {
@@ -75,6 +108,8 @@ Arguments parse_arguments(int argc, char** argv) {
             result.all_algorithms = true;
         } else if (flag == "--list-algorithms") {
             result.list_algorithms = true;
+        } else if (flag == "--list-problems") {
+            result.list_problems = true;
         } else if (flag == "--self-check") {
             result.self_check = true;
         } else if (flag == "--check-ise-rename") {
@@ -82,8 +117,10 @@ Arguments parse_arguments(int argc, char** argv) {
         } else if (flag == "--help" || flag == "-h") {
             std::cout
                 << "Usage: wflop_cpp_hpc [options]\n"
-                << "  --algorithm ID       one of fode, aga, sugga, ise, agpso, cgpso, lshade, clshade\n"
-                << "  --all-algorithms     run all eight algorithms sequentially\n"
+                << "  --algorithm ID       one registered algorithm identifier\n"
+                << "  --algorithms A,B,... run an explicit ordered algorithm set\n"
+                << "  --problem ID         registered problem family; default fode_e0_common\n"
+                << "  --all-algorithms     run all registered algorithms sequentially\n"
                 << "  --case ID            one frozen FODE-E0-L case\n"
                 << "  --all-cases          run all 50 cases sequentially\n"
                 << "  --physical-fes N     complete-layout evaluation budget per run\n"
@@ -91,12 +128,18 @@ Arguments parse_arguments(int argc, char** argv) {
                 << "  --workers N          persistent C++ thread-team size; formal Waffle value is 20\n"
                 << "  --models PATH        frozen C++ SUGGA model directory\n"
                 << "  --output PATH        write JSON or JSONL\n"
-                << "  --self-check         bounded eight-algorithm semantic smoke\n"
-                << "  --list-algorithms    print canonical algorithm IDs\n";
+                << "  --self-check         bounded registered-algorithm semantic smoke\n"
+                << "  --list-algorithms    print canonical algorithm IDs\n"
+                << "  --list-problems      print canonical problem IDs\n";
             std::exit(0);
         } else {
             throw std::runtime_error("unknown argument: " + flag);
         }
+    }
+    if (result.all_algorithms && !result.algorithms.empty()) {
+        throw std::runtime_error(
+            "--all-algorithms and --algorithms are mutually exclusive"
+        );
     }
     return result;
 }
@@ -123,6 +166,9 @@ std::string to_json(const wflop::RunResult& result) {
            << escape_json(result.algorithm_provenance) << "\",";
     output << "\"effective_semantics_id\":\""
            << escape_json(result.effective_semantics_id) << "\",";
+    output << "\"problem_id\":\"" << escape_json(result.problem_id) << "\",";
+    output << "\"problem_semantics_id\":\""
+           << escape_json(result.problem_semantics_id) << "\",";
     output << "\"case_id\":\"" << escape_json(result.case_id) << "\",";
     output << "\"seed\":" << result.seed << ",";
     output << "\"physical_fes\":" << result.physical_fes << ",";
@@ -192,6 +238,8 @@ void validate_result(
     if (result.best_layout_1based.empty()
         || result.algorithm_provenance.empty()
         || result.effective_semantics_id.empty()
+        || result.problem_id.empty()
+        || result.problem_semantics_id.empty()
         || result.best_layout_1based.size()
             != static_cast<std::size_t>(data.turbine_count)
         || !std::isfinite(result.best_expected_power_kw)
@@ -230,6 +278,13 @@ void validate_result(
         && result.pso_update_semantics != "paper_staged_parallel") {
         throw std::runtime_error(
             result.algorithm_id + " returned an unregistered PSO semantics"
+        );
+    }
+    if (result.algorithm_id == "hgpso"
+        && result.pso_update_semantics
+            != "paper_hierarchical_staged_parallel") {
+        throw std::runtime_error(
+            "hgpso returned an unregistered hierarchical PSO semantics"
         );
     }
 }
@@ -330,6 +385,7 @@ int run_self_check(const Arguments& arguments) {
     for (const std::string& algorithm : wflop::algorithm_ids()) {
         wflop::RunConfig config;
         config.algorithm_id = algorithm;
+        config.problem_id = arguments.problem;
         config.seed = 20260728;
         config.physical_fes_budget = 480;
         config.workers = arguments.workers;
@@ -371,10 +427,17 @@ int main(int argc, char** argv) {
             }
             return 0;
         }
+        if (arguments.list_problems) {
+            for (const auto& problem : wflop::problem_descriptors()) {
+                std::cout << problem.id << "\n";
+            }
+            return 0;
+        }
         if (arguments.check_ise_rename) {
             const auto data = fode::load_case(arguments.cases_path, "WS1tn10");
             wflop::RunConfig config;
             config.algorithm_id = "lse";
+            config.problem_id = arguments.problem;
             config.physical_fes_budget = 1;
             config.workers = 1;
             try {
@@ -397,9 +460,14 @@ int main(int argc, char** argv) {
         if (arguments.self_check) {
             return run_self_check(arguments);
         }
-        const std::vector<std::string> algorithms = arguments.all_algorithms
-            ? wflop::algorithm_ids()
-            : std::vector<std::string>{arguments.algorithm};
+        const std::vector<std::string> algorithms =
+            arguments.all_algorithms
+                ? wflop::algorithm_ids()
+                : (
+                    arguments.algorithms.empty()
+                        ? std::vector<std::string>{arguments.algorithm}
+                        : arguments.algorithms
+                );
         const std::vector<fode::CaseData> cases = arguments.all_cases
             ? fode::load_cases(arguments.cases_path)
             : std::vector<fode::CaseData>{
@@ -411,6 +479,7 @@ int main(int argc, char** argv) {
             for (const auto& data : cases) {
                 wflop::RunConfig config;
                 config.algorithm_id = algorithm;
+                config.problem_id = arguments.problem;
                 config.seed = arguments.seed;
                 config.physical_fes_budget = arguments.physical_fes;
                 config.workers = arguments.workers;

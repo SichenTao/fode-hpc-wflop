@@ -1,11 +1,11 @@
 {
-  "schema_version": 3,
-  "parameter_set_id": "fode_e0_paper_first_eight_algorithm_parameters_v3",
+  "schema_version": 6,
+  "parameter_set_id": "fode_e0_paper_first_registered_algorithm_parameters_v6",
   "problem_identity": "FODE-E0-L",
   "problem_semantics_id": "fode_wflop_e0_legacy_v1",
   "source_manifest_alias": "fode_wflop_e0_v1",
   "formal_physical_fes": 24000,
-  "formal_campaign_admission": "requires_eight_native_cpp_hpc_50_case_single_seed_admission",
+  "formal_campaign_admission": "requires_each_selected_native_cpp_hpc_algorithm_to_pass_50_case_single_seed_admission",
   "budget_evidence": [
     "FODE paper comparison protocol: maximum FES=24,000 for every compared algorithm",
     "FODE convergence figures use a common 200-iteration axis",
@@ -35,7 +35,7 @@
   "smoke": {
     "physical_fes": 1500,
     "seed": 20260727,
-    "purpose": "Exercise initialization and at least one post-initialization transition for every algorithm and every FODE-E0-L case."
+    "purpose": "Exercise initialization and at least one post-initialization transition for every selected algorithm and every FODE-E0-L case."
   },
   "shared": {
     "iterations": 200,
@@ -281,6 +281,111 @@
           0.01,
           0.02
         ]
+      }
+    },
+    "cede": {
+      "display_label": "CEDE",
+      "implementation_provenance": "paper_first_local_source_discrepancy_registered",
+      "formal_admission": "pending_50_case_single_seed_admission",
+      "parameter_evidence": [
+        "Tao et al. 2024 Algorithm 1 and Eqs. 18-21 define competitive genetic learning around the LSHADE state machine",
+        "Tao et al. 2024 states pm=0.01 and maximum FES=24000",
+        "CEDE inherits LSHADE p=0.11, archive rate=1.4, memory H=5 and linear population reduction",
+        "The paper equations require evaluation of the random mutation before Eq. 19 can choose its branch, while Algorithm 1 reports only two FES per target; the clean-room profile counts every actual complete-layout evaluation"
+      ],
+      "hpc": {
+        "p_best_rate": 0.11,
+        "arc_rate": 1.4,
+        "memory_size": 5,
+        "minimum_population_size": 4,
+        "global_mutation_rate": 0.01,
+        "genetic_learning_physical_evaluations_per_target": 2,
+        "de_physical_evaluations_per_target": 1
+      },
+      "derived_rules": {
+        "initial_population_size": "max(4, abs(77 - turbine_count))",
+        "population_reduction": "linear in completed physical FES",
+        "canonical_profile": "paper equations with every objective call counted as a physical FES",
+        "source_replay_profile": "registered for diagnostics and excluded from formal pooling"
+      }
+    },
+    "msshade": {
+      "display_label": "MS-SHADE",
+      "implementation_provenance": "paper_first_local_source_discrepancy_registered",
+      "formal_admission": "pending_50_case_single_seed_admission",
+      "parameter_evidence": [
+        "Yang et al. 2024 Eq. 9 and Algorithm 1 define rand pbest and gbest mutation strategies with shares 0.1 0.8 and 0.1",
+        "Yang et al. 2024 Eqs. 10-12 define Cauchy F Gaussian CR and a random memory learning rate c in [0.05,0.2]",
+        "Yang et al. 2024 sets population size to 0.5D and maximum FES to 24000",
+        "The local MATLAB asset uses fixed contiguous strategy blocks and direct SHADE memory replacement; these behaviors remain a separate source-replay profile"
+      ],
+      "hpc": {
+        "population_size": "max(4, round(0.5 * turbine_count))",
+        "rand_strategy_probability": 0.1,
+        "pbest_strategy_probability": 0.8,
+        "gbest_strategy_probability": 0.1,
+        "p_best_rate": 0.11,
+        "arc_rate": 1.4,
+        "memory_size": 5,
+        "memory_learning_rate_minimum": 0.05,
+        "memory_learning_rate_maximum": 0.2
+      },
+      "derived_rules": {
+        "strategy_assignment": "independent roulette draw for each individual from a generation snapshot",
+        "memory_update": "paper convex update with successful-F Lehmer mean and successful-CR arithmetic mean",
+        "source_replay_profile": "registered for diagnostics and excluded from formal pooling"
+      }
+    },
+    "bde": {
+      "display_label": "BDE",
+      "implementation_provenance": "paper_first_official_source_discrepancy_registered",
+      "formal_admission": "pending_50_case_single_seed_admission",
+      "parameter_evidence": [
+        "Li et al. 2025 Eqs. 19-24 define ranking, bi-population fusion, mutation, crossover, and superior-population replacement",
+        "Li et al. 2025 states L=50, m=0.5, p=0.05, and CR=0.1 times Ic divided by Imax",
+        "Equation 23 literally uses Imax divided by Imax plus Ic plus one; the official source uses Imax divided by Imax plus one minus Ic, so both schedules are registered separately",
+        "The official driver evaluates 50 initial layouts plus 25 layouts per generation; the clean-room implementation stops at the exact selected physical-FES budget"
+      ],
+      "hpc": {
+        "population_size": 50,
+        "superior_population_size": 25,
+        "inferior_population_size": 25,
+        "fusion_rate": 0.5,
+        "p_best_rate": 0.05,
+        "maximum_crossover_rate": 0.1,
+        "scale_schedule": "F=0.5*2^exp(1-mu), mu=Imax/(Imax+Ic+1)"
+      },
+      "derived_rules": {
+        "canonical_profile": "literal paper equations with half-population cardinality resolved by Equation 21 and the official source",
+        "parallel_semantics": "rank and fuse deterministically, then construct and evaluate the superior-population trial batch in parallel",
+        "source_replay_profile": "registered for diagnostics and excluded from formal pooling"
+      }
+    },
+    "hgpso": {
+      "display_label": "HGPSO",
+      "implementation_provenance": "paper_first_local_source_discrepancy_registered",
+      "formal_admission": "pending_50_case_single_seed_admission",
+      "parameter_evidence": [
+        "Zheng et al. 2026 Table 2 sets NP=120, pm=0.01, s=7, c=1.49618, m=0.9, and rw=0.1",
+        "Zheng et al. 2026 Eqs. 15-17 define reference construction, mutation, evaluation, and selection",
+        "Zheng et al. 2026 Eqs. 20-22 define feasibility repair, cumulative-power worst-position replacement, and the six hierarchical update cases",
+        "Equation 17 requires an evaluated reference individual and Algorithm 1 separately evaluates the final trial; the clean-room profile counts both complete-layout calls as physical FES"
+      ],
+      "hpc": {
+        "population_size": 120,
+        "mutation_probability": 0.01,
+        "stagnation_threshold": 7,
+        "acceleration_coefficient": 1.49618,
+        "hierarchical_branch_threshold": 0.9,
+        "worst_replacement_base_ratio": 0.1,
+        "tournament_rate": 0.2,
+        "physical_evaluations_per_complete_target_transition": 2
+      },
+      "derived_rules": {
+        "reference_construction": "literal Equation 15 with two independent random coefficients and source-completed per-coordinate peer sampling",
+        "worst_replacement_pool_size": "floor(0.1 * available_grid_domain_size) + turbine_count, capped by the grid size",
+        "parallel_semantics": "generation snapshot, parallel reference batch, deterministic selection barrier, parallel hierarchical trial batch, deterministic selection barrier",
+        "source_replay_profile": "registered for diagnostics and excluded from formal pooling"
       }
     }
   }

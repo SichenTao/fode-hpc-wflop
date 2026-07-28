@@ -1,0 +1,34 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bde_50_case_smoke_20260729",
+  "purpose": "development_semantic_smoke_only",
+  "host": {
+    "hostname": "spark-9b6f",
+    "architecture": "aarch64",
+    "visible_logical_cores": 20
+  },
+  "algorithm_ids": [
+    "bde"
+  ],
+  "case_count": 50,
+  "result_count": 50,
+  "physical_fes_per_result": 1500,
+  "requested_workers": 20,
+  "observed_workers": [
+    20
+  ],
+  "all_exact_fes": true,
+  "all_finite": true,
+  "representative_exact_worker_pair": {
+    "case_id": "WS10tn80",
+    "physical_fes": 24000,
+    "seed": 20260727,
+    "one_worker_end_to_end_seconds": 3.022775,
+    "twenty_worker_end_to_end_seconds": 2.126300,
+    "non_timing_fields_exact": true
+  },
+  "raw_sha256": "c4027895ca1a1335aa9793efe7300aa3e0c2a83108957925cb3c65721b185554",
+  "raw_data_bundled": false,
+  "status": "pass",
+  "evidence_boundary": "This smoke validates executability, exact work, feasibility, deterministic worker-count semantics, and result-schema coverage. It is not a formal quality or performance result."
+}

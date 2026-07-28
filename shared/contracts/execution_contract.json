@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "study_id": "nde_mathematics_fode_e0_hpc_v1",
+  "study_id": "fode_hpc_wflop_cpp_v2",
   "benchmark_id": "FODE-E0-L",
   "problem_semantics_id": "fode_wflop_e0_legacy_v1",
   "algorithm_ids": [
@@ -11,13 +11,15 @@
     "agpso",
     "cgpso",
     "lshade",
-    "clshade"
+    "clshade",
+    "cede",
+    "msshade",
+    "bde",
+    "hgpso"
   ],
   "implementation_ids": [
-    "matlab_reference",
-    "python_reference",
-    "matlab_hpc",
-    "python_hpc"
+    "matlab_reference_timing_anchor",
+    "cpp_hpc"
   ],
   "case_count": 50,
   "wind_scenario_count": 10,
@@ -36,10 +38,10 @@
   "physical_fes_definition": "One completed full-output evaluation of one feasible turbine layout.",
   "terminal_partial_generation_rule": "Retain each successfully evaluated candidate, update all state implied by that completed evaluation, and stop before unused random events or unevaluated phases.",
   "rng_policy": {
-    "matlab_reference": "MT19937 via rng(seed,'twister')",
-    "python_reference": "PCG64 via numpy.random.default_rng(seed)",
-    "cross_language_pairing": false,
-    "same_language_reference_hpc_pairing": true
+    "matlab_reference_timing_anchor": "MT19937 via rng(seed,'twister')",
+    "cpp_hpc": "Counter-keyed SplitMix64-derived draws; schedule-independent and deterministic for a fixed seed, method, problem, compiler contract, and source revision.",
+    "cross_language_trajectory_pairing": false,
+    "cpp_worker_count_semantic_pairing": true
   },
   "quality_adaptive_scheduling_forbidden": true,
   "formal_campaign_status": "not_started"

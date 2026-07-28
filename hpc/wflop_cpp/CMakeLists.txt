@@ -13,6 +13,7 @@ add_executable(wflop_cpp_hpc
     ../fode_cpp/src/evaluator.cpp
     ../fode_cpp/src/executor.cpp
     ../fode_cpp/src/optimizer.cpp
+    src/registry.cpp
     src/algorithms.cpp
     src/main.cpp
 )
@@ -42,13 +43,17 @@ if(BUILD_TESTING)
         COMMAND wflop_cpp_hpc --list-algorithms
     )
     add_test(
+        NAME problem_registry
+        COMMAND wflop_cpp_hpc --list-problems
+    )
+    add_test(
         NAME ise_rename_guard
         COMMAND wflop_cpp_hpc
             --check-ise-rename
             --cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/benchmark_cases.json
     )
     add_test(
-        NAME eight_algorithm_smoke
+        NAME registered_algorithm_smoke
         COMMAND wflop_cpp_hpc
             --self-check
             --cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/benchmark_cases.json

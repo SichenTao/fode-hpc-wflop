@@ -2,11 +2,11 @@
 
 FODE-HPC-WFLOP is a reproducible, pure C++20 benchmark for studying
 high-performance evolutionary optimization of wind-farm layouts. The current
-release freezes one common physical problem, one exact work budget, and eight
-algorithm state machines:
+release freezes one common physical problem, one exact work budget, and twelve
+registered algorithm state machines:
 
 ```text
-FODE  AGA  SUGGA  ISE  AGPSO  CGPSO  LSHADE  CLSHADE
+FODE  AGA  SUGGA  ISE  AGPSO  CGPSO  LSHADE  CLSHADE  CEDE  MS-SHADE  BDE  HGPSO
 ```
 
 The benchmark contains 50 wind-farm cases: 10 wind scenarios crossed with
@@ -19,17 +19,21 @@ at exactly 24,000 completed physical FES.
 
 - one shared Jensen/Park wake and power evaluator;
 - one canonical 50-case contract;
-- eight clean-room C++ algorithm implementations;
+- twelve clean-room C++ algorithm implementations on the common problem;
 - deterministic, schedule-independent random events;
 - one persistent OpenMP team for algorithm-safe population work and evaluation;
 - exact physical-FES accounting;
-- a 400-run admission receipt covering eight algorithms, 50 cases, and one seed;
+- a 400-run v0.1.0 admission receipt covering the original eight algorithms,
+  50 cases, and one seed;
 - 504 exact 1-worker/20-worker semantic pairs summarized from 1,008 timing runs.
 
 ISE and CLSHADE are explicitly paper-derived reconstructions because no public
 author implementation was available. The other algorithms use the provenance
-declared in `shared/contracts/algorithm_provenance.tsv`. NDE is not part of
-this public benchmark.
+declared in `shared/contracts/algorithm_provenance.tsv`. CEDE and MS-SHADE use
+paper-first profiles because their paper equations and archived MATLAB behavior
+diverge; BDE and HGPSO also have paper/source operator, stage, or budget conflicts. Every conflict is listed in
+`docs/semantic_discrepancy_ledger.tsv`. NDE is not part of this public
+benchmark.
 
 ## Build and test
 
@@ -73,8 +77,9 @@ until their machine-specific receipt is reviewed.
 
 ## Evidence boundary
 
-`evidence/admission/admission_receipt.json` records a passed 20-worker
-admission gate with 400 results. `evidence/performance/performance_receipt.json`
+`evidence/admission/admission_receipt.json` records the passed v0.1.0
+20-worker admission gate with 400 results.
+`evidence/performance/performance_receipt.json`
 records exact semantic agreement for all 504 paired runs. The timing evidence
 also shows why parallel speedup must be reported by workload: on the archived
 Spark2 probe, large `WS10tn80` cases generally benefited from 20 workers while
@@ -99,7 +104,10 @@ Shangce Gao or Sichen Tao. Each paper package must pass five gates:
 
 Missing papers or source code are registered as explicit states rather than
 silently guessed. See `docs/author_lineage_registry.tsv` and
-`docs/roadmap.md`.
+`docs/roadmap.md`. The 2026-07-29 scope freezes 23 unique DOI records and
+automatically checks the Jiayi Li, Baohang Zhang, Chen Zhang, Yuhang Ma, and
+Jiaru Yang coauthor lines named during scope review. The minimum is append-only:
+future official-homepage records can expand it.
 
 ## Licensing
 

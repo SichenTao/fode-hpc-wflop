@@ -10,6 +10,7 @@ namespace wflop {
 
 struct RunConfig {
     std::string algorithm_id;
+    std::string problem_id = "fode_e0_common";
     std::uint64_t seed = 20260728;
     std::uint64_t physical_fes_budget = 24000;
     int workers = 20;
@@ -21,6 +22,8 @@ struct RunResult {
     std::string method_id;
     std::string algorithm_provenance;
     std::string effective_semantics_id;
+    std::string problem_id;
+    std::string problem_semantics_id;
     std::string case_id;
     std::uint64_t seed = 0;
     std::uint64_t physical_fes = 0;
@@ -37,7 +40,31 @@ struct RunResult {
     std::string pso_update_semantics;
 };
 
+struct AlgorithmDescriptor {
+    std::string id;
+    std::string display_label;
+    std::string paper_doi;
+    std::string provenance;
+    std::string semantics_id;
+    std::vector<std::string> compatible_problem_ids;
+};
+
+struct ProblemDescriptor {
+    std::string id;
+    std::string display_label;
+    std::string semantics_id;
+    std::string objective;
+};
+
+const std::vector<AlgorithmDescriptor>& algorithm_descriptors();
+const AlgorithmDescriptor& algorithm_descriptor(const std::string& id);
 const std::vector<std::string>& algorithm_ids();
+const std::vector<ProblemDescriptor>& problem_descriptors();
+const ProblemDescriptor& problem_descriptor(const std::string& id);
+bool algorithm_supports_problem(
+    const std::string& algorithm_id,
+    const std::string& problem_id
+);
 RunResult optimize(const fode::CaseData& data, const RunConfig& config);
 
 }  // namespace wflop

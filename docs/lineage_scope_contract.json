@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "snapshot_date": "2026-07-29",
+  "scope": "Every public citable paper that directly studies wind-farm layout optimization and is signed by Shangce Gao or Sichen Tao.",
+  "official_publications_url": "https://toyamaailab.github.io/publications.html",
+  "official_source_url": "https://toyamaailab.github.io/sourcedata.html",
+  "minimum_record_count": 23,
+  "required_named_coauthors": [
+    "Jiayi Li",
+    "Baohang Zhang",
+    "Chen Zhang",
+    "Yuhang Ma",
+    "Jiaru Yang"
+  ],
+  "required_dois": [
+    "10.1109/jas.2026.126233",
+    "10.1109/pic62406.2024.10892732",
+    "10.1016/j.energy.2024.134050",
+    "10.1016/j.enconman.2022.116174",
+    "10.1016/j.swevo.2025.102018",
+    "10.1016/j.asoc.2023.110306",
+    "10.1016/j.engappai.2023.106198",
+    "10.1016/j.swevo.2025.101972",
+    "10.3390/math13182935",
+    "10.3390/math13020282",
+    "10.2139/ssrn.6135326",
+    "10.1007/s42235-024-00498-3",
+    "10.1145/3766671.3766786",
+    "10.3390/math12233762",
+    "10.3390/electronics13163196",
+    "10.1049/cit2.70150",
+    "10.1016/j.energy.2025.137885",
+    "10.1109/jas.2025.125351",
+    "10.1016/j.apenergy.2026.127895",
+    "10.1109/cpeee69412.2026.11521465",
+    "10.1109/cbd69312.2025.00059",
+    "10.1109/jas.2023.123387",
+    "10.26599/tst.2026.9010059"
+  ],
+  "documented_exclusions": [
+    {
+      "doi": "10.1007/s10462-019-09768-7",
+      "reason": "Review article about AI applications in wind farms; it does not define a direct WFLOP algorithm-problem experiment."
+    }
+  ]
+}

@@ -42,60 +42,6 @@ std::uint64_t algorithm_salt(const std::string& algorithm) {
     return value;
 }
 
-std::pair<std::string, std::string> registered_identity(
-    const std::string& algorithm
-) {
-    if (algorithm == "fode") {
-        return {
-            "archived_matlab_source",
-            "fode_e0_physical_fes"
-        };
-    }
-    if (algorithm == "aga") {
-        return {
-            "paper_first_archived_matlab_completed",
-            "aga_paper_first_e0_physical_fes_v1"
-        };
-    }
-    if (algorithm == "sugga") {
-        return {
-            "archived_matlab_source_and_frozen_surrogate",
-            "sugga_frozen_surrogate_e0_physical_fes_v1"
-        };
-    }
-    if (algorithm == "ise") {
-        return {
-            "paper_derived",
-            "ise_paper_derived_e0_physical_fes_v1"
-        };
-    }
-    if (algorithm == "agpso") {
-        return {
-            "paper_first_source_completed",
-            "agpso_paper_staged_parallel_e0_physical_fes_v1"
-        };
-    }
-    if (algorithm == "cgpso") {
-        return {
-            "paper_first_source_completed",
-            "cgpso_paper_staged_parallel_e0_physical_fes_v1"
-        };
-    }
-    if (algorithm == "lshade") {
-        return {
-            "paper_first_archived_matlab_completed",
-            "lshade_paper_first_e0_physical_fes_v1"
-        };
-    }
-    if (algorithm == "clshade") {
-        return {
-            "paper_derived",
-            "clshade_paper_derived_e0_physical_fes_v1"
-        };
-    }
-    throw std::invalid_argument("unregistered algorithm identity: " + algorithm);
-}
-
 std::vector<char> blocked_mask(const fode::CaseData& data) {
     std::vector<char> blocked(
         static_cast<std::size_t>(data.rows * data.cols),
@@ -270,7 +216,8 @@ struct Runtime {
         const Matrix& population,
         int rows,
         const fode::CaseData& data,
-        fode::EvaluationDetail detail
+        fode::EvaluationDetail detail,
+        bool track_best = true
     ) {
         if (rows <= 0 || fes >= budget) {
             throw std::runtime_error("invalid or exhausted evaluation batch");
@@ -293,16 +240,19 @@ struct Runtime {
             detail
         );
         evaluator_seconds += result.elapsed_seconds;
-        for (int row = 0; row < completed; ++row) {
-            const double value = result.fitness[static_cast<std::size_t>(row)];
-            if (value > best) {
-                best = value;
-                best_layout.resize(static_cast<std::size_t>(dimension));
-                for (int d = 0; d < dimension; ++d) {
-                    best_layout[static_cast<std::size_t>(d)] =
-                        static_cast<int>(std::llround(
-                            population[at(row, d, dimension)]
-                        ));
+        if (track_best) {
+            for (int row = 0; row < completed; ++row) {
+                const double value =
+                    result.fitness[static_cast<std::size_t>(row)];
+                if (value > best) {
+                    best = value;
+                    best_layout.resize(static_cast<std::size_t>(dimension));
+                    for (int d = 0; d < dimension; ++d) {
+                        best_layout[static_cast<std::size_t>(d)] =
+                            static_cast<int>(std::llround(
+                                population[at(row, d, dimension)]
+                            ));
+                    }
                 }
             }
         }
@@ -327,9 +277,12 @@ RunResult finish_result(
         return static_cast<char>(std::toupper(static_cast<unsigned char>(value)));
     });
     result.method_id = upper + "_CPP_HPC_FULL";
-    const auto identity = registered_identity(config.algorithm_id);
-    result.algorithm_provenance = identity.first;
-    result.effective_semantics_id = identity.second;
+    const auto& identity = algorithm_descriptor(config.algorithm_id);
+    const auto& problem = problem_descriptor(config.problem_id);
+    result.algorithm_provenance = identity.provenance;
+    result.effective_semantics_id = identity.semantics_id;
+    result.problem_id = problem.id;
+    result.problem_semantics_id = problem.semantics_id;
     result.case_id = data.case_id;
     result.seed = config.seed;
     result.physical_fes = runtime.fes;
@@ -1307,6 +1260,1389 @@ RunResult optimize_lshade(
     );
 }
 
+RunResult optimize_cede(
+    const fode::CaseData& data,
+    const RunConfig& config
+) {
+    const auto started = Clock::now();
+    Runtime runtime(config);
+    const int dimension = data.turbine_count;
+    const int minimum_size = 4;
+    const int initial_size = std::max(minimum_size, std::abs(77 - dimension));
+    int population_size = initial_size;
+    if (runtime.budget < static_cast<std::uint64_t>(initial_size)) {
+        throw std::runtime_error("budget is below CEDE initialization");
+    }
+
+    Matrix population = initialize_population(
+        population_size, data, runtime.rng, runtime.executor, 700
+    );
+    auto initial = runtime.evaluate(
+        population,
+        population_size,
+        data,
+        fode::EvaluationDetail::TotalOnly
+    );
+    std::vector<double> fitness = initial.fitness;
+    Matrix archive;
+    std::array<double, 5> memory_f{0.5, 0.5, 0.5, 0.5, 0.5};
+    std::array<double, 5> memory_cr{0.5, 0.5, 0.5, 0.5, 0.5};
+    int memory_position = 0;
+
+    while (runtime.fes < runtime.budget
+           && population_size >= minimum_size) {
+        ++runtime.generations;
+        const std::uint64_t remaining = runtime.budget - runtime.fes;
+        int de_count = population_size;
+        int genetic_count = population_size;
+        const std::uint64_t full_generation =
+            static_cast<std::uint64_t>(3 * population_size);
+        if (remaining < full_generation) {
+            genetic_count = std::min(
+                population_size,
+                static_cast<int>(remaining / 2)
+            );
+            de_count = std::min(
+                population_size,
+                static_cast<int>(
+                    remaining
+                    - static_cast<std::uint64_t>(2 * genetic_count)
+                )
+            );
+        }
+
+        if (de_count > 0) {
+            const auto ranking = stable_rank_descending(fitness);
+            const int archive_rows =
+                static_cast<int>(archive.size()) / dimension;
+            Matrix combined = population;
+            combined.insert(combined.end(), archive.begin(), archive.end());
+            Matrix trial(
+                static_cast<std::size_t>(de_count * dimension),
+                0.0
+            );
+            std::vector<double> sampled_f(
+                static_cast<std::size_t>(de_count)
+            );
+            std::vector<double> sampled_cr(
+                static_cast<std::size_t>(de_count)
+            );
+
+            runtime.executor.parallel_for(0, de_count, [&](int individual) {
+                const int target = individual % population_size;
+                const int memory_index = runtime.rng.integer(
+                    0, 5, runtime.generations, 701,
+                    static_cast<std::uint64_t>(individual)
+                );
+                sampled_f[static_cast<std::size_t>(individual)] =
+                    positive_cauchy(
+                        runtime.rng,
+                        memory_f[static_cast<std::size_t>(memory_index)],
+                        runtime.generations,
+                        702,
+                        static_cast<std::uint64_t>(individual)
+                    );
+                sampled_cr[static_cast<std::size_t>(individual)] =
+                    std::clamp(
+                        memory_cr[static_cast<std::size_t>(memory_index)]
+                            == -1.0
+                            ? 0.0
+                            : memory_cr[
+                                static_cast<std::size_t>(memory_index)
+                              ] + 0.1 * runtime.rng.normal(
+                                  runtime.generations,
+                                  703,
+                                  static_cast<std::uint64_t>(individual)
+                              ),
+                        0.0,
+                        1.0
+                    );
+                int r1 = target;
+                std::uint64_t draw = 0;
+                while (r1 == target) {
+                    r1 = runtime.rng.integer(
+                        0, population_size, runtime.generations, 704,
+                        static_cast<std::uint64_t>(individual), 0, draw++
+                    );
+                }
+                int r2 = target;
+                draw = 0;
+                while (r2 == target || r2 == r1) {
+                    r2 = runtime.rng.integer(
+                        0,
+                        population_size + archive_rows,
+                        runtime.generations,
+                        705,
+                        static_cast<std::uint64_t>(individual),
+                        0,
+                        draw++
+                    );
+                }
+                const int p_count = std::min(
+                    population_size,
+                    std::max(
+                        2,
+                        static_cast<int>(std::llround(
+                            0.11 * static_cast<double>(population_size)
+                        ))
+                    )
+                );
+                const int pbest = ranking[static_cast<std::size_t>(
+                    runtime.rng.integer(
+                        0, p_count, runtime.generations, 706,
+                        static_cast<std::uint64_t>(individual)
+                    )
+                )];
+                const int jrand = runtime.rng.integer(
+                    0, dimension, runtime.generations, 707,
+                    static_cast<std::uint64_t>(individual)
+                );
+                for (int d = 0; d < dimension; ++d) {
+                    const double mutant =
+                        population[at(target, d, dimension)]
+                        + sampled_f[static_cast<std::size_t>(individual)]
+                            * (
+                                population[at(pbest, d, dimension)]
+                                - population[at(target, d, dimension)]
+                                + population[at(r1, d, dimension)]
+                                - combined[at(r2, d, dimension)]
+                            );
+                    const bool use_mutant =
+                        d == jrand
+                        || runtime.rng.uniform(
+                            runtime.generations,
+                            708,
+                            static_cast<std::uint64_t>(individual),
+                            static_cast<std::uint64_t>(d)
+                        ) <= sampled_cr[static_cast<std::size_t>(individual)];
+                    trial[at(individual, d, dimension)] = use_mutant
+                        ? mutant
+                        : population[at(target, d, dimension)];
+                }
+            });
+            repair_population(
+                trial,
+                de_count,
+                data,
+                runtime.rng,
+                runtime.executor,
+                runtime.generations,
+                709
+            );
+            auto evaluated = runtime.evaluate(
+                trial,
+                de_count,
+                data,
+                fode::EvaluationDetail::TotalOnly
+            );
+            std::vector<double> improvement(
+                static_cast<std::size_t>(de_count),
+                0.0
+            );
+            std::vector<int> successful;
+            for (int row = 0; row < de_count; ++row) {
+                const int target = row % population_size;
+                const double gain =
+                    evaluated.fitness[static_cast<std::size_t>(row)]
+                    - fitness[static_cast<std::size_t>(target)];
+                if (gain > 0.0) {
+                    improvement[static_cast<std::size_t>(row)] = gain;
+                    successful.push_back(row);
+                    for (int d = 0; d < dimension; ++d) {
+                        archive.push_back(
+                            population[at(target, d, dimension)]
+                        );
+                    }
+                    copy_row(population, target, trial, row, dimension);
+                    fitness[static_cast<std::size_t>(target)] =
+                        evaluated.fitness[static_cast<std::size_t>(row)];
+                }
+            }
+            deduplicate_archive(archive, dimension);
+            trim_archive(
+                archive,
+                static_cast<int>(std::llround(
+                    1.4 * static_cast<double>(population_size)
+                )),
+                dimension,
+                runtime.rng,
+                runtime.generations,
+                710
+            );
+            if (!successful.empty()) {
+                double sum_gain = 0.0;
+                for (const int row : successful) {
+                    sum_gain += improvement[static_cast<std::size_t>(row)];
+                }
+                double numerator_f = 0.0;
+                double denominator_f = 0.0;
+                double numerator_cr = 0.0;
+                double denominator_cr = 0.0;
+                double maximum_cr = 0.0;
+                for (const int row : successful) {
+                    const double weight =
+                        improvement[static_cast<std::size_t>(row)] / sum_gain;
+                    const double f = sampled_f[static_cast<std::size_t>(row)];
+                    const double cr =
+                        sampled_cr[static_cast<std::size_t>(row)];
+                    numerator_f += weight * f * f;
+                    denominator_f += weight * f;
+                    numerator_cr += weight * cr * cr;
+                    denominator_cr += weight * cr;
+                    maximum_cr = std::max(maximum_cr, cr);
+                }
+                if (denominator_f > 0.0) {
+                    memory_f[static_cast<std::size_t>(memory_position)] =
+                        numerator_f / denominator_f;
+                }
+                if (maximum_cr == 0.0
+                    || memory_cr[static_cast<std::size_t>(memory_position)]
+                        == -1.0) {
+                    memory_cr[static_cast<std::size_t>(memory_position)] =
+                        -1.0;
+                } else if (denominator_cr > 0.0) {
+                    memory_cr[static_cast<std::size_t>(memory_position)] =
+                        numerator_cr / denominator_cr;
+                }
+                memory_position = (memory_position + 1) % 5;
+            }
+        }
+
+        if (genetic_count > 0) {
+            const int grid = data.rows * data.cols;
+            Matrix mutation(
+                static_cast<std::size_t>(genetic_count * dimension),
+                0.0
+            );
+            runtime.executor.parallel_for(
+                0,
+                genetic_count * dimension,
+                [&](int task) {
+                    const int row = task / dimension;
+                    const int d = task - row * dimension;
+                    mutation[at(row, d, dimension)] =
+                        1.0 + static_cast<double>(grid - 1)
+                            * runtime.rng.uniform(
+                                runtime.generations,
+                                711,
+                                static_cast<std::uint64_t>(row),
+                                static_cast<std::uint64_t>(d)
+                            );
+                }
+            );
+            repair_population(
+                mutation,
+                genetic_count,
+                data,
+                runtime.rng,
+                runtime.executor,
+                runtime.generations,
+                712
+            );
+            auto mutation_evaluation = runtime.evaluate(
+                mutation,
+                genetic_count,
+                data,
+                fode::EvaluationDetail::TotalOnly,
+                false
+            );
+            const auto ranking = stable_rank_descending(fitness);
+            const int global_best = ranking.front();
+            const int p_count = std::min(
+                population_size,
+                std::max(
+                    2,
+                    static_cast<int>(std::llround(
+                        0.11 * static_cast<double>(population_size)
+                    ))
+                )
+            );
+            Matrix genetic(
+                static_cast<std::size_t>(genetic_count * dimension),
+                0.0
+            );
+            runtime.executor.parallel_for(
+                0,
+                genetic_count,
+                [&](int row) {
+                    const int pbest = ranking[static_cast<std::size_t>(
+                        runtime.rng.integer(
+                            0,
+                            p_count,
+                            runtime.generations,
+                            713,
+                            static_cast<std::uint64_t>(row)
+                        )
+                    )];
+                    const bool use_pbest =
+                        fitness[static_cast<std::size_t>(pbest)]
+                        > mutation_evaluation.fitness[
+                            static_cast<std::size_t>(row)
+                          ];
+                    for (int d = 0; d < dimension; ++d) {
+                        const double weight = runtime.rng.uniform(
+                            runtime.generations,
+                            714,
+                            static_cast<std::uint64_t>(row),
+                            static_cast<std::uint64_t>(d)
+                        );
+                        const double learned = use_pbest
+                            ? population[at(pbest, d, dimension)]
+                            : mutation[at(row, d, dimension)];
+                        double value =
+                            weight * learned
+                            + (1.0 - weight)
+                                * population[at(global_best, d, dimension)];
+                        if (runtime.rng.uniform(
+                                runtime.generations,
+                                715,
+                                static_cast<std::uint64_t>(row),
+                                static_cast<std::uint64_t>(d)
+                            ) < 0.01) {
+                            value =
+                                1.0 + static_cast<double>(grid - 1)
+                                    * runtime.rng.uniform(
+                                        runtime.generations,
+                                        716,
+                                        static_cast<std::uint64_t>(row),
+                                        static_cast<std::uint64_t>(d)
+                                    );
+                        }
+                        genetic[at(row, d, dimension)] = value;
+                    }
+                }
+            );
+            repair_population(
+                genetic,
+                genetic_count,
+                data,
+                runtime.rng,
+                runtime.executor,
+                runtime.generations,
+                717
+            );
+            auto genetic_evaluation = runtime.evaluate(
+                genetic,
+                genetic_count,
+                data,
+                fode::EvaluationDetail::TotalOnly
+            );
+            int candidate = 0;
+            for (int row = 1; row < genetic_count; ++row) {
+                if (genetic_evaluation.fitness[
+                        static_cast<std::size_t>(row)
+                    ] > genetic_evaluation.fitness[
+                        static_cast<std::size_t>(candidate)
+                    ]) {
+                    candidate = row;
+                }
+            }
+            const int current_best =
+                stable_rank_descending(fitness).front();
+            if (genetic_evaluation.fitness[
+                    static_cast<std::size_t>(candidate)
+                ] > fitness[static_cast<std::size_t>(current_best)]) {
+                copy_row(
+                    population,
+                    current_best,
+                    genetic,
+                    candidate,
+                    dimension
+                );
+                fitness[static_cast<std::size_t>(current_best)] =
+                    genetic_evaluation.fitness[
+                        static_cast<std::size_t>(candidate)
+                    ];
+            }
+        }
+
+        const int target_size = std::max(
+            minimum_size,
+            static_cast<int>(std::llround(
+                static_cast<double>(initial_size)
+                + static_cast<double>(minimum_size - initial_size)
+                    * static_cast<double>(runtime.fes)
+                    / static_cast<double>(runtime.budget)
+            ))
+        );
+        if (target_size < population_size) {
+            const auto keep = stable_rank_descending(fitness);
+            Matrix reduced(static_cast<std::size_t>(target_size * dimension));
+            std::vector<double> reduced_fitness(
+                static_cast<std::size_t>(target_size)
+            );
+            for (int row = 0; row < target_size; ++row) {
+                copy_row(
+                    reduced,
+                    row,
+                    population,
+                    keep[static_cast<std::size_t>(row)],
+                    dimension
+                );
+                reduced_fitness[static_cast<std::size_t>(row)] =
+                    fitness[static_cast<std::size_t>(
+                        keep[static_cast<std::size_t>(row)]
+                    )];
+            }
+            population = std::move(reduced);
+            fitness = std::move(reduced_fitness);
+            population_size = target_size;
+            trim_archive(
+                archive,
+                static_cast<int>(std::llround(
+                    1.4 * static_cast<double>(population_size)
+                )),
+                dimension,
+                runtime.rng,
+                runtime.generations,
+                718
+            );
+        }
+    }
+
+    return finish_result(
+        data,
+        config,
+        runtime,
+        initial_size,
+        population_size,
+        started
+    );
+}
+
+RunResult optimize_msshade(
+    const fode::CaseData& data,
+    const RunConfig& config
+) {
+    const auto started = Clock::now();
+    Runtime runtime(config);
+    const int dimension = data.turbine_count;
+    const int population_size = std::max(
+        4,
+        static_cast<int>(std::llround(0.5 * static_cast<double>(dimension)))
+    );
+    if (runtime.budget < static_cast<std::uint64_t>(population_size)) {
+        throw std::runtime_error("budget is below MS-SHADE initialization");
+    }
+    Matrix population = initialize_population(
+        population_size, data, runtime.rng, runtime.executor, 800
+    );
+    auto initial = runtime.evaluate(
+        population,
+        population_size,
+        data,
+        fode::EvaluationDetail::TotalOnly
+    );
+    std::vector<double> fitness = initial.fitness;
+    Matrix archive;
+    std::array<double, 5> memory_f{0.5, 0.5, 0.5, 0.5, 0.5};
+    std::array<double, 5> memory_cr{0.5, 0.5, 0.5, 0.5, 0.5};
+    int memory_position = 0;
+
+    while (runtime.fes < runtime.budget) {
+        ++runtime.generations;
+        const int offspring_count = static_cast<int>(
+            std::min<std::uint64_t>(
+                static_cast<std::uint64_t>(population_size),
+                runtime.budget - runtime.fes
+            )
+        );
+        const auto ranking = stable_rank_descending(fitness);
+        const int global_best = ranking.front();
+        const int archive_rows =
+            static_cast<int>(archive.size()) / dimension;
+        Matrix combined = population;
+        combined.insert(combined.end(), archive.begin(), archive.end());
+        Matrix trial(
+            static_cast<std::size_t>(offspring_count * dimension),
+            0.0
+        );
+        std::vector<double> sampled_f(
+            static_cast<std::size_t>(offspring_count)
+        );
+        std::vector<double> sampled_cr(
+            static_cast<std::size_t>(offspring_count)
+        );
+
+        runtime.executor.parallel_for(0, offspring_count, [&](int individual) {
+            const int target = individual % population_size;
+            const int memory_index = runtime.rng.integer(
+                0, 5, runtime.generations, 801,
+                static_cast<std::uint64_t>(individual)
+            );
+            sampled_f[static_cast<std::size_t>(individual)] = positive_cauchy(
+                runtime.rng,
+                memory_f[static_cast<std::size_t>(memory_index)],
+                runtime.generations,
+                802,
+                static_cast<std::uint64_t>(individual)
+            );
+            sampled_cr[static_cast<std::size_t>(individual)] = std::clamp(
+                memory_cr[static_cast<std::size_t>(memory_index)]
+                    + 0.1 * runtime.rng.normal(
+                        runtime.generations,
+                        803,
+                        static_cast<std::uint64_t>(individual)
+                    ),
+                0.0,
+                1.0
+            );
+            int r1 = target;
+            std::uint64_t draw = 0;
+            while (r1 == target) {
+                r1 = runtime.rng.integer(
+                    0,
+                    population_size,
+                    runtime.generations,
+                    804,
+                    static_cast<std::uint64_t>(individual),
+                    0,
+                    draw++
+                );
+            }
+            int r2 = target;
+            draw = 0;
+            while (r2 == target || r2 == r1) {
+                r2 = runtime.rng.integer(
+                    0,
+                    population_size,
+                    runtime.generations,
+                    805,
+                    static_cast<std::uint64_t>(individual),
+                    0,
+                    draw++
+                );
+            }
+            int all = target;
+            draw = 0;
+            while (all == target || all == r1) {
+                all = runtime.rng.integer(
+                    0,
+                    population_size + archive_rows,
+                    runtime.generations,
+                    806,
+                    static_cast<std::uint64_t>(individual),
+                    0,
+                    draw++
+                );
+            }
+            const int p_count = std::min(
+                population_size,
+                std::max(
+                    2,
+                    static_cast<int>(std::llround(
+                        0.11 * static_cast<double>(population_size)
+                    ))
+                )
+            );
+            const int pbest = ranking[static_cast<std::size_t>(
+                runtime.rng.integer(
+                    0,
+                    p_count,
+                    runtime.generations,
+                    807,
+                    static_cast<std::uint64_t>(individual)
+                )
+            )];
+            const double strategy = runtime.rng.uniform(
+                runtime.generations,
+                808,
+                static_cast<std::uint64_t>(individual)
+            );
+            const int jrand = runtime.rng.integer(
+                0,
+                dimension,
+                runtime.generations,
+                809,
+                static_cast<std::uint64_t>(individual)
+            );
+            for (int d = 0; d < dimension; ++d) {
+                double mutant = 0.0;
+                if (strategy < 0.1) {
+                    mutant =
+                        population[at(target, d, dimension)]
+                        + sampled_f[static_cast<std::size_t>(individual)]
+                            * (
+                                population[at(r1, d, dimension)]
+                                - population[at(r2, d, dimension)]
+                            );
+                } else if (strategy < 0.9) {
+                    mutant =
+                        population[at(target, d, dimension)]
+                        + sampled_f[static_cast<std::size_t>(individual)]
+                            * (
+                                population[at(pbest, d, dimension)]
+                                - population[at(target, d, dimension)]
+                                + population[at(r1, d, dimension)]
+                                - combined[at(all, d, dimension)]
+                            );
+                } else {
+                    mutant =
+                        population[at(target, d, dimension)]
+                        + sampled_f[static_cast<std::size_t>(individual)]
+                            * (
+                                population[at(global_best, d, dimension)]
+                                - population[at(target, d, dimension)]
+                                + population[at(pbest, d, dimension)]
+                                - population[at(target, d, dimension)]
+                            );
+                }
+                const bool use_mutant =
+                    d == jrand
+                    || runtime.rng.uniform(
+                        runtime.generations,
+                        810,
+                        static_cast<std::uint64_t>(individual),
+                        static_cast<std::uint64_t>(d)
+                    ) <= sampled_cr[static_cast<std::size_t>(individual)];
+                trial[at(individual, d, dimension)] = use_mutant
+                    ? mutant
+                    : population[at(target, d, dimension)];
+            }
+        });
+        repair_population(
+            trial,
+            offspring_count,
+            data,
+            runtime.rng,
+            runtime.executor,
+            runtime.generations,
+            811
+        );
+        auto evaluated = runtime.evaluate(
+            trial,
+            offspring_count,
+            data,
+            fode::EvaluationDetail::TotalOnly
+        );
+        std::vector<int> successful;
+        for (int row = 0; row < offspring_count; ++row) {
+            const int target = row % population_size;
+            if (evaluated.fitness[static_cast<std::size_t>(row)]
+                > fitness[static_cast<std::size_t>(target)]) {
+                successful.push_back(row);
+                for (int d = 0; d < dimension; ++d) {
+                    archive.push_back(
+                        population[at(target, d, dimension)]
+                    );
+                }
+                copy_row(population, target, trial, row, dimension);
+                fitness[static_cast<std::size_t>(target)] =
+                    evaluated.fitness[static_cast<std::size_t>(row)];
+            }
+        }
+        deduplicate_archive(archive, dimension);
+        trim_archive(
+            archive,
+            static_cast<int>(std::llround(
+                1.4 * static_cast<double>(population_size)
+            )),
+            dimension,
+            runtime.rng,
+            runtime.generations,
+            812
+        );
+        if (!successful.empty()) {
+            double numerator_f = 0.0;
+            double denominator_f = 0.0;
+            double mean_cr = 0.0;
+            for (const int row : successful) {
+                const double f = sampled_f[static_cast<std::size_t>(row)];
+                numerator_f += f * f;
+                denominator_f += f;
+                mean_cr += sampled_cr[static_cast<std::size_t>(row)];
+            }
+            mean_cr /= static_cast<double>(successful.size());
+            const double learning_rate =
+                0.05 + 0.15 * runtime.rng.uniform(
+                    runtime.generations, 813, 0
+                );
+            if (denominator_f > 0.0) {
+                const double lehmer = numerator_f / denominator_f;
+                memory_f[static_cast<std::size_t>(memory_position)] =
+                    (1.0 - learning_rate)
+                        * memory_f[static_cast<std::size_t>(memory_position)]
+                    + learning_rate * lehmer;
+            }
+            memory_cr[static_cast<std::size_t>(memory_position)] =
+                (1.0 - learning_rate)
+                    * memory_cr[static_cast<std::size_t>(memory_position)]
+                + learning_rate * mean_cr;
+            memory_position = (memory_position + 1) % 5;
+        }
+    }
+
+    return finish_result(
+        data,
+        config,
+        runtime,
+        population_size,
+        population_size,
+        started
+    );
+}
+
+RunResult optimize_bde(
+    const fode::CaseData& data,
+    const RunConfig& config
+) {
+    const auto started = Clock::now();
+    Runtime runtime(config);
+    const int dimension = data.turbine_count;
+    const int population_size = 50;
+    const int half_size = population_size / 2;
+    if (runtime.budget < static_cast<std::uint64_t>(population_size)) {
+        throw std::runtime_error("budget is below BDE initialization");
+    }
+    Matrix population = initialize_population(
+        population_size, data, runtime.rng, runtime.executor, 900
+    );
+    auto initial = runtime.evaluate(
+        population,
+        population_size,
+        data,
+        fode::EvaluationDetail::TotalOnly
+    );
+    std::vector<double> fitness = initial.fitness;
+    const std::uint64_t maximum_generations = std::max<std::uint64_t>(
+        1,
+        (
+            runtime.budget
+            - static_cast<std::uint64_t>(population_size)
+            + static_cast<std::uint64_t>(half_size - 1)
+        ) / static_cast<std::uint64_t>(half_size)
+    );
+
+    while (runtime.fes < runtime.budget) {
+        ++runtime.generations;
+        const int offspring_count = static_cast<int>(
+            std::min<std::uint64_t>(
+                static_cast<std::uint64_t>(half_size),
+                runtime.budget - runtime.fes
+            )
+        );
+        const auto ranking = stable_rank_descending(fitness);
+        std::vector<int> superior(
+            ranking.begin(),
+            ranking.begin() + half_size
+        );
+        std::vector<int> inferior(
+            ranking.begin() + half_size,
+            ranking.end()
+        );
+        auto deterministic_shuffle = [&](std::vector<int>& rows,
+                                         std::uint64_t phase) {
+            std::vector<std::pair<double, int>> keyed;
+            keyed.reserve(rows.size());
+            for (std::size_t index = 0; index < rows.size(); ++index) {
+                keyed.emplace_back(
+                    runtime.rng.uniform(
+                        runtime.generations,
+                        phase,
+                        static_cast<std::uint64_t>(index)
+                    ),
+                    rows[index]
+                );
+            }
+            std::stable_sort(keyed.begin(), keyed.end());
+            for (std::size_t index = 0; index < rows.size(); ++index) {
+                rows[index] = keyed[index].second;
+            }
+        };
+        deterministic_shuffle(superior, 901);
+        deterministic_shuffle(inferior, 902);
+
+        const int superior_fusion_count = static_cast<int>(std::floor(
+            0.5 * static_cast<double>(half_size)
+        ));
+        std::vector<int> fused_superior;
+        std::vector<int> fused_inferior;
+        fused_superior.reserve(static_cast<std::size_t>(half_size));
+        fused_inferior.reserve(static_cast<std::size_t>(half_size));
+        for (int row = 0; row < half_size; ++row) {
+            if (row < superior_fusion_count) {
+                fused_superior.push_back(
+                    superior[static_cast<std::size_t>(row)]
+                );
+            } else {
+                fused_inferior.push_back(
+                    superior[static_cast<std::size_t>(row)]
+                );
+            }
+            if (row < half_size - superior_fusion_count) {
+                fused_superior.push_back(
+                    inferior[static_cast<std::size_t>(row)]
+                );
+            } else {
+                fused_inferior.push_back(
+                    inferior[static_cast<std::size_t>(row)]
+                );
+            }
+        }
+        if (fused_superior.size() != static_cast<std::size_t>(half_size)
+            || fused_inferior.size()
+                != static_cast<std::size_t>(half_size)) {
+            throw std::runtime_error("BDE fusion did not preserve half sizes");
+        }
+
+        const double mu =
+            static_cast<double>(maximum_generations)
+            / static_cast<double>(
+                maximum_generations + runtime.generations + 1
+            );
+        const double epsilon = std::exp(1.0 - mu);
+        const double scale = 0.5 * std::pow(2.0, epsilon);
+        const double crossover_rate = std::clamp(
+            0.1 * static_cast<double>(runtime.generations)
+                / static_cast<double>(maximum_generations),
+            0.0,
+            0.1
+        );
+        const int pbest_count = std::min(
+            population_size,
+            static_cast<int>(std::ceil(
+                0.05 * static_cast<double>(population_size)
+            ))
+        );
+        Matrix trial(
+            static_cast<std::size_t>(offspring_count * dimension),
+            0.0
+        );
+        runtime.executor.parallel_for(0, offspring_count, [&](int row) {
+            auto draw_distinct = [&](std::uint64_t phase,
+                                     int first,
+                                     int second) {
+                int result = row;
+                std::uint64_t draw = 0;
+                while (result == row
+                       || result == first
+                       || result == second) {
+                    result = runtime.rng.integer(
+                        0,
+                        half_size,
+                        runtime.generations,
+                        phase,
+                        static_cast<std::uint64_t>(row),
+                        0,
+                        draw++
+                    );
+                }
+                return result;
+            };
+            const int r1 = draw_distinct(903, -1, -1);
+            const int r2 = draw_distinct(904, r1, -1);
+            const int r3 = draw_distinct(905, r1, r2);
+            const int pbest = ranking[static_cast<std::size_t>(
+                runtime.rng.integer(
+                    0,
+                    pbest_count,
+                    runtime.generations,
+                    906,
+                    static_cast<std::uint64_t>(row)
+                )
+            )];
+            const int jrand = runtime.rng.integer(
+                0,
+                dimension,
+                runtime.generations,
+                907,
+                static_cast<std::uint64_t>(row)
+            );
+            for (int d = 0; d < dimension; ++d) {
+                const double mutant =
+                    population[at(
+                        fused_superior[static_cast<std::size_t>(r1)],
+                        d,
+                        dimension
+                    )]
+                    + scale * (
+                        population[at(
+                            fused_superior[static_cast<std::size_t>(r2)],
+                            d,
+                            dimension
+                        )]
+                        - population[at(
+                            fused_inferior[static_cast<std::size_t>(r3)],
+                            d,
+                            dimension
+                        )]
+                    );
+                const bool use_mutant =
+                    d == jrand
+                    || runtime.rng.uniform(
+                        runtime.generations,
+                        908,
+                        static_cast<std::uint64_t>(row),
+                        static_cast<std::uint64_t>(d)
+                    ) < crossover_rate;
+                trial[at(row, d, dimension)] = use_mutant
+                    ? mutant
+                    : population[at(pbest, d, dimension)];
+            }
+        });
+        repair_population(
+            trial,
+            offspring_count,
+            data,
+            runtime.rng,
+            runtime.executor,
+            runtime.generations,
+            909
+        );
+        auto evaluated = runtime.evaluate(
+            trial,
+            offspring_count,
+            data,
+            fode::EvaluationDetail::TotalOnly
+        );
+        for (int row = 0; row < offspring_count; ++row) {
+            const int target = ranking[static_cast<std::size_t>(row)];
+            if (evaluated.fitness[static_cast<std::size_t>(row)]
+                >= fitness[static_cast<std::size_t>(target)]) {
+                copy_row(population, target, trial, row, dimension);
+                fitness[static_cast<std::size_t>(target)] =
+                    evaluated.fitness[static_cast<std::size_t>(row)];
+            }
+        }
+    }
+
+    return finish_result(
+        data,
+        config,
+        runtime,
+        population_size,
+        population_size,
+        started
+    );
+}
+
+RunResult optimize_hgpso(
+    const fode::CaseData& data,
+    const RunConfig& config
+) {
+    const auto started = Clock::now();
+    Runtime runtime(config);
+    const int population_size = 120;
+    const int dimension = data.turbine_count;
+    const int grid = data.rows * data.cols;
+    const auto blocked = blocked_mask(data);
+    if (runtime.budget < static_cast<std::uint64_t>(population_size)) {
+        throw std::runtime_error("budget is below HGPSO initialization");
+    }
+
+    Matrix population = initialize_population(
+        population_size, data, runtime.rng, runtime.executor, 1000
+    );
+    auto initial = runtime.evaluate(
+        population,
+        population_size,
+        data,
+        fode::EvaluationDetail::TotalAndPerTurbine
+    );
+    std::vector<double> current_fitness = initial.fitness;
+    std::vector<int> current_order =
+        initial.turbine_position_order_1based;
+    std::vector<int> stagnation(
+        static_cast<std::size_t>(population_size),
+        0
+    );
+    Matrix cumulative_cell_power(
+        static_cast<std::size_t>(population_size * grid),
+        0.0
+    );
+    auto accumulate_power = [&](
+        const fode::Evaluation& detailed,
+        int rows,
+        const std::vector<char>* accepted
+    ) {
+        for (int row = 0; row < rows; ++row) {
+            if (accepted != nullptr
+                && (*accepted)[static_cast<std::size_t>(row)] == 0) {
+                continue;
+            }
+            const double total =
+                detailed.fitness[static_cast<std::size_t>(row)];
+            if (total <= 0.0) {
+                continue;
+            }
+            for (int rank = 0; rank < dimension; ++rank) {
+                const int cell =
+                    detailed.turbine_position_order_1based[
+                        at(row, rank, dimension)
+                    ];
+                cumulative_cell_power[static_cast<std::size_t>(
+                    row * grid + cell - 1
+                )] +=
+                    detailed.accumulated_turbine_power_kw[
+                        at(row, rank, dimension)
+                    ] / total;
+            }
+        }
+    };
+    accumulate_power(initial, population_size, nullptr);
+
+    Matrix global_best(static_cast<std::size_t>(dimension), 0.0);
+    auto refresh_global_best = [&]() {
+        const int row = stable_rank_descending(current_fitness).front();
+        copy_row(global_best, 0, population, row, dimension);
+    };
+    refresh_global_best();
+
+    while (runtime.fes < runtime.budget) {
+        ++runtime.generations;
+        const int exemplar_count = static_cast<int>(
+            std::min<std::uint64_t>(
+                static_cast<std::uint64_t>(population_size),
+                runtime.budget - runtime.fes
+            )
+        );
+        Matrix exemplar(
+            static_cast<std::size_t>(exemplar_count * dimension),
+            0.0
+        );
+        runtime.executor.parallel_for(0, exemplar_count, [&](int row) {
+            for (int d = 0; d < dimension; ++d) {
+                const int peer = runtime.rng.integer(
+                    0,
+                    population_size,
+                    runtime.generations,
+                    1001,
+                    static_cast<std::uint64_t>(row),
+                    static_cast<std::uint64_t>(d)
+                );
+                if (current_fitness[static_cast<std::size_t>(row)]
+                    > current_fitness[static_cast<std::size_t>(peer)]) {
+                    const double first = runtime.rng.uniform(
+                        runtime.generations,
+                        1002,
+                        static_cast<std::uint64_t>(row),
+                        static_cast<std::uint64_t>(d)
+                    );
+                    const double second = runtime.rng.uniform(
+                        runtime.generations,
+                        1003,
+                        static_cast<std::uint64_t>(row),
+                        static_cast<std::uint64_t>(d)
+                    );
+                    exemplar[at(row, d, dimension)] =
+                        first * population[at(row, d, dimension)]
+                        + (1.0 - second)
+                            * global_best[static_cast<std::size_t>(d)];
+                } else {
+                    exemplar[at(row, d, dimension)] =
+                        population[at(peer, d, dimension)];
+                }
+                if (runtime.rng.uniform(
+                        runtime.generations,
+                        1004,
+                        static_cast<std::uint64_t>(row),
+                        static_cast<std::uint64_t>(d)
+                    ) < 0.01) {
+                    exemplar[at(row, d, dimension)] =
+                        1.0 + runtime.rng.uniform(
+                            runtime.generations,
+                            1005,
+                            static_cast<std::uint64_t>(row),
+                            static_cast<std::uint64_t>(d)
+                        ) * static_cast<double>(grid - 1);
+                }
+            }
+        });
+        repair_population(
+            exemplar,
+            exemplar_count,
+            data,
+            runtime.rng,
+            runtime.executor,
+            runtime.generations,
+            1006
+        );
+        auto exemplar_evaluation = runtime.evaluate(
+            exemplar,
+            exemplar_count,
+            data,
+            fode::EvaluationDetail::TotalAndPerTurbine
+        );
+
+        Matrix reference = population;
+        std::vector<double> reference_fitness = current_fitness;
+        std::vector<char> accepted_exemplar(
+            static_cast<std::size_t>(exemplar_count),
+            0
+        );
+        for (int row = 0; row < exemplar_count; ++row) {
+            if (exemplar_evaluation.fitness[static_cast<std::size_t>(row)]
+                > current_fitness[static_cast<std::size_t>(row)]) {
+                copy_row(reference, row, exemplar, row, dimension);
+                reference_fitness[static_cast<std::size_t>(row)] =
+                    exemplar_evaluation.fitness[
+                        static_cast<std::size_t>(row)
+                    ];
+                accepted_exemplar[static_cast<std::size_t>(row)] = 1;
+            }
+        }
+        accumulate_power(
+            exemplar_evaluation,
+            exemplar_count,
+            &accepted_exemplar
+        );
+        if (exemplar_count < population_size
+            || runtime.fes >= runtime.budget) {
+            break;
+        }
+
+        const Matrix reference_snapshot = reference;
+        const std::vector<double> reference_fitness_snapshot =
+            reference_fitness;
+        runtime.executor.parallel_for(0, population_size, [&](int row) {
+            if (stagnation[static_cast<std::size_t>(row)] < 7) {
+                return;
+            }
+            std::vector<std::pair<double, int>> keyed;
+            keyed.reserve(static_cast<std::size_t>(population_size));
+            for (int candidate = 0;
+                 candidate < population_size;
+                 ++candidate) {
+                keyed.emplace_back(
+                    runtime.rng.uniform(
+                        runtime.generations,
+                        1007,
+                        static_cast<std::uint64_t>(row),
+                        static_cast<std::uint64_t>(candidate)
+                    ),
+                    candidate
+                );
+            }
+            std::stable_sort(keyed.begin(), keyed.end());
+            int winner = keyed.front().second;
+            for (int candidate = 1; candidate < 24; ++candidate) {
+                const int challenger =
+                    keyed[static_cast<std::size_t>(candidate)].second;
+                if (reference_fitness_snapshot[
+                        static_cast<std::size_t>(challenger)
+                    ] > reference_fitness_snapshot[
+                        static_cast<std::size_t>(winner)
+                    ]) {
+                    winner = challenger;
+                }
+            }
+            copy_row(
+                reference,
+                row,
+                reference_snapshot,
+                winner,
+                dimension
+            );
+            reference_fitness[static_cast<std::size_t>(row)] =
+                reference_fitness_snapshot[
+                    static_cast<std::size_t>(winner)
+                ];
+        });
+        for (int row = 0; row < population_size; ++row) {
+            if (stagnation[static_cast<std::size_t>(row)] >= 7) {
+                stagnation[static_cast<std::size_t>(row)] = 0;
+            }
+        }
+
+        Matrix trial(
+            static_cast<std::size_t>(population_size * dimension),
+            0.0
+        );
+        runtime.executor.parallel_for(
+            0,
+            population_size * dimension,
+            [&](int task) {
+                const int row = task / dimension;
+                const int d = task - row * dimension;
+                const double current =
+                    population[at(row, d, dimension)];
+                const double guide =
+                    reference[at(row, d, dimension)];
+                const double best =
+                    global_best[static_cast<std::size_t>(d)];
+                const bool current_equals_guide = current == guide;
+                const bool current_equals_best = current == best;
+                const double branch = runtime.rng.uniform(
+                    runtime.generations,
+                    1008,
+                    static_cast<std::uint64_t>(row),
+                    static_cast<std::uint64_t>(d)
+                );
+                const double step = 1.49618 * runtime.rng.uniform(
+                    runtime.generations,
+                    1009,
+                    static_cast<std::uint64_t>(row),
+                    static_cast<std::uint64_t>(d)
+                );
+                double value = current;
+                if (current_equals_guide && current_equals_best) {
+                    value = 1.0 + runtime.rng.uniform(
+                        runtime.generations,
+                        1010,
+                        static_cast<std::uint64_t>(row),
+                        static_cast<std::uint64_t>(d)
+                    ) * static_cast<double>(grid - 1);
+                } else if (branch < 0.1) {
+                    value = current_equals_guide
+                        ? current + step * (best - current)
+                        : current + step * (guide - current);
+                } else if (current_equals_best
+                           || current_equals_guide) {
+                    value = current_equals_best
+                        ? current + step * (guide - current)
+                        : current + step * (best - current);
+                } else {
+                    value = guide + step * (best - guide);
+                }
+                trial[at(row, d, dimension)] = value;
+            }
+        );
+        repair_population(
+            trial,
+            population_size,
+            data,
+            runtime.rng,
+            runtime.executor,
+            runtime.generations,
+            1011
+        );
+
+        runtime.executor.parallel_for(0, population_size, [&](int row) {
+            int weakest = static_cast<int>(std::llround(
+                trial[at(row, 0, dimension)]
+            ));
+            double weakest_score =
+                cumulative_cell_power[static_cast<std::size_t>(
+                    row * grid + weakest - 1
+                )];
+            std::vector<char> occupied = blocked;
+            for (int d = 0; d < dimension; ++d) {
+                const int cell = static_cast<int>(std::llround(
+                    trial[at(row, d, dimension)]
+                ));
+                occupied[static_cast<std::size_t>(cell - 1)] = 1;
+                const double score =
+                    cumulative_cell_power[static_cast<std::size_t>(
+                        row * grid + cell - 1
+                    )];
+                if (score < weakest_score) {
+                    weakest = cell;
+                    weakest_score = score;
+                }
+            }
+
+            std::vector<int> ranked_cells(static_cast<std::size_t>(grid));
+            std::iota(ranked_cells.begin(), ranked_cells.end(), 1);
+            std::stable_sort(
+                ranked_cells.begin(),
+                ranked_cells.end(),
+                [&](int lhs, int rhs) {
+                    return cumulative_cell_power[static_cast<std::size_t>(
+                        row * grid + lhs - 1
+                    )] > cumulative_cell_power[static_cast<std::size_t>(
+                        row * grid + rhs - 1
+                    )];
+                }
+            );
+            const int pool_size = std::min(
+                grid,
+                static_cast<int>(
+                    std::floor(0.1 * static_cast<double>(grid))
+                ) + dimension
+            );
+            std::vector<std::pair<double, int>> pool;
+            pool.reserve(static_cast<std::size_t>(pool_size));
+            for (int index = 0; index < pool_size; ++index) {
+                pool.emplace_back(
+                    runtime.rng.uniform(
+                        runtime.generations,
+                        1012,
+                        static_cast<std::uint64_t>(row),
+                        static_cast<std::uint64_t>(index)
+                    ),
+                    ranked_cells[static_cast<std::size_t>(index)]
+                );
+            }
+            std::stable_sort(pool.begin(), pool.end());
+            int inserted = 0;
+            for (const auto& item : pool) {
+                const int cell = item.second;
+                if (occupied[static_cast<std::size_t>(cell - 1)] == 0) {
+                    inserted = cell;
+                    break;
+                }
+            }
+            if (inserted == 0) {
+                for (int cell = 1; cell <= grid; ++cell) {
+                    if (occupied[static_cast<std::size_t>(cell - 1)] == 0) {
+                        inserted = cell;
+                        break;
+                    }
+                }
+            }
+            if (inserted == 0) {
+                throw std::runtime_error(
+                    "HGPSO worst-position replacement has no feasible cell"
+                );
+            }
+            replace_cell(
+                trial,
+                row,
+                dimension,
+                weakest,
+                inserted
+            );
+        });
+
+        const int trial_count = static_cast<int>(
+            std::min<std::uint64_t>(
+                static_cast<std::uint64_t>(population_size),
+                runtime.budget - runtime.fes
+            )
+        );
+        auto trial_evaluation = runtime.evaluate(
+            trial,
+            trial_count,
+            data,
+            fode::EvaluationDetail::TotalAndPerTurbine
+        );
+        accumulate_power(trial_evaluation, trial_count, nullptr);
+        for (int row = 0; row < trial_count; ++row) {
+            if (trial_evaluation.fitness[static_cast<std::size_t>(row)]
+                > current_fitness[static_cast<std::size_t>(row)]) {
+                copy_row(population, row, trial, row, dimension);
+                current_fitness[static_cast<std::size_t>(row)] =
+                    trial_evaluation.fitness[
+                        static_cast<std::size_t>(row)
+                    ];
+                for (int rank = 0; rank < dimension; ++rank) {
+                    current_order[at(row, rank, dimension)] =
+                        trial_evaluation.turbine_position_order_1based[
+                            at(row, rank, dimension)
+                        ];
+                }
+                stagnation[static_cast<std::size_t>(row)] = 0;
+            } else {
+                ++stagnation[static_cast<std::size_t>(row)];
+            }
+        }
+        if (trial_count < population_size) {
+            break;
+        }
+        refresh_global_best();
+    }
+
+    return finish_result(
+        data,
+        config,
+        runtime,
+        population_size,
+        population_size,
+        started,
+        "paper_hierarchical_staged_parallel"
+    );
+}
+
 RunResult optimize_pso(
     const fode::CaseData& data,
     const RunConfig& config,
@@ -1818,9 +3154,12 @@ RunResult convert_fode(
     RunResult result;
     result.algorithm_id = "fode";
     result.method_id = "FODE_CPP_HPC_FULL";
-    const auto identity = registered_identity("fode");
-    result.algorithm_provenance = identity.first;
-    result.effective_semantics_id = identity.second;
+    const auto& identity = algorithm_descriptor("fode");
+    const auto& problem = problem_descriptor(config.problem_id);
+    result.algorithm_provenance = identity.provenance;
+    result.effective_semantics_id = identity.semantics_id;
+    result.problem_id = problem.id;
+    result.problem_semantics_id = problem.semantics_id;
     result.case_id = source.case_id;
     result.seed = source.seed;
     result.physical_fes = source.physical_fes;
@@ -1839,14 +3178,6 @@ RunResult convert_fode(
 
 }  // namespace
 
-const std::vector<std::string>& algorithm_ids() {
-    static const std::vector<std::string> ids{
-        "fode", "aga", "sugga", "ise",
-        "agpso", "cgpso", "lshade", "clshade"
-    };
-    return ids;
-}
-
 RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
     if (config.physical_fes_budget == 0 || config.workers <= 0) {
         throw std::invalid_argument("budget and worker count must be positive");
@@ -1854,6 +3185,13 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
     if (config.algorithm_id == "lse") {
         throw std::invalid_argument(
             "algorithm 'lse' was renamed to ISE; use --algorithm ise"
+        );
+    }
+    static_cast<void>(problem_descriptor(config.problem_id));
+    if (!algorithm_supports_problem(config.algorithm_id, config.problem_id)) {
+        throw std::invalid_argument(
+            "algorithm '" + config.algorithm_id
+            + "' is not admitted for problem '" + config.problem_id + "'"
         );
     }
     if (config.algorithm_id == "fode") {
@@ -1879,6 +3217,18 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
     }
     if (config.algorithm_id == "clshade") {
         return optimize_lshade(data, config, true);
+    }
+    if (config.algorithm_id == "cede") {
+        return optimize_cede(data, config);
+    }
+    if (config.algorithm_id == "msshade") {
+        return optimize_msshade(data, config);
+    }
+    if (config.algorithm_id == "bde") {
+        return optimize_bde(data, config);
+    }
+    if (config.algorithm_id == "hgpso") {
+        return optimize_hgpso(data, config);
     }
     throw std::invalid_argument("unknown algorithm: " + config.algorithm_id);
 }

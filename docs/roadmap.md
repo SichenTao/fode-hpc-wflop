@@ -12,6 +12,12 @@ not silently removed. Coauthor spelling is preserved so works by Jiayi Li,
 Baohang Zhang, Chen Zhang, Yuhang Ma, Jiaru Yang, and every other coauthor in
 scope remain discoverable.
 
+The 2026-07-29 frozen scope contains 23 unique DOI records. The coverage
+contract in `lineage_scope_contract.json` and
+`scripts/audit_lineage_registry.py` prevents those records or the explicitly
+named coauthor lines from disappearing during later refactors. The count is a
+minimum, not a permanent maximum.
+
 ## Reproducible package lifecycle
 
 | Gate | Required output | Blocking condition |
@@ -26,6 +32,11 @@ Missing public source is not fatal: the package becomes `paper_derived` and
 every inferred value is declared. Missing full text is recorded and blocks only
 that package's R1/R2 work. A package cannot enter a formal comparison merely
 because it compiles.
+
+Paper/source conflicts are registered in
+`semantic_discrepancy_ledger.tsv`. When a conflict changes a state transition,
+budget, or objective, the paper-defined and source-replay behaviors receive
+different semantic identifiers. They are never pooled as one method.
 
 ## Current waves
 
