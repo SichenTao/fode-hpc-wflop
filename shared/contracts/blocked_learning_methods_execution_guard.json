@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "guard_id": "blocked_learning_methods_execution_guard_v1",
+  "purpose": "Prevent unavailable learned state or original problem arrays from being silently replaced by arbitrary random models and reported as author-method reproductions.",
+  "methods": {
+    "alga": {
+      "corpus_id": "T45",
+      "doi": "10.1016/j.swevo.2025.102018",
+      "status": "blocked_r1_r2",
+      "missing": [
+        "Guishan terrain and eight wind arrays",
+        "attention training target and loss",
+        "optimizer, epochs, batch construction, and layer widths",
+        "elite cardinality and attention-to-mask transition",
+        "learned state or deterministic initialization and training seed"
+      ]
+    },
+    "taae": {
+      "corpus_id": "Y36",
+      "doi": "10.1109/jas.2026.126233",
+      "status": "blocked_r1_r2",
+      "missing": [
+        "Zhangbei terrain, wind, acoustic, monitoring, and cost arrays",
+        "pretraining corpus and sampling seed",
+        "complete Transformer architecture and loss weights",
+        "pretrained checkpoint and deterministic decoder contract"
+      ]
+    },
+    "rlpso": {
+      "corpus_id": "T42",
+      "doi": "10.1016/j.energy.2024.134050",
+      "status": "blocked_r2",
+      "missing": [
+        "frozen learned policy",
+        "complete training ledger",
+        "physical-FES interpretation of the hidden policy transition"
+      ]
+    },
+    "rlfode": {
+      "corpus_id": "S04",
+      "doi": "10.3390/math13182935",
+      "status": "blocked_r2",
+      "missing": [
+        "author implementation",
+        "pretrained Q-tables",
+        "training seeds and replay ledger"
+      ]
+    }
+  },
+  "admission_rule": "A blocked identifier must fail before registry dispatch with a method-specific R-gate message. A future implementation may remove the guard only in the same reviewed change that adds immutable assets, a semantic contract, oracle tests, and a distinct method identifier.",
+  "prohibited_substitution": "Do not instantiate random neural or reinforcement-learning state and label it ALGA, TAAE, RLPSO, or RL-FODE."
+}

@@ -4957,6 +4957,35 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
             "algorithm 'lse' was renamed to ISE; use --algorithm ise"
         );
     }
+    if (config.algorithm_id == "alga") {
+        throw std::invalid_argument(
+            "algorithm 'alga' is intentionally blocked at R1/R2: "
+            "the Guishan case arrays and attention training target, "
+            "loss, optimizer, architecture, mask, and learned state "
+            "are not public"
+        );
+    }
+    if (config.algorithm_id == "taae") {
+        throw std::invalid_argument(
+            "algorithm 'taae' is intentionally blocked at R1/R2: "
+            "the Zhangbei case arrays, pretraining corpus and seed, "
+            "complete loss weights, and Transformer checkpoint are "
+            "not public"
+        );
+    }
+    if (config.algorithm_id == "rlpso") {
+        throw std::invalid_argument(
+            "algorithm 'rlpso' is intentionally blocked at R2: "
+            "the frozen policy, training ledger, and hidden physical-"
+            "FES transition are unavailable"
+        );
+    }
+    if (config.algorithm_id == "rlfode") {
+        throw std::invalid_argument(
+            "algorithm 'rlfode' is intentionally blocked at R2: "
+            "the author source and pretrained Q-tables are unavailable"
+        );
+    }
     static_cast<void>(problem_descriptor(config.problem_id));
     if (!algorithm_supports_problem(config.algorithm_id, config.problem_id)) {
         throw std::invalid_argument(

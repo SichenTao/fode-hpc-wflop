@@ -86,4 +86,12 @@ if(BUILD_TESTING)
             --cases
             ${CMAKE_CURRENT_SOURCE_DIR}/shared/contracts/benchmark_cases.json
     )
+    add_test(
+        NAME blocked_learning_methods_guard
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_blocked_learning_methods.py
+            --binary $<TARGET_FILE:wflop_cpp_hpc>
+            --cases
+            ${CMAKE_CURRENT_SOURCE_DIR}/shared/contracts/benchmark_cases.json
+    )
 endif()

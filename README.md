@@ -51,6 +51,12 @@ problem. It does not replace or reproduce the unavailable Nantong 3D terrain
 study. Its conventional completions and problem boundary are frozen in
 `shared/contracts/ppga_fode_e0_transfer_execution_contract.json`.
 
+ALGA, TAAE, RLPSO, and RL-FODE are deliberately not executable identifiers:
+their learned policy/model state or original problem arrays are unavailable.
+Attempts to run them fail with method-specific R1/R2 evidence rather than
+falling through to a random model. The removal conditions for these guards are
+frozen in `shared/contracts/blocked_learning_methods_execution_guard.json`.
+
 ## Build and test
 
 Requirements are CMake 3.20 or newer, a C++20 compiler, POSIX threads, and
