@@ -168,6 +168,18 @@ resumable entrypoint:
 WFLOP_WORKERS="$(nproc)" bash scripts/run_all_waffle_formal_campaigns.sh
 ```
 
+For a disconnect-safe Waffle launch, use the host-restricted locked wrapper:
+
+```bash
+mkdir -p logs
+nohup bash scripts/launch_waffle_formal_suite.sh \
+  > logs/waffle_campaign_suite_v1.log 2>&1 &
+```
+
+It rejects non-Waffle hosts, holds a single-process suite lock, uses all
+processors visible to the job, and atomically records the running or terminal
+state in `results/waffle_campaign_suite_v1/control/status.json`.
+
 It runs one optimization process at a time and uses all processors visible to
 that process internally. The four result families remain separate:
 18 algorithms on the common 50-case problem; BDE on 24 official-source WS1-WS4
