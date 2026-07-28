@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "semantics_set_id": "fode_e0_paper_first_eight_algorithm_v1",
+  "problem_semantics": {
+    "id": "FODE-E0-L",
+    "objective": "maximize joint-direction-speed expected farm power in kW",
+    "layout_encoding": "one-based unique available grid-cell indices",
+    "wake_model": "archived Jensen/Park top-hat wake with root-sum-square superposition",
+    "power_curve": "legacy 629.1-kW synthetic curve, including zero power at 18 m/s",
+    "physical_evaluation": "one completed full-layout evaluation over the complete frozen wind distribution",
+    "formal_budget": 24000,
+    "terminal_rule": "retain each completed candidate and stop before the next unevaluated candidate"
+  },
+  "authority_order": {
+    "algorithm_identity": [
+      "corresponding original paper's explicit equations, pseudocode, stages and parameters",
+      "archived author or project MATLAB source for details omitted by the paper",
+      "pre-registered explicit reconstruction when both are silent"
+    ],
+    "problem_identity": [
+      "FODE comparison paper and frozen case contract",
+      "adjudicated active MATLAB benchmark",
+      "shared C++ implementation after cross-language numeric validation"
+    ]
+  },
+  "algorithms": {
+    "fode": {
+      "method_id": "FODE_CPP_HPC_FULL",
+      "state_semantics": "archived executable FODE state machine under exact physical-FES stopping",
+      "parallel_semantics": "generation snapshot, independent trial construction and evaluation, deterministic selection/archive/memory merge",
+      "evaluation_detail": "TotalOnly"
+    },
+    "aga": {
+      "method_id": "AGA_CPP_HPC_FULL",
+      "state_semantics": "paper Steps 1-6 with source-completed selection, crossover, effective mutation threshold and one worst-turbine relocation per parent",
+      "parallel_semantics": "independent parent relocation and population evaluation; deterministic ordered genetic merge",
+      "evaluation_detail": "TotalAndPerTurbine"
+    },
+    "sugga": {
+      "method_id": "SUGGA_CPP_HPC_FULL",
+      "state_semantics": "AGA state machine plus paper SVR-guided or random worst-turbine relocation using frozen case-specific models",
+      "parallel_semantics": "independent per-parent surrogate candidate scoring and population evaluation; deterministic ordered genetic merge",
+      "evaluation_detail": "TotalAndPerTurbine"
+    },
+    "ise": {
+      "method_id": "ISE_CPP_HPC_FULL",
+      "state_semantics": "paper Algorithm 1 and Eq. 17 on a round(D/3) reduced coordinate subset",
+      "parallel_semantics": "read-only parent generation snapshot, independent offspring construction/evaluation and indexed parent-child merge",
+      "evaluation_detail": "TotalOnly",
+      "legacy_label_policy": "LSE is accepted only by historical readers and is rejected by the new CLI"
+    },
+    "agpso": {
+      "method_id": "AGPSO_CPP_HPC_FULL",
+      "state_semantics": "paper Algorithm 1 staged synchronous update with Eq. 21 no-inertia velocity and lines 40-43 conditional population survival",
+      "parallel_semantics": "parallel within elite generation, adaptive replacement, velocity-position update and evaluation; barrier between paper stages",
+      "evaluation_detail": "TotalAndPerTurbine",
+      "pso_update_semantics": "paper_staged_parallel"
+    },
+    "cgpso": {
+      "method_id": "CGPSO_CPP_HPC_FULL",
+      "state_semantics": "paper Algorithm 1 staged synchronous PSO with Eq. 16 SS-1D search and Eqs. 17-20 CLS-M success/failure map memory",
+      "parallel_semantics": "complete CLS first, then parallel exemplar generation, position update and evaluation with deterministic stage barriers",
+      "evaluation_detail": "TotalAndPerTurbine",
+      "pso_update_semantics": "paper_staged_parallel"
+    },
+    "lshade": {
+      "method_id": "LSHADE_CPP_HPC_FULL",
+      "state_semantics": "L-SHADE Algorithm 2 with SHADE success-history parameter adaptation and linear population reduction",
+      "parallel_semantics": "independent parameter sampling, mutation, crossover, repair and evaluation; deterministic archive, memory and reduction merge",
+      "evaluation_detail": "TotalOnly"
+    },
+    "clshade": {
+      "method_id": "CLSHADE_CPP_HPC_FULL",
+      "state_semantics": "paper-derived CLSHADE equations and Algorithm 1 with L=50 success/failure map memory and registered r0=0.01 reconstruction",
+      "parallel_semantics": "parallel L-SHADE offspring batch, then ordered one-candidate chaotic local search and deterministic memory update",
+      "evaluation_detail": "TotalOnly"
+    }
+  },
+  "unresolved_active_conflicts": 0
+}

@@ -1,0 +1,110 @@
+{
+  "schema_version": 2,
+  "campaign_id": "eight-algorithm-native-cpp-hpc-spark2-final-v2",
+  "problem_semantics_id": "FODE-E0-L",
+  "implementation": "single native C++20 executable",
+  "algorithms": [
+    "fode",
+    "aga",
+    "sugga",
+    "ise",
+    "agpso",
+    "cgpso",
+    "lshade",
+    "clshade"
+  ],
+  "cases": 50,
+  "seeds": [
+    2026072801,
+    2026072802,
+    2026072803,
+    2026072804,
+    2026072805,
+    2026072806,
+    2026072807,
+    2026072808,
+    2026072809,
+    2026072810,
+    2026072811,
+    2026072812,
+    2026072813,
+    2026072814,
+    2026072815,
+    2026072816,
+    2026072817,
+    2026072818,
+    2026072819,
+    2026072820,
+    2026072821,
+    2026072822,
+    2026072823,
+    2026072824,
+    2026072825
+  ],
+  "physical_fes_per_run": 24000,
+  "physical_fes_definition": "one complete wind-farm layout evaluation over every direction-speed state in the frozen case",
+  "result_count": 10000,
+  "execution_host": {
+    "ssh_alias": "spark2",
+    "hostname": "spark-9ab3",
+    "architecture": "aarch64",
+    "cpu_model": "10 Cortex-X925 cores plus 10 Cortex-A725 cores",
+    "visible_physical_cores": 20,
+    "threads_per_core": 1,
+    "numa_nodes": 1
+  },
+  "workers_per_optimization": 20,
+  "processes_at_once": 1,
+  "cpu_affinity": "0-19",
+  "parallel_execution_contract": {
+    "persistent_thread_team": true,
+    "active_spin_before_atomic_wait": true,
+    "fode_population_schedule": "fused layout-direction wake states",
+    "fode_local_layout_schedule": "serial below one independent state per worker",
+    "objective_reduction_order": "fixed direction-speed order per turbine and stable ascending turbine-power sum"
+  },
+  "admission_gate": {
+    "seed": 20260728,
+    "algorithms": 8,
+    "cases": 50,
+    "result_count": 400,
+    "must_pass_before_performance": true
+  },
+  "performance_gate": {
+    "cases": [
+      "WS1tn10",
+      "WS5tn30",
+      "WS10tn80"
+    ],
+    "endpoints": {
+      "ordinary_cpp_same_binary": 1,
+      "hpc_cpp_same_binary": 20
+    },
+    "paired_repeats_per_algorithm_case": 21,
+    "result_count": 1008,
+    "same_release_binary": true,
+    "same_seed_and_physical_fes_within_pair": true,
+    "requires_exact_non_timing_semantic_equivalence": true,
+    "requires_positive_large_case_end_to_end_speedup": true,
+    "requires_external_load_log": true,
+    "must_pass_before_formal": true
+  },
+  "formal_runtime_dependencies": [
+    "C++20 standard library",
+    "POSIX threads",
+    "jq",
+    "taskset",
+    "frozen JSON case contract",
+    "frozen native SUGGA model data"
+  ],
+  "excluded_formal_dependencies": [
+    "Python",
+    "MATLAB"
+  ],
+  "result_policy": {
+    "spark2_local_execution_copy_is_disposable": true,
+    "authoritative_results_return_to_spark_control_host": true,
+    "waffle_and_spark2_results_must_remain_separate": true,
+    "development_and_superseded_performance_results_are_excluded": true
+  }
+}

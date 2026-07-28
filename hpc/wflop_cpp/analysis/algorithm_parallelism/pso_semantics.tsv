@@ -1,0 +1,15 @@
+algorithm	stage	paper_evidence	read_set	write_set	cross_particle_dependency	parallel_mode	barrier_after
+agpso	elite_generation	Algorithm 1 lines 11-34	pbest_fitness,pbest,gbest	elite_candidates	reads peer pbest from frozen stage snapshot	parallel_particles_and_coordinates	yes
+agpso	elite_evaluation	Algorithm 1 lines 11-34	elite_candidates	elite_fitness	shared evaluator only	parallel_shared_evaluator	yes
+agpso	stagnation_tournament	Eq. 16 and Algorithm 1	pbest_fitness,stagnation	pbest_next,stagnation_next	tournament reads frozen pbest state	parallel_particles_deterministic_merge	yes
+agpso	adaptive_worst_replacement	Algorithm 1 line 35	current_population,current_per_turbine_order,empirical_location_scores	replaced_population	each particle owns one layout and one score row	parallel_particles	yes
+agpso	velocity_position	Eq. 21 and Algorithm 1 lines 36-38	replaced_population,pbest,velocity	velocity_next,population_next	each particle-coordinate is independent under frozen pbest	parallel_particles_and_coordinates	yes
+agpso	population_evaluation	Algorithm 1 lines 40-44	population_next	population_fitness_and_per_turbine_power	shared evaluator only	parallel_shared_evaluator	yes
+agpso	best_update	Algorithm 1 lines 40-44	population_fitness,pbest_fitness	pbest_next,gbest_next,stagnation_next	global best requires deterministic reduction	parallel_flags_then_ordered_reduction	yes
+cgpso	chaotic_local_search	Algorithm 1 lines 7-10	current_gbest,chaos_state,selected_radius	candidate_gbest	one candidate depends on the current gbest	ordered_single_candidate	yes
+cgpso	exemplar_generation	Algorithm 1 lines 11-15	pbest_fitness,pbest,gbest	elite_candidates	reads peer pbest from frozen stage snapshot	parallel_particles_and_coordinates	yes
+cgpso	exemplar_evaluation	Algorithm 1 lines 11-15	elite_candidates	elite_fitness	shared evaluator only	parallel_shared_evaluator	yes
+cgpso	stagnation_tournament	Algorithm 1 lines 11-15	pbest_fitness,stagnation	pbest_next,stagnation_next	tournament reads frozen pbest state	parallel_particles_deterministic_merge	yes
+cgpso	velocity_position	Eq. 24 and Algorithm 1 lines 16-18	population,pbest,velocity	velocity_next,population_next	each particle-coordinate is independent under frozen pbest	parallel_particles_and_coordinates	yes
+cgpso	population_evaluation	Algorithm 1 line 19	population_next	population_fitness_and_per_turbine_power	shared evaluator only	parallel_shared_evaluator	yes
+cgpso	best_update	Algorithm 1 line 20	population_fitness,pbest_fitness	pbest_next,gbest_next,stagnation_next	global best requires deterministic reduction	parallel_flags_then_ordered_reduction	yes

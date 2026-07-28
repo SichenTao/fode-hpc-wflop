@@ -1,0 +1,17 @@
+cff-version: 1.2.0
+message: "If you use this software or benchmark, please cite this repository."
+title: "FODE-HPC-WFLOP"
+type: software
+authors:
+  - family-names: Tao
+    given-names: Sichen
+repository-code: "https://github.com/SichenTao/fode-hpc-wflop"
+url: "https://github.com/SichenTao/fode-hpc-wflop"
+license: Apache-2.0
+version: 0.1.0
+date-released: 2026-07-29
+keywords:
+  - wind farm layout optimization
+  - evolutionary computation
+  - high-performance computing
+  - differential evolution

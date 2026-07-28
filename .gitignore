@@ -1,0 +1,13 @@
+/build/
+/results/
+/logs/
+/.cache/
+/.idea/
+/.vscode/
+*.pdf
+*.mex*
+*.mat
+*.npz
+*.pyc
+__pycache__/
+.DS_Store

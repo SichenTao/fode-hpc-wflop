@@ -1,0 +1,70 @@
+{
+  "schema_version": 1,
+  "receipt_id": "p0-paper-source-semantics-freeze-20260728",
+  "status": "passed",
+  "paper_pdf_receipt": {
+    "path": "shared/contracts/paper_pdf_receipt.json",
+    "sha256": "b90705dc334b37e3d2f35aa13621c32bf3ed3e7630e5209286f3c6c95c338ed2",
+    "complete_pdfs": 9,
+    "all_complete": true
+  },
+  "contracts": [
+    {
+      "path": "shared/contracts/paper_sources.tsv",
+      "sha256": "4b5903e65aa9e4fd981a1ffbc0dba453a156d37c8ac91bb9a77f4e2085b9b6f1"
+    },
+    {
+      "path": "shared/contracts/source_manifest.tsv",
+      "sha256": "377a06d42f34c4a461af701c681942c0d844292c762238ef001a7e4a5bd05be0"
+    },
+    {
+      "path": "shared/contracts/paper_implementation_ledger.tsv",
+      "sha256": "55bedc1a4924d6d092f1b128be2eed7d4f959d711a329b78c31a9183291f6c47"
+    },
+    {
+      "path": "shared/contracts/algorithm_semantics.json",
+      "sha256": "12d86c4e880a21b33daebe50c68d5f3c0089fa92325719114e1ae2bab8e628a1"
+    },
+    {
+      "path": "shared/contracts/algorithm_parameters.json",
+      "sha256": "7bb2314512e22eb35522c00369586081fba1c7eddbc9d1f8c0092872b0b27e7e"
+    },
+    {
+      "path": "shared/contracts/algorithm_provenance.tsv",
+      "sha256": "bdcd4cbf867d51d9272419ba850af7dbcf77a5ad4ccffd78d99328bfada8e8f0"
+    },
+    {
+      "path": "shared/contracts/benchmark_cases.json",
+      "sha256": "1b4d7b687f2608c38343ea6252ecea51fff711f8939665ca07a40110127879c5"
+    },
+    {
+      "path": "shared/contracts/benchmark_contract.json",
+      "sha256": "d45f497d2019709070b73e5e3a561a039b7ef703cc246be013b8fdc8582619f2"
+    },
+    {
+      "path": "shared/contracts/execution_contract.json",
+      "sha256": "e73090912784e8475367312fd02449ebc5a79058563971bb6ea0bc99517b4a42"
+    }
+  ],
+  "algorithm_ids": [
+    "fode",
+    "aga",
+    "sugga",
+    "ise",
+    "agpso",
+    "cgpso",
+    "lshade",
+    "clshade"
+  ],
+  "decisions": {
+    "authority": "paper_first_source_completed",
+    "ise_canonical_name": "ISE",
+    "new_cli_exposes_lse_alias": false,
+    "agpso_population_size": 120,
+    "agpso_inertia_weight": 0.0,
+    "agpso_update_semantics": "paper_staged_parallel",
+    "cgpso_update_semantics": "paper_staged_parallel",
+    "formal_physical_fes": 24000
+  },
+  "unresolved_active_conflicts": 0
+}

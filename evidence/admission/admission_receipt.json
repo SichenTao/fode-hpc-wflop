@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "gate": "spark2_eight_algorithms_x_50_cases_x_one_seed",
+  "result_count": 400,
+  "algorithms": [
+    "aga",
+    "agpso",
+    "cgpso",
+    "clshade",
+    "fode",
+    "ise",
+    "lshade",
+    "sugga"
+  ],
+  "cases": [
+    "WS10tn10",
+    "WS10tn20",
+    "WS10tn30",
+    "WS10tn50",
+    "WS10tn80",
+    "WS1tn10",
+    "WS1tn20",
+    "WS1tn30",
+    "WS1tn50",
+    "WS1tn80",
+    "WS2tn10",
+    "WS2tn20",
+    "WS2tn30",
+    "WS2tn50",
+    "WS2tn80",
+    "WS3tn10",
+    "WS3tn20",
+    "WS3tn30",
+    "WS3tn50",
+    "WS3tn80",
+    "WS4tn10",
+    "WS4tn20",
+    "WS4tn30",
+    "WS4tn50",
+    "WS4tn80",
+    "WS5tn10",
+    "WS5tn20",
+    "WS5tn30",
+    "WS5tn50",
+    "WS5tn80",
+    "WS6tn10",
+    "WS6tn20",
+    "WS6tn30",
+    "WS6tn50",
+    "WS6tn80",
+    "WS7tn10",
+    "WS7tn20",
+    "WS7tn30",
+    "WS7tn50",
+    "WS7tn80",
+    "WS8tn10",
+    "WS8tn20",
+    "WS8tn30",
+    "WS8tn50",
+    "WS8tn80",
+    "WS9tn10",
+    "WS9tn20",
+    "WS9tn30",
+    "WS9tn50",
+    "WS9tn80"
+  ],
+  "physical_fes_values": [
+    24000
+  ],
+  "requested_workers": [
+    20
+  ],
+  "observed_workers": [
+    20
+  ],
+  "execution_hosts": [
+    "spark-9ab3"
+  ],
+  "binary_sha256": "bdaa02143d7e3fc17760d5fe1ca1f51ea4086ead79e33b89578392492d465d4b",
+  "source_freeze_sha256": "784813080ac96c183d724031d37ff7e5acc6a132ebefc382ee44acb4baecfe45",
+  "status": true
+}

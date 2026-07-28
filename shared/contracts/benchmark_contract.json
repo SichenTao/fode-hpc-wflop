@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "benchmark_id": "FODE-E0-L",
+  "canonical_semantics_id": "fode_wflop_e0_legacy_v1",
+  "manifest_semantics_alias": "fode_wflop_e0_v1",
+  "manifest_path": "configs/fode_e0_hpc_v1/benchmark_cases.json",
+  "manifest_sha256": "1b4d7b687f2608c38343ea6252ecea51fff711f8939665ca07a40110127879c5",
+  "collection_hash": "cda81950c3e7f2322490adc398357848185833b93fa5bfcd955b83570b7ffab1",
+  "case_count": 50,
+  "case_axes": {
+    "frozen_synthetic_scenario_ids": [
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10
+    ],
+    "turbine_counts": [
+      10,
+      20,
+      30,
+      50,
+      80
+    ]
+  },
+  "objective": {
+    "sense": "maximize",
+    "quantity": "joint-probability-weighted expected farm power",
+    "unit": "kW",
+    "raw_output_is_aep": false
+  },
+  "legacy_model": {
+    "wake_model": "Jensen/Park top-hat with partial-overlap rotor averaging and root-sum-square multi-wake superposition",
+    "turbine_identity": "Legacy-629.1 benchmark turbine",
+    "grid": "12 x 12 cell centers at 231 m spacing",
+    "wind_resource": "ten frozen synthetic discrete scenario files"
+  },
+  "prohibited_claims": [
+    "The frozen wind scenarios are reproducible Weibull samples with mean 13 m/s.",
+    "The ten scenario files form a nested direction-count refinement.",
+    "The raw objective value is annual energy production.",
+    "The Legacy-629.1 curve is a physically faithful GE 1.5 SLE power curve.",
+    "FODE-E0-L is an engineering-realistic site design benchmark."
+  ],
+  "corrected_families": {
+    "status": "separate_sensitivity_only",
+    "registry_path": "configs/fode_e0_hpc_v1/problem_family_registry.yaml",
+    "result_pooling_with_FODE-E0-L": false
+  }
+}

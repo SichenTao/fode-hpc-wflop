@@ -1,0 +1,287 @@
+{
+  "schema_version": 3,
+  "parameter_set_id": "fode_e0_paper_first_eight_algorithm_parameters_v3",
+  "problem_identity": "FODE-E0-L",
+  "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+  "source_manifest_alias": "fode_wflop_e0_v1",
+  "formal_physical_fes": 24000,
+  "formal_campaign_admission": "requires_eight_native_cpp_hpc_50_case_single_seed_admission",
+  "budget_evidence": [
+    "FODE paper comparison protocol: maximum FES=24,000 for every compared algorithm",
+    "FODE convergence figures use a common 200-iteration axis",
+    "Archived AGA and AGPSO drivers use population 50 and 200 iterations; the executable probe measured 10,000 and 20,050 physical FES, respectively",
+    "An algorithm's own publication budget is provenance context, not an override of the FODE comparison budget"
+  ],
+  "budget_protocol": {
+    "decision_status": "owner_confirmed_2026-07-27",
+    "historical_literal_semantics_id": "fode_e0_historical_literal_stop_v1",
+    "standardized_fixed_fes_semantics_id": "fode_e0_standardized_physical_fes_v1",
+    "historical_literal": "Use each archived/paper-derived algorithm's stated population and 200-generation/source stop rule; measure rather than assume physical FES.",
+    "standardized_fixed_fes": "Preserve operators and parameters but continue/cap every algorithm at exactly 24,000 physical evaluations.",
+    "pooling_rule": "Historical-literal and standardized-fixed-FES results are separate experiment families.",
+    "terminal_partial_generation_rule": "Retain every successfully evaluated candidate, update the best state, and stop before unused operators or unevaluated population phases.",
+    "aga_standardized_continuation": "Continue the archived generation operator sequence beyond generation 200 until the exact physical-FES cap.",
+    "agpso_standardized_continuation": "Continue the archived iteration sequence beyond iteration 200; if the cap occurs in the offspring phase, incorporate evaluated offspring into pBest and gBest before stopping."
+  },
+  "parameter_policy": {
+    "priority": [
+      "explicit parameter, equation, pseudocode or stage in the corresponding original paper",
+      "archived MATLAB experiment driver and active algorithm source for paper-omitted details",
+      "explicitly labelled reconstruction choice"
+    ],
+    "unknown_value_rule": "A genuinely undocumented value must use an explicit, justified reconstruction selected before formal results; it remains separately labelled in every artifact.",
+    "conflict_rule": "Record paper and source values separately; the formal native C++ method uses the paper-defined identity, while source-only differences remain diagnostic provenance."
+  },
+  "smoke": {
+    "physical_fes": 1500,
+    "seed": 20260727,
+    "purpose": "Exercise initialization and at least one post-initialization transition for every algorithm and every FODE-E0-L case."
+  },
+  "shared": {
+    "iterations": 200,
+    "na_pattern": 0
+  },
+  "algorithms": {
+    "fode": {
+      "display_label": "FODE",
+      "implementation_provenance": "source_derived",
+      "formal_admission": "admitted_as_archived_executable_identity",
+      "parameter_evidence": [
+        "FODE paper Table 1: Ninit=abs(77-D), Nmin=4, p=0.11, M=5, a=0.8",
+        "FODE/FODE.m lines 9, 28-32 and 41: executable Ninit=abs(77-D), Nmin=4, p=0.11, M=5, physical legacy budget scale=120*iterations",
+        "For D=80 the archived executable starts with 3 individuals despite paper Nmin=4; FODE-E0-L preserves the executable value and records the conflict"
+      ],
+      "hpc": {
+        "base_population": 120,
+        "iterations": 200,
+        "fractional_a": 0.8,
+        "p_best_rate": 0.11,
+        "arc_rate": 1.4,
+        "memory_size": 5
+      },
+      "matlab": {
+        "wrapper_population_argument": 120,
+        "wrapper_iterations_argument": 200,
+        "inertia_weight": 0.7298
+      },
+      "derived_rules": {
+        "initial_population_size": "abs(77 - turbine_count)",
+        "minimum_population_size": "min(4, initial_population_size)"
+      }
+    },
+    "aga": {
+      "display_label": "AGA",
+      "implementation_provenance": "source_derived",
+      "formal_admission": "admitted_from_archived_matlab",
+      "parameter_evidence": [
+        "AGA/main_AGA.m: popsize=50 and max_it=200",
+        "AGA/AGA.m: crossover=0.6, mutation=0.1, elite=0.2, random selection=0.5",
+        "AGA/crossover.m does not receive or use pc=0.6; the archived executable always attempts crossover subject to its internal guards",
+        "AGA/mutation.m mutates when rand > pm, so pm=0.1 is an executable threshold with effective probability 0.9"
+      ],
+      "hpc": {
+        "population_size": 50,
+        "iterations": 200,
+        "elite_rate": 0.2,
+        "cross_rate": 0.6,
+        "random_rate": 0.5,
+        "mutate_rate": 0.1
+      },
+      "matlab": {
+        "population_size": 50,
+        "iterations": 200,
+        "elite_rate": 0.2,
+        "cross_rate": 0.6,
+        "random_rate": 0.5,
+        "mutate_rate": 0.1
+      },
+      "derived_rules": {
+        "cross_rate_runtime_effect": "listed paper/source parameter but unused by archived crossover.m",
+        "effective_mutation_probability": "1 - mutate_rate = 0.9"
+      }
+    },
+    "sugga": {
+      "display_label": "SUGGA",
+      "implementation_provenance": "source_derived_frozen_surrogate",
+      "formal_admission": "admitted_from_archived_matlab_and_paper",
+      "parameter_evidence": [
+        "GA/main_SUGGA.m: popsize=120 and max_it=200",
+        "SUGGA/SUGGA.m and CLSHADE paper Table 10: elite=0.2, crossover=0.6, mutation=0.1, random selection=0.5",
+        "The archived shared crossover.m omits pc and shared mutation.m mutates when rand > pm; SUGGA preserves those executable semantics"
+      ],
+      "hpc": {
+        "population_size": 120,
+        "iterations": 200,
+        "elite_rate": 0.2,
+        "cross_rate": 0.6,
+        "random_rate": 0.5,
+        "mutate_rate": 0.1,
+        "n_mc_samples": 10000
+      },
+      "matlab": {
+        "population_size": 120,
+        "iterations": 200,
+        "elite_rate": 0.2,
+        "cross_rate": 0.6,
+        "random_rate": 0.5,
+        "mutate_rate": 0.1
+      },
+      "derived_rules": {
+        "cross_rate_runtime_effect": "listed paper/source parameter but unused by archived crossover.m",
+        "effective_mutation_probability": "1 - mutate_rate = 0.9"
+      }
+    },
+    "ise": {
+      "display_label": "ISE",
+      "implementation_provenance": "paper_derived",
+      "formal_admission": "admitted_from_paper",
+      "parameter_evidence": [
+        "Yang et al. 2023 Table 3: N=5, F=10, Dc=(1/3)D"
+      ],
+      "hpc": {
+        "population_size": 5,
+        "scale": 10.0,
+        "dimension_fraction": 0.3333333333333333
+      },
+      "matlab": {
+        "population_size": 5,
+        "scale": 10.0,
+        "dimension_fraction": 0.3333333333333333
+      }
+    },
+    "agpso": {
+      "display_label": "AGPSO",
+      "implementation_provenance": "paper_first_source_completed",
+      "formal_admission": "admitted_from_original_paper_algorithm_1_and_equation_21",
+      "parameter_evidence": [
+        "Lei et al. 2022 Section 4.1: every algorithm uses population 120 and maximum 200 iterations",
+        "Lei et al. 2022 Table 1: c=1.49618, s=7 and pm=0.01",
+        "Lei et al. 2022 Eq. 21 removes the inertia term from the WFLO velocity update",
+        "Lei et al. 2022 Algorithm 1 uses staged population updates and a 20%-of-population tournament",
+        "Lei et al. 2022 Algorithm 1 lines 40-43 retain the updated position only when it improves the generation-entry position",
+        "Archived main.m population 50 and omega=0.7298 are recorded source-interface differences and are not formal AGPSO-HPC parameters"
+      ],
+      "hpc": {
+        "population_size": 120,
+        "iterations": 200,
+        "c1": 1.49618,
+        "stagnation_gap": 7,
+        "mutation_rate": 0.01,
+        "tournament_rate": 0.2,
+        "velocity_equation": "v_i_d = c * rand * (pbest_i_d - x_i_d)",
+        "population_survival": "retain updated position only when it improves the evaluated generation-entry position",
+        "pso_update_semantics": "paper_staged_parallel"
+      },
+      "matlab": {
+        "population_size": 50,
+        "iterations": 200,
+        "inertia_weight": 0.7298,
+        "c1": 1.49618,
+        "stagnation_gap": 7,
+        "mutation_rate": 0.01
+      },
+      "derived_rules": {
+        "paper_population_overrides_archived_driver": true,
+        "formal_inertia_weight": 0.0,
+        "tournament_size": "round(0.2 * current_population_size)"
+      }
+    },
+    "cgpso": {
+      "display_label": "CGPSO",
+      "implementation_provenance": "paper_first_source_completed",
+      "formal_admission": "admitted_from_original_paper_algorithm_1_and_equations_16_to_26",
+      "parameter_evidence": [
+        "Lei et al. 2023 Algorithm 1 and Eqs. 16-20: CLS-M uses success and failure memories to select one of twelve chaotic maps",
+        "Lei et al. 2023 Eq. 16 and Tables II/X/XI: lambda=0.01*(1-t/T), L=25 and the SS-1D search pattern",
+        "Lei et al. 2023 Eq. 24 and Table II: omega=0.7298, c=1.49618 and pm=0.01",
+        "Archived main.m Strategy=3 is a success-only experimental branch and is recorded as a source difference rather than the formal CGPSO identity"
+      ],
+      "hpc": {
+        "population_size": 120,
+        "iterations": 200,
+        "inertia_weight": 0.7298,
+        "c1": 1.49618,
+        "stagnation_gap": 7,
+        "mutation_rate": 0.01,
+        "chaos_strategy": "CLS-M",
+        "chaos_search_pattern": "SS-1D",
+        "chaos_lep": 25,
+        "chaos_radius": "lambda(t)=0.01*(1-t/200)",
+        "pso_update_semantics": "paper_staged_parallel"
+      },
+      "matlab": {
+        "population_size": 120,
+        "iterations": 200,
+        "inertia_weight": 0.7298,
+        "c1": 1.49618,
+        "stagnation_gap": 7,
+        "mutation_rate": 0.01,
+        "chaos_strategy": 3,
+        "chaos_lep": 25,
+        "chaos_radius_base": 0.01,
+        "registered_difference": "archived Strategy 3 uses success-only map memory and a pBest-difference radius"
+      }
+    },
+    "lshade": {
+      "display_label": "LSHADE",
+      "implementation_provenance": "source_derived",
+      "formal_admission": "admitted_from_archived_matlab_and_paper",
+      "parameter_evidence": [
+        "LSHADE/LSHADE.m and ISE/CLSHADE parameter tables: Ninit=18D, Nmin=4, p=0.11, archive rate=1.4, memory H=5"
+      ],
+      "hpc": {
+        "iterations": 200,
+        "p_best_rate": 0.11,
+        "arc_rate": 1.4,
+        "memory_size": 5
+      },
+      "matlab": {
+        "wrapper_population_argument": 120,
+        "wrapper_iterations_argument": 200,
+        "inertia_weight": 0.7298
+      },
+      "derived_rules": {
+        "initial_population_size": "18 * turbine_count",
+        "minimum_population_size": 4
+      }
+    },
+    "clshade": {
+      "display_label": "CLSHADE",
+      "implementation_provenance": "paper_derived",
+      "formal_admission": "admitted_as_paper_derived_explicit_reconstruction",
+      "parameter_evidence": [
+        "Yu et al. 2023 Table 10: Ninit=18D, p=0.11, H=5, L=50",
+        "Yu et al. 2023 Table 4 defines the twelve chaotic maps; CLSHADE uses the paper equations rather than the distinct archived CGPSO executable expressions",
+        "Yu et al. 2023 Eq. 20-21: adaptive shrink factor; 0.988 is the stated predecessor initialization",
+        "The paper gives search radius r in (0,1) but does not state its initial value; r=0.01 is an explicit pre-result reconstruction inherited from the CJADE row in the same Table 10 and approved on 2026-07-27",
+        "The CLSHADE paper used 20,000 FES in its own experiment; the FODE reproduction applies the FODE comparison budget of 24,000 FES uniformly"
+      ],
+      "hpc": {
+        "memory_size": 5,
+        "p_best_rate": 0.11,
+        "learning_period": 50,
+        "search_radius": 0.01,
+        "shrink_factor": 0.988
+      },
+      "matlab": {
+        "memory_size": 5,
+        "p_best_rate": 0.11,
+        "learning_period": 50,
+        "search_radius": 0.01,
+        "shrink_factor": 0.988
+      },
+      "derived_rules": {
+        "initial_population_size": "18 * turbine_count",
+        "minimum_population_size": 4,
+        "chaotic_map_count": 12,
+        "chaotic_map_definition": "Yu et al. 2023 Table 4",
+        "search_radius_reconstruction": "fixed at 0.01 before formal results; disclose as reconstructed rather than paper-reported",
+        "search_radius_sensitivity_values": [
+          0.005,
+          0.01,
+          0.02
+        ]
+      }
+    }
+  }
+}

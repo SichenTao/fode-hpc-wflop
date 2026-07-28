@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "gate": "paired_native_cpp_1_worker_vs_20_workers",
+  "result_count": 1008,
+  "binary_sha256": "bdaa02143d7e3fc17760d5fe1ca1f51ea4086ead79e33b89578392492d465d4b",
+  "source_freeze_sha256": "784813080ac96c183d724031d37ff7e5acc6a132ebefc382ee44acb4baecfe45",
+  "groups": [
+    {
+      "algorithm_id": "aga",
+      "case_id": "WS10tn80",
+      "cpp1_end_to_end_median_seconds": 6.4066329619999998,
+      "cpp20_end_to_end_median_seconds": 2.4017688069999998,
+      "end_to_end_speedup_cpp1_over_cpp20": 2.667464471737558,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "aga",
+      "case_id": "WS1tn10",
+      "cpp1_end_to_end_median_seconds": 0.034906953999999997,
+      "cpp20_end_to_end_median_seconds": 0.108450097,
+      "end_to_end_speedup_cpp1_over_cpp20": 0.3218711182895484,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "aga",
+      "case_id": "WS5tn30",
+      "cpp1_end_to_end_median_seconds": 0.63086430500000001,
+      "cpp20_end_to_end_median_seconds": 0.35296555600000001,
+      "end_to_end_speedup_cpp1_over_cpp20": 1.7873254040686055,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "agpso",
+      "case_id": "WS10tn80",
+      "cpp1_end_to_end_median_seconds": 6.6210799710000003,
+      "cpp20_end_to_end_median_seconds": 2.0109946299999999,
+      "end_to_end_speedup_cpp1_over_cpp20": 3.2924404034833255,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "agpso",
+      "case_id": "WS1tn10",
+      "cpp1_end_to_end_median_seconds": 0.105594357,
+      "cpp20_end_to_end_median_seconds": 0.061618675999999997,
+      "end_to_end_speedup_cpp1_over_cpp20": 1.7136745521763566,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "agpso",
+      "case_id": "WS5tn30",
+      "cpp1_end_to_end_median_seconds": 0.72360120400000005,
+      "cpp20_end_to_end_median_seconds": 0.59760897899999998,
+      "end_to_end_speedup_cpp1_over_cpp20": 1.2108271954193648,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "cgpso",
+      "case_id": "WS10tn80",
+      "cpp1_end_to_end_median_seconds": 6.4726518390000001,
+      "cpp20_end_to_end_median_seconds": 2.139679482,
+      "end_to_end_speedup_cpp1_over_cpp20": 3.0250567402505943,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "cgpso",
+      "case_id": "WS1tn10",
+      "cpp1_end_to_end_median_seconds": 0.050022188000000002,
+      "cpp20_end_to_end_median_seconds": 0.058574424999999999,
+      "end_to_end_speedup_cpp1_over_cpp20": 0.8539936670313025,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "cgpso",
+      "case_id": "WS5tn30",
+      "cpp1_end_to_end_median_seconds": 0.65924634400000004,
+      "cpp20_end_to_end_median_seconds": 0.789732722,
+      "end_to_end_speedup_cpp1_over_cpp20": 0.8347714684158675,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "clshade",
+      "case_id": "WS10tn80",
+      "cpp1_end_to_end_median_seconds": 6.6059074679999998,
+      "cpp20_end_to_end_median_seconds": 1.9432128950000001,
+      "end_to_end_speedup_cpp1_over_cpp20": 3.399476961581196,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "clshade",
+      "case_id": "WS1tn10",
+      "cpp1_end_to_end_median_seconds": 0.049805960000000003,
+      "cpp20_end_to_end_median_seconds": 0.51446672800000004,
+      "end_to_end_speedup_cpp1_over_cpp20": 0.09681084760062462,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "clshade",
+      "case_id": "WS5tn30",
+      "cpp1_end_to_end_median_seconds": 0.67227158099999995,
+      "cpp20_end_to_end_median_seconds": 0.88093358099999997,
+      "end_to_end_speedup_cpp1_over_cpp20": 0.7631353776261595,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "fode",
+      "case_id": "WS10tn80",
+      "cpp1_end_to_end_median_seconds": 5.7176891120000004,
+      "cpp20_end_to_end_median_seconds": 3.3017644530000001,
+      "end_to_end_speedup_cpp1_over_cpp20": 1.7317071503404426,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "fode",
+      "case_id": "WS1tn10",
+      "cpp1_end_to_end_median_seconds": 0.040653470999999997,
+      "cpp20_end_to_end_median_seconds": 0.043217532000000003,
+      "end_to_end_speedup_cpp1_over_cpp20": 0.9406708138724811,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "fode",
+      "case_id": "WS5tn30",
+      "cpp1_end_to_end_median_seconds": 0.55165734399999999,
+      "cpp20_end_to_end_median_seconds": 0.57249554599999997,
+      "end_to_end_speedup_cpp1_over_cpp20": 0.9636011107062832,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "ise",
+      "case_id": "WS10tn80",
+      "cpp1_end_to_end_median_seconds": 6.880949244,
+      "cpp20_end_to_end_median_seconds": 2.6605453269999999,
+      "end_to_end_speedup_cpp1_over_cpp20": 2.5862928077827108,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "ise",
+      "case_id": "WS1tn10",
+      "cpp1_end_to_end_median_seconds": 0.066552010999999994,
+      "cpp20_end_to_end_median_seconds": 1.859517509,
+      "end_to_end_speedup_cpp1_over_cpp20": 0.03578993511913202,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "ise",
+      "case_id": "WS5tn30",
+      "cpp1_end_to_end_median_seconds": 0.75429823500000004,
+      "cpp20_end_to_end_median_seconds": 1.8052335559999999,
+      "end_to_end_speedup_cpp1_over_cpp20": 0.4178396930928754,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "lshade",
+      "case_id": "WS10tn80",
+      "cpp1_end_to_end_median_seconds": 6.6138913309999996,
+      "cpp20_end_to_end_median_seconds": 1.8324404919999999,
+      "end_to_end_speedup_cpp1_over_cpp20": 3.609334851458849,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "lshade",
+      "case_id": "WS1tn10",
+      "cpp1_end_to_end_median_seconds": 0.050948662999999998,
+      "cpp20_end_to_end_median_seconds": 0.40989313100000002,
+      "end_to_end_speedup_cpp1_over_cpp20": 0.12429743059051164,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "lshade",
+      "case_id": "WS5tn30",
+      "cpp1_end_to_end_median_seconds": 0.67758788400000003,
+      "cpp20_end_to_end_median_seconds": 0.50288052900000002,
+      "end_to_end_speedup_cpp1_over_cpp20": 1.3474132421619371,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "sugga",
+      "case_id": "WS10tn80",
+      "cpp1_end_to_end_median_seconds": 6.4136696100000004,
+      "cpp20_end_to_end_median_seconds": 1.982162274,
+      "end_to_end_speedup_cpp1_over_cpp20": 3.2356935121448087,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "sugga",
+      "case_id": "WS1tn10",
+      "cpp1_end_to_end_median_seconds": 0.087118620999999993,
+      "cpp20_end_to_end_median_seconds": 0.053517566000000003,
+      "end_to_end_speedup_cpp1_over_cpp20": 1.6278509564504482,
+      "semantic_pair_mismatches": 0
+    },
+    {
+      "algorithm_id": "sugga",
+      "case_id": "WS5tn30",
+      "cpp1_end_to_end_median_seconds": 0.70562028799999998,
+      "cpp20_end_to_end_median_seconds": 0.59509703800000002,
+      "end_to_end_speedup_cpp1_over_cpp20": 1.1857230719404117,
+      "semantic_pair_mismatches": 0
+    }
+  ],
+  "status": true,
+  "execution_host": "spark-9ab3",
+  "external_load_log_sha256": "888e39d782ecd4273c7f45d62e04169ff404a3e8a0ff600e0d8fea2e0ababd01"
+}

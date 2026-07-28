@@ -1,0 +1,46 @@
+{
+  "schema_version": 1,
+  "study_id": "nde_mathematics_fode_e0_hpc_v1",
+  "benchmark_id": "FODE-E0-L",
+  "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+  "algorithm_ids": [
+    "fode",
+    "aga",
+    "sugga",
+    "ise",
+    "agpso",
+    "cgpso",
+    "lshade",
+    "clshade"
+  ],
+  "implementation_ids": [
+    "matlab_reference",
+    "python_reference",
+    "matlab_hpc",
+    "python_hpc"
+  ],
+  "case_count": 50,
+  "wind_scenario_count": 10,
+  "turbine_counts": [10, 20, 30, 50, 80],
+  "wind_speed_bins_per_direction": 13,
+  "smoke": {
+    "case_id": "WS5tn30",
+    "seed": 20260727,
+    "physical_fes": 1500
+  },
+  "formal_quality": {
+    "repeat_count": 25,
+    "physical_fes_per_repeat": 24000,
+    "status": "not_started"
+  },
+  "physical_fes_definition": "One completed full-output evaluation of one feasible turbine layout.",
+  "terminal_partial_generation_rule": "Retain each successfully evaluated candidate, update all state implied by that completed evaluation, and stop before unused random events or unevaluated phases.",
+  "rng_policy": {
+    "matlab_reference": "MT19937 via rng(seed,'twister')",
+    "python_reference": "PCG64 via numpy.random.default_rng(seed)",
+    "cross_language_pairing": false,
+    "same_language_reference_hpc_pairing": true
+  },
+  "quality_adaptive_scheduling_forbidden": true,
+  "formal_campaign_status": "not_started"
+}

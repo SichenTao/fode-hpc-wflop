@@ -1,0 +1,510 @@
+{
+  "case_count": 50,
+  "conversion_id": "frozen-sugga-npz-to-native-cpp-tsv-v1",
+  "models": [
+    {
+      "case_id": "WS10tn10",
+      "gamma": 0.3,
+      "intercept": 408.2603565568505,
+      "source": "shared/models/sugga/WS10tn10/model.npz",
+      "source_sha256": "4134880a2905a9faad46c269cbedd7924d4c0cbbba625d781670084e57347caa",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS10tn10.svr.tsv",
+      "target_sha256": "1d0093202f595e73373fad229bd0bb15fd95b28f96e885654b4db9af3a2a795b"
+    },
+    {
+      "case_id": "WS10tn20",
+      "gamma": 0.3,
+      "intercept": 388.08745057473294,
+      "source": "shared/models/sugga/WS10tn20/model.npz",
+      "source_sha256": "0996accba585557194d2c692ba367b6c34b2b83aa6e60df4e8823d1ee935320e",
+      "support_vector_count": 141,
+      "target": "shared/models/sugga_cpp/WS10tn20.svr.tsv",
+      "target_sha256": "41572e2b47cd1d20522e42b2ea62da0a9808c179a5b467365074cdc8e32370d7"
+    },
+    {
+      "case_id": "WS10tn30",
+      "gamma": 0.3,
+      "intercept": 373.42760020521814,
+      "source": "shared/models/sugga/WS10tn30/model.npz",
+      "source_sha256": "aa3cd122e7c5fe95c5db67848ba95739e4583b4b2b6d10f29a22187ccc5543f3",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS10tn30.svr.tsv",
+      "target_sha256": "b405be00081366c44db0248e637927095d3ca41d030a050929a69bbedf8fc221"
+    },
+    {
+      "case_id": "WS10tn50",
+      "gamma": 0.3,
+      "intercept": 345.89013709367055,
+      "source": "shared/models/sugga/WS10tn50/model.npz",
+      "source_sha256": "5564766bdc089ad372f64f0cb3ef7098a95bae9c9160352ce28db89d79a05338",
+      "support_vector_count": 140,
+      "target": "shared/models/sugga_cpp/WS10tn50.svr.tsv",
+      "target_sha256": "3b5b2fde71ee5eb02293b7bcaa6321605996fd42d4ffb81bda4310a7c84dd59a"
+    },
+    {
+      "case_id": "WS10tn80",
+      "gamma": 0.3,
+      "intercept": 314.3492270079272,
+      "source": "shared/models/sugga/WS10tn80/model.npz",
+      "source_sha256": "14b8da9f832bfeb21e7525d238d9686567a316cfc59a5b1eee565dce1483dd1c",
+      "support_vector_count": 140,
+      "target": "shared/models/sugga_cpp/WS10tn80.svr.tsv",
+      "target_sha256": "3263e013e4ae3f2c61f25e02a1008c6323d0ca85bfe91a9676cb46d018832b46"
+    },
+    {
+      "case_id": "WS1tn10",
+      "gamma": 0.3,
+      "intercept": 412.8360096714607,
+      "source": "shared/models/sugga/WS1tn10/model.npz",
+      "source_sha256": "7063c791eb4d8583196d3c92d457dd94960aa25afe04f9ff0002b7d8b9bc441b",
+      "support_vector_count": 139,
+      "target": "shared/models/sugga_cpp/WS1tn10.svr.tsv",
+      "target_sha256": "50f6c229afe14e7660d9e5480ff4382bf35d87123a1eabef660ce1248550c187"
+    },
+    {
+      "case_id": "WS1tn20",
+      "gamma": 0.3,
+      "intercept": 400.0246018566984,
+      "source": "shared/models/sugga/WS1tn20/model.npz",
+      "source_sha256": "97847aa426df86a737ca747c89d0b1da812b46c56a2260e5f7ca2119f9fa94e1",
+      "support_vector_count": 142,
+      "target": "shared/models/sugga_cpp/WS1tn20.svr.tsv",
+      "target_sha256": "6ef4c68e1e8de08fc3ef4ee948c6f0d7e52e6b807b290a494ebfeea691089768"
+    },
+    {
+      "case_id": "WS1tn30",
+      "gamma": 0.3,
+      "intercept": 391.49635131297407,
+      "source": "shared/models/sugga/WS1tn30/model.npz",
+      "source_sha256": "4843084a98e18f8126a480f051d066be2d20d98accfb0572a3dd8d346ce6d268",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS1tn30.svr.tsv",
+      "target_sha256": "85734dcb7f7210afdb6ba981152cbd56dfbc5cd4fe8d485c0ea4b7b3a73c4416"
+    },
+    {
+      "case_id": "WS1tn50",
+      "gamma": 0.3,
+      "intercept": 372.6123937979952,
+      "source": "shared/models/sugga/WS1tn50/model.npz",
+      "source_sha256": "68a1c5cd1212435e4411145ede41af969b17d17be46f883ec4148b51df6b24b2",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS1tn50.svr.tsv",
+      "target_sha256": "5edf972f6d1f8d457e05211938694e3b99f37f2d75847a461fc8469f90ef5e1e"
+    },
+    {
+      "case_id": "WS1tn80",
+      "gamma": 0.3,
+      "intercept": 350.8667454396724,
+      "source": "shared/models/sugga/WS1tn80/model.npz",
+      "source_sha256": "e3f8e71a3533ee30a32b4782f76cc07900cb2a0ecc7439b3296b9dda36cd3f7b",
+      "support_vector_count": 142,
+      "target": "shared/models/sugga_cpp/WS1tn80.svr.tsv",
+      "target_sha256": "e2f604fcfb51397d40800040757f8786fcd6103ef5d6146c49de5f000b7bb9d8"
+    },
+    {
+      "case_id": "WS2tn10",
+      "gamma": 0.3,
+      "intercept": 412.38309866611394,
+      "source": "shared/models/sugga/WS2tn10/model.npz",
+      "source_sha256": "cdd2cb5d89ad7a0a9a7a4a8b2eb21fb9118eb7a00745f3b699faf837576c7053",
+      "support_vector_count": 142,
+      "target": "shared/models/sugga_cpp/WS2tn10.svr.tsv",
+      "target_sha256": "85db17a626c8a4b6390d41ea184bbf2343e7953aded8637e7d42f01876ecffea"
+    },
+    {
+      "case_id": "WS2tn20",
+      "gamma": 0.3,
+      "intercept": 398.5406032303173,
+      "source": "shared/models/sugga/WS2tn20/model.npz",
+      "source_sha256": "2bb4e0c000ff240fa478e26018e8d9409774f1723cfeb7873ff6664035b4e097",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS2tn20.svr.tsv",
+      "target_sha256": "71ccacad4fc6f379e749437a9145b458037a2545ec882ca2f84308e4bcb69b63"
+    },
+    {
+      "case_id": "WS2tn30",
+      "gamma": 0.3,
+      "intercept": 387.78374268210933,
+      "source": "shared/models/sugga/WS2tn30/model.npz",
+      "source_sha256": "4defd9a94cfb06c26e12cb833f676a25e188b364f6fd3713cb1b386d0abe2f90",
+      "support_vector_count": 140,
+      "target": "shared/models/sugga_cpp/WS2tn30.svr.tsv",
+      "target_sha256": "a9682343a158d2a06eba4bd1c81ce78cb207064e0b9a4d00e84a73aed51a1e8d"
+    },
+    {
+      "case_id": "WS2tn50",
+      "gamma": 0.3,
+      "intercept": 368.02688247570995,
+      "source": "shared/models/sugga/WS2tn50/model.npz",
+      "source_sha256": "05fa7aa024d98275f13cf311c4768eb223d04f74100ab70542eb6db9e1c6a05f",
+      "support_vector_count": 144,
+      "target": "shared/models/sugga_cpp/WS2tn50.svr.tsv",
+      "target_sha256": "cc9532f808c94090c50aa834cdedf89278743c9751ab278d6451087755f5c959"
+    },
+    {
+      "case_id": "WS2tn80",
+      "gamma": 0.3,
+      "intercept": 340.91396282335717,
+      "source": "shared/models/sugga/WS2tn80/model.npz",
+      "source_sha256": "ca9b951a0235e39d83e1a0608a3d86f3a1eb4ab648139afe8bcd84779f3222ed",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS2tn80.svr.tsv",
+      "target_sha256": "a7675cfdd74f7047205a97312db60bcf41c074982db3bc71981770022ac33af9"
+    },
+    {
+      "case_id": "WS3tn10",
+      "gamma": 0.3,
+      "intercept": 401.4196683663015,
+      "source": "shared/models/sugga/WS3tn10/model.npz",
+      "source_sha256": "d9e216065f60ffffb39caaf4d8300ad254611dc2474b823cba34207acd00c2fa",
+      "support_vector_count": 144,
+      "target": "shared/models/sugga_cpp/WS3tn10.svr.tsv",
+      "target_sha256": "0f32ef8b41256288c93eefc6fd44170ebd0c8d21476a215b09e5369ad0765e84"
+    },
+    {
+      "case_id": "WS3tn20",
+      "gamma": 0.3,
+      "intercept": 380.3025967648205,
+      "source": "shared/models/sugga/WS3tn20/model.npz",
+      "source_sha256": "5cf36ed6f7a248d296e57fd4ab4c38ff98ed21be315389cc817df970b4088db6",
+      "support_vector_count": 141,
+      "target": "shared/models/sugga_cpp/WS3tn20.svr.tsv",
+      "target_sha256": "1907b1b49872744b3986038a9687bb1f5198ff4d9d672f5c4fa200e0b5a62ab1"
+    },
+    {
+      "case_id": "WS3tn30",
+      "gamma": 0.3,
+      "intercept": 356.88973872100604,
+      "source": "shared/models/sugga/WS3tn30/model.npz",
+      "source_sha256": "1adef05786ac8c34bc53f77a0229e47442315552cefd4287a25e874594c6bf1e",
+      "support_vector_count": 142,
+      "target": "shared/models/sugga_cpp/WS3tn30.svr.tsv",
+      "target_sha256": "b3d6d217c36fe3d3de5e1e8d1c1b5973c89ed699655c9041f9c99247105c1810"
+    },
+    {
+      "case_id": "WS3tn50",
+      "gamma": 0.3,
+      "intercept": 323.8141737638058,
+      "source": "shared/models/sugga/WS3tn50/model.npz",
+      "source_sha256": "fd02d7803121716760257fd59292e5d98a6f264514379142e07c878a66b4fb28",
+      "support_vector_count": 144,
+      "target": "shared/models/sugga_cpp/WS3tn50.svr.tsv",
+      "target_sha256": "15229a998f103765a7a4ddc2bad31418518a54e17303c739764e2c5fa636ef00"
+    },
+    {
+      "case_id": "WS3tn80",
+      "gamma": 0.3,
+      "intercept": 285.1125974848903,
+      "source": "shared/models/sugga/WS3tn80/model.npz",
+      "source_sha256": "7ffc78243f590713c8254d114f440d871f81c681f5b471ecf0b4feed38874785",
+      "support_vector_count": 140,
+      "target": "shared/models/sugga_cpp/WS3tn80.svr.tsv",
+      "target_sha256": "c2b58f793063cd6eb6ad59a61022e44231e36442437cc63c4d67f9dad0f32ed2"
+    },
+    {
+      "case_id": "WS4tn10",
+      "gamma": 0.3,
+      "intercept": 406.99243485853054,
+      "source": "shared/models/sugga/WS4tn10/model.npz",
+      "source_sha256": "5a69b369dcf061819fd906563bd385002f0e0ff3cada589795c909009610be7c",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS4tn10.svr.tsv",
+      "target_sha256": "813272cb4a5a06d6b6a692a7d147decb25877b4ed48155ffea1a8b5a4d85dc00"
+    },
+    {
+      "case_id": "WS4tn20",
+      "gamma": 0.3,
+      "intercept": 390.80376758404446,
+      "source": "shared/models/sugga/WS4tn20/model.npz",
+      "source_sha256": "12910ec6fe02a61558361fed78033c07566efc31ce59f5054e4edba970848ba1",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS4tn20.svr.tsv",
+      "target_sha256": "00df1ebe00a425878067914dd57a60c1e68126f9d56ddae659ff5de07e4863f9"
+    },
+    {
+      "case_id": "WS4tn30",
+      "gamma": 0.3,
+      "intercept": 375.4057994465446,
+      "source": "shared/models/sugga/WS4tn30/model.npz",
+      "source_sha256": "600333d8f53352752a124b272e4922df1de948c7560972bf3511b05e9701f931",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS4tn30.svr.tsv",
+      "target_sha256": "90d3e542e33ae0572364ce82f6ad1229bc3002b5a64704c8b1d5f678a53df4a3"
+    },
+    {
+      "case_id": "WS4tn50",
+      "gamma": 0.3,
+      "intercept": 348.4136312734687,
+      "source": "shared/models/sugga/WS4tn50/model.npz",
+      "source_sha256": "3df49787cef938e6b82e8ac5a7156970c1bfb61e4de4632321f708564344f644",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS4tn50.svr.tsv",
+      "target_sha256": "159fa00af57fde6c3988d08e4f0cbaf70dd6d0214c4691fbba28bd7fd597627e"
+    },
+    {
+      "case_id": "WS4tn80",
+      "gamma": 0.3,
+      "intercept": 317.06545636652163,
+      "source": "shared/models/sugga/WS4tn80/model.npz",
+      "source_sha256": "80a4074aa8add48cc2c96d4e3c74a123e3d2d5e289baf1c6cb77e55507b376dd",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS4tn80.svr.tsv",
+      "target_sha256": "585d0badace3e211bf2cb67fb2151cdb89eb447f92ac0b96cf7aae413965fa6e"
+    },
+    {
+      "case_id": "WS5tn10",
+      "gamma": 0.3,
+      "intercept": 406.3680562203391,
+      "source": "shared/models/sugga/WS5tn10/model.npz",
+      "source_sha256": "380e56eb028e4f55cde34f1162b290710e0aba943379fce6d5138e59ac4e3919",
+      "support_vector_count": 144,
+      "target": "shared/models/sugga_cpp/WS5tn10.svr.tsv",
+      "target_sha256": "c0bf1fbf7489df935489883e7b0312f670ece9608ec3cd08ea0fdfd6c8bc2a9d"
+    },
+    {
+      "case_id": "WS5tn20",
+      "gamma": 0.3,
+      "intercept": 385.055635545938,
+      "source": "shared/models/sugga/WS5tn20/model.npz",
+      "source_sha256": "d102e6312f192511a93b2693849403fc63548368658f3b4bb349f39dd8218602",
+      "support_vector_count": 142,
+      "target": "shared/models/sugga_cpp/WS5tn20.svr.tsv",
+      "target_sha256": "c1592226f2233e6bfc74d59909acd5d608943d1d251ef94d39f1374ab445f48c"
+    },
+    {
+      "case_id": "WS5tn30",
+      "gamma": 0.3,
+      "intercept": 365.8761230660449,
+      "source": "shared/models/sugga/WS5tn30/model.npz",
+      "source_sha256": "f40375c60d04a6a013bde6f96ee231195e0d18c05e2f9c821ba5c1fefa39d4d0",
+      "support_vector_count": 144,
+      "target": "shared/models/sugga_cpp/WS5tn30.svr.tsv",
+      "target_sha256": "39a63bea6e246a51db5a730bdc976e673f9c2141f6db7aba20393b9d1392196d"
+    },
+    {
+      "case_id": "WS5tn50",
+      "gamma": 0.3,
+      "intercept": 334.9805833036429,
+      "source": "shared/models/sugga/WS5tn50/model.npz",
+      "source_sha256": "93d7b3c5fa125ae4fe4e62b20dd39acbfa15871e961d723d806b642e0e35f92f",
+      "support_vector_count": 144,
+      "target": "shared/models/sugga_cpp/WS5tn50.svr.tsv",
+      "target_sha256": "ccbd72635f051de4b0273123a4c368471ef257b495df262aa3cd121d6dc8122c"
+    },
+    {
+      "case_id": "WS5tn80",
+      "gamma": 0.3,
+      "intercept": 299.70156753461305,
+      "source": "shared/models/sugga/WS5tn80/model.npz",
+      "source_sha256": "4fc41a9058d34f96be11a9e826b0bcbc4c429b34bb67076b63c92c675bd84ed0",
+      "support_vector_count": 142,
+      "target": "shared/models/sugga_cpp/WS5tn80.svr.tsv",
+      "target_sha256": "202c36d9482d5fa445e0168ae8c1c46437c397e5ae4f7679d1490d89a966fcbb"
+    },
+    {
+      "case_id": "WS6tn10",
+      "gamma": 0.3,
+      "intercept": 397.6163852067598,
+      "source": "shared/models/sugga/WS6tn10/model.npz",
+      "source_sha256": "0f5fb6609838953224e3b49081821ac16720ca65cc5c1d90843a35e22106c83c",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS6tn10.svr.tsv",
+      "target_sha256": "56ca703a31f311d9c66581de8be2f39b2f2d89b0a1ef085ef1f7f1cc2281cd06"
+    },
+    {
+      "case_id": "WS6tn20",
+      "gamma": 0.3,
+      "intercept": 370.67991066066844,
+      "source": "shared/models/sugga/WS6tn20/model.npz",
+      "source_sha256": "2f934863305b451f21ae9bb2a008efea1444cf32c2a24cb1ee476d8f2d014830",
+      "support_vector_count": 142,
+      "target": "shared/models/sugga_cpp/WS6tn20.svr.tsv",
+      "target_sha256": "9067258bc8eba36125fe3e3f0f2bbc406b2736981b0b53ffbefbadbec1d8f5bd"
+    },
+    {
+      "case_id": "WS6tn30",
+      "gamma": 0.3,
+      "intercept": 347.2101147285922,
+      "source": "shared/models/sugga/WS6tn30/model.npz",
+      "source_sha256": "604077d5caa76b9cd0daffb18df94f84103ffdda0cf11ebbe792c83536e92012",
+      "support_vector_count": 144,
+      "target": "shared/models/sugga_cpp/WS6tn30.svr.tsv",
+      "target_sha256": "ca80ae07adaa6eb2a7fc3d27790f6dcd6261bc73427d531dbaeb937825ee1165"
+    },
+    {
+      "case_id": "WS6tn50",
+      "gamma": 0.3,
+      "intercept": 308.61732952940196,
+      "source": "shared/models/sugga/WS6tn50/model.npz",
+      "source_sha256": "6383033da408bac43c646bbc88ba1543aa8f3e12aa0f2247ff63fe84b3234a66",
+      "support_vector_count": 140,
+      "target": "shared/models/sugga_cpp/WS6tn50.svr.tsv",
+      "target_sha256": "664124bcfd7c0216ede6fb7b3a3b67fb466301d186491a43035ea79ec172f56a"
+    },
+    {
+      "case_id": "WS6tn80",
+      "gamma": 0.3,
+      "intercept": 263.77096589860946,
+      "source": "shared/models/sugga/WS6tn80/model.npz",
+      "source_sha256": "9b92e6a06a9b0f770104963e4a2780ae3786b22d540618b6f8a19a0678d92e69",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS6tn80.svr.tsv",
+      "target_sha256": "c583d9b33f38c6f1f96932e435f40c25eb86f2ab8a6b1405e82fec768ef57563"
+    },
+    {
+      "case_id": "WS7tn10",
+      "gamma": 0.3,
+      "intercept": 408.108299975147,
+      "source": "shared/models/sugga/WS7tn10/model.npz",
+      "source_sha256": "e843852d8fe7197767eeaa75cf9b204ed12da5063bd0282cc4c495d7136f40f6",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS7tn10.svr.tsv",
+      "target_sha256": "89c19d4904315bf066ce0e0d63d12d020a3274fd2435603d35c23ac6d283e8cf"
+    },
+    {
+      "case_id": "WS7tn20",
+      "gamma": 0.3,
+      "intercept": 392.69369782548324,
+      "source": "shared/models/sugga/WS7tn20/model.npz",
+      "source_sha256": "f1674a4d3a9019878bd1b9586d9064239c876f186e46ccb1a17bb5cadb57c2c5",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS7tn20.svr.tsv",
+      "target_sha256": "cfc638b4b8bc64f26123b757381a3d3319a0f74785550a6c212c56f89dc19eae"
+    },
+    {
+      "case_id": "WS7tn30",
+      "gamma": 0.3,
+      "intercept": 377.5644559775185,
+      "source": "shared/models/sugga/WS7tn30/model.npz",
+      "source_sha256": "45f1d65f5b866e1b28889631dbbb6aa1e678e61e02333d20358dd22b28daf72c",
+      "support_vector_count": 140,
+      "target": "shared/models/sugga_cpp/WS7tn30.svr.tsv",
+      "target_sha256": "83348f26a5d4ffbff1d11b4b2665bf65b7313e1e087f0383eb90095bcc74189b"
+    },
+    {
+      "case_id": "WS7tn50",
+      "gamma": 0.3,
+      "intercept": 351.3729081164881,
+      "source": "shared/models/sugga/WS7tn50/model.npz",
+      "source_sha256": "cbe72bd35aca1032c9073a56ac5459cfafcb93e0a990dc5a5a6d74151f50b867",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS7tn50.svr.tsv",
+      "target_sha256": "26e5c57fb394e6327c854dd60e64850fdc547cea7f6dda0a01c075b62138466e"
+    },
+    {
+      "case_id": "WS7tn80",
+      "gamma": 0.3,
+      "intercept": 322.3304499375221,
+      "source": "shared/models/sugga/WS7tn80/model.npz",
+      "source_sha256": "bb12aa36ad408084e132671f33dd6077ce13b071d99f7fb0d5d137577fa891d6",
+      "support_vector_count": 142,
+      "target": "shared/models/sugga_cpp/WS7tn80.svr.tsv",
+      "target_sha256": "2e3f40075f75e8571d9905bb213e662d2174b5322c9ac6f7a519f5fa6393209c"
+    },
+    {
+      "case_id": "WS8tn10",
+      "gamma": 0.3,
+      "intercept": 405.0609368663575,
+      "source": "shared/models/sugga/WS8tn10/model.npz",
+      "source_sha256": "f0a7bad3815950dc9fffdec8114c2c33243f5b3fe3e47522606bf3a083e3ae8c",
+      "support_vector_count": 144,
+      "target": "shared/models/sugga_cpp/WS8tn10.svr.tsv",
+      "target_sha256": "681a636fb324211ec277ad7b6584f753185393f4fdeaf65be4b5f8071c6107d9"
+    },
+    {
+      "case_id": "WS8tn20",
+      "gamma": 0.3,
+      "intercept": 386.12298176186954,
+      "source": "shared/models/sugga/WS8tn20/model.npz",
+      "source_sha256": "3a7125a9853128f686c528cbccf7015d00cf2e17e1e77b866987c67d4f499de6",
+      "support_vector_count": 144,
+      "target": "shared/models/sugga_cpp/WS8tn20.svr.tsv",
+      "target_sha256": "798ecca9a2c9d8feea96d519572209815847e90819d018760287e2f74a27113d"
+    },
+    {
+      "case_id": "WS8tn30",
+      "gamma": 0.3,
+      "intercept": 367.9061388387369,
+      "source": "shared/models/sugga/WS8tn30/model.npz",
+      "source_sha256": "d90339153b582f3829a120e7c52c40792754ac99ce44f76c72406dda9c044d13",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS8tn30.svr.tsv",
+      "target_sha256": "77c4711516be96049f2b689d514a44c9bd2c3e0e9f5333a8ad3b8de68f99f18b"
+    },
+    {
+      "case_id": "WS8tn50",
+      "gamma": 0.3,
+      "intercept": 337.6626216746028,
+      "source": "shared/models/sugga/WS8tn50/model.npz",
+      "source_sha256": "bb7faab01623b84f2731859d9639226bef0dda5fb75a9872a07adae8e7b03d17",
+      "support_vector_count": 143,
+      "target": "shared/models/sugga_cpp/WS8tn50.svr.tsv",
+      "target_sha256": "fa110e165bbc14e20d7f915c7e2b365ad01f7351dcf6f0de5719fa2c74db87de"
+    },
+    {
+      "case_id": "WS8tn80",
+      "gamma": 0.3,
+      "intercept": 301.8506333896897,
+      "source": "shared/models/sugga/WS8tn80/model.npz",
+      "source_sha256": "ab98cd8f8a9dbe3064efef1ec3a1e04865ba3faed8c2b62c9df9f5e7260522dc",
+      "support_vector_count": 140,
+      "target": "shared/models/sugga_cpp/WS8tn80.svr.tsv",
+      "target_sha256": "07a34ba0566f24234034b2536082fa37ca975b3e736989ea1f2ed16573913cb0"
+    },
+    {
+      "case_id": "WS9tn10",
+      "gamma": 0.3,
+      "intercept": 407.42230163825036,
+      "source": "shared/models/sugga/WS9tn10/model.npz",
+      "source_sha256": "1666dd645c2d36f4ce934b4034ccd564c69804205730d1a86ecd45480c8ca79d",
+      "support_vector_count": 142,
+      "target": "shared/models/sugga_cpp/WS9tn10.svr.tsv",
+      "target_sha256": "c67db1440b2ab97db5e6b9e2747207b8162f873e92ab40292d06f5999cb93d09"
+    },
+    {
+      "case_id": "WS9tn20",
+      "gamma": 0.3,
+      "intercept": 387.277893913362,
+      "source": "shared/models/sugga/WS9tn20/model.npz",
+      "source_sha256": "9f4bf6ca0a4107457c132e839acdc54838f085fcbc3c4ed6f15d11f4ce8f7dee",
+      "support_vector_count": 140,
+      "target": "shared/models/sugga_cpp/WS9tn20.svr.tsv",
+      "target_sha256": "7663a14e67f2cf02ff705ceddb6deebbf9db8e99153087c07f562e9c18005c56"
+    },
+    {
+      "case_id": "WS9tn30",
+      "gamma": 0.3,
+      "intercept": 369.689887588851,
+      "source": "shared/models/sugga/WS9tn30/model.npz",
+      "source_sha256": "cb08a5a939d5e5574511e7747c7bd0b1d2caf8f33dc4547d92ae868fecd15f87",
+      "support_vector_count": 142,
+      "target": "shared/models/sugga_cpp/WS9tn30.svr.tsv",
+      "target_sha256": "72ee65662934ff663efd4ed1707d8aba074940abf734ce47d6a3b8282c29e48e"
+    },
+    {
+      "case_id": "WS9tn50",
+      "gamma": 0.3,
+      "intercept": 340.17339389681473,
+      "source": "shared/models/sugga/WS9tn50/model.npz",
+      "source_sha256": "318e6575aab21f751a388840f8c29d107a85fbe3a28156bd03f2a4b2ba89b36d",
+      "support_vector_count": 140,
+      "target": "shared/models/sugga_cpp/WS9tn50.svr.tsv",
+      "target_sha256": "0d4abc8f37a5b73ceb982361213d51fac409253d986bc75ab3578c71fab647eb"
+    },
+    {
+      "case_id": "WS9tn80",
+      "gamma": 0.3,
+      "intercept": 304.22264135090586,
+      "source": "shared/models/sugga/WS9tn80/model.npz",
+      "source_sha256": "a4ae8d2ac750a36ee29c02c1c63dd333f6ec83e522960aec806c601c19889f18",
+      "support_vector_count": 141,
+      "target": "shared/models/sugga_cpp/WS9tn80.svr.tsv",
+      "target_sha256": "9634fb501d8fe74e8847041b001c2be01a034747eb2a2b75a39abc8031532b53"
+    }
+  ],
+  "numeric_format": "IEEE-754 float64 round-trip decimal using 17 significant digits",
+  "runtime_python_dependency": false,
+  "schema_version": 1,
+  "training_performed": false
+}

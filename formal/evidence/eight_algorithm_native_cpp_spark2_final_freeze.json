@@ -1,0 +1,59 @@
+{
+  "schema_version": 2,
+  "freeze_id": "eight-algorithm-native-cpp-hpc-spark2-final-20260728",
+  "status": "frozen_for_spark2_final_campaign",
+  "scope": "one native C++20 executable, one persistent 20-thread team, eight algorithms, and one shared FODE-E0-L evaluator on Spark2",
+  "source_aggregate": {
+    "definition": "SHA-256 of sorted SHA-256 lines for the exact C++ translation units and headers compiled by hpc/wflop_cpp/CMakeLists.txt",
+    "sha256": "9efa00c4dc22935b6dea192137202e7c2a7ac2e93a95f84a24d5e3c36945e5a2"
+  },
+  "build_contract": {
+    "path": "hpc/wflop_cpp/CMakeLists.txt",
+    "sha256": "5a1616d21f82f08d28e95b4a25a514ca3f16c90eaa8f7b2191cbecc1afb23c00"
+  },
+  "workflow_aggregate": {
+    "definition": "SHA-256 of SHA-256 lines for the final Spark2 campaign entrypoint and paired-performance receipt filter",
+    "sha256": "d613fb61c646d34417e13163f1f5a1bc47059d3d6c2b7be084b840ebf4a60813"
+  },
+  "paper_and_semantics_contract": {
+    "path": "shared/contracts/p0_freeze_receipt.json",
+    "sha256": "cce6c06635c05c31cf878d70cd8eec6ea508bf00863f0c47101a8e994efb4129"
+  },
+  "sugga_native_model_aggregate": {
+    "definition": "SHA-256 of sorted SHA-256 lines for every file under shared/models/sugga_cpp",
+    "sha256": "ba1966616f372eddd67677093292414eccb69b29f64bad2e10b0799e1f707608"
+  },
+  "campaign_contract": {
+    "path": "formal/contracts/eight_algorithm_cpp_hpc_spark2_v2.json",
+    "sha256": "c928ec769a86b4062158cd54469d4087ac7b42f36a2667e9df23ad44bc1504b4"
+  },
+  "development_evidence": {
+    "fode_large_case_probe": "results/diagnostics/fode_spark2_fused_states_spin_probe/summary.json",
+    "fode_exact_semantic_pairs": "results/diagnostics/fode_spark2_fused_states_spin_probe/semantic_pairs.json",
+    "eight_algorithm_semantic_gate": "results/diagnostics/eight_algorithm_spin_executor_semantic_gate/summary.json",
+    "boundary": "development evidence supports freezing; Release, ASan/UBSan, admission, paired performance, and formal gates are rebuilt under this freeze"
+  },
+  "parallel_design": {
+    "persistent_executor": "active spin followed by C++20 atomic wait",
+    "fode_population_evaluator": "one fused task per independent layout-direction wake state",
+    "fode_local_evaluator": "serial when the state count is smaller than the worker count",
+    "mathematical_invariant": "the wake equations and every per-turbine direction-speed reduction retain their frozen order"
+  },
+  "formal_host_contract": {
+    "ssh_alias": "spark2",
+    "hostname": "spark-9ab3",
+    "architecture": "aarch64",
+    "visible_physical_cores": 20,
+    "processes_at_once": 1,
+    "workers_per_optimization": 20,
+    "cpu_affinity": "0-19",
+    "threads_per_core": 1,
+    "numa_nodes": 1
+  },
+  "result_boundary": {
+    "execution_copy": "Spark2 local NVMe",
+    "authoritative_storage": "Spark control-host project",
+    "superseded_source_results_are_separate": true,
+    "waffle_results_are_separate": true
+  }
+}

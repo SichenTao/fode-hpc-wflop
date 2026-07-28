@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "endpoint": "FODE_CPP_HPC_FULL",
+  "scientific_identity": {
+    "algorithm": "source-derived FODE",
+    "problem": "FODE-E0-L",
+    "physical_fes": "one feasible layout over every case wind direction and all 13 wind-speed bins"
+  },
+  "complexity": {
+    "matlab_literal_evaluator": "Theta(B * Nd * Nv * Nt^2)",
+    "native_evaluator": "Theta(B * Nd * (Nt^2 + Nv * Nt))",
+    "reason": "speed-independent Jensen/Park wake is reused across all wind-speed bins"
+  },
+  "stages": [
+    {"id": 1, "name": "setup_and_initial_population", "parallel_space": "individual"},
+    {"id": 2, "name": "initial_evaluator", "parallel_space": "layout_direction_downstream_turbine"},
+    {"id": 3, "name": "ranking_and_snapshot", "parallel_space": "ordered_control"},
+    {"id": 4, "name": "parameter_sampling", "parallel_space": "individual"},
+    {"id": 5, "name": "fractional_mutation_and_crossover", "parallel_space": "individual_coordinate"},
+    {"id": 6, "name": "repair", "parallel_space": "individual"},
+    {"id": 7, "name": "population_evaluator", "parallel_space": "layout_direction_downstream_turbine"},
+    {"id": 8, "name": "best_update", "parallel_space": "fixed_order_commit"},
+    {"id": 9, "name": "selection_flags", "parallel_space": "individual"},
+    {"id": 10, "name": "archive_update", "parallel_space": "ordered_control"},
+    {"id": 11, "name": "selection_and_memory_adaptation", "parallel_space": "parallel_copy_ordered_reduction"},
+    {"id": 12, "name": "history_shift", "parallel_space": "contiguous_move"},
+    {"id": 13, "name": "population_reduction", "parallel_space": "ordered_control"},
+    {"id": 14, "name": "progress_ledger", "parallel_space": "ordered_control"},
+    {"id": 15, "name": "local_generation_and_repair", "parallel_space": "coordinate"},
+    {"id": 16, "name": "local_evaluator", "parallel_space": "direction_downstream_turbine"},
+    {"id": 17, "name": "finalization", "parallel_space": "ordered_control"}
+  ],
+  "thread_contract": {
+    "host": "waffle",
+    "affinity": "0-19",
+    "workers": 20,
+    "runtime": "OpenMP libgomp worker-pool reuse",
+    "headline_profile_instrumentation": false
+  },
+  "precision_contract": {
+    "matlab_anchor_count": 3,
+    "maximum_absolute_error_kw": 0.0
+  }
+}

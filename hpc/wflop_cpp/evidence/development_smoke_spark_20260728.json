@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "evidence_id": "native-cpp-eight-algorithm-development-smoke-20260728",
+  "status": "passed",
+  "evidence_boundary": "development-only ARM build and bounded semantic smoke; not Waffle admission, performance, or formal-result evidence",
+  "host": {
+    "hostname": "spark-9b6f",
+    "architecture": "aarch64",
+    "visible_cpus": 20
+  },
+  "build": {
+    "binary_path": "/tmp/nde-wflop-build/wflop_cpp_hpc",
+    "binary_sha256": "154a62852257b999c32a24e6411d3f9082c7bbee016ac7d3e1167c7a6f40cd63",
+    "compiler_warnings": 0,
+    "ctest_total": 3,
+    "ctest_passed": 3
+  },
+  "semantic_gates": {
+    "canonical_algorithm_registry": true,
+    "legacy_lse_cli_rejected": true,
+    "matlab_fixed_layout_anchors": 3,
+    "evaluator_total_only_equals_detailed_total": true,
+    "exact_physical_fes_per_algorithm": 480,
+    "deterministic_non_timing_replay": true,
+    "one_worker_vs_twenty_worker_non_timing_equivalence": true,
+    "algorithms_passed": [
+      "fode",
+      "aga",
+      "sugga",
+      "ise",
+      "agpso",
+      "cgpso",
+      "lshade",
+      "clshade"
+    ]
+  },
+  "sanitizer_gate": {
+    "address_sanitizer": "passed",
+    "undefined_behavior_sanitizer": "passed",
+    "ctest_total": 3,
+    "ctest_passed": 3,
+    "evidence_boundary": "bounded development smoke only"
+  },
+  "fode_regression": {
+    "case_id": "WS1tn10",
+    "seed": 20260728,
+    "physical_fes": 24000,
+    "matches_existing_waffle_result_fields": [
+      "method_id",
+      "case_id",
+      "seed",
+      "physical_fes",
+      "generations",
+      "initial_population",
+      "final_population",
+      "requested_workers",
+      "observed_workers",
+      "best_expected_power_kw",
+      "best_layout_1based"
+    ],
+    "semantic_difference_count": 0,
+    "timing_compared": false
+  },
+  "frozen_inputs": {
+    "p0_freeze_receipt_sha256": "cce6c06635c05c31cf878d70cd8eec6ea508bf00863f0c47101a8e994efb4129",
+    "sugga_conversion_receipt_sha256": "2b3e8820b9fe6511274c3e185aefd009e9d4f9293d9c38b75d9599c8c5ab8dd7",
+    "sugga_conversion_validation_sha256": "678ba2feaeb852299ebc0b53e35eeef719205cd585ed0fc1407921e6fee47b5c"
+  }
+}
