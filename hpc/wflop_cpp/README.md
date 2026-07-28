@@ -1,10 +1,11 @@
 # Native C++ WFLOP HPC platform
 
 This platform provides one pure C++ executable for the frozen FODE-E0-L
-benchmark and the eight registered algorithms:
+benchmark and eighteen registered algorithm state machines:
 
 ```text
-fode aga sugga ise agpso cgpso lshade clshade
+fode aga sugga ise agpso cgpso lshade clshade cede msshade bde hgpso
+aiga ciga lsde wfadde alshade ppga
 ```
 
 Every optimization owns one persistent thread team.  The same team performs
@@ -42,3 +43,9 @@ All runs use exactly 24,000 completed full-layout physical evaluations.
 SUGGA reads the frozen, round-trip-validated native model assets from
 `shared/models/sugga_cpp`; neither model training nor Python is part of the
 native build or runtime.
+
+The `ppga` identifier is a declared paper-derived transfer to this common
+problem, not a reproduction of the unavailable Nantong 3D data. Its exact
+fitness normalization, diversity, stagnation, power-law sampler, elitism, and
+parallel barriers are frozen in
+`shared/contracts/ppga_fode_e0_transfer_execution_contract.json`.

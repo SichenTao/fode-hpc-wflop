@@ -141,6 +141,14 @@
       "evaluation_detail": "TotalOnly",
       "reconstruction_status": "explicit_pre_result_no_author_source",
       "problem_scope": "algorithm transferred to fode_e0_common; original complex-wake cases remain a separate pending problem package"
+    },
+    "ppga": {
+      "method_id": "PPGA_DECLARED_RECONSTRUCTION_FODE_E0_V1",
+      "state_semantics": "paper Algorithm 1 and Eqs. 11-18 with registered fitness diversity stagnation elite power-law sampler and boundary completions",
+      "parallel_semantics": "generation snapshot; independent feature-map crossover mutation power-law perturbation repair and evaluation; ordered adaptation and elitist barriers",
+      "evaluation_detail": "TotalOnly",
+      "reconstruction_status": "explicit_problem_transfer_no_author_source_or_case_arrays",
+      "problem_scope": "algorithm transferred to fode_e0_common; original Nantong 3D problem remains blocked at R1 and original transition identity remains blocked at R2"
     }
   },
   "unresolved_active_conflicts": 14

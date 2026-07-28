@@ -78,4 +78,12 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_pbea_cpp_fronts.py
             --binary $<TARGET_FILE:pbea_cpp_hpc>
     )
+    add_test(
+        NAME ppga_cpp_declared_transfer
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_ppga_cpp.py
+            --binary $<TARGET_FILE:wflop_cpp_hpc>
+            --cases
+            ${CMAKE_CURRENT_SOURCE_DIR}/shared/contracts/benchmark_cases.json
+    )
 endif()

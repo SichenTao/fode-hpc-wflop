@@ -54,6 +54,7 @@ def main() -> int:
             "blocked_original_r1_r2",
             "reconstruction_queued",
             "nysted_reconstruction_cpp_smoke_pass",
+            "fode_e0_transfer_cpp_smoke_pass",
             "proxy_cpp_smoke_pass",
         }
         and row["problem_family"] != "fode_e0_common"

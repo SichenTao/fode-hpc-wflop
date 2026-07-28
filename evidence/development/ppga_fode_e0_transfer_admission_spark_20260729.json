@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "receipt_id": "ppga_fode_e0_transfer_admission_spark_20260729",
+  "evidence_class": "development_diagnostic",
+  "algorithm_id": "ppga",
+  "method_id": "PPGA_DECLARED_RECONSTRUCTION_FODE_E0_V1",
+  "claim_boundary": "Declared PPGA algorithm transfer to FODE-E0; not the unavailable Nantong 3D study, not MATLAB-to-C++ evidence, and not a formal Waffle result.",
+  "host": {
+    "name": "spark",
+    "kernel": "Linux 6.14.0-1015-nvidia aarch64",
+    "visible_cpus": 20,
+    "cpu_groups": [
+      "10 Cortex-X925 cores",
+      "10 Cortex-A725 cores"
+    ],
+    "compiler": "Ubuntu g++ 11.5.0",
+    "cmake": "3.28.3"
+  },
+  "admission": {
+    "one_vs_twenty_worker_semantics": "exact at 24000 complete evaluations on WS10tn80",
+    "physical_fes": "exact",
+    "fifty_case_smoke": "all 50 cases completed 150 complete layout evaluations with 20 requested and observed workers",
+    "address_sanitizer": "pass on WS10tn80 with 20 workers and 150 complete evaluations",
+    "undefined_behavior_sanitizer": "pass on WS10tn80 with 20 workers and 150 complete evaluations",
+    "leak_sanitizer": "pass on WS10tn80 with 20 workers and 150 complete evaluations",
+    "repository_ctest_after_integration": "17 of 17 passed"
+  },
+  "scaling_protocol": {
+    "case_id": "WS10tn80",
+    "scientific_work": "80-turbine layout, all directions and thirteen speed bins, exactly 24000 complete feasible-layout evaluations",
+    "population_size": 30,
+    "offspring_generations_after_initialization": 799,
+    "seed": 20260729,
+    "comparison": "identical pure C++ executable and semantic work at one requested worker versus twenty requested workers",
+    "alternating_order": "one-worker run followed by twenty-worker run, repeated five times",
+    "one_worker_seconds": [
+      {
+        "end_to_end": 3.626144936,
+        "evaluator": 3.267227284000003,
+        "algorithm": 0.35891765199999703
+      },
+      {
+        "end_to_end": 3.640575282,
+        "evaluator": 3.2771781189999976,
+        "algorithm": 0.36339716300000235
+      },
+      {
+        "end_to_end": 3.630907816,
+        "evaluator": 3.2684499299999974,
+        "algorithm": 0.3624578860000027
+      },
+      {
+        "end_to_end": 3.641951316,
+        "evaluator": 3.2819865710000027,
+        "algorithm": 0.3599647449999974
+      },
+      {
+        "end_to_end": 3.624801119,
+        "evaluator": 3.266273986,
+        "algorithm": 0.35852713299999994
+      }
+    ],
+    "twenty_worker_seconds": [
+      {
+        "end_to_end": 1.873176624,
+        "evaluator": 1.7336617409999997,
+        "algorithm": 0.13951488300000037
+      },
+      {
+        "end_to_end": 1.818184848,
+        "evaluator": 1.7030209380000003,
+        "algorithm": 0.1151639099999997
+      },
+      {
+        "end_to_end": 1.957495625,
+        "evaluator": 1.859133315,
+        "algorithm": 0.09836230999999995
+      },
+      {
+        "end_to_end": 1.844611871,
+        "evaluator": 1.7397381579999995,
+        "algorithm": 0.10487371300000037
+      },
+      {
+        "end_to_end": 1.868927346,
+        "evaluator": 1.7848465359999992,
+        "algorithm": 0.08408081000000078
+      }
+    ],
+    "median_seconds": {
+      "one_worker": {
+        "end_to_end": 3.630907816,
+        "evaluator": 3.2684499299999974,
+        "algorithm": 0.3599647449999974
+      },
+      "twenty_workers": {
+        "end_to_end": 1.868927346,
+        "evaluator": 1.7397381579999995,
+        "algorithm": 0.10487371300000037
+      }
+    },
+    "median_speedup_one_to_twenty_workers": {
+      "end_to_end": 1.9427763330506698,
+      "evaluator": 1.8787022144512842,
+      "algorithm": 3.4323638851233973
+    }
+  },
+  "formal_status": "development_admitted_transfer_only_Waffle_pending"
+}

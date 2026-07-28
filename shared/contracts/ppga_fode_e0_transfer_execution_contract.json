@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "study_id": "ppga_declared_reconstruction_fode_e0_v1",
+  "corpus_id": "T43",
+  "paper_doi": "10.1109/JAS.2025.125351",
+  "algorithm_id": "ppga",
+  "method_id": "PPGA_DECLARED_RECONSTRUCTION_FODE_E0_V1",
+  "implementation_language": "C++20",
+  "claim_boundary": "This package transfers an explicitly completed PPGA state machine to the admitted FODE-E0 common benchmark. It is not a reproduction of the unavailable Nantong 3D terrain, wind data, objective values, or author implementation.",
+  "paper_preserved_controls": {
+    "population_size": 30,
+    "evolutionary_adaptation": "theta_i = normalized_fitness_i*sqrt(diversity)-stagnant_proportion",
+    "adaptation_threshold": 0.0,
+    "feature_map_crossover_rate": 0.8,
+    "mutation_rate": 0.1,
+    "power_law_exponent": 2.5,
+    "stage_order": [
+      "feature-map crossover",
+      "mutation",
+      "conditional power-law perturbation from the second offspring generation",
+      "complete fitness evaluation",
+      "elitist survival",
+      "next-generation adaptation calculation"
+    ],
+    "paper_reported_iterations": 50,
+    "paper_reported_repeats": 30
+  },
+  "declared_reconstruction_controls": {
+    "fitness_normalization": "per-generation min-max expected power; all-equal population maps to one",
+    "diversity_distance": "number of occupied sites not shared by each pair of sorted layouts",
+    "diversity_denominator": "turbine_count*population_size*(population_size-1), following the literal denominator of Equation 12",
+    "stagnant_proportion": "fraction of rank-aligned evaluated offspring that do not exceed the corresponding parent",
+    "feature_map": "independent Bernoulli 0.8 choice between two uniformly selected distinct parents at each turbine index",
+    "mutation": "independent Bernoulli 0.1 replacement by a uniformly drawn grid cell before common feasibility repair",
+    "power_law_sampler": "inverse-CDF truncated x^-2.5 integer displacement on one through grid_size minus one, independent random sign, periodic boundary, then common feasibility repair",
+    "elite_count": 3,
+    "survival": "best three current parents followed by the best twenty-seven evaluated offspring",
+    "tie_break": "stable row order",
+    "physical_fes": "initial thirty complete layout evaluations consume the first thirty units; every evaluated offspring consumes one unit; stop exactly at the requested work budget",
+    "randomness": "counter-keyed events independent of worker scheduling"
+  },
+  "transferred_problem": {
+    "problem_id": "fode_e0_common",
+    "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+    "case_matrix": "ten joint wind scenarios crossed with 10, 20, 30, 50, and 80 turbines",
+    "formal_work_if_admitted": "24000 complete feasible-layout evaluations per case and seed",
+    "shared_evaluator": "the same validated Jensen/Park native C++ evaluator used by every common-problem algorithm"
+  },
+  "original_problem": {
+    "problem_id": "yang2025_power_law_3d",
+    "status": "blocked_r1",
+    "missing": [
+      "Nantong elevation field",
+      "four joint direction-speed probability arrays",
+      "manufacturer power and thrust curves",
+      "complete 3D Gaussian wake parameters and scalar oracle layouts"
+    ]
+  },
+  "parallel_contract": {
+    "worker_count": "all processors visible to the job",
+    "parallel_stages": [
+      "initial population construction",
+      "pairwise diversity row accumulation",
+      "per-individual adaptation calculation",
+      "offspring crossover, mutation, power-law perturbation, and repair from a read-only generation",
+      "complete independent wind-farm evaluations"
+    ],
+    "ordered_stages": [
+      "fitness range",
+      "stagnation proportion",
+      "stable elitist survival"
+    ],
+    "worker_count_scientific_equivalence": "exact"
+  },
+  "formal_status": "development_pending_full_admission_and_Waffle"
+}

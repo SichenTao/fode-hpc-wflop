@@ -170,6 +170,14 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "paper_derived_explicit_reconstruction",
             "alshade_paper_derived_e0_physical_fes_v1",
             {"fode_e0_common"}
+        },
+        {
+            "ppga",
+            "PPGA",
+            "10.1109/jas.2025.125351",
+            "paper_derived_declared_problem_transfer",
+            "ppga_declared_reconstruction_fode_e0_v1",
+            {"fode_e0_common"}
         }
     };
     return descriptors;

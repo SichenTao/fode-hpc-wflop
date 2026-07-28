@@ -4609,6 +4609,309 @@ RunResult optimize_pso(
     );
 }
 
+double ppga_diversity(
+    const Matrix& population,
+    int population_size,
+    int dimension,
+    fode::PersistentExecutor& executor
+) {
+    std::vector<double> row_sums(
+        static_cast<std::size_t>(population_size), 0.0
+    );
+    executor.parallel_for(0, population_size, [&](int left) {
+        double sum = 0.0;
+        for (int right = left + 1; right < population_size; ++right) {
+            int shared = 0;
+            int left_position = 0;
+            int right_position = 0;
+            while (left_position < dimension
+                   && right_position < dimension) {
+                const int left_cell = static_cast<int>(std::llround(
+                    population[at(left, left_position, dimension)]
+                ));
+                const int right_cell = static_cast<int>(std::llround(
+                    population[at(right, right_position, dimension)]
+                ));
+                if (left_cell == right_cell) {
+                    ++shared;
+                    ++left_position;
+                    ++right_position;
+                } else if (left_cell < right_cell) {
+                    ++left_position;
+                } else {
+                    ++right_position;
+                }
+            }
+            sum += static_cast<double>(dimension - shared);
+        }
+        row_sums[static_cast<std::size_t>(left)] = sum;
+    });
+    const double numerator =
+        std::accumulate(row_sums.begin(), row_sums.end(), 0.0);
+    const double denominator =
+        static_cast<double>(
+            dimension * population_size * (population_size - 1)
+        );
+    return denominator > 0.0 ? numerator / denominator : 0.0;
+}
+
+int ppga_power_law_step(
+    int maximum,
+    const fode::CounterRng& rng,
+    std::uint64_t generation,
+    int individual,
+    int coordinate
+) {
+    constexpr double exponent = 2.5;
+    const double uniform = rng.uniform(
+        generation,
+        7010,
+        static_cast<std::uint64_t>(individual),
+        static_cast<std::uint64_t>(coordinate)
+    );
+    const double upper =
+        std::pow(static_cast<double>(maximum + 1), 1.0 - exponent);
+    const double continuous = std::pow(
+        1.0 + uniform * (upper - 1.0),
+        1.0 / (1.0 - exponent)
+    );
+    return std::clamp(
+        static_cast<int>(std::floor(continuous)),
+        1,
+        maximum
+    );
+}
+
+RunResult optimize_ppga(
+    const fode::CaseData& data,
+    const RunConfig& config
+) {
+    const auto started = Clock::now();
+    Runtime runtime(config);
+    constexpr int population_size = 30;
+    constexpr int elite_count = 3;
+    constexpr double crossover_rate = 0.8;
+    constexpr double mutation_rate = 0.1;
+    constexpr double adaptation_threshold = 0.0;
+    if (runtime.budget < static_cast<std::uint64_t>(population_size)) {
+        throw std::runtime_error(
+            "PPGA budget is below its 30-layout initialization"
+        );
+    }
+    const int dimension = data.turbine_count;
+    const int grid = data.rows * data.cols;
+    Matrix population = initialize_population(
+        population_size,
+        data,
+        runtime.rng,
+        runtime.executor,
+        7000
+    );
+    auto initial = runtime.evaluate(
+        population,
+        population_size,
+        data,
+        fode::EvaluationDetail::TotalOnly
+    );
+    std::vector<double> fitness = initial.fitness;
+    double stagnant_proportion = 0.0;
+    while (runtime.fes < runtime.budget) {
+        ++runtime.generations;
+        const int completed = static_cast<int>(std::min<std::uint64_t>(
+            static_cast<std::uint64_t>(population_size),
+            runtime.budget - runtime.fes
+        ));
+        const double diversity = ppga_diversity(
+            population,
+            population_size,
+            dimension,
+            runtime.executor
+        );
+        const auto minimum_maximum = std::minmax_element(
+            fitness.begin(), fitness.end()
+        );
+        const double minimum_fitness = *minimum_maximum.first;
+        const double maximum_fitness = *minimum_maximum.second;
+        std::vector<double> adaptation(
+            static_cast<std::size_t>(population_size), 0.0
+        );
+        runtime.executor.parallel_for(
+            0,
+            population_size,
+            [&](int individual) {
+                const double normalized_fitness =
+                    maximum_fitness > minimum_fitness
+                        ? (
+                            fitness[static_cast<std::size_t>(individual)]
+                            - minimum_fitness
+                        ) / (maximum_fitness - minimum_fitness)
+                        : 1.0;
+                adaptation[static_cast<std::size_t>(individual)] =
+                    normalized_fitness * std::sqrt(diversity)
+                    - stagnant_proportion;
+            }
+        );
+        Matrix offspring(
+            static_cast<std::size_t>(completed * dimension), 0.0
+        );
+        runtime.executor.parallel_for(0, completed, [&](int individual) {
+            const int first = runtime.rng.integer(
+                0,
+                population_size,
+                runtime.generations,
+                7001,
+                static_cast<std::uint64_t>(individual)
+            );
+            int second = runtime.rng.integer(
+                0,
+                population_size,
+                runtime.generations,
+                7002,
+                static_cast<std::uint64_t>(individual)
+            );
+            if (first == second) {
+                second = (second + 1) % population_size;
+            }
+            for (int coordinate = 0;
+                 coordinate < dimension;
+                 ++coordinate) {
+                const bool from_first = runtime.rng.uniform(
+                    runtime.generations,
+                    7003,
+                    static_cast<std::uint64_t>(individual),
+                    static_cast<std::uint64_t>(coordinate)
+                ) < crossover_rate;
+                double value = population[at(
+                    from_first ? first : second,
+                    coordinate,
+                    dimension
+                )];
+                if (runtime.rng.uniform(
+                        runtime.generations,
+                        7004,
+                        static_cast<std::uint64_t>(individual),
+                        static_cast<std::uint64_t>(coordinate)
+                    ) < mutation_rate) {
+                    value = static_cast<double>(runtime.rng.integer(
+                        1,
+                        grid + 1,
+                        runtime.generations,
+                        7005,
+                        static_cast<std::uint64_t>(individual),
+                        static_cast<std::uint64_t>(coordinate)
+                    ));
+                }
+                offspring[at(individual, coordinate, dimension)] = value;
+            }
+            const double theta =
+                adaptation[static_cast<std::size_t>(individual)];
+            const double perturbation_probability = std::clamp(
+                adaptation_threshold - theta, 0.0, 1.0
+            );
+            const bool perturb =
+                runtime.generations >= 2
+                && theta < adaptation_threshold
+                && runtime.rng.uniform(
+                    runtime.generations,
+                    7006,
+                    static_cast<std::uint64_t>(individual)
+                ) < perturbation_probability;
+            if (perturb) {
+                for (int coordinate = 0;
+                     coordinate < dimension;
+                     ++coordinate) {
+                    const int current = static_cast<int>(std::llround(
+                        offspring[at(individual, coordinate, dimension)]
+                    ));
+                    const int magnitude = ppga_power_law_step(
+                        grid - 1,
+                        runtime.rng,
+                        runtime.generations,
+                        individual,
+                        coordinate
+                    );
+                    const int sign = runtime.rng.uniform(
+                        runtime.generations,
+                        7011,
+                        static_cast<std::uint64_t>(individual),
+                        static_cast<std::uint64_t>(coordinate)
+                    ) < 0.5 ? -1 : 1;
+                    int wrapped =
+                        (current - 1 + sign * magnitude) % grid;
+                    if (wrapped < 0) {
+                        wrapped += grid;
+                    }
+                    offspring[at(individual, coordinate, dimension)] =
+                        static_cast<double>(wrapped + 1);
+                }
+            }
+        });
+        repair_population(
+            offspring,
+            completed,
+            data,
+            runtime.rng,
+            runtime.executor,
+            runtime.generations,
+            7012
+        );
+        auto evaluated = runtime.evaluate(
+            offspring,
+            completed,
+            data,
+            fode::EvaluationDetail::TotalOnly
+        );
+        if (completed < population_size) {
+            break;
+        }
+        int stagnant = 0;
+        for (int row = 0; row < population_size; ++row) {
+            if (evaluated.fitness[static_cast<std::size_t>(row)]
+                <= fitness[static_cast<std::size_t>(row)]) {
+                ++stagnant;
+            }
+        }
+        stagnant_proportion =
+            static_cast<double>(stagnant)
+            / static_cast<double>(population_size);
+
+        const auto parent_order = stable_rank_descending(fitness);
+        const auto offspring_order =
+            stable_rank_descending(evaluated.fitness);
+        Matrix next(population.size(), 0.0);
+        std::vector<double> next_fitness(
+            static_cast<std::size_t>(population_size), 0.0
+        );
+        for (int row = 0; row < elite_count; ++row) {
+            const int source =
+                parent_order[static_cast<std::size_t>(row)];
+            copy_row(next, row, population, source, dimension);
+            next_fitness[static_cast<std::size_t>(row)] =
+                fitness[static_cast<std::size_t>(source)];
+        }
+        for (int row = elite_count; row < population_size; ++row) {
+            const int source = offspring_order[
+                static_cast<std::size_t>(row - elite_count)
+            ];
+            copy_row(next, row, offspring, source, dimension);
+            next_fitness[static_cast<std::size_t>(row)] =
+                evaluated.fitness[static_cast<std::size_t>(source)];
+        }
+        population = std::move(next);
+        fitness = std::move(next_fitness);
+    }
+    RunResult result = finish_result(
+        data,
+        config,
+        runtime,
+        population_size,
+        population_size,
+        started
+    );
+    result.method_id = "PPGA_DECLARED_RECONSTRUCTION_FODE_E0_V1";
+    return result;
+}
+
 RunResult convert_fode(
     const fode::CaseData& data,
     const RunConfig& config
@@ -4711,6 +5014,9 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
     }
     if (config.algorithm_id == "alshade") {
         return optimize_lshade(data, config, false, true);
+    }
+    if (config.algorithm_id == "ppga") {
+        return optimize_ppga(data, config);
     }
     throw std::invalid_argument("unknown algorithm: " + config.algorithm_id);
 }

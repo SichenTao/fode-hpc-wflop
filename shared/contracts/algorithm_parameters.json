@@ -521,6 +521,34 @@
         "base_algorithm": "registered paper-first LSHADE state machine and linear population reduction",
         "parallel_semantics": "generation snapshot; independent parameter mutation crossover repair and evaluation; deterministic best-scale history memory archive and reduction barriers"
       }
+    },
+    "ppga": {
+      "display_label": "PPGA",
+      "implementation_provenance": "paper_derived_declared_problem_transfer",
+      "formal_admission": "pending_50_case_single_seed_admission",
+      "parameter_evidence": [
+        "Yang et al. 2025 Algorithm 1 and Eqs. 11-18 define the evolutionary-adaptation, feature-crossover, mutation, and power-law stages",
+        "Yang et al. 2025 Table II sets population 30, adaptation threshold zero, crossover rate 0.8, and mutation rate 0.1",
+        "Equation 14 fixes the power-law exponent to 2.5 and the experiment reports 50 iterations and 30 independent runs",
+        "The paper omits machine-readable Nantong inputs and several state-transition definitions; all conventional completions are registered before results"
+      ],
+      "hpc": {
+        "population_size": 30,
+        "elite_count": 3,
+        "adaptation_threshold": 0.0,
+        "crossover_rate": 0.8,
+        "mutation_rate": 0.1,
+        "power_law_exponent": 2.5
+      },
+      "derived_rules": {
+        "fitness": "generation min-max normalized expected power",
+        "diversity": "paper Equation 12 using pairwise occupied-site set distance divided by D*N*(N-1)",
+        "stagnation": "fraction of rank-aligned offspring whose expected power does not exceed the corresponding parent",
+        "power_law_sampler": "inverse-CDF sample from a discrete truncated x^-2.5 displacement with random sign and periodic grid boundary handling",
+        "elitism": "retain the best three parents and the best twenty-seven evaluated offspring",
+        "problem_scope": "algorithm transferred to fode_e0_common; unavailable Nantong 3D inputs remain a separately blocked problem package",
+        "parallel_semantics": "generation snapshot; independent crossover mutation power-law perturbation repair and evaluation; ordered fitness diversity stagnation and elitist barriers"
+      }
     }
   }
 }

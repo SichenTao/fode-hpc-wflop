@@ -209,14 +209,27 @@ void write_output(const std::string& path, const std::string& contents) {
     if (!output_path.parent_path().empty()) {
         std::filesystem::create_directories(output_path.parent_path());
     }
-    std::ofstream stream(output_path);
-    if (!stream) {
-        throw std::runtime_error("cannot write output: " + path);
+    std::filesystem::path temporary = output_path;
+    temporary += ".tmp";
+    {
+        std::ofstream stream(temporary, std::ios::trunc);
+        if (!stream) {
+            throw std::runtime_error(
+                "cannot write temporary output: " + temporary.string()
+            );
+        }
+        stream << contents;
+        if (contents.empty() || contents.back() != '\n') {
+            stream << '\n';
+        }
+        stream.flush();
+        if (!stream) {
+            throw std::runtime_error(
+                "cannot complete temporary output: " + temporary.string()
+            );
+        }
     }
-    stream << contents;
-    if (contents.empty() || contents.back() != '\n') {
-        stream << '\n';
-    }
+    std::filesystem::rename(temporary, output_path);
 }
 
 void validate_result(

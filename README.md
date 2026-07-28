@@ -3,10 +3,10 @@
 FODE-HPC-WFLOP is a reproducible, pure C++20 benchmark for studying
 high-performance evolutionary optimization of wind-farm layouts. The current
 development branch provides the common FODE-E0-L problem with one exact work
-budget and seventeen registered algorithm state machines:
+budget and eighteen registered algorithm state machines:
 
 ```text
-FODE  AGA  SUGGA  ISE  AGPSO  CGPSO  LSHADE  CLSHADE  CEDE  MS-SHADE  BDE  HGPSO  AIGA  CIGA  LSDE  WFADDE  A-LSHADE
+FODE  AGA  SUGGA  ISE  AGPSO  CGPSO  LSHADE  CLSHADE  CEDE  MS-SHADE  BDE  HGPSO  AIGA  CIGA  LSDE  WFADDE  A-LSHADE  PPGA
 ```
 
 It also provides a separate pure C++20 GGA package for the eight-site
@@ -45,6 +45,11 @@ paper/preprint-derived explicit reconstructions because no author source was
 found. Every conflict and reconstruction is listed in
 `docs/semantic_discrepancy_ledger.tsv`. NDE is not part of this public
 benchmark.
+
+PPGA is an explicitly identified algorithm transfer to the common FODE-E0
+problem. It does not replace or reproduce the unavailable Nantong 3D terrain
+study. Its conventional completions and problem boundary are frozen in
+`shared/contracts/ppga_fode_e0_transfer_execution_contract.json`.
 
 ## Build and test
 
@@ -244,8 +249,8 @@ Shangce Gao or Sichen Tao. Each paper package must pass five gates:
 
 Missing papers or source code are registered as explicit states rather than
 silently guessed. See `docs/author_lineage_registry.tsv` and
-`docs/roadmap.md`. The machine-readable omission boundary for TAAE, ALGA,
-PPGA, T-MOEA, and GeoGA is frozen in
+`docs/roadmap.md`. The machine-readable omission boundary for TAAE, ALGA, the
+original PPGA Nantong study, the original T-MOEA study, and GeoGA is frozen in
 `shared/contracts/remaining_heterogeneous_reproducibility.json`. The
 2026-07-29 scope freezes 23 unique DOI records and
 automatically checks the Jiayi Li, Baohang Zhang, Chen Zhang, Yuhang Ma, and
