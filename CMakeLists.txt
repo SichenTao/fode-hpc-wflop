@@ -23,6 +23,12 @@ if(BUILD_TESTING)
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_problem_packages.py
     )
+    add_test(
+        NAME formal_suite_summary_self_test
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/summarize_formal_suite.py
+            --self-test
+    )
     set(BDE_SOURCE_REPLAY_CASES
         ${CMAKE_CURRENT_SOURCE_DIR}/.source-cache/generated/bde_source_replay/benchmark_cases.json
     )

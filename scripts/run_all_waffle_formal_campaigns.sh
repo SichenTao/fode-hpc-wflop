@@ -87,6 +87,10 @@ OFFSHORE_CAMPAIGN_CONTRACT="${offshore_contract}" \
 OFFSHORE_RESULT_DIR="${repo_root}/results/offshore_cpp_hpc_waffle_v1" \
   bash scripts/run_offshore_formal_campaign.sh
 
+python3 scripts/summarize_formal_suite.py \
+  --results-root "${repo_root}/results" \
+  --output-dir "${repo_root}/results/waffle_campaign_suite_v1/analysis"
+
 echo "All admitted Waffle campaigns completed and validated."
 echo "Common: results/eighteen_algorithm_cpp_hpc_waffle_v1"
 echo "BDE source replay: results/bde_source_replay_waffle_v1"

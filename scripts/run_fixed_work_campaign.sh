@@ -120,5 +120,31 @@ find "${result_root}" -maxdepth 1 -name 'seed_*.jsonl' -type f -print0 \
   | sort -z \
   | xargs -0 sha256sum > "${manifest}"
 
+seed_file_count="$(find "${result_root}" -maxdepth 1 \
+  -name 'seed_*.jsonl' -type f | wc -l)"
+if [[ "${seed_file_count}" -ne "${#seeds[@]}" ]]; then
+  echo "Formal seed files ${seed_file_count} != ${#seeds[@]}" >&2
+  exit 2
+fi
+receipt_tmp="${result_root}/campaign_receipt.json.tmp"
+receipt="${result_root}/campaign_receipt.json"
+jq -n \
+  --arg campaign_id "$(jq -r '.campaign_id' "${contract}")" \
+  --argjson seed_files "${seed_file_count}" \
+  --argjson formal_runs "$(jq -r '.formal_run_count' "${contract}")" \
+  --argjson complete_layout_evaluations "$(jq -r '.formal_complete_layout_evaluations' "${contract}")" \
+  --arg manifest_sha256 "$(sha256sum "${manifest}" | cut -d' ' -f1)" \
+  '{
+    schema_version: 1,
+    campaign_id: $campaign_id,
+    seed_files: $seed_files,
+    formal_runs: $formal_runs,
+    complete_layout_evaluations: $complete_layout_evaluations,
+    manifest_sha256: $manifest_sha256,
+    status: "complete_file_matrix",
+    evidence_boundary: "Quality and statistical claims require a separate analysis receipt."
+  }' > "${receipt_tmp}"
+mv "${receipt_tmp}" "${receipt}"
+
 echo "Fixed-work campaign complete: ${#seeds[@]} seeds × $(jq -r '.algorithms | length' "${contract}") algorithms × ${expected_cases} cases."
 echo "Results: ${result_root}"

@@ -180,6 +180,14 @@ It rejects non-Waffle hosts, holds a single-process suite lock, uses all
 processors visible to the job, and atomically records the running or terminal
 state in `results/waffle_campaign_suite_v1/control/status.json`.
 
+After all four file matrices pass, the suite automatically writes separate
+single-objective, three-objective, and offshore descriptive tables plus a
+hash-bound analysis receipt under
+`results/waffle_campaign_suite_v1/analysis`. Common-problem algorithm ranks
+use per-case median power. The analysis deliberately omits HV/IGD until a
+reference-front and normalization contract is frozen, and it does not pool
+objective values across different problem profiles.
+
 It runs one optimization process at a time and uses all processors visible to
 that process internally. The four result families remain separate:
 18 algorithms on the common 50-case problem; BDE on 24 official-source WS1-WS4
