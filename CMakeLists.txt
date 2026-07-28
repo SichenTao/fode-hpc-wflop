@@ -11,4 +11,9 @@ if(BUILD_TESTING)
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_lineage_registry.py
     )
+    add_test(
+        NAME problem_package_registry
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_problem_packages.py
+    )
 endif()
