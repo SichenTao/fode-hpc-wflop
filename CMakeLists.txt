@@ -51,6 +51,14 @@ if(BUILD_TESTING)
                 --problem
                 ${GGA_GENERATED_ASSETS}/UK_London_Array.wfp
         )
+        add_test(
+            NAME tmoea_cpp_nysted_reconstruction
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_tmoea_cpp.py
+                --binary $<TARGET_FILE:gga_cpp_hpc>
+                --problem
+                ${GGA_GENERATED_ASSETS}/Denmark_Nysted.wfp
+        )
     endif()
     add_test(
         NAME pbea_cpp_evaluator_oracle

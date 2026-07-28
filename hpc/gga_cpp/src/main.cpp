@@ -582,10 +582,17 @@ struct Evaluation {
     double cable_cost = 0.0;
 };
 
+enum class EvaluationMode {
+    Lcoe,
+    AepOnly,
+    AepAndCable,
+    TmoeaAepAndCable
+};
+
 Evaluation evaluate(
     const std::vector<int>& layout,
     const Problem& problem,
-    bool include_cost = true
+    EvaluationMode mode = EvaluationMode::Lcoe
 ) {
     std::vector<Point> coordinates;
     coordinates.reserve(layout.size());
@@ -594,8 +601,13 @@ Evaluation evaluate(
             problem.candidates[static_cast<std::size_t>(index)]
         );
     }
-    const double cable_cost =
-        include_cost ? route_bsr(coordinates, problem) : 0.0;
+    const double cable_cost = mode == EvaluationMode::AepOnly
+        ? 0.0
+        : route_bsr(coordinates, problem);
+    const bool tmoea_wake =
+        mode == EvaluationMode::TmoeaAepAndCable;
+    const double tmoea_wake_expansion =
+        0.5 / std::log(problem.hub_height_m / 0.0002);
     double expected_power_kw = 0.0;
     const double rotor_radius = problem.rotor_diameter_m / 2.0;
     for (int direction = 0;
@@ -659,11 +671,18 @@ Evaluation evaluate(
                         - rotated[static_cast<std::size_t>(upstream)].x
                     );
                     const double wake_radius =
-                        rotor_radius + 0.1 * along;
+                        rotor_radius
+                        + (
+                            tmoea_wake
+                                ? tmoea_wake_expansion
+                                : 0.1
+                        ) * along;
                     if (along > 0.0 && cross < wake_radius) {
-                        const double deficit =
-                            2.0 * axial
-                            * std::pow(rotor_radius / wake_radius, 2.0);
+                        const double deficit = (
+                            tmoea_wake
+                                ? 2.0 / 3.0
+                                : 2.0 * axial
+                        ) * std::pow(rotor_radius / wake_radius, 2.0);
                         squared_deficit += deficit * deficit;
                     }
                 }
@@ -694,12 +713,12 @@ Evaluation evaluate(
             365.0 * 24.0 * problem.turbine_pinst_kw
             * static_cast<double>(problem.turbine_count)
         );
-    if (!include_cost) {
+    if (mode != EvaluationMode::Lcoe) {
         return {
             std::numeric_limits<double>::infinity(),
             capacity_factor,
             aep,
-            0.0
+            cable_cost
         };
     }
     const double power_mw = problem.turbine_pinst_kw / 1000.0;
@@ -806,6 +825,36 @@ std::vector<int> random_layout(
     return layout;
 }
 
+std::vector<int> random_ordered_layout(
+    const Problem& problem,
+    const fode::CounterRng& rng,
+    std::uint64_t phase,
+    int individual
+) {
+    std::vector<std::pair<double, int>> keyed;
+    keyed.reserve(problem.candidates.size());
+    for (int candidate = 0;
+         candidate < static_cast<int>(problem.candidates.size());
+         ++candidate) {
+        keyed.emplace_back(
+            rng.uniform(
+                0,
+                phase,
+                static_cast<std::uint64_t>(individual),
+                static_cast<std::uint64_t>(candidate)
+            ),
+            candidate
+        );
+    }
+    std::stable_sort(keyed.begin(), keyed.end());
+    std::vector<int> layout;
+    layout.reserve(static_cast<std::size_t>(problem.turbine_count));
+    for (int index = 0; index < problem.turbine_count; ++index) {
+        layout.push_back(keyed[static_cast<std::size_t>(index)].second);
+    }
+    return layout;
+}
+
 void repair(
     std::vector<int>& layout,
     int required,
@@ -859,14 +908,366 @@ void repair(
     std::sort(layout.begin(), layout.end());
 }
 
+void repair_ordered(
+    std::vector<int>& layout,
+    int required,
+    int candidates,
+    const fode::CounterRng& rng,
+    std::uint64_t generation,
+    std::uint64_t phase,
+    int individual
+) {
+    std::vector<char> used(static_cast<std::size_t>(candidates), 0);
+    std::vector<int> repaired;
+    repaired.reserve(static_cast<std::size_t>(required));
+    for (const int value : layout) {
+        if (value >= 0 && value < candidates
+            && used[static_cast<std::size_t>(value)] == 0
+            && static_cast<int>(repaired.size()) < required) {
+            used[static_cast<std::size_t>(value)] = 1;
+            repaired.push_back(value);
+        }
+    }
+    std::uint64_t draw = 0;
+    while (static_cast<int>(repaired.size()) < required) {
+        const int value = rng.integer(
+            0,
+            candidates,
+            generation,
+            phase,
+            static_cast<std::uint64_t>(individual),
+            0,
+            draw++
+        );
+        if (used[static_cast<std::size_t>(value)] == 0) {
+            used[static_cast<std::size_t>(value)] = 1;
+            repaired.push_back(value);
+        }
+    }
+    layout = std::move(repaired);
+}
+
 struct RunResult {
+    struct FrontPoint {
+        Evaluation value;
+        std::vector<int> layout;
+    };
+
     Evaluation best;
     std::vector<int> layout;
+    std::vector<FrontPoint> front;
     std::uint64_t fes = 0;
     std::uint64_t generations = 0;
     double total_seconds = 0.0;
     double evaluator_seconds = 0.0;
 };
+
+using BiObjectives = std::array<double, 2>;
+
+BiObjectives tmoea_objectives(const Evaluation& value) {
+    return {-value.aep_kwh, value.cable_cost};
+}
+
+bool bi_dominates(
+    const BiObjectives& left,
+    const BiObjectives& right
+) {
+    bool strictly_better = false;
+    for (int objective = 0; objective < 2; ++objective) {
+        if (left[static_cast<std::size_t>(objective)]
+            > right[static_cast<std::size_t>(objective)]) {
+            return false;
+        }
+        strictly_better = strictly_better
+            || left[static_cast<std::size_t>(objective)]
+               < right[static_cast<std::size_t>(objective)];
+    }
+    return strictly_better;
+}
+
+struct BiRankedPopulation {
+    std::vector<int> rank;
+    std::vector<double> crowding;
+};
+
+BiRankedPopulation bi_rank_and_crowding(
+    const std::vector<Evaluation>& values
+) {
+    const int size = static_cast<int>(values.size());
+    BiRankedPopulation result{
+        std::vector<int>(static_cast<std::size_t>(size), -1),
+        std::vector<double>(static_cast<std::size_t>(size), 0.0)
+    };
+    std::vector<BiObjectives> objectives;
+    objectives.reserve(values.size());
+    for (const Evaluation& value : values) {
+        objectives.push_back(tmoea_objectives(value));
+    }
+    std::vector<int> dominated_count(static_cast<std::size_t>(size), 0);
+    std::vector<std::vector<int>> dominates_set(
+        static_cast<std::size_t>(size)
+    );
+    std::vector<std::vector<int>> fronts(1);
+    for (int left = 0; left < size; ++left) {
+        for (int right = left + 1; right < size; ++right) {
+            if (bi_dominates(
+                    objectives[static_cast<std::size_t>(left)],
+                    objectives[static_cast<std::size_t>(right)])) {
+                dominates_set[static_cast<std::size_t>(left)].push_back(
+                    right
+                );
+                ++dominated_count[static_cast<std::size_t>(right)];
+            } else if (bi_dominates(
+                    objectives[static_cast<std::size_t>(right)],
+                    objectives[static_cast<std::size_t>(left)])) {
+                dominates_set[static_cast<std::size_t>(right)].push_back(
+                    left
+                );
+                ++dominated_count[static_cast<std::size_t>(left)];
+            }
+        }
+    }
+    for (int index = 0; index < size; ++index) {
+        if (dominated_count[static_cast<std::size_t>(index)] == 0) {
+            result.rank[static_cast<std::size_t>(index)] = 0;
+            fronts[0].push_back(index);
+        }
+    }
+    for (std::size_t front = 0; front < fronts.size(); ++front) {
+        std::vector<int> next;
+        for (const int index : fronts[front]) {
+            for (const int dominated :
+                 dominates_set[static_cast<std::size_t>(index)]) {
+                int& count =
+                    dominated_count[static_cast<std::size_t>(dominated)];
+                if (--count == 0) {
+                    result.rank[static_cast<std::size_t>(dominated)] =
+                        static_cast<int>(front + 1);
+                    next.push_back(dominated);
+                }
+            }
+        }
+        if (!next.empty()) {
+            fronts.push_back(std::move(next));
+        }
+    }
+    for (const auto& front : fronts) {
+        if (front.empty()) {
+            continue;
+        }
+        for (int objective = 0; objective < 2; ++objective) {
+            std::vector<int> order = front;
+            std::stable_sort(
+                order.begin(),
+                order.end(),
+                [&](int left, int right) {
+                    const double left_value =
+                        objectives[static_cast<std::size_t>(left)]
+                                  [static_cast<std::size_t>(objective)];
+                    const double right_value =
+                        objectives[static_cast<std::size_t>(right)]
+                                  [static_cast<std::size_t>(objective)];
+                    if (left_value != right_value) {
+                        return left_value < right_value;
+                    }
+                    return left < right;
+                }
+            );
+            result.crowding[static_cast<std::size_t>(order.front())] =
+                std::numeric_limits<double>::infinity();
+            result.crowding[static_cast<std::size_t>(order.back())] =
+                std::numeric_limits<double>::infinity();
+            const double minimum =
+                objectives[static_cast<std::size_t>(order.front())]
+                          [static_cast<std::size_t>(objective)];
+            const double maximum =
+                objectives[static_cast<std::size_t>(order.back())]
+                          [static_cast<std::size_t>(objective)];
+            if (maximum <= minimum || order.size() < 3) {
+                continue;
+            }
+            for (std::size_t position = 1;
+                 position + 1 < order.size();
+                 ++position) {
+                result.crowding[
+                    static_cast<std::size_t>(order[position])
+                ] += (
+                    objectives[
+                        static_cast<std::size_t>(order[position + 1])
+                    ][static_cast<std::size_t>(objective)]
+                    - objectives[
+                        static_cast<std::size_t>(order[position - 1])
+                    ][static_cast<std::size_t>(objective)]
+                ) / (maximum - minimum);
+            }
+        }
+    }
+    return result;
+}
+
+int bi_tournament(
+    int left,
+    int right,
+    const BiRankedPopulation& ranked
+) {
+    const int left_rank = ranked.rank[static_cast<std::size_t>(left)];
+    const int right_rank = ranked.rank[static_cast<std::size_t>(right)];
+    if (left_rank != right_rank) {
+        return left_rank < right_rank ? left : right;
+    }
+    const double left_crowding =
+        ranked.crowding[static_cast<std::size_t>(left)];
+    const double right_crowding =
+        ranked.crowding[static_cast<std::size_t>(right)];
+    if (left_crowding != right_crowding) {
+        return left_crowding > right_crowding ? left : right;
+    }
+    return std::min(left, right);
+}
+
+void tmoea_topology_mutation(
+    std::vector<int>& layout,
+    const Problem& problem
+) {
+    constexpr int nearest_neighbors = 5;
+    const int size = static_cast<int>(layout.size());
+    std::vector<std::vector<int>> nearest(
+        static_cast<std::size_t>(size)
+    );
+    for (int left = 0; left < size; ++left) {
+        std::vector<std::pair<double, int>> distance;
+        distance.reserve(static_cast<std::size_t>(size - 1));
+        const Point& left_point = problem.candidates[
+            static_cast<std::size_t>(
+                layout[static_cast<std::size_t>(left)]
+            )
+        ];
+        for (int right = 0; right < size; ++right) {
+            if (left == right) {
+                continue;
+            }
+            const Point& right_point = problem.candidates[
+                static_cast<std::size_t>(
+                    layout[static_cast<std::size_t>(right)]
+                )
+            ];
+            const double dx = left_point.x - right_point.x;
+            const double dy = left_point.y - right_point.y;
+            distance.emplace_back(dx * dx + dy * dy, right);
+        }
+        std::stable_sort(distance.begin(), distance.end());
+        const int count = std::min(
+            nearest_neighbors,
+            static_cast<int>(distance.size())
+        );
+        for (int neighbor = 0; neighbor < count; ++neighbor) {
+            nearest[static_cast<std::size_t>(left)].push_back(
+                distance[static_cast<std::size_t>(neighbor)].second
+            );
+        }
+    }
+    std::vector<int> degree(static_cast<std::size_t>(size), 0);
+    for (int left = 0; left < size; ++left) {
+        for (const int right : nearest[static_cast<std::size_t>(left)]) {
+            ++degree[static_cast<std::size_t>(left)];
+            if (std::find(
+                    nearest[static_cast<std::size_t>(right)].begin(),
+                    nearest[static_cast<std::size_t>(right)].end(),
+                    left
+                ) == nearest[static_cast<std::size_t>(right)].end()) {
+                ++degree[static_cast<std::size_t>(right)];
+            }
+        }
+    }
+    Point centroid;
+    for (const int candidate : layout) {
+        const Point& point =
+            problem.candidates[static_cast<std::size_t>(candidate)];
+        centroid.x += point.x;
+        centroid.y += point.y;
+    }
+    centroid.x /= static_cast<double>(size);
+    centroid.y /= static_cast<double>(size);
+    std::vector<double> centroid_distance(
+        static_cast<std::size_t>(size), 0.0
+    );
+    double maximum_distance = 0.0;
+    double minimum_distance = std::numeric_limits<double>::infinity();
+    for (int index = 0; index < size; ++index) {
+        const Point& point = problem.candidates[
+            static_cast<std::size_t>(
+                layout[static_cast<std::size_t>(index)]
+            )
+        ];
+        centroid_distance[static_cast<std::size_t>(index)] = std::hypot(
+            point.x - centroid.x,
+            point.y - centroid.y
+        );
+        maximum_distance = std::max(
+            maximum_distance,
+            centroid_distance[static_cast<std::size_t>(index)]
+        );
+        minimum_distance = std::min(
+            minimum_distance,
+            centroid_distance[static_cast<std::size_t>(index)]
+        );
+    }
+    const int maximum_degree =
+        *std::max_element(degree.begin(), degree.end());
+    int isolated = 0;
+    double best_isolation = -1.0;
+    for (int index = 0; index < size; ++index) {
+        const double normalized_distance =
+            maximum_distance > minimum_distance
+                ? (
+                    centroid_distance[static_cast<std::size_t>(index)]
+                    - minimum_distance
+                ) / (maximum_distance - minimum_distance)
+                : 0.0;
+        const double isolation =
+            static_cast<double>(
+                maximum_degree - degree[static_cast<std::size_t>(index)]
+            ) + normalized_distance;
+        if (isolation > best_isolation
+            || (
+                isolation == best_isolation
+                && layout[static_cast<std::size_t>(index)]
+                    < layout[static_cast<std::size_t>(isolated)]
+            )) {
+            isolated = index;
+            best_isolation = isolation;
+        }
+    }
+    std::vector<char> used(problem.candidates.size(), 0);
+    for (const int candidate : layout) {
+        used[static_cast<std::size_t>(candidate)] = 1;
+    }
+    used[static_cast<std::size_t>(
+        layout[static_cast<std::size_t>(isolated)]
+    )] = 0;
+    std::vector<std::pair<double, int>> available;
+    available.reserve(
+        problem.candidates.size() - layout.size() + 1
+    );
+    for (int candidate = 0;
+         candidate < static_cast<int>(problem.candidates.size());
+         ++candidate) {
+        if (used[static_cast<std::size_t>(candidate)] != 0) {
+            continue;
+        }
+        const Point& point =
+            problem.candidates[static_cast<std::size_t>(candidate)];
+        available.emplace_back(
+            std::hypot(point.x - centroid.x, point.y - centroid.y),
+            candidate
+        );
+    }
+    std::stable_sort(available.begin(), available.end());
+    if (!available.empty()) {
+        layout[static_cast<std::size_t>(isolated)] =
+            available.front().second;
+    }
+}
 
 RunResult optimize(
     const Problem& problem,
@@ -1081,7 +1482,9 @@ RunResult optimize_geoga(
         const auto evaluation_started = Clock::now();
         executor.parallel_for(0, count, [&](int row) {
             output[static_cast<std::size_t>(row)] = evaluate(
-                layouts[static_cast<std::size_t>(row)], problem, false
+                layouts[static_cast<std::size_t>(row)],
+                problem,
+                EvaluationMode::AepOnly
             );
         });
         evaluator_seconds += std::chrono::duration<double>(
@@ -1293,6 +1696,269 @@ RunResult optimize_geoga(
     return result;
 }
 
+RunResult optimize_tmoea(
+    const Problem& problem,
+    std::uint64_t budget,
+    std::uint64_t seed,
+    int workers
+) {
+    const auto started = Clock::now();
+    constexpr int population_size = 30;
+    constexpr double swap_probability = 0.1;
+    if (budget < population_size) {
+        throw std::runtime_error(
+            "T-MOEA budget is below its 30-layout initialization"
+        );
+    }
+    if (static_cast<int>(problem.candidates.size())
+        <= problem.turbine_count) {
+        throw std::runtime_error(
+            "T-MOEA requires at least one unoccupied candidate"
+        );
+    }
+    fode::PersistentExecutor executor(workers);
+    fode::CounterRng rng(seed ^ 0x544d4f4541ULL);
+    std::vector<std::vector<int>> population(
+        static_cast<std::size_t>(population_size)
+    );
+    executor.parallel_for(0, population_size, [&](int individual) {
+        population[static_cast<std::size_t>(individual)] =
+            random_ordered_layout(problem, rng, 4000, individual);
+    });
+    std::vector<Evaluation> values(static_cast<std::size_t>(population_size));
+    double evaluator_seconds = 0.0;
+    auto evaluate_batch = [&](const std::vector<std::vector<int>>& layouts,
+                              std::vector<Evaluation>& output,
+                              int count) {
+        const auto evaluation_started = Clock::now();
+        executor.parallel_for(0, count, [&](int row) {
+            output[static_cast<std::size_t>(row)] = evaluate(
+                layouts[static_cast<std::size_t>(row)],
+                problem,
+                EvaluationMode::TmoeaAepAndCable
+            );
+        });
+        evaluator_seconds += std::chrono::duration<double>(
+            Clock::now() - evaluation_started
+        ).count();
+    };
+    evaluate_batch(population, values, population_size);
+    std::uint64_t fes = population_size;
+    std::uint64_t generation = 0;
+    while (fes < budget) {
+        ++generation;
+        const int count = static_cast<int>(std::min<std::uint64_t>(
+            population_size, budget - fes
+        ));
+        const BiRankedPopulation ranked = bi_rank_and_crowding(values);
+        auto select_parent = [&](int child, int which) {
+            const int first = rng.integer(
+                0,
+                population_size,
+                generation,
+                4001 + static_cast<std::uint64_t>(2 * which),
+                static_cast<std::uint64_t>(child)
+            );
+            const int second = rng.integer(
+                0,
+                population_size,
+                generation,
+                4002 + static_cast<std::uint64_t>(2 * which),
+                static_cast<std::uint64_t>(child)
+            );
+            return bi_tournament(first, second, ranked);
+        };
+        std::vector<std::vector<int>> offspring(
+            static_cast<std::size_t>(count)
+        );
+        executor.parallel_for(0, count, [&](int child_index) {
+            int first = select_parent(child_index, 0);
+            int second = select_parent(child_index, 1);
+            if (first == second) {
+                second = (second + 1) % population_size;
+            }
+            const int cut = rng.integer(
+                1,
+                problem.turbine_count,
+                generation,
+                4005,
+                static_cast<std::uint64_t>(child_index)
+            );
+            const auto& first_parent =
+                population[static_cast<std::size_t>(first)];
+            const auto& second_parent =
+                population[static_cast<std::size_t>(second)];
+            std::vector<int> child;
+            child.reserve(static_cast<std::size_t>(problem.turbine_count));
+            child.insert(
+                child.end(),
+                first_parent.begin(),
+                first_parent.begin() + cut
+            );
+            child.insert(
+                child.end(),
+                second_parent.begin() + cut,
+                second_parent.end()
+            );
+            repair_ordered(
+                child,
+                problem.turbine_count,
+                static_cast<int>(problem.candidates.size()),
+                rng,
+                generation,
+                4006,
+                child_index
+            );
+            tmoea_topology_mutation(
+                child,
+                problem
+            );
+            if (rng.uniform(
+                    generation,
+                    4009,
+                    static_cast<std::uint64_t>(child_index)
+                ) < swap_probability) {
+                const int first_position = rng.integer(
+                    0,
+                    problem.turbine_count,
+                    generation,
+                    4010,
+                    static_cast<std::uint64_t>(child_index)
+                );
+                int second_position = rng.integer(
+                    0,
+                    problem.turbine_count,
+                    generation,
+                    4011,
+                    static_cast<std::uint64_t>(child_index)
+                );
+                if (first_position == second_position) {
+                    second_position =
+                        (second_position + 1) % problem.turbine_count;
+                }
+                std::swap(
+                    child[static_cast<std::size_t>(first_position)],
+                    child[static_cast<std::size_t>(second_position)]
+                );
+            }
+            offspring[static_cast<std::size_t>(child_index)] =
+                std::move(child);
+        });
+        std::vector<Evaluation> offspring_values(
+            static_cast<std::size_t>(count)
+        );
+        evaluate_batch(offspring, offspring_values, count);
+
+        struct Candidate {
+            Evaluation value;
+            std::vector<int> layout;
+        };
+        std::vector<Candidate> candidates;
+        candidates.reserve(
+            static_cast<std::size_t>(population_size + count)
+        );
+        for (int row = 0; row < population_size; ++row) {
+            candidates.push_back({
+                values[static_cast<std::size_t>(row)],
+                population[static_cast<std::size_t>(row)]
+            });
+        }
+        for (int row = 0; row < count; ++row) {
+            candidates.push_back({
+                offspring_values[static_cast<std::size_t>(row)],
+                std::move(offspring[static_cast<std::size_t>(row)])
+            });
+        }
+        std::vector<Evaluation> combined_values;
+        combined_values.reserve(candidates.size());
+        for (const Candidate& candidate : candidates) {
+            combined_values.push_back(candidate.value);
+        }
+        const BiRankedPopulation combined_ranked =
+            bi_rank_and_crowding(combined_values);
+        std::vector<int> order(candidates.size());
+        std::iota(order.begin(), order.end(), 0);
+        std::stable_sort(
+            order.begin(),
+            order.end(),
+            [&](int left, int right) {
+                const int left_rank =
+                    combined_ranked.rank[static_cast<std::size_t>(left)];
+                const int right_rank =
+                    combined_ranked.rank[static_cast<std::size_t>(right)];
+                if (left_rank != right_rank) {
+                    return left_rank < right_rank;
+                }
+                const double left_crowding =
+                    combined_ranked.crowding[
+                        static_cast<std::size_t>(left)
+                    ];
+                const double right_crowding =
+                    combined_ranked.crowding[
+                        static_cast<std::size_t>(right)
+                    ];
+                if (left_crowding != right_crowding) {
+                    return left_crowding > right_crowding;
+                }
+                return candidates[static_cast<std::size_t>(left)].layout
+                    < candidates[static_cast<std::size_t>(right)].layout;
+            }
+        );
+        for (int row = 0; row < population_size; ++row) {
+            const int selected = order[static_cast<std::size_t>(row)];
+            values[static_cast<std::size_t>(row)] =
+                candidates[static_cast<std::size_t>(selected)].value;
+            population[static_cast<std::size_t>(row)] =
+                std::move(
+                    candidates[static_cast<std::size_t>(selected)].layout
+                );
+        }
+        fes += static_cast<std::uint64_t>(count);
+    }
+    const BiRankedPopulation final_ranked =
+        bi_rank_and_crowding(values);
+    std::vector<int> front_indices;
+    for (int row = 0; row < population_size; ++row) {
+        if (final_ranked.rank[static_cast<std::size_t>(row)] == 0) {
+            front_indices.push_back(row);
+        }
+    }
+    std::stable_sort(
+        front_indices.begin(),
+        front_indices.end(),
+        [&](int left, int right) {
+            const BiObjectives left_objectives = tmoea_objectives(
+                values[static_cast<std::size_t>(left)]
+            );
+            const BiObjectives right_objectives = tmoea_objectives(
+                values[static_cast<std::size_t>(right)]
+            );
+            if (left_objectives != right_objectives) {
+                return left_objectives < right_objectives;
+            }
+            return population[static_cast<std::size_t>(left)]
+                < population[static_cast<std::size_t>(right)];
+        }
+    );
+    RunResult result;
+    for (const int index : front_indices) {
+        result.front.push_back({
+            values[static_cast<std::size_t>(index)],
+            population[static_cast<std::size_t>(index)]
+        });
+    }
+    const int representative = front_indices.front();
+    result.best = values[static_cast<std::size_t>(representative)];
+    result.layout = population[static_cast<std::size_t>(representative)];
+    result.fes = fes;
+    result.generations = generation;
+    result.total_seconds = std::chrono::duration<double>(
+        Clock::now() - started
+    ).count();
+    result.evaluator_seconds = evaluator_seconds;
+    return result;
+}
+
 struct Arguments {
     std::filesystem::path problem;
     std::filesystem::path output;
@@ -1334,9 +2000,11 @@ Arguments parse_arguments(int argc, char** argv) {
             throw std::invalid_argument("unknown argument: " + flag);
         }
     }
-    if (result.algorithm != "gga" && result.algorithm != "geoga") {
+    if (result.algorithm != "gga"
+        && result.algorithm != "geoga"
+        && result.algorithm != "tmoea") {
         throw std::invalid_argument(
-            "--algorithm must be gga or geoga"
+            "--algorithm must be gga, geoga, or tmoea"
         );
     }
     return result;
@@ -1363,6 +2031,7 @@ std::string to_json(
     std::ostringstream output;
     const bool evaluation_only = !arguments.layout_spec.empty();
     const bool geoga = arguments.algorithm == "geoga";
+    const bool tmoea = arguments.algorithm == "tmoea";
     output << std::setprecision(17);
     output << "{\n"
            << "  \"schema_version\": 1,\n"
@@ -1373,12 +2042,20 @@ std::string to_json(
                    ? (
                        geoga
                            ? "GEOGA_DECLARED_RECONSTRUCTION_EVALUATOR"
-                           : "GGA_CPP_REPAIRED_EVALUATOR"
+                           : (
+                               tmoea
+                                   ? "TMOEA_NYSTED_RECONSTRUCTION_EVALUATOR"
+                                   : "GGA_CPP_REPAIRED_EVALUATOR"
+                           )
                    )
                    : (
                        geoga
                            ? "GEOGA_DECLARED_RECONSTRUCTION_V1"
-                           : "GGA_CPP_HPC_FULL"
+                           : (
+                               tmoea
+                                   ? "TMOEA_NYSTED_GGA_ASSET_RECONSTRUCTION_V1"
+                                   : "GGA_CPP_HPC_FULL"
+                           )
                    )
            ) << "\",\n"
            << "  \"run_mode\": \""
@@ -1388,7 +2065,11 @@ std::string to_json(
            << (
                geoga
                    ? "admitted_gga_problem_asset_proxy"
-                   : "gga2026_layout_cable"
+                   : (
+                       tmoea
+                           ? "nysted_gga_asset_reconstruction"
+                           : "gga2026_layout_cable"
+                   )
            ) << "\",\n"
            << "  \"problem_semantics_id\": \"" << problem.profile << "\",\n"
            << "  \"case_id\": \"" << problem.case_id << "\",\n"
@@ -1417,6 +2098,37 @@ std::string to_json(
         output << result.layout[index];
     }
     output << "],\n"
+           << "  \"nondominated_count\": "
+           << result.front.size() << ",\n"
+           << "  \"front\": [";
+    for (std::size_t point = 0; point < result.front.size(); ++point) {
+        if (point != 0) {
+            output << ",";
+        }
+        const auto& member = result.front[point];
+        output << "\n    {\n"
+               << "      \"objectives\": ["
+               << -member.value.aep_kwh << ", "
+               << member.value.cable_cost << "],\n"
+               << "      \"aep_kwh\": " << member.value.aep_kwh << ",\n"
+               << "      \"cable_cost\": "
+               << member.value.cable_cost << ",\n"
+               << "      \"layout_0based\": [";
+        for (std::size_t index = 0;
+             index < member.layout.size();
+             ++index) {
+            if (index != 0) {
+                output << ", ";
+            }
+            output << member.layout[index];
+        }
+        output << "]\n"
+               << "    }";
+    }
+    if (!result.front.empty()) {
+        output << "\n  ";
+    }
+    output << "],\n"
            << "  \"timing_seconds\": {\n"
            << "    \"end_to_end\": " << result.total_seconds << ",\n"
            << "    \"evaluator\": " << result.evaluator_seconds << ",\n"
@@ -1429,6 +2141,34 @@ std::string to_json(
     return output.str();
 }
 
+void write_atomic(
+    const std::filesystem::path& destination,
+    const std::string& contents
+) {
+    if (!destination.parent_path().empty()) {
+        std::filesystem::create_directories(destination.parent_path());
+    }
+    std::filesystem::path temporary = destination;
+    temporary += ".tmp";
+    {
+        std::ofstream output(temporary, std::ios::trunc);
+        if (!output) {
+            throw std::runtime_error(
+                "cannot open temporary output: " + temporary.string()
+            );
+        }
+        output << contents;
+        output.flush();
+        if (!output) {
+            throw std::runtime_error(
+                "cannot complete temporary output: "
+                + temporary.string()
+            );
+        }
+    }
+    std::filesystem::rename(temporary, destination);
+}
+
 }  // namespace
 
 int main(int argc, char** argv) {
@@ -1438,7 +2178,7 @@ int main(int argc, char** argv) {
             std::cout
                 << "gga_cpp_hpc --problem CASE.wfp [--physical-fes N] "
                 << "[--workers N] [--seed N] [--output FILE] "
-                << "[--algorithm gga|geoga] "
+                << "[--algorithm gga|geoga|tmoea] "
                 << "[--evaluate-layout i0,i1,...]\n";
             return 0;
         }
@@ -1451,19 +2191,28 @@ int main(int argc, char** argv) {
         const Problem problem = load_problem(arguments.problem);
         RunResult result;
         if (arguments.layout_spec.empty()) {
-            result = arguments.algorithm == "geoga"
-                ? optimize_geoga(
-                    problem,
-                    arguments.physical_fes,
-                    arguments.seed,
-                    arguments.workers
-                )
-                : optimize(
+            if (arguments.algorithm == "geoga") {
+                result = optimize_geoga(
                     problem,
                     arguments.physical_fes,
                     arguments.seed,
                     arguments.workers
                 );
+            } else if (arguments.algorithm == "tmoea") {
+                result = optimize_tmoea(
+                    problem,
+                    arguments.physical_fes,
+                    arguments.seed,
+                    arguments.workers
+                );
+            } else {
+                result = optimize(
+                    problem,
+                    arguments.physical_fes,
+                    arguments.seed,
+                    arguments.workers
+                );
+            }
         } else {
             result.layout = parse_layout(arguments.layout_spec);
             std::vector<int> sorted = result.layout;
@@ -1483,7 +2232,13 @@ int main(int argc, char** argv) {
             result.best = evaluate(
                 result.layout,
                 problem,
-                arguments.algorithm != "geoga"
+                arguments.algorithm == "geoga"
+                    ? EvaluationMode::AepOnly
+                    : (
+                        arguments.algorithm == "tmoea"
+                            ? EvaluationMode::TmoeaAepAndCable
+                            : EvaluationMode::Lcoe
+                    )
             );
             result.evaluator_seconds = std::chrono::duration<double>(
                 Clock::now() - started
@@ -1496,8 +2251,7 @@ int main(int argc, char** argv) {
         if (arguments.output.empty()) {
             std::cout << json;
         } else {
-            std::ofstream output(arguments.output);
-            output << json;
+            write_atomic(arguments.output, json);
         }
         std::cerr << arguments.algorithm << " " << problem.case_id
                   << " FES=" << result.fes
@@ -1505,7 +2259,11 @@ int main(int argc, char** argv) {
                   << (
                       arguments.algorithm == "geoga"
                           ? result.best.aep_kwh
-                          : result.best.lcoe
+                          : (
+                              arguments.algorithm == "tmoea"
+                                  ? -result.best.aep_kwh
+                                  : result.best.lcoe
+                          )
                   )
                   << " seconds=" << result.total_seconds << "\n";
         return 0;

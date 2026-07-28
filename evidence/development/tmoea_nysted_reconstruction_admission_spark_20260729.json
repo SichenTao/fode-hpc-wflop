@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "receipt_id": "tmoea_nysted_reconstruction_admission_spark_20260729",
+  "evidence_class": "development_diagnostic",
+  "algorithm_id": "tmoea",
+  "method_id": "TMOEA_NYSTED_GGA_ASSET_RECONSTRUCTION_V1",
+  "claim_boundary": "Equation-led reconstruction on same-author public Nysted assets; not original T-MOEA reproduction, not MATLAB-to-C++ evidence, and not a formal Waffle result.",
+  "host": {
+    "name": "spark",
+    "kernel": "Linux 6.14.0-1015-nvidia aarch64",
+    "visible_cpus": 20,
+    "cpu_groups": [
+      "10 Cortex-X925 cores",
+      "10 Cortex-A725 cores"
+    ],
+    "compiler": "Ubuntu g++ 11.5.0",
+    "cmake": "3.28.3"
+  },
+  "problem": {
+    "case_id": "Denmark_Nysted",
+    "problem_id": "nysted_gga_asset_reconstruction",
+    "turbines": 72,
+    "candidate_sites": 130,
+    "complete_objectives_per_physical_fes": [
+      "negative AEP over 12 directions and 4 speed bins",
+      "balanced-substation radial cable routing and pricing"
+    ],
+    "asset_sha256": "920cb61b0dc1415af4b6908252799d703c884f2eeaec9ba7b9590c42d40791c4"
+  },
+  "scientific_work": {
+    "population_size": 30,
+    "physical_fes": 3000,
+    "evaluated_population_states": 100,
+    "offspring_generations_after_initialization": 99,
+    "seed": 20260729,
+    "final_nondominated_count": 28
+  },
+  "admission": {
+    "one_vs_twenty_worker_semantics": "exact",
+    "front_artifact": "all members mutually nondominated and each AEP/cable pair replayed exactly",
+    "physical_fes": "exactly 3000 complete biobjective evaluations",
+    "address_sanitizer": "pass with 20 workers and 150 physical FES",
+    "undefined_behavior_sanitizer": "pass with 20 workers and 150 physical FES",
+    "leak_sanitizer": "pass with 20 workers and 150 physical FES",
+    "repository_ctest": "16 of 16 passed after integration"
+  },
+  "scaling_protocol": {
+    "comparison": "the identical pure C++ executable, problem, seed, and 3000-FES work contract at one requested worker versus twenty requested workers",
+    "alternating_order": "one-worker run followed by twenty-worker run, repeated five times",
+    "timing_scope": "process-internal steady-clock sections; file serialization follows the recorded end-to-end section",
+    "one_worker_seconds": [
+      {
+        "end_to_end": 1.330422093,
+        "evaluator": 1.0005840290000003,
+        "algorithm": 0.3298380639999996
+      },
+      {
+        "end_to_end": 1.356713352,
+        "evaluator": 1.0194805969999998,
+        "algorithm": 0.3372327550000003
+      },
+      {
+        "end_to_end": 1.34417216,
+        "evaluator": 1.0128897309999996,
+        "algorithm": 0.3312824290000005
+      },
+      {
+        "end_to_end": 1.36662839,
+        "evaluator": 1.0300961089999998,
+        "algorithm": 0.3365322810000002
+      },
+      {
+        "end_to_end": 1.366623231,
+        "evaluator": 1.030101421,
+        "algorithm": 0.33652181000000003
+      }
+    ],
+    "twenty_worker_seconds": [
+      {
+        "end_to_end": 0.169270982,
+        "evaluator": 0.12853639700000002,
+        "algorithm": 0.04073458499999996
+      },
+      {
+        "end_to_end": 0.103344473,
+        "evaluator": 0.07393954600000005,
+        "algorithm": 0.029404926999999956
+      },
+      {
+        "end_to_end": 0.101871833,
+        "evaluator": 0.07149483400000001,
+        "algorithm": 0.030376998999999988
+      },
+      {
+        "end_to_end": 0.101294728,
+        "evaluator": 0.07182799300000002,
+        "algorithm": 0.02946673499999998
+      },
+      {
+        "end_to_end": 0.102464693,
+        "evaluator": 0.07256456999999997,
+        "algorithm": 0.02990012300000003
+      }
+    ],
+    "median_seconds": {
+      "one_worker": {
+        "end_to_end": 1.356713352,
+        "evaluator": 1.0194805969999998,
+        "algorithm": 0.33652181000000003
+      },
+      "twenty_workers": {
+        "end_to_end": 0.102464693,
+        "evaluator": 0.07256456999999997,
+        "algorithm": 0.02990012300000003
+      }
+    },
+    "median_speedup_one_to_twenty_workers": {
+      "end_to_end": 13.240788727098417,
+      "evaluator": 14.04928875069473,
+      "algorithm": 11.25486373417259
+    }
+  },
+  "formal_status": "development_admitted_reconstruction_only_Waffle_pending"
+}

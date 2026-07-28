@@ -114,6 +114,28 @@ build/hpc/gga_cpp/gga_cpp_hpc \
 The exact reconstruction controls and claim boundary are frozen in
 `shared/contracts/geoga_reconstruction_execution_contract.json`.
 
+The GGA executable also provides an equation-led T-MOEA reconstruction on the
+same-author public Nysted asset. It preserves the paper's two objectives,
+Jensen wake equation, NSGA-II environmental selection, single-point crossover,
+topology-isolation mutation, and order-changing index swap. The missing
+nearest-neighbor size, probabilities, cable router, candidate sample, and tie
+rules are explicit reconstruction controls. The complete nondominated front is
+written atomically and every member can be replayed through `--evaluate-layout`:
+
+```bash
+build/hpc/gga_cpp/gga_cpp_hpc \
+  --algorithm tmoea \
+  --problem .source-cache/generated/gga_repaired/Denmark_Nysted.wfp \
+  --physical-fes 3000 \
+  --seed 20260729 \
+  --workers "$(nproc)" \
+  --output results/tmoea_nysted_reconstruction.json
+```
+
+This command is not the unavailable original T-MOEA experiment. Its
+same-author asset boundary and every conventional completion are frozen in
+`shared/contracts/tmoea_nysted_reconstruction_execution_contract.json`.
+
 After a target machine, compiler, and worker count have been frozen, run the
 25-seed fixed-work campaign with:
 
