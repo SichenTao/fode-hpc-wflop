@@ -93,6 +93,27 @@ build/hpc/gga_cpp/gga_cpp_hpc \
   --output results/gga_Egmond.json
 ```
 
+The same executable also contains a separately identified reconstruction of
+the published GeoGA operators. It maximizes AEP, uses roulette selection,
+one-point crossover, and a five-nearest-free-candidate geometric mutation.
+Because the Anholt boundary, wind arrays, turbine curve, actual layout, and
+paper-used Poisson sample are not public, this command deliberately runs on an
+admitted WFLO-GGA problem asset and must not be described as an Anholt
+reproduction:
+
+```bash
+build/hpc/gga_cpp/gga_cpp_hpc \
+  --algorithm geoga \
+  --problem .source-cache/generated/gga_repaired/UK_London_Array.wfp \
+  --physical-fes 10000 \
+  --seed 20260729 \
+  --workers "$(nproc)" \
+  --output results/geoga_proxy_London_Array.json
+```
+
+The exact reconstruction controls and claim boundary are frozen in
+`shared/contracts/geoga_reconstruction_execution_contract.json`.
+
 After a target machine, compiler, and worker count have been frozen, run the
 25-seed fixed-work campaign with:
 
@@ -171,6 +192,14 @@ has exact semantic agreement, and the heaviest-site smoke passes address and
 undefined-behavior sanitizers. These are development admission results; the
 25-seed Waffle campaign remains pending.
 
+For the GeoGA reconstruction, all eight available WFLO-GGA problem assets pass
+a 150-layout smoke, the one-worker/twenty-worker scientific outputs and
+best-layout replay match exactly, and the London Array sanitizer probe passes.
+A five-repeat Spark diagnostic on 1,050 complete London Array AEP evaluations
+measured 13.30x evaluator and 12.92x end-to-end speedup from one to twenty
+workers. These are development results for a declared proxy profile, not
+MATLAB-to-C++ evidence and not reproduction of the unavailable Anholt case.
+
 For the three-objective MOEA/D-P development package, an independent Python
 scalar oracle covers both wind scenarios and three contrasting layouts. The
 one-worker/four-worker scientific outputs match exactly, the 30-turbine WS2
@@ -193,7 +222,10 @@ Shangce Gao or Sichen Tao. Each paper package must pass five gates:
 
 Missing papers or source code are registered as explicit states rather than
 silently guessed. See `docs/author_lineage_registry.tsv` and
-`docs/roadmap.md`. The 2026-07-29 scope freezes 23 unique DOI records and
+`docs/roadmap.md`. The machine-readable omission boundary for TAAE, ALGA,
+PPGA, T-MOEA, and GeoGA is frozen in
+`shared/contracts/remaining_heterogeneous_reproducibility.json`. The
+2026-07-29 scope freezes 23 unique DOI records and
 automatically checks the Jiayi Li, Baohang Zhang, Chen Zhang, Yuhang Ma, and
 Jiaru Yang coauthor lines named during scope review. The minimum is append-only:
 future official-homepage records can expand it.

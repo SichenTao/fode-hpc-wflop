@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "receipt_id": "remaining_heterogeneous_r0_r2_audit_20260729",
+  "scope": [
+    "Y36",
+    "T45",
+    "T43",
+    "T36",
+    "L0726"
+  ],
+  "paper_sha256": {
+    "Y36": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b",
+    "T45": "770b56c0dccbd7683e3c33652d7062c385eb2f00c126d2e9f2a3b7129fdc5872",
+    "T43": "92d3eb80a5f6ba3dcf904712f19bd1f81e4432a3d13235b27b74ceda3fece016",
+    "T36": "ee24999861a2a42766bd62bca509bf3bc0334e6b654a61f72fd55ba829f20873",
+    "L0726": "8bdca5f23fc34687ab8069eb0ee8d6c1b3775567ba688fdc9248b91ce5f6fb7c"
+  },
+  "source_discovery": {
+    "gao_homepage_manifest": {
+      "snapshot": "2026-07-28",
+      "T45": "no code or data URL",
+      "T43": "no code or data URL",
+      "Y36_T36_L0726": "no downloadable author source registered"
+    },
+    "github_repository_search": {
+      "date": "2026-07-29",
+      "queries": 5,
+      "exact_title_repository_hits": 0,
+      "evidence_boundary": "Public GitHub repository-name and description search is not proof that no private, unindexed, or differently named source exists."
+    },
+    "crossref": {
+      "T45": "publisher full-text links only; no related software or dataset relation",
+      "T43": "publisher PDF link only; no related software or dataset relation",
+      "T36": "publisher PDF link only; no related software or dataset relation",
+      "L0726": "publisher PDF link only; no related software or dataset relation",
+      "Y36": "DOI metadata not yet returned by Crossref at audit time"
+    },
+    "same_author_public_problem_assets": {
+      "authority": "WFLO-GGA author GitHub commit 6ce41326e6c1d3685a01e038baf6d1d07aa46126",
+      "Nysted": "machine-readable boundary, wind, turbine, substation, cable, and repaired candidate assets are available",
+      "Guishan": "machine-readable planar boundary, annual wind, turbine, substation, cable, and repaired candidate assets are available",
+      "identity_limit": "No paper or source link establishes that these arrays are the exact T-MOEA or ALGA experimental inputs."
+    }
+  },
+  "audit_result": {
+    "Y36": "original Zhangbei study blocked at R1 and R2; formula fixtures are possible",
+    "T45": "original Guishan 3D study and trained ALGA blocked at R1 and R2",
+    "T43": "original Nantong 3D study and exact PPGA transition blocked at R1 and R2",
+    "T36": "original Nysted joint layout-topology study blocked at R1 and R2; same-author reconstruction is possible under a new semantic identifier",
+    "L0726": "original Anholt problem blocked at R1; GeoGA operators can be reconstructed under a new semantic identifier"
+  },
+  "registered_discrepancies": [
+    "TAAE-001",
+    "TAAE-002",
+    "TAAE-003",
+    "ALGA-001",
+    "ALGA-002",
+    "ALGA-003",
+    "PPGA-001",
+    "PPGA-002",
+    "PPGA-003",
+    "TMOEA-001",
+    "TMOEA-002",
+    "TMOEA-003",
+    "GEOGA-001",
+    "GEOGA-002",
+    "GEOGA-003"
+  ],
+  "status": "r0_pass_original_profiles_blocked_r1_or_r2",
+  "next_implementation": [
+    "Implement tmoea_nysted_gga_asset_reconstruction_v1 through the shared GGA evaluator and routing contract.",
+    "Implement geoga_declared_reconstruction_v1 against an explicitly admitted irregular problem package.",
+    "Keep TAAE, ALGA, and original PPGA out of formal comparisons until their hidden problem or learning state is supplied or the user explicitly selects a proxy study."
+  ],
+  "evidence_boundary": "This receipt proves a bounded paper/source omission audit and identifies safe reconstruction boundaries. It does not prove nonexistence of unpublished assets, algorithm execution, original-study reproduction, or HPC performance."
+}

@@ -1,0 +1,57 @@
+{
+  "schema_version": 1,
+  "study_id": "geoga_declared_reconstruction_v1",
+  "corpus_id": "L0726",
+  "paper_doi": "10.1109/CBD69312.2025.00059",
+  "algorithm_id": "geoga",
+  "method_id": "GEOGA_DECLARED_RECONSTRUCTION_V1",
+  "implementation_language": "C++20",
+  "claim_boundary": "This is a reconstruction of the published GeoGA operators on separately admitted WFLO-GGA problem assets. It is not a reproduction of the unavailable Anholt case.",
+  "paper_preserved_controls": {
+    "objective": "maximize annual energy production",
+    "selection": "roulette wheel proportional to nonnegative AEP",
+    "crossover": "one-point crossover",
+    "geometry_mutation": "replace one selected turbine with a uniformly sampled free candidate among its five nearest free candidates",
+    "population_size": 50,
+    "paper_reported_work": "200 iterations and 10000 fitness evaluations",
+    "paper_reported_repeats": 30
+  },
+  "declared_reconstruction_controls": {
+    "crossover_probability": 1.0,
+    "geometry_mutation_probability": 1.0,
+    "duplicate_repair": "unique valid indices followed by counter-keyed uniform free-candidate refill",
+    "survivor_selection": "deterministic best-50 AEP elitism from parents plus evaluated offspring",
+    "tie_break": "lexicographically smaller sorted candidate-index vector",
+    "physical_fes": "initial fifty complete layout evaluations consume the first fifty budget units; stop exactly at the requested count",
+    "integer_representation": "sorted unique zero-based candidate indices"
+  },
+  "shared_evaluator": {
+    "implementation": "paper-repaired WFLO-GGA C++ Jensen RSS evaluator",
+    "active_outputs": [
+      "AEP",
+      "capacity factor"
+    ],
+    "disabled_foreign_work": [
+      "cable routing",
+      "cable cost",
+      "LCOE"
+    ]
+  },
+  "parallel_contract": {
+    "worker_count": "all processors visible to the job",
+    "parallel_stages": [
+      "initial layout construction",
+      "offspring construction, repair, and geometry mutation from a read-only parent generation",
+      "complete independent AEP evaluations"
+    ],
+    "ordered_stages": [
+      "roulette score construction",
+      "parent-plus-offspring elitist survival",
+      "best-layout reduction"
+    ],
+    "randomness": "counter-keyed events independent of worker scheduling",
+    "worker_count_scientific_equivalence": "exact"
+  },
+  "original_anholt_status": "blocked_r1_missing_boundary_wind_curve_layout_candidate_and_seed_assets",
+  "formal_status": "development_admitted_proxy_only"
+}

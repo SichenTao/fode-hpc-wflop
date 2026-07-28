@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "contract_id": "remaining_heterogeneous_reproducibility_20260729",
+  "scope": [
+    "Y36",
+    "T45",
+    "T43",
+    "T36",
+    "L0726"
+  ],
+  "authority_order": [
+    "author-released source and machine-readable case assets",
+    "paper and its supplementary material",
+    "same-author public problem-family assets, under a distinct reconstruction semantic identifier",
+    "declared engineering reconstruction, never labelled as reproduction"
+  ],
+  "admission_rule": {
+    "original_problem": "Every value that changes the feasible set, objective, constraint, learning state, or physical FES must be machine readable or uniquely specified before R3.",
+    "reconstruction": "A runnable reconstruction is allowed only under a different semantic identifier with every substituted input and inferred transition registered.",
+    "formal_comparison": "Original-problem and reconstructed-proxy results must never be pooled.",
+    "hpc": "R4 speed or scaling evidence is admissible only after the corresponding R1 and R2 semantic profile passes."
+  },
+  "packages": {
+    "Y36": {
+      "paper_doi": "10.1109/JAS.2026.126233",
+      "method": "TAAE",
+      "original_problem_status": "blocked_r1",
+      "original_method_status": "blocked_r2",
+      "available": [
+        "main paper and embedded supplementary material",
+        "20 by 20 grid and 15 turbines",
+        "three budget thresholds and two noise-monitor configurations shown as figures",
+        "3D wake, noise, cost, Transformer, loss, and latent-DE equations",
+        "population 100, maximum 10000 complete objective evaluations, 16 runs",
+        "pretraining and fine-tuning hyperparameters reported in prose"
+      ],
+      "missing_problem_identity": [
+        "400-cell Zhangbei elevation array",
+        "eight joint wind speed-direction probability arrays",
+        "machine-readable coordinates of both noise-monitor configurations",
+        "all numeric acoustics constants, spectra, attenuation inputs, and A-weight corrections",
+        "land unit-cost coefficient and any omitted physical constants",
+        "case-level reference fronts"
+      ],
+      "missing_method_identity": [
+        "pretraining layout corpus or its deterministic generator seed",
+        "pretrained checkpoint",
+        "complete Transformer feed-forward dimensions, normalization, dropout, and initialization settings",
+        "lambda_reg and lambda_smooth",
+        "fine-tuning batch construction and random seed contract",
+        "decoder token tie-breaking and complete duplicate-refill policy"
+      ],
+      "safe_next_profile": "taae_formula_fixture_v1",
+      "safe_next_profile_meaning": "Formula and tensor-shape tests only; not a reproduction of the Zhangbei study."
+    },
+    "T45": {
+      "paper_doi": "10.1016/j.swevo.2025.102018",
+      "method": "ALGA",
+      "original_problem_status": "blocked_r1",
+      "original_method_status": "blocked_r2",
+      "available": [
+        "paper equations and pseudocode",
+        "12 by 12 ideal grid with 500 m spacing",
+        "20, 30, and 40 turbine cases",
+        "population 30, 100 generations, 30 runs",
+        "eight attention heads and learning rate 0.001",
+        "Data availability statement says data available on request"
+      ],
+      "missing_problem_identity": [
+        "four ideal joint wind arrays shown only as wind-rose figures",
+        "Guishan terrain elevation array",
+        "four seasonal Guishan joint wind arrays",
+        "exact site candidate coordinates and height interpolation",
+        "MySE11-230 power and thrust curves"
+      ],
+      "missing_method_identity": [
+        "network training target and loss",
+        "optimizer and training-epoch schedule",
+        "key/query dimension and shallow-network layer widths",
+        "elite count E",
+        "attention-to-mask construction and replacement cardinality",
+        "model initialization, batching, and random seed contract",
+        "exact crossover arithmetic and integer repair semantics"
+      ],
+      "same_author_public_assets": [
+        "WFLO-GGA provides a planar Guishan boundary and annual wind distribution",
+        "those assets do not provide the ALGA terrain or four seasonal wind scenarios"
+      ],
+      "safe_next_profile": "alga_attention_formula_fixture_v1",
+      "safe_next_profile_meaning": "Attention equation tests only; not the reported trained ALGA."
+    },
+    "T43": {
+      "paper_doi": "10.1109/JAS.2025.125351",
+      "method": "PPGA",
+      "original_problem_status": "blocked_r1",
+      "original_method_status": "blocked_r2",
+      "available": [
+        "paper equations and pseudocode",
+        "16 by 27 grid at 300 m spacing",
+        "20, 30, 40, and 50 turbine cases",
+        "four wind-rose figures",
+        "population 30, 50 generations, 30 runs",
+        "power-law exponent 2.5, crossover 0.8, mutation 0.1, threshold 0"
+      ],
+      "missing_problem_identity": [
+        "432-cell Nantong elevation array",
+        "four joint wind speed-direction probability arrays",
+        "H171-6.2MW power and thrust curves",
+        "wind-shear exponent, reference height, induction factor, and scenario-specific wake inputs"
+      ],
+      "missing_method_identity": [
+        "fitness normalization used in evolutionary-adaptation degree",
+        "stagnant-individual definition and history length",
+        "distance definition used in diversity",
+        "feature-mapping crossover vector generation",
+        "normalized power-law sampler and boundary/integer repair",
+        "elite cardinality k and parent-offspring survivor details",
+        "physical-FES accounting for perturbation and candidate repair"
+      ],
+      "safe_next_profile": "ppga_declared_reconstruction_v1",
+      "safe_next_profile_meaning": "A fully ledgered engineering reconstruction may run on an admitted external problem, but is not the Nantong reproduction."
+    },
+    "T36": {
+      "paper_doi": "10.1109/CPEEE69412.2026.11521465",
+      "method": "T-MOEA",
+      "original_problem_status": "blocked_r1",
+      "original_method_status": "blocked_r2",
+      "available": [
+        "paper equations and pseudocode",
+        "Nysted site identity and 72-turbine scalar parameters",
+        "Jensen wake and root-sum-square superposition",
+        "radial cable constraints",
+        "population 30, 100 generations, 30 runs"
+      ],
+      "missing_problem_identity": [
+        "paper-used boundary coordinates",
+        "twelve joint wind bins and probabilities",
+        "manufacturer power curve",
+        "substation coordinate",
+        "cable type costs, installation allowances, and rated currents",
+        "candidate point set, Poisson seed, and reference front"
+      ],
+      "missing_method_identity": [
+        "cable-topology decision encoding and variation",
+        "method that constructs or optimizes each radial network",
+        "k in the k-nearest-neighbor graph",
+        "crossover probability, mutation probability, and duplicate repair",
+        "topology-mutation application probability and tie rules"
+      ],
+      "same_author_public_assets": [
+        "WFLO-GGA provides machine-readable Nysted boundary, wind, turbine, substation, and cable arrays",
+        "the public assets are a candidate reconstruction authority, not proof of identity with T-MOEA"
+      ],
+      "safe_next_profile": "tmoea_nysted_gga_asset_reconstruction_v1",
+      "safe_next_profile_meaning": "T-MOEA equations completed with explicitly frozen WFLO-GGA Nysted assets and routing; not the inaccessible original implementation."
+    },
+    "L0726": {
+      "paper_doi": "10.1109/CBD69312.2025.00059",
+      "method": "GeoGA",
+      "original_problem_status": "blocked_r1",
+      "original_method_status": "reconstructable_r2_with_declared_controls",
+      "available": [
+        "paper equations and two complete operator pseudocodes",
+        "Anholt site identity and 111-turbine scalar parameters",
+        "Poisson minimum distance 5 rotor diameters and nearest-neighbor k equal to 5",
+        "population 50, 200 generations, 30 runs"
+      ],
+      "missing_problem_identity": [
+        "Anholt boundary coordinates",
+        "twelve joint wind bins and probabilities",
+        "manufacturer power and thrust curves",
+        "actual-layout coordinates",
+        "paper-used candidate set, Poisson seed, and maximum trial count"
+      ],
+      "missing_method_identity": [
+        "crossover probability",
+        "mutation probability or whether every child is mutated",
+        "elite/survivor selection",
+        "duplicate repair after one-point crossover",
+        "whether initialization evaluations are included in the stated 10000 physical evaluations"
+      ],
+      "safe_next_profile": "geoga_declared_reconstruction_v1",
+      "safe_next_profile_meaning": "Paper operators plus ledgered conventional GA controls on an admitted irregular problem; not the Anholt reproduction."
+    }
+  },
+  "prohibited_claims": [
+    "Do not call a wind-rose digitization the original wind dataset.",
+    "Do not call WFLO-GGA Nysted or Guishan inputs identical to another paper without an author or hash-level link.",
+    "Do not instantiate a random neural model and label it ALGA or TAAE.",
+    "Do not report proxy-problem quality as reproduction accuracy.",
+    "Do not start formal R4 timing for an R1/R2-blocked semantic profile."
+  ]
+}

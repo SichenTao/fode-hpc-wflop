@@ -4,12 +4,16 @@
 from __future__ import annotations
 
 import csv
+import json
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
 LINEAGE = ROOT / "docs" / "author_lineage_registry.tsv"
 PACKAGES = ROOT / "docs" / "problem_package_registry.tsv"
+REPRODUCIBILITY = (
+    ROOT / "shared" / "contracts" / "remaining_heterogeneous_reproducibility.json"
+)
 
 
 def main() -> int:
@@ -17,6 +21,7 @@ def main() -> int:
         lineage = list(csv.DictReader(handle, delimiter="\t"))
     with PACKAGES.open(encoding="utf-8", newline="") as handle:
         packages = list(csv.DictReader(handle, delimiter="\t"))
+    reproducibility = json.loads(REPRODUCIBILITY.read_text(encoding="utf-8"))
 
     required_columns = {
         "corpus_id",
@@ -46,6 +51,9 @@ def main() -> int:
             "queued",
             "current_cpp_smoke_pass",
             "current_cpp_admitted",
+            "blocked_original_r1_r2",
+            "reconstruction_queued",
+            "proxy_cpp_smoke_pass",
         }
         and row["problem_family"] != "fode_e0_common"
     }
@@ -67,9 +75,35 @@ def main() -> int:
                 f"{row['corpus_id']} lacks an R-gate transition"
             )
 
+    audited_ids = set(reproducibility["scope"])
+    if audited_ids != set(reproducibility["packages"]):
+        raise RuntimeError("remaining heterogeneous audit scope is inconsistent")
+    if not audited_ids.issubset(observed):
+        raise RuntimeError(
+            "audited heterogeneous packages are missing from the registry: "
+            f"{sorted(audited_ids - observed)}"
+        )
+    for corpus_id, record in reproducibility["packages"].items():
+        for key in ("paper_doi", "method", "original_problem_status"):
+            if not record.get(key):
+                raise RuntimeError(f"{corpus_id} lacks required audit field {key}")
+        if record["original_problem_status"].startswith("blocked") and not record.get(
+            "missing_problem_identity"
+        ):
+            raise RuntimeError(
+                f"{corpus_id} blocks the original problem without an omission list"
+            )
+        if record.get("original_method_status", "").startswith("blocked") and not record.get(
+            "missing_method_identity"
+        ):
+            raise RuntimeError(
+                f"{corpus_id} blocks the original method without an omission list"
+            )
+
     print(
         "problem_package_audit_pass "
-        f"packages={len(packages)} queued_heterogeneous={len(expected)}"
+        f"packages={len(packages)} queued_heterogeneous={len(expected)} "
+        f"omission_audited={len(audited_ids)}"
     )
     return 0
 

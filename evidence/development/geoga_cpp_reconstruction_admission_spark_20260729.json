@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "receipt_id": "geoga_cpp_reconstruction_admission_spark_20260729",
+  "corpus_id": "L0726",
+  "algorithm_id": "geoga",
+  "method_id": "GEOGA_DECLARED_RECONSTRUCTION_V1",
+  "original_anholt_reproduction": false,
+  "implementation": {
+    "language": "C++20",
+    "shared_evaluator": "paper-repaired WFLO-GGA Jensen RSS AEP kernel",
+    "population_parallelism": true,
+    "evaluation_parallelism": true,
+    "randomness": "counter-keyed and worker-count invariant",
+    "foreign_cable_and_lcoe_work_disabled": true
+  },
+  "validation": {
+    "ctest_total_after_registration": 15,
+    "ctest_passed": 15,
+    "one_worker_twenty_worker_scientific_identity": "exact",
+    "best_layout_atomic_replay": "exact",
+    "eight_public_problem_asset_smoke": {
+      "cases": 8,
+      "work_per_case": "150 complete AEP layout evaluations",
+      "status": "passed"
+    },
+    "address_undefined_and_leak_sanitizer": {
+      "case": "UK London Array",
+      "work": "150 complete AEP layout evaluations",
+      "workers": 20,
+      "status": "passed"
+    }
+  },
+  "development_performance_diagnostic": {
+    "host": "Spark",
+    "case": "UK London Array",
+    "work": "1050 complete AEP layout evaluations with a 50-layout population",
+    "repeats_per_worker_count": 5,
+    "one_worker_median_seconds": {
+      "evaluator": 1.0033715210000003,
+      "algorithm": 0.014443723000000075,
+      "end_to_end": 1.017847216
+    },
+    "twenty_worker_median_seconds": {
+      "evaluator": 0.075439834,
+      "algorithm": 0.0033678280000000033,
+      "end_to_end": 0.078807662
+    },
+    "one_to_twenty_worker_speedup": {
+      "evaluator": 13.300288028205369,
+      "algorithm": 4.28873535109277,
+      "end_to_end": 12.915587014876802
+    },
+    "scientific_output": "exactly identical between one and twenty workers",
+    "evidence_boundary": "Development scaling on Spark only; not MATLAB-to-C++ and not formal Waffle evidence."
+  },
+  "status": "r2_r4_development_admitted_proxy_only",
+  "next_gate": "author Anholt assets for original-problem R1, or user-approved proxy campaign after Waffle recovery"
+}

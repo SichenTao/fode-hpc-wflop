@@ -584,7 +584,8 @@ struct Evaluation {
 
 Evaluation evaluate(
     const std::vector<int>& layout,
-    const Problem& problem
+    const Problem& problem,
+    bool include_cost = true
 ) {
     std::vector<Point> coordinates;
     coordinates.reserve(layout.size());
@@ -593,7 +594,8 @@ Evaluation evaluate(
             problem.candidates[static_cast<std::size_t>(index)]
         );
     }
-    const double cable_cost = route_bsr(coordinates, problem);
+    const double cable_cost =
+        include_cost ? route_bsr(coordinates, problem) : 0.0;
     double expected_power_kw = 0.0;
     const double rotor_radius = problem.rotor_diameter_m / 2.0;
     for (int direction = 0;
@@ -692,6 +694,14 @@ Evaluation evaluate(
             365.0 * 24.0 * problem.turbine_pinst_kw
             * static_cast<double>(problem.turbine_count)
         );
+    if (!include_cost) {
+        return {
+            std::numeric_limits<double>::infinity(),
+            capacity_factor,
+            aep,
+            0.0
+        };
+    }
     const double power_mw = problem.turbine_pinst_kw / 1000.0;
     const double installed_mw =
         power_mw * static_cast<double>(problem.turbine_count);
@@ -1040,10 +1050,254 @@ RunResult optimize(
     return result;
 }
 
+RunResult optimize_geoga(
+    const Problem& problem,
+    std::uint64_t budget,
+    std::uint64_t seed,
+    int workers
+) {
+    const auto started = Clock::now();
+    constexpr int population_size = 50;
+    constexpr int nearest_neighbors = 5;
+    if (budget < population_size) {
+        throw std::runtime_error(
+            "GeoGA budget is below its 50-layout initialization"
+        );
+    }
+    fode::PersistentExecutor executor(workers);
+    fode::CounterRng rng(seed ^ 0x47454f4741ULL);
+    std::vector<std::vector<int>> population(
+        static_cast<std::size_t>(population_size)
+    );
+    executor.parallel_for(0, population_size, [&](int individual) {
+        population[static_cast<std::size_t>(individual)] =
+            random_layout(problem, rng, 3000, individual);
+    });
+    std::vector<Evaluation> values(static_cast<std::size_t>(population_size));
+    double evaluator_seconds = 0.0;
+    auto evaluate_batch = [&](const std::vector<std::vector<int>>& layouts,
+                              std::vector<Evaluation>& output,
+                              int count) {
+        const auto evaluation_started = Clock::now();
+        executor.parallel_for(0, count, [&](int row) {
+            output[static_cast<std::size_t>(row)] = evaluate(
+                layouts[static_cast<std::size_t>(row)], problem, false
+            );
+        });
+        evaluator_seconds += std::chrono::duration<double>(
+            Clock::now() - evaluation_started
+        ).count();
+    };
+    evaluate_batch(population, values, population_size);
+    std::uint64_t fes = population_size;
+    std::uint64_t generation = 0;
+    while (fes < budget) {
+        ++generation;
+        const int count = static_cast<int>(std::min<std::uint64_t>(
+            population_size, budget - fes
+        ));
+        double score_sum = 0.0;
+        for (const Evaluation& value : values) {
+            score_sum += std::max(value.aep_kwh, 0.0);
+        }
+        auto select_parent = [&](int child, int which) {
+            if (!(score_sum > 0.0)) {
+                return rng.integer(
+                    0,
+                    population_size,
+                    generation,
+                    3001 + static_cast<std::uint64_t>(which),
+                    static_cast<std::uint64_t>(child)
+                );
+            }
+            const double threshold = rng.uniform(
+                generation,
+                3001 + static_cast<std::uint64_t>(which),
+                static_cast<std::uint64_t>(child)
+            ) * score_sum;
+            double cumulative = 0.0;
+            for (int row = 0; row < population_size; ++row) {
+                cumulative += std::max(
+                    values[static_cast<std::size_t>(row)].aep_kwh,
+                    0.0
+                );
+                if (threshold <= cumulative) {
+                    return row;
+                }
+            }
+            return population_size - 1;
+        };
+        std::vector<std::vector<int>> offspring(
+            static_cast<std::size_t>(count)
+        );
+        executor.parallel_for(0, count, [&](int child_index) {
+            int first = select_parent(child_index, 0);
+            int second = select_parent(child_index, 1);
+            if (first == second) {
+                second = (second + 1) % population_size;
+            }
+            const int cut = rng.integer(
+                1,
+                problem.turbine_count,
+                generation,
+                3003,
+                static_cast<std::uint64_t>(child_index)
+            );
+            std::vector<int> child;
+            child.reserve(static_cast<std::size_t>(problem.turbine_count));
+            const auto& first_parent =
+                population[static_cast<std::size_t>(first)];
+            const auto& second_parent =
+                population[static_cast<std::size_t>(second)];
+            child.insert(
+                child.end(),
+                first_parent.begin(),
+                first_parent.begin() + cut
+            );
+            child.insert(
+                child.end(),
+                second_parent.begin() + cut,
+                second_parent.end()
+            );
+            repair(
+                child,
+                problem.turbine_count,
+                static_cast<int>(problem.candidates.size()),
+                rng,
+                generation,
+                3004,
+                child_index
+            );
+
+            const int position = rng.integer(
+                0,
+                problem.turbine_count,
+                generation,
+                3006,
+                static_cast<std::uint64_t>(child_index)
+            );
+            const int current = child[static_cast<std::size_t>(position)];
+            std::vector<char> used(problem.candidates.size(), 0);
+            for (const int candidate : child) {
+                used[static_cast<std::size_t>(candidate)] = 1;
+            }
+            std::vector<std::pair<double, int>> nearest;
+            nearest.reserve(
+                problem.candidates.size()
+                - static_cast<std::size_t>(problem.turbine_count)
+            );
+            const Point& center =
+                problem.candidates[static_cast<std::size_t>(current)];
+            for (int candidate = 0;
+                 candidate < static_cast<int>(problem.candidates.size());
+                 ++candidate) {
+                if (used[static_cast<std::size_t>(candidate)] != 0) {
+                    continue;
+                }
+                const Point& point =
+                    problem.candidates[static_cast<std::size_t>(candidate)];
+                const double dx = point.x - center.x;
+                const double dy = point.y - center.y;
+                nearest.emplace_back(dx * dx + dy * dy, candidate);
+            }
+            std::stable_sort(
+                nearest.begin(),
+                nearest.end(),
+                [](const auto& lhs, const auto& rhs) {
+                    if (lhs.first != rhs.first) {
+                        return lhs.first < rhs.first;
+                    }
+                    return lhs.second < rhs.second;
+                }
+            );
+            if (!nearest.empty()) {
+                const int choices = std::min(
+                    nearest_neighbors,
+                    static_cast<int>(nearest.size())
+                );
+                const int selected = rng.integer(
+                    0,
+                    choices,
+                    generation,
+                    3007,
+                    static_cast<std::uint64_t>(child_index)
+                );
+                child[static_cast<std::size_t>(position)] =
+                    nearest[static_cast<std::size_t>(selected)].second;
+            }
+            std::sort(child.begin(), child.end());
+            offspring[static_cast<std::size_t>(child_index)] =
+                std::move(child);
+        });
+        std::vector<Evaluation> offspring_values(
+            static_cast<std::size_t>(count)
+        );
+        evaluate_batch(offspring, offspring_values, count);
+
+        struct Candidate {
+            Evaluation value;
+            std::vector<int> layout;
+        };
+        std::vector<Candidate> candidates;
+        candidates.reserve(
+            static_cast<std::size_t>(population_size + count)
+        );
+        for (int row = 0; row < population_size; ++row) {
+            candidates.push_back({
+                values[static_cast<std::size_t>(row)],
+                population[static_cast<std::size_t>(row)]
+            });
+        }
+        for (int row = 0; row < count; ++row) {
+            candidates.push_back({
+                offspring_values[static_cast<std::size_t>(row)],
+                std::move(offspring[static_cast<std::size_t>(row)])
+            });
+        }
+        std::stable_sort(
+            candidates.begin(),
+            candidates.end(),
+            [](const Candidate& lhs, const Candidate& rhs) {
+                if (lhs.value.aep_kwh != rhs.value.aep_kwh) {
+                    return lhs.value.aep_kwh > rhs.value.aep_kwh;
+                }
+                return lhs.layout < rhs.layout;
+            }
+        );
+        for (int row = 0; row < population_size; ++row) {
+            values[static_cast<std::size_t>(row)] =
+                candidates[static_cast<std::size_t>(row)].value;
+            population[static_cast<std::size_t>(row)] =
+                std::move(candidates[static_cast<std::size_t>(row)].layout);
+        }
+        fes += static_cast<std::uint64_t>(count);
+    }
+    const int best = static_cast<int>(std::distance(
+        values.begin(),
+        std::max_element(
+            values.begin(), values.end(),
+            [](const Evaluation& lhs, const Evaluation& rhs) {
+                return lhs.aep_kwh < rhs.aep_kwh;
+            }
+        )
+    ));
+    RunResult result;
+    result.best = values[static_cast<std::size_t>(best)];
+    result.layout = population[static_cast<std::size_t>(best)];
+    result.fes = fes;
+    result.generations = generation;
+    result.total_seconds = std::chrono::duration<double>(
+        Clock::now() - started
+    ).count();
+    result.evaluator_seconds = evaluator_seconds;
+    return result;
+}
+
 struct Arguments {
     std::filesystem::path problem;
     std::filesystem::path output;
     std::string layout_spec;
+    std::string algorithm = "gga";
     std::uint64_t seed = 20260316;
     std::uint64_t physical_fes = 3000;
     int workers = 20;
@@ -1072,11 +1326,18 @@ Arguments parse_arguments(int argc, char** argv) {
             result.workers = std::stoi(value());
         } else if (flag == "--evaluate-layout") {
             result.layout_spec = value();
+        } else if (flag == "--algorithm") {
+            result.algorithm = value();
         } else if (flag == "--help") {
             result.help = true;
         } else {
             throw std::invalid_argument("unknown argument: " + flag);
         }
+    }
+    if (result.algorithm != "gga" && result.algorithm != "geoga") {
+        throw std::invalid_argument(
+            "--algorithm must be gga or geoga"
+        );
     }
     return result;
 }
@@ -1101,29 +1362,49 @@ std::string to_json(
 ) {
     std::ostringstream output;
     const bool evaluation_only = !arguments.layout_spec.empty();
+    const bool geoga = arguments.algorithm == "geoga";
     output << std::setprecision(17);
     output << "{\n"
            << "  \"schema_version\": 1,\n"
-           << "  \"algorithm_id\": \"gga\",\n"
+           << "  \"algorithm_id\": \"" << arguments.algorithm << "\",\n"
            << "  \"method_id\": \""
            << (
                evaluation_only
-                   ? "GGA_CPP_REPAIRED_EVALUATOR"
-                   : "GGA_CPP_HPC_FULL"
+                   ? (
+                       geoga
+                           ? "GEOGA_DECLARED_RECONSTRUCTION_EVALUATOR"
+                           : "GGA_CPP_REPAIRED_EVALUATOR"
+                   )
+                   : (
+                       geoga
+                           ? "GEOGA_DECLARED_RECONSTRUCTION_V1"
+                           : "GGA_CPP_HPC_FULL"
+                   )
            ) << "\",\n"
            << "  \"run_mode\": \""
            << (evaluation_only ? "evaluate_layout" : "optimization")
            << "\",\n"
-           << "  \"problem_id\": \"gga2026_layout_cable\",\n"
+           << "  \"problem_id\": \""
+           << (
+               geoga
+                   ? "admitted_gga_problem_asset_proxy"
+                   : "gga2026_layout_cable"
+           ) << "\",\n"
            << "  \"problem_semantics_id\": \"" << problem.profile << "\",\n"
            << "  \"case_id\": \"" << problem.case_id << "\",\n"
            << "  \"seed\": " << arguments.seed << ",\n"
            << "  \"physical_fes\": " << result.fes << ",\n"
            << "  \"generations\": " << result.generations << ",\n"
            << "  \"population_size\": "
-           << (evaluation_only ? 0 : 30) << ",\n"
+           << (evaluation_only ? 0 : (geoga ? 50 : 30)) << ",\n"
            << "  \"requested_workers\": " << arguments.workers << ",\n"
-           << "  \"best_lcoe\": " << result.best.lcoe << ",\n"
+           << "  \"best_lcoe\": ";
+    if (std::isfinite(result.best.lcoe)) {
+        output << result.best.lcoe;
+    } else {
+        output << "null";
+    }
+    output << ",\n"
            << "  \"best_capacity_factor\": "
            << result.best.capacity_factor << ",\n"
            << "  \"best_aep_kwh\": " << result.best.aep_kwh << ",\n"
@@ -1157,6 +1438,7 @@ int main(int argc, char** argv) {
             std::cout
                 << "gga_cpp_hpc --problem CASE.wfp [--physical-fes N] "
                 << "[--workers N] [--seed N] [--output FILE] "
+                << "[--algorithm gga|geoga] "
                 << "[--evaluate-layout i0,i1,...]\n";
             return 0;
         }
@@ -1169,12 +1451,19 @@ int main(int argc, char** argv) {
         const Problem problem = load_problem(arguments.problem);
         RunResult result;
         if (arguments.layout_spec.empty()) {
-            result = optimize(
-                problem,
-                arguments.physical_fes,
-                arguments.seed,
-                arguments.workers
-            );
+            result = arguments.algorithm == "geoga"
+                ? optimize_geoga(
+                    problem,
+                    arguments.physical_fes,
+                    arguments.seed,
+                    arguments.workers
+                )
+                : optimize(
+                    problem,
+                    arguments.physical_fes,
+                    arguments.seed,
+                    arguments.workers
+                );
         } else {
             result.layout = parse_layout(arguments.layout_spec);
             std::vector<int> sorted = result.layout;
@@ -1191,7 +1480,11 @@ int main(int argc, char** argv) {
                 );
             }
             const auto started = Clock::now();
-            result.best = evaluate(result.layout, problem);
+            result.best = evaluate(
+                result.layout,
+                problem,
+                arguments.algorithm != "geoga"
+            );
             result.evaluator_seconds = std::chrono::duration<double>(
                 Clock::now() - started
             ).count();
@@ -1206,9 +1499,14 @@ int main(int argc, char** argv) {
             std::ofstream output(arguments.output);
             output << json;
         }
-        std::cerr << "gga " << problem.case_id
+        std::cerr << arguments.algorithm << " " << problem.case_id
                   << " FES=" << result.fes
-                  << " best_LCOE=" << result.best.lcoe
+                  << " best_objective="
+                  << (
+                      arguments.algorithm == "geoga"
+                          ? result.best.aep_kwh
+                          : result.best.lcoe
+                  )
                   << " seconds=" << result.total_seconds << "\n";
         return 0;
     } catch (const std::exception& error) {
