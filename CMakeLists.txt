@@ -56,4 +56,10 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_pbea_cpp_determinism.py
             --binary $<TARGET_FILE:pbea_cpp_hpc>
     )
+    add_test(
+        NAME pbea_cpp_front_artifacts
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_pbea_cpp_fronts.py
+            --binary $<TARGET_FILE:pbea_cpp_hpc>
+    )
 endif()

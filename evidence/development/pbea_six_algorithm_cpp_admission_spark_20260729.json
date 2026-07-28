@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "receipt_id": "pbea_six_algorithm_cpp_admission_spark_20260729",
+  "problem_id": "zhang2025_three_objective",
+  "problem_semantics_id": "three_objective_paper_repaired_v1",
+  "algorithms": [
+    "moead_p",
+    "moead",
+    "nsgaii",
+    "mopso",
+    "morime",
+    "armoea"
+  ],
+  "local_source_sha256": {
+    "NSGA-II_PSC/NSGAII/NSGAII.m": "c362ec083dd619453023c33d258ed7e25d0d4079846da2eaa31700a7a0fe9a54",
+    "NSGA-II_PSC/NSGAII/OperatorGA.m": "55d4e7a6545daff07f04dbaa264a8c6e8f5b309097af04e18a6768640d0c0918",
+    "MOPSO_PSC/MOPSO/MOPSO.m": "6e8c6c22522ac6b35bb175b183b38c7a8cd0061b2e662bcf3c931bf8d0071499",
+    "MOPSO_PSC/MOPSO/OperatorPSO.m": "80afccc8c27189b6394b445a1919c75d89ef0b47f50b0e63f71648d6d2458e22",
+    "MORIME_PSC/MORIME/MORIME.m": "43ea3a1507421ea15b6752181986e445dd45ab85885ae67d7e8ad32432113a24",
+    "ARMOEAWF_PSC/ARMOEAWF/ARMOEAWF.m_binary_container": "4b063706a3aea29adc3c0d6c7d31b80b3838a3d8bdcc24ad47c0cbb7734ee67e"
+  },
+  "armoea_authoritative_source": {
+    "repository": "https://github.com/BIMK/PlatEMO",
+    "commit": "31618282f906ddf3c9a9106debfb9a2673cb2158",
+    "release_context": "PlatEMO v4.6 2024-03-20",
+    "sha256": {
+      "ARMOEA.m": "8432d7e5a5759063a4249e1164234b73182b173b34c5dc2b366897b4b9aed5ff",
+      "CalDistance.m": "b26fae5029e405f2c7ea2256853d90fafa1d69c65abb1e4a80042664a1fe66e7",
+      "EnvironmentalSelection.m": "71732556eaa54eaf45be6989cc5e718d279c0b7d1b7dc460b1764a6fce3cee77",
+      "MatingSelection.m": "cf706dbd8432c4b48468fa6a6384a7392dbcc420d67868be99b9bba6f2c84749",
+      "UpdateRefPoint.m": "c4a237b05321ff2c5ad2f7ff99e08f7460f0d35a06477233be23ec209113aa3f"
+    },
+    "redistribution": "not_vendored; clean-room formula reconstruction only"
+  },
+  "validation": {
+    "independent_evaluator_oracle": "passed",
+    "worker_pair": "one versus four workers",
+    "worker_pair_algorithms": 6,
+    "worker_pair_scientific_result": "exact match",
+    "front_artifact_algorithms": 6,
+    "front_artifact_checks": [
+      "atomic JSON parse",
+      "algorithm and physical-FES identity",
+      "nonempty nondominated set",
+      "unique in-range layout cardinality",
+      "stored objective replay through the independent evaluator entry point"
+    ],
+    "front_artifact_status": "passed",
+    "smoke_matrix": "six algorithms by WS1 and WS2 by 15 and 30 turbines",
+    "smoke_runs": 24,
+    "complete_layout_evaluations_per_smoke": 300,
+    "smoke_status": "passed",
+    "sanitizer_case_per_algorithm": "WS2 30 turbines 20 individuals 2 generations 60 complete layout evaluations",
+    "address_undefined_leak_sanitizer_algorithms": 6,
+    "sanitizer_status": "passed"
+  },
+  "development_performance_diagnostic": {
+    "host": "Spark",
+    "work": "WS2 30 turbines 100 individuals 10 generations and 1100 complete three-objective layout evaluations",
+    "repeats_per_worker_count": 5,
+    "worker_counts": [1, 20],
+    "one_to_twenty_worker_speedup": {
+      "moead_p": {"evaluator": 11.306592524642083, "algorithm": 2.091252936235211, "end_to_end": 2.8912655504310587},
+      "moead": {"evaluator": 18.506065910204878, "algorithm": 4.558735116924594, "end_to_end": 15.9643578423183},
+      "nsgaii": {"evaluator": 17.39995253466397, "algorithm": 1.1871770854285713, "end_to_end": 9.962111807809267},
+      "mopso": {"evaluator": 11.882313459036368, "algorithm": 1.0531664934198914, "end_to_end": 6.8101869218256486},
+      "morime": {"evaluator": 12.035911214784898, "algorithm": 1.5316095947598345, "end_to_end": 6.68202694219043},
+      "armoea": {"evaluator": 16.395737400104203, "algorithm": 0.5957145754512411, "end_to_end": 2.063279303900708}
+    },
+    "interpretation": "The shared evaluator scales strongly. AR-MOEA reference adaptation is ordered and becomes the dominant serial stage; the complete run still accelerates.",
+    "evidence_boundary": "Spark development diagnostic only; not MATLAB-to-C++ speedup and not formal Waffle evidence"
+  },
+  "status": "six_algorithm_r3_r4_development_admission_pass",
+  "next_gate": "freeze Waffle source environment and execute the 32-case 25-seed formal campaign"
+}

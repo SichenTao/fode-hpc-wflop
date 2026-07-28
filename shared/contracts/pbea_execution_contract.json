@@ -3,7 +3,14 @@
   "study_id": "moead_p_cpp_hpc_paper_repaired_v1",
   "problem_id": "zhang2025_three_objective",
   "problem_semantics_id": "three_objective_paper_repaired_v1",
-  "algorithm_id": "moead_p",
+  "algorithm_ids": [
+    "moead_p",
+    "moead",
+    "nsgaii",
+    "mopso",
+    "morime",
+    "armoea"
+  ],
   "implementation_language": "C++20",
   "population_size": 100,
   "generation_count": 100,
@@ -46,8 +53,9 @@
   "formal_campaign_status": "not_started",
   "development_gates": {
     "independent_evaluator_oracle": "passed",
-    "one_worker_four_worker_semantic_pair": "passed",
-    "address_and_undefined_behavior_sanitizers": "passed",
-    "largest_case_smoke": "passed"
+    "six_algorithm_one_worker_four_worker_semantic_pair": "passed",
+    "six_algorithm_front_artifact_replay": "passed",
+    "six_algorithm_address_and_undefined_behavior_sanitizers": "passed",
+    "six_algorithm_two_scenario_two_scale_smoke": "passed"
   }
 }

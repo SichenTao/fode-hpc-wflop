@@ -130,6 +130,23 @@ and 18 files carrying an `.m` suffix are MATLAB binary containers rather than
 readable source. Exact hashes and repairs are frozen in the PBEA contracts and
 development receipt.
 
+The shared executable exposes the complete six-method comparison set:
+
+```bash
+for algorithm in moead_p moead nsgaii mopso morime armoea; do
+  build/hpc/pbea_cpp/pbea_cpp_hpc \
+    --algorithm "${algorithm}" --scenario ws2 --turbines 30 \
+    --population 100 --generations 100 --workers "$(nproc)" \
+    --seed 202507290001 --output-front "results/${algorithm}.json"
+done
+```
+
+`moead_p` uses the paper's IPD3 by default; all six initial probability
+distributions remain selectable with `--ipd`. Every algorithm calls the same
+independently validated evaluator. Formal non-dominated artifacts include
+both objective triples and the exact one-based grid-cell layouts needed for
+replay.
+
 ## Evidence boundary
 
 `evidence/admission/admission_receipt.json` records the passed v0.1.0

@@ -1,0 +1,106 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
+cd "${repo_root}"
+
+if [[ -n "$(git status --porcelain)" ]]; then
+  echo "Formal campaign requires a clean worktree." >&2
+  exit 2
+fi
+
+workers="${WFLOP_WORKERS:-$(nproc)}"
+if [[ "${workers}" != "$(nproc)" ]]; then
+  echo "WFLOP_WORKERS must equal all processors visible to the Waffle job." >&2
+  exit 2
+fi
+
+build_dir="${PBEA_BUILD_DIR:-build-pbea-formal}"
+result_dir="${PBEA_RESULT_DIR:-results/pbea_six_algorithm_waffle_v1}"
+binary="${build_dir}/hpc/pbea_cpp/pbea_cpp_hpc"
+
+cmake -S . -B "${build_dir}" -DCMAKE_BUILD_TYPE=Release
+cmake --build "${build_dir}" -j "${workers}" --target pbea_cpp_hpc
+ctest --test-dir "${build_dir}" --output-on-failure \
+  -R 'pbea_cpp_(evaluator_oracle|determinism|front_artifacts|help)'
+
+mkdir -p "${result_dir}"
+environment_tmp="${result_dir}/environment.json.tmp"
+environment_file="${result_dir}/environment.json"
+python3 - "${binary}" "${workers}" >"${environment_tmp}" <<'PY'
+import hashlib
+import json
+import os
+import platform
+import subprocess
+import sys
+from pathlib import Path
+
+binary = Path(sys.argv[1])
+workers = int(sys.argv[2])
+
+def command(*args):
+    return subprocess.check_output(args, text=True).strip()
+
+print(json.dumps({
+    "schema_version": 1,
+    "campaign_id": "pbea_six_algorithm_waffle_v1",
+    "host": platform.node(),
+    "git_head": command("git", "rev-parse", "HEAD"),
+    "git_status_porcelain": command("git", "status", "--porcelain"),
+    "compiler": command("c++", "--version").splitlines()[0],
+    "cmake": command("cmake", "--version").splitlines()[0],
+    "nproc": int(command("nproc")),
+    "workers": workers,
+    "affinity": command("taskset", "-pc", str(os.getpid())),
+    "lscpu": command("lscpu"),
+    "binary_sha256": hashlib.sha256(binary.read_bytes()).hexdigest(),
+}, indent=2))
+PY
+mv "${environment_tmp}" "${environment_file}"
+
+algorithms=(moead_p moead nsgaii mopso morime armoea)
+scenarios=(ws1 ws2)
+for algorithm in "${algorithms[@]}"; do
+  for scenario in "${scenarios[@]}"; do
+    for turbines in $(seq 15 30); do
+      for repeat in $(seq 1 25); do
+        seed=$((202507290000 + repeat))
+        stem="${algorithm}__${scenario}__tn${turbines}__seed${seed}"
+        front="${result_dir}/${stem}.front.json"
+        summary="${result_dir}/${stem}.summary.json"
+        if python3 scripts/validate_pbea_formal_run.py \
+          --front "${front}" --summary "${summary}" \
+          --algorithm "${algorithm}" --scenario "${scenario}" \
+          --turbines "${turbines}" --seed "${seed}" \
+          >/dev/null 2>&1; then
+          continue
+        fi
+        summary_tmp="${summary}.tmp"
+        rm -f "${summary_tmp}"
+        "${binary}" \
+          --algorithm "${algorithm}" \
+          --scenario "${scenario}" \
+          --turbines "${turbines}" \
+          --population 100 \
+          --generations 100 \
+          --workers "${workers}" \
+          --seed "${seed}" \
+          --ipd 3 \
+          --mu-c 80 \
+          --output-front "${front}" \
+          >"${summary_tmp}"
+        mv "${summary_tmp}" "${summary}"
+        python3 scripts/validate_pbea_formal_run.py \
+          --front "${front}" --summary "${summary}" \
+          --algorithm "${algorithm}" --scenario "${scenario}" \
+          --turbines "${turbines}" --seed "${seed}" \
+          >/dev/null
+      done
+    done
+  done
+done
+
+python3 scripts/finalize_pbea_campaign.py \
+  --results "${result_dir}" \
+  --receipt "${result_dir}/campaign_file_receipt.json"
