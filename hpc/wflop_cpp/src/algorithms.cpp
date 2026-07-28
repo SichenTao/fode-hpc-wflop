@@ -1337,12 +1337,13 @@ std::array<double, 12> advance_cgpso_chaos(
 RunResult optimize_lshade(
     const fode::CaseData& data,
     const RunConfig& config,
-    bool chaotic
+    bool chaotic,
+    bool adaptive_guidance = false
 ) {
     const auto started = Clock::now();
     Runtime runtime(config);
     const int dimension = data.turbine_count;
-    const int initial_size = 18 * dimension;
+    const int initial_size = adaptive_guidance ? 120 : 18 * dimension;
     const int minimum_size = 4;
     int population_size = initial_size;
     if (runtime.budget < static_cast<std::uint64_t>(initial_size)) {
@@ -1377,6 +1378,7 @@ RunResult optimize_lshade(
     int chaos_memory_row = 0;
     double radius = 0.01;
     double shrink = 0.988;
+    std::vector<double> best_scale_history;
 
     while (runtime.fes < runtime.budget && population_size >= minimum_size) {
         ++runtime.generations;
@@ -1388,6 +1390,20 @@ RunResult optimize_lshade(
             runtime.budget - runtime.fes
         ));
         const auto ranking = stable_rank_descending(fitness);
+        const int generation_best = ranking.front();
+        const double progress = std::clamp(
+            static_cast<double>(runtime.fes)
+                / static_cast<double>(runtime.budget),
+            0.0,
+            1.0
+        );
+        const double best_scale_mean = best_scale_history.empty()
+            ? 1.0
+            : std::accumulate(
+                best_scale_history.begin(),
+                best_scale_history.end(),
+                0.0
+            ) / static_cast<double>(best_scale_history.size());
         const int archive_rows =
             static_cast<int>(archive.size()) / dimension;
         Matrix combined = population;
@@ -1414,6 +1430,14 @@ RunResult optimize_lshade(
                 311,
                 static_cast<std::uint64_t>(individual)
             );
+            if (adaptive_guidance && individual == generation_best) {
+                sampled_f[static_cast<std::size_t>(individual)] = std::clamp(
+                    sampled_f[static_cast<std::size_t>(individual)]
+                        * progress * best_scale_mean,
+                    std::numeric_limits<double>::epsilon(),
+                    1.0
+                );
+            }
             sampled_cr[static_cast<std::size_t>(individual)] = std::clamp(
                 memory_cr[static_cast<std::size_t>(memory_index)] == -1.0
                     ? 0.0
@@ -1572,6 +1596,12 @@ RunResult optimize_lshade(
                     numerator_cr / denominator_cr;
             }
             memory_position = (memory_position + 1) % 5;
+        }
+        if (adaptive_guidance
+            && generation_best < offspring_count) {
+            best_scale_history.push_back(
+                sampled_f[static_cast<std::size_t>(generation_best)]
+            );
         }
         if (runtime.fes >= runtime.budget) {
             break;
@@ -4678,6 +4708,9 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
     }
     if (config.algorithm_id == "wfadde") {
         return optimize_wfadde(data, config);
+    }
+    if (config.algorithm_id == "alshade") {
+        return optimize_lshade(data, config, false, true);
     }
     throw std::invalid_argument("unknown algorithm: " + config.algorithm_id);
 }

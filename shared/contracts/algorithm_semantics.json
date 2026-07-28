@@ -1,6 +1,6 @@
 {
-  "schema_version": 8,
-  "semantics_set_id": "fode_e0_paper_first_registered_algorithms_v8",
+  "schema_version": 9,
+  "semantics_set_id": "fode_e0_paper_first_registered_algorithms_v9",
   "problem_semantics": {
     "id": "FODE-E0-L",
     "objective": "maximize joint-direction-speed expected farm power in kW",
@@ -133,6 +133,14 @@
       "evaluation_detail": "TotalOnly",
       "reconstruction_status": "explicit_pre_result_no_author_source_preprint",
       "problem_scope": "algorithm transferred to fode_e0_common; original 12 by 12 preprint problem remains a separate pending problem package"
+    },
+    "alshade": {
+      "method_id": "ALSHADE_CPP_HPC_FULL",
+      "state_semantics": "paper Algorithm 1 and Eqs. 8-9 on registered LSHADE with physical-FES progress and post-guidance best-scale history",
+      "parallel_semantics": "generation snapshot; independent LSHADE parameter mutation crossover repair and evaluation; ordered best-scale history success memory archive and linear-reduction barriers",
+      "evaluation_detail": "TotalOnly",
+      "reconstruction_status": "explicit_pre_result_no_author_source",
+      "problem_scope": "algorithm transferred to fode_e0_common; original complex-wake cases remain a separate pending problem package"
     }
   },
   "unresolved_active_conflicts": 14

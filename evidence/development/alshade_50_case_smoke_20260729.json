@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "receipt_id": "alshade_50_case_smoke_20260729",
+  "purpose": "development_semantic_smoke_only",
+  "host": {
+    "hostname": "spark-9b6f",
+    "architecture": "aarch64",
+    "visible_logical_cores": 20
+  },
+  "algorithm_ids": [
+    "alshade"
+  ],
+  "case_count": 50,
+  "result_count": 50,
+  "physical_fes_per_result": 1500,
+  "requested_workers": 20,
+  "observed_workers": [
+    20
+  ],
+  "all_exact_fes": true,
+  "all_finite": true,
+  "representative_exact_worker_pair": {
+    "case_id": "WS10tn80",
+    "physical_fes": 24000,
+    "seed": 20260729,
+    "one_worker_end_to_end_seconds": 3.222023932,
+    "twenty_worker_end_to_end_seconds": 1.794856634,
+    "end_to_end_ratio_one_over_twenty": 1.7951,
+    "one_worker_evaluator_seconds": 3.15184238,
+    "twenty_worker_evaluator_seconds": 1.699940048,
+    "evaluator_ratio_one_over_twenty": 1.8541,
+    "non_timing_fields_exact": true
+  },
+  "raw_sha256": "353fa870643978e4cf76362fb606954c304ba735d29716a37e2e9963803dea23",
+  "raw_data_bundled": false,
+  "status": "pass",
+  "evidence_boundary": "This smoke validates the registered paper-derived A-LSHADE reconstruction on fode_e0_common, exact physical work, feasibility, deterministic worker-count semantics, and result-schema coverage. It does not reproduce the paper's distinct complex-wake cases, establish identity with unavailable author source, or constitute a formal performance claim."
+}

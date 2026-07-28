@@ -15,3 +15,4 @@ aiga	AIGA	paper_derived_explicit_reconstruction	Zheng et al. 2024 Eqs. 10-12 and
 ciga	CIGA	paper_derived_explicit_reconstruction	Zheng et al. 2025 Eqs. 8-10 and mu=3.9; omitted GA and shrink parameters explicitly reconstructed	10.1145/3766671.3766786	ciga_paper_derived_e0_physical_fes_v1
 lsde	LSDE	paper_derived_explicit_reconstruction	Li et al. 2026 Algorithm 1 and Eqs. 13-25; omitted clustering and layer-transition details explicitly reconstructed	10.1049/cit2.70150	lsde_paper_derived_e0_physical_fes_v1
 wfadde	WFADDE	preprint_derived_explicit_reconstruction	Shi et al. 2026 Algorithm 1 and Eqs. 10-23; omitted population memory and archive controls explicitly reconstructed	10.2139/ssrn.6135326	wfadde_preprint_derived_e0_physical_fes_v1
+alshade	A-LSHADE	paper_derived_explicit_reconstruction	Yu et al. 2024 Algorithm 1 and Eqs. 8-9 layered on registered LSHADE semantics	10.1109/pic62406.2024.10892732	alshade_paper_derived_e0_physical_fes_v1

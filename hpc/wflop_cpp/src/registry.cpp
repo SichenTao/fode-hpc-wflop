@@ -162,6 +162,14 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "preprint_derived_explicit_reconstruction",
             "wfadde_preprint_derived_e0_physical_fes_v1",
             {"fode_e0_common"}
+        },
+        {
+            "alshade",
+            "A-LSHADE",
+            "10.1109/pic62406.2024.10892732",
+            "paper_derived_explicit_reconstruction",
+            "alshade_paper_derived_e0_physical_fes_v1",
+            {"fode_e0_common"}
         }
     };
     return descriptors;

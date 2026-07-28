@@ -1,6 +1,6 @@
 {
-  "schema_version": 10,
-  "parameter_set_id": "fode_e0_paper_first_registered_algorithm_parameters_v10",
+  "schema_version": 11,
+  "parameter_set_id": "fode_e0_paper_first_registered_algorithm_parameters_v11",
   "problem_identity": "FODE-E0-L",
   "problem_semantics_id": "fode_wflop_e0_legacy_v1",
   "source_manifest_alias": "fode_wflop_e0_v1",
@@ -496,6 +496,30 @@
         "failure_distance": "binary-set Hamming distance over sorted occupied-cell sets",
         "failure_capacity": "round(1.4 times current linearly reduced population size)",
         "parallel_semantics": "generation snapshot; independent failure-distance sampling mutation crossover local disturbance repair and evaluation; deterministic success failure-memory and population-reduction barriers"
+      }
+    },
+    "alshade": {
+      "display_label": "A-LSHADE",
+      "implementation_provenance": "paper_derived_explicit_reconstruction",
+      "formal_admission": "pending_50_case_single_seed_admission",
+      "parameter_evidence": [
+        "Yu et al. 2024 Algorithm 1 applies LSHADE with the adaptive guidance in Eqs. 8-9",
+        "Yu et al. 2024 sets the common initial population to 120 and the original experiment to 200 iterations",
+        "All remaining DE controls use the recommended LSHADE settings",
+        "The paper does not resolve evaluation-level versus generation-level t or the ordering and initialization of the best-scale history"
+      ],
+      "hpc": {
+        "initial_population_size": 120,
+        "minimum_population_size": 4,
+        "memory_size": 5,
+        "pbest_rate": 0.11,
+        "archive_rate": 1.4
+      },
+      "derived_rules": {
+        "progress": "completed physical FES divided by physical-FES budget",
+        "best_scale_update": "multiply the sampled best-target F by progress and the mean post-guidance historical best F values with an initial mean of one",
+        "base_algorithm": "registered paper-first LSHADE state machine and linear population reduction",
+        "parallel_semantics": "generation snapshot; independent parameter mutation crossover repair and evaluation; deterministic best-scale history memory archive and reduction barriers"
       }
     }
   }

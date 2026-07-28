@@ -19,7 +19,8 @@
     "aiga",
     "ciga",
     "lsde",
-    "wfadde"
+    "wfadde",
+    "alshade"
   ],
   "implementation_ids": [
     "matlab_reference_timing_anchor",
