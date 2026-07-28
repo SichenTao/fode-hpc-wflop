@@ -7,22 +7,26 @@ import json
 from pathlib import Path
 
 
-ALGORITHMS = ("moead_p", "moead", "nsgaii", "mopso", "morime", "armoea")
-SCENARIOS = ("ws1", "ws2")
-TURBINES = range(15, 31)
-SEEDS = range(202507290001, 202507290026)
-
 parser = argparse.ArgumentParser()
+parser.add_argument("--contract", required=True)
 parser.add_argument("--results", required=True)
 parser.add_argument("--receipt", required=True)
 args = parser.parse_args()
 root = Path(args.results)
+contract = json.loads(Path(args.contract).read_text())
+algorithms = contract["algorithms"]
+scenarios = contract["wind_scenarios"]
+turbines_values = contract["turbine_counts"]
+seeds = [
+    contract["seed_base"] + repeat
+    for repeat in range(1, contract["repeat_count"] + 1)
+]
 files = []
 missing = []
-for algorithm in ALGORITHMS:
-    for scenario in SCENARIOS:
-        for turbines in TURBINES:
-            for seed in SEEDS:
+for algorithm in algorithms:
+    for scenario in scenarios:
+        for turbines in turbines_values:
+            for seed in seeds:
                 stem = f"{algorithm}__{scenario}__tn{turbines}__seed{seed}"
                 for suffix in (".front.json", ".summary.json"):
                     path = root / f"{stem}{suffix}"
@@ -40,10 +44,13 @@ if missing:
 files.sort(key=lambda row: row["path"])
 receipt = {
     "schema_version": 1,
-    "campaign_id": "pbea_six_algorithm_waffle_v1",
-    "formal_runs": 4800,
+    "campaign_id": contract["campaign_id"],
+    "formal_runs": contract["formal_run_count"],
     "result_files": len(files),
-    "complete_layout_evaluations": 48_480_000,
+    "complete_layout_evaluations": (
+        contract["formal_run_count"]
+        * contract["physical_fes_per_run"]
+    ),
     "files": files,
     "status": "complete_file_matrix",
     "evidence_boundary": (

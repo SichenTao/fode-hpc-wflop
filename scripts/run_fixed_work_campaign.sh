@@ -4,8 +4,8 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 build_dir="${WFLOP_BUILD_DIR:-${repo_root}/build}"
 binary="${build_dir}/hpc/wflop_cpp/wflop_cpp_hpc"
-contract="${WFLOP_CAMPAIGN_CONTRACT:-${repo_root}/formal/contracts/eight_algorithm_cpp_hpc_spark2_v2.json}"
-result_root="${WFLOP_RESULT_DIR:-${repo_root}/results/fixed-work}"
+contract="${WFLOP_CAMPAIGN_CONTRACT:-${repo_root}/formal/contracts/eighteen_algorithm_cpp_hpc_waffle_v1.json}"
+result_root="${WFLOP_RESULT_DIR:-${repo_root}/results/eighteen_algorithm_cpp_hpc_waffle_v1}"
 workers="${WFLOP_WORKERS:-$(nproc)}"
 cases="${repo_root}/shared/contracts/benchmark_cases.json"
 models="${repo_root}/shared/models/sugga_cpp"
@@ -18,6 +18,14 @@ if ! [[ "${workers}" =~ ^[1-9][0-9]*$ ]]; then
   echo "WFLOP_WORKERS must be a positive integer." >&2
   exit 1
 fi
+if [[ "${workers}" != "$(nproc)" ]]; then
+  echo "WFLOP_WORKERS must equal all processors visible to the job." >&2
+  exit 1
+fi
+if [[ -n "$(git status --porcelain --untracked-files=no)" ]]; then
+  echo "Formal campaign requires a clean tracked worktree." >&2
+  exit 1
+fi
 
 mkdir -p "${result_root}"
 physical_fes="$(jq -r '.physical_fes_per_run' "${contract}")"
@@ -26,6 +34,38 @@ expected_algorithms="$(jq -c '.algorithms' "${contract}")"
 expected_cases="$(jq -r '.cases' "${contract}")"
 expected_results="$(( $(jq -r '.algorithms | length' "${contract}") * expected_cases ))"
 mapfile -t seeds < <(jq -r '.seeds[]' "${contract}")
+
+environment_file="${result_root}/environment.json"
+environment_tmp="${environment_file}.tmp"
+jq -n \
+  --arg campaign_id "$(jq -r '.campaign_id' "${contract}")" \
+  --arg host "$(hostname)" \
+  --arg git_head "$(git rev-parse HEAD)" \
+  --arg git_status_tracked "$(git status --porcelain --untracked-files=no)" \
+  --arg compiler "$(c++ --version | head -1)" \
+  --arg cmake "$(cmake --version | head -1)" \
+  --argjson nproc "$(nproc)" \
+  --argjson workers "${workers}" \
+  --arg affinity "$(taskset -pc $$)" \
+  --arg lscpu "$(lscpu)" \
+  --arg binary_sha256 "$(sha256sum "${binary}" | cut -d' ' -f1)" \
+  --arg contract_sha256 "$(sha256sum "${contract}" | cut -d' ' -f1)" \
+  '{
+    schema_version: 1,
+    campaign_id: $campaign_id,
+    host: $host,
+    git_head: $git_head,
+    git_status_tracked: $git_status_tracked,
+    compiler: $compiler,
+    cmake: $cmake,
+    nproc: $nproc,
+    workers: $workers,
+    affinity: $affinity,
+    lscpu: $lscpu,
+    binary_sha256: $binary_sha256,
+    contract_sha256: $contract_sha256
+  }' > "${environment_tmp}"
+mv "${environment_tmp}" "${environment_file}"
 
 validate_seed_file() {
   local path="$1"

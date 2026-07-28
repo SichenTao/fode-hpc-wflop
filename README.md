@@ -158,6 +158,20 @@ The script validates and reuses completed per-seed files, so an interrupted
 campaign resumes without rerunning accepted work. Results remain untracked
 until their machine-specific receipt is reviewed.
 
+On Waffle, the complete admitted formal matrix is launched through one
+resumable entrypoint:
+
+```bash
+WFLOP_WORKERS="$(nproc)" bash scripts/run_all_waffle_formal_campaigns.sh
+```
+
+It runs one optimization process at a time and uses all processors visible to
+that process internally. The three result families remain separate:
+18 algorithms on the common 50-case problem, six algorithms on the
+three-objective T46 problem, and GGA/GeoGA/T-MOEA on their declared offshore
+profiles. ALGA, TAAE, RLPSO, and RL-FODE remain excluded by the learned-state
+guard. Every family records a machine receipt and supports validated resume.
+
 The platform also contains the paper-repaired three-objective TWFLO package
 from Zhang et al. (2025), exposed as `pbea_cpp_hpc`. It evaluates expected
 power, occupied grid area, and construction-plus-land cost for the paper's

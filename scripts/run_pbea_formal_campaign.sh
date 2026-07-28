@@ -4,8 +4,8 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${repo_root}"
 
-if [[ -n "$(git status --porcelain)" ]]; then
-  echo "Formal campaign requires a clean worktree." >&2
+if [[ -n "$(git status --porcelain --untracked-files=no)" ]]; then
+  echo "Formal campaign requires a clean tracked worktree." >&2
   exit 2
 fi
 
@@ -17,6 +17,7 @@ fi
 
 build_dir="${PBEA_BUILD_DIR:-build-pbea-formal}"
 result_dir="${PBEA_RESULT_DIR:-results/pbea_six_algorithm_waffle_v1}"
+contract="${PBEA_CAMPAIGN_CONTRACT:-formal/contracts/pbea_six_algorithm_waffle_v1.json}"
 binary="${build_dir}/hpc/pbea_cpp/pbea_cpp_hpc"
 
 cmake -S . -B "${build_dir}" -DCMAKE_BUILD_TYPE=Release
@@ -27,7 +28,7 @@ ctest --test-dir "${build_dir}" --output-on-failure \
 mkdir -p "${result_dir}"
 environment_tmp="${result_dir}/environment.json.tmp"
 environment_file="${result_dir}/environment.json"
-python3 - "${binary}" "${workers}" >"${environment_tmp}" <<'PY'
+python3 - "${binary}" "${workers}" "${contract}" >"${environment_tmp}" <<'PY'
 import hashlib
 import json
 import os
@@ -38,16 +39,20 @@ from pathlib import Path
 
 binary = Path(sys.argv[1])
 workers = int(sys.argv[2])
+contract = Path(sys.argv[3])
+campaign = json.loads(contract.read_text())
 
 def command(*args):
     return subprocess.check_output(args, text=True).strip()
 
 print(json.dumps({
     "schema_version": 1,
-    "campaign_id": "pbea_six_algorithm_waffle_v1",
+    "campaign_id": campaign["campaign_id"],
     "host": platform.node(),
     "git_head": command("git", "rev-parse", "HEAD"),
-    "git_status_porcelain": command("git", "status", "--porcelain"),
+    "git_status_tracked": command(
+        "git", "status", "--porcelain", "--untracked-files=no"
+    ),
     "compiler": command("c++", "--version").splitlines()[0],
     "cmake": command("cmake", "--version").splitlines()[0],
     "nproc": int(command("nproc")),
@@ -55,17 +60,23 @@ print(json.dumps({
     "affinity": command("taskset", "-pc", str(os.getpid())),
     "lscpu": command("lscpu"),
     "binary_sha256": hashlib.sha256(binary.read_bytes()).hexdigest(),
+    "contract_sha256": hashlib.sha256(contract.read_bytes()).hexdigest(),
 }, indent=2))
 PY
 mv "${environment_tmp}" "${environment_file}"
 
-algorithms=(moead_p moead nsgaii mopso morime armoea)
-scenarios=(ws1 ws2)
+mapfile -t algorithms < <(jq -r '.algorithms[]' "${contract}")
+mapfile -t scenarios < <(jq -r '.wind_scenarios[]' "${contract}")
+mapfile -t turbine_counts < <(jq -r '.turbine_counts[]' "${contract}")
+population="$(jq -r '.population_size' "${contract}")"
+generations="$(jq -r '.offspring_generations' "${contract}")"
+repeat_count="$(jq -r '.repeat_count' "${contract}")"
+seed_base="$(jq -r '.seed_base' "${contract}")"
 for algorithm in "${algorithms[@]}"; do
   for scenario in "${scenarios[@]}"; do
-    for turbines in $(seq 15 30); do
-      for repeat in $(seq 1 25); do
-        seed=$((202507290000 + repeat))
+    for turbines in "${turbine_counts[@]}"; do
+      for repeat in $(seq 1 "${repeat_count}"); do
+        seed=$((seed_base + repeat))
         stem="${algorithm}__${scenario}__tn${turbines}__seed${seed}"
         front="${result_dir}/${stem}.front.json"
         summary="${result_dir}/${stem}.summary.json"
@@ -82,8 +93,8 @@ for algorithm in "${algorithms[@]}"; do
           --algorithm "${algorithm}" \
           --scenario "${scenario}" \
           --turbines "${turbines}" \
-          --population 100 \
-          --generations 100 \
+          --population "${population}" \
+          --generations "${generations}" \
           --workers "${workers}" \
           --seed "${seed}" \
           --ipd 3 \
@@ -102,5 +113,6 @@ for algorithm in "${algorithms[@]}"; do
 done
 
 python3 scripts/finalize_pbea_campaign.py \
+  --contract "${contract}" \
   --results "${result_dir}" \
   --receipt "${result_dir}/campaign_file_receipt.json"

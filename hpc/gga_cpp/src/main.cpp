@@ -958,6 +958,7 @@ struct RunResult {
     std::vector<FrontPoint> front;
     std::uint64_t fes = 0;
     std::uint64_t generations = 0;
+    int observed_workers = 0;
     double total_seconds = 0.0;
     double evaluator_seconds = 0.0;
 };
@@ -1444,6 +1445,7 @@ RunResult optimize(
     result.layout = population[static_cast<std::size_t>(best)];
     result.fes = fes;
     result.generations = generation;
+    result.observed_workers = executor.thread_count();
     result.total_seconds = std::chrono::duration<double>(
         Clock::now() - started
     ).count();
@@ -1689,6 +1691,7 @@ RunResult optimize_geoga(
     result.layout = population[static_cast<std::size_t>(best)];
     result.fes = fes;
     result.generations = generation;
+    result.observed_workers = executor.thread_count();
     result.total_seconds = std::chrono::duration<double>(
         Clock::now() - started
     ).count();
@@ -1952,6 +1955,7 @@ RunResult optimize_tmoea(
     result.layout = population[static_cast<std::size_t>(representative)];
     result.fes = fes;
     result.generations = generation;
+    result.observed_workers = executor.thread_count();
     result.total_seconds = std::chrono::duration<double>(
         Clock::now() - started
     ).count();
@@ -2079,6 +2083,8 @@ std::string to_json(
            << "  \"population_size\": "
            << (evaluation_only ? 0 : (geoga ? 50 : 30)) << ",\n"
            << "  \"requested_workers\": " << arguments.workers << ",\n"
+           << "  \"observed_workers\": "
+           << result.observed_workers << ",\n"
            << "  \"best_lcoe\": ";
     if (std::isfinite(result.best.lcoe)) {
         output << result.best.lcoe;
