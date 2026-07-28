@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "problem_id": "zhang2025_three_objective",
+  "canonical_semantics_id": "three_objective_paper_repaired_v1",
+  "paper_doi": "10.1016/j.swevo.2025.101972",
+  "paper_pdf_sha256": "25fce3abb99a4403bb9a1a29b5054185b28c94029e72c6686f572e7e65a89bb6",
+  "source_authority": {
+    "kind": "local_author_project_archive",
+    "sorted_tree_manifest_sha256": "9802cea81a715008313326308d8e65b9de67d11f2c25f241d0f4e4b9fae03b94",
+    "non_result_code_asset_manifest_sha256": "826e74c455782c27174e15caaf32db4ec316279d66afe4d796973970c7a3a17e",
+    "redistribution": "not_vendored_no_license_or_redistribution_notice",
+    "auditability": "partial: 18 dot-m files are MATLAB 5 containers rather than plaintext"
+  },
+  "decision_space": {
+    "grid": "20 by 20",
+    "cell_width_m": 231.0,
+    "turbine_counts": [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30],
+    "encoding": "one-based unique integer cell indices",
+    "unavailable_cells": [],
+    "note": "Figure 7 red cells illustrate a 15-turbine layout; they are not fifteen unavailable cells"
+  },
+  "objectives": {
+    "sense": ["minimize", "minimize", "minimize"],
+    "power": "inverse of expected total turbine power",
+    "area": "one half of closed convex-hull shoelace area plus inclusive axis-aligned bounding-rectangle area in grid units",
+    "cost": "N times (2/3 + exp(-0.00174*N^2)/3) plus 0.1 times area"
+  },
+  "evaluator": {
+    "wake_model": "Jensen top-hat with partial rotor overlap and root-sum-square deficits",
+    "hub_height_m": 80.0,
+    "rotor_diameter_m": 77.0,
+    "surface_roughness_m": 0.00025,
+    "entrainment": "0.5/log(h/z0)",
+    "power_curve": "0 below 2 m/s; 0.3*v^3 for [2,12.8); 629.1 for [12.8,18); 0 at and above 18",
+    "wind_scenarios": {
+      "WS1": "six speeds by two directions",
+      "WS2": "six speeds by twelve directions"
+    },
+    "physical_fes_definition": "one completed layout evaluation returning all three objectives over every joint wind state"
+  },
+  "registered_discrepancies": [
+    "PBEA-001", "PBEA-002", "PBEA-003", "PBEA-004", "PBEA-005",
+    "PBEA-006", "PBEA-007", "PBEA-008", "PBEA-009", "PBEA-010",
+    "PBEA-011", "PBEA-012", "PBEA-013", "PBEA-014", "PBEA-015"
+  ],
+  "pooling_rule": "paper_repaired and literal_source_replay results are separate experiment families"
+}

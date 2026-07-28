@@ -4,6 +4,7 @@ project(fode_hpc_wflop VERSION 0.1.0 LANGUAGES CXX)
 include(CTest)
 add_subdirectory(hpc/wflop_cpp)
 add_subdirectory(hpc/gga_cpp)
+add_subdirectory(hpc/pbea_cpp)
 
 if(BUILD_TESTING)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
@@ -43,4 +44,16 @@ if(BUILD_TESTING)
                 ${GGA_GENERATED_ASSETS}/Netherlands_Egmond_aan_Zee.wfp
         )
     endif()
+    add_test(
+        NAME pbea_cpp_evaluator_oracle
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/validate_pbea_cpp_evaluator.py
+            --binary $<TARGET_FILE:pbea_cpp_hpc>
+    )
+    add_test(
+        NAME pbea_cpp_determinism
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_pbea_cpp_determinism.py
+            --binary $<TARGET_FILE:pbea_cpp_hpc>
+    )
 endif()

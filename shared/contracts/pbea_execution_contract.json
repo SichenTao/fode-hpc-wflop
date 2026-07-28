@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "study_id": "moead_p_cpp_hpc_paper_repaired_v1",
+  "problem_id": "zhang2025_three_objective",
+  "problem_semantics_id": "three_objective_paper_repaired_v1",
+  "algorithm_id": "moead_p",
+  "implementation_language": "C++20",
+  "population_size": 100,
+  "generation_count": 100,
+  "physical_fes_per_run": 10100,
+  "formal_repeat_count": 25,
+  "weight_lattice_resolution": 98,
+  "neighborhood_size": 10,
+  "neighborhood_selection_probability": 0.9,
+  "maximum_replacements_per_offspring": 2,
+  "differential_weight": 0.5,
+  "crossover_probability": 0.9,
+  "polynomial_mutation_index": 20,
+  "aggregation_threshold_mu_c": 80,
+  "initial_probability_distributions": {
+    "IPD1": [1.0, 1.0],
+    "IPD2": [1.0, 20.0],
+    "IPD3": [20.0, 1.0],
+    "IPD4": [20.0, 20.0],
+    "IPD5": [10.5, 10.5],
+    "IPD6": [1.0, 10.5]
+  },
+  "parallel_contract": {
+    "worker_count": "all logical processors visible to the frozen Waffle job",
+    "parallel_stages": [
+      "probability-guided population initialization",
+      "synchronous offspring construction from a read-only generation snapshot",
+      "probability-guided half-layout resampling",
+      "complete independent three-objective layout evaluations"
+    ],
+    "ordered_stages": [
+      "ideal-point reduction",
+      "global probability compaction in offspring index order",
+      "at-most-two MOEA-D neighborhood replacements per offspring"
+    ],
+    "randomness": "counter-keyed SplitMix64-derived events independent of worker scheduling",
+    "worker_count_semantic_pairing": true
+  },
+  "formal_cases": "WS1 and WS2 crossed with turbine counts 15 through 30",
+  "formal_host": "Waffle",
+  "formal_campaign_status": "not_started",
+  "development_gates": {
+    "independent_evaluator_oracle": "passed",
+    "one_worker_four_worker_semantic_pair": "passed",
+    "address_and_undefined_behavior_sanitizers": "passed",
+    "largest_case_smoke": "passed"
+  }
+}

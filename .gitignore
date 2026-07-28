@@ -2,6 +2,7 @@
 /build-*/
 /results/
 /logs/
+/tmp/
 /.cache/
 /.source-cache/
 /.idea/

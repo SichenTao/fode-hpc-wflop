@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "receipt_id": "pbea_r0_r3_development_admission_spark_20260729",
+  "corpus_id": "T46",
+  "paper_doi": "10.1016/j.swevo.2025.101972",
+  "source_audit": {
+    "all_files": 19049,
+    "sorted_tree_manifest_sha256": "9802cea81a715008313326308d8e65b9de67d11f2c25f241d0f4e4b9fae03b94",
+    "non_result_non_pdf_files": 161,
+    "non_result_code_asset_manifest_sha256": "826e74c455782c27174e15caaf32db4ec316279d66afe4d796973970c7a3a17e",
+    "matlab_files": 137,
+    "matlab_asv_files": 7,
+    "wind_mat_files": 16,
+    "renamed_matlab_pcode_containers": 18,
+    "license_observation": "no license file or redistribution notice found",
+    "redistribution_policy": "do not vendor; use only as behavior formula problem and result oracle"
+  },
+  "critical_file_sha256": {
+    "MOEAD-P_PSC/MOEA/main.m": "4eb36ef0a7616ec43660509fbb4da43f481e0e7c81c6e8fc8eb9ef71b87186dd",
+    "MOEAD-P_PSC/MOEA/MOEADWF.m": "d508efd21462fd45dc4520353c160d0204d03557cf572cf3747f530b51fbaf2f",
+    "MOEAD-P_PSC/MOEA/Gen.m": "a0a688510cb82738c696b528e2a911298d588ab2717c026366a184b10c6eaf89",
+    "MOEAD-P_PSC/MOEA/EqualWeight.m": "3bacd2c1d452dac6924efb9b1b67d59cfbbfad328dc7a936befbd002ae17db0f",
+    "MOEAD-P_PSC/WindFarmOptimization/wf_fitness.m": "13fb0d7579ea2f8d40c5fce5cc91af0fd95fc0bb67b9b85f7974a48317f8cf4a",
+    "MOEAD-P_PSC/WindFarmOptimization/gene_windfram.m": "a1215ed623e45e5e9285d72115d4880568d084fb6babef6e0add8f5a79d5639d"
+  },
+  "wind_numeric_identity": {
+    "WS1": {
+      "theta_sha256": "63736a9563e532e3336552d7fbf0bdb089146175e056b979298bd04ad2af1664",
+      "velocity_sha256": "4c8e039949d4d26282f214e363398fd3a12d849506e8a8091b5ecf27f1a34d3c",
+      "probability_sha256": "094ca7d6005784df0852f3a8042285be27491d26bcede63d6103a56a763b31e1",
+      "valid_comparator_copies": 4,
+      "unreadable_copies": 2
+    },
+    "WS2": {
+      "theta_sha256": "442bee0f22bdf6861a02ed73ea7edb44a75b1310c2eb5e84110d193699c17c5e",
+      "velocity_sha256": "4c8e039949d4d26282f214e363398fd3a12d849506e8a8091b5ecf27f1a34d3c",
+      "probability_sha256": "c6afda3762481d279178719d18d2f459a6165560a5fa310be746205ebd797f4e",
+      "valid_comparator_copies": 5,
+      "unreadable_copies": 1
+    }
+  },
+  "cpp_validation": {
+    "independent_python_scalar_oracle_cases": 6,
+    "maximum_scaled_absolute_error_tolerance": 2e-12,
+    "oracle_status": "passed",
+    "worker_pair": "1 versus 4",
+    "worker_count_scientific_result_status": "exact_match",
+    "sanitizer_case": "WS2 30 turbines 20 individuals 2 generations 60 complete layout evaluations",
+    "address_undefined_leak_sanitizer_status": "passed",
+    "largest_case_smoke": "WS2 30 turbines 100 individuals 2 generations 300 complete layout evaluations",
+    "largest_case_smoke_status": "passed"
+  },
+  "development_performance_diagnostic": {
+    "host": "Spark",
+    "cpu": "20 visible Arm cores: 10 Cortex-X925 and 10 Cortex-A725",
+    "compiler": "GCC 11.5.0",
+    "work": "WS2 30 turbines 100 individuals 10 generations; 1100 complete three-objective layout evaluations",
+    "repeats_per_worker_count": 5,
+    "one_worker_median_seconds": {
+      "evaluator": 0.026898006,
+      "algorithm": 0.051210584,
+      "end_to_end": 0.07810859
+    },
+    "twenty_worker_median_seconds": {
+      "evaluator": 0.002808624,
+      "algorithm": 0.02713543,
+      "end_to_end": 0.029938004
+    },
+    "one_to_twenty_worker_speedup": {
+      "evaluator": 9.57693375831012,
+      "algorithm": 1.8872221298870153,
+      "end_to_end": 2.6090112754343946
+    },
+    "evidence_boundary": "development diagnostic only; not MATLAB-to-C++ speedup and not a Waffle formal result"
+  },
+  "matlab_source_replay": {
+    "status": "blocked_shark_matlab_startup",
+    "reason": "MATLAB R2025b batch startup did not reach user code during bounded probes; only probe-owned processes were terminated"
+  },
+  "status": "r0_r3_pass_r4_development_smoke_pass",
+  "next_gate": "implement and admit the five comparator algorithms before Waffle formal campaign"
+}

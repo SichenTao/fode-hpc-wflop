@@ -104,6 +104,32 @@ The script validates and reuses completed per-seed files, so an interrupted
 campaign resumes without rerunning accepted work. Results remain untracked
 until their machine-specific receipt is reviewed.
 
+The platform also contains the paper-repaired three-objective TWFLO package
+from Zhang et al. (2025), exposed as `pbea_cpp_hpc`. It evaluates expected
+power, occupied grid area, and construction-plus-land cost for the paper's
+20-by-20 grid, WS1/WS2 wind conditions, and 15--30 turbines. The proposed
+method is named **MOEA/D-P** in the paper; `PBEA` is retained only as a package
+shorthand. The formal unit of work is one completed layout evaluation
+returning all three objectives. A 100-individual run containing the initial
+population and 100 offspring generations therefore has 10,100 physical FES.
+
+```bash
+# Independent three-objective layout evaluation
+build/hpc/pbea_cpp/pbea_cpp_hpc \
+  --scenario ws2 \
+  --evaluate-layout 1,20,21,40,81,100,121,140,181,200,241,260,321,380,400
+
+# Development smoke; formal campaigns use the frozen Waffle manifest
+build/hpc/pbea_cpp/pbea_cpp_hpc \
+  --scenario ws2 --turbines 30 --population 100 --generations 2 \
+  --workers "$(nproc)" --seed 20250729 --ipd 3 --mu-c 80
+```
+
+The local author bundle is not vendored: no redistribution license was found,
+and 18 files carrying an `.m` suffix are MATLAB binary containers rather than
+readable source. Exact hashes and repairs are frozen in the PBEA contracts and
+development receipt.
+
 ## Evidence boundary
 
 `evidence/admission/admission_receipt.json` records the passed v0.1.0
@@ -127,6 +153,15 @@ capacity factor, and LCOE for all eight sites. A one-worker/twenty-worker pair
 has exact semantic agreement, and the heaviest-site smoke passes address and
 undefined-behavior sanitizers. These are development admission results; the
 25-seed Waffle campaign remains pending.
+
+For the three-objective MOEA/D-P development package, an independent Python
+scalar oracle covers both wind scenarios and three contrasting layouts. The
+one-worker/four-worker scientific outputs match exactly, the 30-turbine WS2
+case passes address and undefined-behavior sanitizers, and the largest
+development smoke completes. A five-repeat Spark diagnostic measured
+9.58x evaluator and 2.61x end-to-end speedup from one to twenty workers for
+1,100 complete three-objective layout evaluations. This is not a
+MATLAB-to-C++ comparison and not a formal Waffle result.
 
 ## Expansion contract
 

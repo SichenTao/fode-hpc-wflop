@@ -4,17 +4,28 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${repo_root}"
 
-if find . \( -path './.git' -o -path './build' -o -path './.source-cache' \) -prune -o \
-    \( -name '*.pdf' -o -name '*.mex*' -o -name '*.mat' -o -name '*.npz' \) \
-    -print | grep -q .; then
-  echo "Public audit failed: prohibited binary/research assets are present." >&2
-  exit 1
-fi
+mapfile -d '' public_files < <(
+  git ls-files --cached --others --exclude-standard -z
+)
 
-if grep -RInE \
-    --exclude-dir=.git --exclude-dir=build --exclude-dir=.source-cache \
+public_regular_files=()
+for path in "${public_files[@]}"; do
+  if [[ ! -f "${path}" ]]; then
+    continue
+  fi
+  public_regular_files+=("${path}")
+  case "${path}" in
+    *.pdf|*.mex|*.mex*|*.mat|*.npz)
+      echo "Public audit failed: prohibited asset ${path} is public." >&2
+      exit 1
+      ;;
+  esac
+done
+
+if ((${#public_regular_files[@]} > 0)) && grep -IInE \
     --exclude='public_audit.sh' \
-    '(/home/|/Users/|BEGIN [A-Z ]*PRIVATE KEY|ghp_|github_pat_|@tohoku)' .; then
+    '(/home/|/Users/|BEGIN [A-Z ]*PRIVATE KEY|ghp_|github_pat_|@tohoku)' \
+    "${public_regular_files[@]}"; then
   echo "Public audit failed: a private path or credential pattern is present." >&2
   exit 1
 fi
