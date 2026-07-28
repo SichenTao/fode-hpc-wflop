@@ -42,7 +42,11 @@ def main() -> int:
     expected = {
         row["corpus_id"]
         for row in lineage
-        if row["current_platform_status"] == "queued"
+        if row["current_platform_status"] in {
+            "queued",
+            "current_cpp_smoke_pass",
+            "current_cpp_admitted",
+        }
         and row["problem_family"] != "fode_e0_common"
     }
     observed = set(package_ids)

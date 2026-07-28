@@ -2,12 +2,18 @@
 
 FODE-HPC-WFLOP is a reproducible, pure C++20 benchmark for studying
 high-performance evolutionary optimization of wind-farm layouts. The current
-development branch provides one common physical problem, one exact work budget, and seventeen
-registered algorithm state machines:
+development branch provides the common FODE-E0-L problem with one exact work
+budget and seventeen registered algorithm state machines:
 
 ```text
 FODE  AGA  SUGGA  ISE  AGPSO  CGPSO  LSHADE  CLSHADE  CEDE  MS-SHADE  BDE  HGPSO  AIGA  CIGA  LSDE  WFADDE  A-LSHADE
 ```
+
+It also provides a separate pure C++20 GGA package for the eight-site
+integrated layout-and-electrical-cable problem from Zhang et al. (2026). That
+package minimizes LCOE while evaluating AEP and sector-based inner-array cable
+routing. Its repaired physical semantics, source discrepancies, and non-pooling
+rule are frozen in `shared/contracts/gga_problem_semantics.json`.
 
 The benchmark contains 50 wind-farm cases: 10 wind scenarios crossed with
 farms containing 10, 20, 30, 50, or 80 turbines. One physical function
@@ -69,6 +75,24 @@ OMP_DYNAMIC=FALSE OMP_NUM_THREADS=20 OMP_PROC_BIND=spread OMP_PLACES=threads \
 List the canonical algorithm identifiers with
 `build/hpc/wflop_cpp/wflop_cpp_hpc --list-algorithms`.
 
+The GGA package uses locally generated snapshots because the upstream
+repository has an academic-use notice but no standard redistribution license:
+
+```bash
+python3 scripts/prepare_gga_problem_assets.py \
+  --source /path/to/WFLO-GGA \
+  --output .source-cache/generated/gga_repaired
+python3 scripts/validate_gga_problem_assets.py \
+  --assets .source-cache/generated/gga_repaired
+
+build/hpc/gga_cpp/gga_cpp_hpc \
+  --problem .source-cache/generated/gga_repaired/Netherlands_Egmond_aan_Zee.wfp \
+  --physical-fes 3000 \
+  --seed 20260316 \
+  --workers "$(nproc)" \
+  --output results/gga_Egmond.json
+```
+
 After a target machine, compiler, and worker count have been frozen, run the
 25-seed fixed-work campaign with:
 
@@ -95,6 +119,14 @@ The previously completed 10,000-run research campaign is not bundled in this
 release because its final receipt has not yet been synchronized into this
 public repository. A smoke test, a source hash, or a timing probe is not
 presented as a paper-level result.
+
+For the GGA development package, the eight repaired problem snapshots pass
+boundary, spacing, probability, cable-capacity, and hash validation. An
+independent Python/SciPy oracle reproduces fixed-layout C++ AEP, cable cost,
+capacity factor, and LCOE for all eight sites. A one-worker/twenty-worker pair
+has exact semantic agreement, and the heaviest-site smoke passes address and
+undefined-behavior sanitizers. These are development admission results; the
+25-seed Waffle campaign remains pending.
 
 ## Expansion contract
 

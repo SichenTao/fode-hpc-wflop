@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "study_id": "gga_cpp_hpc_repaired_v1",
+  "problem_id": "gga2026_layout_cable",
+  "problem_semantics_id": "geojson_radians_ct_rss_repaired_v1",
+  "algorithm_id": "gga",
+  "method_id": "GGA_CPP_HPC_FULL",
+  "implementation_language": "C++20",
+  "population_size": 30,
+  "mutation_probability": 0.5,
+  "paper_iteration_count_including_initial_population": 100,
+  "formal_physical_fes_per_repeat": 3000,
+  "formal_repeat_count": 25,
+  "optimizer_seed_base": 20260316,
+  "candidate_seed_contract": "separate deterministic per-site stream defined by gga_problem_semantics.json",
+  "parallel_contract": {
+    "worker_count": "all logical processors visible to the frozen Waffle job",
+    "parallel_stages": [
+      "population initialization",
+      "offspring construction and repair from a read-only generation snapshot",
+      "complete independent layout evaluations"
+    ],
+    "ordered_stages": [
+      "roulette score construction",
+      "indexed parent-offspring survival",
+      "best-layout reduction"
+    ],
+    "randomness": "counter-keyed SplitMix64-derived events independent of worker scheduling",
+    "worker_count_semantic_pairing": true
+  },
+  "terminal_partial_generation_rule": "retain every completed offspring evaluation and stop before constructing or evaluating work beyond the physical-FES budget",
+  "formal_host": "Waffle",
+  "formal_host_worker_policy": "use all processors visible to the job after recording lscpu, nproc, affinity, compiler, and source revision",
+  "quality_adaptive_scheduling_forbidden": true,
+  "formal_campaign_status": "not_started",
+  "development_gates": {
+    "eight_case_asset_validation": "passed",
+    "independent_evaluator_oracle": "passed",
+    "eight_case_60_fes_smoke": "passed",
+    "one_worker_twenty_worker_semantic_pair": "passed",
+    "address_and_undefined_behavior_sanitizers": "passed"
+  }
+}

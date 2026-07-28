@@ -1,0 +1,30 @@
+cmake_minimum_required(VERSION 3.20)
+
+find_package(Threads REQUIRED)
+
+add_executable(gga_cpp_hpc
+    ../fode_cpp/src/executor.cpp
+    src/main.cpp
+)
+
+target_include_directories(gga_cpp_hpc PRIVATE
+    ../fode_cpp/include
+)
+target_link_libraries(gga_cpp_hpc PRIVATE Threads::Threads)
+target_compile_features(gga_cpp_hpc PRIVATE cxx_std_20)
+target_compile_options(gga_cpp_hpc PRIVATE
+    -O3
+    -ffp-contract=off
+    -Wall
+    -Wextra
+    -Wpedantic
+    -Wconversion
+    -Wshadow
+)
+
+if(BUILD_TESTING)
+    add_test(
+        NAME gga_cpp_help
+        COMMAND gga_cpp_hpc --help
+    )
+endif()

@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "problem_id": "gga2026_layout_cable",
+  "canonical_semantics_id": "geojson_radians_ct_rss_repaired_v1",
+  "paper_doi": "10.1016/j.apenergy.2026.127895",
+  "paper_pdf_sha256": "897adf9615f97767f361637199512c60083d417a37d0f55de365804850b519b1",
+  "source_authority": {
+    "url": "https://github.com/zbh0528/WFLO-GGA",
+    "commit": "6ce41326e6c1d3685a01e038baf6d1d07aa46126",
+    "sorted_tree_manifest_sha256": "6e23bb6ad67312e782f90e2b5cdab53492141483bce386b4ccb50955938dbeee",
+    "redistribution": "not_vendored_no_standard_license"
+  },
+  "objective": {
+    "sense": "minimize",
+    "quantity": "discounted levelized cost of energy",
+    "symbol": "LCOE",
+    "secondary_outputs": [
+      "annual energy production in kWh",
+      "capacity factor",
+      "inner-array cable cost"
+    ]
+  },
+  "decision_space": {
+    "encoding": "unique zero-based indices into a frozen Poisson candidate set",
+    "candidate_boundary": "author-supplied GeoJSON polygon",
+    "minimum_candidate_spacing": "three rotor diameters, reduced by one percent only if a site cannot contain its declared number of turbines",
+    "candidate_rng": "per-site SplitMix64 stream",
+    "candidate_seed": "42 plus the sum of the UTF-8 bytes in the case identifier",
+    "candidate_snapshot_policy": "generate locally, validate, and freeze SHA-256; do not redistribute the upstream source assets"
+  },
+  "evaluator": {
+    "wind_direction_unit": "radians converted from the supplied degree sectors",
+    "wind_distribution": "12 directions by 4 speeds with direction-major joint probability",
+    "wake_model": "Jensen top-hat with alpha 0.1",
+    "thrust_coefficient": "piecewise-linear interpolation of the supplied Ct curve with endpoint clamping",
+    "multiple_wake_superposition": "root-sum-square velocity deficit",
+    "power_curve": "MATLAB-compatible not-a-knot cubic spline over the supplied 4.2-MW turbine table",
+    "cable_routing": "sector rotation, balanced groups, per-group minimum spanning tree, and subtree-load cable assignment",
+    "inner_cable_capacity_turbines": [
+      5,
+      8,
+      11
+    ],
+    "physical_fes_definition": "one completed layout evaluation including cable routing, every joint wind state, AEP, capacity factor, and LCOE"
+  },
+  "case_ids": [
+    "China_Zhuhai_Guishan_Hai",
+    "Netherlands_Egmond_aan_Zee",
+    "China_Shanghai_Lingang",
+    "Netherlands_Prinses_Amaliawindpark",
+    "Denmark_Nysted",
+    "UK_Sheringham_Shoal",
+    "Denmark_Rodsand_II",
+    "UK_London_Array"
+  ],
+  "source_replay_semantics_id": "matlab_boundary_degrees_fixed_ct_multiplicative_source_replay_v1",
+  "pooling_rule": "canonical repaired-profile results and source-replay results are separate experiment families",
+  "registered_discrepancies": [
+    "GGA-001",
+    "GGA-002",
+    "GGA-003",
+    "GGA-004",
+    "GGA-005",
+    "GGA-006",
+    "GGA-007",
+    "GGA-008"
+  ]
+}

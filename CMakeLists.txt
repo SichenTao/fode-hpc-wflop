@@ -3,6 +3,7 @@ project(fode_hpc_wflop VERSION 0.1.0 LANGUAGES CXX)
 
 include(CTest)
 add_subdirectory(hpc/wflop_cpp)
+add_subdirectory(hpc/gga_cpp)
 
 if(BUILD_TESTING)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
@@ -16,4 +17,30 @@ if(BUILD_TESTING)
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_problem_packages.py
     )
+    set(GGA_GENERATED_ASSETS
+        ${CMAKE_CURRENT_SOURCE_DIR}/.source-cache/generated/gga_repaired
+    )
+    if(EXISTS ${GGA_GENERATED_ASSETS}/manifest.json)
+        add_test(
+            NAME gga_generated_asset_validation
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/validate_gga_problem_assets.py
+                --assets ${GGA_GENERATED_ASSETS}
+        )
+        add_test(
+            NAME gga_cpp_evaluator_oracle
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/validate_gga_cpp_evaluator.py
+                --binary $<TARGET_FILE:gga_cpp_hpc>
+                --assets ${GGA_GENERATED_ASSETS}
+        )
+        add_test(
+            NAME gga_cpp_determinism
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_gga_cpp_determinism.py
+                --binary $<TARGET_FILE:gga_cpp_hpc>
+                --problem
+                ${GGA_GENERATED_ASSETS}/Netherlands_Egmond_aan_Zee.wfp
+        )
+    endif()
 endif()
