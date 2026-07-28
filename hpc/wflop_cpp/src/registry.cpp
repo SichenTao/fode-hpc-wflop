@@ -146,6 +146,14 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "paper_derived_explicit_reconstruction",
             "ciga_paper_derived_e0_physical_fes_v1",
             {"fode_e0_common"}
+        },
+        {
+            "lsde",
+            "LSDE",
+            "10.1049/cit2.70150",
+            "paper_derived_explicit_reconstruction",
+            "lsde_paper_derived_e0_physical_fes_v1",
+            {"fode_e0_common"}
         }
     };
     return descriptors;

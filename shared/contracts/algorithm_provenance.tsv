@@ -13,3 +13,4 @@ bde	BDE	paper_first_official_source_discrepancy_registered	Li et al. 2025 Eqs. 1
 hgpso	HGPSO	paper_first_local_source_discrepancy_registered	Zheng et al. 2026 Algorithm 1 and Eqs. 15-22; local MATLAB source differences registered separately	10.26599/tst.2026.9010059	hgpso_paper_equations_physical_fes_v1
 aiga	AIGA	paper_derived_explicit_reconstruction	Zheng et al. 2024 Eqs. 10-12 and selected orthogonal-design parameters; omitted operators explicitly reconstructed	10.1007/s42235-024-00498-3	aiga_paper_derived_e0_physical_fes_v1
 ciga	CIGA	paper_derived_explicit_reconstruction	Zheng et al. 2025 Eqs. 8-10 and mu=3.9; omitted GA and shrink parameters explicitly reconstructed	10.1145/3766671.3766786	ciga_paper_derived_e0_physical_fes_v1
+lsde	LSDE	paper_derived_explicit_reconstruction	Li et al. 2026 Algorithm 1 and Eqs. 13-25; omitted clustering and layer-transition details explicitly reconstructed	10.1049/cit2.70150	lsde_paper_derived_e0_physical_fes_v1

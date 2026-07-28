@@ -2,11 +2,11 @@
 
 FODE-HPC-WFLOP is a reproducible, pure C++20 benchmark for studying
 high-performance evolutionary optimization of wind-farm layouts. The current
-development branch provides one common physical problem, one exact work budget, and fourteen
+development branch provides one common physical problem, one exact work budget, and fifteen
 registered algorithm state machines:
 
 ```text
-FODE  AGA  SUGGA  ISE  AGPSO  CGPSO  LSHADE  CLSHADE  CEDE  MS-SHADE  BDE  HGPSO  AIGA  CIGA
+FODE  AGA  SUGGA  ISE  AGPSO  CGPSO  LSHADE  CLSHADE  CEDE  MS-SHADE  BDE  HGPSO  AIGA  CIGA  LSDE
 ```
 
 The benchmark contains 50 wind-farm cases: 10 wind scenarios crossed with
@@ -32,9 +32,10 @@ author implementation was available. The other algorithms use the provenance
 declared in `shared/contracts/algorithm_provenance.tsv`. CEDE and MS-SHADE use
 paper-first profiles because their paper equations and archived MATLAB behavior
 diverge; BDE and HGPSO also have paper/source operator, stage, or budget conflicts.
-The development branch adds CEDE, MS-SHADE, BDE, HGPSO, AIGA, and CIGA after
-their development gates; these additions are not part of the v0.1.0 tag.
-AIGA and CIGA are paper-derived explicit reconstructions because no author source was found. Every conflict and reconstruction is listed in
+The development branch adds CEDE, MS-SHADE, BDE, HGPSO, AIGA, CIGA, and LSDE
+after their development gates; these additions are not part of the v0.1.0 tag.
+AIGA, CIGA, and LSDE are paper-derived explicit reconstructions because no
+author source was found. Every conflict and reconstruction is listed in
 `docs/semantic_discrepancy_ledger.tsv`. NDE is not part of this public
 benchmark.
 

@@ -2452,6 +2452,501 @@ RunResult optimize_msshade(
     );
 }
 
+RunResult optimize_lsde(
+    const fode::CaseData& data,
+    const RunConfig& config
+) {
+    const auto started = Clock::now();
+    Runtime runtime(config);
+    const int dimension = data.turbine_count;
+    const int initial_population = 120;
+    const int minimum_population = std::min(
+        initial_population,
+        std::max(
+            4,
+            static_cast<int>(std::ceil(
+                0.3 * static_cast<double>(dimension)
+            ))
+        )
+    );
+    if (runtime.budget < static_cast<std::uint64_t>(initial_population)) {
+        throw std::runtime_error("budget is below LSDE initialization");
+    }
+    int population_size = initial_population;
+    Matrix population = initialize_population(
+        population_size, data, runtime.rng, runtime.executor, 1200
+    );
+    auto initial = runtime.evaluate(
+        population,
+        population_size,
+        data,
+        fode::EvaluationDetail::TotalOnly
+    );
+    std::vector<double> fitness = initial.fitness;
+    Matrix archive;
+    std::array<double, 5> memory_f{0.5, 0.5, 0.5, 0.5, 0.5};
+    std::array<double, 5> memory_cr{0.5, 0.5, 0.5, 0.5, 0.5};
+    int memory_position = 0;
+
+    while (runtime.fes < runtime.budget) {
+        ++runtime.generations;
+        const int offspring_count = static_cast<int>(
+            std::min<std::uint64_t>(
+                static_cast<std::uint64_t>(population_size),
+                runtime.budget - runtime.fes
+            )
+        );
+        const auto ranking = stable_rank_descending(fitness);
+
+        // The paper specifies distance-based C(P,K), K=3, without naming
+        // the clustering algorithm. Freeze a deterministic farthest-first
+        // three-centroid partition so worker scheduling cannot change it.
+        constexpr int cluster_count = 3;
+        std::array<int, cluster_count> centroids{
+            ranking.front(), ranking.front(), ranking.front()
+        };
+        for (int cluster = 1; cluster < cluster_count; ++cluster) {
+            double farthest_distance = -1.0;
+            int farthest_row = ranking.front();
+            for (int row = 0; row < population_size; ++row) {
+                double nearest = std::numeric_limits<double>::infinity();
+                for (int previous = 0; previous < cluster; ++previous) {
+                    double distance = 0.0;
+                    for (int d = 0; d < dimension; ++d) {
+                        const double difference =
+                            population[at(row, d, dimension)]
+                            - population[at(
+                                centroids[static_cast<std::size_t>(previous)],
+                                d,
+                                dimension
+                            )];
+                        distance += difference * difference;
+                    }
+                    nearest = std::min(nearest, distance);
+                }
+                if (nearest > farthest_distance) {
+                    farthest_distance = nearest;
+                    farthest_row = row;
+                }
+            }
+            centroids[static_cast<std::size_t>(cluster)] = farthest_row;
+        }
+        std::vector<int> cluster_of(
+            static_cast<std::size_t>(population_size),
+            0
+        );
+        std::array<std::vector<int>, cluster_count> clusters;
+        for (int row = 0; row < population_size; ++row) {
+            int selected = 0;
+            double nearest = std::numeric_limits<double>::infinity();
+            for (int cluster = 0; cluster < cluster_count; ++cluster) {
+                double distance = 0.0;
+                for (int d = 0; d < dimension; ++d) {
+                    const double difference =
+                        population[at(row, d, dimension)]
+                        - population[at(
+                            centroids[static_cast<std::size_t>(cluster)],
+                            d,
+                            dimension
+                        )];
+                    distance += difference * difference;
+                }
+                if (distance < nearest) {
+                    nearest = distance;
+                    selected = cluster;
+                }
+            }
+            cluster_of[static_cast<std::size_t>(row)] = selected;
+            clusters[static_cast<std::size_t>(selected)].push_back(row);
+        }
+        for (auto& cluster : clusters) {
+            std::stable_sort(cluster.begin(), cluster.end(), [&](int lhs,
+                                                                  int rhs) {
+                return fitness[static_cast<std::size_t>(lhs)]
+                    > fitness[static_cast<std::size_t>(rhs)];
+            });
+        }
+
+        std::vector<int> layer(
+            static_cast<std::size_t>(population_size),
+            0
+        );
+        std::array<std::vector<int>, cluster_count> top;
+        std::array<std::vector<int>, cluster_count> middle;
+        for (int cluster = 0; cluster < cluster_count; ++cluster) {
+            const auto& rows = clusters[static_cast<std::size_t>(cluster)];
+            const int size = static_cast<int>(rows.size());
+            const int top_end = std::min(
+                size,
+                std::max(1, static_cast<int>(std::ceil(0.25 * size)))
+            );
+            const int middle_end = std::min(
+                size,
+                std::max(
+                    top_end,
+                    static_cast<int>(std::ceil(0.50 * size))
+                )
+            );
+            for (int offset = 0; offset < size; ++offset) {
+                const int row = rows[static_cast<std::size_t>(offset)];
+                if (offset < top_end) {
+                    top[static_cast<std::size_t>(cluster)].push_back(row);
+                    layer[static_cast<std::size_t>(row)] = 0;
+                } else if (offset < middle_end) {
+                    middle[static_cast<std::size_t>(cluster)].push_back(row);
+                    layer[static_cast<std::size_t>(row)] = 1;
+                } else {
+                    layer[static_cast<std::size_t>(row)] = 2;
+                }
+            }
+        }
+
+        const int archive_rows =
+            static_cast<int>(archive.size()) / dimension;
+        Matrix combined = population;
+        combined.insert(combined.end(), archive.begin(), archive.end());
+        Matrix trial(
+            static_cast<std::size_t>(offspring_count * dimension),
+            0.0
+        );
+        std::vector<double> sampled_f(
+            static_cast<std::size_t>(offspring_count)
+        );
+        std::vector<double> sampled_cr(
+            static_cast<std::size_t>(offspring_count)
+        );
+
+        runtime.executor.parallel_for(0, offspring_count, [&](int individual) {
+            const int target = individual % population_size;
+            const int memory_index = runtime.rng.integer(
+                0, 5, runtime.generations, 1201,
+                static_cast<std::uint64_t>(individual)
+            );
+            sampled_f[static_cast<std::size_t>(individual)] = positive_cauchy(
+                runtime.rng,
+                memory_f[static_cast<std::size_t>(memory_index)],
+                runtime.generations,
+                1202,
+                static_cast<std::uint64_t>(individual)
+            );
+            sampled_cr[static_cast<std::size_t>(individual)] = std::clamp(
+                memory_cr[static_cast<std::size_t>(memory_index)]
+                    + 0.1 * runtime.rng.normal(
+                        runtime.generations,
+                        1203,
+                        static_cast<std::uint64_t>(individual)
+                    ),
+                0.0,
+                1.0
+            );
+            const int p_count = std::min(
+                population_size,
+                std::max(
+                    2,
+                    static_cast<int>(std::ceil(
+                        (
+                            2.0 / static_cast<double>(population_size)
+                            + runtime.rng.uniform(
+                                runtime.generations,
+                                1204,
+                                static_cast<std::uint64_t>(individual)
+                            ) * (
+                                0.2
+                                - 2.0
+                                    / static_cast<double>(population_size)
+                            )
+                        ) * static_cast<double>(population_size)
+                    ))
+                )
+            );
+            const int pbest = ranking[static_cast<std::size_t>(
+                runtime.rng.integer(
+                    0,
+                    p_count,
+                    runtime.generations,
+                    1205,
+                    static_cast<std::uint64_t>(individual)
+                )
+            )];
+
+            const int cluster =
+                cluster_of[static_cast<std::size_t>(target)];
+            const int target_layer = layer[static_cast<std::size_t>(target)];
+            std::vector<int> donor_pool;
+            if (target_layer == 1) {
+                donor_pool = top[static_cast<std::size_t>(cluster)];
+            } else if (target_layer == 2) {
+                donor_pool = middle[static_cast<std::size_t>(cluster)];
+            }
+            donor_pool.erase(
+                std::remove(donor_pool.begin(), donor_pool.end(), target),
+                donor_pool.end()
+            );
+            if (donor_pool.size() < 2) {
+                donor_pool.clear();
+                for (int row = 0; row < population_size; ++row) {
+                    if (row != target) {
+                        donor_pool.push_back(row);
+                    }
+                }
+            }
+            const int first_position = runtime.rng.integer(
+                0,
+                static_cast<int>(donor_pool.size()),
+                runtime.generations,
+                1206,
+                static_cast<std::uint64_t>(individual)
+            );
+            int second_position = first_position;
+            std::uint64_t draw = 0;
+            while (second_position == first_position) {
+                second_position = runtime.rng.integer(
+                    0,
+                    static_cast<int>(donor_pool.size()),
+                    runtime.generations,
+                    1207,
+                    static_cast<std::uint64_t>(individual),
+                    0,
+                    draw++
+                );
+            }
+            const int r1 =
+                donor_pool[static_cast<std::size_t>(first_position)];
+            int r2 = donor_pool[static_cast<std::size_t>(second_position)];
+            bool use_archive = false;
+            int archive_row = 0;
+            if (target_layer == 0 && archive_rows > 0) {
+                const int selection = runtime.rng.integer(
+                    0,
+                    population_size + archive_rows,
+                    runtime.generations,
+                    1208,
+                    static_cast<std::uint64_t>(individual)
+                );
+                if (selection >= population_size) {
+                    use_archive = true;
+                    archive_row = selection - population_size;
+                } else if (selection != target && selection != r1) {
+                    r2 = selection;
+                }
+            }
+            const int jrand = runtime.rng.integer(
+                0,
+                dimension,
+                runtime.generations,
+                1209,
+                static_cast<std::uint64_t>(individual)
+            );
+            const double scale =
+                sampled_f[static_cast<std::size_t>(individual)];
+            for (int d = 0; d < dimension; ++d) {
+                const double second =
+                    use_archive
+                        ? archive[at(archive_row, d, dimension)]
+                        : population[at(r2, d, dimension)];
+                const double mutant =
+                    population[at(target, d, dimension)]
+                    + scale * (
+                        population[at(pbest, d, dimension)]
+                        - population[at(target, d, dimension)]
+                        + population[at(r1, d, dimension)]
+                        - second
+                    );
+                const bool use_mutant =
+                    d == jrand
+                    || runtime.rng.uniform(
+                        runtime.generations,
+                        1210,
+                        static_cast<std::uint64_t>(individual),
+                        static_cast<std::uint64_t>(d)
+                    ) <= sampled_cr[static_cast<std::size_t>(individual)];
+                trial[at(individual, d, dimension)] = use_mutant
+                    ? mutant
+                    : population[at(target, d, dimension)];
+            }
+        });
+        repair_population(
+            trial,
+            offspring_count,
+            data,
+            runtime.rng,
+            runtime.executor,
+            runtime.generations,
+            1211
+        );
+        auto evaluated = runtime.evaluate(
+            trial,
+            offspring_count,
+            data,
+            fode::EvaluationDetail::TotalOnly
+        );
+        std::vector<int> successful;
+        std::array<bool, cluster_count> cluster_improved{
+            false, false, false
+        };
+        for (int row = 0; row < offspring_count; ++row) {
+            const int target = row % population_size;
+            if (evaluated.fitness[static_cast<std::size_t>(row)]
+                > fitness[static_cast<std::size_t>(target)]) {
+                successful.push_back(row);
+                cluster_improved[static_cast<std::size_t>(
+                    cluster_of[static_cast<std::size_t>(target)]
+                )] = true;
+                for (int d = 0; d < dimension; ++d) {
+                    archive.push_back(
+                        population[at(target, d, dimension)]
+                    );
+                }
+                copy_row(population, target, trial, row, dimension);
+                fitness[static_cast<std::size_t>(target)] =
+                    evaluated.fitness[static_cast<std::size_t>(row)];
+            }
+        }
+        if (!successful.empty()) {
+            double numerator_f = 0.0;
+            double denominator_f = 0.0;
+            double mean_cr = 0.0;
+            for (const int row : successful) {
+                const double value_f =
+                    sampled_f[static_cast<std::size_t>(row)];
+                numerator_f += value_f * value_f;
+                denominator_f += value_f;
+                mean_cr += sampled_cr[static_cast<std::size_t>(row)];
+            }
+            if (denominator_f > 0.0) {
+                memory_f[static_cast<std::size_t>(memory_position)] =
+                    numerator_f / denominator_f;
+            }
+            memory_cr[static_cast<std::size_t>(memory_position)] =
+                mean_cr / static_cast<double>(successful.size());
+            memory_position = (memory_position + 1) % 5;
+        }
+
+        std::vector<int> stagnant;
+        std::vector<int> active;
+        for (int cluster = 0; cluster < cluster_count; ++cluster) {
+            if (cluster_improved[static_cast<std::size_t>(cluster)]) {
+                active.push_back(cluster);
+            } else {
+                stagnant.push_back(cluster);
+            }
+        }
+        if (stagnant.size() >= 2 && !active.empty()) {
+            const int source_cluster = active.front();
+            const auto& source =
+                clusters[static_cast<std::size_t>(source_cluster)];
+            for (int index = 0; index < 2; ++index) {
+                auto targets =
+                    clusters[static_cast<std::size_t>(stagnant[
+                        static_cast<std::size_t>(index)
+                    ])];
+                std::stable_sort(
+                    targets.begin(),
+                    targets.end(),
+                    [&](int lhs, int rhs) {
+                        return fitness[static_cast<std::size_t>(lhs)]
+                            < fitness[static_cast<std::size_t>(rhs)];
+                    }
+                );
+                const int replacements = std::min(
+                    static_cast<int>(targets.size()),
+                    std::max(
+                        1,
+                        static_cast<int>(std::ceil(
+                            0.1 * static_cast<double>(targets.size())
+                        ))
+                    )
+                );
+                for (int replacement = 0;
+                     replacement < replacements && !source.empty();
+                     ++replacement) {
+                    const int source_row = source[static_cast<std::size_t>(
+                        runtime.rng.integer(
+                            0,
+                            static_cast<int>(source.size()),
+                            runtime.generations,
+                            1212,
+                            static_cast<std::uint64_t>(index),
+                            static_cast<std::uint64_t>(replacement)
+                        )
+                    )];
+                    const int target_row =
+                        targets[static_cast<std::size_t>(replacement)];
+                    copy_row(
+                        population,
+                        target_row,
+                        population,
+                        source_row,
+                        dimension
+                    );
+                    fitness[static_cast<std::size_t>(target_row)] =
+                        fitness[static_cast<std::size_t>(source_row)];
+                }
+            }
+        }
+
+        const double progress =
+            static_cast<double>(runtime.fes)
+            / static_cast<double>(runtime.budget);
+        const int target_population = std::clamp(
+            static_cast<int>(std::llround(
+                static_cast<double>(minimum_population)
+                + 0.5 * static_cast<double>(
+                    initial_population - minimum_population
+                ) * (1.0 + std::cos(std::numbers::pi * progress))
+            )),
+            minimum_population,
+            population_size
+        );
+        if (target_population < population_size) {
+            const auto survivors = stable_rank_descending(fitness);
+            Matrix reduced;
+            std::vector<double> reduced_fitness;
+            reduced.reserve(
+                static_cast<std::size_t>(target_population * dimension)
+            );
+            reduced_fitness.reserve(
+                static_cast<std::size_t>(target_population)
+            );
+            for (int row = 0; row < target_population; ++row) {
+                const int source =
+                    survivors[static_cast<std::size_t>(row)];
+                for (int d = 0; d < dimension; ++d) {
+                    reduced.push_back(
+                        population[at(source, d, dimension)]
+                    );
+                }
+                reduced_fitness.push_back(
+                    fitness[static_cast<std::size_t>(source)]
+                );
+            }
+            population = std::move(reduced);
+            fitness = std::move(reduced_fitness);
+            population_size = target_population;
+        }
+        deduplicate_archive(archive, dimension);
+        trim_archive(
+            archive,
+            static_cast<int>(std::llround(
+                1.4 * static_cast<double>(population_size)
+            )),
+            dimension,
+            runtime.rng,
+            runtime.generations,
+            1213
+        );
+    }
+
+    return finish_result(
+        data,
+        config,
+        runtime,
+        initial_population,
+        population_size,
+        started
+    );
+}
+
 RunResult optimize_bde(
     const fode::CaseData& data,
     const RunConfig& config
@@ -3705,6 +4200,9 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
     }
     if (config.algorithm_id == "ciga") {
         return optimize_ciga(data, config);
+    }
+    if (config.algorithm_id == "lsde") {
+        return optimize_lsde(data, config);
     }
     throw std::invalid_argument("unknown algorithm: " + config.algorithm_id);
 }

@@ -1,6 +1,6 @@
 {
-  "schema_version": 6,
-  "semantics_set_id": "fode_e0_paper_first_registered_algorithms_v6",
+  "schema_version": 7,
+  "semantics_set_id": "fode_e0_paper_first_registered_algorithms_v7",
   "problem_semantics": {
     "id": "FODE-E0-L",
     "objective": "maximize joint-direction-speed expected farm power in kW",
@@ -117,6 +117,14 @@
       "parallel_semantics": "ranked generation snapshot; deterministic precomputed logistic sequence; independent crossover, chaos mutation, repair, and evaluation; deterministic parent-offspring elitist merge",
       "evaluation_detail": "TotalOnly",
       "reconstruction_status": "explicit_pre_result_no_author_source"
+    },
+    "lsde": {
+      "method_id": "LSDE_CPP_HPC_FULL",
+      "state_semantics": "paper Algorithm 1 and Eqs. 13-25 with registered deterministic clustering hierarchical donor restart and exact physical-FES reconstructions",
+      "parallel_semantics": "generation snapshot; deterministic cluster and layer construction; independent SHADE parameter mutation crossover repair and evaluation; ordered success-history restart and cosine-reduction barriers",
+      "evaluation_detail": "TotalOnly",
+      "reconstruction_status": "explicit_pre_result_no_author_source",
+      "problem_scope": "algorithm transferred to fode_e0_common; original 15 by 15 large-scale problem remains a separate pending problem package"
     }
   },
   "unresolved_active_conflicts": 14

@@ -1,6 +1,6 @@
 {
-  "schema_version": 8,
-  "parameter_set_id": "fode_e0_paper_first_registered_algorithm_parameters_v8",
+  "schema_version": 9,
+  "parameter_set_id": "fode_e0_paper_first_registered_algorithm_parameters_v9",
   "problem_identity": "FODE-E0-L",
   "problem_semantics_id": "fode_wflop_e0_legacy_v1",
   "source_manifest_alias": "fode_wflop_e0_v1",
@@ -437,6 +437,36 @@
         "mutation_shrink": "one minus completed physical FES divided by the physical-FES budget",
         "survival": "best 60 layouts from the evaluated parent and offspring union",
         "parallel_semantics": "precompute the deterministic logistic sequence, generate and evaluate offspring independently, then perform an ordered elitist merge"
+      }
+    },
+    "lsde": {
+      "display_label": "LSDE",
+      "implementation_provenance": "paper_derived_explicit_reconstruction",
+      "formal_admission": "pending_50_case_single_seed_admission",
+      "parameter_evidence": [
+        "Li et al. 2026 Table 2 sets N=120, initial SF=0.5, initial CR=0.5, Nmin=0.3D, memory size 5, and archive rate 1.4",
+        "Li et al. 2026 Eqs. 18-25 set K=3, Top/Middle/Bottom shares 25/25/50 percent, restart replacement rate 10 percent, and cosine population reduction",
+        "Li et al. 2026 Algorithm 1 supplies the stage order but does not fully specify clustering, layer operands, or restart sampling",
+        "No author source was found on the official source-data page; all omissions are frozen before formal results in the discrepancy ledger"
+      ],
+      "hpc": {
+        "initial_population_size": 120,
+        "minimum_population_rule": "max(4,ceil(0.3D))",
+        "subpopulation_count": 3,
+        "top_fraction": 0.25,
+        "middle_cumulative_fraction": 0.5,
+        "restart_replacement_fraction": 0.1,
+        "memory_size": 5,
+        "initial_scale_factor": 0.5,
+        "initial_crossover_rate": 0.5,
+        "archive_rate": 1.4
+      },
+      "derived_rules": {
+        "clustering": "deterministic farthest-first Euclidean assignment recomputed from each generation snapshot",
+        "hierarchical_update": "Middle targets use Top donors, Bottom targets use Middle donors, and Top targets use current-to-pbest/1 with the archive",
+        "restart": "when at least two clusters have no accepted trial, replace the worst ceil(10 percent) rows of two stagnant clusters by deterministic source-row samples from the first active cluster and carry source fitness",
+        "population_reduction": "literal cosine schedule evaluated after each completed trial batch",
+        "parallel_semantics": "sequential deterministic structure construction, independent mutation crossover repair and evaluation, deterministic selection memory restart and population-reduction barriers"
       }
     }
   }
