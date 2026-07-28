@@ -14,3 +14,4 @@ hgpso	HGPSO	paper_first_local_source_discrepancy_registered	Zheng et al. 2026 Al
 aiga	AIGA	paper_derived_explicit_reconstruction	Zheng et al. 2024 Eqs. 10-12 and selected orthogonal-design parameters; omitted operators explicitly reconstructed	10.1007/s42235-024-00498-3	aiga_paper_derived_e0_physical_fes_v1
 ciga	CIGA	paper_derived_explicit_reconstruction	Zheng et al. 2025 Eqs. 8-10 and mu=3.9; omitted GA and shrink parameters explicitly reconstructed	10.1145/3766671.3766786	ciga_paper_derived_e0_physical_fes_v1
 lsde	LSDE	paper_derived_explicit_reconstruction	Li et al. 2026 Algorithm 1 and Eqs. 13-25; omitted clustering and layer-transition details explicitly reconstructed	10.1049/cit2.70150	lsde_paper_derived_e0_physical_fes_v1
+wfadde	WFADDE	preprint_derived_explicit_reconstruction	Shi et al. 2026 Algorithm 1 and Eqs. 10-23; omitted population memory and archive controls explicitly reconstructed	10.2139/ssrn.6135326	wfadde_preprint_derived_e0_physical_fes_v1

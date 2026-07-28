@@ -1,6 +1,6 @@
 {
-  "schema_version": 9,
-  "parameter_set_id": "fode_e0_paper_first_registered_algorithm_parameters_v9",
+  "schema_version": 10,
+  "parameter_set_id": "fode_e0_paper_first_registered_algorithm_parameters_v10",
   "problem_identity": "FODE-E0-L",
   "problem_semantics_id": "fode_wflop_e0_legacy_v1",
   "source_manifest_alias": "fode_wflop_e0_v1",
@@ -467,6 +467,35 @@
         "restart": "when at least two clusters have no accepted trial, replace the worst ceil(10 percent) rows of two stagnant clusters by deterministic source-row samples from the first active cluster and carry source fitness",
         "population_reduction": "literal cosine schedule evaluated after each completed trial batch",
         "parallel_semantics": "sequential deterministic structure construction, independent mutation crossover repair and evaluation, deterministic selection memory restart and population-reduction barriers"
+      }
+    },
+    "wfadde": {
+      "display_label": "WFADDE",
+      "implementation_provenance": "preprint_derived_explicit_reconstruction",
+      "formal_admission": "pending_50_case_single_seed_admission",
+      "parameter_evidence": [
+        "Shi et al. 2026 Eqs. 11-14 define success-rate control and linear population reduction",
+        "Shi et al. 2026 Eqs. 15-20 define 0.6-probability far-failure sampling and success-rate adaptive local disturbance",
+        "Shi et al. 2026 Eqs. 21-23 define gain-weighted CR selection and F memory updates",
+        "The preprint omits Nmax, Nmin, memory length, failure-archive capacity, and the coupling between the success-rate F mean and F memory"
+      ],
+      "hpc": {
+        "initial_population_rule": "18D",
+        "minimum_population_size": 4,
+        "memory_size": 5,
+        "failure_archive_sampling_probability": 0.6,
+        "failure_archive_top_hamming_fraction": 0.2,
+        "failure_archive_capacity_rate": 1.4,
+        "local_disturbance_min_probability": 0.05,
+        "local_disturbance_max_probability": 0.3,
+        "local_disturbance_coordinate_fraction": 0.05
+      },
+      "derived_rules": {
+        "scale_sampling": "normal with standard deviation 0.02 around the midpoint of Equation 12 success-rate mean and one selected successful-F memory slot",
+        "crossover_sampling": "normal with standard deviation 0.1 around one selected CR memory slot",
+        "failure_distance": "binary-set Hamming distance over sorted occupied-cell sets",
+        "failure_capacity": "round(1.4 times current linearly reduced population size)",
+        "parallel_semantics": "generation snapshot; independent failure-distance sampling mutation crossover local disturbance repair and evaluation; deterministic success failure-memory and population-reduction barriers"
       }
     }
   }

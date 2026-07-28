@@ -154,6 +154,14 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "paper_derived_explicit_reconstruction",
             "lsde_paper_derived_e0_physical_fes_v1",
             {"fode_e0_common"}
+        },
+        {
+            "wfadde",
+            "WFADDE",
+            "10.2139/ssrn.6135326",
+            "preprint_derived_explicit_reconstruction",
+            "wfadde_preprint_derived_e0_physical_fes_v1",
+            {"fode_e0_common"}
         }
     };
     return descriptors;

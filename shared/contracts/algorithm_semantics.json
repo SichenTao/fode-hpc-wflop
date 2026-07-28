@@ -1,6 +1,6 @@
 {
-  "schema_version": 7,
-  "semantics_set_id": "fode_e0_paper_first_registered_algorithms_v7",
+  "schema_version": 8,
+  "semantics_set_id": "fode_e0_paper_first_registered_algorithms_v8",
   "problem_semantics": {
     "id": "FODE-E0-L",
     "objective": "maximize joint-direction-speed expected farm power in kW",
@@ -125,6 +125,14 @@
       "evaluation_detail": "TotalOnly",
       "reconstruction_status": "explicit_pre_result_no_author_source",
       "problem_scope": "algorithm transferred to fode_e0_common; original 15 by 15 large-scale problem remains a separate pending problem package"
+    },
+    "wfadde": {
+      "method_id": "WFADDE_CPP_HPC_FULL",
+      "state_semantics": "preprint Algorithm 1 and Eqs. 10-23 with registered population memory failure-capacity and parameter-coupling reconstructions",
+      "parallel_semantics": "generation snapshot; independent failure-archive distance selection mutation crossover local disturbance repair and evaluation; ordered failure insertion weighted-memory and linear-reduction barriers",
+      "evaluation_detail": "TotalOnly",
+      "reconstruction_status": "explicit_pre_result_no_author_source_preprint",
+      "problem_scope": "algorithm transferred to fode_e0_common; original 12 by 12 preprint problem remains a separate pending problem package"
     }
   },
   "unresolved_active_conflicts": 14

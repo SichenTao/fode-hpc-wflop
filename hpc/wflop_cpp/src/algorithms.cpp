@@ -2947,6 +2947,478 @@ RunResult optimize_lsde(
     );
 }
 
+RunResult optimize_wfadde(
+    const fode::CaseData& data,
+    const RunConfig& config
+) {
+    const auto started = Clock::now();
+    Runtime runtime(config);
+    const int dimension = data.turbine_count;
+    const int initial_population = 18 * dimension;
+    const int minimum_population = 4;
+    if (runtime.budget < static_cast<std::uint64_t>(initial_population)) {
+        throw std::runtime_error("budget is below WFADDE initialization");
+    }
+    int population_size = initial_population;
+    Matrix population = initialize_population(
+        population_size, data, runtime.rng, runtime.executor, 1300
+    );
+    auto initial = runtime.evaluate(
+        population,
+        population_size,
+        data,
+        fode::EvaluationDetail::TotalOnly
+    );
+    std::vector<double> fitness = initial.fitness;
+    Matrix failure_archive;
+    std::array<double, 5> memory_f{0.5, 0.5, 0.5, 0.5, 0.5};
+    std::array<double, 5> memory_cr{0.5, 0.5, 0.5, 0.5, 0.5};
+    int memory_position = 0;
+    double success_rate = 0.0;
+    const auto blocked = blocked_mask(data);
+    const int grid_size = data.rows * data.cols;
+
+    while (runtime.fes < runtime.budget
+           && population_size >= minimum_population) {
+        ++runtime.generations;
+        const int offspring_count = static_cast<int>(
+            std::min<std::uint64_t>(
+                static_cast<std::uint64_t>(population_size),
+                runtime.budget - runtime.fes
+            )
+        );
+        const auto ranking = stable_rank_descending(fitness);
+        const int failure_rows =
+            static_cast<int>(failure_archive.size()) / dimension;
+        Matrix trial(
+            static_cast<std::size_t>(offspring_count * dimension),
+            0.0
+        );
+        std::vector<double> sampled_f(
+            static_cast<std::size_t>(offspring_count)
+        );
+        std::vector<double> sampled_cr(
+            static_cast<std::size_t>(offspring_count)
+        );
+        const double success_mean =
+            0.4 + 0.25 * std::tanh(5.0 * success_rate);
+        const double pbest_fraction = std::clamp(
+            0.7 * std::exp(-7.0 * success_rate),
+            2.0 / static_cast<double>(population_size),
+            1.0
+        );
+        const double perturb_probability = std::clamp(
+            0.175 - 0.125 * std::tanh(
+                4.0 * (success_rate - 0.5)
+            ),
+            0.05,
+            0.3
+        );
+        const int perturb_count = std::max(
+            1,
+            static_cast<int>(std::llround(
+                0.05 * static_cast<double>(dimension)
+            ))
+        );
+
+        runtime.executor.parallel_for(0, offspring_count, [&](int individual) {
+            const int target = individual % population_size;
+            const int memory_index = runtime.rng.integer(
+                0, 5, runtime.generations, 1301,
+                static_cast<std::uint64_t>(individual)
+            );
+            const double f_location = 0.5 * (
+                success_mean
+                + memory_f[static_cast<std::size_t>(memory_index)]
+            );
+            sampled_f[static_cast<std::size_t>(individual)] = std::clamp(
+                f_location
+                    + 0.02 * runtime.rng.normal(
+                        runtime.generations,
+                        1302,
+                        static_cast<std::uint64_t>(individual)
+                    ),
+                0.05,
+                1.0
+            );
+            sampled_cr[static_cast<std::size_t>(individual)] = std::clamp(
+                memory_cr[static_cast<std::size_t>(memory_index)]
+                    + 0.1 * runtime.rng.normal(
+                        runtime.generations,
+                        1303,
+                        static_cast<std::uint64_t>(individual)
+                    ),
+                0.0,
+                1.0
+            );
+            const int p_count = std::min(
+                population_size,
+                std::max(
+                    2,
+                    static_cast<int>(std::ceil(
+                        pbest_fraction
+                        * static_cast<double>(population_size)
+                    ))
+                )
+            );
+            const int pbest = ranking[static_cast<std::size_t>(
+                runtime.rng.integer(
+                    0,
+                    p_count,
+                    runtime.generations,
+                    1304,
+                    static_cast<std::uint64_t>(individual)
+                )
+            )];
+            int r1 = target;
+            std::uint64_t draw = 0;
+            while (r1 == target) {
+                r1 = runtime.rng.integer(
+                    0,
+                    population_size,
+                    runtime.generations,
+                    1305,
+                    static_cast<std::uint64_t>(individual),
+                    0,
+                    draw++
+                );
+            }
+
+            bool use_failure = failure_rows > 0
+                && runtime.rng.uniform(
+                    runtime.generations,
+                    1306,
+                    static_cast<std::uint64_t>(individual)
+                ) < 0.6;
+            int r2 = target;
+            int failure_row = 0;
+            if (use_failure) {
+                std::vector<std::pair<int, int>> distance_rows;
+                distance_rows.reserve(
+                    static_cast<std::size_t>(failure_rows)
+                );
+                for (int candidate = 0;
+                     candidate < failure_rows;
+                     ++candidate) {
+                    int common = 0;
+                    int left = 0;
+                    int right = 0;
+                    while (left < dimension && right < dimension) {
+                        const int lhs = static_cast<int>(std::llround(
+                            population[at(target, left, dimension)]
+                        ));
+                        const int rhs = static_cast<int>(std::llround(
+                            failure_archive[at(
+                                candidate, right, dimension
+                            )]
+                        ));
+                        if (lhs == rhs) {
+                            ++common;
+                            ++left;
+                            ++right;
+                        } else if (lhs < rhs) {
+                            ++left;
+                        } else {
+                            ++right;
+                        }
+                    }
+                    distance_rows.emplace_back(
+                        2 * (dimension - common),
+                        candidate
+                    );
+                }
+                std::stable_sort(
+                    distance_rows.begin(),
+                    distance_rows.end(),
+                    [](const auto& lhs, const auto& rhs) {
+                        return lhs.first > rhs.first;
+                    }
+                );
+                const int top_count = std::max(
+                    1,
+                    static_cast<int>(std::ceil(
+                        0.2 * static_cast<double>(failure_rows)
+                    ))
+                );
+                failure_row = distance_rows[static_cast<std::size_t>(
+                    runtime.rng.integer(
+                        0,
+                        top_count,
+                        runtime.generations,
+                        1307,
+                        static_cast<std::uint64_t>(individual)
+                    )
+                )].second;
+            } else {
+                draw = 0;
+                while (r2 == target || r2 == r1) {
+                    r2 = runtime.rng.integer(
+                        0,
+                        population_size,
+                        runtime.generations,
+                        1308,
+                        static_cast<std::uint64_t>(individual),
+                        0,
+                        draw++
+                    );
+                }
+            }
+
+            const int jrand = runtime.rng.integer(
+                0,
+                dimension,
+                runtime.generations,
+                1309,
+                static_cast<std::uint64_t>(individual)
+            );
+            for (int d = 0; d < dimension; ++d) {
+                const double second = use_failure
+                    ? failure_archive[at(failure_row, d, dimension)]
+                    : population[at(r2, d, dimension)];
+                const double mutant =
+                    population[at(target, d, dimension)]
+                    + sampled_f[static_cast<std::size_t>(individual)]
+                        * (
+                            population[at(pbest, d, dimension)]
+                            - population[at(target, d, dimension)]
+                            + population[at(r1, d, dimension)]
+                            - second
+                        );
+                const bool use_mutant =
+                    d == jrand
+                    || runtime.rng.uniform(
+                        runtime.generations,
+                        1310,
+                        static_cast<std::uint64_t>(individual),
+                        static_cast<std::uint64_t>(d)
+                    ) <= sampled_cr[static_cast<std::size_t>(individual)];
+                trial[at(individual, d, dimension)] = use_mutant
+                    ? mutant
+                    : population[at(target, d, dimension)];
+            }
+
+            if (runtime.rng.uniform(
+                    runtime.generations,
+                    1311,
+                    static_cast<std::uint64_t>(individual)
+                ) < perturb_probability) {
+                std::vector<std::pair<double, int>> coordinates;
+                coordinates.reserve(static_cast<std::size_t>(dimension));
+                for (int d = 0; d < dimension; ++d) {
+                    coordinates.emplace_back(
+                        runtime.rng.uniform(
+                            runtime.generations,
+                            1312,
+                            static_cast<std::uint64_t>(individual),
+                            static_cast<std::uint64_t>(d)
+                        ),
+                        d
+                    );
+                }
+                std::stable_sort(coordinates.begin(), coordinates.end());
+                std::vector<char> used = blocked;
+                for (int d = 0; d < dimension; ++d) {
+                    const int cell = static_cast<int>(std::llround(
+                        trial[at(individual, d, dimension)]
+                    ));
+                    if (cell >= 1 && cell <= grid_size
+                        && blocked[static_cast<std::size_t>(cell - 1)] == 0) {
+                        used[static_cast<std::size_t>(cell - 1)] = 1;
+                    }
+                }
+                for (int offset = 0; offset < perturb_count; ++offset) {
+                    const int d = coordinates[static_cast<std::size_t>(
+                        offset
+                    )].second;
+                    const int current = static_cast<int>(std::llround(
+                        trial[at(individual, d, dimension)]
+                    ));
+                    std::array<int, 2> candidates{
+                        current - 1, current + 1
+                    };
+                    if (runtime.rng.uniform(
+                            runtime.generations,
+                            1313,
+                            static_cast<std::uint64_t>(individual),
+                            static_cast<std::uint64_t>(d)
+                        ) < 0.5) {
+                        std::swap(candidates[0], candidates[1]);
+                    }
+                    for (const int candidate : candidates) {
+                        if (candidate >= 1 && candidate <= grid_size
+                            && used[static_cast<std::size_t>(
+                                candidate - 1
+                            )] == 0) {
+                            if (current >= 1 && current <= grid_size
+                                && blocked[static_cast<std::size_t>(
+                                    current - 1
+                                )] == 0) {
+                                used[static_cast<std::size_t>(
+                                    current - 1
+                                )] = 0;
+                            }
+                            trial[at(individual, d, dimension)] =
+                                static_cast<double>(candidate);
+                            used[static_cast<std::size_t>(
+                                candidate - 1
+                            )] = 1;
+                            break;
+                        }
+                    }
+                }
+            }
+        });
+        repair_population(
+            trial,
+            offspring_count,
+            data,
+            runtime.rng,
+            runtime.executor,
+            runtime.generations,
+            1314
+        );
+        auto evaluated = runtime.evaluate(
+            trial,
+            offspring_count,
+            data,
+            fode::EvaluationDetail::TotalOnly
+        );
+        std::vector<int> successful;
+        std::vector<double> improvement(
+            static_cast<std::size_t>(offspring_count),
+            0.0
+        );
+        for (int row = 0; row < offspring_count; ++row) {
+            const int target = row % population_size;
+            const double gain =
+                evaluated.fitness[static_cast<std::size_t>(row)]
+                - fitness[static_cast<std::size_t>(target)];
+            if (gain > 0.0) {
+                successful.push_back(row);
+                improvement[static_cast<std::size_t>(row)] = gain;
+                copy_row(population, target, trial, row, dimension);
+                fitness[static_cast<std::size_t>(target)] =
+                    evaluated.fitness[static_cast<std::size_t>(row)];
+            } else {
+                for (int d = 0; d < dimension; ++d) {
+                    failure_archive.push_back(
+                        trial[at(row, d, dimension)]
+                    );
+                }
+            }
+        }
+        success_rate =
+            static_cast<double>(successful.size())
+            / static_cast<double>(offspring_count);
+        if (!successful.empty()) {
+            double gain_sum = 0.0;
+            for (const int row : successful) {
+                gain_sum += improvement[static_cast<std::size_t>(row)];
+            }
+            const double threshold = runtime.rng.uniform(
+                runtime.generations, 1315, 0
+            );
+            double cumulative = 0.0;
+            int chosen = successful.back();
+            double numerator_f = 0.0;
+            double denominator_f = 0.0;
+            for (const int row : successful) {
+                const double weight =
+                    improvement[static_cast<std::size_t>(row)] / gain_sum;
+                cumulative += weight;
+                if (threshold <= cumulative) {
+                    chosen = row;
+                    break;
+                }
+            }
+            for (const int row : successful) {
+                const double gain =
+                    improvement[static_cast<std::size_t>(row)];
+                const double value =
+                    sampled_f[static_cast<std::size_t>(row)];
+                numerator_f += gain * value * value;
+                denominator_f += gain * value;
+            }
+            memory_cr[static_cast<std::size_t>(memory_position)] =
+                0.5 * (
+                    memory_cr[static_cast<std::size_t>(memory_position)]
+                    + sampled_cr[static_cast<std::size_t>(chosen)]
+                );
+            if (denominator_f > 0.0) {
+                memory_f[static_cast<std::size_t>(memory_position)] =
+                    numerator_f / denominator_f;
+            }
+            memory_position = (memory_position + 1) % 5;
+        }
+
+        deduplicate_archive(failure_archive, dimension);
+        trim_archive(
+            failure_archive,
+            static_cast<int>(std::llround(
+                1.4 * static_cast<double>(population_size)
+            )),
+            dimension,
+            runtime.rng,
+            runtime.generations,
+            1316
+        );
+        const int target_population = std::max(
+            minimum_population,
+            static_cast<int>(std::llround(
+                static_cast<double>(minimum_population)
+                + static_cast<double>(
+                    initial_population - minimum_population
+                ) * (
+                    static_cast<double>(runtime.budget - runtime.fes)
+                    / static_cast<double>(runtime.budget)
+                )
+            ))
+        );
+        if (target_population < population_size) {
+            const auto survivors = stable_rank_descending(fitness);
+            Matrix reduced(
+                static_cast<std::size_t>(
+                    target_population * dimension
+                )
+            );
+            std::vector<double> reduced_fitness(
+                static_cast<std::size_t>(target_population)
+            );
+            for (int row = 0; row < target_population; ++row) {
+                const int source =
+                    survivors[static_cast<std::size_t>(row)];
+                copy_row(
+                    reduced, row, population, source, dimension
+                );
+                reduced_fitness[static_cast<std::size_t>(row)] =
+                    fitness[static_cast<std::size_t>(source)];
+            }
+            population = std::move(reduced);
+            fitness = std::move(reduced_fitness);
+            population_size = target_population;
+            trim_archive(
+                failure_archive,
+                static_cast<int>(std::llround(
+                    1.4 * static_cast<double>(population_size)
+                )),
+                dimension,
+                runtime.rng,
+                runtime.generations,
+                1317
+            );
+        }
+    }
+
+    return finish_result(
+        data,
+        config,
+        runtime,
+        initial_population,
+        population_size,
+        started
+    );
+}
+
 RunResult optimize_bde(
     const fode::CaseData& data,
     const RunConfig& config
@@ -4203,6 +4675,9 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
     }
     if (config.algorithm_id == "lsde") {
         return optimize_lsde(data, config);
+    }
+    if (config.algorithm_id == "wfadde") {
+        return optimize_wfadde(data, config);
     }
     throw std::invalid_argument("unknown algorithm: " + config.algorithm_id);
 }

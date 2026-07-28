@@ -1,0 +1,41 @@
+{
+  "schema_version": 1,
+  "receipt_id": "wfadde_50_case_smoke_20260729",
+  "purpose": "development_semantic_smoke_only",
+  "host": {
+    "hostname": "spark-9b6f",
+    "architecture": "aarch64",
+    "visible_logical_cores": 20
+  },
+  "algorithm_ids": [
+    "wfadde"
+  ],
+  "case_count": 50,
+  "result_count": 50,
+  "physical_fes_per_result": 1500,
+  "requested_workers": 20,
+  "observed_workers": [
+    20
+  ],
+  "all_exact_fes": true,
+  "all_finite": true,
+  "representative_exact_worker_pair": {
+    "case_id": "WS10tn80",
+    "physical_fes": 24000,
+    "seed": 20260729,
+    "one_worker_end_to_end_seconds": 11.805247097,
+    "twenty_worker_end_to_end_seconds": 2.255924325,
+    "end_to_end_ratio_one_over_twenty": 5.233,
+    "one_worker_evaluator_seconds": 3.287815353,
+    "twenty_worker_evaluator_seconds": 1.655118753,
+    "evaluator_ratio_one_over_twenty": 1.9865,
+    "one_worker_algorithm_seconds": 8.517431744,
+    "twenty_worker_algorithm_seconds": 0.600805572,
+    "algorithm_ratio_one_over_twenty": 14.1767,
+    "non_timing_fields_exact": true
+  },
+  "raw_sha256": "239a302fb2cd38bd15d0f66bd9f7b263e1a2e8f457526db5eb40b09d6d9772f4",
+  "raw_data_bundled": false,
+  "status": "pass",
+  "evidence_boundary": "This smoke validates the registered preprint-derived WFADDE reconstruction on fode_e0_common, exact physical work, feasibility, deterministic worker-count semantics, and result-schema coverage. The Spark timing pair is a development observation. It does not reproduce the preprint's distinct 12 by 12 problem, establish identity with unavailable author source, or constitute a formal performance claim."
+}

@@ -18,7 +18,8 @@
     "hgpso",
     "aiga",
     "ciga",
-    "lsde"
+    "lsde",
+    "wfadde"
   ],
   "implementation_ids": [
     "matlab_reference_timing_anchor",
