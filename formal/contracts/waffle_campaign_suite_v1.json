@@ -14,6 +14,13 @@
       "complete_layout_evaluations": 540000000
     },
     {
+      "contract": "formal/contracts/bde_source_replay_waffle_v1.json",
+      "campaign_id": "bde_source_replay_waffle_v1",
+      "scientific_scope": "BDE on the official-source WS1-WS4 standard and Daegwallyeong problem profile",
+      "optimization_runs": 600,
+      "complete_layout_evaluations": 6000000
+    },
+    {
       "contract": "formal/contracts/pbea_six_algorithm_waffle_v1.json",
       "campaign_id": "pbea_six_algorithm_waffle_v1",
       "scientific_scope": "six multiobjective algorithms on the repaired three-objective WS1/WS2 benchmark",
@@ -28,9 +35,9 @@
       "complete_layout_evaluations": 2675000
     }
   ],
-  "total_optimization_runs": 27725,
-  "total_complete_layout_evaluations": 591155000,
-  "claim_boundary": "The three campaigns have different mathematical problems and provenance levels. Their quality results and reproduction claims remain separate even though they share the C++ HPC infrastructure.",
+  "total_optimization_runs": 28325,
+  "total_complete_layout_evaluations": 597155000,
+  "claim_boundary": "The four campaigns have different mathematical problems and provenance levels. Their quality results and reproduction claims remain separate even though they share the C++ HPC infrastructure.",
   "blocked_methods_excluded": [
     "alga",
     "taae",

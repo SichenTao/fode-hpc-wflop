@@ -4976,8 +4976,10 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
     if (config.algorithm_id == "rlpso") {
         throw std::invalid_argument(
             "algorithm 'rlpso' is intentionally blocked at R2: "
-            "the frozen policy, training ledger, and hidden physical-"
-            "FES transition are unavailable"
+            "the official source creates a fresh unseeded PPO policy on "
+            "every outer iteration, executes up to 10000 hidden physical "
+            "evaluations per call, and its update conflicts with the "
+            "paper PPO equation"
         );
     }
     if (config.algorithm_id == "rlfode") {

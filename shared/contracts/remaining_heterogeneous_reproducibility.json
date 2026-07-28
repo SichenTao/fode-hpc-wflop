@@ -5,6 +5,7 @@
     "Y36",
     "T45",
     "T43",
+    "T44",
     "T36",
     "L0726"
   ],
@@ -88,6 +89,31 @@
       ],
       "safe_next_profile": "alga_attention_formula_fixture_v1",
       "safe_next_profile_meaning": "Attention equation tests only; not the reported trained ALGA."
+    },
+    "T44": {
+      "paper_doi": "10.1016/j.energy.2025.137885",
+      "method": "BDE",
+      "original_problem_status": "blocked_r1_full_paper_profile",
+      "original_method_status": "reconstructable_r2_with_registered_conflicts",
+      "available": [
+        "official MATLAB source archive with immutable hashes",
+        "21 by 21 standard grid and 28 by 28 Daegwallyeong grid",
+        "complete Daegwallyeong unavailable-cell mask",
+        "WS1 through WS4 machine-readable joint wind arrays",
+        "30, 35, and 40 turbine cases",
+        "official BDE transition source and paper equations"
+      ],
+      "missing_problem_identity": [
+        "paper WS5 eight-speed twelve-direction array",
+        "paper WS6 eight-speed sixteen-direction array",
+        "author adjudication of 250 m Daegwallyeong spacing in the paper versus 231 m in main_D.m"
+      ],
+      "missing_method_identity": [
+        "author adjudication of the paper and source fractional scale schedules",
+        "author adjudication of the stated 10000 evaluations versus source initialization plus 400 half-population generations"
+      ],
+      "safe_next_profile": "bde2025_source_replay_ws1_ws4_v1",
+      "safe_next_profile_meaning": "Official-source replay of WS1 through WS4 with the executed 231 m spacing; not the complete six-scenario paper reproduction."
     },
     "T43": {
       "paper_doi": "10.1109/JAS.2025.125351",

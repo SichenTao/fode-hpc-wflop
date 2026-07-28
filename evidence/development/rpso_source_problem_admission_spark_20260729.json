@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "admission_id": "rpso_source_problem_admission_spark_20260729",
+  "host_role": "development_only",
+  "host": "Spark",
+  "problem_id": "rpso2024_source_problem_ws1_ws4",
+  "problem_semantics_id": "rpso2024_source_problem_ws1_ws4_v1",
+  "case_count": 12,
+  "case_axes": {
+    "grid": [21, 21],
+    "wind_profiles": 4,
+    "turbine_counts": [30, 35, 40]
+  },
+  "probe_algorithm": "cgpso",
+  "probe_cases": ["RPSO-WS1-tn30", "RPSO-WS4-tn40"],
+  "workers": [1, 20],
+  "complete_layout_evaluations_per_probe": 100,
+  "checks": {
+    "official_wind_file_hashes": "pass",
+    "cross_archive_identity_with_BDE": "pass",
+    "one_worker_twenty_worker_scientific_identity": "pass",
+    "independent_scalar_oracle_layout_replay": "pass",
+    "finite_positive_objective": "pass"
+  },
+  "generated_case_collection_hash": "030c07f5ee6e41d2dcef39ccf9681fb42579d8a6f13dfaba610f0f9ba20841d1",
+  "generated_case_manifest_sha256": "d060c6bed80bc5a0654701f9b5a8dc7e45430ce5712c481099b9e23cee261663",
+  "development_binary_sha256": "d554aa2a52d0e874e795ecadd77a367c347cf13ea9e5b128ff3d5debd3be78d6",
+  "algorithm_boundary": "CGPSO validates the problem and shared evaluator only. RLPSO remains blocked at R2.",
+  "evidence_boundary": "This is a development admission receipt, not a formal Waffle or RLPSO result."
+}

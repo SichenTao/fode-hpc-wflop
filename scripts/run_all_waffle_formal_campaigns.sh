@@ -9,6 +9,7 @@ build_dir="${WFLOP_BUILD_DIR:-${repo_root}/build-waffle-formal}"
 validate_only="${WFLOP_VALIDATE_ONLY:-0}"
 suite_contract="${repo_root}/formal/contracts/waffle_campaign_suite_v1.json"
 common_contract="${repo_root}/formal/contracts/eighteen_algorithm_cpp_hpc_waffle_v1.json"
+bde_contract="${repo_root}/formal/contracts/bde_source_replay_waffle_v1.json"
 pbea_contract="${repo_root}/formal/contracts/pbea_six_algorithm_waffle_v1.json"
 offshore_contract="${repo_root}/formal/contracts/offshore_cpp_hpc_waffle_v1.json"
 
@@ -20,12 +21,13 @@ if [[ "${validate_only}" != "0" && "${validate_only}" != "1" ]]; then
   echo "WFLOP_VALIDATE_ONLY must be 0 or 1." >&2
   exit 2
 fi
-if [[ -n "$(git status --porcelain --untracked-files=no)" ]]; then
+if [[ "${validate_only}" == "0"
+    && -n "$(git status --porcelain --untracked-files=no)" ]]; then
   echo "Formal campaigns require a clean tracked worktree." >&2
   exit 2
 fi
 python3 - "${suite_contract}" "${common_contract}" \
-    "${pbea_contract}" "${offshore_contract}" <<'PY'
+    "${bde_contract}" "${pbea_contract}" "${offshore_contract}" <<'PY'
 import json
 import sys
 from pathlib import Path
@@ -68,6 +70,12 @@ WFLOP_RESULT_DIR="${repo_root}/results/eighteen_algorithm_cpp_hpc_waffle_v1" \
   bash scripts/run_fixed_work_campaign.sh
 
 WFLOP_WORKERS="${workers}" \
+BDE_BUILD_DIR="${build_dir}" \
+BDE_CAMPAIGN_CONTRACT="${bde_contract}" \
+BDE_RESULT_DIR="${repo_root}/results/bde_source_replay_waffle_v1" \
+  bash scripts/run_bde_source_replay_formal_campaign.sh
+
+WFLOP_WORKERS="${workers}" \
 PBEA_BUILD_DIR="${build_dir}" \
 PBEA_CAMPAIGN_CONTRACT="${pbea_contract}" \
 PBEA_RESULT_DIR="${repo_root}/results/pbea_six_algorithm_waffle_v1" \
@@ -81,5 +89,6 @@ OFFSHORE_RESULT_DIR="${repo_root}/results/offshore_cpp_hpc_waffle_v1" \
 
 echo "All admitted Waffle campaigns completed and validated."
 echo "Common: results/eighteen_algorithm_cpp_hpc_waffle_v1"
+echo "BDE source replay: results/bde_source_replay_waffle_v1"
 echo "Three-objective: results/pbea_six_algorithm_waffle_v1"
 echo "Offshore: results/offshore_cpp_hpc_waffle_v1"

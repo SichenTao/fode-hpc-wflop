@@ -51,11 +51,14 @@ problem. It does not replace or reproduce the unavailable Nantong 3D terrain
 study. Its conventional completions and problem boundary are frozen in
 `shared/contracts/ppga_fode_e0_transfer_execution_contract.json`.
 
-ALGA, TAAE, RLPSO, and RL-FODE are deliberately not executable identifiers:
-their learned policy/model state or original problem arrays are unavailable.
-Attempts to run them fail with method-specific R1/R2 evidence rather than
-falling through to a random model. The removal conditions for these guards are
-frozen in `shared/contracts/blocked_learning_methods_execution_guard.json`.
+ALGA, TAAE, RLPSO, and RL-FODE are deliberately not executable identifiers.
+ALGA, TAAE, and RL-FODE lack required problem or learned-state assets. The
+official RLPSO source is present, but it creates a fresh unseeded PPO policy on
+every outer iteration, performs up to 10,000 unreported complete-layout
+evaluations per call, and executes an update that conflicts with the paper PPO
+equation. Attempts to run these identifiers fail with method-specific R1/R2
+evidence. The removal conditions for these guards are frozen in
+`shared/contracts/blocked_learning_methods_execution_guard.json`.
 
 ## Build and test
 
@@ -166,15 +169,18 @@ WFLOP_WORKERS="$(nproc)" bash scripts/run_all_waffle_formal_campaigns.sh
 ```
 
 It runs one optimization process at a time and uses all processors visible to
-that process internally. The three result families remain separate:
-18 algorithms on the common 50-case problem, six algorithms on the
-three-objective T46 problem, and GGA/GeoGA/T-MOEA on their declared offshore
-profiles. ALGA, TAAE, RLPSO, and RL-FODE remain excluded by the learned-state
-guard. Every family records a machine receipt and supports validated resume.
-The suite contract freezes 27,725 independent optimization runs and
-591,155,000 complete layout evaluations. The three mathematical problem
-families retain separate quality and reproduction claims; the shared suite
-only standardizes execution, validation, provenance, and recovery.
+that process internally. The four result families remain separate:
+18 algorithms on the common 50-case problem; BDE on 24 official-source WS1-WS4
+standard/Daegwallyeong cases; six algorithms on the three-objective T46
+problem; and GGA/GeoGA/T-MOEA on their declared offshore profiles. The BDE
+source arrays have no license file and remain outside Git; the campaign
+regenerates its local manifest from a staged authorized archive. ALGA, TAAE,
+RLPSO, and RL-FODE remain excluded by the learned-state guard. Every family
+records a machine receipt and supports validated resume. The suite contract
+freezes 28,325 independent optimization runs and 597,155,000 complete layout
+evaluations. The four mathematical problem families retain separate quality
+and reproduction claims; the shared suite only standardizes execution,
+validation, provenance, and recovery.
 
 The platform also contains the paper-repaired three-objective TWFLO package
 from Zhang et al. (2025), exposed as `pbea_cpp_hpc`. It evaluates expected
@@ -272,9 +278,14 @@ Shangce Gao or Sichen Tao. Each paper package must pass five gates:
 5. **R4 — HPC:** pure C++ optimization, semantic tests, scaling, and formal run.
 
 Missing papers or source code are registered as explicit states rather than
-silently guessed. See `docs/author_lineage_registry.tsv` and
-`docs/roadmap.md`. The machine-readable omission boundary for TAAE, ALGA, the
-original PPGA Nantong study, the original T-MOEA study, and GeoGA is frozen in
+silently guessed. See `docs/author_lineage_registry.tsv`,
+`docs/lineage_r0_r4_completion.tsv`, and `docs/roadmap.md`. The completion
+matrix maps every DOI to its original-problem status, executable profile,
+evidence paths, and formal Waffle campaign. It explicitly separates original
+problem reproduction, common-benchmark algorithm transfer, declared
+reconstruction, and blocked learned-state identities. The machine-readable
+omission boundary for TAAE, ALGA, the original PPGA Nantong study, the original
+T-MOEA study, and GeoGA is frozen in
 `shared/contracts/remaining_heterogeneous_reproducibility.json`. The
 2026-07-29 scope freezes 23 unique DOI records and
 automatically checks the Jiayi Li, Baohang Zhang, Chen Zhang, Yuhang Ma, and

@@ -11,7 +11,7 @@ from pathlib import Path
 EXPECTED = {
     "alga": ("R1/R2", "attention training"),
     "taae": ("R1/R2", "Transformer checkpoint"),
-    "rlpso": ("R2", "frozen policy"),
+    "rlpso": ("R2", "fresh unseeded PPO", "hidden physical evaluations"),
     "rlfode": ("R2", "pretrained Q-tables"),
 }
 

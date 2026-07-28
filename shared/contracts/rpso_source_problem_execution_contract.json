@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "profile_id": "rpso2024_source_problem_ws1_ws4_v1",
+  "paper_doi": "10.1016/j.energy.2024.134050",
+  "problem_id": "rpso2024_source_problem_ws1_ws4",
+  "source_archive_sha256": "44e89c033e90f5aaaa9b84c826c95f29d3b8ad73dd363ff68de99418cdfa93a2",
+  "case_axes": {
+    "grid": [21, 21],
+    "cell_width_m": 231.0,
+    "wind_profiles": ["WS1", "WS2", "WS3", "WS4"],
+    "turbine_counts": [30, 35, 40],
+    "case_count": 12
+  },
+  "cross_archive_identity": "All four official RPSO wind files are byte-identical to the corresponding official BDE files.",
+  "generator": "scripts/prepare_rpso_source_problem.py",
+  "generated_manifest": ".source-cache/generated/rpso_source_problem/benchmark_cases.json",
+  "redistribution": "The no-license official MATLAB and MAT assets remain outside Git.",
+  "admitted_executable_probe": {
+    "algorithm": "cgpso",
+    "meaning": "validates the problem and shared pure C++ evaluator only",
+    "prohibited_claim": "CGPSO smoke is not an RLPSO reproduction",
+    "receipt": "evidence/development/rpso_source_problem_admission_spark_20260729.json"
+  },
+  "rlpso_status": "blocked_r2_by_shared/contracts/blocked_learning_methods_execution_guard.json"
+}

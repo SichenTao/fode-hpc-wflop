@@ -30,10 +30,17 @@
       "corpus_id": "T42",
       "doi": "10.1016/j.energy.2024.134050",
       "status": "blocked_r2",
-      "missing": [
-        "frozen learned policy",
-        "complete training ledger",
-        "physical-FES interpretation of the hidden policy transition"
+      "observed_official_source_conflicts": [
+        "ppo.py creates a fresh unseeded actor-critic and optimizer on every MATLAB outer-iteration call",
+        "each call executes 100 episodes by 100 environment steps and each step invokes the complete wind-farm evaluator",
+        "the executed update passes an argmax action index where the paper PPO objective requires sampled-action log probabilities",
+        "the source changes the two PSO weights by 0.01 while the paper states a 0.001 step"
+      ],
+      "required_for_admission": [
+        "an author-adjudicated policy lifecycle with cross-runtime seed contract",
+        "a complete physical-evaluation ledger for online training or a frozen policy hash for inference",
+        "a corrected PPO update that is uniquely linked to the reported results",
+        "resolution of the paper-source action-step conflict"
       ]
     },
     "rlfode": {

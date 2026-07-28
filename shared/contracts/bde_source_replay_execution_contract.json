@@ -1,0 +1,45 @@
+{
+  "schema_version": 1,
+  "profile_id": "bde2025_source_replay_ws1_ws4_v1",
+  "paper_doi": "10.1016/j.energy.2025.137885",
+  "source_authority": "official homepage BDE-WindFarm_code.zip",
+  "source_archive_sha256": "f4a317d4d727a9d452f76376373e2c8ad5546e35ff19530eda0ba328682dd140",
+  "algorithm_id": "bde",
+  "problem_id": "bde2025_source_replay_ws1_ws4",
+  "implementation": "pure C++20 optimization and shared persistent-thread Jensen/Park evaluator",
+  "case_axes": {
+    "terrain_profiles": ["standard", "daegwallyeong_source_mask"],
+    "source_wind_profiles": ["WS1", "WS2", "WS3", "WS4"],
+    "turbine_counts": [30, 35, 40],
+    "case_count": 24
+  },
+  "source_executed_problem": {
+    "standard_grid": [21, 21],
+    "daegwallyeong_grid": [28, 28],
+    "cell_width_m": 231.0,
+    "daegwallyeong_unavailable_cells": 499,
+    "daegwallyeong_available_cells": 285,
+    "turbine": "official Legacy-629.1 source model",
+    "objective": "joint-probability-weighted expected complete-farm power in kW"
+  },
+  "generator": "scripts/prepare_bde_source_problem.py",
+  "generated_manifest": ".source-cache/generated/bde_source_replay/benchmark_cases.json",
+  "redistribution": "The no-license official MATLAB and MAT arrays stay outside Git; users generate the local manifest from an authorized source copy.",
+  "validation": {
+    "source_asset_audit": "scripts/audit_bde_source_problem.py",
+    "cpp_oracle_and_parallel_determinism": "scripts/validate_bde_source_replay.py",
+    "source_problem_receipt": "evidence/development/bde_official_source_problem_audit_20260729.json",
+    "campaign_admission_receipt": "evidence/development/bde_source_replay_campaign_admission_spark_20260729.json"
+  },
+  "paper_source_boundary": {
+    "excluded_paper_scenarios": [
+      "WS5 eight-speed twelve-direction",
+      "WS6 eight-speed sixteen-direction"
+    ],
+    "spacing_conflict": "paper reports 250 m for Daegwallyeong while official main_D.m executes 231 m",
+    "claim": "official-source WS1-WS4 replay",
+    "prohibited_claim": "complete six-scenario paper reproduction"
+  },
+  "formal_contract": "formal/contracts/bde_source_replay_waffle_v1.json",
+  "formal_status": "development_admitted_waiting_for_nonredistributed_assets_on_waffle"
+}

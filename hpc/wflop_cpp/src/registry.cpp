@@ -13,6 +13,20 @@ const std::vector<ProblemDescriptor>& problem_descriptors() {
             "fode_wflop_e0_legacy_v1",
             "maximize expected complete-farm power under the frozen "
             "Jensen/Park discrete-grid model"
+        },
+        {
+            "bde2025_source_replay_ws1_ws4",
+            "BDE official-source WS1-WS4 replay problem",
+            "bde2025_source_replay_ws1_ws4_v1",
+            "maximize expected complete-farm power on the official-source "
+            "standard and Daegwallyeong discrete grids"
+        },
+        {
+            "rpso2024_source_problem_ws1_ws4",
+            "RPSO official-source WS1-WS4 problem",
+            "rpso2024_source_problem_ws1_ws4_v1",
+            "maximize expected complete-farm power on the official-source "
+            "21 by 21 standard grid"
         }
     };
     return descriptors;
@@ -81,7 +95,7 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "10.1109/jas.2023.123387",
             "paper_first_source_completed",
             "cgpso_paper_staged_parallel_e0_physical_fes_v1",
-            {"fode_e0_common"}
+            {"fode_e0_common", "rpso2024_source_problem_ws1_ws4"}
         },
         {
             "lshade",
@@ -121,7 +135,7 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "10.1016/j.energy.2025.137885",
             "paper_first_official_source_discrepancy_registered",
             "bde_paper_equations_physical_fes_v1",
-            {"fode_e0_common"}
+            {"fode_e0_common", "bde2025_source_replay_ws1_ws4"}
         },
         {
             "hgpso",

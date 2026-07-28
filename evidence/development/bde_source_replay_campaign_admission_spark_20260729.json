@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "admission_id": "bde_source_replay_campaign_admission_spark_20260729",
+  "host_role": "development_only",
+  "host": "Spark",
+  "formal_host": "Waffle",
+  "algorithm_id": "bde",
+  "problem_id": "bde2025_source_replay_ws1_ws4",
+  "problem_semantics_id": "bde2025_source_replay_ws1_ws4_v1",
+  "case_count": 24,
+  "case_axes": {
+    "terrains": 2,
+    "source_wind_profiles": 4,
+    "turbine_counts": [30, 35, 40]
+  },
+  "seed": 2026073001,
+  "workers": 20,
+  "complete_layout_evaluations_per_case": 75,
+  "complete_layout_evaluations_total": 1800,
+  "checks": {
+    "full_case_matrix": "pass",
+    "exact_physical_fes": "pass",
+    "all_visible_worker_identity": "pass",
+    "finite_positive_objectives": "pass",
+    "layout_cardinality_uniqueness_and_unavailable_cells": "pass",
+    "independent_scalar_oracle_representative_cases": "pass",
+    "one_worker_twenty_worker_scientific_identity": "pass"
+  },
+  "generated_case_collection_hash": "caa774370a849dc6949106de763ef67a6b5dee24f0c6823d5c4f824df7719381",
+  "generated_case_manifest_sha256": "06c6d1baed51dc8a8e09d2f3ee905d2890af3589fa5a3df353b22d49c2f8a427",
+  "development_binary_sha256": "88f8230b63aed8a8503888545fcd0e6af99e3e43c642ac3b112be716b10edee7",
+  "development_result_sha256": "21c1447c2a7fc45f149a602a68d271f24da7dff0524368c7deb5aaf1eb9f807b",
+  "formal_contract": "formal/contracts/bde_source_replay_waffle_v1.json",
+  "evidence_boundary": "This receipt admits the runner and mathematical profile. It is not a formal Waffle result and contains no quality conclusion."
+}

@@ -5,9 +5,12 @@
 #include <cmath>
 #include <cstdlib>
 #include <fstream>
+#include <numeric>
 #include <sstream>
 #include <stdexcept>
 #include <string_view>
+#include <unordered_set>
+#include <utility>
 
 namespace fode {
 namespace {
@@ -220,16 +223,54 @@ CaseData parse_case(std::string_view object) {
         );
     }
 
-    if (data.rows <= 0 || data.cols <= 0 || data.turbine_count <= 0
+    const bool finite_directions = std::all_of(
+        data.theta.begin(),
+        data.theta.end(),
+        [](double value) { return std::isfinite(value); }
+    );
+    const bool valid_speeds = std::all_of(
+        data.velocity.begin(),
+        data.velocity.end(),
+        [](double value) { return std::isfinite(value) && value > 0.0; }
+    );
+    const bool valid_probabilities = std::all_of(
+        data.probability.begin(),
+        data.probability.end(),
+        [](double value) { return std::isfinite(value) && value >= 0.0; }
+    );
+    const double probability_sum = std::accumulate(
+        data.probability.begin(),
+        data.probability.end(),
+        0.0
+    );
+    if (data.case_id.empty()
+        || data.rows <= 0 || data.cols <= 0 || data.turbine_count <= 0
         || data.cell_width <= 0.0 || data.theta.empty()
-        || data.velocity.size() != 13
+        || data.velocity.empty()
         || data.probability.size()
-            != data.theta.size() * data.velocity.size()) {
+            != data.theta.size() * data.velocity.size()
+        || !finite_directions || !valid_speeds || !valid_probabilities
+        || std::abs(probability_sum - 1.0) > 1.0e-4) {
         throw std::runtime_error(
-            "invalid FODE-E0-L case contract for " + data.case_id
+            "invalid discrete WFLOP case contract for " + data.case_id
         );
     }
     const int grid_dimension = data.rows * data.cols;
+    std::sort(
+        data.unavailable_cells_1based.begin(),
+        data.unavailable_cells_1based.end()
+    );
+    if (std::adjacent_find(
+            data.unavailable_cells_1based.begin(),
+            data.unavailable_cells_1based.end()
+        ) != data.unavailable_cells_1based.end()
+        || (!data.unavailable_cells_1based.empty()
+            && (data.unavailable_cells_1based.front() < 1
+                || data.unavailable_cells_1based.back() > grid_dimension))) {
+        throw std::runtime_error(
+            "invalid unavailable-cell set for " + data.case_id
+        );
+    }
     if (data.turbine_count
         > grid_dimension
             - static_cast<int>(data.unavailable_cells_1based.size())) {
@@ -247,14 +288,18 @@ std::vector<CaseData> load_cases(const std::string& path) {
     const auto objects = case_objects(document);
     std::vector<CaseData> result;
     result.reserve(objects.size());
+    std::unordered_set<std::string> case_ids;
     for (const auto object : objects) {
-        result.push_back(parse_case(object));
+        CaseData data = parse_case(object);
+        if (!case_ids.insert(data.case_id).second) {
+            throw std::runtime_error(
+                "duplicate case identifier: " + data.case_id
+            );
+        }
+        result.push_back(std::move(data));
     }
-    if (result.size() != 50) {
-        throw std::runtime_error(
-            "expected 50 FODE-E0-L cases, loaded "
-            + std::to_string(result.size())
-        );
+    if (result.empty()) {
+        throw std::runtime_error("benchmark contract contains no cases");
     }
     return result;
 }
@@ -269,7 +314,7 @@ CaseData load_case(const std::string& path, const std::string& case_id) {
         }
     );
     if (match == cases.end()) {
-        throw std::runtime_error("unknown FODE-E0-L case: " + case_id);
+        throw std::runtime_error("unknown discrete WFLOP case: " + case_id);
     }
     return *match;
 }

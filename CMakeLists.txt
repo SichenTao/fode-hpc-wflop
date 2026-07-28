@@ -14,10 +14,39 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_lineage_registry.py
     )
     add_test(
+        NAME lineage_r0_r4_completion
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_lineage_r0_r4.py
+    )
+    add_test(
         NAME problem_package_registry
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_problem_packages.py
     )
+    set(BDE_SOURCE_REPLAY_CASES
+        ${CMAKE_CURRENT_SOURCE_DIR}/.source-cache/generated/bde_source_replay/benchmark_cases.json
+    )
+    if(EXISTS ${BDE_SOURCE_REPLAY_CASES})
+        add_test(
+            NAME bde_source_replay
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/validate_bde_source_replay.py
+                --binary $<TARGET_FILE:wflop_cpp_hpc>
+                --cases ${BDE_SOURCE_REPLAY_CASES}
+        )
+    endif()
+    set(RPSO_SOURCE_PROBLEM_CASES
+        ${CMAKE_CURRENT_SOURCE_DIR}/.source-cache/generated/rpso_source_problem/benchmark_cases.json
+    )
+    if(EXISTS ${RPSO_SOURCE_PROBLEM_CASES})
+        add_test(
+            NAME rpso_source_problem
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/validate_rpso_source_problem.py
+                --binary $<TARGET_FILE:wflop_cpp_hpc>
+                --cases ${RPSO_SOURCE_PROBLEM_CASES}
+        )
+    endif()
     set(GGA_GENERATED_ASSETS
         ${CMAKE_CURRENT_SOURCE_DIR}/.source-cache/generated/gga_repaired
     )
