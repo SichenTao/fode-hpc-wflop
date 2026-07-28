@@ -180,6 +180,19 @@ It rejects non-Waffle hosts, holds a single-process suite lock, uses all
 processors visible to the job, and atomically records the running or terminal
 state in `results/waffle_campaign_suite_v1/control/status.json`.
 
+From the canonical development worktree, the complete deployment and guarded
+launch can instead be performed with:
+
+```bash
+bash scripts/deploy_and_launch_waffle_formal_suite.sh
+```
+
+The controller requires a clean local Git worktree, transfers the exact
+`HEAD` through a Git bundle, stages only the authorized non-redistributed BDE
+source arrays and the audited generated GGA problem assets, runs the complete
+Waffle validation gate with every visible processor, and launches only when
+there is no live or completed suite process for that Git identity.
+
 After all four file matrices pass, the suite automatically writes separate
 single-objective, three-objective, and offshore descriptive tables plus a
 hash-bound analysis receipt under

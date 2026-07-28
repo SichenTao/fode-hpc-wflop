@@ -28,27 +28,37 @@ write_status() {
   local exit_code="$2"
   local finished_at="$3"
   local temporary="${status_file}.tmp"
-  jq -n \
-    --arg state "${state}" \
-    --arg host "${host}" \
-    --argjson pid "$$" \
-    --argjson workers "${workers}" \
-    --arg git_head "${git_head}" \
-    --arg started_at "${started_at}" \
-    --arg finished_at "${finished_at}" \
-    --argjson exit_code "${exit_code}" \
-    '{
-      schema_version: 1,
-      suite_id: "waffle_campaign_suite_v1",
-      state: $state,
-      host: $host,
-      pid: $pid,
-      workers: $workers,
-      git_head: $git_head,
-      started_at: $started_at,
-      finished_at: (if $finished_at == "" then null else $finished_at end),
-      exit_code: (if $exit_code < 0 then null else $exit_code end)
-    }' > "${temporary}"
+  python3 - "${temporary}" "${state}" "${host}" "$$" "${workers}" \
+    "${git_head}" "${started_at}" "${finished_at}" "${exit_code}" <<'PY'
+import json
+import sys
+from pathlib import Path
+
+(
+    output,
+    state,
+    host,
+    pid,
+    workers,
+    git_head,
+    started_at,
+    finished_at,
+    exit_code,
+) = sys.argv[1:]
+payload = {
+    "schema_version": 1,
+    "suite_id": "waffle_campaign_suite_v1",
+    "state": state,
+    "host": host,
+    "pid": int(pid),
+    "workers": int(workers),
+    "git_head": git_head,
+    "started_at": started_at,
+    "finished_at": finished_at or None,
+    "exit_code": None if int(exit_code) < 0 else int(exit_code),
+}
+Path(output).write_text(json.dumps(payload, indent=2) + "\n")
+PY
   mv "${temporary}" "${status_file}"
 }
 
