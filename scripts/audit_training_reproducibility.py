@@ -82,8 +82,11 @@ def check_sugga(temporary: Path) -> int:
     receipt = json.loads(
         (root / "training_receipt.json").read_text(encoding="utf-8")
     )
-    if receipt["case_count"] != 579:
-        raise RuntimeError("SUGGA native model count differs")
+    expected_case_count = sum(
+        int(contract["case_count"]) for contract in receipt["contracts"]
+    )
+    if receipt["case_count"] != expected_case_count:
+        raise RuntimeError("SUGGA native model count differs from contracts")
     by_pair = {
         (record["problem_id"], record["case_id"]): record
         for record in receipt["models"]
@@ -96,8 +99,9 @@ def check_sugga(temporary: Path) -> int:
             raise RuntimeError(f"SUGGA model hash differs: {pair}")
 
     # Recreate one full 10000-layout model from each distinct native problem.
-    # The complete 579-model corpus has already been frozen; these nine
-    # representatives prove the generator and SVR path remain executable.
+    # The complete model corpus has already been frozen; one representative
+    # per distinct problem proves the generator and SVR path remains
+    # executable without rerunning every case.
     checked = 0
     for index, contract_record in enumerate(receipt["contracts"]):
         source = ROOT / contract_record["path"]
@@ -127,12 +131,15 @@ def check_sugga(temporary: Path) -> int:
             ]
         )
         case_id = payload["cases"][0]["case_id"]
-        fresh = output / payload["problem_id"] / f"{case_id}.svr.tsv"
-        frozen = root / payload["problem_id"] / f"{case_id}.svr.tsv"
+        problem_id = str(
+            payload.get("problem_id") or payload["problem_semantic_id"]
+        )
+        fresh = output / problem_id / f"{case_id}.svr.tsv"
+        frozen = root / problem_id / f"{case_id}.svr.tsv"
         if fresh.read_bytes() != frozen.read_bytes():
             raise RuntimeError(
                 f"SUGGA representative artifact differs: "
-                f"{payload['problem_id']}/{case_id}"
+                f"{problem_id}/{case_id}"
             )
         checked += 1
     return checked

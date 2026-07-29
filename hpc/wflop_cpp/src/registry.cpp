@@ -528,6 +528,32 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
                 }
             }
         }
+        const std::vector<std::string> rpso_comparators{
+            "pso", "de", "cgpso", "agpso"
+        };
+        const std::vector<std::string> alga_comparators{
+            "aga", "sugga", "ppga"
+        };
+        for (auto& descriptor : values) {
+            if (std::find(
+                    rpso_comparators.begin(),
+                    rpso_comparators.end(),
+                    descriptor.id
+                ) != rpso_comparators.end()) {
+                descriptor.compatible_problem_ids.push_back(
+                    "rpso2024_source_problem_ws1_ws4"
+                );
+            }
+            if (std::find(
+                    alga_comparators.begin(),
+                    alga_comparators.end(),
+                    descriptor.id
+                ) != alga_comparators.end()) {
+                descriptor.compatible_problem_ids.push_back(
+                    "alga_guishan_3d_declared_proxy_v1"
+                );
+            }
+        }
         return values;
     }();
     return descriptors;

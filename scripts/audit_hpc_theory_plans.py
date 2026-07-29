@@ -1,0 +1,115 @@
+#!/usr/bin/env python3
+"""Audit pair-specific H0-H4 theory dossiers.
+
+The default mode is the formal Plan-002 gate and therefore fails on draft
+scaffolds or missing native implementations. ``--inventory-only`` validates
+the scaffold mechanically without admitting it as H0-H4 evidence.
+"""
+
+from __future__ import annotations
+
+import argparse
+import csv
+import hashlib
+import json
+from pathlib import Path
+
+
+ROOT = Path(__file__).resolve().parents[1]
+
+
+def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--all-paper-packages", action="store_true")
+    parser.add_argument("--inventory-only", action="store_true")
+    args = parser.parse_args()
+    if not args.all_paper_packages:
+        parser.error("--all-paper-packages is required")
+    with (ROOT / "docs/hpc_required_pairs.tsv").open(
+        encoding="utf-8", newline=""
+    ) as handle:
+        rows = list(csv.DictReader(handle, delimiter="\t"))
+    if not rows:
+        raise RuntimeError("required pair registry is empty")
+    pair_ids = set()
+    missing_implementation = 0
+    missing_pairs: list[str] = []
+    draft_pairs: list[str] = []
+    for row in rows:
+        if row["pair_id"] in pair_ids:
+            raise RuntimeError(f"duplicate pair {row['pair_id']}")
+        pair_ids.add(row["pair_id"])
+        path = ROOT / row["analysis_path"]
+        if hashlib.sha256(path.read_bytes()).hexdigest() != row[
+            "analysis_sha256"
+        ]:
+            raise RuntimeError(f"{row['pair_id']}: analysis hash differs")
+        data = json.loads(path.read_text(encoding="utf-8"))
+        required = {
+            "H0_scientific_state_machine",
+            "H1_work_and_data_movement",
+            "H2_dependency_and_parallel_width",
+            "H3_performance_and_granularity",
+            "H4_implementation_mapping",
+            "architecture",
+        }
+        if required - set(data):
+            raise RuntimeError(f"{row['pair_id']}: missing H0-H4 section")
+        variables = data["H1_work_and_data_movement"]["defined_variables"]
+        actual = data["H1_work_and_data_movement"]["actual_values"]
+        if not variables or set(actual) != {
+            "smallest", "representative", "largest"
+        }:
+            raise RuntimeError(f"{row['pair_id']}: incomplete work values")
+        stages = data["H1_work_and_data_movement"]["stage_ledger"]
+        if len(stages) < 5 or any(
+            not stage.get("work")
+            or not stage.get("span")
+            or set(stage.get("actual_case_substitutions", {}))
+            != {"smallest", "representative", "largest"}
+            for stage in stages
+        ):
+            raise RuntimeError(f"{row['pair_id']}: incomplete stage ledger")
+        if not data["H2_dependency_and_parallel_width"]["dependency_edges"]:
+            raise RuntimeError(f"{row['pair_id']}: dependency DAG is empty")
+        if len(data["H1_work_and_data_movement"]["reuse_proofs"]) < 2:
+            raise RuntimeError(f"{row['pair_id']}: reuse proof is absent")
+        if "dispatch crossover" not in data[
+            "H3_performance_and_granularity"
+        ]["granularity_rule"]:
+            raise RuntimeError(f"{row['pair_id']}: granularity rule is absent")
+        symbol = data["H4_implementation_mapping"]["primary_symbol"]
+        if (
+            symbol == "planned_unimplemented_native_comparator"
+            or row["implementation_status"]
+            == "planned_missing_native_comparator"
+        ):
+            missing_implementation += 1
+            missing_pairs.append(row["pair_id"])
+        if (
+            data.get("dossier_maturity")
+            != "accepted_pair_specific_h0_h4"
+            or row.get("theory_status")
+            != "accepted_pair_specific_h0_h4"
+        ):
+            draft_pairs.append(row["pair_id"])
+    if not args.inventory_only and (missing_pairs or draft_pairs):
+        detail = {
+            "missing_native_implementations": missing_pairs,
+            "draft_unadmitted_theory_pairs": draft_pairs,
+        }
+        raise RuntimeError(
+            "Plan-002 H0-H4 gate is blocked:\n"
+            + json.dumps(detail, indent=2, sort_keys=True)
+        )
+    print(
+        "hpc_theory_plan_inventory_pass "
+        f"pairs={len(rows)} pair_specific_json={len(rows)} "
+        f"planned_missing_native_comparators={missing_implementation} "
+        f"draft_unadmitted={len(draft_pairs)}"
+    )
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

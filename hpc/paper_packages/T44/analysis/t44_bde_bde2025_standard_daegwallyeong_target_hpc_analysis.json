@@ -1,0 +1,369 @@
+{
+  "H0_scientific_state_machine": {
+    "physical_fes_boundary": "one complete paper-native objective/constraint evaluation of one candidate layout",
+    "stages": [
+      "S0_initialize",
+      "S1_evaluate",
+      "S2_bipopulation_fusion_mutation",
+      "S3_ordered_commit",
+      "S4_serialize"
+    ],
+    "visibility": "generation inputs are immutable during independent work; stable ordered commit exposes the next state"
+  },
+  "H1_work_and_data_movement": {
+    "actual_values": {
+      "largest": {
+        "B": 120,
+        "C": 0,
+        "D": 6,
+        "FES": 10000,
+        "M": 1,
+        "Nd": 10,
+        "Ns": 0,
+        "Nt": 6,
+        "Nv": 4
+      },
+      "representative": {
+        "B": 30,
+        "C": 0,
+        "D": 6,
+        "FES": 10000,
+        "M": 1,
+        "Nd": 10,
+        "Ns": 0,
+        "Nt": 6,
+        "Nv": 4
+      },
+      "smallest": {
+        "B": 15,
+        "C": 1,
+        "D": 3,
+        "FES": 5000,
+        "M": 1,
+        "Nd": 5,
+        "Ns": 1,
+        "Nt": 3,
+        "Nv": 2
+      }
+    },
+    "data_layout": "contiguous row-major population and per-state arrays; thread-local scratch avoids false sharing",
+    "defined_variables": {
+      "B": "population or batch size",
+      "C": "constraint count",
+      "D": "decision dimension",
+      "FES": "complete physical evaluation budget",
+      "M": "objective count",
+      "Nd": "wind-direction count",
+      "Ns": "training sample count",
+      "Nt": "turbine count",
+      "Nv": "wind-speed count"
+    },
+    "proposed_work_model": {
+      "S0_initialize": "B*D",
+      "S1_evaluate": "B*Nd*Nt*Nt*Nv",
+      "S2_bipopulation_fusion_mutation": "B*D",
+      "S3_ordered_commit": "B*log2(B)+B*M",
+      "S4_serialize": "B*D"
+    },
+    "reuse_proofs": [
+      "Coordinate conversion and terrain lookup depend only on layout cells and are reused across Nd*Nv wind states without changing objective equations.",
+      "Wake geometry is independent of speed within one direction and is reused across Nv power-curve calls while preserving fixed reduction order."
+    ],
+    "source_work_model": {
+      "S0_initialize": "B*D",
+      "S1_evaluate": "B*Nd*Nt*Nt*Nv",
+      "S2_bipopulation_fusion_mutation": "B*D",
+      "S3_ordered_commit": "B*log2(B)+B*M",
+      "S4_serialize": "B*D"
+    },
+    "stage_ledger": [
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 120.0,
+            "bytes_transferred": 17280.0,
+            "critical_path_units": 6.0,
+            "peak_live_memory_bytes": 5760.0,
+            "task_count": 120.0,
+            "work_units": 720.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 4320.0,
+            "critical_path_units": 6.0,
+            "peak_live_memory_bytes": 1440.0,
+            "task_count": 30.0,
+            "work_units": 180.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 15.0,
+            "bytes_transferred": 1080.0,
+            "critical_path_units": 3.0,
+            "peak_live_memory_bytes": 360.0,
+            "task_count": 15.0,
+            "work_units": 45.0
+          }
+        },
+        "classification": "independent",
+        "id": "S0_initialize",
+        "parallel_space": "population members",
+        "physical_fes": "B",
+        "span": "D",
+        "symbol_role": "initialization",
+        "work": "B*D"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.24793388429752067,
+            "available_parallelism_W_over_S": 120.0,
+            "bytes_transferred": 696960.0,
+            "critical_path_units": 1440.0,
+            "peak_live_memory_bytes": 63360.0,
+            "task_count": 1200.0,
+            "work_units": 172800.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.24793388429752067,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 174240.0,
+            "critical_path_units": 1440.0,
+            "peak_live_memory_bytes": 15840.0,
+            "task_count": 300.0,
+            "work_units": 43200.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.12096774193548387,
+            "available_parallelism_W_over_S": 15.0,
+            "bytes_transferred": 11160.0,
+            "critical_path_units": 90.0,
+            "peak_live_memory_bytes": 2160.0,
+            "task_count": 75.0,
+            "work_units": 1350.0
+          }
+        },
+        "classification": "independent",
+        "id": "S1_evaluate",
+        "parallel_space": "layouts and wind directions",
+        "physical_fes": "B per complete population batch",
+        "span": "Nd*Nt*Nt*Nv",
+        "symbol_role": "paper-native evaluator",
+        "work": "B*Nd*Nt*Nt*Nv"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 120.0,
+            "bytes_transferred": 17280.0,
+            "critical_path_units": 6.0,
+            "peak_live_memory_bytes": 5760.0,
+            "task_count": 120.0,
+            "work_units": 720.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 4320.0,
+            "critical_path_units": 6.0,
+            "peak_live_memory_bytes": 1440.0,
+            "task_count": 30.0,
+            "work_units": 180.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 15.0,
+            "bytes_transferred": 1080.0,
+            "critical_path_units": 3.0,
+            "peak_live_memory_bytes": 360.0,
+            "task_count": 15.0,
+            "work_units": 45.0
+          }
+        },
+        "classification": "independent",
+        "id": "S2_bipopulation_fusion_mutation",
+        "parallel_space": "members, coordinates, or model samples",
+        "physical_fes": "0 before offspring evaluation",
+        "span": "D",
+        "symbol_role": "algorithm transition",
+        "work": "B*D"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.0549089624695036,
+            "available_parallelism_W_over_S": 1.0,
+            "bytes_transferred": 17280.0,
+            "critical_path_units": 948.8268714730223,
+            "peak_live_memory_bytes": 5760.0,
+            "task_count": 120.0,
+            "work_units": 948.8268714730223
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.04102007358061471,
+            "available_parallelism_W_over_S": 1.0,
+            "bytes_transferred": 4320.0,
+            "critical_path_units": 177.20671786825557,
+            "peak_live_memory_bytes": 1440.0,
+            "task_count": 30.0,
+            "work_units": 177.20671786825557
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.06815125827234055,
+            "available_parallelism_W_over_S": 1.0,
+            "bytes_transferred": 1080.0,
+            "critical_path_units": 73.60335893412778,
+            "peak_live_memory_bytes": 360.0,
+            "task_count": 15.0,
+            "work_units": 73.60335893412778
+          }
+        },
+        "classification": "ordered_reduction",
+        "id": "S3_ordered_commit",
+        "parallel_space": "ordered stable commit",
+        "physical_fes": "0",
+        "span": "B*log2(B)+B*M",
+        "symbol_role": "selection archive and state visibility",
+        "work": "B*log2(B)+B*M"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 1.0,
+            "bytes_transferred": 17280.0,
+            "critical_path_units": 720.0,
+            "peak_live_memory_bytes": 5760.0,
+            "task_count": 120.0,
+            "work_units": 720.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 1.0,
+            "bytes_transferred": 4320.0,
+            "critical_path_units": 180.0,
+            "peak_live_memory_bytes": 1440.0,
+            "task_count": 30.0,
+            "work_units": 180.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 1.0,
+            "bytes_transferred": 1080.0,
+            "critical_path_units": 45.0,
+            "peak_live_memory_bytes": 360.0,
+            "task_count": 15.0,
+            "work_units": 45.0
+          }
+        },
+        "classification": "intrinsically_serial",
+        "id": "S4_serialize",
+        "parallel_space": "none",
+        "physical_fes": "0",
+        "span": "B*D",
+        "symbol_role": "atomic result receipt",
+        "work": "B*D"
+      }
+    ]
+  },
+  "H2_dependency_and_parallel_width": {
+    "dependency_edges": [
+      [
+        "S0_initialize",
+        "S1_evaluate"
+      ],
+      [
+        "S1_evaluate",
+        "S2_bipopulation_fusion_mutation"
+      ],
+      [
+        "S2_bipopulation_fusion_mutation",
+        "S3_ordered_commit"
+      ],
+      [
+        "S3_ordered_commit",
+        "S4_serialize"
+      ]
+    ],
+    "ordered_sections": [
+      "S3_ordered_commit",
+      "S4_serialize"
+    ],
+    "parallel_spaces": [
+      "population members",
+      "layouts and wind directions",
+      "members, coordinates, or model samples",
+      "ordered stable commit",
+      "none"
+    ],
+    "random_contract": "counter-keyed event ownership by seed, generation, member, coordinate, and draw; schedule independent"
+  },
+  "H3_performance_and_granularity": {
+    "granularity_rule": "retain short loops ordered when task count is below persistent-team dispatch crossover; heavy layout or wind-state work uses all visible workers",
+    "measurements_required": [
+      "1,2,4,8,12,16,20 workers",
+      "five balanced-order repetitions",
+      "stage attribution at least 95 percent",
+      "speedup confidence interval and load balance",
+      "measured memory bandwidth and cache behavior"
+    ],
+    "parallel_ceiling_model": "1/(serial_fraction+(1-serial_fraction)/P)",
+    "predicted_dominant_stage": "S1_evaluate",
+    "serial_fraction_model": "(ordered_commit+serialization)/sum(stage_work)"
+  },
+  "H4_implementation_mapping": {
+    "evaluator_symbol": "paper-package-specific evaluator; scalar packages use fode::evaluate_population_hpc",
+    "executor_symbol": "fode::PersistentExecutor::parallel_for",
+    "primary_symbol": "hpc/wflop_cpp/src/algorithms.cpp::optimize_bde",
+    "reduction_order": "stable fixed index order",
+    "rejected_mappings": [
+      "nested seed/process parallelism rejected for single-run H_q because it oversubscribes cores",
+      "unordered floating reduction rejected because it changes the scientific trajectory"
+    ],
+    "selected_mapping": "persistent all-visible-core team with adaptive granularity and ordered scientific commit"
+  },
+  "algorithm_id": "bde",
+  "analysis_id": "hpc_analysis__T44__bde__bde2025_standard_daegwallyeong__target__v1",
+  "architecture": {
+    "affinity_hypothesis": "one persistent team pinned within the single visible NUMA node",
+    "architecture_id": "spark2_cpu20_aarch64_20260730_v1",
+    "cache_hierarchy": {
+      "L1d": "1.3 MiB (20 instances)",
+      "L1i": "1.3 MiB (20 instances)",
+      "L2": "25 MiB (20 instances)",
+      "L3": "24 MiB (2 instances)"
+    },
+    "compiler": "c++ (Ubuntu 11.5.0-1ubuntu1~24.04.1) 11.5.0",
+    "false_sharing_hypothesis": "thread-local scratch and cache-line-separated counters",
+    "first_touch_hypothesis": "parallel first touch for population-sized and evaluator scratch buffers that exceed one private cache",
+    "flags": "-O3 -DNDEBUG -ffp-contract=off",
+    "hostname": "spark-9b6f",
+    "machine": "aarch64",
+    "memory_bandwidth": "not yet measured for this pair; mandatory H6 measurement",
+    "numa_cpu_map": "0-19",
+    "numa_nodes": 1,
+    "physical_cores": 10,
+    "processor_model": "Cortex-A725",
+    "sockets": 1,
+    "threads_per_core": 1,
+    "vector_instruction_set": "ARM NEON/ASIMD plus SVE/SVE2 visible in lscpu flags",
+    "visible_hardware_threads": 20,
+    "worker_policy": "workers=0 resolves to all visible hardware threads"
+  },
+  "claim_boundary": "WS1-WS4 source replay is accepted; WS5-WS6 are distinct paper-derived P3 composites",
+  "corpus_id": "T44",
+  "dossier_maturity": "draft_h0_h4_scaffold_unadmitted",
+  "implementation_status": "executable_baseline",
+  "method_semantic_id": "bde_paper_source_completed_v1",
+  "native_asset": "shared/contracts/bde_ws56_declared_proxy_cases.json",
+  "pair_id": "T44__bde__bde2025_standard_daegwallyeong__target",
+  "paper_doi": "10.1016/j.energy.2025.137885",
+  "paper_protocol_id": "energy2025_bde_native_25_v1",
+  "problem_id": "bde2025_standard_daegwallyeong",
+  "problem_semantic_id": "bde2025_standard_daegwallyeong",
+  "role": "target",
+  "schema_version": 1
+}

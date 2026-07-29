@@ -101,7 +101,10 @@ def main() -> int:
             )
             generator_receipt = json.loads(completed.stdout)
             expected_cases = int(contract_payload["case_count"])
-            problem_id = str(contract_payload["problem_id"])
+            problem_id = str(
+                contract_payload.get("problem_id")
+                or contract_payload["problem_semantic_id"]
+            )
             if int(generator_receipt["case_count"]) != expected_cases:
                 raise RuntimeError(f"{contract}: generator case count mismatch")
             total_fes += int(generator_receipt["training_physical_fes"])

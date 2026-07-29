@@ -67,6 +67,21 @@ def main() -> int:
         raise RuntimeError("compatibility decisions are incorrect")
     if not accepted["reason"] or not rejected["reason"]:
         raise RuntimeError("compatibility decision lacks a reason")
+    admitted_native_comparators = {
+        "rpso2024_source_problem_ws1_ws4": {
+            "pso", "de", "cgpso", "agpso"
+        },
+        "alga_guishan_3d_declared_proxy_v1": {
+            "aga", "sugga", "ppga"
+        },
+    }
+    for problem, expected_algorithms in admitted_native_comparators.items():
+        for algorithm in expected_algorithms:
+            decision = explain(args.binary, algorithm, problem)
+            if not decision["compatible"] or not decision["reason"]:
+                raise RuntimeError(
+                    f"{algorithm}/{problem}: native comparator not admitted"
+                )
 
     failed = subprocess.run(
         [

@@ -1,5 +1,5 @@
 {
-  "case_count": 579,
+  "case_count": 603,
   "claim_boundary": "Paper-guided deterministic retraining; not unavailable author response-surface identity.",
   "contracts": [
     {
@@ -64,9 +64,280 @@
       "problem_id": "wfadde_native_declared_24",
       "sha256": "cf4dd748d227c34281e61f9878cd1268a80b2e67c2ee2e0874f6a77ea2dd9df0",
       "training_physical_fes": 240000
+    },
+    {
+      "case_count": 24,
+      "path": "shared/contracts/alga_guishan_3d_declared_proxy_cases.json",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "sha256": "ffb0184c98cfc5a33c229b40e8572bb26f76efa3e08c24854447e01d2aa4c5d0",
+      "training_physical_fes": 240000
     }
   ],
   "models": [
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_IDEAL1_tn20",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "bf6464343c62d59082918e85772993d3c03c2bee6619a43844260630e9026702",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "40bbf3c8bd2d892cd195fd5e3d1c73e3dc16e4fccdc89cba0ce31b7a458b0841",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_IDEAL1_tn30",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "b78e02f2fdbff1f5236aade7d2162d7f236874b962c4118db02b34842d46489d",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "bf41a1837387b8f51496c00c2044cd08bd6ac283490f7c3d27fb3501310f8d82",
+      "support_vector_count": 142
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_IDEAL1_tn40",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "58bd29b8f46008a47bcc39dad5b57d8ac90c5c9db33f43c9e55c5d00787722de",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "0654a97ecbe18077493eaedb3f59f5428234aa227013a69eac41b13b03d25245",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_IDEAL2_tn20",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "89674f09c12ecc217de57df2b02b92e04532c708d1c6cff2a9f07c800e4a3bbe",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "16c981ff641cad50321c84c9f611c30e5601f8af598294198634183243ff15ee",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_IDEAL2_tn30",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "5175ea3608fdd81ae976c5607f9a7c0dd99ba1d58cfbe218e30234591ee4f321",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "07bdebdee96df41db7ed2f611fd3b5f0fb7f9e435d8260dc4924314556893def",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_IDEAL2_tn40",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "e0c4671f40d6d587f1974edef6514034ad658b36e7250ebf49ee0eecdc473404",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "3881fedf82efee9971ae48cf8cdd25cd1f99210268f60ba856473bd0b808a99e",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_IDEAL3_tn20",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "d0f5b4831c66822097521dbb8eac1b9ff293909b079b5cd85ac522c86091f55f",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "804e8c01888bdce72b93552802885141d95062d9c62026fbb96f9137317a5fa4",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_IDEAL3_tn30",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "9727d1a45748731b7a0ac2c25a199c75ed20ba4e9b373cc1637a35200181ff2c",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "e036d73eed980c057600b8d7d81bd6ff0f5c4eb62997c640b02f1a82fa0466fd",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_IDEAL3_tn40",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "a90f21c01a372b2b50f5050240e9eeee1e6f7513f027e179482f109dd5c41f72",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "19568cc732fd439abfeae0b1e2b1083fd9007cc2c9bc7223946a884605bca15f",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_IDEAL4_tn20",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "c101e8f9e5378fe9fe283acd688d7bfafa1605c6b4353cd1aaa97166e478cd8e",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "81b8a66aa7ba6e7f151e37d4fdc9c306ac179bfc0847d6424b07de9aba102370",
+      "support_vector_count": 143
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_IDEAL4_tn30",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "f011d8d198d437046782c52819d76e0ea33e490b1897ac512fc34c835b33ea0b",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "4c3d14de65edc2870bcd8e030035846f823cab4ec70db14c9facba45e94b3a91",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_IDEAL4_tn40",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "9ca9315bdf35218c0bf1c7561d08cb5382d5598dd7b796f10cf24e37ed8e07d6",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "70fa569224640ded5218c28b33bca961bd474bce3122155e8d8c10bd1250badc",
+      "support_vector_count": 142
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_SEASON1_tn20",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "664b4d56f213fef093261df3c8469f6330b5c8e610b59bbdea4649b70d9bee56",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "6f42fb817069066d96d0f5154b848d312cae9e491ef941c4391694720e9403ae",
+      "support_vector_count": 143
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_SEASON1_tn30",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "13827cedaf1d99b429e68271207c142b14e3ac7238f0e59cf7d39ea9ef8a7723",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "00ee59d4acbe633c2d8e8eee8731b556d639d90db0e705f00409e72bcfeec668",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_SEASON1_tn40",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "aa095eed44b4be8ca03afc8d27ffbc5fa507db9a5f92d8b0eeeb6c05b7bd2928",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "66ed0816007c9565d69cf4d4899086aeb4a9bd9def98697c7622c806a317d0b7",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_SEASON2_tn20",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "f9d1f99cfc0b723ac59298bfbb98482e90412bb56f4214dc9fdf452621170a23",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "5019ab9cccaa3d6b6a54ca5bc00eed49f682e48ad45b0e6c61a73e75bbf53c5f",
+      "support_vector_count": 143
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_SEASON2_tn30",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "4ea73f31d4cbe4159fb826e3d7aa787b5c8631265cc0b6d2c547bc3bf89e84e6",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "4bdd4c3c6ca443a4e4f2f2f38562c480facb2f97f4d132d52a0511020b419d4a",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_SEASON2_tn40",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "48f261750cfb74becf82c8785819fca645f30bd95d56a655b6bec39dfab90423",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "bde1a0397614a79261226b3a6873c6dc5fa5373f5eda9086fabf44bce3aa23de",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_SEASON3_tn20",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "30b30b1af56acd7c28f8216a4347edb4bd252946eeb08e9e9d2ded05399fbba3",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "5ab19891b0e8818c4619e51d08c0dd2656cbea9dd30b64923ea92e6538accab1",
+      "support_vector_count": 143
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_SEASON3_tn30",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "2b9b892b1b57c1a08fd126e79b47a9b192c8674c1e1e8fe6bf13a3b4f5ed278e",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "3d3831b38d1c9c3db1857014bbc51d8d2fe4afae32af8d635ad37ce8503e6c1b",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_SEASON3_tn40",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "fa9ae75adc3fc60c5faaeb379bd30323af224e7977eb4eeea9ec7371c971183a",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "ac71c03a477f70df1cace3bfa70e8f0341c0633ab88519a2eeb6b539f3d94bb3",
+      "support_vector_count": 142
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_SEASON4_tn20",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "56a4098585c326fc03ab1aa9c10722ed1e47cd9e67d4c838d6f298a0279e720a",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "95c2fd4d6895e7d539540b776c34f917d22bb0adcab65d0d056a5043e5d0e9e2",
+      "support_vector_count": 143
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_SEASON4_tn30",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "1a207b6efe1afbad1501c4b0ae4973c896c18a92463abcade4ba8450a09ab84f",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "e02917925e29562a8487f309d903ef990ae74804a52fe293add06d88e208d22a",
+      "support_vector_count": 144
+    },
+    {
+      "C": 1.0,
+      "case_id": "ALGA_Guishan3D_SEASON4_tn40",
+      "epsilon": 0.1,
+      "gamma": 0.3,
+      "model_sha256": "f9ed7e94fe7f574f9a8c477b244e7a9d6700f936c2c80a4a29e08fe335bf762c",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "response_sha256": "7e077033033b95b6fb2759439f5546410186c832fa87fe29c31e6275e4639561",
+      "support_vector_count": 144
+    },
     {
       "C": 1.0,
       "case_id": "WC1_N15_NA0",
@@ -6448,5 +6719,5 @@
     "kernel": "rbf"
   },
   "training_id": "sugga_native_train_from_scratch_v1",
-  "training_physical_fes": 5790000
+  "training_physical_fes": 6030000
 }
