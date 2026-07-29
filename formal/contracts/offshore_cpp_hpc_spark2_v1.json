@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "campaign_id": "offshore_cpp_hpc_spark2_v1",
+  "execution_host": "Spark2 (spark-9ab3)",
+  "worker_policy": "all processors visible to the job",
+  "processes_at_once": 1,
+  "repeat_count": 25,
+  "seeds": [
+    2026072901,
+    2026072902,
+    2026072903,
+    2026072904,
+    2026072905,
+    2026072906,
+    2026072907,
+    2026072908,
+    2026072909,
+    2026072910,
+    2026072911,
+    2026072912,
+    2026072913,
+    2026072914,
+    2026072915,
+    2026072916,
+    2026072917,
+    2026072918,
+    2026072919,
+    2026072920,
+    2026072921,
+    2026072922,
+    2026072923,
+    2026072924,
+    2026072925
+  ],
+  "cases": [
+    "China_Zhuhai_Guishan_Hai",
+    "Netherlands_Egmond_aan_Zee",
+    "China_Shanghai_Lingang",
+    "Netherlands_Prinses_Amaliawindpark",
+    "Denmark_Nysted",
+    "UK_Sheringham_Shoal",
+    "Denmark_Rodsand_II",
+    "UK_London_Array"
+  ],
+  "profiles": [
+    {
+      "algorithm_id": "gga",
+      "method_id": "GGA_CPP_HPC_FULL",
+      "problem_id": "gga2026_layout_cable",
+      "cases": "all",
+      "physical_fes_per_run": 3000,
+      "run_count": 200,
+      "claim_boundary": "paper and official-source-derived repaired GGA problem profile"
+    },
+    {
+      "algorithm_id": "geoga",
+      "method_id": "GEOGA_DECLARED_RECONSTRUCTION_V1",
+      "problem_id": "admitted_gga_problem_asset_proxy",
+      "cases": "all",
+      "physical_fes_per_run": 10000,
+      "run_count": 200,
+      "claim_boundary": "paper operators on admitted GGA assets; not Anholt reproduction"
+    },
+    {
+      "algorithm_id": "tmoea",
+      "method_id": "TMOEA_NYSTED_GGA_ASSET_RECONSTRUCTION_V1",
+      "problem_id": "nysted_gga_asset_reconstruction",
+      "cases": [
+        "Denmark_Nysted"
+      ],
+      "physical_fes_per_run": 3000,
+      "run_count": 25,
+      "claim_boundary": "equation-led same-author Nysted reconstruction; not original T-MOEA reproduction"
+    }
+  ],
+  "formal_run_count": 425,
+  "formal_complete_layout_evaluations": 2675000,
+  "resume_policy": "reuse only a JSON result passing identity, case, seed, physical-FES, all-worker, layout, objective, and front validators",
+  "environment_receipt": "HEAD, clean tracked worktree, compiler, CMake, nproc, affinity, lscpu, binary and asset hashes",
+  "quality_adaptive_scheduling_forbidden": true,
+  "status": "approved_for_spark2_formal_execution"
+}

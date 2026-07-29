@@ -5,14 +5,20 @@ repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${repo_root}"
 
 workers="${WFLOP_WORKERS:-$(nproc)}"
-build_dir="${WFLOP_BUILD_DIR:-${repo_root}/build-waffle-formal}"
+build_dir="${WFLOP_BUILD_DIR:-${repo_root}/build-spark2-formal}"
 validate_only="${WFLOP_VALIDATE_ONLY:-0}"
-suite_contract="${repo_root}/formal/contracts/waffle_campaign_suite_v1.json"
-common_contract="${repo_root}/formal/contracts/eighteen_algorithm_cpp_hpc_waffle_v1.json"
-bde_contract="${repo_root}/formal/contracts/bde_source_replay_waffle_v1.json"
-pbea_contract="${repo_root}/formal/contracts/pbea_six_algorithm_waffle_v1.json"
-offshore_contract="${repo_root}/formal/contracts/offshore_cpp_hpc_waffle_v1.json"
+suite_contract="${repo_root}/formal/contracts/spark2_campaign_suite_v1.json"
+common_contract="${repo_root}/formal/contracts/eighteen_algorithm_cpp_hpc_spark2_v3.json"
+bde_contract="${repo_root}/formal/contracts/bde_source_replay_spark2_v1.json"
+pbea_contract="${repo_root}/formal/contracts/pbea_six_algorithm_spark2_v1.json"
+offshore_contract="${repo_root}/formal/contracts/offshore_cpp_hpc_spark2_v1.json"
 
+expected_hostname="$(jq -r '.execution_hostname' "${suite_contract}")"
+observed_hostname="$(hostname -s | tr '[:upper:]' '[:lower:]')"
+if [[ "${observed_hostname}" != "${expected_hostname}" ]]; then
+  echo "Spark2 formal suite requires ${expected_hostname}; got ${observed_hostname}." >&2
+  exit 2
+fi
 if [[ "${workers}" != "$(nproc)" ]]; then
   echo "WFLOP_WORKERS must equal all processors visible to the job." >&2
   exit 2
@@ -39,6 +45,13 @@ if [row["campaign_id"] for row in campaigns] != [
     contract["campaign_id"] for contract in contracts
 ]:
     raise SystemExit("campaign suite and child contract identities differ")
+if [row["role"] for row in campaigns] != [
+    "common",
+    "bde",
+    "pbea",
+    "offshore",
+]:
+    raise SystemExit("campaign suite role order is inconsistent")
 run_total = sum(contract["formal_run_count"] for contract in contracts)
 evaluation_total = sum(
     contract["formal_complete_layout_evaluations"]
@@ -59,41 +72,41 @@ cmake --build "${build_dir}" -j "${workers}"
 ctest --test-dir "${build_dir}" --output-on-failure
 
 if [[ "${validate_only}" == "1" ]]; then
-  echo "Campaign suite validation, build, and tests passed; optimization launch skipped."
+  echo "Spark2 suite validation, build, and tests passed; optimization launch skipped."
   exit 0
 fi
 
 WFLOP_WORKERS="${workers}" \
 WFLOP_BUILD_DIR="${build_dir}" \
 WFLOP_CAMPAIGN_CONTRACT="${common_contract}" \
-WFLOP_RESULT_DIR="${repo_root}/results/eighteen_algorithm_cpp_hpc_waffle_v1" \
+WFLOP_RESULT_DIR="${repo_root}/results/eighteen_algorithm_cpp_hpc_spark2_v3" \
   bash scripts/run_fixed_work_campaign.sh
 
 WFLOP_WORKERS="${workers}" \
 BDE_BUILD_DIR="${build_dir}" \
 BDE_CAMPAIGN_CONTRACT="${bde_contract}" \
-BDE_RESULT_DIR="${repo_root}/results/bde_source_replay_waffle_v1" \
+BDE_RESULT_DIR="${repo_root}/results/bde_source_replay_spark2_v1" \
   bash scripts/run_bde_source_replay_formal_campaign.sh
 
 WFLOP_WORKERS="${workers}" \
 PBEA_BUILD_DIR="${build_dir}" \
 PBEA_CAMPAIGN_CONTRACT="${pbea_contract}" \
-PBEA_RESULT_DIR="${repo_root}/results/pbea_six_algorithm_waffle_v1" \
+PBEA_RESULT_DIR="${repo_root}/results/pbea_six_algorithm_spark2_v1" \
   bash scripts/run_pbea_formal_campaign.sh
 
 WFLOP_WORKERS="${workers}" \
 OFFSHORE_BUILD_DIR="${build_dir}" \
 OFFSHORE_CAMPAIGN_CONTRACT="${offshore_contract}" \
-OFFSHORE_RESULT_DIR="${repo_root}/results/offshore_cpp_hpc_waffle_v1" \
+OFFSHORE_RESULT_DIR="${repo_root}/results/offshore_cpp_hpc_spark2_v1" \
   bash scripts/run_offshore_formal_campaign.sh
 
 python3 scripts/summarize_formal_suite.py \
   --suite-contract "${suite_contract}" \
   --results-root "${repo_root}/results" \
-  --output-dir "${repo_root}/results/waffle_campaign_suite_v1/analysis"
+  --output-dir "${repo_root}/results/spark2_campaign_suite_v1/analysis"
 
-echo "All admitted Waffle campaigns completed and validated."
-echo "Common: results/eighteen_algorithm_cpp_hpc_waffle_v1"
-echo "BDE source replay: results/bde_source_replay_waffle_v1"
-echo "Three-objective: results/pbea_six_algorithm_waffle_v1"
-echo "Offshore: results/offshore_cpp_hpc_waffle_v1"
+echo "All admitted Spark2 campaigns completed and validated."
+echo "Common: results/eighteen_algorithm_cpp_hpc_spark2_v3"
+echo "BDE source replay: results/bde_source_replay_spark2_v1"
+echo "Three-objective: results/pbea_six_algorithm_spark2_v1"
+echo "Offshore: results/offshore_cpp_hpc_spark2_v1"

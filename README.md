@@ -161,6 +161,20 @@ The script validates and reuses completed per-seed files, so an interrupted
 campaign resumes without rerunning accepted work. Results remain untracked
 until their machine-specific receipt is reviewed.
 
+The currently approved full formal host is Spark2, whose frozen hostname is
+`spark-9ab3`. From the canonical Spark worktree, deploy, validate, and launch
+the complete 25-seed matrix with:
+
+```bash
+bash scripts/deploy_and_launch_spark2_formal_suite.sh
+```
+
+The controller transfers the exact clean Git `HEAD`, stages the authorized
+non-redistributed BDE arrays and audited GGA assets, verifies every processor
+visible to Spark2, runs the complete test gate, and starts the resumable
+`spark2_campaign_suite_v1` process. Spark2 results use distinct campaign
+identities and must not be merged with older Waffle or Spark2-v2 probes.
+
 On Waffle, the complete admitted formal matrix is launched through one
 resumable entrypoint:
 
@@ -193,10 +207,10 @@ source arrays and the audited generated GGA problem assets, runs the complete
 Waffle validation gate with every visible processor, and launches only when
 there is no live or completed suite process for that Git identity.
 
-After all four file matrices pass, the suite automatically writes separate
-single-objective, three-objective, and offshore descriptive tables plus a
-hash-bound analysis receipt under
-`results/waffle_campaign_suite_v1/analysis`. Common-problem algorithm ranks
+After all four file matrices pass, either host-specific suite automatically
+writes separate single-objective, three-objective, and offshore descriptive
+tables plus a hash-bound analysis receipt under its own suite result
+directory. Common-problem algorithm ranks
 use per-case median power. The analysis deliberately omits HV/IGD until a
 reference-front and normalization contract is frozen, and it does not pool
 objective values across different problem profiles.
@@ -280,7 +294,8 @@ independent Python/SciPy oracle reproduces fixed-layout C++ AEP, cable cost,
 capacity factor, and LCOE for all eight sites. A one-worker/twenty-worker pair
 has exact semantic agreement, and the heaviest-site smoke passes address and
 undefined-behavior sanitizers. These are development admission results; the
-25-seed Waffle campaign remains pending.
+host-specific 25-seed formal campaign is reported only after its Spark2
+receipt passes.
 
 For the GeoGA reconstruction, all eight available WFLO-GGA problem assets pass
 a 150-layout smoke, the one-worker/twenty-worker scientific outputs and
@@ -297,7 +312,7 @@ case passes address and undefined-behavior sanitizers, and the largest
 development smoke completes. A five-repeat Spark diagnostic measured
 9.58x evaluator and 2.61x end-to-end speedup from one to twenty workers for
 1,100 complete three-objective layout evaluations. This is not a
-MATLAB-to-C++ comparison and not a formal Waffle result.
+MATLAB-to-C++ comparison and not a host-specific formal result.
 
 ## Expansion contract
 
@@ -314,7 +329,7 @@ Missing papers or source code are registered as explicit states rather than
 silently guessed. See `docs/author_lineage_registry.tsv`,
 `docs/lineage_r0_r4_completion.tsv`, and `docs/roadmap.md`. The completion
 matrix maps every DOI to its original-problem status, executable profile,
-evidence paths, and formal Waffle campaign. It explicitly separates original
+evidence paths, and current host-specific formal campaign. It explicitly separates original
 problem reproduction, common-benchmark algorithm transfer, declared
 reconstruction, and blocked learned-state identities. The machine-readable
 omission boundary for TAAE, ALGA, the original PPGA Nantong study, the original

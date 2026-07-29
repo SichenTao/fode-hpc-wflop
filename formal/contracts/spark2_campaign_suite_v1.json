@@ -1,16 +1,16 @@
 {
   "schema_version": 1,
-  "suite_id": "waffle_campaign_suite_v1",
-  "execution_host": "Waffle",
-  "execution_hostname": "waffle",
+  "suite_id": "spark2_campaign_suite_v1",
+  "execution_host": "Spark2 (spark-9ab3)",
+  "execution_hostname": "spark-9ab3",
   "worker_policy": "all processors visible to the job",
   "processes_at_once": 1,
   "repeat_policy": "25 predetermined independent seeds per admitted experiment cell",
   "campaigns": [
     {
       "role": "common",
-      "contract": "formal/contracts/eighteen_algorithm_cpp_hpc_waffle_v1.json",
-      "campaign_id": "eighteen_algorithm_cpp_hpc_waffle_v1",
+      "contract": "formal/contracts/eighteen_algorithm_cpp_hpc_spark2_v3.json",
+      "campaign_id": "eighteen_algorithm_cpp_hpc_spark2_v3",
       "receipt": "campaign_receipt.json",
       "scientific_scope": "eighteen algorithms on the common FODE-E0 fifty-case benchmark",
       "optimization_runs": 22500,
@@ -18,8 +18,8 @@
     },
     {
       "role": "bde",
-      "contract": "formal/contracts/bde_source_replay_waffle_v1.json",
-      "campaign_id": "bde_source_replay_waffle_v1",
+      "contract": "formal/contracts/bde_source_replay_spark2_v1.json",
+      "campaign_id": "bde_source_replay_spark2_v1",
       "receipt": "campaign_receipt.json",
       "scientific_scope": "BDE on the official-source WS1-WS4 standard and Daegwallyeong problem profile",
       "optimization_runs": 600,
@@ -27,8 +27,8 @@
     },
     {
       "role": "pbea",
-      "contract": "formal/contracts/pbea_six_algorithm_waffle_v1.json",
-      "campaign_id": "pbea_six_algorithm_waffle_v1",
+      "contract": "formal/contracts/pbea_six_algorithm_spark2_v1.json",
+      "campaign_id": "pbea_six_algorithm_spark2_v1",
       "receipt": "campaign_file_receipt.json",
       "scientific_scope": "six multiobjective algorithms on the repaired three-objective WS1/WS2 benchmark",
       "optimization_runs": 4800,
@@ -36,8 +36,8 @@
     },
     {
       "role": "offshore",
-      "contract": "formal/contracts/offshore_cpp_hpc_waffle_v1.json",
-      "campaign_id": "offshore_cpp_hpc_waffle_v1",
+      "contract": "formal/contracts/offshore_cpp_hpc_spark2_v1.json",
+      "campaign_id": "offshore_cpp_hpc_spark2_v1",
       "receipt": "campaign_receipt.json",
       "scientific_scope": "GGA, GeoGA, and T-MOEA under their separately declared offshore asset profiles",
       "optimization_runs": 425,
@@ -53,5 +53,5 @@
     "rlpso",
     "rlfode"
   ],
-  "status": "development_admitted_waiting_for_waffle"
+  "status": "approved_for_spark2_formal_execution"
 }

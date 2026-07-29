@@ -11,7 +11,7 @@ fi
 
 workers="${WFLOP_WORKERS:-$(nproc)}"
 if [[ "${workers}" != "$(nproc)" ]]; then
-  echo "WFLOP_WORKERS must equal all processors visible to the Waffle job." >&2
+  echo "WFLOP_WORKERS must equal all processors visible to the frozen job." >&2
   exit 2
 fi
 

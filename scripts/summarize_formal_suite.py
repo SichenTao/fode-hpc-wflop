@@ -17,29 +17,10 @@ from typing import Any, Iterable
 
 
 ROOT = Path(__file__).resolve().parents[1]
-SUITE_CONTRACT = ROOT / "formal/contracts/waffle_campaign_suite_v1.json"
-CAMPAIGNS = {
-    "common": {
-        "contract": ROOT / "formal/contracts/eighteen_algorithm_cpp_hpc_waffle_v1.json",
-        "results": "eighteen_algorithm_cpp_hpc_waffle_v1",
-        "receipt": "campaign_receipt.json",
-    },
-    "bde": {
-        "contract": ROOT / "formal/contracts/bde_source_replay_waffle_v1.json",
-        "results": "bde_source_replay_waffle_v1",
-        "receipt": "campaign_receipt.json",
-    },
-    "pbea": {
-        "contract": ROOT / "formal/contracts/pbea_six_algorithm_waffle_v1.json",
-        "results": "pbea_six_algorithm_waffle_v1",
-        "receipt": "campaign_file_receipt.json",
-    },
-    "offshore": {
-        "contract": ROOT / "formal/contracts/offshore_cpp_hpc_waffle_v1.json",
-        "results": "offshore_cpp_hpc_waffle_v1",
-        "receipt": "campaign_receipt.json",
-    },
-}
+DEFAULT_SUITE_CONTRACT = (
+    ROOT / "formal/contracts/waffle_campaign_suite_v1.json"
+)
+REQUIRED_CAMPAIGN_ROLES = {"common", "bde", "pbea", "offshore"}
 
 
 def sha256(path: Path) -> str:
@@ -52,6 +33,30 @@ def sha256(path: Path) -> str:
 
 def read_json(path: Path) -> dict[str, Any]:
     return json.loads(path.read_text())
+
+
+def resolve_suite_campaigns(
+    suite: dict[str, Any],
+) -> dict[str, dict[str, Any]]:
+    campaigns: dict[str, dict[str, Any]] = {}
+    for row in suite["campaigns"]:
+        role = row["role"]
+        if role in campaigns:
+            raise RuntimeError(f"duplicate suite campaign role: {role}")
+        contract = Path(row["contract"])
+        if not contract.is_absolute():
+            contract = ROOT / contract
+        campaigns[role] = {
+            "contract": contract,
+            "results": row.get("result_directory", row["campaign_id"]),
+            "receipt": row["receipt"],
+        }
+    if set(campaigns) != REQUIRED_CAMPAIGN_ROLES:
+        raise RuntimeError(
+            f"suite roles={sorted(campaigns)}, "
+            f"expected={sorted(REQUIRED_CAMPAIGN_ROLES)}"
+        )
+    return campaigns
 
 
 def read_jsonl(paths: Iterable[Path]) -> list[dict[str, Any]]:
@@ -425,16 +430,29 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--results-root", type=Path, default=ROOT / "results")
     parser.add_argument(
+        "--suite-contract",
+        type=Path,
+        default=DEFAULT_SUITE_CONTRACT,
+    )
+    parser.add_argument(
         "--output-dir",
         type=Path,
-        default=ROOT / "results/waffle_campaign_suite_v1/analysis",
+        default=None,
     )
     parser.add_argument("--self-test", action="store_true")
     arguments = parser.parse_args()
     if arguments.self_test:
         return self_test()
 
-    suite = read_json(SUITE_CONTRACT)
+    suite_contract = arguments.suite_contract
+    if not suite_contract.is_absolute():
+        suite_contract = ROOT / suite_contract
+    suite = read_json(suite_contract)
+    campaigns = resolve_suite_campaigns(suite)
+    output_dir = arguments.output_dir or (
+        arguments.results_root / suite["suite_id"] / "analysis"
+    )
+    expected_hostname = suite["execution_hostname"].lower()
     current_head = subprocess.check_output(
         ["git", "rev-parse", "HEAD"], cwd=ROOT, text=True
     ).strip()
@@ -442,7 +460,7 @@ def main() -> int:
     receipts: dict[str, dict[str, Any]] = {}
     contracts: dict[str, dict[str, Any]] = {}
     receipt_hashes: dict[str, str] = {}
-    for key, paths in CAMPAIGNS.items():
+    for key, paths in campaigns.items():
         contract = read_json(paths["contract"])
         result_dir = arguments.results_root / paths["results"]
         environment_path = result_dir / "environment.json"
@@ -453,8 +471,12 @@ def main() -> int:
         receipt = read_json(receipt_path)
         if environment["git_head"] != current_head:
             raise RuntimeError(f"{key}: result HEAD differs from analysis HEAD")
-        if "waffle" not in environment["host"].lower():
-            raise RuntimeError(f"{key}: formal host is not Waffle")
+        observed_hostname = environment["host"].split(".")[0].lower()
+        if observed_hostname != expected_hostname:
+            raise RuntimeError(
+                f"{key}: formal host={observed_hostname}, "
+                f"expected={expected_hostname}"
+            )
         if int(environment["workers"]) != int(environment["nproc"]):
             raise RuntimeError(f"{key}: worker policy did not use all nproc")
         if receipt.get("status") != "complete_file_matrix":
@@ -471,7 +493,7 @@ def main() -> int:
         receipt_hashes[key] = sha256(receipt_path)
 
     common_records = read_jsonl(
-        (arguments.results_root / CAMPAIGNS["common"]["results"]).glob(
+        (arguments.results_root / campaigns["common"]["results"]).glob(
             "seed_*.jsonl"
         )
     )
@@ -485,7 +507,7 @@ def main() -> int:
         campaign_id=contracts["common"]["campaign_id"],
     )
     bde_records = read_jsonl(
-        (arguments.results_root / CAMPAIGNS["bde"]["results"]).glob(
+        (arguments.results_root / campaigns["bde"]["results"]).glob(
             "bde__seed*.jsonl"
         )
     )
@@ -496,7 +518,7 @@ def main() -> int:
         campaign_id=contracts["bde"]["campaign_id"],
     )
     pbea = pbea_rows(
-        arguments.results_root / CAMPAIGNS["pbea"]["results"],
+        arguments.results_root / campaigns["pbea"]["results"],
         expected_repeats=int(contracts["pbea"]["repeat_count"]),
         expected_groups=(
             len(contracts["pbea"]["algorithms"])
@@ -506,7 +528,7 @@ def main() -> int:
         campaign_id=contracts["pbea"]["campaign_id"],
     )
     offshore = offshore_rows(
-        arguments.results_root / CAMPAIGNS["offshore"]["results"],
+        arguments.results_root / campaigns["offshore"]["results"],
         expected_repeats=int(contracts["offshore"]["repeat_count"]),
         expected_groups=sum(
             len(contracts["offshore"]["cases"])
@@ -529,7 +551,7 @@ def main() -> int:
             f"expected={suite['total_optimization_runs']}"
         )
 
-    arguments.output_dir.mkdir(parents=True, exist_ok=True)
+    output_dir.mkdir(parents=True, exist_ok=True)
     output_rows = {
         "common_single_objective.csv": common,
         "common_algorithm_ranks.csv": common_ranks,
@@ -542,7 +564,7 @@ def main() -> int:
     for name, rows in output_rows.items():
         if not rows:
             raise RuntimeError(f"{name}: no summary rows")
-        path = arguments.output_dir / name
+        path = output_dir / name
         write_csv_atomic(path, rows, list(rows[0]))
         output_paths.append(path)
 
@@ -550,7 +572,7 @@ def main() -> int:
         "schema_version": 1,
         "suite_id": suite["suite_id"],
         "git_head": current_head,
-        "formal_host": "Waffle",
+        "formal_host": suite["execution_host"],
         "workers": {
             key: environment["workers"]
             for key, environment in environments.items()
@@ -591,7 +613,7 @@ def main() -> int:
             "objective values and provenance levels are not pooled."
         ),
     }
-    suite_summary_path = arguments.output_dir / "formal_suite_summary.json"
+    suite_summary_path = output_dir / "formal_suite_summary.json"
     temporary = suite_summary_path.with_suffix(".json.tmp")
     temporary.write_text(json.dumps(suite_summary, indent=2) + "\n")
     temporary.replace(suite_summary_path)
@@ -615,7 +637,7 @@ def main() -> int:
             "normalization contracts."
         ),
     }
-    receipt_path = arguments.output_dir / "analysis_receipt.json"
+    receipt_path = output_dir / "analysis_receipt.json"
     temporary = receipt_path.with_suffix(".json.tmp")
     temporary.write_text(json.dumps(analysis_receipt, indent=2) + "\n")
     temporary.replace(receipt_path)

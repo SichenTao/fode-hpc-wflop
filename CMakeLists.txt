@@ -29,6 +29,11 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/summarize_formal_suite.py
             --self-test
     )
+    add_test(
+        NAME formal_suite_contracts
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_formal_suite_contracts.py
+    )
     set(BDE_SOURCE_REPLAY_CASES
         ${CMAKE_CURRENT_SOURCE_DIR}/.source-cache/generated/bde_source_replay/benchmark_cases.json
     )
