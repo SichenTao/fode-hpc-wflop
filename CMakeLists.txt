@@ -4,7 +4,7 @@ project(fode_hpc_wflop VERSION 0.1.0 LANGUAGES CXX)
 include(CTest)
 option(
     WFLOP_ENABLE_TORCH
-    "Build the Plan-003 LibTorch CPU/CUDA/hybrid learning backend"
+    "Build Plan-004 LibTorch learning targets and the non-target backend compatibility probe"
     OFF
 )
 add_subdirectory(hpc/fode_cpp)
@@ -52,15 +52,23 @@ if(BUILD_TESTING)
             --build-dir ${CMAKE_BINARY_DIR}
     )
     add_test(
-        NAME hpc_core_h5_validation_audit
+        NAME hpc_core_equivalence_current_state
         COMMAND ${Python3_EXECUTABLE}
-            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_hpc_core_h5_validation.py
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_hpc_equivalence.py
+            --scope core
+            --expect-reopened-learning
+    )
+    add_test(
+        NAME learning_architecture_contracts
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_learning_architecture_contracts.py
+            --scope core
     )
     if(WFLOP_ENABLE_TORCH)
         add_test(
-            NAME hpc_learning_libtorch_backends
+            NAME hpc_learning_backend_compatibility
             COMMAND ${Python3_EXECUTABLE}
-                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_hpc_learning_libtorch_backends.py
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_hpc_learning_backend_compatibility.py
                 --binary $<TARGET_FILE:wflop_libtorch_training_hpc>
         )
     endif()

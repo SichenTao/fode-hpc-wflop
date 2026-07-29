@@ -1,0 +1,146 @@
+{
+  "schema_version": 1,
+  "contract_id": "plan004_alga_attention_architecture_v1",
+  "corpus_id": "T45",
+  "method_semantic_id": "alga_attention_declared_reconstruction_v1",
+  "optimized_module": "AlgaAttention",
+  "evidence_status": {
+    "paper": {
+      "title": "Multi-Attention-Powered Learning Genetic Algorithm for Real-World 3D Wind Farm Layout Optimization",
+      "doi": "10.1016/j.swevo.2025.102018",
+      "recorded_sha256": "770b56c0dccbd7683e3c33652d7062c385eb2f00c126d2e9f2a3b7129fdc5872",
+      "local_full_text_verified_in_plan004_worktree": false
+    },
+    "author_alga_source": {
+      "available": false,
+      "evidence": "docs/source-dossiers/T45.json"
+    },
+    "predecessor_source": {
+      "name": "WFLO-GGA",
+      "commit": "6ce41326e6c1d3685a01e038baf6d1d07aa46126",
+      "role": "one-point crossover and repair convention only"
+    },
+    "reference_implementation": {
+      "kind": "independent_direct_cpp_declared_reconstruction",
+      "path": "hpc/wflop_cpp/src/algorithms/alga_attention_declared_reconstruction.cpp",
+      "does_not_call_optimized_module": true
+    }
+  },
+  "tensor_contract": {
+    "population_input": {
+      "shape": [30, "turbine_count"],
+      "normalization": "sorted occupied cell index divided by grid cardinality minus 0.5",
+      "evidence": "disclosed_reconstruction"
+    },
+    "query_projection": {
+      "shape": [8, "turbine_count"],
+      "per_head_output_width": 1,
+      "evidence": "paper specifies eight heads; scalar key/query width is disclosed reconstruction"
+    },
+    "key_projection": {
+      "shape": [8, "turbine_count"],
+      "per_head_output_width": 1,
+      "evidence": "paper specifies eight heads; scalar key/query width is disclosed reconstruction"
+    },
+    "value_projection": {
+      "shape": [8, "turbine_count"],
+      "per_head_output_width": 1,
+      "evidence": "paper equations 19-23 plus disclosed scalar width"
+    },
+    "attention_scores": {
+      "shape": [8, 30, 30],
+      "formula": "query[h,i] * key[h,j]",
+      "scale": 1.0,
+      "normalization": "softmax over source individual j",
+      "evidence": "paper scaled-dot-product attention with disclosed width one"
+    },
+    "attended_values": {
+      "shape": [8, 30],
+      "evidence": "paper equations 19-23"
+    },
+    "prediction": {
+      "shape": [30],
+      "formula": "scalar_bias + sum_h output_weight[h] * attended_values[h,i]",
+      "evidence": "disclosed shallow scalar-output reconstruction"
+    }
+  },
+  "architecture": {
+    "attention_heads": {
+      "value": 8,
+      "evidence": "paper"
+    },
+    "network_depth": {
+      "value": "one_multi_head_attention_plus_one_linear_scalar_output",
+      "forbidden": "generic_hidden_mlp",
+      "evidence": "paper-guided disclosed reconstruction"
+    },
+    "initialization": {
+      "projection_and_output": "counter_keyed_xavier_uniform",
+      "scalar_bias": 0.0,
+      "evidence": "disclosed_reconstruction"
+    }
+  },
+  "loss_and_training": {
+    "target": {
+      "formula": "(fitness-min)/(max-min), all-equal maps to one",
+      "shape": [30],
+      "evidence": "disclosed_reconstruction"
+    },
+    "loss": {
+      "formula": "full-batch mean squared error",
+      "evidence": "disclosed_reconstruction"
+    },
+    "optimizer": {
+      "type": "vanilla_full_batch_gradient_descent",
+      "learning_rate": 0.001,
+      "updates_per_generation": 1,
+      "fixed_reduction_order": true,
+      "evidence": "paper learning rate; all other optimizer choices are disclosed reconstruction"
+    }
+  },
+  "evolution_bridge": {
+    "population_size": {
+      "value": 30,
+      "evidence": "paper"
+    },
+    "elite_count": {
+      "value": 6,
+      "evidence": "disclosed 20 percent inheritance from predecessor"
+    },
+    "crossover_probability": {
+      "value": 0.8,
+      "evidence": "paper"
+    },
+    "mutation_probability": {
+      "value": 0.1,
+      "evidence": "paper"
+    },
+    "mask_cardinality": {
+      "formula": "ceil(0.1 * turbine_count)",
+      "evidence": "disclosed reconstruction using paper mutation degree"
+    },
+    "selection_interface": "mean received attention and normalized fitness jointly rank individuals; cell attention drives masked replacement from elite high-potential unoccupied cells",
+    "artifact_fields": [
+      "method_semantic_id",
+      "problem_semantic_id",
+      "turbine_count",
+      "query",
+      "key",
+      "value",
+      "output_weight",
+      "scalar_bias",
+      "training_generation",
+      "learned_state_fnv1a64",
+      "file_sha256"
+    ],
+    "optimizer_consumer": "wflop_hpc --algorithm alga_attention_declared_reconstruction_v1 --learning-artifact",
+    "physical_fes": "initial 30 plus each evaluated non-elite offspring; attention training adds zero FES"
+  },
+  "backend_contract": {
+    "same_model_and_loss": ["cpu", "cuda", "hybrid"],
+    "cpu_reference_required": true,
+    "cuda_optional_additional_equivalence": true,
+    "generic_backend_compatibility_is_not_target_evidence": true
+  },
+  "claim_boundary": "Paper-guided M3 declared reconstruction on separately identified problem proxies. It is not author ALGA source, data, learned state, or reported-result reproduction."
+}

@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Exercise real LibTorch CPU/CUDA/hybrid training and artifact replay."""
+"""Exercise the non-target LibTorch backend compatibility probe."""
 
 from __future__ import annotations
 
@@ -129,9 +129,9 @@ def main() -> int:
                             f"{method}/{backend}: {field} outside tolerance"
                         )
     print(
-        "hpc_learning_libtorch_backends_pass "
+        "hpc_learning_backend_compatibility_pass "
         f"executions={checked} methods=3 backends=cpu,gpu,hybrid "
-        "artifact_replay=exact"
+        "artifact_replay=exact target_h5=no"
     )
     return 0
 

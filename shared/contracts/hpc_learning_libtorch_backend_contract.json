@@ -1,7 +1,8 @@
 {
   "schema_version": 1,
-  "contract_id": "plan003_learning_libtorch_backend_v1",
-  "claim_boundary": "Bounded declared-reconstruction training backend for the three target learning methods. It validates real LibTorch CPU/CUDA/hybrid tensor execution and artifact replay; author checkpoints, paper-reported quality, H5 admission, H6 performance, and formal campaigns remain separate gates.",
+  "contract_id": "backend_compatibility_only_v1",
+  "target_h5_admissible": false,
+  "claim_boundary": "Non-target generic MLP probe for LibTorch CPU/CUDA/hybrid tensor execution, transfers, and artifact replay. It is disconnected from the target evolution methods and cannot satisfy target H4, H5, H6, backend selection, or formal campaigns.",
   "backends": {
     "cpu": {
       "backend_id_suffix": "__cpu_hpc_v1",
@@ -24,26 +25,26 @@
   },
   "methods": {
     "taae": {
-      "method_semantic_id": "taae_transformer_declared_reconstruction_v1",
-      "training_schema_id": "taae_occupancy16_reconstruction_regression_metric_v1",
-      "loss_contract_id": "taae_bce_regression_metric_composite_v1",
+      "method_semantic_id": "backend_compatibility_only_v1_taae_shape_probe",
+      "training_schema_id": "backend_compatibility_only_v1_occupancy16",
+      "loss_contract_id": "backend_compatibility_only_v1_bce_regression_metric",
       "registered_model": "shared encoder 16-64-32, occupancy decoder 32-16, scalar regression head"
     },
     "alga": {
-      "method_semantic_id": "alga_attention_declared_reconstruction_v1",
-      "training_schema_id": "alga_population_feature8_selection_v1",
-      "loss_contract_id": "alga_selection_cross_entropy_regression_v1",
+      "method_semantic_id": "backend_compatibility_only_v1_alga_shape_probe",
+      "training_schema_id": "backend_compatibility_only_v1_feature8",
+      "loss_contract_id": "backend_compatibility_only_v1_cross_entropy_regression",
       "registered_model": "shared encoder 8-64-32, four-way attention-selection head, scalar fitness head"
     },
     "rlpso": {
-      "method_semantic_id": "rlpso_paper_corrected_training_reconstruction_v1",
-      "training_schema_id": "rlpso_state2_action4_ppo_v1",
-      "loss_contract_id": "rlpso_clipped_ppo_actor_critic_entropy_v1",
+      "method_semantic_id": "backend_compatibility_only_v1_rlpso_shape_probe",
+      "training_schema_id": "backend_compatibility_only_v1_state2_action4",
+      "loss_contract_id": "backend_compatibility_only_v1_ppo_shaped_loss",
       "registered_model": "paper-declared 2-256-64 actor with four actions and 2-256-64 critic head"
     }
   },
   "artifact_bridge": {
-    "format": "LibTorch module archive",
+    "format": "LibTorch generic-probe module archive",
     "required_checks": [
       "registered parameter hash before save equals hash after reload",
       "canonical inference hash before save equals hash after reload",

@@ -1,21 +1,17 @@
 {
   "H5_bounded_equivalence": {
-    "candidate_backends": [
-      "cpu_hpc_v1",
-      "libtorch_cpu_hpc_v1",
-      "libtorch_gpu_hpc_v1",
-      "libtorch_hybrid_cpu_gpu_hpc_v1"
-    ],
-    "comparison_scope": "reference CPU versus persistent-team CPU: exact discrete state, FES, layout/front/artifact hashes, with floating values checked by the routed target test; the registered LibTorch kernel is additionally checked CPU/CUDA/hybrid with full canonical inference vectors at max_abs_error <= 1e-8 and exact per-backend artifact replay",
+    "candidate_backends": [],
+    "comparison_scope": "Plan 003 generic MLP cross-device self-agreement was invalid target evidence; independent eight-head ALGA attention reference equivalence is required.",
     "learning_backend_output_sha256": "40362ef531accb7a98c3cc94fbb5726f6ef3f2c58dda254e1148f6edf6a7bbac",
-    "learning_backend_test": "hpc_learning_libtorch_backends",
+    "learning_backend_test": "hpc_learning_backend_compatibility",
     "physical_fes_ledger": "target runtime test checks the declared bounded physical-FES ledger; LibTorch training records zero physical objective calls",
     "reference_backend": "bounded_reference_cpu_v1",
     "runtime_test": "alga_attention_declared_reconstruction",
     "runtime_test_output_sha256": "fc5aff2bff359fa7d6f2356de21b6d0843c3f03a9ad7e334f8f14c342abaa876",
     "runtime_test_receipt": "evidence/development/plan003_h5_ctest_receipts_20260730.json",
     "runtime_test_receipt_sha256": "16c0cbff8fd9db96ed93cd0141e855a66049ea91fcca89ce0e5fd114f90ce963",
-    "status": "accepted_h5"
+    "status": "reopened_reference_equivalence_missing",
+    "superseded_plan003_claim": "accepted_h5"
   },
   "H6_performance_validation": {
     "accepted_backend": null,
@@ -23,12 +19,12 @@
   },
   "analysis_path": "hpc/core_target_plans/t45_target_hpc_analysis.json",
   "analysis_sha256": "d7f7d7f41e5d42923fb517512d60a7f77643c8b1458ec0c7c19066134acd068c",
-  "claim_boundary": "H5 is accepted only for bounded implementation equivalence. No backend is selected until exact-pair H6, and no formal-quality claim is made.",
+  "claim_boundary": "Target H5 is reopened. Generic LibTorch backend compatibility is retained only as non-target device plumbing evidence.",
   "corpus_id": "T45",
   "method_semantic_id": "alga_attention_declared_reconstruction_v1",
   "native_asset": "shared/contracts/alga_guishan_3d_declared_proxy_cases.json",
   "native_asset_sha256": "ffb0184c98cfc5a33c229b40e8572bb26f76efa3e08c24854447e01d2aa4c5d0",
-  "overall_status": "accepted_h5_pending_h6",
+  "overall_status": "reopened_reference_equivalence_missing",
   "pair_id": "T45__alga_attention_declared_reconstruction_v1__alga_guishan_3d_declared_proxy_v1__target",
   "paper_protocol_id": "swevo2025_alga_native_25_v1",
   "problem_semantic_id": "alga_guishan_3d_declared_proxy_v1",

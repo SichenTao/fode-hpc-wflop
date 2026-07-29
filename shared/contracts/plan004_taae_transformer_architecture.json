@@ -1,0 +1,186 @@
+{
+  "schema_version": 1,
+  "contract_id": "plan004_taae_transformer_architecture_v1",
+  "corpus_id": "Y36",
+  "method_semantic_id": "taae_transformer_declared_reconstruction_v1",
+  "optimized_module": "TaaeTransformer",
+  "evidence_status": {
+    "paper": {
+      "title": "Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization",
+      "doi": "10.1109/JAS.2026.126233",
+      "local_or_public_full_text_available_for_plan004": false
+    },
+    "author_method_source": {
+      "available": false,
+      "evidence": "docs/source-dossiers/Y36.json"
+    },
+    "reference_implementation": {
+      "kind": "independent_direct_cpp_declared_reconstruction",
+      "path": "hpc/taae_cpp/src/model.cpp",
+      "does_not_call_optimized_module": true
+    }
+  },
+  "tensor_contract": {
+    "token_input": {
+      "shape": ["batch", 15],
+      "dtype": "int64",
+      "evidence": "paper_visible_architecture.sequence_length in shared/contracts/taae_transformer_declared_reconstruction_contract.json"
+    },
+    "encoder_token_embedding": {
+      "shape": [400, 64],
+      "evidence": "paper_visible vocabulary and token embedding dimensions; vocabulary completion is frozen in the prior declared-reconstruction contract"
+    },
+    "encoder_position_embedding": {
+      "shape": [15, 64],
+      "evidence": "disclosed_reconstruction: learned absolute positions"
+    },
+    "decoder_token_embedding": {
+      "shape": [400, 64],
+      "evidence": "disclosed_reconstruction: decoder owns a separate embedding table"
+    },
+    "decoder_position_embedding": {
+      "shape": [15, 64],
+      "evidence": "disclosed_reconstruction: learned absolute positions"
+    },
+    "decoder_bos": {
+      "shape": [64],
+      "evidence": "paper_visible decoder start plus disclosed learned-vector representation"
+    },
+    "encoder_hidden": {
+      "shape": ["batch", 15, 64],
+      "evidence": "paper_visible architecture dimensions"
+    },
+    "latent": {
+      "shape": ["batch", 64],
+      "evidence": "paper_visible latent dimension"
+    },
+    "decoder_memory_projection": {
+      "weight_shape": [64, 960],
+      "bias_shape": [960],
+      "output_shape": ["batch", 15, 64],
+      "evidence": "disclosed_reconstruction: raw latent linearly expands to sequence_length times model_dimension"
+    },
+    "decoder_logits": {
+      "shape": ["batch", 15, 400],
+      "evidence": "autoregressive reconstruction over the fixed vocabulary"
+    },
+    "regression_hidden": {
+      "weight_shape": [64, 64],
+      "bias_shape": [64],
+      "activation": "ReLU",
+      "evidence": "paper_visible regression branch and disclosed hidden width"
+    },
+    "regression_output": {
+      "weight_shape": [1, 64],
+      "bias_shape": [1],
+      "evidence": "paper_visible scalar regression branch"
+    }
+  },
+  "architecture": {
+    "encoder_layers": {
+      "value": 6,
+      "evidence": "paper_visible_architecture"
+    },
+    "decoder_layers": {
+      "value": 6,
+      "evidence": "paper_visible_architecture"
+    },
+    "attention_heads": {
+      "value": 4,
+      "head_dimension": 16,
+      "score_scale": "1/sqrt(16)",
+      "evidence": "paper_visible heads/model dimension; standard scaled dot-product formula"
+    },
+    "feed_forward": {
+      "shape": [64, 256, 64],
+      "activation": "ReLU",
+      "evidence": "disclosed_reconstruction: paper does not expose FFN width"
+    },
+    "normalization": {
+      "placement": "post_norm",
+      "epsilon": 1e-05,
+      "evidence": "disclosed_reconstruction"
+    },
+    "decoder_self_attention_mask": {
+      "type": "strict_future_causal_mask",
+      "evidence": "paper_visible autoregressive decoder"
+    },
+    "encoder_pooling": {
+      "type": "fixed_order_arithmetic_mean_over_sequence",
+      "evidence": "disclosed_reconstruction"
+    },
+    "dropout": {
+      "value": 0.0,
+      "evidence": "disclosed_reconstruction for deterministic equivalence"
+    },
+    "initialization": {
+      "type": "counter_keyed_xavier_uniform",
+      "bias": "zero_except_learned_parameter_vectors_initialized_by_same_xavier_rule",
+      "evidence": "disclosed_reconstruction"
+    }
+  },
+  "loss_and_training": {
+    "reconstruction": {
+      "formula": "mean token cross entropy over batch times sequence",
+      "weight": 1.0,
+      "evidence": "paper_visible objective"
+    },
+    "regression": {
+      "formula": "mean squared error",
+      "weight": 30.0,
+      "evidence": "paper_visible lambda_reg"
+    },
+    "metric_alignment": {
+      "formula": "mean squared difference between L2-normalized latent distance and absolute relative-fitness distance",
+      "weight": 1.0,
+      "pairs_per_batch": "batch_size",
+      "pair_seed": "0x5943365041495253",
+      "evidence": "paper_visible loss plus disclosed deterministic pair sampler"
+    },
+    "optimizer": {
+      "type": "Adam",
+      "learning_rate": 0.001,
+      "beta1": 0.9,
+      "beta2": 0.999,
+      "epsilon": 1e-08,
+      "evidence": "paper_visible schedule and disclosed standard Adam constants"
+    },
+    "pretraining": {
+      "layouts": 100000,
+      "epochs": 500,
+      "batch_size": 64,
+      "batch_order": "deterministic Fisher-Yates per epoch",
+      "evidence": "paper_visible scale; deterministic order is disclosed reconstruction"
+    },
+    "fine_tuning": {
+      "decoder_frozen": true,
+      "decoder_adam_age_unchanged": true,
+      "evidence": "paper_visible freeze plus disclosed optimizer-state rule"
+    }
+  },
+  "evolution_bridge": {
+    "artifact_schema": "TAAE_KERNEL_CHECKPOINT_V2",
+    "artifact_fields": [
+      "method_semantic_id",
+      "problem_semantic_id",
+      "model_config",
+      "ordered_named_parameters",
+      "ordered_adam_first_moments",
+      "ordered_adam_second_moments",
+      "per_parameter_adam_age",
+      "training_work",
+      "parameter_fnv1a64",
+      "file_sha256"
+    ],
+    "optimizer_consumer": "taae_evolution_hpc --checkpoint-in",
+    "transition": "encode raw latent h, apply latent differential evolution, decode and repair layouts, count only physical layout evaluations as FES",
+    "evidence": "shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json plus disclosed checkpoint schema"
+  },
+  "backend_contract": {
+    "same_model_and_loss": ["cpu", "cuda", "hybrid"],
+    "cpu_reference_required": true,
+    "cuda_optional_additional_equivalence": true,
+    "generic_backend_compatibility_is_not_target_evidence": true
+  },
+  "claim_boundary": "Paper-guided M3 declared reconstruction. It is not author code, an author checkpoint, or reproduction of reported results."
+}

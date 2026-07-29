@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "receipt_id": "plan004_plan003_neural_h5_supersession_20260730",
+  "supersedes_commit": "25db016",
+  "affected_corpus_ids": ["Y36", "T42", "T45"],
+  "prior_claim": "accepted_h5",
+  "corrected_status": "reopened_reference_equivalence_missing",
+  "reason": "The Plan 003 LibTorch executable used generic method-switched MLPs and compared each implementation only with itself across devices. This proves backend compatibility, not target architecture fidelity or independent-reference equivalence.",
+  "retained_evidence": "LibTorch discovery, fail-closed device handling, pageable and pinned transfers, tensor execution, archive save/reload, and cross-device bounded compatibility.",
+  "forbidden_uses": [
+    "target H4",
+    "target H5",
+    "target H6",
+    "formal backend selection",
+    "formal quality campaign"
+  ],
+  "historical_raw_results_changed": false
+}

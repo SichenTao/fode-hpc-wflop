@@ -1,11 +1,11 @@
 /*
-Plan-003 bounded LibTorch training backend.
+Plan-004 demoted LibTorch backend compatibility probe.
 
 The three registered target models and their losses are shared unchanged by
 CPU, CUDA, and hybrid execution.  The generated corpus is deterministic and
 contains no physical objective calls.  This executable produces a replayable
-training artifact; H5 equivalence, H6 performance, and formal quality claims
-are intentionally outside this implementation gate.
+training artifact.  Its generic MLPs are deliberately assigned non-target
+semantic IDs and cannot satisfy target H5, H6, or formal quality gates.
 */
 
 #include <torch/cuda.h>
@@ -173,32 +173,32 @@ Arguments parse(int argc, char** argv) {
 
 std::string method_semantic_id(const std::string& method) {
     if (method == "taae") {
-        return "taae_transformer_declared_reconstruction_v1";
+        return "backend_compatibility_only_v1_taae_shape_probe";
     }
     if (method == "alga") {
-        return "alga_attention_declared_reconstruction_v1";
+        return "backend_compatibility_only_v1_alga_shape_probe";
     }
-    return "rlpso_paper_corrected_training_reconstruction_v1";
+    return "backend_compatibility_only_v1_rlpso_shape_probe";
 }
 
 std::string schema_id(const std::string& method) {
     if (method == "taae") {
-        return "taae_occupancy16_reconstruction_regression_metric_v1";
+        return "backend_compatibility_only_v1_occupancy16";
     }
     if (method == "alga") {
-        return "alga_population_feature8_selection_v1";
+        return "backend_compatibility_only_v1_feature8";
     }
-    return "rlpso_state2_action4_ppo_v1";
+    return "backend_compatibility_only_v1_state2_action4";
 }
 
 std::string loss_id(const std::string& method) {
     if (method == "taae") {
-        return "taae_bce_regression_metric_composite_v1";
+        return "backend_compatibility_only_v1_bce_regression_metric";
     }
     if (method == "alga") {
-        return "alga_selection_cross_entropy_regression_v1";
+        return "backend_compatibility_only_v1_cross_entropy_regression";
     }
-    return "rlpso_clipped_ppo_actor_critic_entropy_v1";
+    return "backend_compatibility_only_v1_ppo_shaped_loss";
 }
 
 Corpus deterministic_corpus(const std::string& method, int samples) {

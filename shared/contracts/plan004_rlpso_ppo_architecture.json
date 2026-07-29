@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "contract_id": "plan004_rlpso_ppo_architecture_v1",
+  "corpus_id": "T42",
+  "method_semantic_id": "rlpso_paper_corrected_training_reconstruction_v1",
+  "optimized_module": "RlpsoActorCritic",
+  "evidence_status": {
+    "paper": {
+      "title": "Reinforcement Learning-Based Particle Swarm Optimization for Wind Farm Layout Problems",
+      "doi": "10.1016/j.energy.2024.134050",
+      "local_pdf_sha256": "1b7ef191f85f108d84c576f18227a07cf86c026da3422e1799f461ee177ad9f5",
+      "relevant_pages": [5, 6, 7]
+    },
+    "author_source": {
+      "archive_url": "https://github.com/toyamaailab/toyamaailab.github.io/raw/main/resource/RPSO_Wind_Code.zip",
+      "archive_sha256": "44e89c033e90f5aaaa9b84c826c95f29d3b8ad73dd363ff68de99418cdfa93a2",
+      "ppo_py_sha256": "7a84ca0d47e302e14c349454bf21e5bb20db71dd2d43d29673d66130464ecaf2",
+      "redistribution": "not_vendored_no_license"
+    },
+    "reference_implementation": {
+      "kind": "independent_direct_cpp_paper_corrected_reconstruction",
+      "paths": [
+        "hpc/wflop_cpp/include/wflop/ppo.hpp",
+        "hpc/wflop_cpp/src/algorithms/ppo.cpp",
+        "hpc/wflop_cpp/src/algorithms/rlpso.cpp"
+      ],
+      "does_not_call_optimized_module": true
+    }
+  },
+  "tensor_contract": {
+    "state": {
+      "shape": ["batch", 2],
+      "fields": ["W_alpha", "W_beta"],
+      "evidence": "paper equation 26"
+    },
+    "actor": {
+      "layer_shapes": [[256, 2], [64, 256], [4, 64]],
+      "bias_shapes": [[256], [64], [4]],
+      "activations": ["ReLU", "ReLU", "softmax"],
+      "evidence": "author ppo.py"
+    },
+    "critic": {
+      "layer_shapes": [[256, 2], [64, 256], [1, 64]],
+      "bias_shapes": [[256], [64], [1]],
+      "activations": ["ReLU", "ReLU", "ReLU"],
+      "evidence": "author ppo.py, including final ReLU"
+    },
+    "categorical_action": {
+      "shape": ["batch"],
+      "old_log_probability_shape": ["batch"],
+      "evidence": "paper PPO and corrected categorical sampling"
+    }
+  },
+  "action_semantics": [
+    {
+      "action": 0,
+      "effect": "W_alpha += 0.001",
+      "evidence": "paper equation 27"
+    },
+    {
+      "action": 1,
+      "effect": "W_beta -= 0.001",
+      "evidence": "paper equation 27"
+    },
+    {
+      "action": 2,
+      "effect": "W_alpha -= 0.001",
+      "evidence": "paper equation 27"
+    },
+    {
+      "action": 3,
+      "effect": "W_beta += 0.001",
+      "evidence": "paper equation 27"
+    }
+  ],
+  "loss_and_training": {
+    "discounted_return": {
+      "gamma": 0.99,
+      "terminal_reset": true,
+      "normalization": "sample mean and sample standard deviation plus 1e-5",
+      "evidence": "paper gamma; author ppo.py normalization"
+    },
+    "actor_objective": {
+      "formula": "-mean(min(ratio*A, clamp(ratio,0.8,1.2)*A)) - 0.01*mean(entropy)",
+      "clip_epsilon": 0.2,
+      "entropy_coefficient": 0.01,
+      "evidence": "paper equation 22 and author ppo.py"
+    },
+    "critic_objective": {
+      "formula": "0.5 * mean((V-return)^2)",
+      "value_coefficient": 0.5,
+      "evidence": "author ppo.py"
+    },
+    "optimizer": {
+      "type": "Adam",
+      "learning_rate": 0.001,
+      "beta1": 0.9,
+      "beta2": 0.999,
+      "epsilon": 1e-08,
+      "update_epochs": 80,
+      "evidence": "paper and author ppo.py"
+    },
+    "rollout": {
+      "episodes_per_outer_generation_max": 100,
+      "timesteps_per_episode_max": 100,
+      "update_interval": 500,
+      "clear_after_update": true,
+      "update_final_partial_buffer": true,
+      "evidence": "author ppo.py; buffer clearing and final flush are disclosed paper-corrected rules"
+    }
+  },
+  "paper_source_conflicts": {
+    "action_step": {
+      "paper_primary": 0.001,
+      "source_replay": 0.01
+    },
+    "old_log_probability": {
+      "paper_corrected": "sampled action log probability",
+      "source_defect": "argmax action integer returned where log probability is required"
+    },
+    "buffer_lifecycle": {
+      "paper_corrected": "clear after each update and flush final partial buffer",
+      "source_defect": "clear call commented and helper does not clear lists"
+    }
+  },
+  "swarm_bridge": {
+    "policy_lifecycle": "one seeded persistent actor critic and Adam state per optimization run",
+    "state_owner": "outer RLPSO run",
+    "seed_owner": "one externally supplied counter-keyed seed contract",
+    "coupling": "each sampled action changes W_alpha or W_beta before the corresponding CGPSO candidate transition; pbest and gbest update from evaluated candidates",
+    "physical_fes": "every policy-environment complete-layout evaluation plus all swarm initial and candidate evaluations",
+    "terminal_partial_work": "stop exactly at supplied physical-FES budget and update any non-empty final on-policy buffer",
+    "artifact_fields": [
+      "method_semantic_id",
+      "problem_semantic_id",
+      "actor_named_parameters",
+      "critic_named_parameters",
+      "actor_adam_state",
+      "critic_adam_state",
+      "adam_step",
+      "rollout_cursor",
+      "counter_rng_state",
+      "learned_state_fnv1a64",
+      "file_sha256"
+    ],
+    "optimizer_consumer": "wflop_hpc --algorithm rlpso_paper_corrected_training_reconstruction_v1 --learning-artifact"
+  },
+  "backend_contract": {
+    "same_model_and_loss": ["cpu", "cuda", "hybrid"],
+    "cpu_reference_required": true,
+    "cuda_optional_additional_equivalence": true,
+    "generic_backend_compatibility_is_not_target_evidence": true
+  },
+  "claim_boundary": "Seeded paper-corrected M3 PPO reconstruction. It is distinct from literal public-source replay and does not reproduce an author checkpoint or reported results."
+}
