@@ -7,7 +7,7 @@ DOI: 10.1109/JAS.2025.125351
 Problem evidence tier: P3_DECLARED_PROXY
 Method evidence tier: M3_DECLARED_COMPLETION
 Problem semantic ID: ppga_nantong_structured_3d_declared_proxy_v1
-Method semantic ID: ppga_nantong_structured_3d_declared_reconstruction_v1
+Method semantic ID: ppga_nantong_structured_3d_declared_reconstruction_v2
 Controlling contracts: shared/contracts/ppga_nantong_structured_3d_declared_proxy_contract.json and shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json
 Claim boundary: contract consistency only; original Nantong data, author-exact PPGA transitions, paper results, and GPU or hybrid execution remain blocked
 END WFLOP IMPLEMENTATION FACT DECLARATION
@@ -21,7 +21,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 PROBLEM_ID = "ppga_nantong_structured_3d_declared_proxy_v1"
-METHOD_ID = "ppga_nantong_structured_3d_declared_reconstruction_v1"
+METHOD_ID = "ppga_nantong_structured_3d_declared_reconstruction_v2"
+INVALIDATED_METHOD_ID = "ppga_nantong_structured_3d_declared_reconstruction_v1"
 OLD_TRANSFER_ID = "ppga_declared_reconstruction_fode_e0_v1"
 FILES = (
     ROOT / "hpc/ppga_cpp/include/ppga/problem.hpp",
@@ -66,6 +67,9 @@ def main() -> int:
         problem["claim_boundary"]
     )
     assert method["method_semantic_id"] == METHOD_ID
+    assert method["supersedes_invalidated_semantic_id"] == (
+        INVALIDATED_METHOD_ID
+    )
     assert method["problem_semantic_id"] == PROBLEM_ID
     assert method["preserved_e0_semantic_id"] == OLD_TRANSFER_ID
     assert method["evidence_tier"] == "M3_DECLARED_COMPLETION"
@@ -86,6 +90,22 @@ def main() -> int:
     assert method["execution"]["default_backend"] == "cpu"
     assert method["execution"]["default_workers"] == "hardware_concurrency"
     assert method["execution"]["gpu_and_hybrid"] == "fail_closed"
+    completions = method["declared_method_completions"]
+    assert completions["stagnation"].startswith(
+        "initialize S=0; after every complete offspring evaluation"
+    )
+    assert completions["adaptation"].endswith(
+        "perturb iff draw<threshold-theta_i"
+    )
+    assert completions["power_law"].startswith(
+        "for every turbine-position dimension"
+    )
+    assert method["required_work_receipts"] == [
+        "perturbation gate draws",
+        "perturbed individuals",
+        "per-dimension power-law steps",
+        "offspring-versus-parent stagnation comparisons",
+    ]
 
     assert cases["problem_semantic_id"] == PROBLEM_ID
     assert cases["grid"] == {
@@ -119,9 +139,14 @@ def main() -> int:
     assert provenance["original_nantong_reconstruction_status"] == "blocked"
     assert PROBLEM_ID in decisions["profiles"]
     assert METHOD_ID in decisions["profiles"]
+    assert INVALIDATED_METHOD_ID in decisions["profiles"]
+    assert INVALIDATED_METHOD_ID in decisions["invalidated_profiles"]
     assert OLD_TRANSFER_ID in decisions["profiles"]
     assert len(decisions["decisions"]) == 6
     assert receipt["scope"]["method_semantic_id"] == METHOD_ID
+    assert receipt["supersedes_invalidated_method_semantic_id"] == (
+        INVALIDATED_METHOD_ID
+    )
     assert receipt["scope"]["problem_semantic_id"] == PROBLEM_ID
     assert receipt["scope"]["physical_fes_denominator"] == (
         "one complete layout evaluation over this selected case's 16 x 7 "
@@ -149,7 +174,10 @@ def main() -> int:
     }) == 10
     assert receipt["bounded_timing"][
         "scientific_result_sha256_all_ten_runs"
-    ] == "b02fe29a31f17e287e389208ac926d93bf593cb8b0c09e56308cdc12c02265a3"
+    ] == "6edc5e90bdf094b718b33e2da6e25d852ce586473f7332437ed8a472f6de86a1"
+    assert receipt["bounded_timing"]["binary_sha256"] == (
+        "486781c7e4429b518dd5ba552777d4dacf98de58359aa608a7d9071184947401"
+    )
     assert receipt["validation"][
         "old_ppga_e0_transfer_files_unchanged_from_approved_base"
     ] is True
@@ -188,6 +216,14 @@ def main() -> int:
         "kCrossoverProbability = 0.8",
         "kMutationProbability = 0.1",
         "kPowerLawExponent = 2.5",
+        "kAdaptationThreshold = 0.0",
+        "double stagnant_proportion = 0.0;",
+        "theta < kAdaptationThreshold",
+        "mechanism::perturbation_gate",
+        "mechanism::perturb_every_dimension_unrepaired",
+        "mechanism::offspring_parent_stagnant_proportion",
+        "perturbation_gate_draws",
+        "stagnation_parent_offspring_comparisons",
         "CounterRng",
         "PersistentExecutor",
         "participant_activations",
@@ -195,6 +231,28 @@ def main() -> int:
         "config.physical_fes - fes",
     ):
         assert token in method_source, f"method source missing {token}"
+    assert "previous_scores" not in method_source
+    stagnation_update = method_source.index(
+        "stagnant_proportion =\n"
+        "            mechanism::offspring_parent_stagnant_proportion"
+    )
+    first_selection_sort = method_source.index(
+        "std::stable_sort(",
+        stagnation_update,
+    )
+    assert stagnation_update < first_selection_sort
+    test_source = (
+        ROOT / "hpc/ppga_cpp/tests/evolution_test.cpp"
+    ).read_text(encoding="utf-8")
+    for token in (
+        "theta equal to threshold must not perturb",
+        "probability gate strict boundary",
+        "finite-support inverse-CDF lower endpoint",
+        "finite-support inverse-CDF upper endpoint",
+        "every selected-individual dimension changes before repair",
+        "offspring-row versus parent-row stagnation",
+    ):
+        assert token in test_source, f"mechanism fixture missing {token}"
 
     for path in FILES:
         text = path.read_text(encoding="utf-8")

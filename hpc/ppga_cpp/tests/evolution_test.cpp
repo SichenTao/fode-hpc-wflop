@@ -1,7 +1,7 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: PPGA Nantong-structured declared reconstruction determinism, FES, and receipt test
-Method semantic ID: ppga_nantong_structured_3d_declared_reconstruction_v1
+Method semantic ID: ppga_nantong_structured_3d_declared_reconstruction_v2
 Problem semantic ID: ppga_nantong_structured_3d_declared_proxy_v1
 Evidence tiers: M3_DECLARED_COMPLETION on P3_DECLARED_PROXY
 Claim boundary: verifies the declared reconstruction state machine only
@@ -47,10 +47,14 @@ bool same_science(
         && left.work.mutation_gene_trials
             == right.work.mutation_gene_trials
         && left.work.mutation_events == right.work.mutation_events
+        && left.work.perturbation_gate_draws
+            == right.work.perturbation_gate_draws
         && left.work.perturbed_individuals
             == right.work.perturbed_individuals
         && left.work.power_law_gene_steps
             == right.work.power_law_gene_steps
+        && left.work.stagnation_parent_offspring_comparisons
+            == right.work.stagnation_parent_offspring_comparisons
         && left.work.duplicate_repairs == right.work.duplicate_repairs;
 }
 
@@ -64,6 +68,51 @@ int main(int argc, char** argv) {
         const ppga::Problem problem = ppga::load_problem(
             argv[1], "PPGA_NantongStructured_WS1_tn20"
         );
+        require(
+            !ppga::mechanism::perturbation_gate(0.0, 0.0, 0.0),
+            "theta equal to threshold must not perturb"
+        );
+        require(
+            ppga::mechanism::perturbation_gate(-0.25, 0.0, 0.249),
+            "probability gate pass"
+        );
+        require(
+            !ppga::mechanism::perturbation_gate(-0.25, 0.0, 0.25),
+            "probability gate strict boundary"
+        );
+        require(
+            ppga::mechanism::finite_support_power_law_step(431, 0.0) == 1,
+            "finite-support inverse-CDF lower endpoint"
+        );
+        require(
+            ppga::mechanism::finite_support_power_law_step(431, 1.0) == 431,
+            "finite-support inverse-CDF upper endpoint"
+        );
+        const std::vector<int> raw_layout = {1, 100, 432};
+        const std::vector<int> raw_perturbed =
+            ppga::mechanism::perturb_every_dimension_unrepaired(
+                raw_layout,
+                432,
+                {0.0, 0.5, 1.0},
+                {0.25, 0.75, 0.25}
+            );
+        require(raw_perturbed.size() == 3, "per-dimension perturbation size");
+        for (std::size_t coordinate = 0;
+             coordinate < raw_perturbed.size();
+             ++coordinate) {
+            require(
+                raw_perturbed[coordinate]
+                    != raw_layout[coordinate],
+                "every selected-individual dimension changes before repair"
+            );
+        }
+        require(
+            ppga::mechanism::offspring_parent_stagnant_proportion(
+                {0.3, 0.9, 0.6},
+                {0.4, 0.8, 0.6}
+            ) == 2.0 / 3.0,
+            "offspring-row versus parent-row stagnation"
+        );
         ppga::EvolutionConfig serial_config;
         serial_config.seed = 20260729;
         serial_config.physical_fes = 95;
@@ -75,11 +124,20 @@ int main(int argc, char** argv) {
         require(serial.best_layout_1based.size() == 20, "complete best layout");
         require(serial.work.pairwise_layout_distances == 3U * 435U,
                 "pairwise work receipt");
-        require(serial.work.mutation_gene_trials == 90U,
+        require(serial.work.mutation_gene_trials == 65U,
                 "mutation trials receipt");
-        require(serial.work.power_law_gene_steps
-                    == serial.work.perturbed_individuals,
-                "power-law work receipt");
+        require(
+            serial.work.perturbation_gate_draws
+                >= serial.work.perturbed_individuals,
+            "probability-gate work receipt"
+        );
+        require(
+            serial.work.power_law_gene_steps
+                == serial.work.perturbed_individuals * 20U,
+            "per-dimension power-law work receipt"
+        );
+        require(serial.work.stagnation_parent_offspring_comparisons == 60U,
+                "pre-selection offspring-parent stagnation receipt");
         require(serial.initialization_stage.parallel_regions == 1,
                 "initialization region");
         require(serial.evaluator_stage.parallel_regions == 4,
@@ -102,7 +160,7 @@ int main(int argc, char** argv) {
         require(
             ppga::result_to_json(parallel).find(
                 "\"method_semantic_id\": "
-                "\"ppga_nantong_structured_3d_declared_reconstruction_v1\""
+                "\"ppga_nantong_structured_3d_declared_reconstruction_v2\""
             ) != std::string::npos,
             "JSON semantic identity"
         );

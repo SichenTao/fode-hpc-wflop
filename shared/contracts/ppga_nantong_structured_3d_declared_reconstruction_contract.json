@@ -1,7 +1,9 @@
 {
   "schema_version": 1,
-  "contract_id": "ppga_nantong_structured_3d_declared_reconstruction_contract_v1",
-  "method_semantic_id": "ppga_nantong_structured_3d_declared_reconstruction_v1",
+  "contract_id": "ppga_nantong_structured_3d_declared_reconstruction_contract_v2",
+  "method_semantic_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
+  "supersedes_invalidated_semantic_id": "ppga_nantong_structured_3d_declared_reconstruction_v1",
+  "invalidation_reason": "v1 omitted the Eq. 18 probability gate, perturbed only one dimension, sampled an unbounded Pareto then clamped, and computed stagnation across reordered populations",
   "problem_semantic_id": "ppga_nantong_structured_3d_declared_proxy_v1",
   "evidence_tier": "M3_DECLARED_COMPLETION",
   "preserved_e0_semantic_id": "ppga_declared_reconstruction_fode_e0_v1",
@@ -18,16 +20,22 @@
     "elite_count": 3,
     "fitness_normalization": "population min-max; all equal maps to one",
     "diversity": "mean normalized symmetric-difference distance over occupied-cell sets",
-    "stagnation": "fraction of population no better than its row-aligned parent",
-    "adaptation": "theta_i=normalized_fitness_i*sqrt(diversity)-stagnation; perturb when theta_i<=0",
+    "stagnation": "initialize S=0; after every complete offspring evaluation and before selection set S to the fraction of offspring[i] no better than parent[i]; carry this scalar into the next generation",
+    "adaptation": "theta_i=normalized_fitness_i*sqrt(diversity)-S; from generation two draw once when theta_i<threshold and perturb iff draw<threshold-theta_i",
     "crossover": "uniform occupied-cell gene choice from two tournament-selected parents",
     "mutation": "per-individual Bernoulli 0.1 then one cell replacement",
-    "power_law": "truncated inverse-CDF integer displacement with exponent 2.5",
+    "power_law": "for every turbine-position dimension of a selected individual, independently sample the normalized finite-support inverse CDF on one through grid_size minus one with exponent 2.5, draw an independent sign, wrap, then repair",
     "repair": "sort, remove duplicates, then deterministic cyclic fill",
     "selection": "three elites plus stable best remaining offspring",
     "terminal_budget": "evaluate an exact partial offspring batch when fewer than 30 physical FES remain",
     "rng": "counter-keyed schedule-independent generator"
   },
+  "required_work_receipts": [
+    "perturbation gate draws",
+    "perturbed individuals",
+    "per-dimension power-law steps",
+    "offspring-versus-parent stagnation comparisons"
+  ],
   "physical_fes": "one complete layout evaluation over the selected case's 16 x 7 joint wind states counts as one physical FES; WS1, WS2, WS3, and WS4 are separate benchmark cases",
   "execution": {
     "default_backend": "cpu",

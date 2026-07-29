@@ -4,9 +4,9 @@ Implementation unit: PPGA Nantong-structured declared 3D evolutionary state mach
 Paper title: Advanced 3D Wind Farm Layout Optimization Framework via Power-Law Perturbation-Based Genetic Algorithm
 DOI: 10.1109/JAS.2025.125351
 Paper-preserved fields: population 30, threshold zero, crossover 0.8, mutation 0.1, power-law exponent 2.5, second-generation perturbation, elites, and complete-layout evaluations
-Declared M3 completions: elite count three, min-max normalized fitness, occupied-site distance, row-aligned stagnation, uniform crossover, one-cell mutation, truncated discrete power law, deterministic repair, exact partial terminal batch, stable ties, and counter-keyed RNG
+Declared M3 completions: elite count three, min-max normalized fitness, offspring-versus-parent stagnation carried across the selection barrier, strict probabilistic perturbation gate, uniform crossover, one-cell mutation, per-dimension finite-support inverse-CDF power law, deterministic repair, exact partial terminal batch, stable ties, and counter-keyed RNG
 Method evidence tier: M3_DECLARED_COMPLETION
-Method semantic ID: ppga_nantong_structured_3d_declared_reconstruction_v1
+Method semantic ID: ppga_nantong_structured_3d_declared_reconstruction_v2
 Problem semantic ID: ppga_nantong_structured_3d_declared_proxy_v1
 Controlling contract: shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json
 Claim boundary: bounded declared reconstruction only; original PPGA transitions and Nantong paper results remain blocked
@@ -41,6 +41,7 @@ constexpr int kPopulationSize = 30;
 constexpr int kEliteCount = 3;
 constexpr double kCrossoverProbability = 0.8;
 constexpr double kMutationProbability = 0.1;
+constexpr double kAdaptationThreshold = 0.0;
 constexpr double kPowerLawExponent = 2.5;
 
 struct Individual {
@@ -179,23 +180,6 @@ int tournament(
     ) ? a : b;
 }
 
-int power_law_step(
-    const fode::CounterRng& rng,
-    std::uint64_t generation,
-    int individual,
-    int dimension
-) {
-    const double u = std::min(
-        rng.uniform(
-            generation, 24, static_cast<std::uint64_t>(individual), 0, 0
-        ),
-        std::nextafter(1.0, 0.0)
-    );
-    const double raw =
-        std::pow(1.0 - u, -1.0 / (kPowerLawExponent - 1.0));
-    return std::clamp(static_cast<int>(std::floor(raw)), 1, dimension - 1);
-}
-
 std::uint64_t fnv_layouts(const std::vector<Individual>& population) {
     std::uint64_t hash = 1469598103934665603ULL;
     for (const Individual& individual : population) {
@@ -292,6 +276,107 @@ void write_stage(
 
 }  // namespace
 
+namespace mechanism {
+
+bool perturbation_gate(
+    double theta,
+    double threshold,
+    double uniform_draw
+) {
+    if (!std::isfinite(theta) || !std::isfinite(threshold)
+        || !std::isfinite(uniform_draw)
+        || uniform_draw < 0.0 || uniform_draw > 1.0) {
+        throw std::invalid_argument("invalid PPGA perturbation-gate input");
+    }
+    const double probability = std::clamp(threshold - theta, 0.0, 1.0);
+    return theta < threshold && uniform_draw < probability;
+}
+
+int finite_support_power_law_step(
+    int maximum,
+    double uniform_draw
+) {
+    if (maximum < 1 || !std::isfinite(uniform_draw)
+        || uniform_draw < 0.0 || uniform_draw > 1.0) {
+        throw std::invalid_argument("invalid PPGA power-law input");
+    }
+    const double upper = std::pow(
+        static_cast<double>(maximum + 1),
+        1.0 - kPowerLawExponent
+    );
+    const double continuous = std::pow(
+        1.0 + uniform_draw * (upper - 1.0),
+        1.0 / (1.0 - kPowerLawExponent)
+    );
+    return std::clamp(
+        static_cast<int>(std::floor(continuous)),
+        1,
+        maximum
+    );
+}
+
+std::vector<int> perturb_every_dimension_unrepaired(
+    const std::vector<int>& layout,
+    int grid_dimension,
+    const std::vector<double>& step_uniform_draws,
+    const std::vector<double>& sign_uniform_draws
+) {
+    if (grid_dimension < 2
+        || layout.size() != step_uniform_draws.size()
+        || layout.size() != sign_uniform_draws.size()) {
+        throw std::invalid_argument(
+            "invalid PPGA per-dimension perturbation input"
+        );
+    }
+    std::vector<int> perturbed(layout.size());
+    for (std::size_t coordinate = 0; coordinate < layout.size(); ++coordinate) {
+        if (layout[coordinate] < 1 || layout[coordinate] > grid_dimension
+            || !std::isfinite(sign_uniform_draws[coordinate])
+            || sign_uniform_draws[coordinate] < 0.0
+            || sign_uniform_draws[coordinate] > 1.0) {
+            throw std::invalid_argument(
+                "invalid PPGA per-dimension perturbation value"
+            );
+        }
+        const int magnitude = finite_support_power_law_step(
+            grid_dimension - 1,
+            step_uniform_draws[coordinate]
+        );
+        const int sign = sign_uniform_draws[coordinate] < 0.5 ? -1 : 1;
+        int wrapped =
+            (layout[coordinate] - 1 + sign * magnitude) % grid_dimension;
+        if (wrapped < 0) {
+            wrapped += grid_dimension;
+        }
+        perturbed[coordinate] = wrapped + 1;
+    }
+    return perturbed;
+}
+
+double offspring_parent_stagnant_proportion(
+    const std::vector<double>& parent_fitness,
+    const std::vector<double>& offspring_fitness
+) {
+    if (parent_fitness.empty()
+        || parent_fitness.size() != offspring_fitness.size()) {
+        throw std::invalid_argument("invalid PPGA stagnation vectors");
+    }
+    std::size_t stagnant = 0;
+    for (std::size_t row = 0; row < parent_fitness.size(); ++row) {
+        if (!std::isfinite(parent_fitness[row])
+            || !std::isfinite(offspring_fitness[row])) {
+            throw std::invalid_argument("non-finite PPGA stagnation fitness");
+        }
+        if (offspring_fitness[row] <= parent_fitness[row]) {
+            ++stagnant;
+        }
+    }
+    return static_cast<double>(stagnant)
+        / static_cast<double>(parent_fitness.size());
+}
+
+}  // namespace mechanism
+
 EvolutionResult run(
     const EvolutionConfig& config,
     const Problem& problem
@@ -342,12 +427,7 @@ EvolutionResult run(
     Individual best;
     bool has_best = false;
     update_best(best, has_best, population, kPopulationSize);
-    std::vector<double> previous_scores(static_cast<std::size_t>(kPopulationSize));
-    for (int i = 0; i < kPopulationSize; ++i) {
-        previous_scores[static_cast<std::size_t>(i)] =
-            population[static_cast<std::size_t>(i)]
-                .evaluation.conversion_efficiency;
-    }
+    double stagnant_proportion = 0.0;
 
     std::uint64_t generation = 0;
     while (fes < config.physical_fes) {
@@ -397,21 +477,14 @@ EvolutionResult run(
             );
         double minimum = std::numeric_limits<double>::infinity();
         double maximum = -std::numeric_limits<double>::infinity();
-        int stagnant_count = 0;
         for (int i = 0; i < kPopulationSize; ++i) {
             const double score = population[static_cast<std::size_t>(i)]
                                      .evaluation.conversion_efficiency;
             minimum = std::min(minimum, score);
             maximum = std::max(maximum, score);
-            if (score <= previous_scores[static_cast<std::size_t>(i)]) {
-                ++stagnant_count;
-            }
         }
-        const double stagnation =
-            static_cast<double>(stagnant_count)
-            / static_cast<double>(kPopulationSize);
-        std::vector<unsigned char> perturb(
-            static_cast<std::size_t>(kPopulationSize), 0U
+        std::vector<double> adaptation(
+            static_cast<std::size_t>(kPopulationSize), 0.0
         );
         add_stage(
             result.diversity_adaptation_stage,
@@ -423,21 +496,24 @@ EvolutionResult run(
                     ? (score - minimum) / (maximum - minimum)
                     : 1.0;
                 const double theta =
-                    normalized * std::sqrt(diversity) - stagnation;
-                perturb[static_cast<std::size_t>(index)] =
-                    (generation >= 2U && theta <= 0.0) ? 1U : 0U;
+                    normalized * std::sqrt(diversity) - stagnant_proportion;
+                adaptation[static_cast<std::size_t>(index)] = theta;
             })
         );
 
+        const std::uint64_t remaining = config.physical_fes - fes;
+        const int batch = static_cast<int>(std::min<std::uint64_t>(
+            static_cast<std::uint64_t>(kPopulationSize), remaining
+        ));
         std::vector<Individual> offspring(
-            static_cast<std::size_t>(kPopulationSize)
+            static_cast<std::size_t>(batch)
         );
         std::vector<WorkReceipt> local_work(
-            static_cast<std::size_t>(kPopulationSize)
+            static_cast<std::size_t>(batch)
         );
         add_stage(
             result.variation_repair_stage,
-            timed_parallel(executor, 0, kPopulationSize, [&](int child) {
+            timed_parallel(executor, 0, batch, [&](int child) {
                 const int parent_a =
                     tournament(population, rng, generation, child, 0);
                 const int parent_b =
@@ -477,19 +553,56 @@ EvolutionResult run(
                     );
                     ++work.mutation_events;
                 }
-                if (perturb[static_cast<std::size_t>(child)] != 0U) {
-                    const int gene = rng.integer(
-                        0, problem.turbine_count, generation, 24,
-                        static_cast<std::uint64_t>(child), 1
+                bool perturb = false;
+                const double theta =
+                    adaptation[static_cast<std::size_t>(child)];
+                if (
+                    generation >= 2U
+                    && theta < kAdaptationThreshold
+                ) {
+                    ++work.perturbation_gate_draws;
+                    perturb = mechanism::perturbation_gate(
+                        theta,
+                        kAdaptationThreshold,
+                        rng.uniform(
+                            generation,
+                            24,
+                            static_cast<std::uint64_t>(child)
+                        )
                     );
-                    const int step =
-                        power_law_step(rng, generation, child, dimension);
-                    const int sign = rng.uniform(
-                        generation, 24, static_cast<std::uint64_t>(child), 2
-                    ) < 0.5 ? -1 : 1;
-                    layout[static_cast<std::size_t>(gene)] += sign * step;
+                }
+                if (perturb) {
+                    std::vector<double> step_draws(
+                        static_cast<std::size_t>(problem.turbine_count)
+                    );
+                    std::vector<double> sign_draws(
+                        static_cast<std::size_t>(problem.turbine_count)
+                    );
+                    for (int gene = 0; gene < problem.turbine_count; ++gene) {
+                        step_draws[static_cast<std::size_t>(gene)] =
+                            rng.uniform(
+                                generation,
+                                26,
+                                static_cast<std::uint64_t>(child),
+                                static_cast<std::uint64_t>(gene)
+                            );
+                        sign_draws[static_cast<std::size_t>(gene)] =
+                            rng.uniform(
+                                generation,
+                                27,
+                                static_cast<std::uint64_t>(child),
+                                static_cast<std::uint64_t>(gene)
+                            );
+                    }
+                    layout = mechanism::perturb_every_dimension_unrepaired(
+                        layout,
+                        dimension,
+                        step_draws,
+                        sign_draws
+                    );
                     ++work.perturbed_individuals;
-                    ++work.power_law_gene_steps;
+                    work.power_law_gene_steps +=
+                        static_cast<std::uint64_t>(problem.turbine_count);
                 }
                 const int fill_start = rng.integer(
                     1, dimension + 1, generation, 25,
@@ -505,15 +618,13 @@ EvolutionResult run(
             result.work.crossover_gene_choices += work.crossover_gene_choices;
             result.work.mutation_gene_trials += work.mutation_gene_trials;
             result.work.mutation_events += work.mutation_events;
+            result.work.perturbation_gate_draws +=
+                work.perturbation_gate_draws;
             result.work.perturbed_individuals += work.perturbed_individuals;
             result.work.power_law_gene_steps += work.power_law_gene_steps;
             result.work.duplicate_repairs += work.duplicate_repairs;
         }
 
-        const std::uint64_t remaining = config.physical_fes - fes;
-        const int batch = static_cast<int>(std::min<std::uint64_t>(
-            static_cast<std::uint64_t>(kPopulationSize), remaining
-        ));
         evaluate_batch(
             offspring, batch, problem, executor, result.evaluator_stage
         );
@@ -524,6 +635,27 @@ EvolutionResult run(
         }
 
         const auto selection_start = Clock::now();
+        std::vector<double> parent_fitness(
+            static_cast<std::size_t>(kPopulationSize)
+        );
+        std::vector<double> offspring_fitness(
+            static_cast<std::size_t>(kPopulationSize)
+        );
+        for (int row = 0; row < kPopulationSize; ++row) {
+            parent_fitness[static_cast<std::size_t>(row)] =
+                population[static_cast<std::size_t>(row)]
+                    .evaluation.conversion_efficiency;
+            offspring_fitness[static_cast<std::size_t>(row)] =
+                offspring[static_cast<std::size_t>(row)]
+                    .evaluation.conversion_efficiency;
+        }
+        stagnant_proportion =
+            mechanism::offspring_parent_stagnant_proportion(
+                parent_fitness,
+                offspring_fitness
+            );
+        result.work.stagnation_parent_offspring_comparisons +=
+            static_cast<std::uint64_t>(kPopulationSize);
         std::vector<int> parent_order(
             static_cast<std::size_t>(kPopulationSize)
         );
@@ -569,12 +701,7 @@ EvolutionResult run(
                 Clock::now() - selection_start
             ).count();
         result.selection_other_stage.task_items +=
-            static_cast<std::uint64_t>(2 * kPopulationSize);
-        for (int i = 0; i < kPopulationSize; ++i) {
-            previous_scores[static_cast<std::size_t>(i)] =
-                population[static_cast<std::size_t>(i)]
-                    .evaluation.conversion_efficiency;
-        }
+            static_cast<std::uint64_t>(3 * kPopulationSize);
         population = std::move(next);
     }
 
@@ -653,10 +780,14 @@ std::string result_to_json(const EvolutionResult& result) {
            << result.work.mutation_gene_trials << ",\n"
            << "    \"mutation_events\": " << result.work.mutation_events
            << ",\n"
+           << "    \"perturbation_gate_draws\": "
+           << result.work.perturbation_gate_draws << ",\n"
            << "    \"perturbed_individuals\": "
            << result.work.perturbed_individuals << ",\n"
            << "    \"power_law_gene_steps\": "
            << result.work.power_law_gene_steps << ",\n"
+           << "    \"stagnation_parent_offspring_comparisons\": "
+           << result.work.stagnation_parent_offspring_comparisons << ",\n"
            << "    \"duplicate_repairs\": "
            << result.work.duplicate_repairs << "\n"
            << "  }\n"

@@ -1,11 +1,12 @@
 {
   "schema_version": 1,
   "receipt_id": "ppga_nantong_cpu_r4_spark_20260729",
-  "recorded_at": "2026-07-29T16:51:13+09:00",
-  "approved_source_base_commit": "13f967dd9a228ba7d5db563c58d2fb9879990178",
+  "recorded_at": "2026-07-29T17:08:16+09:00",
+  "approved_source_base_commit": "ef2d30f41111a06404375cc070b6ba34464be390",
+  "supersedes_invalidated_method_semantic_id": "ppga_nantong_structured_3d_declared_reconstruction_v1",
   "branch": "advisor/001-evidence-driven-wflop-reconstruction",
   "scope": {
-    "method_semantic_id": "ppga_nantong_structured_3d_declared_reconstruction_v1",
+    "method_semantic_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
     "problem_semantic_id": "ppga_nantong_structured_3d_declared_proxy_v1",
     "case_id": "PPGA_NantongStructured_WS1_tn20",
     "seed": 1,
@@ -23,7 +24,7 @@
     "cpu_models": ["10 x Cortex-X925", "10 x Cortex-A725"],
     "threads_per_core": 1,
     "compiler": "c++ (Ubuntu 11.5.0-1ubuntu1~24.04.1) 11.5.0",
-    "load_average_at_receipt": [2.97, 2.43, 2.27],
+    "load_average_at_receipt": [1.63, 1.72, 1.96],
     "load_boundary": "Shared-host background activity was not isolated. Timings are bounded development observations only."
   },
   "scientific_equivalence_workers_1_vs_default_all_visible": {
@@ -44,60 +45,62 @@
     "problem_semantic_hash": "ee06013d8778fd7e",
     "physical_fes": 1500,
     "generations": 49,
-    "best_layout_1based": [6, 24, 29, 46, 96, 112, 160, 175, 199, 215, 237, 250, 273, 282, 314, 352, 378, 389, 400, 421],
-    "expected_power_kw": 40704.797270620576,
-    "ideal_expected_power_kw": 42113.479960832701,
-    "conversion_efficiency": 0.96655031378261169,
-    "cost_per_expected_power_diagnostic": 0.00040921886207167174,
-    "best_layout_hash": "971c1de83e6b8061",
-    "population_layout_hash": "95a1146d1288682b",
+    "best_layout_1based": [19, 28, 40, 62, 105, 125, 164, 178, 216, 228, 250, 272, 292, 313, 343, 378, 385, 408, 420, 428],
+    "expected_power_kw": 40187.567225480037,
+    "ideal_expected_power_kw": 42104.834812921516,
+    "conversion_efficiency": 0.95446443155613359,
+    "cost_per_expected_power_diagnostic": 0.00041448567230962743,
+    "best_layout_hash": "fa6ae4f52eca1630",
+    "population_layout_hash": "ea33be9a855e9049",
     "work_receipt": {
       "pairwise_layout_distances": 21315,
       "crossover_gene_choices": 23500,
       "mutation_gene_trials": 1470,
       "mutation_events": 147,
-      "perturbed_individuals": 743,
-      "power_law_gene_steps": 743,
-      "duplicate_repairs": 396
+      "perturbation_gate_draws": 1166,
+      "perturbed_individuals": 303,
+      "power_law_gene_steps": 6060,
+      "stagnation_parent_offspring_comparisons": 1470,
+      "duplicate_repairs": 417
     }
   },
   "canonical_default_all_visible_run": {
     "requested_workers": 0,
     "resolved_workers": 20,
-    "total_wall_seconds": 0.075681523,
+    "total_wall_seconds": 0.036470439,
     "stages": {
       "initialization": {
-        "wall_seconds": 0.000843771,
+        "wall_seconds": 0.001347672,
         "parallel_regions": 1,
         "task_items": 30,
-        "distinct_participants": 10,
-        "peak_region_participants": 10
+        "distinct_participants": 12,
+        "peak_region_participants": 12
       },
       "diversity_adaptation": {
-        "wall_seconds": 0.026547621,
+        "wall_seconds": 0.002106875,
         "parallel_regions": 98,
         "task_items": 2940,
-        "distinct_participants": 19,
-        "peak_region_participants": 19
+        "distinct_participants": 18,
+        "peak_region_participants": 18
       },
       "variation_repair": {
-        "wall_seconds": 0.015935005,
+        "wall_seconds": 0.000581651,
         "parallel_regions": 49,
         "task_items": 1470,
         "distinct_participants": 19,
         "peak_region_participants": 19
       },
       "evaluator": {
-        "wall_seconds": 0.031125440,
+        "wall_seconds": 0.031233942,
         "parallel_regions": 50,
         "task_items": 1500,
         "distinct_participants": 20,
         "peak_region_participants": 20
       },
       "selection_other": {
-        "wall_seconds": 0.000247760,
+        "wall_seconds": 0.000308771,
         "parallel_regions": 0,
-        "task_items": 2940,
+        "task_items": 4410,
         "distinct_participants": 0,
         "peak_region_participants": 0
       }
@@ -106,34 +109,48 @@
   "bounded_timing": {
     "protocol": "five alternating runs per worker configuration from the fresh authorized-source-cache Release build; same case, seed, and 1500 physical FES",
     "binary_path": "build-ppga-full/hpc/ppga_cpp/ppga_nantong_hpc",
-    "binary_sha256": "3cd35a5821491ae129bd7415ab23ca104df2b5d5020cf1d9fe46ee76464fef9e",
+    "binary_sha256": "486781c7e4429b518dd5ba552777d4dacf98de58359aa608a7d9071184947401",
     "command_prefix": "build-ppga-full/hpc/ppga_cpp/ppga_nantong_hpc --cases shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json --case PPGA_NantongStructured_WS1_tn20 --seed 1 --physical-fes 1500 --workers",
     "scientific_result_canonicalization": "JSON containing method_semantic_id, problem_semantic_id, problem_semantic_hash, case_id, seed, physical_fes, generations, best, population_layout_hash, and work_receipt; sorted keys with compact separators",
-    "scientific_result_sha256_all_ten_runs": "b02fe29a31f17e287e389208ac926d93bf593cb8b0c09e56308cdc12c02265a3",
+    "scientific_result_sha256_all_ten_runs": "6edc5e90bdf094b718b33e2da6e25d852ce586473f7332437ed8a472f6de86a1",
     "runs": [
-      {"repetition": 1, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.292143760, "result_json_sha256": "e0537aa9d3c82a94f87ddb5f0e90bd2d2cdd49a1ee5b0aecd2ee04a2d5cfd929", "evaluator_distinct_participants": 1},
-      {"repetition": 1, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.035684897, "result_json_sha256": "3d5199146f3b1ec3e38c9d166d57e0c18925eb8f4f0c0d9aa7fa31857f8a149c", "evaluator_distinct_participants": 19},
-      {"repetition": 2, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.292225967, "result_json_sha256": "cbd5ddc7691177120e854f82070eec172690e9f526a8bf704d34c0fa82b02eaf", "evaluator_distinct_participants": 1},
-      {"repetition": 2, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.036280509, "result_json_sha256": "eee0a2d410cc2a8257385f9fb5c15a9fae467dc02473d7788eb9f38b6f78074b", "evaluator_distinct_participants": 20},
-      {"repetition": 3, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.276549377, "result_json_sha256": "ee46f145a3afd40d792b5f83c159398e78ab970769a6afd372ada54b6c5ffdc8", "evaluator_distinct_participants": 1},
-      {"repetition": 3, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.033467279, "result_json_sha256": "9a5df215975aa71175cb1cad8102ccdccdaaf9843b6a93515ef2f6b97ede3e5e", "evaluator_distinct_participants": 20},
-      {"repetition": 4, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.276526744, "result_json_sha256": "187701506ffb972af270a4faf4ed22d344d536ddcfd3516a7fa8b2579b5ebfea", "evaluator_distinct_participants": 1},
-      {"repetition": 4, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.068695397, "result_json_sha256": "a90da4ea2d88c1502faf51666fa7846824773b286d2f7c649ace1e67c0d7f0af", "evaluator_distinct_participants": 19},
-      {"repetition": 5, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.291918377, "result_json_sha256": "a1647e7268005c7fd55357c2109b7159447f211e3c9c2a15cbc2ad5959c16322", "evaluator_distinct_participants": 1},
-      {"repetition": 5, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.079345826, "result_json_sha256": "39fd97561b43e680616adf33f61a2083dc8be822597234e8e797eddf5e8a1da1", "evaluator_distinct_participants": 19}
+      {"repetition": 1, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.279158989, "result_json_sha256": "e73cbb8e32a9d6f7e74e712508e2659d183184adf8ac5780987d63f5c29a07ac", "evaluator_distinct_participants": 1},
+      {"repetition": 1, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.045814767, "result_json_sha256": "d2ebfd6a8ca4706f5d31876825d705ac365aa3073a2cc52849254fdaa099ebca", "evaluator_distinct_participants": 20},
+      {"repetition": 2, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.300868846, "result_json_sha256": "084876e8e29498418e228028808bc2d281bb4a195f54b690695fcd029210ce4b", "evaluator_distinct_participants": 1},
+      {"repetition": 2, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.036914401, "result_json_sha256": "4da53999bfc60e2d8739940aab444f62a6ca2cfd749ee33bf493edf586bdbc61", "evaluator_distinct_participants": 20},
+      {"repetition": 3, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.294719550, "result_json_sha256": "31667e4a30a1f34c4db689a9dfa26033c6485ef26b4e6bf7e942724a0478152e", "evaluator_distinct_participants": 1},
+      {"repetition": 3, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.045275756, "result_json_sha256": "46adb3e5ed507d40962d62f6797803cc15ddc2e7882eaea627792d353042534b", "evaluator_distinct_participants": 20},
+      {"repetition": 4, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.279311279, "result_json_sha256": "f57149f6c99bc7a23e1bc6380a093fd210641a0620433824716636ff8f857697", "evaluator_distinct_participants": 1},
+      {"repetition": 4, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.035872459, "result_json_sha256": "a907b27d7657dcd9706b76744160f9f12eabf5d63fa73be0a67936145b0e3f9c", "evaluator_distinct_participants": 20},
+      {"repetition": 5, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.279667825, "result_json_sha256": "8ef3329da969fb6bbc8b0510bb1738237bc32e97f1e2488df09c93dd3530c4b2", "evaluator_distinct_participants": 1},
+      {"repetition": 5, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.037170194, "result_json_sha256": "0894e24fb1d4a0f747941a754cb7280d578a409e4bcf283cb44ab61db689fa95", "evaluator_distinct_participants": 20}
     ],
-    "workers_1_median_seconds": 0.291918377,
-    "workers_default_20_median_seconds": 0.036280509,
-    "observed_median_speedup": 8.046148883964113,
+    "workers_1_median_seconds": 0.279667825,
+    "workers_default_20_median_seconds": 0.037170194,
+    "observed_median_speedup": 7.523980773412159,
     "claim_boundary": "This is not a formal, isolated, cross-host, or paper performance result."
   },
   "validation": {
-    "focused_ppga_and_contract_ctest": "6_of_6_pass",
+    "v1_identity_status": "invalidated",
+    "v2_identity_repairs": [
+      "strict theta below threshold plus counter-keyed probability gate",
+      "independent finite-support perturbation on every turbine-position dimension before repair",
+      "offspring[i] versus parent[i] stagnation after evaluation and before selection with S initialized to zero"
+    ],
+    "focused_mechanism_fixtures": [
+      "theta equal to threshold does not perturb",
+      "probability gate uses a strict random boundary",
+      "every dimension changes before repair",
+      "finite-support inverse-CDF lower and upper endpoints",
+      "offspring-parent stagnation comparison"
+    ],
+    "focused_ppga_and_contract_ctest": "7_of_7_pass",
     "complete_release_build": "pass",
+    "fresh_full_build_directory": "build-ppga-v2-full",
     "fresh_full_build_source_cache": "authorized read-only assets via .source-cache symlink to ../fode-hpc-wflop/.source-cache",
     "full_configured_ctest_after_complete_build": "42_of_42_pass",
-    "full_configured_ctest_seconds": 9.24,
-    "full_configured_ctest_log_sha256": "aa9249d568162f440bb821ee5b1d4cecb7a43e9aff9bc1bf50d3748630a56139",
+    "full_configured_ctest_seconds": 9.01,
+    "full_configured_ctest_log_sha256": "51d6d3663518d3075b0fa9f6dac2b7b680da6df0e0c2d72a992d6beb18e17a53",
     "problem_oracle": "pass",
     "exact_partial_terminal_fes": "pass_at_95_fes",
     "unsupported_gpu_backend": "fails_closed",

@@ -6,10 +6,14 @@
   "profiles": [
     "ppga_declared_reconstruction_fode_e0_v1",
     "ppga_nantong_structured_3d_declared_proxy_v1",
-    "ppga_nantong_structured_3d_declared_reconstruction_v1"
+    "ppga_nantong_structured_3d_declared_reconstruction_v1",
+    "ppga_nantong_structured_3d_declared_reconstruction_v2"
   ],
-  "completion_status": "distinct_P3_Nantong_structured_proxy_and_bounded_M3_declared_reconstruction_complete_original_Nantong_problem_method_and_results_blocked",
-  "approved_source_base_commit": "13f967dd9a228ba7d5db563c58d2fb9879990178",
+  "invalidated_profiles": {
+    "ppga_nantong_structured_3d_declared_reconstruction_v1": "identity-critical Eq. 18 gate, per-dimension perturbation, finite-support sampler, and pre-selection stagnation defects"
+  },
+  "completion_status": "distinct_P3_Nantong_structured_proxy_and_bounded_M3_v2_declared_reconstruction_complete_v1_invalidated_original_Nantong_problem_method_and_results_blocked",
+  "approved_source_base_commit": "ef2d30f41111a06404375cc070b6ba34464be390",
   "decisions": [
     {
       "field": "nantong_terrain_and_case_identity",
@@ -50,10 +54,10 @@
     {
       "field": "adaptation_and_stagnation",
       "completed_transition": "the paper defines fitness times square-root diversity minus stagnant proportion with threshold zero but omits normalization, distance, and history rules",
-      "selected_value_or_rule": "use population min-max efficiency, mean occupied-site set distance, and row-aligned no-better-than-parent fraction; trigger power-law perturbation from generation two when theta is no greater than zero",
+      "selected_value_or_rule": "use population min-max efficiency and mean occupied-site set distance; initialize S to zero, then after each complete offspring evaluation and before selection set S from offspring[i] no better than parent[i]; from generation two perturb only when theta is strictly below zero and an independent counter-keyed draw is below minus theta",
       "authority_type": "target_paper_equations_plus_declared_method_completion",
       "immutable_authority": "shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json",
-      "rejected_alternatives": ["select normalization after observing result quality", "retain an undefined stagnant history"],
+      "rejected_alternatives": ["select normalization after observing result quality", "compare a selected and sorted next population against the prior unsorted population", "perturb every non-positive theta deterministically"],
       "classification": "identity_critical",
       "expected_downstream_effect": "defines exactly which individuals receive heavy-tailed perturbation",
       "sensitivity_test_required": true,
@@ -62,10 +66,10 @@
     {
       "field": "ga_power_law_and_repair",
       "completed_transition": "the paper fixes population 30, crossover 0.8, mutation 0.1, exponent 2.5, top-k elitism, and generation-two perturbation but omits discrete realization and k",
-      "selected_value_or_rule": "use three parent elites, binary tournaments, uniform gene crossover, one-cell mutation, truncated inverse-CDF integer displacement, random sign, cyclic bounds, and deterministic unique-cell refill",
+      "selected_value_or_rule": "use three parent elites, binary tournaments, uniform gene crossover, one-cell mutation, and for every dimension of a gate-selected individual use the normalized finite-support inverse-CDF displacement on one through grid size minus one with independent random sign, cyclic bounds, and deterministic unique-cell refill",
       "authority_type": "target_paper_algorithm_plus_declared_method_completion",
       "immutable_authority": "shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json",
-      "rejected_alternatives": ["invent an unavailable learned feature mapper", "choose elite count or boundary rules after optimization"],
+      "rejected_alternatives": ["invent an unavailable learned feature mapper", "choose elite count or boundary rules after optimization", "perturb only one randomly chosen dimension", "sample an unbounded Pareto value and clamp it at the finite upper bound"],
       "classification": "identity_critical",
       "expected_downstream_effect": "defines the complete offspring distribution, repair trajectory, and survivor pressure",
       "sensitivity_test_required": true,

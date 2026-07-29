@@ -1,7 +1,7 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: PPGA Nantong-structured declared reconstruction CLI
-Method semantic ID: ppga_nantong_structured_3d_declared_reconstruction_v1
+Method semantic ID: ppga_nantong_structured_3d_declared_reconstruction_v2
 Problem semantic ID: ppga_nantong_structured_3d_declared_proxy_v1
 Evidence tiers: M3_DECLARED_COMPLETION on P3_DECLARED_PROXY
 Default execution: pure CPU with hardware_concurrency workers
