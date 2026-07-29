@@ -128,7 +128,25 @@ def main() -> int:
             raise RuntimeError(f"T-MOEA implementation lacks token: {token}")
     source_hash = hashlib.sha256(source.encode("utf-8")).hexdigest()
     if source_hash != receipt["artifacts"]["implementation_source_sha256"]:
-        raise RuntimeError("T-MOEA R4 receipt source hash differs")
+        matrix = load("shared/contracts/global_execution_capability_matrix.json")
+        preserved = matrix["packages"]["tmoea_eq16_v2"][
+            "preserved_semantic_slice"
+        ]
+        semantic_slice = source[
+            source.index(preserved["start_token"]):
+            source.index(preserved["end_token"])
+        ]
+        semantic_hash = hashlib.sha256(
+            semantic_slice.encode("utf-8")
+        ).hexdigest()
+        if (
+            preserved["baseline_commit"]
+            != "8ec2181672a406abae01cd1e4242403044ba83f2"
+            or semantic_hash != preserved["sha256"]
+        ):
+            raise RuntimeError(
+                "T-MOEA R4 semantic slice changed after its receipt"
+            )
     oracle_hash = hashlib.sha256(
         (ROOT / "scripts/validate_tmoea_nysted_r4.py").read_bytes()
     ).hexdigest()

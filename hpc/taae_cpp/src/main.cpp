@@ -50,7 +50,8 @@ Arguments parse_arguments(int argc, char** argv) {
                 << "[--workers N (default: all visible CPUs)] "
                 << "[--profile bounded|paper-scale] "
                 << "[--checkpoint-in FILE --checkpoint-sha256 SHA256] "
-                << "[--checkpoint-out FILE] [--backend cpu]\n";
+                << "[--checkpoint-out FILE] "
+                << "[--backend cpu|auto|hybrid|gpu]\n";
             std::exit(0);
         }
         if (index + 1 >= argc) {
@@ -87,6 +88,23 @@ Arguments parse_arguments(int argc, char** argv) {
     if (result.profile != "bounded" &&
         result.profile != "paper-scale") {
         throw std::invalid_argument("unknown training profile");
+    }
+    if (
+        result.backend != "cpu"
+        && result.backend != "auto"
+        && result.backend != "hybrid"
+        && result.backend != "gpu"
+    ) {
+        throw std::invalid_argument(
+            "--backend must be cpu, auto, hybrid, or gpu"
+        );
+    }
+    if (result.backend != "cpu") {
+        throw std::invalid_argument(
+            "backend " + result.backend
+            + " is recognized but unavailable; no hidden CPU fallback "
+              "was performed"
+        );
     }
     return result;
 }

@@ -23,6 +23,12 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_evidence_authority.py
     )
     add_test(
+        NAME execution_backends
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_execution_backends.py
+            --build-dir ${CMAKE_BINARY_DIR}
+    )
+    add_test(
         NAME source_dossiers
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_source_dossiers.py

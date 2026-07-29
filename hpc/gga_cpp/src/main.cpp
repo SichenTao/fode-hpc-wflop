@@ -2319,13 +2319,27 @@ Arguments parse_arguments(int argc, char** argv) {
         || result.execution_mode == "gpu") {
         throw std::invalid_argument(
             "execution mode " + result.execution_mode
-            + " is unavailable; T-MOEA supports cpu and auto"
+            + " is recognized but unavailable; no hidden CPU fallback "
+              "was performed"
         );
     }
     if (result.execution_mode != "cpu"
         && result.execution_mode != "auto") {
         throw std::invalid_argument(
             "--execution-mode must be cpu, auto, hybrid, or gpu"
+        );
+    }
+    if (
+        result.execution_mode == "auto"
+        && (
+            result.algorithm != "tmoea"
+            || result.tmoea_profile != "paper-eq16-v2"
+        )
+    ) {
+        throw std::invalid_argument(
+            "execution mode auto is recognized but unavailable for this "
+            "profile; it is admitted only for T-MOEA paper-eq16-v2, and no "
+            "hidden CPU fallback was performed"
         );
     }
     return result;

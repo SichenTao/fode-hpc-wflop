@@ -109,6 +109,26 @@ int main(int argc, char** argv) {
         if (cases_path.empty() || case_id.empty()) {
             throw std::runtime_error("--cases and --case are required");
         }
+        if (
+            config.execution_mode != "cpu"
+            && config.execution_mode != "auto"
+            && config.execution_mode != "hybrid"
+            && config.execution_mode != "gpu"
+        ) {
+            throw std::runtime_error(
+                "--execution-mode must be cpu, auto, hybrid, or gpu"
+            );
+        }
+        if (
+            config.execution_mode == "hybrid"
+            || config.execution_mode == "gpu"
+        ) {
+            throw std::runtime_error(
+                "execution mode " + config.execution_mode
+                + " is recognized but unavailable; no hidden CPU fallback "
+                  "was performed"
+            );
+        }
         const fode::CaseData data = fode::load_case(cases_path, case_id);
         if (!layout_text.empty()) {
             const std::vector<int> layout = parse_layout(layout_text);

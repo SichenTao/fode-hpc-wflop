@@ -423,6 +423,23 @@ automatically checks the Jiayi Li, Baohang Zhang, Chen Zhang, Yuhang Ma, and
 Jiaru Yang coauthor lines named during scope review. The minimum is append-only:
 future official-homepage records can expand it.
 
+The Step 10 machine-audited global capability matrix is
+`shared/contracts/global_execution_capability_matrix.json`. It joins every
+executable profile to the scoped paper where applicable, exact method and
+problem semantic IDs, real C++ binary target, runnable CLI, controlling
+contracts, oracle/tests, training-state boundary, four execution modes, and
+formal status. It covers the independent TAAE, PPGA, BDE, GeoGA, GGA/T-MOEA,
+PBEA, and shared WFLOP executables instead of treating the local
+`wflop_cpp_hpc` registry as global coverage.
+
+Run `python3 scripts/audit_execution_backends.py` for the static audit. After
+a Release build and explicit staging of trusted ignored source assets, add
+`--build-dir BUILD` to execute every bounded CPU CLI, supported auto-to-CPU
+path, and declared hybrid/GPU fail-closed path. Original guarded identities
+remain blocked beside their separately named executable reconstructions.
+Step 10 records development capability only; Step 11 sensitivity, quality,
+and performance admission remains outside this commit.
+
 ## Licensing
 
 Repository code is licensed under Apache-2.0. Owner-created and redistributable

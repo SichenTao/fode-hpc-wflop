@@ -129,8 +129,9 @@ Arguments parse_arguments(int argc, char** argv) {
                 << "  --algorithm ID       one registered algorithm identifier\n"
                 << "  --algorithms A,B,... run an explicit ordered algorithm set\n"
                 << "  --problem ID         registered problem family; default fode_e0_common\n"
-                << "  --compute-backend B  cpu, cpu+gpu, or gpu; this build supports cpu\n"
+                << "  --compute-backend B  cpu, auto, hybrid (cpu+gpu alias), or gpu; only cpu is supported\n"
                 << "  --all-algorithms     run all registered algorithms sequentially\n"
+                << "  --cases PATH         selected problem manifest\n"
                 << "  --case ID            one case from the selected manifest\n"
                 << "  --all-cases          run every case in the selected manifest\n"
                 << "  --physical-fes N     complete-layout evaluation budget per run\n"
@@ -153,10 +154,12 @@ Arguments parse_arguments(int argc, char** argv) {
         );
     }
     if (result.compute_backend != "cpu"
+        && result.compute_backend != "auto"
+        && result.compute_backend != "hybrid"
         && result.compute_backend != "cpu+gpu"
         && result.compute_backend != "gpu") {
         throw std::runtime_error(
-            "--compute-backend must be cpu, cpu+gpu, or gpu"
+            "--compute-backend must be cpu, auto, hybrid, cpu+gpu, or gpu"
         );
     }
     return result;
@@ -497,7 +500,9 @@ int main(int argc, char** argv) {
         }
         if (arguments.list_compute_backends) {
             std::cout << "cpu\tsupported\n"
-                      << "cpu+gpu\tinterface_only_fail_closed\n"
+                      << "auto\tinterface_only_fail_closed\n"
+                      << "hybrid\tinterface_only_fail_closed"
+                         " (cpu+gpu compatibility alias)\n"
                       << "gpu\tinterface_only_fail_closed\n";
             return 0;
         }

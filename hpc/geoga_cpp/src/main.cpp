@@ -53,7 +53,7 @@ int main(int argc, char** argv) {
                 std::cout
                     << "usage: geoga_anholt_hpc --case FILE [--seed N]"
                     << " [--physical-fes N] [--workers N]"
-                    << " [--backend cpu]\n";
+                    << " [--backend cpu|auto|hybrid|gpu]\n";
                 return 0;
             } else {
                 throw std::invalid_argument("unknown argument: " + argument);
@@ -61,6 +61,23 @@ int main(int argc, char** argv) {
         }
         if (case_path.empty()) {
             throw std::invalid_argument("--case is required");
+        }
+        if (
+            config.backend != "cpu"
+            && config.backend != "auto"
+            && config.backend != "hybrid"
+            && config.backend != "gpu"
+        ) {
+            throw std::invalid_argument(
+                "--backend must be cpu, auto, hybrid, or gpu"
+            );
+        }
+        if (config.backend != "cpu") {
+            throw std::invalid_argument(
+                "backend " + config.backend
+                + " is recognized but unavailable; no hidden CPU fallback "
+                  "was performed"
+            );
         }
         const geoga::Problem problem = geoga::load_problem(case_path);
         const geoga::EvolutionResult result = geoga::run(config, problem);

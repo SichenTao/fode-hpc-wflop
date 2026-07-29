@@ -54,6 +54,7 @@ struct Config {
     std::string mode = "run";
     std::string algorithm = "moead_p";
     std::string scenario = "ws1";
+    std::string execution_mode = "cpu";
     std::string layout_text;
     std::string output_front;
     int turbines = 15;
@@ -2429,6 +2430,8 @@ Config parse(int argc, char** argv) {
             config.workers = std::stoi(value());
         } else if (option == "--seed") {
             config.seed = std::stoull(value());
+        } else if (option == "--execution-mode") {
+            config.execution_mode = value();
         } else if (option == "--ipd") {
             config.ipd = std::stoi(value());
         } else if (option == "--mu-c") {
@@ -2440,6 +2443,7 @@ Config parse(int argc, char** argv) {
                    "[--scenario ws1|ws2] [--turbines 15..30] "
                    "[--population 100] [--generations 100] "
                    "[--workers N] [--seed N] [--ipd 1..6] [--mu-c 80] "
+                   "[--execution-mode cpu|auto|hybrid|gpu] "
                    "[--output-front result.json]\n";
             std::exit(0);
         } else {
@@ -2450,6 +2454,23 @@ Config parse(int argc, char** argv) {
         || config.generations < 0 || config.turbines < 3
         || config.turbines > 400) {
         throw std::invalid_argument("invalid numeric option");
+    }
+    if (
+        config.execution_mode != "cpu"
+        && config.execution_mode != "auto"
+        && config.execution_mode != "hybrid"
+        && config.execution_mode != "gpu"
+    ) {
+        throw std::invalid_argument(
+            "--execution-mode must be cpu, auto, hybrid, or gpu"
+        );
+    }
+    if (config.execution_mode != "cpu") {
+        throw std::invalid_argument(
+            "execution mode " + config.execution_mode
+            + " is recognized but unavailable; no hidden CPU fallback "
+              "was performed"
+        );
     }
     return config;
 }
