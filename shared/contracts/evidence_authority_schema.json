@@ -1,0 +1,53 @@
+{
+  "schema_version": 1,
+  "schema_id": "wflop_evidence_authority_schema_v1",
+  "lifecycle_gates": ["R0", "R1", "R2", "R3", "R4"],
+  "method_evidence_tiers": {
+    "M0_AUTHOR_SOURCE": "Author-released executable source and, where applicable, author-released learned state.",
+    "M1_PAPER_COMPLETE": "A clean-room implementation uniquely specified by the paper and supplement.",
+    "M2_CITATION_PREDECESSOR": "Missing choices are completed from explicitly cited methods, author-linked predecessor code, or documented direct lineage.",
+    "M3_DECLARED_COMPLETION": "Remaining choices are completed by registered engineering decisions with alternatives and sensitivity obligations.",
+    "M4_FORMULA_FIXTURE": "Equation or operator fixtures only; no optimization-quality or original-method claim."
+  },
+  "problem_evidence_tiers": {
+    "P0_AUTHOR_ASSET": "Author-released machine-readable case assets.",
+    "P1_PAPER_COMPLETE": "The paper and supplement uniquely define every numerical input affecting objective or feasibility.",
+    "P2_CITATION_SAME_AUTHOR": "Cited, predecessor, or same-author problem-family assets under a distinct semantic identifier.",
+    "P3_DECLARED_PROXY": "A documented external or synthetic problem carrying the required mathematical structure.",
+    "P4_FORMULA_FIXTURE": "Scalar or unit fixtures only; no optimization-quality claim."
+  },
+  "required_profile_fields": [
+    "profile_id",
+    "algorithm_id",
+    "method_semantics_id",
+    "problem_id",
+    "problem_semantics_id",
+    "method_evidence_tier",
+    "problem_evidence_tier",
+    "claim_boundary",
+    "execution_modes"
+  ],
+  "required_execution_modes": ["cpu", "hybrid", "gpu", "auto"],
+  "required_inferred_field_fields": [
+    "field",
+    "completed_transition",
+    "selected_value_or_rule",
+    "authority_type",
+    "immutable_authority",
+    "rejected_alternatives",
+    "expected_downstream_effect",
+    "sensitivity_test_required",
+    "adjudication_status"
+  ],
+  "required_learned_method_fields": [
+    "training_data_or_generator_id",
+    "initialization",
+    "optimizer",
+    "epochs_or_steps",
+    "random_seeds",
+    "checkpoint_hash",
+    "training_physical_fes",
+    "inference_physical_fes",
+    "learned_state_origin"
+  ]
+}

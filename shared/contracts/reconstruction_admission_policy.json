@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "policy_id": "evidence_driven_reconstruction_admission_v1",
+  "authority_order": [
+    "target_paper_and_supplement",
+    "explicitly_cited_component_authority",
+    "public_predecessor_code_with_direct_lineage",
+    "same_author_code_or_assets_with_documented_family_relationship",
+    "canonical_method_literature_for_named_standard_component",
+    "declared_engineering_completion"
+  ],
+  "rules": {
+    "preserve_existing_semantic_ids": true,
+    "original_identifier_may_remain_guarded": true,
+    "reconstruction_requires_distinct_identifier": true,
+    "identical_problem_semantics_required_for_quality_pooling": true,
+    "fixture_tiers_excluded_from_quality_and_timing": true,
+    "r4_requires_worker_equivalence_or_justified_tolerance": true,
+    "fact_declarations_must_match_canonical_contracts": true,
+    "unsupported_execution_modes_fail_before_optimization": true,
+    "hidden_backend_fallback_forbidden": true,
+    "training_physical_fes_must_be_exposed": true
+  },
+  "inferred_field_classifications": [
+    "identity_critical",
+    "quality_sensitive",
+    "implementation_only"
+  ],
+  "execution_mode_meanings": {
+    "cpu": "Optimized multithreaded CPU algorithm and evaluator.",
+    "hybrid": "Deterministically partitioned concurrent CPU and accelerator work.",
+    "gpu": "Eligible algorithm state, learned state, and evaluator work remain resident on the accelerator.",
+    "auto": "Select only an already admitted mode and record the resolved mode."
+  },
+  "canonical_profile_registry": "shared/contracts/executable_profile_evidence.json"
+}
