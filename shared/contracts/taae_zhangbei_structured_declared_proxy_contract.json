@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "profile_id": "taae_zhangbei_structured_declared_proxy_v1",
+  "evidence_tier": "P3_DECLARED_PROXY",
+  "paper": {
+    "doi": "10.1109/jas.2026.126233",
+    "sha256": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b"
+  },
+  "decision_space": {
+    "grid": [20, 20],
+    "turbines": 15,
+    "representation": "strictly increasing unique one-based cells",
+    "monitor_cells_are_unavailable": true
+  },
+  "objectives": [
+    "minimize 1 / joint-wind expected complete-farm power in kW",
+    "minimize joint-wind expected mean A-weighted level over four monitors in dBA"
+  ],
+  "constraint": "max(0,(declared turbine plus effective-land cost - paper budget)/paper budget)",
+  "physical_fes": "one complete energy, acoustic, cost, and constraint evaluation of one layout",
+  "parallel_contract": {
+    "cpu": "persistent team assigns independent complete layouts to workers",
+    "within_layout_reductions": "fixed order",
+    "required_equality": "all returned scientific doubles are bitwise equal at 1 and 20 workers",
+    "hybrid": "not implemented; fail closed",
+    "gpu": "not implemented; fail closed"
+  },
+  "case_manifest": "shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json",
+  "case_hashes": {
+    "TAAE_Proxy_NC1_Budget600k_tn15": "fnv1a64:2869e8628fc4b8ca",
+    "TAAE_Proxy_NC1_Budget800k_tn15": "fnv1a64:c08eb00a89d64bb4",
+    "TAAE_Proxy_NC1_Budget1000k_tn15": "fnv1a64:ce544f010e589141",
+    "TAAE_Proxy_NC2_Budget600k_tn15": "fnv1a64:acbf3bb1fe9db7e1",
+    "TAAE_Proxy_NC2_Budget800k_tn15": "fnv1a64:2a66b441931a13b7",
+    "TAAE_Proxy_NC2_Budget1000k_tn15": "fnv1a64:5719564c01d17bcc"
+  },
+  "fixed_layout_oracle": {
+    "case_id": "TAAE_Proxy_NC1_Budget800k_tn15",
+    "layout_cells_1based": [2, 5, 8, 11, 14, 42, 65, 88, 111, 134, 157, 220, 263, 306, 349],
+    "expected_power_kw": 3288.41053054854,
+    "reciprocal_expected_power_per_kw": 0.00030409828417414476,
+    "average_a_weighted_noise_dba": 40.999881463426384,
+    "total_cost_units": 460052.102524735,
+    "normalized_constraint_violation": 0.0
+  },
+  "claim_boundary": "This is a declared structured proxy. It does not reproduce the unavailable Zhangbei terrain, wind, monitor, acoustics, cost arrays, or reported Pareto fronts."
+}

@@ -66,7 +66,16 @@
   ],
   "available_evidence": [
     "validated_complete",
-    "bounded_search_no_public_case_or_model_assets"
+    "bounded_search_no_public_case_or_model_assets",
+    "embedded supplementary Eqs. 1-20",
+    "encoder and decoder each have six layers",
+    "encoder uses four attention heads",
+    "token and latent dimensions are 64",
+    "pretraining uses 100000 layouts Adam learning rate 1e-3 500 epochs and batch size 64",
+    "decoder is frozen during fine tuning",
+    "lambda_reg is 30 and lambda_smooth is 1",
+    "latent DE uses F 0.3 polynomial mutation probability 1/64 and eta 20",
+    "population 100 maximum 10000 complete objective evaluations and 16 runs"
   ],
   "missing_method_or_problem_fields": [
     "400-cell Zhangbei elevation array",
@@ -78,7 +87,6 @@
     "pretraining layout corpus or its deterministic generator seed",
     "pretrained checkpoint",
     "complete Transformer feed-forward dimensions, normalization, dropout, and initialization settings",
-    "lambda_reg and lambda_smooth",
     "fine-tuning batch construction and random seed contract",
     "decoder token tie-breaking and complete duplicate-refill policy"
   ],

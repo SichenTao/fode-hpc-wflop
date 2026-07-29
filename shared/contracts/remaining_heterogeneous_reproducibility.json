@@ -33,7 +33,10 @@
         "three budget thresholds and two noise-monitor configurations shown as figures",
         "3D wake, noise, cost, Transformer, loss, and latent-DE equations",
         "population 100, maximum 10000 complete objective evaluations, 16 runs",
-        "pretraining and fine-tuning hyperparameters reported in prose"
+        "pretraining and fine-tuning hyperparameters reported in prose",
+        "six-layer encoder and decoder, four encoder heads, token and latent dimensions 64",
+        "lambda_reg 30 and lambda_smooth 1",
+        "latent DE F 0.3, polynomial mutation probability 1/64, and eta 20"
       ],
       "missing_problem_identity": [
         "400-cell Zhangbei elevation array",
@@ -47,12 +50,13 @@
         "pretraining layout corpus or its deterministic generator seed",
         "pretrained checkpoint",
         "complete Transformer feed-forward dimensions, normalization, dropout, and initialization settings",
-        "lambda_reg and lambda_smooth",
         "fine-tuning batch construction and random seed contract",
         "decoder token tie-breaking and complete duplicate-refill policy"
       ],
-      "safe_next_profile": "taae_formula_fixture_v1",
-      "safe_next_profile_meaning": "Formula and tensor-shape tests only; not a reproduction of the Zhangbei study."
+      "admitted_problem_proxy": "taae_zhangbei_structured_declared_proxy_v1",
+      "admitted_formula_fixture": "taae_formula_fixture_v1",
+      "safe_next_profile": "taae_transformer_declared_reconstruction_v1",
+      "safe_next_profile_meaning": "Future separately named method reconstruction on the admitted proxy only; not a reproduction of the Zhangbei study or author checkpoint."
     },
     "T45": {
       "paper_doi": "10.1016/j.swevo.2025.102018",

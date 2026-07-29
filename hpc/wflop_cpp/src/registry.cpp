@@ -35,6 +35,13 @@ const std::vector<ProblemDescriptor>& problem_descriptors() {
             "maximize expected complete-farm power on the paper-visible "
             "12 by 12 ideal grid using public WFLO-GGA Guishan annual "
             "wind probabilities and the audited FODE-E0 evaluator"
+        },
+        {
+            "taae_zhangbei_structured_declared_proxy_v1",
+            "TAAE structured 3D energy-noise declared proxy",
+            "taae_zhangbei_structured_declared_proxy_v1",
+            "minimize reciprocal expected power and A-weighted noise "
+            "under a declared land-and-turbine cost constraint"
         }
     };
     return descriptors;

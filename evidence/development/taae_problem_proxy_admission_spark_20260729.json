@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "evidence_id": "taae_problem_proxy_admission_spark_20260729",
+  "host": "spark",
+  "build_type": "Release",
+  "profile_id": "taae_zhangbei_structured_declared_proxy_v1",
+  "checks": {
+    "formula_fixture": "pass",
+    "six_case_manifest": "pass",
+    "fixed_layout_oracle": "pass",
+    "one_vs_twenty_worker_scientific_equality": "bitwise_pass",
+    "complete_layout_fes_accounting": "pass",
+    "wrong_manifest_rejection": "pass",
+    "duplicate_and_monitor_cell_rejection": "pass",
+    "budget_violation_monotonicity": "pass"
+  },
+  "timing_admission": "not_claimed",
+  "timing_boundary": "The bounded local unit test is a correctness receipt, not a throughput or speedup experiment.",
+  "claim_boundary": "Admits only the P3 declared proxy problem and P4 scalar fixture. The original TAAE algorithm and Zhangbei study remain blocked."
+}

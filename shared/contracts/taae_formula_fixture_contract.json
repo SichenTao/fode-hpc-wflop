@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "profile_id": "taae_formula_fixture_v1",
+  "evidence_tier": "P4_FORMULA_FIXTURE",
+  "paper": {
+    "doi": "10.1109/jas.2026.126233",
+    "sha256": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b",
+    "supplement_equations": "1-20"
+  },
+  "covered_oracles": {
+    "equations_1_to_8": "finite positive downstream wake and strictly lower than free-stream speed for the declared scalar fixture",
+    "equation_2_axial_induction_ct_0_8": 0.27639320225002106,
+    "main_text_power_curve_at_8_mps_kw": 153.6,
+    "equation_9_declared_scalar_spl_db": -56.84831355018201,
+    "equation_10_declared_scalar_spl_db": 30.840861708007306,
+    "equation_11_two_equal_40_db_sources": 43.01029995663981,
+    "equation_14_turbine_cost_factor_for_15": 13.380210252473496,
+    "equations_15_to_20": "convex-hull and bounding-rectangle effective-area cost path exercised by the fixed-layout oracle"
+  },
+  "declared_missing_acoustic_inputs": {
+    "bands_hz": [250.0, 1000.0, 4000.0],
+    "a_weighting_db": [-8.6, 0.0, 1.0],
+    "air_absorption_db_per_m": [0.0001, 0.0004, 0.0012],
+    "inflow_source_reference_db": [94.0, 91.0, 84.0],
+    "trailing_edge_source_reference_db": [88.0, 94.0, 89.0]
+  },
+  "claim_boundary": "Scalar formula fixtures check transcription and numerical plumbing only; they are not an executable reproduction of the paper cases."
+}

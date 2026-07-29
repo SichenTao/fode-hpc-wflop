@@ -19,6 +19,7 @@ add_executable(wflop_cpp_hpc
     src/algorithms/ppo.cpp
     src/algorithms/rlfode_seeded_reconstruction.cpp
     src/algorithms/rlpso.cpp
+    src/problems/taae_zhangbei_structured_proxy.cpp
     src/main.cpp
 )
 
@@ -108,5 +109,33 @@ if(BUILD_TESTING)
             --binary $<TARGET_FILE:wflop_cpp_hpc>
             --common-cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/benchmark_cases.json
             --transfer-cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/alga_guishan_planar_transfer_cases.json
+    )
+    add_executable(taae_problem_test
+        ../fode_cpp/src/case_loader.cpp
+        ../fode_cpp/src/executor.cpp
+        src/problems/taae_zhangbei_structured_proxy.cpp
+        tests/taae_problem_test.cpp
+    )
+    target_include_directories(taae_problem_test PRIVATE
+        include
+        ../fode_cpp/include
+    )
+    target_link_libraries(taae_problem_test PRIVATE
+        OpenMP::OpenMP_CXX
+        Threads::Threads
+    )
+    target_compile_options(taae_problem_test PRIVATE
+        -O3
+        -ffp-contract=off
+        -Wall
+        -Wextra
+        -Wpedantic
+        -Wconversion
+        -Wshadow
+    )
+    add_test(
+        NAME taae_problem_fixture
+        COMMAND taae_problem_test
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json
     )
 endif()

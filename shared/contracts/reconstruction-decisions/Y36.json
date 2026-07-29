@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "corpus_id": "Y36",
+  "doi": "10.1109/jas.2026.126233",
+  "paper_sha256": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b",
+  "profiles": [
+    "taae_zhangbei_structured_declared_proxy_v1",
+    "taae_formula_fixture_v1"
+  ],
+  "completion_status": "P3_problem_proxy_and_P4_formula_fixture_complete_original_TAAE_problem_and_method_blocked",
+  "decisions": [
+    {
+      "field": "terrain_and_decision_space",
+      "completed_transition": "the paper fixes a 20 by 20 grid and 15 turbines but exposes the Zhangbei terrain only as a figure",
+      "selected_value_or_rule": "retain the 20 by 20 discrete grid and 15 turbines and use the frozen analytic terrain written in the proxy case manifest",
+      "authority_type": "paper_structure_plus_declared_proxy_completion",
+      "immutable_authority": "Y36 paper and shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json",
+      "rejected_alternatives": ["digitize the contour figure and claim the original elevation array", "reuse a planar FODE case under the Zhangbei name"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "changes hub elevations, wake interactions, land geometry, and both objectives",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "joint_wind_and_monitors",
+      "completed_transition": "the paper reports eight directions and two monitor configurations but no machine-readable probabilities or monitor cells",
+      "selected_value_or_rule": "use the frozen eight-direction by four-speed joint distribution and the two declared four-cell monitor configurations in the manifest",
+      "authority_type": "paper_structure_plus_declared_proxy_completion",
+      "immutable_authority": "shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json and its six case hashes",
+      "rejected_alternatives": ["digitize plotted values and call them author arrays", "silently inherit unrelated benchmark wind states"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines state weights, unavailable cells, energy, and acoustic objective values",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "acoustic_model_completion",
+      "completed_transition": "supplement Eqs. 9-13 provide structure but omit complete spectra, propagation constants, and corrections",
+      "selected_value_or_rule": "preserve source-energy summation and A weighting with three explicitly declared bands, source reference levels, and absorption coefficients",
+      "authority_type": "paper_equations_plus_declared_proxy_completion",
+      "immutable_authority": "shared/contracts/taae_formula_fixture_contract.json and shared/contracts/taae_zhangbei_structured_declared_proxy_contract.json",
+      "rejected_alternatives": ["invent hidden full blade spectra", "omit acoustics while retaining a two-objective label"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines the complete second objective and prevents original-result claims",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "cost_constraint_and_fes",
+      "completed_transition": "supplement Eqs. 14-20 and budgets are visible but the land unit coefficient is unavailable",
+      "selected_value_or_rule": "use the literal turbine and effective-area forms with declared cost scales; count one joint energy-noise-cost evaluation of a complete layout as one physical FES",
+      "authority_type": "paper_equations_plus_platform_work_contract",
+      "immutable_authority": "shared/contracts/taae_zhangbei_structured_declared_proxy_contract.json",
+      "rejected_alternatives": ["count each wind state as one FES", "select the land coefficient after observing optimization results"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "defines feasibility, comparable work, and budget stopping",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "cpu_parallel_schedule",
+      "completed_transition": "the paper does not prescribe evaluator parallelism",
+      "selected_value_or_rule": "assign independent complete layouts to a persistent CPU team and keep every within-layout reduction in fixed order",
+      "authority_type": "platform_HPC_contract",
+      "immutable_authority": "hpc/wflop_cpp/tests/taae_problem_test.cpp and evidence/development/taae_problem_proxy_admission_spark_20260729.json",
+      "rejected_alternatives": ["make floating-point results worker-count dependent", "silently claim an unimplemented GPU backend"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "permits CPU population evaluation while preserving bitwise scientific equality",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    }
+  ]
+}

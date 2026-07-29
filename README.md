@@ -63,6 +63,11 @@ The separately named `alga_attention_declared_reconstruction_v1` is an M3
 engineering reconstruction and does not remove or weaken the original `alga`
 guard; its completions and composite transfer boundary are declared in
 `shared/contracts/alga_attention_declared_reconstruction_contract.json`.
+Likewise,
+`taae_zhangbei_structured_declared_proxy_v1` is only a P3 problem proxy and
+`taae_formula_fixture_v1` is only a P4 scalar fixture. Neither makes the
+original `taae` method executable or reproduces the unavailable Zhangbei
+arrays and reported fronts.
 
 ## Build and test
 
