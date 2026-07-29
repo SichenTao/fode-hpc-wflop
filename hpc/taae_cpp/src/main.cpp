@@ -4,7 +4,7 @@ Implementation unit: TAAE end-to-end declared-reconstruction CPU CLI
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: explicit P3 case selection, bounded versus checkpoint-gated paper-scale state, pre-repair decoded-solution filtering, no-feasible front labeling, checkpoint SHA-256 admission, terminal partial FES, and unsupported backend rejection
+Missing choices completed here: explicit P3 case selection, bounded versus checkpoint-gated paper-scale state, pre-repair decoded-solution filtering, no-feasible front labeling, checkpoint SHA-256 admission, terminal partial FES, all-visible CPU default, and unsupported backend rejection
 Reconstruction status: bounded executable M3 engineering reconstruction on the declared P3 problem proxy
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_evolution_declared_reconstruction_v1
@@ -31,7 +31,7 @@ struct Arguments {
     std::string case_id;
     std::uint64_t seed = 1;
     std::uint64_t physical_fes = 10000;
-    int workers = 1;
+    int workers = 0;
     std::string profile = "bounded";
     std::string checkpoint_input;
     std::string checkpoint_sha256;
@@ -46,7 +46,8 @@ Arguments parse_arguments(int argc, char** argv) {
         if (option == "--help") {
             std::cout
                 << "usage: taae_evolution_hpc --cases FILE --case ID "
-                << "[--seed N] [--physical-fes N] [--workers N] "
+                << "[--seed N] [--physical-fes N] "
+                << "[--workers N (default: all visible CPUs)] "
                 << "[--profile bounded|paper-scale] "
                 << "[--checkpoint-in FILE --checkpoint-sha256 SHA256] "
                 << "[--checkpoint-out FILE] [--backend cpu]\n";

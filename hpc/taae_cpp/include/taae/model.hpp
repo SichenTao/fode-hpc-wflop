@@ -4,7 +4,7 @@ Implementation unit: TAAE declared-reconstruction Transformer model interface
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, mean encoder pooling, separate encoder/decoder embeddings, deterministic metric-pair seed, per-parameter Adam age, and checkpoint format
+Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, mean encoder pooling, separate encoder/decoder embeddings, deterministic metric-pair seed, per-parameter Adam age, checkpoint format, and exact fixed-order CPU batch execution
 Reconstruction status: engineering reconstruction with declared completion choices
 Method evidence tier: M3_DECLARED_COMPLETION
 Problem evidence tier: P3_DECLARED_PROXY
@@ -20,11 +20,11 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 #include <string>
 #include <vector>
 
-namespace taae {
-
-namespace fode_compat {
+namespace fode {
 class PersistentExecutor;
 }
+
+namespace taae {
 
 struct ModelConfig {
     int vocabulary = 400;
@@ -109,9 +109,12 @@ public:
     [[nodiscard]] std::vector<int> decode_argmax(
         const std::vector<double>& latent
     ) const;
+    [[nodiscard]] bool argmax_softmax_equivalence_fixture(
+        const std::vector<double>& latent
+    ) const;
     [[nodiscard]] double reconstruction_loss(
         const std::vector<std::vector<int>>& layouts,
-        fode_compat::PersistentExecutor* executor = nullptr
+        fode::PersistentExecutor* executor = nullptr
     ) const;
     BatchLoss train_batch(
         const std::vector<std::vector<int>>& layouts,
@@ -122,7 +125,7 @@ public:
         double beta2,
         double epsilon,
         bool freeze_decoder,
-        fode_compat::PersistentExecutor* executor = nullptr
+        fode::PersistentExecutor* executor = nullptr
     );
 
     [[nodiscard]] std::string parameter_hash() const;
@@ -182,7 +185,7 @@ std::vector<std::vector<int>> deterministic_layout_corpus(
 TrainingWork pretrain(
     TransformerAutoencoder& model,
     const TrainingProfile& profile,
-    fode_compat::PersistentExecutor& executor
+    fode::PersistentExecutor& executor
 );
 bool run_model_gradient_checks(std::string& report);
 

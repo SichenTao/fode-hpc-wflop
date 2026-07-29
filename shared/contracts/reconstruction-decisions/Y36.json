@@ -74,9 +74,9 @@
     {
       "field": "cpu_parallel_schedule",
       "completed_transition": "the paper does not prescribe evaluator parallelism",
-      "selected_value_or_rule": "assign independent complete layouts to a configured persistent CPU team and keep every within-layout reduction in fixed order; record configured team size without claiming actual distinct worker participation",
+      "selected_value_or_rule": "assign independent complete layouts to a configured persistent CPU team and keep every within-layout reduction in fixed order; record requested and resolved team sizes plus actual distinct and peak participant counts",
       "authority_type": "platform_HPC_contract",
-      "immutable_authority": "hpc/wflop_cpp/tests/taae_problem_test.cpp and evidence/development/taae_problem_proxy_admission_spark_20260729.json",
+      "immutable_authority": "hpc/wflop_cpp/tests/taae_problem_test.cpp, hpc/fode_cpp/include/fode/executor.hpp, and evidence/development/taae_problem_proxy_admission_spark_20260729.json",
       "rejected_alternatives": ["make floating-point results worker-count dependent", "silently claim an unimplemented GPU backend"],
       "classification": "quality_sensitive",
       "expected_downstream_effect": "permits CPU population evaluation while preserving same-binary bitwise scientific equality between one-thread and twenty-thread configurations",
@@ -154,6 +154,18 @@
       "expected_downstream_effect": "separates bounded executable evidence from unavailable paper-scale learned state and preserves physical-work accounting",
       "sensitivity_test_required": true,
       "adjudication_status": "bounded_M3_executable_paper_scale_blocked"
+    },
+    {
+      "field": "taae_cpu_r4_exact_execution",
+      "completed_transition": "the approved bounded reconstruction was scientifically exact across worker counts but the model forward path and autoregressive offspring decoding were serial, the CLI required an explicit worker count for all-visible execution, and configured thread count did not prove actual participation",
+      "selected_value_or_rule": "reuse one persistent CPU executor for independent model forward/cache work, population encoding, complete-layout evaluation, and executor-width speculative decoding; commit decoded proposals in exact attempt order and invalidate later speculation whenever repair consumes RNG; retain fixed-order loss and gradient accumulation, Adam registry/index updates, RNG transitions, pairing, repair, selection, and serialization; default an omitted CLI worker option to all visible logical CPUs and emit stage timing, proposal-work, requested/resolved-worker, distinct-participant, and peak-participant receipts",
+      "authority_type": "platform_CPU_execution_contract_with_exact_scientific_equivalence",
+      "immutable_authority": "shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json, hpc/taae_cpp/tests/evolution_test.cpp, and evidence/development/taae_cpu_r4_spark_20260729.json",
+      "rejected_alternatives": ["parallelize reductions or backward accumulation in a way that changes floating-point order", "commit speculative decoded proposals out of attempt order", "claim GPU or hybrid support", "retain measured Adam parameter-task parallelism after it showed no reproducible absolute gain and added executor work"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "reduces bounded CPU wall time while preserving exact model, population, front, FES, generation, RNG, repair, and proposal-work semantics across one and all-visible workers; receipts demonstrate actual executor participation without creating a formal or paper-result claim",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_CPU_R4_development_only"
     }
   ]
 }

@@ -8,10 +8,15 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(Threads REQUIRED)
 
 add_library(taae_cpp_core
+    ../fode_cpp/src/executor.cpp
     src/model.cpp
 )
 target_include_directories(taae_cpp_core PUBLIC
     include
+    ../fode_cpp/include
+)
+target_link_libraries(taae_cpp_core PUBLIC
+    Threads::Threads
 )
 target_compile_options(taae_cpp_core PRIVATE
     -O3
@@ -25,7 +30,6 @@ target_compile_options(taae_cpp_core PRIVATE
 
 add_library(taae_evolution_core
     ../fode_cpp/src/case_loader.cpp
-    ../fode_cpp/src/executor.cpp
     ../wflop_cpp/src/problems/taae_zhangbei_structured_proxy.cpp
     src/evolution.cpp
 )
@@ -36,7 +40,6 @@ target_include_directories(taae_evolution_core PUBLIC
 )
 target_link_libraries(taae_evolution_core PUBLIC
     taae_cpp_core
-    Threads::Threads
 )
 target_compile_options(taae_evolution_core PRIVATE
     -O3

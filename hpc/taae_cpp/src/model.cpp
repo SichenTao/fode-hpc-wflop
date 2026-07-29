@@ -4,7 +4,7 @@ Implementation unit: TAAE declared-reconstruction trainable Transformer kernel
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, mean encoder pooling, separate encoder/decoder embeddings, deterministic metric-pair seed, per-parameter Adam age, and checkpoint format
+Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, mean encoder pooling, separate encoder/decoder embeddings, deterministic metric-pair seed, per-parameter Adam age, checkpoint format, and exact fixed-order CPU batch execution
 Reconstruction status: engineering reconstruction with declared completion choices
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_declared_reconstruction_v1
@@ -14,6 +14,8 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 
 #include "taae/model.hpp"
+
+#include "fode/executor.hpp"
 
 #include <algorithm>
 #include <array>
@@ -48,10 +50,10 @@ struct Matrix {
           values(row_count * column_count, value) {}
 
     double& operator()(std::size_t row, std::size_t column) {
-        return values.at(row * cols + column);
+        return values[row * cols + column];
     }
     const double& operator()(std::size_t row, std::size_t column) const {
-        return values.at(row * cols + column);
+        return values[row * cols + column];
     }
 };
 
@@ -2206,7 +2208,8 @@ struct TransformerAutoencoder::Impl {
 
     void decode_forward(
         const std::vector<int>& targets,
-        ModelSampleCache& cache
+        ModelSampleCache& cache,
+        bool compute_probabilities = true
     ) const {
         const std::size_t sequence =
             static_cast<std::size_t>(config.sequence_length);
@@ -2258,7 +2261,9 @@ struct TransformerAutoencoder::Impl {
                 cache.logits(row, column) += output_bias->value[column];
             }
         }
-        cache.probabilities = softmax_rows(cache.logits);
+        cache.probabilities = compute_probabilities
+            ? softmax_rows(cache.logits)
+            : Matrix{};
     }
 
     void full_forward(
@@ -2424,7 +2429,8 @@ struct TransformerAutoencoder::Impl {
         const std::vector<std::vector<int>>& layouts,
         const std::vector<double>& relative_fitness,
         const LossWeights& weights,
-        bool freeze_decoder
+        bool freeze_decoder,
+        fode::PersistentExecutor* executor
     ) {
         if (layouts.empty() ||
             (!relative_fitness.empty() &&
@@ -2436,10 +2442,14 @@ struct TransformerAutoencoder::Impl {
         std::vector<std::vector<double>> latent(layouts.size());
         std::vector<std::vector<double>> raw_latent(layouts.size());
         std::vector<double> prediction(layouts.size(), 0.0);
+        std::vector<double> reconstruction_contribution(
+            layouts.size(),
+            0.0
+        );
         BatchLoss losses;
-        for (std::size_t sample = 0; sample < layouts.size(); ++sample) {
+        const auto forward_sample = [&](std::size_t sample) {
             full_forward(layouts[sample], caches[sample]);
-            losses.reconstruction += cross_entropy(
+            reconstruction_contribution[sample] = cross_entropy(
                 caches[sample].logits,
                 layouts[sample],
                 nullptr
@@ -2455,6 +2465,25 @@ struct TransformerAutoencoder::Impl {
                 caches[sample].regression_hidden,
                 caches[sample].regression_activated
             );
+        };
+        if (executor == nullptr) {
+            for (std::size_t sample = 0;
+                 sample < layouts.size();
+                 ++sample) {
+                forward_sample(sample);
+            }
+        } else {
+            executor->parallel_for(
+                0,
+                static_cast<int>(layouts.size()),
+                [&](int sample) {
+                    forward_sample(static_cast<std::size_t>(sample));
+                }
+            );
+        }
+        for (std::size_t sample = 0; sample < layouts.size(); ++sample) {
+            losses.reconstruction +=
+                reconstruction_contribution[sample];
         }
         const std::vector<double> targets =
             relative_fitness.empty()
@@ -2791,14 +2820,13 @@ std::vector<int> TransformerAutoencoder::decode_argmax(
         0
     );
     for (std::size_t position = 0; position < generated.size(); ++position) {
-        impl_->decode_forward(generated, cache);
-        const Matrix probabilities = softmax_rows(cache.logits);
+        impl_->decode_forward(generated, cache, false);
         std::size_t best = 0;
         for (std::size_t token = 1;
-             token < probabilities.cols;
+             token < cache.logits.cols;
              ++token) {
-            if (probabilities(position, token) >
-                probabilities(position, best)) {
+            if (cache.logits(position, token) >
+                cache.logits(position, best)) {
                 best = token;
             }
         }
@@ -2807,18 +2835,73 @@ std::vector<int> TransformerAutoencoder::decode_argmax(
     return generated;
 }
 
+bool TransformerAutoencoder::argmax_softmax_equivalence_fixture(
+    const std::vector<double>& latent
+) const {
+    if (latent.size() !=
+        static_cast<std::size_t>(impl_->config.latent_dimension)) {
+        throw std::invalid_argument("decode latent shape mismatch");
+    }
+    ModelSampleCache cache;
+    cache.raw_latent = Matrix(1, latent.size());
+    cache.raw_latent.values = latent;
+    std::vector<int> reference(
+        static_cast<std::size_t>(impl_->config.sequence_length),
+        0
+    );
+    for (std::size_t position = 0;
+         position < reference.size();
+         ++position) {
+        impl_->decode_forward(reference, cache, true);
+        std::size_t best = 0;
+        for (std::size_t token = 1;
+             token < cache.probabilities.cols;
+             ++token) {
+            if (cache.probabilities(position, token) >
+                cache.probabilities(position, best)) {
+                best = token;
+            }
+        }
+        reference[position] = static_cast<int>(best);
+    }
+    return reference == decode_argmax(latent);
+}
+
 double TransformerAutoencoder::reconstruction_loss(
     const std::vector<std::vector<int>>& layouts,
-    fode_compat::PersistentExecutor*
+    fode::PersistentExecutor* executor
 ) const {
     if (layouts.empty()) {
         throw std::invalid_argument("reconstruction corpus is empty");
     }
-    double loss = 0.0;
-    for (const auto& layout : layouts) {
+    std::vector<double> sample_loss(layouts.size(), 0.0);
+    const auto evaluate_sample = [&](std::size_t sample) {
         ModelSampleCache cache;
-        impl_->full_forward(layout, cache);
-        loss += cross_entropy(cache.logits, layout, nullptr);
+        impl_->full_forward(layouts[sample], cache);
+        sample_loss[sample] = cross_entropy(
+            cache.logits,
+            layouts[sample],
+            nullptr
+        );
+    };
+    if (executor == nullptr) {
+        for (std::size_t sample = 0;
+             sample < layouts.size();
+             ++sample) {
+            evaluate_sample(sample);
+        }
+    } else {
+        executor->parallel_for(
+            0,
+            static_cast<int>(layouts.size()),
+            [&](int sample) {
+                evaluate_sample(static_cast<std::size_t>(sample));
+            }
+        );
+    }
+    double loss = 0.0;
+    for (double value : sample_loss) {
+        loss += value;
     }
     return loss / static_cast<double>(layouts.size());
 }
@@ -2833,7 +2916,8 @@ BatchLoss TransformerAutoencoder::gradient_only(
         layouts,
         relative_fitness,
         weights,
-        freeze_decoder
+        freeze_decoder,
+        nullptr
     );
 }
 
@@ -2846,13 +2930,14 @@ BatchLoss TransformerAutoencoder::train_batch(
     double beta2,
     double epsilon,
     bool freeze_decoder,
-    fode_compat::PersistentExecutor*
+    fode::PersistentExecutor* executor
 ) {
-    BatchLoss loss = gradient_only(
+    BatchLoss loss = impl_->gradients(
         layouts,
         relative_fitness,
         weights,
-        freeze_decoder
+        freeze_decoder,
+        executor
     );
     impl_->adam(
         learning_rate,
@@ -3210,7 +3295,7 @@ std::vector<std::vector<int>> deterministic_layout_corpus(
 TrainingWork pretrain(
     TransformerAutoencoder& model,
     const TrainingProfile& profile,
-    fode_compat::PersistentExecutor&
+    fode::PersistentExecutor& executor
 ) {
     if (profile.train_layouts == 0 ||
         profile.pretraining_epochs < 0 ||
@@ -3265,7 +3350,8 @@ TrainingWork pretrain(
                 profile.beta1,
                 profile.beta2,
                 profile.epsilon,
-                false
+                false,
+                &executor
             );
             ++work.optimizer_steps;
             work.token_operations +=

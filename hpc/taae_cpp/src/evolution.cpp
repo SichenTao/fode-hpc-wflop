@@ -4,7 +4,7 @@ Implementation unit: TAAE end-to-end declared-reconstruction evolutionary method
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: SPEA2 density k, CDP and tournament ties, raw-latent mutation bounds, pre-repair decoded-solution filtering, Gaussian covariance regularization, post-repair guards, no-feasible front output, partial batches, and checkpoint admission
+Missing choices completed here: SPEA2 density k, CDP and tournament ties, raw-latent mutation bounds, pre-repair decoded-solution filtering, Gaussian covariance regularization, post-repair guards, no-feasible front output, partial batches, checkpoint admission, exact-trajectory CPU speculation, and stage/work receipts
 Reconstruction status: bounded executable M3 engineering reconstruction on the declared P3 problem proxy
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_evolution_declared_reconstruction_v1
@@ -35,6 +35,7 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 #include <stdexcept>
 #include <string>
 #include <tuple>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -42,6 +43,41 @@ namespace taae::evolution {
 namespace {
 
 using Clock = std::chrono::steady_clock;
+
+StageReceipt capture_stage_receipt(
+    Clock::time_point start,
+    const fode::PersistentExecutor& executor
+) {
+    const fode::ExecutorWorkReceipt work = executor.work_receipt();
+    StageReceipt receipt;
+    receipt.wall_seconds =
+        std::chrono::duration<double>(Clock::now() - start).count();
+    receipt.parallel_regions = work.parallel_regions;
+    receipt.task_items = work.task_items;
+    receipt.participant_activations = work.participant_activations;
+    receipt.distinct_participants = work.distinct_participants;
+    receipt.peak_region_participants =
+        work.peak_region_participants;
+    return receipt;
+}
+
+void accumulate_stage(
+    StageReceipt& total,
+    const StageReceipt& addition
+) {
+    total.wall_seconds += addition.wall_seconds;
+    total.parallel_regions += addition.parallel_regions;
+    total.task_items += addition.task_items;
+    total.participant_activations += addition.participant_activations;
+    total.distinct_participants = std::max(
+        total.distinct_participants,
+        addition.distinct_participants
+    );
+    total.peak_region_participants = std::max(
+        total.peak_region_participants,
+        addition.peak_region_participants
+    );
+}
 
 constexpr int kPaperPopulationSize = 100;
 constexpr std::uint64_t kPaperMaximumFes = 10000;
@@ -857,8 +893,12 @@ void deterministic_shuffle(
 void bounded_pretrain(
     TransformerAutoencoder& model,
     std::uint64_t seed,
-    TrainingWork& work
+    TrainingWork& work,
+    fode::PersistentExecutor& executor,
+    StageReceipt& stage
 ) {
+    executor.reset_work_receipt();
+    const auto stage_start = Clock::now();
     constexpr std::uint64_t kLayouts = 64;
     constexpr int kEpochs = 2;
     constexpr std::size_t kBatchSize = 16;
@@ -898,7 +938,8 @@ void bounded_pretrain(
                 0.9,
                 0.999,
                 1.0e-8,
-                false
+                false,
+                &executor
             );
             ++work.optimizer_steps;
             work.token_operations +=
@@ -913,6 +954,10 @@ void bounded_pretrain(
         Clock::now() - start
     ).count();
     work.training_physical_fes = 0;
+    accumulate_stage(
+        stage,
+        capture_stage_receipt(stage_start, executor)
+    );
 }
 
 void fine_tune(
@@ -920,8 +965,12 @@ void fine_tune(
     const std::vector<Individual>& population,
     const EvolutionConfig& config,
     std::uint64_t generation,
-    TrainingWork& work
+    TrainingWork& work,
+    fode::PersistentExecutor& executor,
+    StageReceipt& stage
 ) {
+    executor.reset_work_receipt();
+    const auto stage_start = Clock::now();
     std::vector<std::vector<int>> layouts;
     std::vector<double> targets;
     layouts.reserve(population.size());
@@ -973,7 +1022,8 @@ void fine_tune(
                 0.9,
                 0.999,
                 1.0e-8,
-                true
+                true,
+                &executor
             );
             ++work.optimizer_steps;
             work.token_operations +=
@@ -988,6 +1038,10 @@ void fine_tune(
         Clock::now() - start
     ).count();
     work.training_physical_fes = 0;
+    accumulate_stage(
+        stage,
+        capture_stage_receipt(stage_start, executor)
+    );
 }
 
 std::vector<Individual> initialize_population(
@@ -1025,15 +1079,33 @@ std::vector<Individual> generate_offspring(
     std::size_t requested,
     const fode::CaseData& problem,
     TransformerAutoencoder& model,
-    DeterministicRng& rng
+    DeterministicRng& rng,
+    fode::PersistentExecutor& executor,
+    StageReceipt& population_encoding_stage,
+    StageReceipt& offspring_stage,
+    ProposalWorkReceipt& proposal_work
 ) {
-    for (Individual& value : population) {
+    executor.reset_work_receipt();
+    const auto encoding_start = Clock::now();
+    executor.parallel_for(
+        0,
+        static_cast<int>(population.size()),
+        [&](int population_index) {
+        Individual& value =
+            population[static_cast<std::size_t>(population_index)];
         std::vector<int> zero_based = value.layout;
         for (int& cell : zero_based) {
             --cell;
         }
         value.raw_latent = model.encode(zero_based);
-    }
+        }
+    );
+    accumulate_stage(
+        population_encoding_stage,
+        capture_stage_receipt(encoding_start, executor)
+    );
+    executor.reset_work_receipt();
+    const auto offspring_start = Clock::now();
     const std::size_t dimensions = population.front().raw_latent.size();
     std::vector<double> lower(
         dimensions,
@@ -1067,51 +1139,124 @@ std::vector<Individual> generate_offspring(
     offspring.reserve(requested);
     const std::size_t proposal_cap =
         std::max<std::size_t>(requested * kProposalMultiplierCap, requested);
-    for (std::size_t attempt = 0;
-         attempt < proposal_cap && offspring.size() < requested;
-         ++attempt) {
-        const std::size_t current = attempt % population.size();
-        const std::size_t first = tournament(population, rng);
-        const std::size_t second = tournament(population, rng);
-        const std::vector<double> latent = latent_offspring(
-            population[current].raw_latent,
-            population[first].raw_latent,
-            population[second].raw_latent,
-            lower,
-            upper,
-            rng,
-            true,
-            nullptr
+    struct SpeculativeProposal {
+        std::vector<double> latent;
+        std::vector<int> decoded;
+        std::uint64_t post_latent_rng_state = 0;
+    };
+    std::size_t attempt = 0;
+    const std::size_t speculative_width = static_cast<std::size_t>(
+        std::max(executor.thread_count(), 1)
+    );
+    while (attempt < proposal_cap && offspring.size() < requested) {
+        const std::size_t batch_size = std::min(
+            speculative_width,
+            proposal_cap - attempt
         );
-        std::vector<int> decoded = model.decode_argmax(latent);
-        for (int& cell : decoded) {
-            ++cell;
+        DeterministicRng speculative_rng = rng;
+        std::vector<SpeculativeProposal> proposals(batch_size);
+        for (std::size_t offset = 0; offset < batch_size; ++offset) {
+            const std::size_t proposal_index = attempt + offset;
+            const std::size_t current =
+                proposal_index % population.size();
+            const std::size_t first =
+                tournament(population, speculative_rng);
+            const std::size_t second =
+                tournament(population, speculative_rng);
+            proposals[offset].latent = latent_offspring(
+                population[current].raw_latent,
+                population[first].raw_latent,
+                population[second].raw_latent,
+                lower,
+                upper,
+                speculative_rng,
+                true,
+                nullptr
+            );
+            proposals[offset].post_latent_rng_state =
+                speculative_rng.state;
         }
-        DecodedProposalResult filtered = filter_and_repair_decoded(
-            decoded,
-            problem,
-            rng,
-            parent_keys,
-            raw_decoded_keys,
-            accepted_keys
+        executor.parallel_for(
+            0,
+            static_cast<int>(batch_size),
+            [&](int proposal_index) {
+                SpeculativeProposal& proposal = proposals[
+                    static_cast<std::size_t>(proposal_index)
+                ];
+                proposal.decoded =
+                    model.decode_argmax(proposal.latent);
+                for (int& cell : proposal.decoded) {
+                    ++cell;
+                }
+            }
         );
-        if (filtered.status != DecodedProposalStatus::accepted) {
-            continue;
+        ++proposal_work.speculative_decode_batches;
+        proposal_work.speculative_decode_tasks += batch_size;
+
+        std::size_t processed = 0;
+        bool invalidated = false;
+        for (; processed < batch_size; ++processed) {
+            ++proposal_work.latent_proposal_attempts;
+            rng.state = proposals[processed].post_latent_rng_state;
+            const std::uint64_t before_repair_rng_state = rng.state;
+            DecodedProposalResult filtered =
+                filter_and_repair_decoded(
+                    proposals[processed].decoded,
+                    problem,
+                    rng,
+                    parent_keys,
+                    raw_decoded_keys,
+                    accepted_keys
+                );
+            ++attempt;
+            const bool repair_consumed_rng =
+                rng.state != before_repair_rng_state;
+            if (filtered.status != DecodedProposalStatus::accepted) {
+                if (
+                    filtered.status ==
+                    DecodedProposalStatus::duplicate_raw_before_repair
+                ) {
+                    ++proposal_work.raw_duplicate_rejects;
+                } else if (
+                    filtered.status ==
+                    DecodedProposalStatus::parent_identical_before_repair
+                ) {
+                    ++proposal_work.pre_repair_parent_rejects;
+                } else {
+                    ++proposal_work.post_repair_rejects;
+                }
+            } else {
+                ++proposal_work.accepted_latent_offspring;
+                Individual value;
+                value.layout = std::move(filtered.repaired);
+                value.source_index =
+                    population.size() + offspring.size();
+                offspring.push_back(std::move(value));
+            }
+            if (repair_consumed_rng ||
+                offspring.size() == requested) {
+                invalidated = repair_consumed_rng;
+                ++processed;
+                break;
+            }
         }
-        Individual value;
-        value.layout = std::move(filtered.repaired);
-        value.source_index = population.size() + offspring.size();
-        offspring.push_back(std::move(value));
+        proposal_work.speculative_decode_discards +=
+            batch_size - processed;
+        if (invalidated) {
+            ++proposal_work.repair_rng_invalidations;
+        }
     }
     const std::size_t refill_cap =
         std::max<std::size_t>(requested * kRefillMultiplierCap, requested);
-    for (std::size_t attempt = 0;
-         attempt < refill_cap && offspring.size() < requested;
-         ++attempt) {
+    for (std::size_t refill_index = 0;
+         refill_index < refill_cap && offspring.size() < requested;
+         ++refill_index) {
+        ++proposal_work.refill_attempts;
         const std::vector<int> repaired =
             uniform_feasible_layout(problem, rng);
         const std::string key = canonical_solution_key(repaired);
         if (parent_keys.contains(key) || accepted_keys.contains(key)) {
+            ++proposal_work.refill_rejects;
             continue;
         }
         accepted_keys.insert(key);
@@ -1123,13 +1268,19 @@ std::vector<Individual> generate_offspring(
     if (offspring.size() != requested) {
         throw std::runtime_error("duplicate refill cap exhausted");
     }
+    accumulate_stage(
+        offspring_stage,
+        capture_stage_receipt(offspring_start, executor)
+    );
     return offspring;
 }
 
 TransformerAutoencoder initialize_model(
     const EvolutionConfig& config,
     TrainingWork& work,
-    CheckpointMetadata& input_metadata
+    CheckpointMetadata& input_metadata,
+    fode::PersistentExecutor& executor,
+    StageReceipt& bounded_pretraining_stage
 ) {
     if (config.training_profile ==
             TrainingStateProfile::paper_scale_checkpoint &&
@@ -1174,7 +1325,13 @@ TransformerAutoencoder initialize_model(
         return model;
     }
     TransformerAutoencoder model(config.model_config, config.seed);
-    bounded_pretrain(model, config.seed, work);
+    bounded_pretrain(
+        model,
+        config.seed,
+        work,
+        executor,
+        bounded_pretraining_stage
+    );
     return model;
 }
 
@@ -1215,7 +1372,7 @@ EvolutionResult run_declared_reconstruction(
         config.maximum_physical_fes <
             static_cast<std::uint64_t>(config.population_size) ||
         config.maximum_physical_fes > kPaperMaximumFes ||
-        config.workers <= 0 ||
+        config.workers < 0 ||
         config.fine_tune_epochs != 10 ||
         config.fine_tune_batch_size <= 0) {
         throw std::invalid_argument("evolution config violates contract");
@@ -1224,19 +1381,46 @@ EvolutionResult run_declared_reconstruction(
         config.model_config.sequence_length != problem.turbine_count) {
         throw std::invalid_argument("model and problem shape mismatch");
     }
-    fode::PersistentExecutor executor(config.workers);
+    const unsigned visible_hardware_threads =
+        std::thread::hardware_concurrency();
+    const int resolved_workers = config.workers == 0
+        ? static_cast<int>(
+            std::max(visible_hardware_threads, 1U)
+        )
+        : config.workers;
+    fode::PersistentExecutor executor(resolved_workers);
     DeterministicRng rng(config.seed ^ 0x45564f4c5554494fULL);
     TrainingWork training_work;
     CheckpointMetadata input_metadata;
+    StageReceipt bounded_pretraining_stage;
+    StageReceipt fine_tuning_stage;
+    StageReceipt population_encoding_stage;
+    StageReceipt offspring_stage;
+    StageReceipt evaluator_stage;
+    ProposalWorkReceipt proposal_work;
     TransformerAutoencoder model = initialize_model(
         config,
         training_work,
-        input_metadata
+        input_metadata,
+        executor,
+        bounded_pretraining_stage
     );
     std::vector<Individual> population =
         initialize_population(config, problem, rng);
+    const auto evaluate_and_record =
+        [&](std::vector<Individual>& values) {
+            executor.reset_work_receipt();
+            const auto stage_start = Clock::now();
+            const double evaluator_seconds =
+                evaluate_population(values, problem, executor);
+            accumulate_stage(
+                evaluator_stage,
+                capture_stage_receipt(stage_start, executor)
+            );
+            return evaluator_seconds;
+        };
     double evaluator_wall_seconds =
-        evaluate_population(population, problem, executor);
+        evaluate_and_record(population);
     std::uint64_t physical_fes =
         static_cast<std::uint64_t>(population.size());
     std::uint64_t generation = 0;
@@ -1249,7 +1433,9 @@ EvolutionResult run_declared_reconstruction(
             population,
             config,
             generation,
-            training_work
+            training_work,
+            executor,
+            fine_tuning_stage
         );
         const std::size_t requested = static_cast<std::size_t>(
             std::min<std::uint64_t>(
@@ -1262,10 +1448,14 @@ EvolutionResult run_declared_reconstruction(
             requested,
             problem,
             model,
-            rng
+            rng,
+            executor,
+            population_encoding_stage,
+            offspring_stage,
+            proposal_work
         );
         evaluator_wall_seconds +=
-            evaluate_population(offspring, problem, executor);
+            evaluate_and_record(offspring);
         physical_fes += static_cast<std::uint64_t>(offspring.size());
         std::vector<Individual> merged = population;
         merged.insert(
@@ -1298,6 +1488,7 @@ EvolutionResult run_declared_reconstruction(
     result.physical_fes = physical_fes;
     result.generations = generation;
     result.requested_workers = config.workers;
+    result.resolved_workers = resolved_workers;
     result.training_state_profile_id =
         config.training_profile == TrainingStateProfile::bounded_smoke
             ? "taae_evolution_bounded_smoke_v1"
@@ -1306,6 +1497,13 @@ EvolutionResult run_declared_reconstruction(
     result.training_work = training_work;
     result.training_work.training_physical_fes = 0;
     result.evaluator_wall_seconds = evaluator_wall_seconds;
+    result.bounded_pretraining_stage = bounded_pretraining_stage;
+    result.fine_tuning_stage = fine_tuning_stage;
+    result.population_encoding_stage = population_encoding_stage;
+    result.offspring_decode_repair_variation_stage =
+        offspring_stage;
+    result.evaluator_stage = evaluator_stage;
+    result.proposal_work = proposal_work;
     result.model_hash = model.parameter_hash();
     result.population_layout_hash =
         hash_individuals(population, false);
@@ -1344,6 +1542,14 @@ EvolutionResult run_declared_reconstruction(
     result.total_wall_seconds = std::chrono::duration<double>(
         Clock::now() - total_start
     ).count();
+    const double accounted =
+        result.bounded_pretraining_stage.wall_seconds +
+        result.fine_tuning_stage.wall_seconds +
+        result.population_encoding_stage.wall_seconds +
+        result.offspring_decode_repair_variation_stage.wall_seconds +
+        result.evaluator_stage.wall_seconds;
+    result.selection_other_stage.wall_seconds =
+        std::max(0.0, result.total_wall_seconds - accounted);
     return result;
 }
 
@@ -1636,11 +1842,77 @@ bool run_repair_and_duplicate_fixtures(
         report = "post-repair duplicate fixture failed";
         return false;
     }
+
+    struct SpeculativeFixtureTrace {
+        std::vector<int> layouts;
+        std::uint64_t final_rng_state = 0;
+        std::size_t discarded = 0;
+    };
+    const auto scalar_trace = []() {
+        SpeculativeFixtureTrace trace;
+        DeterministicRng scalar_rng(119);
+        for (std::size_t attempt = 0; attempt < 6; ++attempt) {
+            const std::uint64_t latent_draw = scalar_rng.next_u64();
+            trace.layouts.push_back(
+                static_cast<int>(latent_draw % 400U) + 1
+            );
+            if (attempt == 2) {
+                static_cast<void>(scalar_rng.next_u64());
+            }
+        }
+        trace.final_rng_state = scalar_rng.state;
+        return trace;
+    }();
+    const auto speculative_trace = []() {
+        SpeculativeFixtureTrace trace;
+        DeterministicRng real_rng(119);
+        std::size_t attempt = 0;
+        while (attempt < 6) {
+            const std::size_t batch_size =
+                std::min<std::size_t>(4, 6 - attempt);
+            DeterministicRng speculative_rng = real_rng;
+            std::vector<std::uint64_t> latent_draws(batch_size, 0);
+            std::vector<std::uint64_t> post_states(batch_size, 0);
+            for (std::size_t offset = 0;
+                 offset < batch_size;
+                 ++offset) {
+                latent_draws[offset] = speculative_rng.next_u64();
+                post_states[offset] = speculative_rng.state;
+            }
+            std::size_t processed = 0;
+            for (; processed < batch_size; ++processed) {
+                real_rng.state = post_states[processed];
+                trace.layouts.push_back(
+                    static_cast<int>(
+                        latent_draws[processed] % 400U
+                    ) + 1
+                );
+                const bool force_repair = attempt == 2;
+                ++attempt;
+                if (force_repair) {
+                    static_cast<void>(real_rng.next_u64());
+                    ++processed;
+                    break;
+                }
+            }
+            trace.discarded += batch_size - processed;
+        }
+        trace.final_rng_state = real_rng.state;
+        return trace;
+    }();
+    if (scalar_trace.layouts != speculative_trace.layouts ||
+        scalar_trace.final_rng_state !=
+            speculative_trace.final_rng_state ||
+        speculative_trace.discarded != 1) {
+        report = "speculative mid-repair trajectory fixture failed";
+        return false;
+    }
     report =
         "repair_fixture_pass gaussian_conflicts=2 full_reinit_conflicts=3 "
         "nearest_tie=ascending raw_duplicate=pre_repair_no_rng "
         "parent_identity=pre_repair_no_rng "
-        "repaired_collision=post_repair duplicate_refill=pass";
+        "repaired_collision=post_repair duplicate_refill=pass "
+        "speculative_midrepair=trajectory_rng_layout_exact";
     return true;
 }
 
@@ -1661,6 +1933,7 @@ std::string result_to_json(const EvolutionResult& result) {
            << "\"physical_fes\":" << result.physical_fes << ','
            << "\"generations\":" << result.generations << ','
            << "\"requested_workers\":" << result.requested_workers << ','
+           << "\"resolved_workers\":" << result.resolved_workers << ','
            << "\"training_state_profile_id\":\""
            << result.training_state_profile_id << "\","
            << "\"model_architecture\":{"
@@ -1701,6 +1974,71 @@ std::string result_to_json(const EvolutionResult& result) {
            << result.evaluator_wall_seconds << ','
            << "\"total_wall_seconds\":"
            << result.total_wall_seconds << ','
+           << "\"stage_receipts\":{";
+    const auto append_stage = [&](const char* name,
+                                  const StageReceipt& stage,
+                                  bool leading_comma) {
+        if (leading_comma) {
+            stream << ',';
+        }
+        stream << '"' << name << "\":{"
+               << "\"wall_seconds\":" << stage.wall_seconds << ','
+               << "\"parallel_regions\":"
+               << stage.parallel_regions << ','
+               << "\"task_items\":" << stage.task_items << ','
+               << "\"participant_activations\":"
+               << stage.participant_activations << ','
+               << "\"distinct_participants\":"
+               << stage.distinct_participants << ','
+               << "\"peak_region_participants\":"
+               << stage.peak_region_participants << '}';
+    };
+    append_stage(
+        "bounded_pretraining",
+        result.bounded_pretraining_stage,
+        false
+    );
+    append_stage("fine_tuning", result.fine_tuning_stage, true);
+    append_stage(
+        "population_encoding",
+        result.population_encoding_stage,
+        true
+    );
+    append_stage(
+        "offspring_decode_repair_variation",
+        result.offspring_decode_repair_variation_stage,
+        true
+    );
+    append_stage("evaluator", result.evaluator_stage, true);
+    append_stage(
+        "selection_other",
+        result.selection_other_stage,
+        true
+    );
+    stream << "},"
+           << "\"proposal_work\":{"
+           << "\"latent_proposal_attempts\":"
+           << result.proposal_work.latent_proposal_attempts << ','
+           << "\"speculative_decode_batches\":"
+           << result.proposal_work.speculative_decode_batches << ','
+           << "\"speculative_decode_tasks\":"
+           << result.proposal_work.speculative_decode_tasks << ','
+           << "\"speculative_decode_discards\":"
+           << result.proposal_work.speculative_decode_discards << ','
+           << "\"repair_rng_invalidations\":"
+           << result.proposal_work.repair_rng_invalidations << ','
+           << "\"accepted_latent_offspring\":"
+           << result.proposal_work.accepted_latent_offspring << ','
+           << "\"raw_duplicate_rejects\":"
+           << result.proposal_work.raw_duplicate_rejects << ','
+           << "\"pre_repair_parent_rejects\":"
+           << result.proposal_work.pre_repair_parent_rejects << ','
+           << "\"post_repair_rejects\":"
+           << result.proposal_work.post_repair_rejects << ','
+           << "\"refill_attempts\":"
+           << result.proposal_work.refill_attempts << ','
+           << "\"refill_rejects\":"
+           << result.proposal_work.refill_rejects << "},"
            << "\"model_hash\":\"" << result.model_hash << "\","
            << "\"population_layout_hash\":\""
            << result.population_layout_hash << "\","

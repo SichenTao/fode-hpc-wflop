@@ -28,6 +28,9 @@ CONTRACT_PATH = (
     / "shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json"
 )
 DECISIONS_PATH = ROOT / "shared/contracts/reconstruction-decisions/Y36.json"
+CPU_R4_RECEIPT_PATH = (
+    ROOT / "evidence/development/taae_cpu_r4_spark_20260729.json"
+)
 METHOD_ID = "taae_transformer_evolution_declared_reconstruction_v1"
 KERNEL_ID = "taae_transformer_declared_reconstruction_v1"
 PROBLEM_ID = "taae_zhangbei_structured_declared_proxy_v1"
@@ -43,6 +46,7 @@ FILES = (
 def main() -> int:
     contract = json.loads(CONTRACT_PATH.read_text(encoding="utf-8"))
     decisions = json.loads(DECISIONS_PATH.read_text(encoding="utf-8"))
+    cpu_r4 = json.loads(CPU_R4_RECEIPT_PATH.read_text(encoding="utf-8"))
     assert contract["method_semantic_id"] == METHOD_ID
     assert contract["kernel_semantic_id"] == KERNEL_ID
     assert contract["blocked_original_algorithm_id"] == "taae"
@@ -75,6 +79,17 @@ def main() -> int:
     assert contract["physical_work"]["training_physical_fes"] == 0
     assert contract["parallel_contract"]["gpu"] == "unsupported_fail_closed"
     assert contract["parallel_contract"]["hybrid"] == "unsupported_fail_closed"
+    for field in (
+        "cpu",
+        "cli_default_workers",
+        "ordered_state",
+        "speculative_decode",
+        "worker_equivalence",
+        "participation_receipt",
+        "proposal_work_receipt",
+        "rejected_optimizer_parallelism",
+    ):
+        assert contract["parallel_contract"][field]
     assert contract["training_profiles"]["bounded_smoke"] == {
         "profile_id": "taae_evolution_bounded_smoke_v1",
         "pretraining_layouts": 64,
@@ -93,6 +108,14 @@ def main() -> int:
     )
     assert (
         "front feasibility label and minimum normalized constraint violation"
+        in contract["required_outputs"]
+    )
+    assert (
+        "per-stage timing and actual executor-participation receipts"
+        in contract["required_outputs"]
+    )
+    assert (
+        "proposal and speculative-decode work receipt"
         in contract["required_outputs"]
     )
     assert contract["repair_contract"]["ordering"].startswith(
@@ -120,14 +143,58 @@ def main() -> int:
         "parent_identical_before_repair",
         "duplicate_after_repair",
         "least_violation_infeasible",
-        "const std::size_t current = attempt % population.size();",
+        "proposal_index % population.size();",
         "value.source_index = population.size() + offspring.size();",
         "TrainingStateProfile::paper_scale_checkpoint",
         "training_state_profile_id",
         "model_architecture",
         "training_physical_fes = 0",
+        "const std::size_t speculative_width",
+        "post_latent_rng_state",
+        "speculative_decode_discards",
+        "repair_rng_invalidations",
+        "requested_workers",
+        "resolved_workers",
+        "participant_activations",
+        "peak_region_participants",
     ):
         assert token in source, f"source missing {token}"
+    main_source = (ROOT / "hpc/taae_cpp/src/main.cpp").read_text(
+        encoding="utf-8"
+    )
+    assert "int workers = 0;" in main_source
+    assert "default: all visible CPUs" in main_source
+    test_source = (
+        ROOT / "hpc/taae_cpp/tests/evolution_test.cpp"
+    ).read_text(encoding="utf-8")
+    for token in (
+        "executor_receipt_fixture",
+        "check_parallel_stage",
+        "proposal algorithm-work mismatch",
+    ):
+        assert token in test_source, f"test missing {token}"
+    assert "speculative_midrepair=trajectory_rng_layout_exact" in source
+    assert any(
+        decision["field"] == "taae_cpu_r4_exact_execution"
+        for decision in decisions["decisions"]
+    )
+    assert cpu_r4["approved_source_base_commit"] == (
+        "9036e00e46a9ddcd86c2a899bcb2a95214d45d40"
+    )
+    assert cpu_r4["scope"]["backend"] == "pure_cpp_cpu"
+    assert cpu_r4["controlled_approved_checkpoint_200_fes"][
+        "exact_scientific_outputs"
+    ]["match_approved_pre_r4_and_workers_1_20"] is True
+    assert cpu_r4["canonical_seed1_default_workers_300_fes"][
+        "requested_workers"
+    ] == 0
+    assert cpu_r4["canonical_seed1_default_workers_300_fes"][
+        "resolved_workers"
+    ] == 20
+    assert cpu_r4["validation"]["full_ctest"] == "39_of_39_pass"
+    assert "predates the approved 9036" in cpu_r4[
+        "invalid_historical_denominator"
+    ]["reason"]
     filter_start = source.index("DecodedProposalResult filter_and_repair_decoded(")
     filter_end = source.index("\ndouble evaluate_population(", filter_start)
     filter_source = source[filter_start:filter_end]

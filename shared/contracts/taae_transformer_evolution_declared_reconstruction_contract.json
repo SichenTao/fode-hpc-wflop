@@ -83,18 +83,25 @@
     "fitness_target_reuse": "fine-tuning uses already evaluated current-population values and performs no evaluator call"
   },
   "parallel_contract": {
-    "cpu": "one persistent executor parallelizes independent complete-layout evaluations",
-    "ordered_state": "initialization, tournaments, latent variation, repair, duplicate filtering, model training, environmental selection, hashes, and output serialization remain in deterministic fixed event order",
+    "cpu": "one persistent executor is reused for independent per-sample model forward/cache construction, population encoding, exact-trajectory speculative autoregressive decoding, and independent complete-layout evaluations",
+    "cli_default_workers": "omitting --workers requests all visible logical CPUs; requested_workers records 0 and resolved_workers records at least 1 from hardware_concurrency",
+    "ordered_state": "initialization, tournaments, latent variation RNG, raw/post-repair filters, repair RNG, fixed-order loss and gradient accumulation, Adam registry/index updates, environmental selection, hashes, and output serialization remain in deterministic fixed event/index order",
+    "speculative_decode": "generate latent proposals and their post-latent RNG states in ascending attempt order, decode one executor-width batch independently, then commit filter/repair effects in attempt order; any repair RNG consumption invalidates and discards all later speculative decodes before resuming from the exact committed RNG state",
     "worker_equivalence": "workers 1 and 20 must match physical FES, model hash, front hash, layout hash, and all scientific output fields exactly",
+    "participation_receipt": "each measured stage records wall seconds, parallel regions, task items, participant activations once per participating thread per region, distinct participants, and peak participants; tests cover fewer tasks than threads and at least as many tasks as threads",
+    "proposal_work_receipt": "record committed latent attempts, speculative batches/tasks/discards, repair-RNG invalidations, accepted latent offspring, each duplicate-rejection class, and deterministic refill work",
+    "rejected_optimizer_parallelism": "measured parameter-task Adam parallelism preserved hashes but had no reproducible absolute 1-worker or 20-worker gain and added 20 regions plus 1600 tasks in the controlled 200-FES probe; retain fixed registry/index Adam order",
     "gpu": "unsupported_fail_closed",
     "hybrid": "unsupported_fail_closed"
   },
   "required_outputs": [
     "method and problem semantic IDs",
     "case ID and problem semantic hash",
-    "seed, requested workers, physical FES, generations",
+    "seed, requested and resolved workers, physical FES, generations",
     "training-state profile ID and actual model architecture",
     "training work ledger",
+    "per-stage timing and actual executor-participation receipts",
+    "proposal and speculative-decode work receipt",
     "model parameter hash",
     "population layout hash",
     "nondominated front hash and records",

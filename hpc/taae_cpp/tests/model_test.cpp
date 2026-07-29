@@ -4,7 +4,7 @@ Implementation unit: TAAE declared-reconstruction Transformer mathematical-kerne
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, mean encoder pooling, separate encoder/decoder embeddings, deterministic metric-pair seed, per-parameter Adam age, and checkpoint format
+Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, mean encoder pooling, separate encoder/decoder embeddings, deterministic metric-pair seed, per-parameter Adam age, checkpoint format, and softmax/logit argmax equivalence
 Reconstruction status: engineering reconstruction with declared completion choices
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_declared_reconstruction_v1
@@ -15,16 +15,14 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 
 #include "taae/model.hpp"
 
+#include "fode/executor.hpp"
+
 #include <algorithm>
 #include <cmath>
 #include <cstdio>
 #include <iostream>
 #include <string>
 #include <vector>
-
-namespace taae::fode_compat {
-class PersistentExecutor {};
-}
 
 namespace {
 
@@ -181,6 +179,10 @@ void test_raw_latent_public_boundary() {
         model.decode_argmax(raw_latent).size() ==
             static_cast<std::size_t>(config.sequence_length),
         "decoder rejected public raw latent"
+    );
+    require(
+        model.argmax_softmax_equivalence_fixture(raw_latent),
+        "logit argmax changed autoregressive token output"
     );
     std::cout
         << "raw_latent_boundary_pass encode_norm=" << norm
@@ -361,7 +363,7 @@ void test_training_freeze_and_checkpoint() {
     profile.train_layouts = 5;
     profile.pretraining_batch_size = 2;
     taae::TransformerAutoencoder ledger_model(config, 77);
-    taae::fode_compat::PersistentExecutor executor;
+    fode::PersistentExecutor executor(1);
     const taae::TrainingWork ledger =
         taae::pretrain(ledger_model, profile, executor);
     require(
