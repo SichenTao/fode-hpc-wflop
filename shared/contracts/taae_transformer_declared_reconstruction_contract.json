@@ -12,7 +12,7 @@
   "method_evidence_tier": "M3_DECLARED_COMPLETION",
   "implementation_language": "C++20",
   "kernel_scope": "mathematically trainable Transformer autoencoder kernel only",
-  "admission_status": "kernel_verified_end_to_end_M3_method_not_admitted",
+  "admission_status": "kernel_verified_does_not_itself_admit_evolution_method",
   "blocked_original_algorithm_id": "taae",
   "paper_visible_architecture": {
     "encoder_layers": 6,
@@ -122,5 +122,5 @@
     "GPU claim",
     "paper result reproduction"
   ],
-  "claim_boundary": "This commit verifies a pure C++ trainable mathematical kernel under declared missing-field completions. It does not admit the end-to-end M3 evolutionary method, unblock original taae, reproduce author results, or establish CPU or GPU performance."
+  "claim_boundary": "This contract verifies the pure C++ trainable mathematical kernel only. The distinct taae_transformer_evolution_declared_reconstruction_v1 method has its own bounded M3 contract; this kernel contract does not unblock original taae, reproduce author results, or establish CPU or GPU performance."
 }

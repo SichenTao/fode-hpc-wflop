@@ -10,7 +10,7 @@ Reconstruction status: engineering reconstruction with declared completion choic
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_declared_reconstruction_v1
 Controlling contract: shared/contracts/taae_transformer_declared_reconstruction_contract.json
-Claim boundary: contract and source-declaration audit only; end-to-end M3 method is not admitted, original taae remains blocked, and no author-result, optimizer, performance, or GPU claim is made
+Claim boundary: contract and source-declaration audit only; the distinct evolution reconstruction is governed separately, original taae remains blocked, and no author-result, optimizer, performance, or GPU claim is made
 END WFLOP IMPLEMENTATION FACT DECLARATION
 """
 
@@ -42,7 +42,7 @@ def main() -> int:
     architecture = contract["paper_visible_architecture"]
     assert contract["method_semantic_id"] == SEMANTIC_ID
     assert contract["admission_status"] == (
-        "kernel_verified_end_to_end_M3_method_not_admitted"
+        "kernel_verified_does_not_itself_admit_evolution_method"
     )
     assert contract["blocked_original_algorithm_id"] == "taae"
     assert architecture == {
@@ -109,7 +109,9 @@ def main() -> int:
     assert contract["verification"]["analytic_training_gradients"] is True
     assert contract["verification"]["finite_differences_used_for_training"] is False
     assert SEMANTIC_ID in decisions["profiles"]
-    assert "end_to_end_M3_method_not_admitted" in decisions["completion_status"]
+    assert "bounded_end_to_end_M3_declared_reconstruction_complete" in (
+        decisions["completion_status"]
+    )
     for path in SCIENTIFIC_FILES:
         text = path.read_text(encoding="utf-8")
         declaration_end = text.index(
@@ -125,14 +127,15 @@ def main() -> int:
             f"Method semantic ID: {SEMANTIC_ID}",
             "Controlling contract:",
             "Claim boundary:",
-            "end-to-end M3 method is not admitted",
+            "distinct evolution reconstruction is governed separately",
             "original taae remains blocked",
         ):
             assert required in declaration, f"{path}: missing {required}"
     print(
         "taae_transformer_kernel_contract_audit_pass "
         "architecture=6+6 heads=4 d_model=64 ffn=256 latent=64 "
-        "end_to_end_M3=not_admitted original_taae=blocked"
+        "kernel_scope=verified distinct_evolution=separate "
+        "original_taae=blocked"
     )
     return 0
 

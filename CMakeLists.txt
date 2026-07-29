@@ -45,6 +45,11 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_taae_transformer_kernel.py
     )
     add_test(
+        NAME taae_transformer_evolution_contract
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_taae_evolution_contract.py
+    )
+    add_test(
         NAME ppo_math
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_ppo_math.py

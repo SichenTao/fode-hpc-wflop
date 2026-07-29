@@ -9,7 +9,7 @@ Reconstruction status: engineering reconstruction with declared completion choic
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_declared_reconstruction_v1
 Controlling contract: shared/contracts/taae_transformer_declared_reconstruction_contract.json
-Claim boundary: trainable mathematical kernel only; end-to-end M3 method is not admitted, original taae remains blocked, and no author-result, optimizer, performance, or GPU claim is made
+Claim boundary: trainable mathematical kernel only; the distinct evolution reconstruction is governed separately, original taae remains blocked, and no author-result, optimizer, performance, or GPU claim is made
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 
