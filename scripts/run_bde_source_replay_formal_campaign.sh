@@ -44,7 +44,9 @@ if [[ "$(jq -r '.problem_id' "${cases}")" != "$(jq -r '.problem_id' "${contract}
   exit 2
 fi
 
-cmake -S . -B "${build_dir}" -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B "${build_dir}" \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DPython3_EXECUTABLE="$(command -v python3)"
 cmake --build "${build_dir}" -j "${workers}" --target wflop_cpp_hpc
 ctest --test-dir "${build_dir}" --output-on-failure \
   -R 'bde_source_replay|lineage_r0_r4_completion|problem_package_registry'

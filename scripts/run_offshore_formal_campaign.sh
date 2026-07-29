@@ -24,7 +24,9 @@ if [[ ! -f "${assets}/manifest.json" ]]; then
   exit 2
 fi
 
-cmake -S . -B "${build_dir}" -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B "${build_dir}" \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DPython3_EXECUTABLE="$(command -v python3)"
 cmake --build "${build_dir}" -j "${workers}" --target gga_cpp_hpc
 ctest --test-dir "${build_dir}" --output-on-failure \
   -R 'gga_cpp_(evaluator_oracle|determinism|help)|geoga_cpp_declared_reconstruction|tmoea_cpp_nysted_reconstruction'

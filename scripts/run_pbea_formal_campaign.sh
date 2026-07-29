@@ -20,7 +20,9 @@ result_dir="${PBEA_RESULT_DIR:-results/pbea_six_algorithm_waffle_v1}"
 contract="${PBEA_CAMPAIGN_CONTRACT:-formal/contracts/pbea_six_algorithm_waffle_v1.json}"
 binary="${build_dir}/hpc/pbea_cpp/pbea_cpp_hpc"
 
-cmake -S . -B "${build_dir}" -DCMAKE_BUILD_TYPE=Release
+cmake -S . -B "${build_dir}" \
+  -DCMAKE_BUILD_TYPE=Release \
+  -DPython3_EXECUTABLE="$(command -v python3)"
 cmake --build "${build_dir}" -j "${workers}" --target pbea_cpp_hpc
 ctest --test-dir "${build_dir}" --output-on-failure \
   -R 'pbea_cpp_(evaluator_oracle|determinism|front_artifacts|help)'
