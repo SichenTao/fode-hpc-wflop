@@ -11,6 +11,12 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 AUDIT = ROOT / "scripts/audit_hpc_theory_plans.py"
 FIXTURE = ROOT / "scripts/fixtures/hpc_theory_draft_core_fixture.json"
+INVALID_BACKEND = (
+    ROOT / "scripts/fixtures/hpc_theory_invalid_backend_fixture.json"
+)
+DUPLICATE_STAGE = (
+    ROOT / "scripts/fixtures/hpc_theory_duplicate_stage_fixture.json"
+)
 
 
 def main() -> int:
@@ -46,6 +52,43 @@ def main() -> int:
         ),
     }
     module.require_core_review(accepted, row, allow_draft=False)
+
+    invalid_backend = json.loads(INVALID_BACKEND.read_text(encoding="utf-8"))
+    try:
+        module.require_pre_h6_backend_candidate(
+            invalid_backend, "FIXTURE__target"
+        )
+    except RuntimeError as error:
+        if "pre-H6" not in str(error):
+            raise
+    else:
+        raise RuntimeError("strict core mode admitted a pre-H6 backend claim")
+
+    duplicate = json.loads(DUPLICATE_STAGE.read_text(encoding="utf-8"))
+    signatures: dict[str, str] = {}
+    module.register_unique_stage_signature(
+        signatures, duplicate, "method_a", "PAIR_A"
+    )
+    try:
+        module.register_unique_stage_signature(
+            signatures, duplicate, "method_b", "PAIR_B"
+        )
+    except RuntimeError as error:
+        if "duplicate normalized stage ledger" not in str(error):
+            raise
+    else:
+        raise RuntimeError("strict core mode admitted duplicate stage ledgers")
+
+    try:
+        module.require_source_symbol(
+            "missing/source.cpp::missing_symbol", ROOT
+        )
+    except RuntimeError as error:
+        if "source file absent" not in str(error):
+            raise
+    else:
+        raise RuntimeError("strict core mode admitted a missing source symbol")
+
     print("hpc_theory_draft_mode_regression_pass")
     return 0
 

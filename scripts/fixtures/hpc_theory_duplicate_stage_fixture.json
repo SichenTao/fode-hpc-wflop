@@ -1,0 +1,13 @@
+{
+  "H1_work_and_data_movement": {
+    "stage_ledger": [
+      {
+        "id": "S0_shared_update",
+        "work": "B*D",
+        "span": "D",
+        "equation_or_rule": "fixture update",
+        "source_symbol": "fixture.cpp::update"
+      }
+    ]
+  }
+}

@@ -1,0 +1,16 @@
+{
+  "H3_performance_and_granularity": {
+    "selected_backend": "hybrid_cpu_gpu_hpc_v1",
+    "backend_decision": {
+      "maturity": "accepted",
+      "proposed_backend": "hybrid_cpu_gpu_hpc_v1",
+      "accepted_backend": "hybrid_cpu_gpu_hpc_v1"
+    }
+  },
+  "H4_implementation_mapping": {
+    "backend_candidates": [
+      "fixture__hybrid_cpu_gpu_hpc_v1"
+    ],
+    "accepted_backend_id": "fixture__hybrid_cpu_gpu_hpc_v1"
+  }
+}

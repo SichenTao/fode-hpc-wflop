@@ -3,12 +3,11 @@
     "physical_fes_boundary": "one complete evaluation of all registered objectives and constraints for one candidate layout",
     "random_events": "seed, generation, member, coordinate, operator, and draw own counter-keyed schedule-independent random events",
     "stages": [
-      "S0_problem_load_and_allocate",
-      "S1_initialize_and_repair",
-      "S2_evaluate_complete_layouts",
-      "S3_nearest_free_geometric_ga",
-      "S4_ordered_selection_archive",
-      "S5_atomic_serialize"
+      "S0_geoga_poisson_candidates",
+      "S1_geoga_random_layout",
+      "S2_geoga_nearest_free_mutation",
+      "S3_geoga_anholt_proxy_evaluation",
+      "S4_geoga_best50_survival"
     ],
     "terminal_partial_work": "only the remaining physical FES prefix is evaluated and committed in stable member order",
     "training_lifecycle": "not_applicable"
@@ -61,64 +60,78 @@
       "Nt": "number of turbines in one complete layout",
       "Nv": "number of wind-speed states per direction"
     },
+    "native_size_provenance": {
+      "derivation": "case dimensions are parsed from the frozen native contract; population follows the target source/parameter rule",
+      "selected_native_cases": {
+        "largest": "GeoGA_AnholtStructured_P3_111",
+        "representative": "GeoGA_AnholtStructured_P3_111",
+        "smallest": "GeoGA_AnholtStructured_P3_111"
+      },
+      "source_paths": [
+        "shared/contracts/geoga_anholt_structured_declared_proxy_case.json"
+      ],
+      "source_sha256": {
+        "shared/contracts/geoga_anholt_structured_declared_proxy_case.json": "c8cdbff6874a0e9991e093bcc50442ba425ad050c0cd312b22e54733083ab38f"
+      }
+    },
     "proposed_work_model": {
-      "S0_problem_load_and_allocate": "D+Nd*Nv",
-      "S1_initialize_and_repair": "B*D",
-      "S2_evaluate_complete_layouts": "B*Nd*Nv*Nt*Nt",
-      "S3_nearest_free_geometric_ga": "B*D+B*log2(B)",
-      "S4_ordered_selection_archive": "B*B*M+B*D",
-      "S5_atomic_serialize": "B*D"
+      "S0_geoga_poisson_candidates": "D*D",
+      "S1_geoga_random_layout": "B*D",
+      "S2_geoga_nearest_free_mutation": "B*D*D",
+      "S3_geoga_anholt_proxy_evaluation": "B*Nd*Nv*Nt*Nt",
+      "S4_geoga_best50_survival": "B*log2(B)+B*D"
     },
     "reuse_proofs": [
       "L0726 coordinate, mask, terrain, and candidate lookups are layout-state functions and are reused across registered wind states.",
       "geoga immutable generation inputs permit member-local scratch; only stable selection and artifact commits cross member boundaries."
     ],
     "source_work_model": {
-      "S0_problem_load_and_allocate": "D+Nd*Nv",
-      "S1_initialize_and_repair": "B*D",
-      "S2_evaluate_complete_layouts": "B*Nd*Nv*Nt*Nt",
-      "S3_nearest_free_geometric_ga": "B*D+B*log2(B)",
-      "S4_ordered_selection_archive": "B*B*M+B*D",
-      "S5_atomic_serialize": "B*D"
+      "S0_geoga_poisson_candidates": "D*D",
+      "S1_geoga_random_layout": "B*D",
+      "S2_geoga_nearest_free_mutation": "B*D*D",
+      "S3_geoga_anholt_proxy_evaluation": "B*Nd*Nv*Nt*Nt",
+      "S4_geoga_best50_survival": "B*log2(B)+B*D"
     },
     "stage_ledger": [
       {
         "actual_case_substitutions": {
           "largest": {
-            "arithmetic_intensity_work_per_byte": 0.0009234234234234234,
-            "available_parallelism_W_over_S": 1.0,
+            "arithmetic_intensity_work_per_byte": 0.0925,
+            "available_parallelism_W_over_S": 111.0,
             "bytes_transferred": 133200.0,
-            "critical_path_units": 123,
+            "critical_path_units": 111.0,
             "peak_live_memory_bytes": 44400.0,
-            "task_count": 1.0,
-            "work_units": 123
+            "task_count": 50.0,
+            "work_units": 12321.0
           },
           "representative": {
-            "arithmetic_intensity_work_per_byte": 0.0009234234234234234,
-            "available_parallelism_W_over_S": 1.0,
+            "arithmetic_intensity_work_per_byte": 0.0925,
+            "available_parallelism_W_over_S": 111.0,
             "bytes_transferred": 133200.0,
-            "critical_path_units": 123,
+            "critical_path_units": 111.0,
             "peak_live_memory_bytes": 44400.0,
-            "task_count": 1.0,
-            "work_units": 123
+            "task_count": 50.0,
+            "work_units": 12321.0
           },
           "smallest": {
-            "arithmetic_intensity_work_per_byte": 0.0009234234234234234,
-            "available_parallelism_W_over_S": 1.0,
+            "arithmetic_intensity_work_per_byte": 0.0925,
+            "available_parallelism_W_over_S": 111.0,
             "bytes_transferred": 133200.0,
-            "critical_path_units": 123,
+            "critical_path_units": 111.0,
             "peak_live_memory_bytes": 44400.0,
-            "task_count": 1.0,
-            "work_units": 123
+            "task_count": 50.0,
+            "work_units": 12321.0
           }
         },
         "classification": "ordered_once",
-        "id": "S0_problem_load_and_allocate",
-        "parallel_space": "none",
+        "equation_or_rule": "capped Bridson sampling to 180 candidates",
+        "id": "S0_geoga_poisson_candidates",
+        "parallel_space": "candidate set",
         "physical_fes": "0",
-        "span": "D+Nd*Nv",
-        "symbol_role": "asset load and reusable SoA",
-        "work": "D+Nd*Nv"
+        "source_symbol": "hpc/geoga_cpp/src/problem.cpp::generate_candidates",
+        "span": "D",
+        "symbol_role": "deterministic candidate generation",
+        "work": "D*D"
       },
       {
         "actual_case_substitutions": {
@@ -126,189 +139,159 @@
             "arithmetic_intensity_work_per_byte": 0.041666666666666664,
             "available_parallelism_W_over_S": 50.0,
             "bytes_transferred": 133200.0,
-            "critical_path_units": 111,
+            "critical_path_units": 111.0,
             "peak_live_memory_bytes": 44400.0,
             "task_count": 50.0,
-            "work_units": 5550
+            "work_units": 5550.0
           },
           "representative": {
             "arithmetic_intensity_work_per_byte": 0.041666666666666664,
             "available_parallelism_W_over_S": 50.0,
             "bytes_transferred": 133200.0,
-            "critical_path_units": 111,
+            "critical_path_units": 111.0,
             "peak_live_memory_bytes": 44400.0,
             "task_count": 50.0,
-            "work_units": 5550
+            "work_units": 5550.0
           },
           "smallest": {
             "arithmetic_intensity_work_per_byte": 0.041666666666666664,
             "available_parallelism_W_over_S": 50.0,
             "bytes_transferred": 133200.0,
-            "critical_path_units": 111,
+            "critical_path_units": 111.0,
             "peak_live_memory_bytes": 44400.0,
             "task_count": 50.0,
-            "work_units": 5550
+            "work_units": 5550.0
           }
         },
         "classification": "independent",
-        "id": "S1_initialize_and_repair",
-        "parallel_space": "population members",
+        "equation_or_rule": "111 unique candidate indices",
+        "id": "S1_geoga_random_layout",
+        "parallel_space": "individuals",
         "physical_fes": "0",
+        "source_symbol": "hpc/geoga_cpp/src/evolution.cpp::random_layout",
         "span": "D",
-        "symbol_role": "sampling and feasible repair",
+        "symbol_role": "50-layout initialization",
         "work": "B*D"
       },
       {
         "actual_case_substitutions": {
           "largest": {
+            "arithmetic_intensity_work_per_byte": 4.625,
+            "available_parallelism_W_over_S": 50.0,
+            "bytes_transferred": 133200.0,
+            "critical_path_units": 12321.0,
+            "peak_live_memory_bytes": 44400.0,
+            "task_count": 50.0,
+            "work_units": 616050.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 4.625,
+            "available_parallelism_W_over_S": 50.0,
+            "bytes_transferred": 133200.0,
+            "critical_path_units": 12321.0,
+            "peak_live_memory_bytes": 44400.0,
+            "task_count": 50.0,
+            "work_units": 616050.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 4.625,
+            "available_parallelism_W_over_S": 50.0,
+            "bytes_transferred": 133200.0,
+            "critical_path_units": 12321.0,
+            "peak_live_memory_bytes": 44400.0,
+            "task_count": 50.0,
+            "work_units": 616050.0
+          }
+        },
+        "classification": "independent",
+        "equation_or_rule": "one turbine replaced uniformly among five nearest free",
+        "id": "S2_geoga_nearest_free_mutation",
+        "parallel_space": "offspring and candidates",
+        "physical_fes": "0",
+        "source_symbol": "hpc/geoga_cpp/src/evolution.cpp::nearest_free_replacement",
+        "span": "D*D",
+        "symbol_role": "five-nearest free mutation",
+        "work": "B*D*D"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
             "arithmetic_intensity_work_per_byte": 41.625,
             "available_parallelism_W_over_S": 50.0,
             "bytes_transferred": 177600.0,
-            "critical_path_units": 147852,
+            "critical_path_units": 147852.0,
             "peak_live_memory_bytes": 44400.0,
             "task_count": 600.0,
-            "work_units": 7392600
+            "work_units": 7392600.0
           },
           "representative": {
             "arithmetic_intensity_work_per_byte": 41.625,
             "available_parallelism_W_over_S": 50.0,
             "bytes_transferred": 177600.0,
-            "critical_path_units": 147852,
+            "critical_path_units": 147852.0,
             "peak_live_memory_bytes": 44400.0,
             "task_count": 600.0,
-            "work_units": 7392600
+            "work_units": 7392600.0
           },
           "smallest": {
             "arithmetic_intensity_work_per_byte": 41.625,
             "available_parallelism_W_over_S": 50.0,
             "bytes_transferred": 177600.0,
-            "critical_path_units": 147852,
+            "critical_path_units": 147852.0,
             "peak_live_memory_bytes": 44400.0,
             "task_count": 600.0,
-            "work_units": 7392600
+            "work_units": 7392600.0
           }
         },
         "classification": "independent",
-        "id": "S2_evaluate_complete_layouts",
-        "parallel_space": "layouts then wind states",
+        "equation_or_rule": "Jensen RSS and declared Anholt-structured proxy",
+        "id": "S3_geoga_anholt_proxy_evaluation",
+        "parallel_space": "layouts and wind bins",
         "physical_fes": "B complete evaluations",
+        "source_symbol": "hpc/geoga_cpp/src/problem.cpp::evaluate_layout",
         "span": "Nd*Nv*Nt*Nt",
-        "symbol_role": "paper-native evaluator",
+        "symbol_role": "12-bin AEP evaluator",
         "work": "B*Nd*Nv*Nt*Nt"
       },
       {
         "actual_case_substitutions": {
           "largest": {
             "arithmetic_intensity_work_per_byte": 0.04378523130246799,
-            "available_parallelism_W_over_S": 50.0,
+            "available_parallelism_W_over_S": 20.66740403504693,
             "bytes_transferred": 133200.0,
-            "critical_path_units": 116.64385618977472,
+            "critical_path_units": 282.1928094887362,
             "peak_live_memory_bytes": 44400.0,
             "task_count": 50.0,
             "work_units": 5832.192809488736
           },
           "representative": {
             "arithmetic_intensity_work_per_byte": 0.04378523130246799,
-            "available_parallelism_W_over_S": 50.0,
+            "available_parallelism_W_over_S": 20.66740403504693,
             "bytes_transferred": 133200.0,
-            "critical_path_units": 116.64385618977472,
+            "critical_path_units": 282.1928094887362,
             "peak_live_memory_bytes": 44400.0,
             "task_count": 50.0,
             "work_units": 5832.192809488736
           },
           "smallest": {
             "arithmetic_intensity_work_per_byte": 0.04378523130246799,
-            "available_parallelism_W_over_S": 50.0,
+            "available_parallelism_W_over_S": 20.66740403504693,
             "bytes_transferred": 133200.0,
-            "critical_path_units": 116.64385618977472,
+            "critical_path_units": 282.1928094887362,
             "peak_live_memory_bytes": 44400.0,
             "task_count": 50.0,
             "work_units": 5832.192809488736
           }
         },
-        "classification": "independent_then_barrier",
-        "id": "S3_nearest_free_geometric_ga",
-        "parallel_space": "members and coordinates",
+        "classification": "ordered_commit",
+        "equation_or_rule": "AEP then lexicographic layout tie",
+        "id": "S4_geoga_best50_survival",
+        "parallel_space": "combined population",
         "physical_fes": "0",
-        "span": "D+log2(B)",
-        "symbol_role": "target algorithm transition",
-        "work": "B*D+B*log2(B)"
-      },
-      {
-        "actual_case_substitutions": {
-          "largest": {
-            "arithmetic_intensity_work_per_byte": 0.06043543543543543,
-            "available_parallelism_W_over_S": 50.0,
-            "bytes_transferred": 133200.0,
-            "critical_path_units": 161,
-            "peak_live_memory_bytes": 44400.0,
-            "task_count": 50.0,
-            "work_units": 8050
-          },
-          "representative": {
-            "arithmetic_intensity_work_per_byte": 0.06043543543543543,
-            "available_parallelism_W_over_S": 50.0,
-            "bytes_transferred": 133200.0,
-            "critical_path_units": 161,
-            "peak_live_memory_bytes": 44400.0,
-            "task_count": 50.0,
-            "work_units": 8050
-          },
-          "smallest": {
-            "arithmetic_intensity_work_per_byte": 0.06043543543543543,
-            "available_parallelism_W_over_S": 50.0,
-            "bytes_transferred": 133200.0,
-            "critical_path_units": 161,
-            "peak_live_memory_bytes": 44400.0,
-            "task_count": 50.0,
-            "work_units": 8050
-          }
-        },
-        "classification": "deterministic_reduction",
-        "id": "S4_ordered_selection_archive",
-        "parallel_space": "objective comparisons then ordered commit",
-        "physical_fes": "0",
-        "span": "B*M+D",
-        "symbol_role": "stable selection/archive commit",
-        "work": "B*B*M+B*D"
-      },
-      {
-        "actual_case_substitutions": {
-          "largest": {
-            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
-            "available_parallelism_W_over_S": 1.0,
-            "bytes_transferred": 133200.0,
-            "critical_path_units": 5550,
-            "peak_live_memory_bytes": 44400.0,
-            "task_count": 1.0,
-            "work_units": 5550
-          },
-          "representative": {
-            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
-            "available_parallelism_W_over_S": 1.0,
-            "bytes_transferred": 133200.0,
-            "critical_path_units": 5550,
-            "peak_live_memory_bytes": 44400.0,
-            "task_count": 1.0,
-            "work_units": 5550
-          },
-          "smallest": {
-            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
-            "available_parallelism_W_over_S": 1.0,
-            "bytes_transferred": 133200.0,
-            "critical_path_units": 5550,
-            "peak_live_memory_bytes": 44400.0,
-            "task_count": 1.0,
-            "work_units": 5550
-          }
-        },
-        "classification": "intrinsically_serial",
-        "id": "S5_atomic_serialize",
-        "parallel_space": "none",
-        "physical_fes": "0",
-        "span": "B*D",
-        "symbol_role": "result and resume serialization",
-        "work": "B*D"
+        "source_symbol": "hpc/geoga_cpp/src/evolution.cpp::better",
+        "span": "B*log2(B)",
+        "symbol_role": "parent-offspring best-50",
+        "work": "B*log2(B)+B*D"
       }
     ]
   },
@@ -321,38 +304,33 @@
     "cpu_decomposition": "one persistent team over layouts, wind states, members, coordinates, and training samples where independent",
     "dependency_edges": [
       [
-        "S0_problem_load_and_allocate",
-        "S1_initialize_and_repair"
+        "S0_geoga_poisson_candidates",
+        "S1_geoga_random_layout"
       ],
       [
-        "S1_initialize_and_repair",
-        "S2_evaluate_complete_layouts"
+        "S1_geoga_random_layout",
+        "S2_geoga_nearest_free_mutation"
       ],
       [
-        "S2_evaluate_complete_layouts",
-        "S3_nearest_free_geometric_ga"
+        "S2_geoga_nearest_free_mutation",
+        "S3_geoga_anholt_proxy_evaluation"
       ],
       [
-        "S3_nearest_free_geometric_ga",
-        "S4_ordered_selection_archive"
-      ],
-      [
-        "S4_ordered_selection_archive",
-        "S5_atomic_serialize"
+        "S3_geoga_anholt_proxy_evaluation",
+        "S4_geoga_best50_survival"
       ]
     ],
-    "gpu_decomposition": "cpu_selected_after_analysis: irregular branch-heavy work, small target batches, and transfer overhead dominate",
+    "gpu_decomposition": "CPU is the H0-H4 candidate because the current work is irregular and branch-heavy; cpu_selected_after_analysis is withheld until exact-pair H6 measurements",
     "ordered_sections": [
-      "S4_ordered_selection_archive",
-      "S5_atomic_serialize"
+      "S0_geoga_poisson_candidates",
+      "S4_geoga_best50_survival"
     ],
     "parallel_spaces": [
-      "none",
-      "population members",
-      "layouts then wind states",
-      "members and coordinates",
-      "objective comparisons then ordered commit",
-      "none"
+      "candidate set",
+      "individuals",
+      "offspring and candidates",
+      "layouts and wind bins",
+      "combined population"
     ],
     "random_contract": "counter-keyed and schedule independent",
     "reductions": [
@@ -361,9 +339,15 @@
     ]
   },
   "H3_performance_and_granularity": {
+    "backend_decision": {
+      "acceptance_gate": "H5 bounded equivalence plus H6 exact-pair performance",
+      "accepted_backend": null,
+      "maturity": "candidate_pre_h6",
+      "proposed_backend": "cpu_hpc_v1"
+    },
     "cache_vectorization_batching": "contiguous doubles, reused allocations, direction-major wake geometry, batched model tensors",
     "dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
-    "gpu_suitability": "cpu_selected_after_analysis: irregular branch-heavy work, small target batches, and transfer overhead dominate",
+    "gpu_suitability": "CPU is the H0-H4 candidate because the current work is irregular and branch-heavy; cpu_selected_after_analysis is withheld until exact-pair H6 measurements",
     "granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
     "measurements_required": [
       "workers 1,2,4,8,12,16,20 with five balanced repetitions",
@@ -371,25 +355,47 @@
       "median, dispersion, bootstrap 95 percent CI, speedup, efficiency, active workers, barriers, and imbalance"
     ],
     "parallel_ceiling_model": "1/(s+(1-s)/P)",
-    "selected_backend": "cpu_hpc_v1",
     "serial_fraction_model": "ordered selection visibility, optimizer commit, and serialization divided by measured end-to-end wall time",
     "transfer_cost_model": "host pack + optional pinned H2D + kernel + D2H receipt; CPU-only targets record zero device transfers"
   },
   "H4_implementation_mapping": {
+    "accepted_backend_id": null,
     "allocation_policy": "population/objective/scratch buffers allocated once per run and reused across generations",
-    "backend_id": "geoga_declared_reconstruction_v1__cpu_hpc_v1",
+    "backend_candidates": [
+      "geoga_declared_reconstruction_v1__cpu_hpc_v1"
+    ],
     "deterministic_reduction": "parallel independent work writes fixed slots; one stable ordered reduction/commit consumes them",
     "evaluator_symbol": "hpc/geoga_cpp/src/problem.cpp::evaluate_layout",
     "instrumentation": "per-stage wall time, task count, active participants, barriers, physical FES, layout/front/artifact hash",
+    "pair_specific_composition": {
+      "method_semantic_id": "geoga_declared_reconstruction_v1",
+      "ordered_stage_ids": [
+        "S0_geoga_poisson_candidates",
+        "S1_geoga_random_layout",
+        "S2_geoga_nearest_free_mutation",
+        "S3_geoga_anholt_proxy_evaluation",
+        "S4_geoga_best50_survival"
+      ],
+      "stage_ledger_sha256": "a7058acce9fe357eb101acaba5b3a2530e5eefb0f063edfbd65b67cfcc780504"
+    },
     "persistent_team_symbol": "hpc/fode_cpp/src/executor.cpp::PersistentExecutor",
     "primary_symbol": "hpc/geoga_cpp/src/evolution.cpp::run",
+    "shared_components": {
+      "paper_native_evaluator": {
+        "path": "hpc/geoga_cpp/src/problem.cpp",
+        "sha256": "d26cf4236289768736b427730864fd5a5cdf3e0afd6d3794e00d7116969d81d5"
+      },
+      "persistent_executor": {
+        "path": "hpc/fode_cpp/src/executor.cpp",
+        "sha256": "40973d74edf97691e19f5236216a195eaa373df5e000157749c62a35c4f2a486"
+      }
+    },
     "stage_symbols": {
-      "S0_problem_load_and_allocate": "hpc/geoga_cpp/src/evolution.cpp::run",
-      "S1_initialize_and_repair": "hpc/geoga_cpp/src/evolution.cpp::run",
-      "S2_evaluate_complete_layouts": "hpc/geoga_cpp/src/problem.cpp::evaluate_layout",
-      "S3_nearest_free_geometric_ga": "hpc/geoga_cpp/src/evolution.cpp::run",
-      "S4_ordered_selection_archive": "hpc/geoga_cpp/src/evolution.cpp::run",
-      "S5_atomic_serialize": "hpc/geoga_cpp/src/evolution.cpp::run"
+      "S0_geoga_poisson_candidates": "hpc/geoga_cpp/src/problem.cpp::generate_candidates",
+      "S1_geoga_random_layout": "hpc/geoga_cpp/src/evolution.cpp::random_layout",
+      "S2_geoga_nearest_free_mutation": "hpc/geoga_cpp/src/evolution.cpp::nearest_free_replacement",
+      "S3_geoga_anholt_proxy_evaluation": "hpc/geoga_cpp/src/problem.cpp::evaluate_layout",
+      "S4_geoga_best50_survival": "hpc/geoga_cpp/src/evolution.cpp::better"
     }
   },
   "algorithm_id": "geoga",

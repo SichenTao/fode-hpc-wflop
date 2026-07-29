@@ -41,6 +41,108 @@ def require_core_review(
         raise RuntimeError(f"{row['pair_id']}: pair-specific boundary incomplete")
 
 
+def require_source_symbol(reference: str, root: Path = ROOT) -> None:
+    if "::" not in reference:
+        raise RuntimeError(f"malformed source symbol: {reference}")
+    relative, symbol = reference.split("::", 1)
+    source = root / relative
+    if not source.is_file():
+        raise RuntimeError(f"source file absent: {relative}")
+    needle = symbol.rsplit("::", 1)[-1]
+    if not re.search(rf"\b{re.escape(needle)}\b", source.read_text(encoding="utf-8")):
+        raise RuntimeError(f"source symbol absent: {reference}")
+
+
+def require_pre_h6_backend_candidate(data: dict, pair_id: str) -> None:
+    performance = data["H3_performance_and_granularity"]
+    if "selected_backend" in performance:
+        raise RuntimeError(f"{pair_id}: pre-H6 selected_backend claim")
+    decision = performance.get("backend_decision", {})
+    if (
+        decision.get("maturity") != "candidate_pre_h6"
+        or not decision.get("proposed_backend")
+        or decision.get("accepted_backend") is not None
+    ):
+        raise RuntimeError(f"{pair_id}: invalid pre-H6 backend decision")
+    mapping = data["H4_implementation_mapping"]
+    if mapping.get("accepted_backend_id") is not None:
+        raise RuntimeError(f"{pair_id}: pre-H6 accepted backend ID")
+    if not mapping.get("backend_candidates"):
+        raise RuntimeError(f"{pair_id}: backend candidate IDs absent")
+
+
+def normalized_stage_signature(data: dict) -> str:
+    ledger = data["H1_work_and_data_movement"]["stage_ledger"]
+    normalized = [
+        {
+            "id": re.sub(r"^[ST]\d+_", "", stage["id"]),
+            "work": stage["work"],
+            "span": stage["span"],
+            "equation_or_rule": stage.get("equation_or_rule"),
+            "source_symbol": stage.get("source_symbol"),
+        }
+        for stage in ledger
+    ]
+    return hashlib.sha256(
+        json.dumps(normalized, sort_keys=True, separators=(",", ":")).encode()
+    ).hexdigest()
+
+
+def register_unique_stage_signature(
+    observed: dict[str, str],
+    data: dict,
+    method_semantic_id: str,
+    pair_id: str,
+) -> None:
+    signature = normalized_stage_signature(data)
+    prior = observed.get(signature)
+    if prior is not None and prior != method_semantic_id:
+        raise RuntimeError(
+            f"{pair_id}: duplicate normalized stage ledger with {prior}"
+        )
+    observed[signature] = method_semantic_id
+
+
+def require_component_and_composition_integrity(
+    data: dict, pair_id: str, root: Path = ROOT
+) -> None:
+    mapping = data["H4_implementation_mapping"]
+    components = mapping.get("shared_components", {})
+    composition = mapping.get("pair_specific_composition", {})
+    if set(components) != {"persistent_executor", "paper_native_evaluator"}:
+        raise RuntimeError(f"{pair_id}: shared component declaration incomplete")
+    for component in components.values():
+        path = root / component["path"]
+        if (
+            not path.is_file()
+            or hashlib.sha256(path.read_bytes()).hexdigest()
+            != component["sha256"]
+        ):
+            raise RuntimeError(f"{pair_id}: shared component hash mismatch")
+    ledger = data["H1_work_and_data_movement"]["stage_ledger"]
+    expected_payload = [
+        {
+            key: stage[key]
+            for key in (
+                "id", "work", "span", "equation_or_rule", "source_symbol"
+            )
+        }
+        for stage in ledger
+    ]
+    expected_hash = hashlib.sha256(
+        json.dumps(
+            expected_payload, sort_keys=True, separators=(",", ":")
+        ).encode()
+    ).hexdigest()
+    if (
+        composition.get("method_semantic_id") != data["method_semantic_id"]
+        or composition.get("ordered_stage_ids")
+        != [stage["id"] for stage in ledger]
+        or composition.get("stage_ledger_sha256") != expected_hash
+    ):
+        raise RuntimeError(f"{pair_id}: pair-specific composition mismatch")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--all-paper-packages", action="store_true")
@@ -65,6 +167,7 @@ def main() -> int:
     missing_implementation = 0
     missing_pairs: list[str] = []
     draft_pairs: list[str] = []
+    normalized_signatures: dict[str, str] = {}
     for row in rows:
         if row["pair_id"] in pair_ids:
             raise RuntimeError(f"duplicate pair {row['pair_id']}")
@@ -123,12 +226,63 @@ def main() -> int:
                 "evaluator_symbol",
                 "persistent_team_symbol",
                 "stage_symbols",
-                "backend_id",
+                "backend_candidates",
             ):
                 if not mapping.get(key):
                     raise RuntimeError(
                         f"{row['pair_id']}: H4 mapping lacks {key}"
                     )
+            require_source_symbol(mapping["primary_symbol"])
+            require_source_symbol(mapping["evaluator_symbol"])
+            require_source_symbol(mapping["persistent_team_symbol"])
+            if set(mapping["stage_symbols"]) != {
+                stage["id"] for stage in stages
+            }:
+                raise RuntimeError(
+                    f"{row['pair_id']}: stage-symbol cardinality mismatch"
+                )
+            for stage in stages:
+                if mapping["stage_symbols"][stage["id"]] != stage.get(
+                    "source_symbol"
+                ):
+                    raise RuntimeError(
+                        f"{row['pair_id']}: stage source mapping differs"
+                    )
+                require_source_symbol(stage["source_symbol"])
+                if not stage.get("equation_or_rule"):
+                    raise RuntimeError(
+                        f"{row['pair_id']}: method equation/rule absent"
+                    )
+            require_pre_h6_backend_candidate(data, row["pair_id"])
+            require_component_and_composition_integrity(data, row["pair_id"])
+            provenance = data["H1_work_and_data_movement"].get(
+                "native_size_provenance", {}
+            )
+            if (
+                set(provenance.get("source_paths", []))
+                != set(provenance.get("source_sha256", {}))
+                or set(provenance.get("selected_native_cases", {}))
+                != {"smallest", "representative", "largest"}
+            ):
+                raise RuntimeError(
+                    f"{row['pair_id']}: native size provenance incomplete"
+                )
+            for relative, expected in provenance["source_sha256"].items():
+                source = ROOT / relative
+                if (
+                    not source.is_file()
+                    or hashlib.sha256(source.read_bytes()).hexdigest()
+                    != expected
+                ):
+                    raise RuntimeError(
+                        f"{row['pair_id']}: native size source hash mismatch"
+                    )
+            register_unique_stage_signature(
+                normalized_signatures,
+                data,
+                row["method_semantic_id"],
+                row["pair_id"],
+            )
             if row["corpus_id"] in {"Y36", "T42", "T45"}:
                 required_training = {
                     "corpus_or_environment", "forward", "loss", "backward",
@@ -139,6 +293,10 @@ def main() -> int:
                     raise RuntimeError(
                         f"{row['pair_id']}: learning subdossier incomplete"
                     )
+                for reference in data["training_subdossier"].get(
+                    "source_symbols", {}
+                ).values():
+                    require_source_symbol(reference)
         if not data["H2_dependency_and_parallel_width"]["dependency_edges"]:
             raise RuntimeError(f"{row['pair_id']}: dependency DAG is empty")
         if len(data["H1_work_and_data_movement"]["reuse_proofs"]) < 2:
