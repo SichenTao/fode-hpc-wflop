@@ -75,19 +75,73 @@ def build_fixture(
         "plan004_h5_independent_reference_receipts_20260730.json"
     )
     visible_cpus = list(range(20))
+    cpu_rows = [
+        {
+            "cpu": cpu,
+            "core": cpu % 10,
+            "model_name": (
+                "Cortex-X925"
+                if cpu in {5, 6, 7, 8, 9, 15, 16, 17, 18, 19}
+                else "Cortex-A725"
+            ),
+            "maximum_mhz": (
+                4004.0 if cpu == 19
+                else 3978.0 if cpu in {15, 16, 17, 18}
+                else 3900.0 if cpu in {5, 6, 7, 8, 9}
+                else 2860.0 if cpu in {10, 11, 12, 13, 14}
+                else 2808.0
+            ),
+            "minimum_mhz": 338.0,
+            "online": True,
+        }
+        for cpu in visible_cpus
+    ]
+    performance_order = [
+        19, 15, 16, 17, 18, 5, 6, 7, 8, 9,
+        10, 11, 12, 13, 14, 0, 1, 2, 3, 4,
+    ]
+    worker_selection_order = {
+        str(worker): performance_order[:worker] for worker in WORKERS
+    }
+    worker_affinity_sets = {
+        str(worker): sorted(performance_order[:worker]) for worker in WORKERS
+    }
+    lookup = {row["cpu"]: row["model_name"] for row in cpu_rows}
+    worker_composition = {}
+    for worker in WORKERS:
+        selection = worker_selection_order[str(worker)]
+        counts: dict[str, int] = {}
+        for cpu in selection:
+            model = lookup[cpu]
+            counts[model] = counts.get(model, 0) + 1
+        worker_composition[str(worker)] = {
+            "selection_order": selection,
+            "affinity_set": worker_affinity_sets[str(worker)],
+            "core_type_counts": counts,
+        }
     environment = {
         "architecture": "aarch64",
         "affinity_visible_cpus": visible_cpus,
+        "topology_policy": "architecture_aware_performance_first",
+        "performance_first_cpu_order": performance_order,
+        "logical_cpu_topology": cpu_rows,
+        "worker_selection_order": worker_selection_order,
+        "worker_affinity_sets": worker_affinity_sets,
+        "worker_core_type_composition": worker_composition,
         "sha256": "e" * 64,
     }
     header = {
         "record_type": "campaign_header",
         "schema_version": 1,
+        "campaign_id": (
+            "plan005_h6_core_scaling_performance_first_spark_20260730"
+        ),
         "source_commit": source_commit,
         "scope": "exact 23 target-only pairs",
         "workers": WORKERS,
         "repetitions": 5,
         "measurement_order_policy": "balanced_rotation",
+        "topology_policy": "architecture_aware_performance_first",
         "backend_parallelism": 1,
         "environment": environment,
         "binaries": {
@@ -110,6 +164,10 @@ def build_fixture(
             for index, method in enumerate(("taae", "alga", "rlpso"), 1)
         },
         "post_thread_control_h5_revalidation": {
+            "logical_path": str(original_h5.relative_to(ROOT)),
+            "sha256": sha256(original_h5),
+        },
+        "performance_first_topology_h5_revalidation": {
             "logical_path": str(original_h5.relative_to(ROOT)),
             "sha256": sha256(original_h5),
         },
@@ -165,13 +223,14 @@ def build_fixture(
                         "architecture": "aarch64",
                         "environment_sha256": "e" * 64,
                         "workers": workers,
+                        "affinity_cpus": worker_affinity_sets[str(workers)],
                         "repetition": repetition,
                         "order_index": order_index,
                         "seed": 1000 + pair_index * 100 + repetition,
                     },
                     "command": command,
                     "process": {
-                        "affinity_cpu_union": visible_cpus[:workers],
+                        "affinity_cpu_union": worker_affinity_sets[str(workers)],
                         "external_wall_seconds": duration + 0.1,
                         "user_cpu_seconds": duration,
                         "system_cpu_seconds": 0.01,
@@ -267,6 +326,50 @@ def build_fixture(
         })
     records = [header, *observations]
     write_jsonl(raw_path, records)
+    lscpu_raw = "fixture lscpu\n"
+    sidecar_path = raw_path.with_name("fixture-environment-sidecar.json")
+    sidecar = {
+        "schema_version": 1,
+        "h6_campaign_id": header["campaign_id"],
+        "h6_source_commit": source_commit,
+        "topology_policy": "architecture_aware_performance_first",
+        "lscpu_raw": lscpu_raw,
+        "lscpu_raw_sha256": hashlib.sha256(
+            lscpu_raw.encode("utf-8")
+        ).hexdigest(),
+        "logical_cpu_rows": cpu_rows,
+        "core_type_groups": {
+            "Cortex-X925": performance_order[:10],
+            "Cortex-A725": performance_order[10:],
+        },
+        "performance_first_cpu_order": performance_order,
+        "worker_selection_order": worker_selection_order,
+        "worker_affinity_sets": worker_affinity_sets,
+        "performance_first_worker_composition": worker_composition,
+        "cache_sysfs": [{"cpu": 0, "level": "1"}],
+        "frequency_governor_sysfs": [
+            {"cpu": cpu, "scaling_governor": "performance"}
+            for cpu in visible_cpus
+        ],
+        "compiler": "fixture c++",
+        "cmake": "fixture cmake",
+        "selected_cmake_cache_entries": ["CMAKE_BUILD_TYPE:STRING=Release"],
+        "pre_existing_gpu_compute_processes": [{
+            "task_identity": (
+                "pre-existing Isaac Lab reinforcement-learning training"
+            ),
+            "observed_cpu_core_equivalent": 1.47,
+            "gpu_memory_mib": 11271,
+            "affinity_cpus": visible_cpus,
+        }],
+        "measurement_noise_boundary": (
+            "Heterogeneous topology and concurrent load are fixture evidence."
+        ),
+    }
+    sidecar_path.write_text(
+        json.dumps(sidecar, sort_keys=True) + "\n",
+        encoding="utf-8",
+    )
     summary = {
         "schema_version": 1,
         "status": "accepted_h6",
@@ -274,6 +377,11 @@ def build_fixture(
         "observation_count": 805,
         "workers": WORKERS,
         "repetitions": 5,
+        "topology_policy": "architecture_aware_performance_first",
+        "environment_sidecar": {
+            "logical_path": str(sidecar_path),
+            "sha256": sha256(sidecar_path),
+        },
         "raw_observations_sha256": sha256(raw_path),
         "minimum_stage_attribution": 1.0,
         "non_target_baselines_in_readiness": 0,
@@ -334,9 +442,21 @@ def main() -> int:
             raise RuntimeError("positive fixture cardinality drift")
 
         affinity = copy.deepcopy(records)
-        affinity[1]["process"]["affinity_cpu_union"] = [19]
+        affinity[1]["process"]["affinity_cpu_union"] = [0]
         expect_failure(
             affinity, summary, directory, "bad-affinity", "affinity escaped"
+        )
+
+        topology = copy.deepcopy(records)
+        topology[0]["environment"]["performance_first_cpu_order"] = list(
+            range(20)
+        )
+        expect_failure(
+            topology,
+            summary,
+            directory,
+            "bad-topology",
+            "performance-first CPU order drift",
         )
 
         attribution = copy.deepcopy(records)
@@ -384,7 +504,8 @@ def main() -> int:
         )
     print(
         "plan005_h6_receipt_audit_fixture_pass "
-        "positive=1 rejected_affinity=1 rejected_attribution=1 "
+        "positive=1 rejected_affinity=1 rejected_topology=1 "
+        "rejected_attribution=1 "
         "rejected_overlap=1 rejected_active_workers=1 rejected_order=1 "
         "observations=805"
     )

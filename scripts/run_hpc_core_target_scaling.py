@@ -25,10 +25,19 @@ ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "docs/hpc_core_target_pairs.tsv"
 BUILD = ROOT / "build/plan005-torch"
 DEFAULT_RAW = (
-    ROOT / "evidence/performance/plan005_h6_raw_observations_20260730.jsonl"
+    ROOT
+    / "evidence/performance/"
+    "plan005_h6_performance_first_raw_observations_20260730.jsonl"
 )
 DEFAULT_SUMMARY = (
-    ROOT / "evidence/performance/plan005_h6_summary_20260730.json"
+    ROOT
+    / "evidence/performance/"
+    "plan005_h6_performance_first_summary_20260730.json"
+)
+ENVIRONMENT_SIDECAR = (
+    ROOT
+    / "evidence/performance/"
+    "plan005_h6_performance_first_environment_sidecar_20260730.json"
 )
 ARTIFACT_DIR = BUILD / "plan005-h6-artifacts"
 TMP_DIR = BUILD / "plan005-h6-tmp"
@@ -36,6 +45,11 @@ H5_REVALIDATION = (
     ROOT
     / "evidence/development/"
     "plan005_h5_post_thread_topology_revalidation_20260730.json"
+)
+H5_TOPOLOGY_REVALIDATION = (
+    ROOT
+    / "evidence/development/"
+    "plan005_h5_performance_first_topology_nonsemantic_revalidation_20260730.json"
 )
 LEARNING = {"Y36": "taae", "T45": "alga", "T42": "rlpso"}
 SCALAR = {
@@ -127,6 +141,95 @@ def read_registry() -> list[dict[str, str]]:
         "non-target row entered the Plan-005 H6 scope",
     )
     return rows
+
+
+def cpu_topology(
+    workers: list[int],
+) -> tuple[
+    list[dict[str, Any]],
+    list[int],
+    dict[str, list[int]],
+    dict[str, list[int]],
+    dict[str, Any],
+]:
+    visible = set(os.sched_getaffinity(0))
+    output = subprocess.run(
+        ["lscpu", "-p=CPU,CORE,MODELNAME,MAXMHZ,MINMHZ,ONLINE"],
+        cwd=ROOT,
+        check=True,
+        capture_output=True,
+        text=True,
+    ).stdout
+    rows = []
+    for line in output.splitlines():
+        if not line or line.startswith("#"):
+            continue
+        cpu, core, model, maximum, minimum, online = line.split(",")
+        cpu_id = int(cpu)
+        if cpu_id not in visible or online != "Y":
+            continue
+        rows.append({
+            "cpu": cpu_id,
+            "core": int(core),
+            "model_name": model,
+            "maximum_mhz": float(maximum),
+            "minimum_mhz": float(minimum),
+            "online": True,
+        })
+    require(
+        len(rows) >= workers[-1],
+        "fewer than 20 online affinity-visible CPUs in lscpu",
+    )
+    model_maximum = {
+        model: max(
+            row["maximum_mhz"]
+            for row in rows
+            if row["model_name"] == model
+        )
+        for model in {row["model_name"] for row in rows}
+    }
+    ordered_models = sorted(
+        model_maximum,
+        key=lambda model: (-model_maximum[model], model),
+    )
+    performance_order = [
+        row["cpu"]
+        for model in ordered_models
+        for row in sorted(
+            (item for item in rows if item["model_name"] == model),
+            key=lambda item: (-item["maximum_mhz"], item["cpu"]),
+        )
+    ]
+    lookup = {row["cpu"]: row for row in rows}
+    selection_order = {
+        str(worker): performance_order[:worker] for worker in workers
+    }
+    affinity_sets = {
+        str(worker): sorted(selection_order[str(worker)]) for worker in workers
+    }
+    composition = {}
+    for worker in workers:
+        counts: dict[str, int] = {}
+        for cpu_id in selection_order[str(worker)]:
+            model = lookup[cpu_id]["model_name"]
+            counts[model] = counts.get(model, 0) + 1
+        composition[str(worker)] = {
+            "selection_order": selection_order[str(worker)],
+            "affinity_set": affinity_sets[str(worker)],
+            "core_type_counts": counts,
+        }
+    require(
+        len(performance_order) == len(set(performance_order))
+        and set(performance_order) == visible,
+        "performance-first CPU order is not a unique visible topology",
+    )
+    return (
+        rows,
+        performance_order,
+        selection_order,
+        affinity_sets,
+        composition,
+    )
 
 
 def analysis(row: dict[str, str]) -> dict[str, Any]:
@@ -872,10 +975,15 @@ def main() -> int:
         arguments.production_representative,
         "--production-representative is required",
     )
-    available_cpus = sorted(os.sched_getaffinity(0))
-    require(
-        len(available_cpus) >= workers[-1],
-        "fewer than 20 affinity-visible CPUs",
+    (
+        logical_cpu_topology,
+        performance_first_cpu_order,
+        worker_selection_order,
+        worker_affinity_sets,
+        worker_core_type_composition,
+    ) = cpu_topology(workers)
+    available_cpus = sorted(
+        row["cpu"] for row in logical_cpu_topology
     )
     rows = read_registry()
     if arguments.only_corpus:
@@ -919,7 +1027,11 @@ def main() -> int:
                         "workers": worker,
                         "repetition": repetition,
                         "order_index": order_index,
-                        "affinity_cpus": available_cpus[:worker],
+                        "selection_order": worker_selection_order[str(worker)],
+                        "affinity_cpus": worker_affinity_sets[str(worker)],
+                        "core_type_counts": worker_core_type_composition[
+                            str(worker)
+                        ]["core_type_counts"],
                         "torch_intraop_threads": (
                             worker if row["corpus_id"] in LEARNING else 0
                         ),
@@ -938,11 +1050,15 @@ def main() -> int:
 
     artifact_paths, artifact_records = train_artifacts(
         source_commit,
-        available_cpus,
+        performance_first_cpu_order,
     )
     require(
         H5_REVALIDATION.is_file(),
         "Plan-005 post-thread-control H5 revalidation is absent",
+    )
+    require(
+        H5_TOPOLOGY_REVALIDATION.is_file(),
+        "Plan-005 performance-first topology H5 revalidation is absent",
     )
     binary_receipts = {
         name: {
@@ -957,28 +1073,27 @@ def main() -> int:
         "kernel": platform.release(),
         "logical_cpu_count": os.cpu_count(),
         "affinity_visible_cpus": available_cpus,
-        "cpu_model": next(
-            (
-                line.split(":", 1)[1].strip()
-                for line in Path("/proc/cpuinfo").read_text(
-                    encoding="utf-8"
-                ).splitlines()
-                if line.startswith("model name")
-            ),
-            "unknown",
-        ),
+        "topology_policy": "architecture_aware_performance_first",
+        "performance_first_cpu_order": performance_first_cpu_order,
+        "logical_cpu_topology": logical_cpu_topology,
+        "worker_selection_order": worker_selection_order,
+        "worker_affinity_sets": worker_affinity_sets,
+        "worker_core_type_composition": worker_core_type_composition,
         "thread_pool_environment": ENVIRONMENT_LIMITS,
     }
     environment["sha256"] = canonical_sha256(environment)
     header_expected = {
         "record_type": "campaign_header",
         "schema_version": 1,
-        "campaign_id": "plan005_h6_core_scaling_spark_20260730",
+        "campaign_id": (
+            "plan005_h6_core_scaling_performance_first_spark_20260730"
+        ),
         "source_commit": source_commit,
         "scope": "exact 23 target-only pairs",
         "workers": workers,
         "repetitions": arguments.repetitions,
         "measurement_order_policy": "balanced_rotation",
+        "topology_policy": "architecture_aware_performance_first",
         "backend_parallelism": 1,
         "environment": environment,
         "binaries": binary_receipts,
@@ -986,6 +1101,10 @@ def main() -> int:
         "post_thread_control_h5_revalidation": {
             "logical_path": relative(H5_REVALIDATION),
             "sha256": sha256(H5_REVALIDATION),
+        },
+        "performance_first_topology_h5_revalidation": {
+            "logical_path": relative(H5_TOPOLOGY_REVALIDATION),
+            "sha256": sha256(H5_TOPOLOGY_REVALIDATION),
         },
         "learning_thread_topology_contract": {
             "outer_persistent_workers": "W",
@@ -1004,7 +1123,9 @@ def main() -> int:
         },
         "claim_boundary": (
             "Production-representative fixed-work CPU H6 only; this receipt "
-            "does not establish formal 25-seed quality or GPU performance."
+            "uses a frozen heterogeneous architecture-aware performance-first "
+            "CPU mapping and does not establish formal 25-seed quality or GPU "
+            "performance."
         ),
     }
     header, existing = load_jsonl(arguments.receipt)
@@ -1034,6 +1155,7 @@ def main() -> int:
                     "binary_sha256": binary_hash,
                     "architecture": platform.machine(),
                     "workers": worker,
+                    "affinity_cpus": worker_affinity_sets[str(worker)],
                     "repetition": repetition,
                     "order_index": order_index,
                     "seed": 2026073000 + pair_index * 100 + repetition,
@@ -1057,7 +1179,7 @@ def main() -> int:
                     )
                     raw, process_receipt = measured_process(
                         command,
-                        available_cpus[:worker],
+                        worker_affinity_sets[str(worker)],
                         front_path=front_path,
                     )
                 observed_fes = raw.get(
@@ -1087,7 +1209,7 @@ def main() -> int:
                     )
                 require(
                     process_receipt["affinity_cpu_union"]
-                    == available_cpus[:worker],
+                    == worker_affinity_sets[str(worker)],
                     f"{row['pair_id']}: affinity escaped selected topology",
                 )
                 if row["corpus_id"] in LEARNING:
@@ -1173,9 +1295,19 @@ def main() -> int:
         summarize_target(row, by_pair[row["pair_id"]], workers)
         for row in rows
     ]
+    require(
+        ENVIRONMENT_SIDECAR.is_file(),
+        "Plan-005 H6 environment sidecar is absent",
+    )
+    environment_sidecar = {
+        "logical_path": relative(ENVIRONMENT_SIDECAR),
+        "sha256": sha256(ENVIRONMENT_SIDECAR),
+    }
     summary = {
         "schema_version": 1,
-        "summary_id": "plan005_h6_core_scaling_summary_spark_20260730",
+        "summary_id": (
+            "plan005_h6_core_scaling_performance_first_summary_spark_20260730"
+        ),
         "source_commit": source_commit,
         "raw_observations": relative(arguments.receipt),
         "raw_observations_sha256": sha256(arguments.receipt),
@@ -1184,6 +1316,8 @@ def main() -> int:
         "workers": workers,
         "repetitions": arguments.repetitions,
         "measurement_order_policy": "balanced_rotation",
+        "topology_policy": "architecture_aware_performance_first",
+        "environment_sidecar": environment_sidecar,
         "minimum_stage_attribution": min(
             item["minimum_named_h0_stage_attribution"] for item in targets
         ),

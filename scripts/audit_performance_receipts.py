@@ -241,12 +241,12 @@ def main() -> int:
             raw_path=(
                 ROOT
                 / "evidence/performance/"
-                "plan005_h6_raw_observations_20260730.jsonl"
+                "plan005_h6_performance_first_raw_observations_20260730.jsonl"
             ),
             summary_path=(
                 ROOT
                 / "evidence/performance/"
-                "plan005_h6_summary_20260730.json"
+                "plan005_h6_performance_first_summary_20260730.json"
             ),
         )
         print(

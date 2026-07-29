@@ -18,8 +18,16 @@ from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
 REGISTRY = ROOT / "docs/hpc_core_target_pairs.tsv"
-RAW = ROOT / "evidence/performance/plan005_h6_raw_observations_20260730.jsonl"
-SUMMARY = ROOT / "evidence/performance/plan005_h6_summary_20260730.json"
+RAW = (
+    ROOT
+    / "evidence/performance/"
+    "plan005_h6_performance_first_raw_observations_20260730.jsonl"
+)
+SUMMARY = (
+    ROOT
+    / "evidence/performance/"
+    "plan005_h6_performance_first_summary_20260730.json"
+)
 WORKERS = [1, 2, 4, 8, 12, 16, 20]
 LEARNING = {"Y36", "T42", "T45"}
 
@@ -84,6 +92,169 @@ def canonical_sha256(value: Any) -> str:
     ).hexdigest()
 
 
+def receipt_path(value: str) -> Path:
+    path = Path(value)
+    return path if path.is_absolute() else ROOT / path
+
+
+def validate_performance_first_topology(
+    header: dict[str, Any],
+) -> tuple[dict[str, list[int]], dict[str, list[int]]]:
+    require(
+        header.get("campaign_id")
+        == "plan005_h6_core_scaling_performance_first_spark_20260730"
+        and header.get("topology_policy")
+        == "architecture_aware_performance_first",
+        "H6 campaign or topology policy drift",
+    )
+    environment = header["environment"]
+    rows = environment["logical_cpu_topology"]
+    visible = environment["affinity_visible_cpus"]
+    require(
+        len(rows) == len(visible)
+        and sorted(row["cpu"] for row in rows) == visible
+        and all(row["online"] for row in rows),
+        "logical CPU topology does not match affinity-visible CPUs",
+    )
+    group_maximum = {
+        model: max(
+            row["maximum_mhz"]
+            for row in rows
+            if row["model_name"] == model
+        )
+        for model in {row["model_name"] for row in rows}
+    }
+    ordered_models = sorted(
+        group_maximum,
+        key=lambda model: (-group_maximum[model], model),
+    )
+    expected_order = [
+        row["cpu"]
+        for model in ordered_models
+        for row in sorted(
+            (item for item in rows if item["model_name"] == model),
+            key=lambda item: (-item["maximum_mhz"], item["cpu"]),
+        )
+    ]
+    selection = environment["worker_selection_order"]
+    affinity_sets = environment["worker_affinity_sets"]
+    require(
+        environment["topology_policy"]
+        == "architecture_aware_performance_first"
+        and environment["performance_first_cpu_order"] == expected_order,
+        "performance-first CPU order drift",
+    )
+    lookup = {row["cpu"]: row for row in rows}
+    for worker in WORKERS:
+        key = str(worker)
+        expected_selection = expected_order[:worker]
+        expected_set = sorted(expected_selection)
+        counts: dict[str, int] = {}
+        for cpu in expected_selection:
+            model = lookup[cpu]["model_name"]
+            counts[model] = counts.get(model, 0) + 1
+        require(
+            selection[key] == expected_selection
+            and affinity_sets[key] == expected_set
+            and environment["worker_core_type_composition"][key] == {
+                "selection_order": expected_selection,
+                "affinity_set": expected_set,
+                "core_type_counts": counts,
+            },
+            f"W={worker}: frozen performance-first topology drift",
+        )
+    return selection, affinity_sets
+
+
+def validate_environment_sidecar(
+    summary: dict[str, Any],
+    header: dict[str, Any],
+    *,
+    verify_repository_state: bool,
+) -> None:
+    receipt = summary["environment_sidecar"]
+    path = receipt_path(receipt["logical_path"])
+    require(
+        path.is_file() and sha256(path) == receipt["sha256"],
+        "H6 environment sidecar absent or changed",
+    )
+    document = json.loads(path.read_text(encoding="utf-8"))
+    require(
+        document["h6_campaign_id"] == header["campaign_id"]
+        and document["h6_source_commit"] == header["source_commit"]
+        and document["topology_policy"] == header["topology_policy"]
+        and document["lscpu_raw_sha256"]
+        == hashlib.sha256(document["lscpu_raw"].encode("utf-8")).hexdigest(),
+        "H6 environment sidecar identity or lscpu hash drift",
+    )
+    environment = header["environment"]
+    require(
+        document["logical_cpu_rows"] == environment["logical_cpu_topology"]
+        and document["performance_first_cpu_order"]
+        == environment["performance_first_cpu_order"]
+        and document["worker_selection_order"]
+        == environment["worker_selection_order"]
+        and document["worker_affinity_sets"]
+        == environment["worker_affinity_sets"]
+        and bool(document["cache_sysfs"])
+        and bool(document["frequency_governor_sysfs"])
+        and all(
+            item["scaling_governor"] == "performance"
+            for item in document["frequency_governor_sysfs"]
+        )
+        and bool(document["compiler"])
+        and bool(document["cmake"])
+        and bool(document["selected_cmake_cache_entries"]),
+        "H6 environment sidecar topology, frequency, cache, or toolchain drift",
+    )
+    lookup = {
+        row["cpu"]: row["model_name"]
+        for row in document["logical_cpu_rows"]
+    }
+    for worker in WORKERS:
+        key = str(worker)
+        selection = document["worker_selection_order"][key]
+        counts: dict[str, int] = {}
+        for cpu in selection:
+            model = lookup[cpu]
+            counts[model] = counts.get(model, 0) + 1
+        require(
+            document["performance_first_worker_composition"][key] == {
+                "selection_order": selection,
+                "affinity_set": sorted(selection),
+                "core_type_counts": counts,
+            },
+            f"W={worker}: sidecar topology composition drift",
+        )
+    require(
+        "Heterogeneous" in document["measurement_noise_boundary"]
+        and "concurrent" in document["measurement_noise_boundary"],
+        "H6 environment sidecar noise boundary is incomplete",
+    )
+    if verify_repository_state:
+        groups = document["core_type_groups"]
+        require(
+            len(groups.get("Cortex-X925", [])) == 10
+            and len(groups.get("Cortex-A725", [])) == 10,
+            "Spark X925/A725 topology count drift",
+        )
+        isaac = [
+            item
+            for item in document["pre_existing_gpu_compute_processes"]
+            if item["task_identity"]
+            == "pre-existing Isaac Lab reinforcement-learning training"
+        ]
+        require(
+            any(
+                1.0 <= item["observed_cpu_core_equivalent"] <= 2.0
+                and item["gpu_memory_mib"] >= 1000
+                and item["affinity_cpus"] == list(range(20))
+                for item in isaac
+            ),
+            "captured concurrent Isaac CPU/GPU load fact is absent",
+        )
+
+
 def paired_speed_ratio_ci(
     observations: list[dict[str, Any]],
     fastest_workers: int,
@@ -137,15 +308,22 @@ def audit(
         and header.get("backend_parallelism") == 1,
         "H6 frozen execution policy drift",
     )
+    _, worker_affinity_sets = validate_performance_first_topology(header)
     require(
         set(header["learning_artifacts"]) == {"taae", "alga", "rlpso"},
         "learning artifact coverage drift",
     )
     h5_revalidation = header["post_thread_control_h5_revalidation"]
     require(
-        sha256(ROOT / h5_revalidation["logical_path"])
+        sha256(receipt_path(h5_revalidation["logical_path"]))
         == h5_revalidation["sha256"],
         "post-thread-control H5 revalidation changed",
+    )
+    topology_h5 = header["performance_first_topology_h5_revalidation"]
+    require(
+        sha256(receipt_path(topology_h5["logical_path"]))
+        == topology_h5["sha256"],
+        "performance-first topology H5 revalidation changed",
     )
     for method, receipt in header["learning_artifacts"].items():
         require(
@@ -208,6 +386,10 @@ def audit(
             and key["order_index"] in range(7),
             f"{pair_id}: worker/repetition/order key invalid",
         )
+        require(
+            key["affinity_cpus"] == worker_affinity_sets[str(key["workers"])],
+            f"{pair_id}: affinity key differs from frozen W topology",
+        )
         binary_hashes = {
             value["sha256"] for value in header["binaries"].values()
         }
@@ -223,7 +405,7 @@ def audit(
         process = observation["process"]
         require(
             process["affinity_cpu_union"]
-            == header["environment"]["affinity_visible_cpus"][:key["workers"]],
+            == worker_affinity_sets[str(key["workers"])],
             f"{pair_id}: affinity escaped W CPUs",
         )
         for field in (
@@ -369,10 +551,17 @@ def audit(
         and summary["observation_count"] == 805
         and summary["workers"] == WORKERS
         and summary["repetitions"] == 5
+        and summary["topology_policy"]
+        == "architecture_aware_performance_first"
         and summary["raw_observations_sha256"] == sha256(raw_path)
         and summary["minimum_stage_attribution"] == minimum_attribution
         and summary["non_target_baselines_in_readiness"] == 0,
         "H6 summary identity or cardinality drift",
+    )
+    validate_environment_sidecar(
+        summary,
+        header,
+        verify_repository_state=verify_repository_state,
     )
     summary_by_pair = {item["pair_id"]: item for item in summary["targets"]}
     require(set(summary_by_pair) == set(by_pair), "summary target coverage")
