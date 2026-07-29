@@ -12,6 +12,7 @@ runner="${FORMAL_RUNNER:?FORMAL_RUNNER is required}"
 launcher="${FORMAL_LAUNCHER:?FORMAL_LAUNCHER is required}"
 bde_source="${repo_root}/.source-cache/official/BDE-WindFarm_code/code"
 gga_assets="${repo_root}/.source-cache/generated/gga_repaired"
+rpso_source="${repo_root}/.source-cache/official/RPSO_Wind_Code/RPSO_Wind"
 head="$(git rev-parse HEAD)"
 
 if [[ -n "$(git status --porcelain)" ]]; then
@@ -24,6 +25,10 @@ if [[ ! -d "${bde_source}" ]]; then
 fi
 if [[ ! -f "${gga_assets}/manifest.json" ]]; then
   echo "Missing generated GGA problem assets: ${gga_assets}" >&2
+  exit 2
+fi
+if [[ ! -d "${rpso_source}" ]]; then
+  echo "Missing authorized RPSO source assets: ${rpso_source}" >&2
   exit 2
 fi
 
@@ -79,6 +84,7 @@ fi
 rm -f -- "${bundle_path}"
 mkdir -p \
   "${repo_path}/.source-cache/official/BDE-WindFarm_code/code" \
+  "${repo_path}/.source-cache/official/RPSO_Wind_Code/RPSO_Wind" \
   "${repo_path}/.source-cache/generated/gga_repaired" \
   "${repo_path}/logs"
 REMOTE_PREPARE
@@ -89,6 +95,9 @@ rsync -a \
 rsync -a \
   "${gga_assets}/" \
   "${target}:${remote_dir}/.source-cache/generated/gga_repaired/"
+rsync -a \
+  "${rpso_source}/" \
+  "${target}:${remote_dir}/.source-cache/official/RPSO_Wind_Code/RPSO_Wind/"
 
 ssh "${target}" bash -s -- \
   "${remote_dir}" "${head}" "${expected_host}" "${suite_id}" \
@@ -106,6 +115,13 @@ cd "${repo_path}"
 for command_name in cmake c++ git jq python3 flock nproc sha256sum taskset; do
   command -v "${command_name}" >/dev/null
 done
+if [[ ! -x ".venv-formal/bin/python3" ]]; then
+  python3 -m venv .venv-formal
+fi
+.venv-formal/bin/python3 -m pip install \
+  --disable-pip-version-check \
+  --requirement requirements/formal-python.txt
+export PATH="${repo_path}/.venv-formal/bin:${PATH}"
 if [[ "$(hostname -s | tr '[:upper:]' '[:lower:]')" != "${expected_host,,}" ]]; then
   echo "Formal execution host identity changed." >&2
   exit 2

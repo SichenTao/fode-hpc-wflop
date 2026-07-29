@@ -171,8 +171,10 @@ bash scripts/deploy_and_launch_spark2_formal_suite.sh
 
 The controller transfers the exact clean Git `HEAD`, stages the authorized
 non-redistributed BDE arrays and audited GGA assets, verifies every processor
-visible to Spark2, runs the complete test gate, and starts the resumable
-`spark2_campaign_suite_v1` process. Spark2 results use distinct campaign
+visible to Spark2, creates the project-local pinned NumPy/SciPy validation
+environment, runs the complete test gate, and starts the resumable
+`spark2_campaign_suite_v1` process. Every environment receipt records the
+Python package set. Spark2 results use distinct campaign
 identities and must not be merged with older Waffle or Spark2-v2 probes.
 
 On Waffle, the complete admitted formal matrix is launched through one

@@ -5,6 +5,7 @@
 /tmp/
 /.cache/
 /.source-cache/
+/.venv-formal/
 /.idea/
 /.vscode/
 *.pdf

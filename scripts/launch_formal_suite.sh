@@ -4,6 +4,9 @@ set -euo pipefail
 repo_root="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 cd "${repo_root}"
 
+if [[ -x "${repo_root}/.venv-formal/bin/python3" ]]; then
+  export PATH="${repo_root}/.venv-formal/bin:${PATH}"
+fi
 expected_host="${FORMAL_EXPECTED_HOST:?FORMAL_EXPECTED_HOST is required}"
 suite_id="${FORMAL_SUITE_ID:?FORMAL_SUITE_ID is required}"
 runner="${FORMAL_RUNNER:?FORMAL_RUNNER is required}"

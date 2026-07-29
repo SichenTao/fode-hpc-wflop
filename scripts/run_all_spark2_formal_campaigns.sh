@@ -67,6 +67,7 @@ print(
 )
 PY
 
+bash scripts/prepare_formal_problem_assets.sh
 cmake -S . -B "${build_dir}" -DCMAKE_BUILD_TYPE=Release
 cmake --build "${build_dir}" -j "${workers}"
 ctest --test-dir "${build_dir}" --output-on-failure

@@ -4924,7 +4924,7 @@ RunResult convert_fode(
     RunResult result;
     result.algorithm_id = "fode";
     result.method_id = "FODE_CPP_HPC_FULL";
-    const auto& identity = algorithm_descriptor("fode");
+    const auto identity = algorithm_descriptor("fode");
     const auto& problem = problem_descriptor(config.problem_id);
     result.algorithm_provenance = identity.provenance;
     result.effective_semantics_id = identity.semantics_id;

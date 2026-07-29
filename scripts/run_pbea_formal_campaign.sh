@@ -55,6 +55,10 @@ print(json.dumps({
     ),
     "compiler": command("c++", "--version").splitlines()[0],
     "cmake": command("cmake", "--version").splitlines()[0],
+    "python": platform.python_version(),
+    "python_packages": command(
+        sys.executable, "-m", "pip", "freeze"
+    ),
     "nproc": int(command("nproc")),
     "workers": workers,
     "affinity": command("taskset", "-pc", str(os.getpid())),

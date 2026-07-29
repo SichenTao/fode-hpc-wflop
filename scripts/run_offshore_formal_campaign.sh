@@ -40,6 +40,8 @@ jq -n \
   --arg git_status_tracked "$(git status --porcelain --untracked-files=no)" \
   --arg compiler "$(c++ --version | head -1)" \
   --arg cmake "$(cmake --version | head -1)" \
+  --arg python "$(python3 --version)" \
+  --arg python_packages "$(python3 -m pip freeze | sort)" \
   --argjson nproc "$(nproc)" \
   --argjson workers "${workers}" \
   --arg affinity "$(taskset -pc $$)" \
@@ -55,6 +57,8 @@ jq -n \
     git_status_tracked: $git_status_tracked,
     compiler: $compiler,
     cmake: $cmake,
+    python: $python,
+    python_packages: $python_packages,
     nproc: $nproc,
     workers: $workers,
     affinity: $affinity,
