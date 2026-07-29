@@ -4,7 +4,7 @@ Implementation unit: TAAE declared-reconstruction trainable Transformer kernel
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, Adam defaults, deterministic seed namespaces, regression head, metric-alignment loss, decoder ties, and checkpoint format
+Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, mean encoder pooling, separate encoder/decoder embeddings, deterministic metric-pair seed, per-parameter Adam age, and checkpoint format
 Reconstruction status: engineering reconstruction with declared completion choices
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_declared_reconstruction_v1
@@ -92,6 +92,7 @@ struct Parameter {
     std::vector<double> gradient;
     std::vector<double> first_moment;
     std::vector<double> second_moment;
+    std::uint64_t update_step = 0;
     bool decoder = false;
 
     Parameter(
@@ -1031,7 +1032,9 @@ struct ModelSampleCache {
     Matrix encoder_output;
     Matrix pooled;
     LinearCache latent_linear;
+    Matrix latent_raw;
     Matrix latent;
+    double latent_inverse_norm = 0.0;
     LinearCache memory_linear;
     Matrix memory_seed;
     Matrix memory;
@@ -1041,6 +1044,8 @@ struct ModelSampleCache {
     LinearCache output_linear;
     Matrix logits;
     Matrix probabilities;
+    Matrix regression_hidden;
+    Matrix regression_activated;
 };
 
 Matrix softmax_rows(const Matrix& logits) {
@@ -1122,75 +1127,200 @@ double regression_mse(
     return loss / count;
 }
 
+std::vector<double> l2_normalize(
+    const std::vector<double>& input,
+    double& inverse_norm
+) {
+    double squared_norm = 0.0;
+    for (double value : input) {
+        squared_norm += value * value;
+    }
+    inverse_norm = 1.0 / std::sqrt(squared_norm + 1.0e-12);
+    std::vector<double> output = input;
+    for (double& value : output) {
+        value *= inverse_norm;
+    }
+    return output;
+}
+
+std::vector<double> l2_normalize_backward(
+    const std::vector<double>& output_gradient,
+    const std::vector<double>& normalized,
+    double inverse_norm
+) {
+    if (output_gradient.size() != normalized.size()) {
+        throw std::invalid_argument("L2 normalize backward shape mismatch");
+    }
+    double projection = 0.0;
+    for (std::size_t index = 0; index < normalized.size(); ++index) {
+        projection += output_gradient[index] * normalized[index];
+    }
+    std::vector<double> input_gradient(normalized.size(), 0.0);
+    for (std::size_t index = 0; index < normalized.size(); ++index) {
+        input_gradient[index] =
+            inverse_norm *
+            (output_gradient[index] - normalized[index] * projection);
+    }
+    return input_gradient;
+}
+
 double metric_alignment(
-    const std::vector<std::vector<double>>& latent,
+    const std::vector<std::vector<double>>& raw_latent,
     const std::vector<double>& target,
+    std::uint64_t pair_seed,
     std::vector<std::vector<double>>* gradient
 ) {
-    if (latent.size() != target.size() || latent.size() < 2) {
+    if (raw_latent.size() != target.size() || raw_latent.size() < 2) {
         if (gradient != nullptr) {
             gradient->assign(
-                latent.size(),
-                latent.empty()
+                raw_latent.size(),
+                raw_latent.empty()
                     ? std::vector<double>{}
-                    : std::vector<double>(latent.front().size(), 0.0)
+                    : std::vector<double>(
+                          raw_latent.front().size(),
+                          0.0
+                      )
             );
         }
         return 0.0;
     }
-    const std::size_t dimension = latent.front().size();
-    for (const auto& value : latent) {
+    const std::size_t dimension = raw_latent.front().size();
+    std::vector<std::vector<double>> latent(raw_latent.size());
+    std::vector<double> inverse_norm(raw_latent.size(), 0.0);
+    for (std::size_t index = 0; index < raw_latent.size(); ++index) {
+        const auto& value = raw_latent[index];
         if (value.size() != dimension) {
             throw std::invalid_argument("metric alignment shape mismatch");
         }
+        latent[index] = l2_normalize(value, inverse_norm[index]);
+    }
+    std::vector<std::vector<double>> normalized_gradient(
+        latent.size(),
+        std::vector<double>(dimension, 0.0)
+    );
+    const std::size_t pair_count = latent.size();
+    DeterministicRng pair_rng(
+        pair_seed ^ (static_cast<std::uint64_t>(latent.size()) << 32U)
+    );
+    double loss = 0.0;
+    for (std::size_t pair = 0; pair < pair_count; ++pair) {
+        const std::size_t left = static_cast<std::size_t>(
+            pair_rng.next_u64() %
+            static_cast<std::uint64_t>(latent.size())
+        );
+        std::size_t right = static_cast<std::size_t>(
+            pair_rng.next_u64() %
+            static_cast<std::uint64_t>(latent.size() - 1)
+        );
+        if (right >= left) {
+            ++right;
+        }
+        double squared_distance = 0.0;
+        for (std::size_t feature = 0; feature < dimension; ++feature) {
+            const double difference =
+                latent[left][feature] - latent[right][feature];
+            squared_distance += difference * difference;
+        }
+        const double distance =
+            std::sqrt(squared_distance + 1.0e-12);
+        const double target_distance =
+            std::abs(target[left] - target[right]);
+        const double error = distance - target_distance;
+        loss += error * error;
+        const double coefficient =
+            2.0 * error /
+            (static_cast<double>(pair_count) * distance);
+        for (std::size_t feature = 0; feature < dimension; ++feature) {
+            const double value = coefficient *
+                (latent[left][feature] - latent[right][feature]);
+            normalized_gradient[left][feature] += value;
+            normalized_gradient[right][feature] -= value;
+        }
     }
     if (gradient != nullptr) {
-        gradient->assign(
-            latent.size(),
-            std::vector<double>(dimension, 0.0)
-        );
-    }
-    const std::size_t pair_count =
-        latent.size() * (latent.size() - 1) / 2;
-    const double normalization =
-        std::sqrt(static_cast<double>(dimension));
-    double loss = 0.0;
-    for (std::size_t left = 0; left < latent.size(); ++left) {
-        for (std::size_t right = left + 1;
-             right < latent.size();
-             ++right) {
-            double squared_distance = 0.0;
-            for (std::size_t feature = 0;
-                 feature < dimension;
-                 ++feature) {
-                const double difference =
-                    latent[left][feature] - latent[right][feature];
-                squared_distance += difference * difference;
-            }
-            const double distance =
-                std::sqrt(squared_distance + 1.0e-12) / normalization;
-            const double target_distance =
-                std::abs(target[left] - target[right]);
-            const double error = distance - target_distance;
-            loss += error * error;
-            if (gradient != nullptr) {
-                const double coefficient =
-                    2.0 * error /
-                    (static_cast<double>(pair_count) *
-                     normalization *
-                     std::sqrt(squared_distance + 1.0e-12));
-                for (std::size_t feature = 0;
-                     feature < dimension;
-                     ++feature) {
-                    const double value = coefficient *
-                        (latent[left][feature] - latent[right][feature]);
-                    (*gradient)[left][feature] += value;
-                    (*gradient)[right][feature] -= value;
-                }
-            }
+        gradient->resize(raw_latent.size());
+        for (std::size_t index = 0; index < raw_latent.size(); ++index) {
+            (*gradient)[index] = l2_normalize_backward(
+                normalized_gradient[index],
+                latent[index],
+                inverse_norm[index]
+            );
         }
     }
     return loss / static_cast<double>(pair_count);
+}
+
+double regression_head_forward(
+    const std::vector<double>& normalized_latent,
+    const Parameter& hidden_weight,
+    const Parameter& hidden_bias,
+    const Parameter& output_weight,
+    const Parameter& output_bias,
+    Matrix& hidden,
+    Matrix& activated
+) {
+    const std::size_t hidden_width = hidden_bias.value.size();
+    if (hidden_weight.value.size() !=
+            normalized_latent.size() * hidden_width ||
+        output_weight.value.size() != hidden_width ||
+        output_bias.value.size() != 1) {
+        throw std::invalid_argument("regression head shape mismatch");
+    }
+    hidden = Matrix(1, hidden_width);
+    activated = Matrix(1, hidden_width);
+    for (std::size_t unit = 0; unit < hidden_width; ++unit) {
+        hidden(0, unit) = hidden_bias.value[unit];
+        for (std::size_t feature = 0;
+             feature < normalized_latent.size();
+             ++feature) {
+            hidden(0, unit) +=
+                normalized_latent[feature] *
+                hidden_weight.value[feature * hidden_width + unit];
+        }
+        activated(0, unit) = std::max(0.0, hidden(0, unit));
+    }
+    double prediction = output_bias.value[0];
+    for (std::size_t unit = 0; unit < hidden_width; ++unit) {
+        prediction +=
+            activated(0, unit) * output_weight.value[unit];
+    }
+    return prediction;
+}
+
+std::vector<double> regression_head_backward(
+    const std::vector<double>& normalized_latent,
+    double prediction_gradient,
+    const Matrix& hidden,
+    const Matrix& activated,
+    Parameter& hidden_weight,
+    Parameter& hidden_bias,
+    Parameter& output_weight,
+    Parameter& output_bias
+) {
+    output_bias.gradient[0] += prediction_gradient;
+    std::vector<double> latent_gradient(normalized_latent.size(), 0.0);
+    for (std::size_t unit = 0; unit < activated.cols; ++unit) {
+        output_weight.gradient[unit] +=
+            prediction_gradient * activated(0, unit);
+        double hidden_gradient =
+            prediction_gradient * output_weight.value[unit];
+        if (hidden(0, unit) <= 0.0) {
+            hidden_gradient = 0.0;
+        }
+        hidden_bias.gradient[unit] += hidden_gradient;
+        for (std::size_t feature = 0;
+             feature < normalized_latent.size();
+             ++feature) {
+            hidden_weight.gradient[
+                feature * activated.cols + unit
+            ] += normalized_latent[feature] * hidden_gradient;
+            latent_gradient[feature] +=
+                hidden_weight.value[
+                    feature * activated.cols + unit
+                ] * hidden_gradient;
+        }
+    }
+    return latent_gradient;
 }
 
 double dot(const Matrix& left, const Matrix& right) {
@@ -1637,6 +1767,91 @@ bool check_losses(std::ostringstream& report) {
         }
     }
 
+    ParameterRegistry regression_registry;
+    DeterministicRng regression_rng(2026);
+    Parameter& hidden_weight =
+        regression_registry.add("regression.hidden_weight", 12);
+    Parameter& hidden_bias =
+        regression_registry.add("regression.hidden_bias", 4);
+    Parameter& output_weight =
+        regression_registry.add("regression.output_weight", 4);
+    Parameter& output_bias =
+        regression_registry.add("regression.output_bias", 1);
+    xavier_uniform(hidden_weight, 3, 4, regression_rng);
+    xavier_uniform(output_weight, 4, 1, regression_rng);
+    std::fill(hidden_bias.value.begin(), hidden_bias.value.end(), 0.7);
+    const std::vector<double> regression_latent = {0.3, -0.4, 0.5};
+    Matrix regression_hidden;
+    Matrix regression_activated;
+    const double head_prediction = regression_head_forward(
+        regression_latent,
+        hidden_weight,
+        hidden_bias,
+        output_weight,
+        output_bias,
+        regression_hidden,
+        regression_activated
+    );
+    std::vector<double> head_prediction_gradient;
+    static_cast<void>(regression_mse(
+        {head_prediction},
+        {0.25},
+        &head_prediction_gradient
+    ));
+    regression_registry.zero_gradients();
+    const std::vector<double> head_latent_gradient =
+        regression_head_backward(
+            regression_latent,
+            head_prediction_gradient[0],
+            regression_hidden,
+            regression_activated,
+            hidden_weight,
+            hidden_bias,
+            output_weight,
+            output_bias
+        );
+    auto regression_objective = [&]() {
+        Matrix candidate_hidden;
+        Matrix candidate_activated;
+        const double value = regression_head_forward(
+            regression_latent,
+            hidden_weight,
+            hidden_bias,
+            output_weight,
+            output_bias,
+            candidate_hidden,
+            candidate_activated
+        );
+        return regression_mse({value}, {0.25}, nullptr);
+    };
+    for (Parameter* parameter : std::vector<Parameter*>{
+             &hidden_weight,
+             &hidden_bias,
+             &output_weight,
+             &output_bias,
+         }) {
+        const std::size_t index = parameter->value.size() / 2;
+        const double analytic = parameter->gradient[index];
+        parameter->value[index] += kStep;
+        const double plus = regression_objective();
+        parameter->value[index] -= 2.0 * kStep;
+        const double minus = regression_objective();
+        parameter->value[index] += kStep;
+        const double numerical = (plus - minus) / (2.0 * kStep);
+        maximum_error =
+            std::max(maximum_error, std::abs(analytic - numerical));
+        if (!close_gradient(
+                analytic,
+                numerical,
+                kAbsoluteTolerance,
+                kRelativeTolerance)) {
+            report << "regression_head_gradient_failed name="
+                   << parameter->name;
+            return false;
+        }
+    }
+    static_cast<void>(head_latent_gradient);
+
     std::vector<std::vector<double>> latent = {
         {0.2, -0.3, 0.7},
         {-0.5, 0.4, 0.1},
@@ -1645,7 +1860,12 @@ bool check_losses(std::ostringstream& report) {
     const std::vector<double> metric_targets = {0.1, 0.8, -0.2};
     std::vector<std::vector<double>> metric_gradient;
     static_cast<void>(
-        metric_alignment(latent, metric_targets, &metric_gradient)
+        metric_alignment(
+            latent,
+            metric_targets,
+            0x12345678ULL,
+            &metric_gradient
+        )
     );
     for (std::size_t row = 0; row < latent.size(); ++row) {
         for (std::size_t column = 0; column < latent[row].size(); ++column) {
@@ -1654,8 +1874,18 @@ bool check_losses(std::ostringstream& report) {
             plus[row][column] += kStep;
             minus[row][column] -= kStep;
             const double numerical =
-                (metric_alignment(plus, metric_targets, nullptr) -
-                 metric_alignment(minus, metric_targets, nullptr)) /
+                (metric_alignment(
+                     plus,
+                     metric_targets,
+                     0x12345678ULL,
+                     nullptr
+                 ) -
+                 metric_alignment(
+                     minus,
+                     metric_targets,
+                     0x12345678ULL,
+                     nullptr
+                 )) /
                 (2.0 * kStep);
             maximum_error = std::max(
                 maximum_error,
@@ -1674,7 +1904,9 @@ bool check_losses(std::ostringstream& report) {
     }
     report << std::scientific << std::setprecision(3)
            << "loss_gradient_pass cross_entropy=pass regression_mse=pass "
-           << "metric_alignment=pass max_abs_error=" << maximum_error
+           << "regression_hidden_relu_output=pass "
+           << "metric_alignment_l2_sampled_pairs=pass pair_count=batch "
+           << "max_abs_error=" << maximum_error
            << " abs_tol=" << kAbsoluteTolerance
            << " rel_tol=" << kRelativeTolerance;
     return true;
@@ -1688,37 +1920,46 @@ struct TransformerAutoencoder::Impl {
     DeterministicRng rng;
     Parameter* token_embedding;
     Parameter* position_embedding;
+    Parameter* decoder_token_embedding;
+    Parameter* decoder_position_embedding;
     Parameter* bos_embedding;
     Parameter* latent_weight;
     Parameter* latent_bias;
     Parameter* memory_weight;
     Parameter* memory_bias;
-    Parameter* regression_weight;
-    Parameter* regression_bias;
+    Parameter* regression_hidden_weight;
+    Parameter* regression_hidden_bias;
+    Parameter* regression_output_weight;
+    Parameter* regression_output_bias;
     Parameter* output_weight;
     Parameter* output_bias;
     std::vector<std::unique_ptr<EncoderLayer>> encoder;
     std::vector<std::unique_ptr<DecoderLayer>> decoder;
-    std::uint64_t adam_step_count = 0;
 
     Impl(ModelConfig model_config, std::uint64_t seed)
         : config(std::move(model_config)),
           rng(seed),
           token_embedding(nullptr),
           position_embedding(nullptr),
+          decoder_token_embedding(nullptr),
+          decoder_position_embedding(nullptr),
           bos_embedding(nullptr),
           latent_weight(nullptr),
           latent_bias(nullptr),
           memory_weight(nullptr),
           memory_bias(nullptr),
-          regression_weight(nullptr),
-          regression_bias(nullptr),
+          regression_hidden_weight(nullptr),
+          regression_hidden_bias(nullptr),
+          regression_output_weight(nullptr),
+          regression_output_bias(nullptr),
           output_weight(nullptr),
           output_bias(nullptr) {
         if (config.vocabulary <= 1 || config.sequence_length <= 0 ||
             config.model_dimension <= 0 || config.latent_dimension <= 0 ||
             config.heads <= 0 || config.encoder_layers <= 0 ||
             config.decoder_layers <= 0 || config.ffn_width <= 0 ||
+            config.regression_hidden_width <= 0 ||
+            config.sequence_length > config.vocabulary ||
             config.model_dimension % config.heads != 0 ||
             config.dropout != 0.0) {
             throw std::invalid_argument("unsupported Transformer config");
@@ -1739,6 +1980,16 @@ struct TransformerAutoencoder::Impl {
             "embedding.position",
             sequence * dimension
         );
+        decoder_token_embedding = &registry.add(
+            "decoder.embedding.token",
+            vocabulary * dimension,
+            true
+        );
+        decoder_position_embedding = &registry.add(
+            "decoder.embedding.position",
+            sequence * dimension,
+            true
+        );
         bos_embedding = &registry.add("decoder.bos", dimension, true);
         latent_weight = &registry.add(
             "encoder.latent_weight",
@@ -1747,19 +1998,32 @@ struct TransformerAutoencoder::Impl {
         latent_bias = &registry.add("encoder.latent_bias", latent);
         memory_weight = &registry.add(
             "decoder.memory_weight",
-            latent * dimension,
+            latent * sequence * dimension,
             true
         );
         memory_bias = &registry.add(
             "decoder.memory_bias",
-            dimension,
+            sequence * dimension,
             true
         );
-        regression_weight = &registry.add(
-            "regression.weight",
-            latent
+        const std::size_t regression_hidden =
+            static_cast<std::size_t>(config.regression_hidden_width);
+        regression_hidden_weight = &registry.add(
+            "regression.hidden_weight",
+            latent * regression_hidden
         );
-        regression_bias = &registry.add("regression.bias", 1);
+        regression_hidden_bias = &registry.add(
+            "regression.hidden_bias",
+            regression_hidden
+        );
+        regression_output_weight = &registry.add(
+            "regression.output_weight",
+            regression_hidden
+        );
+        regression_output_bias = &registry.add(
+            "regression.output_bias",
+            1
+        );
         xavier_uniform(
             *token_embedding,
             vocabulary,
@@ -1772,10 +2036,38 @@ struct TransformerAutoencoder::Impl {
             dimension,
             rng
         );
+        xavier_uniform(
+            *decoder_token_embedding,
+            vocabulary,
+            dimension,
+            rng
+        );
+        xavier_uniform(
+            *decoder_position_embedding,
+            sequence,
+            dimension,
+            rng
+        );
         xavier_uniform(*bos_embedding, 1, dimension, rng);
         xavier_uniform(*latent_weight, dimension, latent, rng);
-        xavier_uniform(*memory_weight, latent, dimension, rng);
-        xavier_uniform(*regression_weight, latent, 1, rng);
+        xavier_uniform(
+            *memory_weight,
+            latent,
+            sequence * dimension,
+            rng
+        );
+        xavier_uniform(
+            *regression_hidden_weight,
+            latent,
+            regression_hidden,
+            rng
+        );
+        xavier_uniform(
+            *regression_output_weight,
+            regression_hidden,
+            1,
+            rng
+        );
         for (int layer = 0; layer < config.encoder_layers; ++layer) {
             encoder.push_back(std::make_unique<EncoderLayer>(
                 registry,
@@ -1819,6 +2111,13 @@ struct TransformerAutoencoder::Impl {
                 throw std::invalid_argument("layout token out of range");
             }
         }
+        if (!std::is_sorted(tokens.begin(), tokens.end()) ||
+            std::adjacent_find(tokens.begin(), tokens.end()) !=
+                tokens.end()) {
+            throw std::invalid_argument(
+                "layout tokens must be unique canonical sorted cells"
+            );
+        }
     }
 
     Matrix embed(
@@ -1835,14 +2134,26 @@ struct TransformerAutoencoder::Impl {
                 const double token_value =
                     decoder_input && tokens[row] < 0
                         ? bos_embedding->value[column]
-                        : token_embedding->value[
+                        : (decoder_input
+                               ? decoder_token_embedding->value[
+                                     static_cast<std::size_t>(tokens[row]) *
+                                         dimension +
+                                     column
+                                 ]
+                               : token_embedding->value[
                               static_cast<std::size_t>(tokens[row]) *
                                   dimension +
                               column
-                          ];
+                          ]);
                 result(row, column) =
                     token_value +
-                    position_embedding->value[row * dimension + column];
+                    (decoder_input
+                         ? decoder_position_embedding->value[
+                               row * dimension + column
+                           ]
+                         : position_embedding->value[
+                               row * dimension + column
+                           ]);
             }
         }
         return result;
@@ -1874,15 +2185,22 @@ struct TransformerAutoencoder::Impl {
                     static_cast<double>(hidden.rows);
             }
         }
-        cache.latent = linear_forward(
+        cache.latent_raw = linear_forward(
             cache.pooled,
             *latent_weight,
             static_cast<std::size_t>(config.latent_dimension),
             cache.latent_linear
         );
-        for (std::size_t index = 0; index < cache.latent.cols; ++index) {
-            cache.latent(0, index) += latent_bias->value[index];
+        for (std::size_t index = 0;
+             index < cache.latent_raw.cols;
+             ++index) {
+            cache.latent_raw(0, index) += latent_bias->value[index];
         }
+        cache.latent = Matrix(1, cache.latent_raw.cols);
+        cache.latent.values = l2_normalize(
+            cache.latent_raw.values,
+            cache.latent_inverse_norm
+        );
         return cache.latent;
     }
 
@@ -1897,18 +2215,19 @@ struct TransformerAutoencoder::Impl {
         cache.memory_seed = linear_forward(
             cache.latent,
             *memory_weight,
-            dimension,
+            sequence * dimension,
             cache.memory_linear
         );
-        for (std::size_t column = 0; column < dimension; ++column) {
+        for (std::size_t column = 0;
+             column < sequence * dimension;
+             ++column) {
             cache.memory_seed(0, column) += memory_bias->value[column];
         }
         cache.memory = Matrix(sequence, dimension);
         for (std::size_t row = 0; row < sequence; ++row) {
             for (std::size_t column = 0; column < dimension; ++column) {
                 cache.memory(row, column) =
-                    cache.memory_seed(0, column) +
-                    position_embedding->value[row * dimension + column];
+                    cache.memory_seed(0, row * dimension + column);
             }
         }
         cache.decoder_tokens.assign(sequence, -1);
@@ -1959,12 +2278,24 @@ struct TransformerAutoencoder::Impl {
             static_cast<std::size_t>(config.model_dimension);
         for (std::size_t row = 0; row < gradient.rows; ++row) {
             for (std::size_t column = 0; column < gradient.cols; ++column) {
-                position_embedding->gradient[row * dimension + column] +=
-                    gradient(row, column);
-                if (decoder_input && tokens[row] < 0) {
-                    bos_embedding->gradient[column] +=
-                        gradient(row, column);
+                if (decoder_input) {
+                    decoder_position_embedding->gradient[
+                        row * dimension + column
+                    ] += gradient(row, column);
+                    if (tokens[row] < 0) {
+                        bos_embedding->gradient[column] +=
+                            gradient(row, column);
+                    } else {
+                        decoder_token_embedding->gradient[
+                            static_cast<std::size_t>(tokens[row]) *
+                                dimension +
+                            column
+                        ] += gradient(row, column);
+                    }
                 } else {
+                    position_embedding->gradient[
+                        row * dimension + column
+                    ] += gradient(row, column);
                     token_embedding->gradient[
                         static_cast<std::size_t>(tokens[row]) * dimension +
                         column
@@ -1977,7 +2308,8 @@ struct TransformerAutoencoder::Impl {
     void backward_sample(
         ModelSampleCache& cache,
         const Matrix& logits_gradient,
-        const std::vector<double>& external_latent_gradient
+        const std::vector<double>& external_normalized_latent_gradient,
+        const std::vector<double>& external_raw_latent_gradient
     ) {
         for (std::size_t row = 0; row < logits_gradient.rows; ++row) {
             for (std::size_t column = 0;
@@ -2010,16 +2342,18 @@ struct TransformerAutoencoder::Impl {
             cache.decoder_tokens,
             true
         );
-        Matrix memory_seed_gradient(1, memory_gradient.cols);
+        Matrix memory_seed_gradient(
+            1,
+            memory_gradient.rows * memory_gradient.cols
+        );
         for (std::size_t row = 0; row < memory_gradient.rows; ++row) {
             for (std::size_t column = 0;
                  column < memory_gradient.cols;
                  ++column) {
-                memory_seed_gradient(0, column) +=
-                    memory_gradient(row, column);
-                position_embedding->gradient[
+                memory_seed_gradient(
+                    0,
                     row * memory_gradient.cols + column
-                ] += memory_gradient(row, column);
+                ) = memory_gradient(row, column);
             }
         }
         for (std::size_t column = 0;
@@ -2028,23 +2362,39 @@ struct TransformerAutoencoder::Impl {
             memory_bias->gradient[column] +=
                 memory_seed_gradient(0, column);
         }
-        Matrix latent_gradient = linear_backward(
+        Matrix normalized_latent_gradient = linear_backward(
             memory_seed_gradient,
             *memory_weight,
             cache.memory_linear
         );
-        if (external_latent_gradient.size() != latent_gradient.cols) {
+        if (external_normalized_latent_gradient.size() !=
+                normalized_latent_gradient.cols ||
+            external_raw_latent_gradient.size() !=
+                normalized_latent_gradient.cols) {
             throw std::invalid_argument("external latent gradient mismatch");
         }
         for (std::size_t column = 0;
-             column < latent_gradient.cols;
+             column < normalized_latent_gradient.cols;
              ++column) {
-            latent_gradient(0, column) +=
-                external_latent_gradient[column];
-            latent_bias->gradient[column] += latent_gradient(0, column);
+            normalized_latent_gradient(0, column) +=
+                external_normalized_latent_gradient[column];
+        }
+        Matrix raw_latent_gradient(1, normalized_latent_gradient.cols);
+        raw_latent_gradient.values = l2_normalize_backward(
+            normalized_latent_gradient.values,
+            cache.latent.values,
+            cache.latent_inverse_norm
+        );
+        for (std::size_t column = 0;
+             column < raw_latent_gradient.cols;
+             ++column) {
+            raw_latent_gradient(0, column) +=
+                external_raw_latent_gradient[column];
+            latent_bias->gradient[column] +=
+                raw_latent_gradient(0, column);
         }
         Matrix pooled_gradient = linear_backward(
-            latent_gradient,
+            raw_latent_gradient,
             *latent_weight,
             cache.latent_linear
         );
@@ -2088,6 +2438,7 @@ struct TransformerAutoencoder::Impl {
         registry.zero_gradients();
         std::vector<ModelSampleCache> caches(layouts.size());
         std::vector<std::vector<double>> latent(layouts.size());
+        std::vector<std::vector<double>> raw_latent(layouts.size());
         std::vector<double> prediction(layouts.size(), 0.0);
         BatchLoss losses;
         for (std::size_t sample = 0; sample < layouts.size(); ++sample) {
@@ -2098,14 +2449,16 @@ struct TransformerAutoencoder::Impl {
                 nullptr
             ) / static_cast<double>(layouts.size());
             latent[sample] = caches[sample].latent.values;
-            prediction[sample] = regression_bias->value[0];
-            for (std::size_t feature = 0;
-                 feature < latent[sample].size();
-                 ++feature) {
-                prediction[sample] +=
-                    latent[sample][feature] *
-                    regression_weight->value[feature];
-            }
+            raw_latent[sample] = caches[sample].latent_raw.values;
+            prediction[sample] = regression_head_forward(
+                latent[sample],
+                *regression_hidden_weight,
+                *regression_hidden_bias,
+                *regression_output_weight,
+                *regression_output_bias,
+                caches[sample].regression_hidden,
+                caches[sample].regression_activated
+            );
         }
         const std::vector<double> targets =
             relative_fitness.empty()
@@ -2119,8 +2472,9 @@ struct TransformerAutoencoder::Impl {
         );
         std::vector<std::vector<double>> metric_gradient;
         losses.metric_smoothness = metric_alignment(
-            latent,
+            raw_latent,
             targets,
+            weights.metric_pair_seed,
             &metric_gradient
         );
         for (std::size_t sample = 0; sample < layouts.size(); ++sample) {
@@ -2136,28 +2490,32 @@ struct TransformerAutoencoder::Impl {
             for (double& value : logits_gradient.values) {
                 value *= reconstruction_scale;
             }
-            std::vector<double> latent_gradient(
-                latent[sample].size(),
-                0.0
-            );
             const double regression_signal =
                 weights.regression * regression_gradient[sample];
-            regression_bias->gradient[0] += regression_signal;
+            std::vector<double> normalized_latent_gradient =
+                regression_head_backward(
+                    latent[sample],
+                    regression_signal,
+                    caches[sample].regression_hidden,
+                    caches[sample].regression_activated,
+                    *regression_hidden_weight,
+                    *regression_hidden_bias,
+                    *regression_output_weight,
+                    *regression_output_bias
+                );
+            std::vector<double> raw_latent_gradient =
+                metric_gradient[sample];
             for (std::size_t feature = 0;
                  feature < latent[sample].size();
                  ++feature) {
-                regression_weight->gradient[feature] +=
-                    regression_signal * latent[sample][feature];
-                latent_gradient[feature] =
-                    regression_signal *
-                        regression_weight->value[feature] +
-                    weights.metric_smoothness *
-                        metric_gradient[sample][feature];
+                raw_latent_gradient[feature] *=
+                    weights.metric_smoothness;
             }
             backward_sample(
                 caches[sample],
                 logits_gradient,
-                latent_gradient
+                normalized_latent_gradient,
+                raw_latent_gradient
             );
         }
         if (freeze_decoder) {
@@ -2185,15 +2543,23 @@ struct TransformerAutoencoder::Impl {
         double epsilon,
         bool freeze_decoder
     ) {
-        ++adam_step_count;
-        const double first_correction =
-            1.0 - std::pow(beta1, static_cast<double>(adam_step_count));
-        const double second_correction =
-            1.0 - std::pow(beta2, static_cast<double>(adam_step_count));
         for (Parameter* parameter : registry.all()) {
             if (freeze_decoder && parameter->decoder) {
                 continue;
             }
+            ++parameter->update_step;
+            const double first_correction =
+                1.0 -
+                std::pow(
+                    beta1,
+                    static_cast<double>(parameter->update_step)
+                );
+            const double second_correction =
+                1.0 -
+                std::pow(
+                    beta2,
+                    static_cast<double>(parameter->update_step)
+                );
             for (std::size_t index = 0;
                  index < parameter->value.size();
                  ++index) {
@@ -2516,7 +2882,7 @@ CheckpointMetadata TransformerAutoencoder::save_checkpoint(
     if (!stream) {
         throw std::runtime_error("cannot create checkpoint");
     }
-    write_string(stream, "TAAE_KERNEL_CHECKPOINT_V1");
+    write_string(stream, "TAAE_KERNEL_CHECKPOINT_V2");
     write_binary(stream, impl_->config.vocabulary);
     write_binary(stream, impl_->config.sequence_length);
     write_binary(stream, impl_->config.model_dimension);
@@ -2540,7 +2906,6 @@ CheckpointMetadata TransformerAutoencoder::save_checkpoint(
     write_binary(stream, work.wall_seconds);
     const std::string hash = parameter_hash();
     write_string(stream, hash);
-    write_binary(stream, impl_->adam_step_count);
     const auto parameters = impl_->registry.all();
     write_binary(
         stream,
@@ -2552,6 +2917,7 @@ CheckpointMetadata TransformerAutoencoder::save_checkpoint(
             stream,
             static_cast<std::uint64_t>(parameter->value.size())
         );
+        write_binary(stream, parameter->update_step);
         for (double value : parameter->value) {
             write_binary(stream, value);
         }
@@ -2584,7 +2950,7 @@ TransformerAutoencoder TransformerAutoencoder::load_checkpoint(
     CheckpointMetadata& metadata
 ) {
     std::ifstream stream(path, std::ios::binary);
-    if (!stream || read_string(stream) != "TAAE_KERNEL_CHECKPOINT_V1") {
+    if (!stream || read_string(stream) != "TAAE_KERNEL_CHECKPOINT_V2") {
         throw std::runtime_error("checkpoint magic mismatch");
     }
     ModelConfig config;
@@ -2612,7 +2978,6 @@ TransformerAutoencoder TransformerAutoencoder::load_checkpoint(
     metadata.work.wall_seconds = read_binary<double>(stream);
     metadata.parameter_fnv1a64 = read_string(stream);
     TransformerAutoencoder model(config, metadata.initialization_seed);
-    model.impl_->adam_step_count = read_binary<std::uint64_t>(stream);
     const std::uint64_t count = read_binary<std::uint64_t>(stream);
     const auto parameters = model.impl_->registry.all();
     if (count != parameters.size()) {
@@ -2626,6 +2991,7 @@ TransformerAutoencoder TransformerAutoencoder::load_checkpoint(
         if (size != parameter->value.size()) {
             throw std::runtime_error("checkpoint parameter size mismatch");
         }
+        parameter->update_step = read_binary<std::uint64_t>(stream);
         for (double& value : parameter->value) {
             value = read_binary<double>(stream);
         }
@@ -2695,6 +3061,16 @@ double TransformerAutoencoder::parameter_gradient(
     return parameter->gradient[index];
 }
 
+std::uint64_t TransformerAutoencoder::parameter_update_step(
+    const std::string& name
+) const {
+    const Parameter* parameter = impl_->registry.find(name);
+    if (parameter == nullptr) {
+        throw std::out_of_range("unknown parameter");
+    }
+    return parameter->update_step;
+}
+
 bool TransformerAutoencoder::causal_mask_fixture() const {
     ParameterRegistry registry;
     DeterministicRng rng(5);
@@ -2740,6 +3116,9 @@ bool TransformerAutoencoder::shape_fixture() const {
         static_cast<std::size_t>(value.sequence_length),
         0
     );
+    for (std::size_t index = 0; index < tokens.size(); ++index) {
+        tokens[index] = static_cast<int>(index);
+    }
     ModelSampleCache cache;
     impl_->full_forward(tokens, cache);
     return cache.logits.rows == tokens.size() &&
@@ -2756,6 +3135,16 @@ TrainingProfile paper_scale_training_profile() {
     profile.split_seed = 3602;
     profile.batch_seed = 3603;
     profile.fine_tune_seed = 3604;
+    profile.corpus_layouts = 100000;
+    profile.train_layouts = 100000;
+    profile.test_layouts = 0;
+    profile.pretraining_epochs = 500;
+    profile.pretraining_batch_size = 64;
+    profile.fine_tuning_batch_size = 64;
+    profile.learning_rate = 1.0e-3;
+    profile.beta1 = 0.9;
+    profile.beta2 = 0.999;
+    profile.epsilon = 1.0e-8;
     profile.fine_tuning_epochs_per_generation = 10;
     return profile;
 }
@@ -2781,6 +3170,12 @@ std::vector<std::vector<int>> deterministic_layout_corpus(
     const ModelConfig& config,
     std::uint64_t seed
 ) {
+    if (config.sequence_length <= 0 ||
+        config.vocabulary < config.sequence_length) {
+        throw std::invalid_argument(
+            "layout corpus requires vocabulary >= sequence length"
+        );
+    }
     DeterministicRng rng(seed);
     std::vector<std::vector<int>> corpus(
         static_cast<std::size_t>(count),
@@ -2790,12 +3185,28 @@ std::vector<std::vector<int>> deterministic_layout_corpus(
         )
     );
     for (auto& layout : corpus) {
-        for (int& token : layout) {
-            token = static_cast<int>(
-                rng.next_u64() %
-                static_cast<std::uint64_t>(config.vocabulary)
-            );
+        std::vector<int> available(
+            static_cast<std::size_t>(config.vocabulary),
+            0
+        );
+        for (std::size_t index = 0; index < available.size(); ++index) {
+            available[index] = static_cast<int>(index);
         }
+        for (std::size_t position = 0;
+             position < layout.size();
+             ++position) {
+            const std::size_t selected =
+                position +
+                static_cast<std::size_t>(
+                    rng.next_u64() %
+                    static_cast<std::uint64_t>(
+                        available.size() - position
+                    )
+                );
+            std::swap(available[position], available[selected]);
+            layout[position] = available[position];
+        }
+        std::sort(layout.begin(), layout.end());
     }
     return corpus;
 }
@@ -2805,34 +3216,69 @@ TrainingWork pretrain(
     const TrainingProfile& profile,
     fode_compat::PersistentExecutor&
 ) {
+    if (profile.train_layouts == 0 ||
+        profile.pretraining_epochs < 0 ||
+        profile.pretraining_batch_size <= 0) {
+        throw std::invalid_argument("invalid pretraining profile");
+    }
     const auto corpus = deterministic_layout_corpus(
         profile.train_layouts,
         model.config(),
         profile.corpus_seed
     );
-    const std::vector<double> targets(corpus.size(), 0.0);
     LossWeights weights;
     weights.reconstruction = 1.0;
     weights.regression = 0.0;
     weights.metric_smoothness = 0.0;
     TrainingWork work;
     work.corpus_samples = corpus.size();
+    DeterministicRng batch_rng(profile.batch_seed);
+    std::vector<std::size_t> order(corpus.size(), 0);
+    for (std::size_t index = 0; index < order.size(); ++index) {
+        order[index] = index;
+    }
     for (int epoch = 0; epoch < profile.pretraining_epochs; ++epoch) {
-        model.train_batch(
-            corpus,
-            targets,
-            weights,
-            profile.learning_rate,
-            profile.beta1,
-            profile.beta2,
-            profile.epsilon,
-            false
+        for (std::size_t index = order.size(); index > 1; --index) {
+            const std::size_t selected = static_cast<std::size_t>(
+                batch_rng.next_u64() %
+                static_cast<std::uint64_t>(index)
+            );
+            std::swap(order[index - 1], order[selected]);
+        }
+        const std::size_t batch_size = static_cast<std::size_t>(
+            profile.pretraining_batch_size
         );
-        ++work.optimizer_steps;
+        for (std::size_t begin = 0;
+             begin < order.size();
+             begin += batch_size) {
+            const std::size_t end =
+                std::min(begin + batch_size, order.size());
+            std::vector<std::vector<int>> batch;
+            batch.reserve(end - begin);
+            for (std::size_t position = begin;
+                 position < end;
+                 ++position) {
+                batch.push_back(corpus[order[position]]);
+            }
+            const std::vector<double> targets(batch.size(), 0.0);
+            model.train_batch(
+                batch,
+                targets,
+                weights,
+                profile.learning_rate,
+                profile.beta1,
+                profile.beta2,
+                profile.epsilon,
+                false
+            );
+            ++work.optimizer_steps;
+            work.token_operations +=
+                batch.size() *
+                static_cast<std::uint64_t>(
+                    model.config().sequence_length
+                );
+        }
         ++work.pretraining_epochs;
-        work.token_operations +=
-            corpus.size() *
-            static_cast<std::uint64_t>(model.config().sequence_length);
     }
     work.training_physical_fes = 0;
     return work;

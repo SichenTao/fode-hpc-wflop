@@ -4,7 +4,7 @@ Implementation unit: TAAE declared-reconstruction Transformer model interface
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, Adam defaults, deterministic seed namespaces, regression head, metric-alignment loss, decoder ties, and checkpoint format
+Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, mean encoder pooling, separate encoder/decoder embeddings, deterministic metric-pair seed, per-parameter Adam age, and checkpoint format
 Reconstruction status: engineering reconstruction with declared completion choices
 Method evidence tier: M3_DECLARED_COMPLETION
 Problem evidence tier: P3_DECLARED_PROXY
@@ -72,6 +72,7 @@ struct LossWeights {
     double reconstruction = 1.0;
     double regression = 30.0;
     double metric_smoothness = 1.0;
+    std::uint64_t metric_pair_seed = 0x5943365041495253ULL;
 };
 
 struct BatchLoss {
@@ -152,6 +153,9 @@ public:
     [[nodiscard]] double parameter_gradient(
         const std::string& name,
         std::size_t index
+    ) const;
+    [[nodiscard]] std::uint64_t parameter_update_step(
+        const std::string& name
     ) const;
     BatchLoss gradient_only(
         const std::vector<std::vector<int>>& layouts,

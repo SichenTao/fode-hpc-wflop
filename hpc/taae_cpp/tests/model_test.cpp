@@ -4,7 +4,7 @@ Implementation unit: TAAE declared-reconstruction Transformer mathematical-kerne
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, Adam defaults, deterministic seed namespaces, regression head, metric-alignment loss, decoder ties, and checkpoint format
+Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, mean encoder pooling, separate encoder/decoder embeddings, deterministic metric-pair seed, per-parameter Adam age, and checkpoint format
 Reconstruction status: engineering reconstruction with declared completion choices
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_declared_reconstruction_v1
@@ -15,6 +15,7 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 
 #include "taae/model.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <cstdio>
 #include <iostream>
@@ -45,6 +46,120 @@ taae::ModelConfig tiny_config() {
     config.ffn_width = 16;
     config.regression_hidden_width = 8;
     return config;
+}
+
+void test_paper_profile_and_layout_corpus() {
+    const taae::TrainingProfile profile =
+        taae::paper_scale_training_profile();
+    require(
+        profile.corpus_layouts == 100000 &&
+        profile.train_layouts == 100000 &&
+        profile.pretraining_epochs == 500 &&
+        profile.pretraining_batch_size == 64 &&
+        profile.learning_rate == 1.0e-3,
+        "paper-scale pretraining profile mismatch"
+    );
+    const taae::ModelConfig config = tiny_config();
+    const auto first =
+        taae::deterministic_layout_corpus(20, config, 8844);
+    const auto second =
+        taae::deterministic_layout_corpus(20, config, 8844);
+    require(first == second, "layout corpus deterministic replay failed");
+    for (const auto& layout : first) {
+        require(
+            layout.size() ==
+                static_cast<std::size_t>(config.sequence_length),
+            "layout corpus length mismatch"
+        );
+        require(
+            std::is_sorted(layout.begin(), layout.end()),
+            "layout corpus is not canonical sorted"
+        );
+        require(
+            std::adjacent_find(layout.begin(), layout.end()) ==
+                layout.end(),
+            "layout corpus contains duplicate grid cells"
+        );
+    }
+    std::cout
+        << "paper_profile_and_corpus_pass layouts=100000 epochs=500 "
+        << "batch=64 unique_sorted_layouts=pass "
+        << "problem_monitor_binding=deferred_to_end_to_end_M3\n";
+}
+
+void test_assembled_total_loss_gradients() {
+    const taae::ModelConfig config = tiny_config();
+    const auto corpus =
+        taae::deterministic_layout_corpus(4, config, 777);
+    const std::vector<double> fitness = {0.15, 0.65, -0.25, 0.35};
+    taae::TransformerAutoencoder model(config, 9090);
+    taae::LossWeights weights;
+    static_cast<void>(
+        model.gradient_only(corpus, fitness, weights, false)
+    );
+    const std::vector<std::string> names = {
+        "embedding.token",
+        "encoder.layer.0.self.attention.query_weight",
+        "encoder.latent_weight",
+        "decoder.memory_weight",
+        "decoder.embedding.token",
+        "decoder.layer.0.cross.attention.key_weight",
+        "decoder.layer.0.ffn.first_weight",
+        "decoder.output_weight",
+        "regression.hidden_weight",
+        "regression.hidden_bias",
+        "regression.output_weight",
+        "regression.output_bias",
+    };
+    constexpr double step = 1.0e-5;
+    constexpr double absolute_tolerance = 8.0e-5;
+    constexpr double relative_tolerance = 8.0e-4;
+    double maximum_error = 0.0;
+    for (const std::string& name : names) {
+        std::size_t selected = 0;
+        double analytic = 0.0;
+        for (std::size_t index = 0;
+             index < model.parameter_size(name);
+             ++index) {
+            const double candidate =
+                model.parameter_gradient(name, index);
+            if (std::abs(candidate) > std::abs(analytic)) {
+                selected = index;
+                analytic = candidate;
+            }
+        }
+        require(
+            std::abs(analytic) > 1.0e-12,
+            "assembled gradient is zero for " + name
+        );
+        const double original =
+            model.parameter_value(name, selected);
+        model.set_parameter_value(name, selected, original + step);
+        const double plus =
+            model.gradient_only(corpus, fitness, weights, false).total;
+        model.set_parameter_value(name, selected, original - step);
+        const double minus =
+            model.gradient_only(corpus, fitness, weights, false).total;
+        model.set_parameter_value(name, selected, original);
+        const double numerical = (plus - minus) / (2.0 * step);
+        const double error = std::abs(analytic - numerical);
+        maximum_error = std::max(maximum_error, error);
+        const double scale =
+            std::max({1.0, std::abs(analytic), std::abs(numerical)});
+        require(
+            error <= absolute_tolerance ||
+                error / scale <= relative_tolerance,
+            "assembled finite difference failed for " + name
+        );
+        static_cast<void>(
+            model.gradient_only(corpus, fitness, weights, false)
+        );
+    }
+    std::cout
+        << "assembled_total_loss_gradient_pass components="
+        << names.size() << " max_abs_error=" << maximum_error
+        << " abs_tol=" << absolute_tolerance
+        << " rel_tol=" << relative_tolerance << '\n';
 }
 
 void test_default_architecture() {
@@ -83,7 +198,8 @@ void test_training_freeze_and_checkpoint() {
         "decoder.layer.0.cross.attention.key_weight",
         "decoder.layer.0.ffn.first_weight",
         "decoder.output_weight",
-        "regression.weight",
+        "regression.hidden_weight",
+        "regression.output_weight",
     };
     for (const std::string& name : trainable_representatives) {
         double gradient_norm = 0.0;
@@ -117,6 +233,73 @@ void test_training_freeze_and_checkpoint() {
         }
     }
     require(encoder_gradient_seen, "freeze also removed encoder gradients");
+    require(
+        model.parameter_update_step("decoder.output_weight") == 0,
+        "gradient-only call advanced decoder Adam age"
+    );
+
+    const std::string frozen_checkpoint =
+        "taae_kernel_frozen_checkpoint_test.bin";
+    static_cast<void>(model.train_batch(
+        corpus,
+        fitness,
+        combined,
+        1.0e-3,
+        0.9,
+        0.999,
+        1.0e-8,
+        true
+    ));
+    require(
+        model.parameter_update_step("decoder.output_weight") == 0 &&
+        model.parameter_update_step("decoder.memory_weight") == 0,
+        "frozen decoder Adam age advanced"
+    );
+    taae::TrainingWork frozen_work;
+    static_cast<void>(model.save_checkpoint(
+        frozen_checkpoint,
+        "freeze_unfreeze_test",
+        12345,
+        frozen_work
+    ));
+    taae::CheckpointMetadata frozen_metadata_a;
+    taae::CheckpointMetadata frozen_metadata_b;
+    taae::TransformerAutoencoder unfreeze_a =
+        taae::TransformerAutoencoder::load_checkpoint(
+            frozen_checkpoint,
+            frozen_metadata_a
+        );
+    taae::TransformerAutoencoder unfreeze_b =
+        taae::TransformerAutoencoder::load_checkpoint(
+            frozen_checkpoint,
+            frozen_metadata_b
+        );
+    std::remove(frozen_checkpoint.c_str());
+    static_cast<void>(unfreeze_a.train_batch(
+        corpus,
+        fitness,
+        combined,
+        1.0e-3,
+        0.9,
+        0.999,
+        1.0e-8,
+        false
+    ));
+    static_cast<void>(unfreeze_b.train_batch(
+        corpus,
+        fitness,
+        combined,
+        1.0e-3,
+        0.9,
+        0.999,
+        1.0e-8,
+        false
+    ));
+    require(
+        unfreeze_a.parameter_update_step("decoder.output_weight") == 1 &&
+        unfreeze_a.parameter_hash() == unfreeze_b.parameter_hash(),
+        "freeze-unfreeze Adam replay mismatch"
+    );
 
     taae::LossWeights reconstruction_only;
     reconstruction_only.reconstruction = 1.0;
@@ -149,6 +332,9 @@ void test_training_freeze_and_checkpoint() {
     taae::TrainingProfile profile =
         taae::bounded_smoke_training_profile();
     profile.pretraining_epochs = 2;
+    profile.corpus_layouts = 5;
+    profile.train_layouts = 5;
+    profile.pretraining_batch_size = 2;
     taae::TransformerAutoencoder ledger_model(config, 77);
     taae::fode_compat::PersistentExecutor executor;
     const taae::TrainingWork ledger =
@@ -158,10 +344,10 @@ void test_training_freeze_and_checkpoint() {
         "training ledger counted physical FES"
     );
     require(
-        ledger.corpus_samples == 4 &&
-        ledger.optimizer_steps == 2 &&
+        ledger.corpus_samples == 5 &&
+        ledger.optimizer_steps == 6 &&
         ledger.pretraining_epochs == 2 &&
-        ledger.token_operations == 32,
+        ledger.token_operations == 40,
         "training ledger counts mismatch"
     );
 
@@ -202,7 +388,8 @@ void test_training_freeze_and_checkpoint() {
     std::cout
         << "training_pass initial_reconstruction_loss=" << initial_loss
         << " final_reconstruction_loss=" << final_loss
-        << " analytic_components=10 adam=pass decoder_freeze=pass "
+        << " analytic_components=11 adam=pass decoder_freeze=pass "
+        << "freeze_unfreeze_age_replay=pass minibatch_ledger=pass "
         << "checkpoint_hash_replay=pass training_physical_fes=0\n";
 }
 
@@ -216,6 +403,8 @@ int main() {
             report
         );
         std::cout << report << '\n';
+        test_paper_profile_and_layout_corpus();
+        test_assembled_total_loss_gradients();
         test_default_architecture();
         test_training_freeze_and_checkpoint();
     } catch (const std::exception& error) {

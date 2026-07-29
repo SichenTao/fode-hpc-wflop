@@ -22,11 +22,30 @@
     "token_embedding_dimension": 64,
     "ffn_width_declared_completion": 256,
     "latent_dimension": 64,
+    "latent_normalization": "L2_before_regression_metric_and_decoder",
+    "regression_branch": "hidden_linear_with_bias_then_ReLU_then_scalar_linear_with_bias",
     "decoder_start": "learned_BOS_embedding",
     "decoder_mask": "causal",
+    "decoder_memory": "latent_linear_projection_to_sequence_length_times_model_dimension_then_reshape",
     "normalization": "post_norm",
     "dropout": 0.0,
     "initialization": "deterministic_Xavier_uniform"
+  },
+  "declared_missing_field_completions": {
+    "encoder_sequence_pooling": "fixed-order arithmetic mean over encoder sequence positions before latent projection",
+    "embedding_ownership": "separate encoder and decoder token and position embeddings; BOS is decoder-owned",
+    "regression_hidden_width": 64,
+    "generic_layout_corpus": "exactly sequence_length unique vocabulary cells in canonical ascending order",
+    "problem_monitor_exclusions": "deferred to the blocked end-to-end M3 problem binding"
+  },
+  "paper_scale_pretraining": {
+    "layouts": 100000,
+    "epochs": 500,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "embedding_dimension": 64,
+    "latent_dimension": 64,
+    "batch_order": "deterministic Fisher-Yates shuffle from batch_seed for each epoch"
   },
   "optimizer": {
     "name": "Adam",
@@ -38,12 +57,15 @@
   "losses": {
     "reconstruction": "mean_token_cross_entropy",
     "regression": "mean_squared_error",
-    "metric_alignment": "mean_squared_alignment_of_normalized_latent_distance_and_absolute_relative_fitness_distance",
+    "metric_alignment": "mean_squared_alignment_of_L2_normalized_latent_distance_and_absolute_relative_fitness_distance over exactly batch_size sampled distinct-index pairs",
+    "l2_normalization_epsilon": 1e-12,
+    "metric_pair_sampling": "SplitMix64 seed metric_pair_seed XOR batch_size shifted left 32; sample ordered distinct indices with replacement across pairs",
+    "default_metric_pair_seed_hex": "0x5943365041495253",
     "combined_fine_tune_weights": {
       "lambda_reg": 30.0,
       "lambda_smooth": 1.0
     },
-    "decoder_freeze": "all decoder-owned parameter gradients are exactly zero and decoder Adam state is not advanced"
+    "decoder_freeze": "all decoder-owned parameter gradients are exactly zero and decoder values, moments, and per-parameter Adam age are not advanced"
   },
   "training_work_ledger": {
     "fields": [
@@ -58,10 +80,10 @@
     "training_physical_fes": 0
   },
   "checkpoint": {
-    "format": "TAAE_KERNEL_CHECKPOINT_V1",
+    "format": "TAAE_KERNEL_CHECKPOINT_V2",
     "parameter_state_hash": "FNV-1a-64 over ordered names and IEEE-754 parameter bytes",
     "file_hash": "SHA-256",
-    "replay_requirement": "exact parameter hash, latent output, and reconstruction-loss replay"
+    "replay_requirement": "exact parameter hash, per-parameter Adam age, latent output, and reconstruction-loss replay"
   },
   "verification": {
     "analytic_training_gradients": true,
@@ -72,13 +94,18 @@
       "64 to 256 to 64 FFN with residual and post-norm",
       "reconstruction cross entropy",
       "regression MSE",
-      "metric-alignment loss"
+      "two-layer regression head",
+      "L2-normalized metric-alignment loss with exactly batch-size sampled pairs",
+      "assembled total loss through encoder embedding and attention, latent projection, decoder memory, decoder cross-attention, decoder FFN and output, and both regression layers"
     ],
     "required_runtime_tests": [
       "causal mask proof",
       "default 6 encoder plus 6 decoder forward smoke",
       "tiny deterministic corpus reconstruction loss decrease",
       "decoder freeze",
+      "freeze then checkpoint then unfreeze exact replay with decoder Adam age unchanged while frozen",
+      "unique sorted layout-corpus invariant",
+      "paper-scale profile declaration without executing the paper-scale run",
       "checkpoint exact replay",
       "training physical FES equals zero"
     ]

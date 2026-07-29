@@ -5,7 +5,7 @@ Implementation unit: TAAE declared-reconstruction Transformer kernel contract au
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, Adam defaults, deterministic seed namespaces, regression head, metric-alignment loss, decoder ties, and checkpoint format
+Missing choices completed here: FFN width 256, post-norm, zero dropout, Xavier-uniform initialization, mean encoder pooling, separate encoder/decoder embeddings, deterministic metric-pair seed, per-parameter Adam age, and checkpoint format
 Reconstruction status: engineering reconstruction with declared completion choices
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_declared_reconstruction_v1
@@ -53,8 +53,16 @@ def main() -> int:
         "token_embedding_dimension": 64,
         "ffn_width_declared_completion": 256,
         "latent_dimension": 64,
+        "latent_normalization": "L2_before_regression_metric_and_decoder",
+        "regression_branch": (
+            "hidden_linear_with_bias_then_ReLU_then_scalar_linear_with_bias"
+        ),
         "decoder_start": "learned_BOS_embedding",
         "decoder_mask": "causal",
+        "decoder_memory": (
+            "latent_linear_projection_to_sequence_length_times_model_dimension"
+            "_then_reshape"
+        ),
         "normalization": "post_norm",
         "dropout": 0.0,
         "initialization": "deterministic_Xavier_uniform",
@@ -70,6 +78,29 @@ def main() -> int:
         "lambda_reg": 30.0,
         "lambda_smooth": 1.0,
     }
+    assert "exactly batch_size" in contract["losses"]["metric_alignment"]
+    assert contract["losses"]["l2_normalization_epsilon"] == 1e-12
+    assert contract["losses"]["default_metric_pair_seed_hex"] == (
+        "0x5943365041495253"
+    )
+    assert contract["declared_missing_field_completions"][
+        "encoder_sequence_pooling"
+    ].startswith("fixed-order arithmetic mean")
+    assert contract["declared_missing_field_completions"][
+        "embedding_ownership"
+    ].startswith("separate encoder and decoder")
+    assert contract["paper_scale_pretraining"] == {
+        "layouts": 100000,
+        "epochs": 500,
+        "batch_size": 64,
+        "learning_rate": 0.001,
+        "embedding_dimension": 64,
+        "latent_dimension": 64,
+        "batch_order": (
+            "deterministic Fisher-Yates shuffle from batch_seed for each epoch"
+        ),
+    }
+    assert contract["checkpoint"]["format"] == "TAAE_KERNEL_CHECKPOINT_V2"
     assert contract["training_work_ledger"]["training_physical_fes"] == 0
     assert contract["verification"]["analytic_training_gradients"] is True
     assert contract["verification"]["finite_differences_used_for_training"] is False

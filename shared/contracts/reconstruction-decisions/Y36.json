@@ -85,7 +85,7 @@
     {
       "field": "transformer_architecture_completion",
       "completed_transition": "the paper exposes six encoder layers, six autoregressive decoder layers, four heads, 64-dimensional embeddings and latent state, BOS, causal masking, and Adam, but does not expose every engineering choice needed by a trainable implementation",
-      "selected_value_or_rule": "preserve the visible 6 plus 6, 4-head, d_model 64, latent 64 architecture and declare FFN 256, post-norm, dropout zero, deterministic Xavier-uniform initialization, and learned BOS",
+      "selected_value_or_rule": "preserve the visible 6 plus 6, 4-head, d_model 64, latent 64 architecture, L2-normalized latent, two-layer ReLU regression branch, and latent-to-sequence decoder projection; declare FFN 256, post-norm, dropout zero, deterministic Xavier-uniform initialization, learned BOS, mean encoder pooling, and separate encoder/decoder embeddings",
       "authority_type": "paper_architecture_plus_declared_method_completion",
       "immutable_authority": "Y36 paper and shared/contracts/taae_transformer_declared_reconstruction_contract.json",
       "rejected_alternatives": ["freeze randomly initialized attention", "silently select an undeclared FFN width or normalization order"],
@@ -97,7 +97,7 @@
     {
       "field": "transformer_training_objectives_and_work",
       "completed_transition": "the paper names reconstruction and fitness-assisted learning but public source and checkpoint are unavailable and training work must remain distinct from physical wind-farm evaluation",
-      "selected_value_or_rule": "use token cross entropy, regression MSE, normalized latent-distance metric alignment, lambda_reg 30, lambda_smooth 1, Adam defaults, exact decoder freeze, and record training_physical_fes as zero",
+      "selected_value_or_rule": "use token cross entropy, two-layer regression MSE, exactly batch-size deterministic sampled pairs over L2-normalized latent distances, lambda_reg 30, lambda_smooth 1, Adam defaults with per-parameter update age, exact decoder freeze, unique sorted layout corpora, 100000-layout 500-epoch batch-64 paper-scale profile, and record training_physical_fes as zero",
       "authority_type": "paper_loss_structure_plus_declared_method_and_platform_completion",
       "immutable_authority": "shared/contracts/taae_transformer_declared_reconstruction_contract.json and hpc/taae_cpp/tests/model_test.cpp",
       "rejected_alternatives": ["use finite differences for training", "count token or optimizer work as physical FES", "freeze random attention and describe it as trained"],
