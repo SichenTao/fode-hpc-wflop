@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "contract_id": "plan003_hpc_core_cpu_runtime_coverage_v1",
+  "scope": "the 23 target rows in docs/hpc_core_target_pairs.tsv only",
+  "backend_id": "cpu_hpc_v1",
+  "claim_boundary": "This contract routes each target to an executable bounded CPU-HPC test. It is Step-3 implementation evidence, not H5 equivalence, H6 performance, or formal quality evidence.",
+  "coverage_groups": [
+    {
+      "corpus_ids": [
+        "S01",
+        "S02",
+        "S03",
+        "S05",
+        "L0608",
+        "T37",
+        "T38",
+        "T39",
+        "T40",
+        "T41",
+        "T47",
+        "Y34",
+        "Y35"
+      ],
+      "ctest_name": "scalar_native_transition_replay",
+      "evidence": "bounded target transition replay with exact one-worker versus parallel-worker scientific equality"
+    },
+    {
+      "corpus_ids": ["S04"],
+      "ctest_name": "rlfode_seeded_reconstruction",
+      "evidence": "bounded seeded training-artifact reconstruction and optimizer execution"
+    },
+    {
+      "corpus_ids": ["T42"],
+      "ctest_name": "rlpso_reconstruction",
+      "evidence": "bounded PPO training plus optimizer execution with one-worker versus parallel-worker equality"
+    },
+    {
+      "corpus_ids": ["T45"],
+      "ctest_name": "alga_attention_declared_reconstruction",
+      "evidence": "bounded attention training plus optimizer execution with deterministic artifacts"
+    },
+    {
+      "corpus_ids": ["Y36"],
+      "ctest_name": "taae_transformer_evolution",
+      "evidence": "bounded corpus, transformer pretraining, checkpoint bridge, and evolution with one-worker versus twenty-worker equality"
+    },
+    {
+      "corpus_ids": ["T43"],
+      "ctest_name": "ppga_nantong_evolution",
+      "evidence": "bounded native PPGA optimizer execution and parallel-stage receipts"
+    },
+    {
+      "corpus_ids": ["T44"],
+      "ctest_name": "bde_ws56_declared_proxy_evolution",
+      "evidence": "bounded BDE source-completed optimizer execution and worker equality"
+    },
+    {
+      "corpus_ids": ["Y06"],
+      "ctest_name": "gga_cpp_determinism",
+      "evidence": "bounded GGA source replay and worker determinism"
+    },
+    {
+      "corpus_ids": ["T36"],
+      "ctest_name": "tmoea_cpp_nysted_reconstruction",
+      "evidence": "bounded T-MOEA topology-aware optimizer and worker equality"
+    },
+    {
+      "corpus_ids": ["L0726"],
+      "ctest_name": "geoga_anholt_structured_evolution",
+      "evidence": "bounded GeoGA native reconstruction and parallel-stage receipts"
+    },
+    {
+      "corpus_ids": ["T46"],
+      "ctest_name": "pbea_cpp_determinism",
+      "evidence": "bounded repaired MOEA/D-P execution and worker determinism"
+    }
+  ]
+}

@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
-"""Verify that every required paper pair maps to a real C++ symbol and H5-H6.
+"""Verify that every required paper pair maps to a real C++ implementation.
 
-The formal mode fails closed. ``--inventory-only`` is provided solely to
-materialize an exact development blocker list without upgrading draft work.
+Core CPU mode is the Plan-003 Step-3 gate: it verifies the complete H0-H4
+stage-to-source mapping without requiring the later H5-H6 admission receipt.
+All-package mode retains the fail-closed H5-H6 requirement.
 """
 
 from __future__ import annotations
@@ -28,23 +29,62 @@ def rows(scope: str = "all") -> list[dict[str, str]]:
         return list(csv.DictReader(handle, delimiter="\t"))
 
 
-def trace(row: dict[str, str]) -> list[str]:
+def check_symbol(mapping: str, label: str, reasons: list[str]) -> None:
+    if not mapping or "::" not in mapping:
+        reasons.append(f"{label}_malformed")
+        return
+    relative, symbol = mapping.split("::", 1)
+    source = ROOT / relative
+    if not source.is_file():
+        reasons.append(f"{label}_source_file_absent")
+    elif symbol not in source.read_text(encoding="utf-8"):
+        reasons.append(f"{label}_source_symbol_absent")
+
+
+def trace(
+    row: dict[str, str], *, scope: str, backend: str | None
+) -> list[str]:
     reasons: list[str] = []
     analysis = json.loads(
         (ROOT / row["analysis_path"]).read_text(encoding="utf-8")
     )
-    mapping = analysis["H4_implementation_mapping"]["primary_symbol"]
+    h4 = analysis["H4_implementation_mapping"]
+    mapping = h4["primary_symbol"]
     if mapping == "planned_unimplemented_native_comparator":
         reasons.append("native_implementation_absent")
-    elif "::" not in mapping:
-        reasons.append("malformed_source_symbol")
     else:
-        relative, symbol = mapping.split("::", 1)
-        source = ROOT / relative
-        if not source.is_file():
-            reasons.append("source_file_absent")
-        elif symbol not in source.read_text(encoding="utf-8"):
-            reasons.append("source_symbol_absent")
+        check_symbol(mapping, "primary", reasons)
+
+    if scope == "core" and backend == "cpu":
+        stage_ids = list(
+            analysis["H0_scientific_state_machine"]["stages"]
+        )
+        stage_symbols = h4.get("stage_symbols", {})
+        if set(stage_ids) != set(stage_symbols):
+            reasons.append("stage_symbol_coverage_mismatch")
+        for stage_id in stage_ids:
+            check_symbol(
+                stage_symbols.get(stage_id, ""),
+                f"stage_{stage_id}",
+                reasons,
+            )
+        check_symbol(
+            h4.get("evaluator_symbol", ""), "evaluator", reasons
+        )
+        check_symbol(
+            h4.get("persistent_team_symbol", ""),
+            "persistent_team",
+            reasons,
+        )
+        if (
+            h4.get("pair_specific_composition", {}).get(
+                "ordered_stage_ids"
+            )
+            != stage_ids
+        ):
+            reasons.append("pair_specific_stage_order_mismatch")
+        return reasons
+
     validation = Path(row["analysis_path"]).with_name(
         Path(row["analysis_path"]).name.replace(
             "_hpc_analysis.json", "_hpc_validation.json"
@@ -66,20 +106,25 @@ def main() -> int:
     args = parser.parse_args()
     if args.scope == "all" and not args.all_paper_packages:
         parser.error("--all-paper-packages is required")
+    if args.scope == "core" and args.backend != "cpu":
+        parser.error("Plan-003 Step-3 core traceability requires --backend cpu")
     blockers = {
-        row["pair_id"]: trace(row)
+        row["pair_id"]: trace(
+            row, scope=args.scope, backend=args.backend
+        )
         for row in rows(args.scope)
     }
     blockers = {pair: reasons for pair, reasons in blockers.items() if reasons}
     if blockers and not args.inventory_only:
         raise RuntimeError(
-            "Plan-002 implementation traceability is blocked:\n"
+            "HPC implementation traceability is blocked:\n"
             + json.dumps(blockers, indent=2, sort_keys=True)
         )
     print(
-        "hpc_implementation_traceability_inventory_pass "
+        "hpc_implementation_traceability_pass "
         f"scope={args.scope} backend={args.backend or 'all'} "
-        f"pairs={len(rows(args.scope))} blocked_pairs={len(blockers)}"
+        f"pairs={len(rows(args.scope))} blocked_pairs={len(blockers)} "
+        f"h5_h6_required={'no' if args.scope == 'core' else 'yes'}"
     )
     return 0
 

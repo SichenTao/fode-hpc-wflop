@@ -30,6 +30,19 @@ if(BUILD_TESTING)
             --build-dir ${CMAKE_BINARY_DIR}
     )
     add_test(
+        NAME hpc_core_cpu_implementation_traceability
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_hpc_implementation_traceability.py
+            --scope core
+            --backend cpu
+    )
+    add_test(
+        NAME hpc_core_cpu_runtime_coverage
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_hpc_core_cpu_runtime_coverage.py
+            --build-dir ${CMAKE_BINARY_DIR}
+    )
+    add_test(
         NAME source_dossiers
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_source_dossiers.py
