@@ -20,6 +20,27 @@ ROOT = Path(__file__).resolve().parents[1]
 EXPRESSION_NAMES = {"ceil", "log2"}
 
 
+def require_core_review(
+    data: dict, row: dict[str, str], allow_draft: bool
+) -> None:
+    """Apply Plan-003 admission checks only in strict core mode.
+
+    ``--allow-draft`` remains a structural inventory gate for Step 1.  It
+    deliberately does not require review fields that Step 2 creates.
+    """
+    if allow_draft:
+        return
+    if data.get("review_status") != "reviewed_plan003_target_specific":
+        raise RuntimeError(f"{row['pair_id']}: target review absent")
+    boundary = data.get("pair_specific_boundary", "")
+    if (
+        row["corpus_id"] not in boundary
+        or row["method_semantic_id"] not in boundary
+        or row["problem_semantic_id"] not in boundary
+    ):
+        raise RuntimeError(f"{row['pair_id']}: pair-specific boundary incomplete")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--all-paper-packages", action="store_true")
@@ -65,17 +86,7 @@ def main() -> int:
         if required - set(data):
             raise RuntimeError(f"{row['pair_id']}: missing H0-H4 section")
         if args.scope == "core":
-            if data.get("review_status") != "reviewed_plan003_target_specific":
-                raise RuntimeError(f"{row['pair_id']}: target review absent")
-            boundary = data.get("pair_specific_boundary", "")
-            if (
-                row["corpus_id"] not in boundary
-                or row["method_semantic_id"] not in boundary
-                or row["problem_semantic_id"] not in boundary
-            ):
-                raise RuntimeError(
-                    f"{row['pair_id']}: pair-specific boundary incomplete"
-                )
+            require_core_review(data, row, args.allow_draft)
         variables = data["H1_work_and_data_movement"]["defined_variables"]
         actual = data["H1_work_and_data_movement"]["actual_values"]
         if not variables or set(actual) != {
@@ -91,7 +102,7 @@ def main() -> int:
             for stage in stages
         ):
             raise RuntimeError(f"{row['pair_id']}: incomplete stage ledger")
-        if args.scope == "core":
+        if args.scope == "core" and not args.allow_draft:
             defined = set(variables)
             for stage in stages:
                 identifiers = set(
