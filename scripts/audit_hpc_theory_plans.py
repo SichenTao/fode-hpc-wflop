@@ -12,10 +12,12 @@ import argparse
 import csv
 import hashlib
 import json
+import re
 from pathlib import Path
 
 
 ROOT = Path(__file__).resolve().parents[1]
+EXPRESSION_NAMES = {"ceil", "log2"}
 
 
 def main() -> int:
@@ -62,6 +64,18 @@ def main() -> int:
         }
         if required - set(data):
             raise RuntimeError(f"{row['pair_id']}: missing H0-H4 section")
+        if args.scope == "core":
+            if data.get("review_status") != "reviewed_plan003_target_specific":
+                raise RuntimeError(f"{row['pair_id']}: target review absent")
+            boundary = data.get("pair_specific_boundary", "")
+            if (
+                row["corpus_id"] not in boundary
+                or row["method_semantic_id"] not in boundary
+                or row["problem_semantic_id"] not in boundary
+            ):
+                raise RuntimeError(
+                    f"{row['pair_id']}: pair-specific boundary incomplete"
+                )
         variables = data["H1_work_and_data_movement"]["defined_variables"]
         actual = data["H1_work_and_data_movement"]["actual_values"]
         if not variables or set(actual) != {
@@ -77,6 +91,43 @@ def main() -> int:
             for stage in stages
         ):
             raise RuntimeError(f"{row['pair_id']}: incomplete stage ledger")
+        if args.scope == "core":
+            defined = set(variables)
+            for stage in stages:
+                identifiers = set(
+                    re.findall(
+                        r"[A-Za-z_][A-Za-z0-9_]*",
+                        f"{stage['work']} {stage['span']}",
+                    )
+                )
+                undefined = identifiers - defined - EXPRESSION_NAMES
+                if undefined:
+                    raise RuntimeError(
+                        f"{row['pair_id']}: undefined work variables "
+                        f"{sorted(undefined)}"
+                    )
+            mapping = data["H4_implementation_mapping"]
+            for key in (
+                "primary_symbol",
+                "evaluator_symbol",
+                "persistent_team_symbol",
+                "stage_symbols",
+                "backend_id",
+            ):
+                if not mapping.get(key):
+                    raise RuntimeError(
+                        f"{row['pair_id']}: H4 mapping lacks {key}"
+                    )
+            if row["corpus_id"] in {"Y36", "T42", "T45"}:
+                required_training = {
+                    "corpus_or_environment", "forward", "loss", "backward",
+                    "gradient_aggregation", "optimizer", "artifact",
+                    "inference", "optimization_loop",
+                }
+                if required_training - set(data.get("training_subdossier", {})):
+                    raise RuntimeError(
+                        f"{row['pair_id']}: learning subdossier incomplete"
+                    )
         if not data["H2_dependency_and_parallel_width"]["dependency_edges"]:
             raise RuntimeError(f"{row['pair_id']}: dependency DAG is empty")
         if len(data["H1_work_and_data_movement"]["reuse_proofs"]) < 2:
