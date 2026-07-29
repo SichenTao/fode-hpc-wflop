@@ -11,8 +11,7 @@
       "action_step": 0.001,
       "policy_lifecycle": "persistent_per_optimization_run",
       "training_interactions_per_outer_generation": 8,
-      "ppo_clip": 0.2,
-      "implemented_policy": "linear categorical actor with immediate-reward clipped policy-gradient update",
+      "implemented_policy": "seeded linear categorical actor with immediate-reward policy-gradient update",
       "explicitly_absent": ["critic", "discounted return", "GAE", "Adam", "K epochs", "2-256-64 actor and critic"],
       "claim_boundary": "RPSO-derived engineering proxy only; no source replay, full PPO, paper reproduction, or author-policy claim."
     }

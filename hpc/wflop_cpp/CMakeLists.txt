@@ -39,6 +39,9 @@ target_compile_options(wflop_cpp_hpc PRIVATE
 
 include(CTest)
 if(BUILD_TESTING)
+    add_executable(rlpso_transition_test tests/rlpso_transition_test.cpp)
+    target_include_directories(rlpso_transition_test PRIVATE include)
+    add_test(NAME rlpso_transition_fixture COMMAND rlpso_transition_test)
     add_test(
         NAME registry
         COMMAND wflop_cpp_hpc --list-algorithms

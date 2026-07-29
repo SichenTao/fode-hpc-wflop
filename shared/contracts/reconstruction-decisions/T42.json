@@ -34,7 +34,7 @@
     {
       "field": "ppo_action_probability",
       "completed_transition": "paper Equations 22, 25 and 29",
-      "selected_value_or_rule": "compact proxy uses sampled categorical action probabilities in a clipped policy-gradient update without a critic",
+      "selected_value_or_rule": "compact proxy uses sampled categorical action probabilities in an immediate-reward policy-gradient update without a critic or PPO ratio",
       "authority_type": "paper_guided_declared_completion",
       "immutable_authority": "paper Equations 22,25,29; official ActorCritic.evaluate",
       "rejected_alternatives": ["label the source argmax integer as a log probability"],

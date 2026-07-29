@@ -8,7 +8,7 @@ Public author code URL: https://raw.githubusercontent.com/toyamaailab/toyamaaila
 Public author code revision or archive hash: sha256:44e89c033e90f5aaaa9b84c826c95f29d3b8ad73dd363ff68de99418cdfa93a2
 Public code/assets provide: MATLAB PSO lifecycle, Python PPO prototype and WS1-WS4 problem arrays
 Known missing information: author-result seed lifecycle and a PPO update consistent with the paper
-Reconstruction performed here: seeded compact clipped-policy controller with complete FES ledger
+Reconstruction performed here: seeded linear categorical immediate-reward policy-gradient proxy with complete FES ledger
 Method evidence tier: M3_DECLARED_COMPLETION
 Problem evidence tier: P0_AUTHOR_ASSET
 Method semantic ID: rlpso_compact_policy_declared_reconstruction_v1
@@ -20,6 +20,7 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 
 #include "wflop/algorithms.hpp"
+#include "wflop/rlpso_transition.hpp"
 
 #include "fode/evaluator.hpp"
 #include "fode/executor.hpp"
@@ -142,16 +143,16 @@ Matrix initialize(
 
 std::array<double, 4> probabilities(
     const std::array<double, 12>& actor,
-    double alpha,
-    double beta
+    double r1,
+    double r2
 ) {
     std::array<double, 4> result{};
     double maximum = -std::numeric_limits<double>::infinity();
     for (int action = 0; action < 4; ++action) {
         result[static_cast<std::size_t>(action)] =
             actor[static_cast<std::size_t>(3 * action)]
-            + actor[static_cast<std::size_t>(3 * action + 1)] * alpha
-            + actor[static_cast<std::size_t>(3 * action + 2)] * beta;
+            + actor[static_cast<std::size_t>(3 * action + 1)] * r1
+            + actor[static_cast<std::size_t>(3 * action + 2)] * r2;
         maximum = std::max(maximum, result[static_cast<std::size_t>(action)]);
     }
     double total = 0.0;
@@ -179,18 +180,18 @@ int sample_action(
     return 3;
 }
 
-void apply_action(int action, double step, double& alpha, double& beta) {
+void apply_action(int action, double step, double& r1, double& r2) {
     if (action == 0) {
-        alpha += step;
+        r1 += step;
     } else if (action == 1) {
-        alpha -= step;
+        r1 -= step;
     } else if (action == 2) {
-        beta += step;
+        r2 += step;
     } else {
-        beta -= step;
+        r2 -= step;
     }
-    alpha = std::clamp(alpha, 0.0, 1.0);
-    beta = std::clamp(beta, 0.0, 1.0);
+    r1 = std::clamp(r1, 0.0, 1.0);
+    r2 = std::clamp(r2, 0.0, 1.0);
 }
 
 }  // namespace
@@ -267,25 +268,25 @@ RunResult optimize_rlpso_reconstruction(
     for (std::size_t k = 0; k < actor.size(); ++k) {
         actor[k] = 0.01 * rng.normal(0, 10, 0, k);
     }
-    double alpha = 0.5;
-    double beta = 0.5;
+    double r1 = 0.5;
+    double r2 = 0.5;
     while (fes < config.physical_fes_budget) {
         ++generations;
         const int training_limit = 8;
         for (int step_index = 0;
              step_index < training_limit && fes < config.physical_fes_budget;
              ++step_index) {
-            const auto old_probability = probabilities(actor, alpha, beta);
+            const auto old_probability = probabilities(actor, r1, r2);
             int action = sample_action(
                 old_probability,
                 rng.uniform(generations, 20, step_index)
             );
-            const double old_alpha = alpha;
-            const double old_beta = beta;
-            double proposed_alpha = alpha;
-            double proposed_beta = beta;
+            const double old_r1 = r1;
+            const double old_r2 = r2;
+            double proposed_r1 = r1;
+            double proposed_r2 = r2;
             apply_action(
-                action, 0.001, proposed_alpha, proposed_beta
+                action, 0.001, proposed_r1, proposed_r2
             );
             const int row = step_index % population_size;
             const int peer = rng.integer(
@@ -297,8 +298,12 @@ RunResult optimize_rlpso_reconstruction(
                 candidate[static_cast<std::size_t>(d)] =
                     pbest_fitness[static_cast<std::size_t>(row)]
                         > pbest_fitness[static_cast<std::size_t>(peer)]
-                    ? proposed_alpha * pbest[index_of(row, d, dimension)]
-                        + proposed_beta * gbest[static_cast<std::size_t>(d)]
+                    ? rlpso_transition::source_candidate(
+                        proposed_r1,
+                        proposed_r2,
+                        pbest[index_of(row, d, dimension)],
+                        gbest[static_cast<std::size_t>(d)]
+                    )
                     : pbest[index_of(peer, d, dimension)];
             }
             repair(
@@ -308,24 +313,23 @@ RunResult optimize_rlpso_reconstruction(
             const double prior = best;
             const auto observation = evaluate(candidate, 1, true);
             const double reward = observation.fitness[0] > prior ? 1.1 : -1.0;
-            if (reward > 0.0) {
-                alpha = proposed_alpha;
-                beta = proposed_beta;
+            if (rlpso_transition::accept_training_candidate(
+                    observation.fitness[0], prior
+                )) {
+                r1 = proposed_r1;
+                r2 = proposed_r2;
+                gbest = candidate;
+                std::copy(
+                    candidate.begin(),
+                    candidate.end(),
+                    pbest.begin()
+                        + static_cast<std::ptrdiff_t>(best_row * dimension)
+                );
+                pbest_fitness[static_cast<std::size_t>(best_row)] =
+                    observation.fitness[0];
             }
-            const auto current_probability =
-                probabilities(actor, old_alpha, old_beta);
-            const double ratio = current_probability[
-                static_cast<std::size_t>(action)
-            ] / std::max(
-                old_probability[static_cast<std::size_t>(action)], 1.0e-12
-            );
-            const double clipped = std::clamp(ratio, 0.8, 1.2);
-            const double selected_ratio =
-                reward >= 0.0
-                ? std::min(ratio, clipped)
-                : std::max(ratio, clipped);
-            const double learning_rate = 0.001 * selected_ratio * reward;
-            const std::array<double, 3> features{1.0, old_alpha, old_beta};
+            const double learning_rate = 0.001 * reward;
+            const std::array<double, 3> features{1.0, old_r1, old_r2};
             for (int output = 0; output < 4; ++output) {
                 const double gradient =
                     ((output == action) ? 1.0 : 0.0)
@@ -355,8 +359,12 @@ RunResult optimize_rlpso_reconstruction(
                 offspring[index_of(row, d, dimension)] =
                     pbest_fitness[static_cast<std::size_t>(row)]
                         > pbest_fitness[static_cast<std::size_t>(peer)]
-                    ? alpha * pbest[index_of(row, d, dimension)]
-                        + beta * gbest[static_cast<std::size_t>(d)]
+                    ? rlpso_transition::source_candidate(
+                        r1,
+                        r2,
+                        pbest[index_of(row, d, dimension)],
+                        gbest[static_cast<std::size_t>(d)]
+                    )
                     : pbest[index_of(peer, d, dimension)];
             }
         });
@@ -392,16 +400,22 @@ RunResult optimize_rlpso_reconstruction(
             const int row = task / dimension;
             const int d = task % dimension;
             velocity[index_of(row, d, dimension)] =
-                0.9 * velocity[index_of(row, d, dimension)]
-                + 1.49618 * rng.uniform(
+                rlpso_transition::source_velocity(
+                0.9,
+                velocity[index_of(row, d, dimension)],
+                1.49618,
+                rng.uniform(
                     generations, 50, static_cast<std::uint64_t>(row),
                     static_cast<std::uint64_t>(d)
-                ) * (pbest[index_of(row, d, dimension)]
-                     - population[index_of(row, d, dimension)])
-                - 1.49618 * rng.uniform(
+                ),
+                pbest[index_of(row, d, dimension)],
+                1.49618,
+                rng.uniform(
                     generations, 51, static_cast<std::uint64_t>(row),
                     static_cast<std::uint64_t>(d)
-                ) * population[index_of(row, d, dimension)];
+                ),
+                population[index_of(row, d, dimension)]
+            );
             population[index_of(row, d, dimension)] +=
                 velocity[index_of(row, d, dimension)];
         });
@@ -453,7 +467,7 @@ RunResult optimize_rlpso_reconstruction(
     result.algorithm_seconds =
         std::max(0.0, result.total_seconds - evaluator_seconds);
     result.pso_update_semantics =
-        "declared_compact_clipped_policy_engineering_proxy";
+        "declared_linear_categorical_immediate_reward_policy_gradient_proxy";
     return result;
 }
 
