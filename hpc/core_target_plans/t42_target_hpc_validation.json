@@ -1,0 +1,37 @@
+{
+  "H5_bounded_equivalence": {
+    "candidate_backends": [
+      "cpu_hpc_v1",
+      "libtorch_cpu_hpc_v1",
+      "libtorch_gpu_hpc_v1",
+      "libtorch_hybrid_cpu_gpu_hpc_v1"
+    ],
+    "comparison_scope": "reference CPU versus persistent-team CPU: exact discrete state, FES, layout/front/artifact hashes, with floating values checked by the routed target test; the registered LibTorch kernel is additionally checked CPU/CUDA/hybrid with full canonical inference vectors at max_abs_error <= 1e-8 and exact per-backend artifact replay",
+    "learning_backend_output_sha256": "40362ef531accb7a98c3cc94fbb5726f6ef3f2c58dda254e1148f6edf6a7bbac",
+    "learning_backend_test": "hpc_learning_libtorch_backends",
+    "physical_fes_ledger": "target runtime test checks the declared bounded physical-FES ledger; LibTorch training records zero physical objective calls",
+    "reference_backend": "bounded_reference_cpu_v1",
+    "runtime_test": "rlpso_reconstruction",
+    "runtime_test_output_sha256": "b87f0d0d9c143c9392dff5682fa01d61a2821227a8239226731f31ec5026f458",
+    "runtime_test_receipt": "evidence/development/plan003_h5_ctest_receipts_20260730.json",
+    "runtime_test_receipt_sha256": "16c0cbff8fd9db96ed93cd0141e855a66049ea91fcca89ce0e5fd114f90ce963",
+    "status": "accepted_h5"
+  },
+  "H6_performance_validation": {
+    "accepted_backend": null,
+    "status": "pending_h6_measurement"
+  },
+  "analysis_path": "hpc/core_target_plans/t42_target_hpc_analysis.json",
+  "analysis_sha256": "1ed21f7c47e6042e1545db70ce07196776749f32ced828484a14798a045f5155",
+  "claim_boundary": "H5 is accepted only for bounded implementation equivalence. No backend is selected until exact-pair H6, and no formal-quality claim is made.",
+  "corpus_id": "T42",
+  "method_semantic_id": "rlpso_paper_corrected_training_reconstruction_v1",
+  "native_asset": ".source-cache/generated/rpso_source_problem/benchmark_cases.json",
+  "native_asset_sha256": "d060c6bed80bc5a0654701f9b5a8dc7e45430ce5712c481099b9e23cee261663",
+  "overall_status": "accepted_h5_pending_h6",
+  "pair_id": "T42__rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4__target",
+  "paper_protocol_id": "energy2024_rlpso_native_25_v1",
+  "problem_semantic_id": "rpso2024_source_problem_ws1_ws4",
+  "schema_version": 1,
+  "validation_id": "plan003_h5__T42__rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4__target__spark_20260730"
+}

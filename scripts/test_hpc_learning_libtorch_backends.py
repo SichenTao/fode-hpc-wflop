@@ -101,9 +101,23 @@ def main() -> int:
             cpu = results["cpu"]
             for backend in ("gpu", "hybrid"):
                 candidate = results[backend]
+                maximum_absolute_error = max(
+                    abs(left - right)
+                    for left, right in zip(
+                        cpu["canonical_inference_values"],
+                        candidate["canonical_inference_values"],
+                        strict=True,
+                    )
+                )
+                if maximum_absolute_error > 1.0e-8:
+                    raise RuntimeError(
+                        f"{method}/{backend}: inference max abs error "
+                        f"{maximum_absolute_error} exceeds 1e-8"
+                    )
                 for field in (
                     "canonical_inference_sum",
                     "canonical_inference_l2",
+                    "final_loss",
                 ):
                     if not math.isclose(
                         cpu[field],

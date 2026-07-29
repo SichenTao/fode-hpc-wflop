@@ -51,6 +51,11 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_hpc_core_cpu_runtime_coverage.py
             --build-dir ${CMAKE_BINARY_DIR}
     )
+    add_test(
+        NAME hpc_core_h5_validation_audit
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_hpc_core_h5_validation.py
+    )
     if(WFLOP_ENABLE_TORCH)
         add_test(
             NAME hpc_learning_libtorch_backends

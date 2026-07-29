@@ -516,11 +516,11 @@ int main(int argc, char** argv) {
         const double inference_seconds = seconds_since(inference_started);
         const std::string inference_hash = tensor_hash(inference);
         const std::string model_hash = parameter_hash(model);
-        const double inference_sum =
-            inference.detach().to(torch::kCPU).sum().item<double>();
+        const auto inference_cpu =
+            inference.detach().to(torch::kCPU).contiguous();
+        const double inference_sum = inference_cpu.sum().item<double>();
         const double inference_l2 =
-            inference.detach().to(torch::kCPU).square().sum().sqrt()
-                .item<double>();
+            inference_cpu.square().sum().sqrt().item<double>();
         const double total_seconds = seconds_since(total_started);
         const double attributed = corpus_seconds + transfer_seconds
             + model_setup_seconds + training_seconds + artifact_seconds
@@ -578,6 +578,19 @@ int main(int argc, char** argv) {
             << inference_hash << "\","
             << "\"canonical_inference_sum\":" << inference_sum << ","
             << "\"canonical_inference_l2\":" << inference_l2 << ","
+            << "\"canonical_inference_values\":[";
+        const auto* inference_values =
+            inference_cpu.data_ptr<double>();
+        for (std::int64_t index = 0;
+             index < inference_cpu.numel();
+             ++index) {
+            if (index != 0) {
+                std::cout << ",";
+            }
+            std::cout << inference_values[index];
+        }
+        std::cout
+            << "],"
             << "\"artifact_bytes\":" << artifact_size << ","
             << "\"host_to_device_bytes\":" << transfer_bytes << ","
             << "\"stage_seconds\":{"

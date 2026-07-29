@@ -1,0 +1,37 @@
+{
+  "H5_bounded_equivalence": {
+    "candidate_backends": [
+      "cpu_hpc_v1",
+      "libtorch_cpu_hpc_v1",
+      "libtorch_gpu_hpc_v1",
+      "libtorch_hybrid_cpu_gpu_hpc_v1"
+    ],
+    "comparison_scope": "reference CPU versus persistent-team CPU: exact discrete state, FES, layout/front/artifact hashes, with floating values checked by the routed target test; the registered LibTorch kernel is additionally checked CPU/CUDA/hybrid with full canonical inference vectors at max_abs_error <= 1e-8 and exact per-backend artifact replay",
+    "learning_backend_output_sha256": "40362ef531accb7a98c3cc94fbb5726f6ef3f2c58dda254e1148f6edf6a7bbac",
+    "learning_backend_test": "hpc_learning_libtorch_backends",
+    "physical_fes_ledger": "target runtime test checks the declared bounded physical-FES ledger; LibTorch training records zero physical objective calls",
+    "reference_backend": "bounded_reference_cpu_v1",
+    "runtime_test": "taae_transformer_evolution",
+    "runtime_test_output_sha256": "de15cb0990fd3a01a2c94dc0184776d7ef85ab4e0b560906681870faf82f2d8e",
+    "runtime_test_receipt": "evidence/development/plan003_h5_ctest_receipts_20260730.json",
+    "runtime_test_receipt_sha256": "16c0cbff8fd9db96ed93cd0141e855a66049ea91fcca89ce0e5fd114f90ce963",
+    "status": "accepted_h5"
+  },
+  "H6_performance_validation": {
+    "accepted_backend": null,
+    "status": "pending_h6_measurement"
+  },
+  "analysis_path": "hpc/core_target_plans/y36_target_hpc_analysis.json",
+  "analysis_sha256": "785706497af63397265fc74ce89123b2b8480d5604d77589617a5f2539bd0414",
+  "claim_boundary": "H5 is accepted only for bounded implementation equivalence. No backend is selected until exact-pair H6, and no formal-quality claim is made.",
+  "corpus_id": "Y36",
+  "method_semantic_id": "taae_transformer_evolution_declared_reconstruction_v1",
+  "native_asset": "shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json",
+  "native_asset_sha256": "4cfed3c8393d6d2fada9c21bc4e38dd05e2cab8c3cdd138d0393f7e455a0f37c",
+  "overall_status": "accepted_h5_pending_h6",
+  "pair_id": "Y36__taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1__target",
+  "paper_protocol_id": "ma2026_native_25_v1",
+  "problem_semantic_id": "taae_zhangbei_structured_declared_proxy_v1",
+  "schema_version": 1,
+  "validation_id": "plan003_h5__Y36__taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1__target__spark_20260730"
+}

@@ -1,0 +1,34 @@
+{
+  "H5_bounded_equivalence": {
+    "candidate_backends": [
+      "cpu_hpc_v1"
+    ],
+    "comparison_scope": "reference CPU versus persistent-team CPU: exact discrete state, FES, layout/front/artifact hashes, with floating values checked by the routed target test",
+    "learning_backend_output_sha256": null,
+    "learning_backend_test": null,
+    "physical_fes_ledger": "target runtime test checks the declared bounded physical-FES ledger; LibTorch training records zero physical objective calls",
+    "reference_backend": "bounded_reference_cpu_v1",
+    "runtime_test": "bde_ws56_declared_proxy_evolution",
+    "runtime_test_output_sha256": "64e2a884249c39bd4ec92f075c981adcdf65ffa78bb21e1fd84fad301dfd35c5",
+    "runtime_test_receipt": "evidence/development/plan003_h5_ctest_receipts_20260730.json",
+    "runtime_test_receipt_sha256": "16c0cbff8fd9db96ed93cd0141e855a66049ea91fcca89ce0e5fd114f90ce963",
+    "status": "accepted_h5"
+  },
+  "H6_performance_validation": {
+    "accepted_backend": null,
+    "status": "pending_h6_measurement"
+  },
+  "analysis_path": "hpc/core_target_plans/t44_target_hpc_analysis.json",
+  "analysis_sha256": "746ef7c38248bfd0dbad76fd8bb468ba160bac023e1471ff64ed47417eb3accc",
+  "claim_boundary": "H5 is accepted only for bounded implementation equivalence. No backend is selected until exact-pair H6, and no formal-quality claim is made.",
+  "corpus_id": "T44",
+  "method_semantic_id": "bde_paper_source_completed_v1",
+  "native_asset": "shared/contracts/bde_ws56_declared_proxy_cases.json",
+  "native_asset_sha256": "4a48939117a6dd900842e0aaa948cefd6ec9b5e1d0d02892ffdad2d6d940d2e8",
+  "overall_status": "accepted_h5_pending_h6",
+  "pair_id": "T44__bde__bde2025_standard_daegwallyeong__target",
+  "paper_protocol_id": "energy2025_bde_native_25_v1",
+  "problem_semantic_id": "bde2025_standard_daegwallyeong",
+  "schema_version": 1,
+  "validation_id": "plan003_h5__T44__bde__bde2025_standard_daegwallyeong__target__spark_20260730"
+}

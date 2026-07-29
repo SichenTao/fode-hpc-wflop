@@ -1,0 +1,34 @@
+{
+  "H5_bounded_equivalence": {
+    "candidate_backends": [
+      "cpu_hpc_v1"
+    ],
+    "comparison_scope": "reference CPU versus persistent-team CPU: exact discrete state, FES, layout/front/artifact hashes, with floating values checked by the routed target test",
+    "learning_backend_output_sha256": null,
+    "learning_backend_test": null,
+    "physical_fes_ledger": "target runtime test checks the declared bounded physical-FES ledger; LibTorch training records zero physical objective calls",
+    "reference_backend": "bounded_reference_cpu_v1",
+    "runtime_test": "scalar_native_transition_replay",
+    "runtime_test_output_sha256": "e4513aaf194a3f234315c6647131e0898537d855d5641e9c1d07f4590afc136c",
+    "runtime_test_receipt": "evidence/development/plan003_h5_ctest_receipts_20260730.json",
+    "runtime_test_receipt_sha256": "16c0cbff8fd9db96ed93cd0141e855a66049ea91fcca89ce0e5fd114f90ce963",
+    "status": "accepted_h5"
+  },
+  "H6_performance_validation": {
+    "accepted_backend": null,
+    "status": "pending_h6_measurement"
+  },
+  "analysis_path": "hpc/core_target_plans/l0608_target_hpc_analysis.json",
+  "analysis_sha256": "9eb2821db4c4d17219498d66f8490d69dabdac9a9c2f619d1fffbf846a62ecb6",
+  "claim_boundary": "H5 is accepted only for bounded implementation equivalence. No backend is selected until exact-pair H6, and no formal-quality claim is made.",
+  "corpus_id": "L0608",
+  "method_semantic_id": "alshade_paper_derived_e0_physical_fes_v1",
+  "native_asset": "shared/contracts/alshade_native_117_cases.json",
+  "native_asset_sha256": "cdafd1c4b9e401d935026f6cf31fd11c68ed41d385a646a58763f240c5967024",
+  "overall_status": "accepted_h5_pending_h6",
+  "pair_id": "L0608__alshade__alshade_complex_wake_117_v1__target",
+  "paper_protocol_id": "pic2024_alshade_native_25_v1",
+  "problem_semantic_id": "alshade_complex_wake_117_v1",
+  "schema_version": 1,
+  "validation_id": "plan003_h5__L0608__alshade__alshade_complex_wake_117_v1__target__spark_20260730"
+}

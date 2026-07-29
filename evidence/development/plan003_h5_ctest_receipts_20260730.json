@@ -1,0 +1,191 @@
+{
+  "claim_boundary": "Bounded H5 runtime evidence only; it is not H6 performance evidence or formal campaign quality evidence.",
+  "host": "spark-9b6f",
+  "logical_cpu_count": 20,
+  "machine": "aarch64",
+  "receipt_id": "plan003_h5_ctest_receipts_spark_20260730",
+  "schema_version": 1,
+  "scope": "23 target-only pairs",
+  "tests": {
+    "alga_attention_declared_reconstruction": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu",
+        "--output-on-failure",
+        "-R",
+        "^alga_attention_declared_reconstruction$"
+      ],
+      "measured_wall_seconds": 0.18418389500584453,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\n    Start 57: alga_attention_declared_reconstruction\n1/1 Test #57: alga_attention_declared_reconstruction ...   Passed    0.18 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.18 sec\n",
+      "output_sha256": "fc5aff2bff359fa7d6f2356de21b6d0843c3f03a9ad7e334f8f14c342abaa876",
+      "return_code": 0,
+      "test_name": "alga_attention_declared_reconstruction"
+    },
+    "bde_ws56_declared_proxy_evolution": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu",
+        "--output-on-failure",
+        "-R",
+        "^bde_ws56_declared_proxy_evolution$"
+      ],
+      "measured_wall_seconds": 0.024650507955811918,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\n    Start 64: bde_ws56_declared_proxy_evolution\n1/1 Test #64: bde_ws56_declared_proxy_evolution ...   Passed    0.02 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.02 sec\n",
+      "output_sha256": "64e2a884249c39bd4ec92f075c981adcdf65ffa78bb21e1fd84fad301dfd35c5",
+      "return_code": 0,
+      "test_name": "bde_ws56_declared_proxy_evolution"
+    },
+    "geoga_anholt_structured_evolution": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu",
+        "--output-on-failure",
+        "-R",
+        "^geoga_anholt_structured_evolution$"
+      ],
+      "measured_wall_seconds": 0.05406642297748476,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\n    Start 66: geoga_anholt_structured_evolution\n1/1 Test #66: geoga_anholt_structured_evolution ...   Passed    0.04 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.04 sec\n",
+      "output_sha256": "f30ee9527dce526ad79d9f66637a40059ac244bba6a3d31f7bb41cc5fb24a6b9",
+      "return_code": 0,
+      "test_name": "geoga_anholt_structured_evolution"
+    },
+    "gga_cpp_determinism": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu",
+        "--output-on-failure",
+        "-R",
+        "^gga_cpp_determinism$"
+      ],
+      "measured_wall_seconds": 0.07623639598023146,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\n    Start 30: gga_cpp_determinism\n1/1 Test #30: gga_cpp_determinism ..............   Passed    0.07 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.07 sec\n",
+      "output_sha256": "2a7a098a7dbac90aea2743491e614e04cde82c1c1dfca83a643bda3cc985fafb",
+      "return_code": 0,
+      "test_name": "gga_cpp_determinism"
+    },
+    "hpc_learning_libtorch_backends": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-torch",
+        "--output-on-failure",
+        "-R",
+        "^hpc_learning_libtorch_backends$"
+      ],
+      "measured_wall_seconds": 11.279126505949534,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-torch\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-torch\n    Start 7: hpc_learning_libtorch_backends\n1/1 Test #7: hpc_learning_libtorch_backends ...   Passed   11.27 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =  11.27 sec\n",
+      "output_sha256": "40362ef531accb7a98c3cc94fbb5726f6ef3f2c58dda254e1148f6edf6a7bbac",
+      "return_code": 0,
+      "test_name": "hpc_learning_libtorch_backends"
+    },
+    "pbea_cpp_determinism": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu",
+        "--output-on-failure",
+        "-R",
+        "^pbea_cpp_determinism$"
+      ],
+      "measured_wall_seconds": 0.07348432100843638,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\n    Start 35: pbea_cpp_determinism\n1/1 Test #35: pbea_cpp_determinism .............   Passed    0.07 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.07 sec\n",
+      "output_sha256": "a0c71eff8bdca2020aaa89cf85b9895265f2260d43f817c600f4d0bfb36add8b",
+      "return_code": 0,
+      "test_name": "pbea_cpp_determinism"
+    },
+    "ppga_nantong_evolution": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu",
+        "--output-on-failure",
+        "-R",
+        "^ppga_nantong_evolution$"
+      ],
+      "measured_wall_seconds": 0.03415783203672618,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\n    Start 63: ppga_nantong_evolution\n1/1 Test #63: ppga_nantong_evolution ...........   Passed    0.03 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.03 sec\n",
+      "output_sha256": "8336a23e43412c661bed428eaac8cee6265763072d3ec1a5118d9ffe72a52c56",
+      "return_code": 0,
+      "test_name": "ppga_nantong_evolution"
+    },
+    "rlfode_seeded_reconstruction": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu",
+        "--output-on-failure",
+        "-R",
+        "^rlfode_seeded_reconstruction$"
+      ],
+      "measured_wall_seconds": 0.15002377599012107,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\n    Start 39: rlfode_seeded_reconstruction\n1/1 Test #39: rlfode_seeded_reconstruction .....   Passed    0.14 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.14 sec\n",
+      "output_sha256": "5a48289140c04307a0c160f91cbe34e88ea7b7006225a9246c1fd74ab5b46aa1",
+      "return_code": 0,
+      "test_name": "rlfode_seeded_reconstruction"
+    },
+    "rlpso_reconstruction": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu",
+        "--output-on-failure",
+        "-R",
+        "^rlpso_reconstruction$"
+      ],
+      "measured_wall_seconds": 3.0785100859357044,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\n    Start 27: rlpso_reconstruction\n1/1 Test #27: rlpso_reconstruction .............   Passed    3.07 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   3.07 sec\n",
+      "output_sha256": "b87f0d0d9c143c9392dff5682fa01d61a2821227a8239226731f31ec5026f458",
+      "return_code": 0,
+      "test_name": "rlpso_reconstruction"
+    },
+    "scalar_native_transition_replay": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu",
+        "--output-on-failure",
+        "-R",
+        "^scalar_native_transition_replay$"
+      ],
+      "measured_wall_seconds": 0.3965844450285658,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\n    Start 55: scalar_native_transition_replay\n1/1 Test #55: scalar_native_transition_replay ...   Passed    0.38 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.39 sec\n",
+      "output_sha256": "e4513aaf194a3f234315c6647131e0898537d855d5641e9c1d07f4590afc136c",
+      "return_code": 0,
+      "test_name": "scalar_native_transition_replay"
+    },
+    "taae_transformer_evolution": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu",
+        "--output-on-failure",
+        "-R",
+        "^taae_transformer_evolution$"
+      ],
+      "measured_wall_seconds": 2.3589774220017716,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\n    Start 61: taae_transformer_evolution\n1/1 Test #61: taae_transformer_evolution .......   Passed    2.35 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   2.35 sec\n",
+      "output_sha256": "de15cb0990fd3a01a2c94dc0184776d7ef85ab4e0b560906681870faf82f2d8e",
+      "return_code": 0,
+      "test_name": "taae_transformer_evolution"
+    },
+    "tmoea_cpp_nysted_reconstruction": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu",
+        "--output-on-failure",
+        "-R",
+        "^tmoea_cpp_nysted_reconstruction$"
+      ],
+      "measured_wall_seconds": 1.4953261100454256,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build-plan003-cpu\n    Start 32: tmoea_cpp_nysted_reconstruction\n1/1 Test #32: tmoea_cpp_nysted_reconstruction ...   Passed    1.48 sec\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   1.49 sec\n",
+      "output_sha256": "c1cfbb22aeec1db2fe4c7101f8703195069dd0b7a093ee5bcbe1094fa4b8abf9",
+      "return_code": 0,
+      "test_name": "tmoea_cpp_nysted_reconstruction"
+    }
+  }
+}
