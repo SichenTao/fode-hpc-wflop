@@ -29,6 +29,16 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_reconstruction_decisions.py
     )
     add_test(
+        NAME taae_fact_declarations
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_taae_fact_declarations.py
+    )
+    add_test(
+        NAME taae_semantic_contract
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_taae_semantic_contract.py
+    )
+    add_test(
         NAME ppo_math
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_ppo_math.py

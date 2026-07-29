@@ -22,11 +22,23 @@
       "adjudication_status": "selected_for_distinct_P3_proxy"
     },
     {
+      "field": "multi_wake_and_terrain_shear_completion",
+      "completed_transition": "supplement Eqs. 1-8 define one-upstream 3D velocity but do not uniquely define multiple-wake superposition or terrain-shear composition",
+      "selected_value_or_rule": "apply target-point ambient terrain shear once and subtract the fixed-order root-sum-square of upstream pairwise absolute wake-only deficits",
+      "authority_type": "paper_pairwise_equations_plus_declared_quality_sensitive_completion",
+      "immutable_authority": "Y36 supplement Eqs. 1-8 and shared/contracts/taae_zhangbei_structured_declared_proxy_contract.json",
+      "rejected_alternatives": ["multiply terrain shear again after deriving a pair velocity that already contains shear", "multiply successive wake factors", "sum signed pair velocities"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "changes downstream velocities, expected power, noise source levels, and layout ranking",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
       "field": "joint_wind_and_monitors",
       "completed_transition": "the paper reports eight directions and two monitor configurations but no machine-readable probabilities or monitor cells",
       "selected_value_or_rule": "use the frozen eight-direction by four-speed joint distribution and the two declared four-cell monitor configurations in the manifest",
       "authority_type": "paper_structure_plus_declared_proxy_completion",
-      "immutable_authority": "shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json and its six case hashes",
+      "immutable_authority": "shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json and its six full problem-semantic hashes",
       "rejected_alternatives": ["digitize plotted values and call them author arrays", "silently inherit unrelated benchmark wind states"],
       "classification": "identity_critical",
       "expected_downstream_effect": "defines state weights, unavailable cells, energy, and acoustic objective values",
@@ -60,12 +72,12 @@
     {
       "field": "cpu_parallel_schedule",
       "completed_transition": "the paper does not prescribe evaluator parallelism",
-      "selected_value_or_rule": "assign independent complete layouts to a persistent CPU team and keep every within-layout reduction in fixed order",
+      "selected_value_or_rule": "assign independent complete layouts to a configured persistent CPU team and keep every within-layout reduction in fixed order; record configured team size without claiming actual distinct worker participation",
       "authority_type": "platform_HPC_contract",
       "immutable_authority": "hpc/wflop_cpp/tests/taae_problem_test.cpp and evidence/development/taae_problem_proxy_admission_spark_20260729.json",
       "rejected_alternatives": ["make floating-point results worker-count dependent", "silently claim an unimplemented GPU backend"],
       "classification": "quality_sensitive",
-      "expected_downstream_effect": "permits CPU population evaluation while preserving bitwise scientific equality",
+      "expected_downstream_effect": "permits CPU population evaluation while preserving same-binary bitwise scientific equality between one-thread and twenty-thread configurations",
       "sensitivity_test_required": true,
       "adjudication_status": "selected_for_distinct_P3_proxy"
     }

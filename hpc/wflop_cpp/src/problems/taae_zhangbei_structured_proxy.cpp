@@ -22,9 +22,18 @@ Formula fixture: taae_formula_fixture_v1 at P4_FORMULA_FIXTURE. It evaluates
 supplementary scalar equations using declared fixture constants and is not an
 optimization problem.
 Problem semantic ID: taae_zhangbei_structured_declared_proxy_v1.
-Backend: deterministic persistent-team CPU evaluation. Each worker evaluates
-one complete layout, and every within-layout floating-point reduction has a
-fixed order.
+Controlling contracts:
+shared/contracts/taae_zhangbei_structured_declared_proxy_contract.json and
+shared/contracts/taae_formula_fixture_contract.json.
+Backend: a configured deterministic persistent CPU team assigns independent
+complete layouts; actual distinct worker participation is not reported. Every
+within-layout floating-point reduction has a fixed order.
+Multi-wake completion: apply target-point terrain shear once, combine
+paper-equation pairwise absolute wake deficits by fixed-order root-sum-square,
+then subtract that absolute deficit from the target ambient velocity.
+Full problem-semantic hash: versioned FNV-1a over every objective/feasibility
+constant, rule tag, budget, and case array; changing a scientific constant
+requires deliberate regeneration of all six frozen hashes.
 Physical FES: one complete evaluation of reciprocal expected power,
 multi-state average A-weighted noise, total cost, and normalized cost violation.
 Claim boundary: neither the proxy nor its fixture reproduces the unavailable
@@ -56,15 +65,47 @@ namespace {
 
 using Clock = std::chrono::steady_clock;
 
+constexpr char kSemanticHashVersion[] =
+    "taae_proxy_full_problem_semantics_hash_v2";
+constexpr double kTerrainBaseM = 50.0;
+constexpr double kTerrainWaveAmplitudeM = 35.0;
+constexpr double kTerrainTrendAmplitudeM = 15.0;
+constexpr double kTerrainGridSpan = 19.0;
+constexpr double kTerrainTrendDivisor = 2.0;
+constexpr double kCellCenterOffset = 0.5;
 constexpr double kHubHeightM = 80.0;
 constexpr double kRotorRadiusM = 38.5;
 constexpr double kThrustCoefficient = 0.8;
 constexpr double kTurbulenceIntensity = 0.1;
 constexpr double kWindShearExponent = 0.14;
+constexpr double kMinimumShearBase = 1.0e-6;
 constexpr double kTerrainReferenceM = 50.0;
+constexpr double kWakeVerticalCoefficient = 0.243346;
+constexpr double kWakeVerticalCtExponent = 0.4297;
+constexpr double kWakeVerticalTiExponent = 0.4707;
+constexpr double kWakeHorizontalCoefficient = 0.18265;
+constexpr double kWakeHorizontalCtExponent = 0.2566;
+constexpr double kWakeHorizontalTiExponent = 0.2808;
+constexpr double kGaussianRadiusDivisor = 2.58;
+constexpr double kPowerCutInMps = 2.0;
+constexpr double kPowerRatedStartMps = 12.8;
+constexpr double kPowerCutOutMps = 18.0;
+constexpr double kPowerCubicCoefficient = 0.3;
+constexpr double kPowerRatedKw = 629.1;
 constexpr double kTurbineCostScale = 10000.0;
 constexpr double kLandCostPerSquareMetre = 0.005;
+constexpr double kTurbineCostExponent = 0.00174;
+constexpr double kTurbineCostFixedFraction = 2.0 / 3.0;
+constexpr double kTurbineCostVariableFraction = 1.0 / 3.0;
+constexpr double kEffectiveAreaBlend = 0.5;
 constexpr double kReferenceWindSpeed = 8.0;
+constexpr double kInflowVelocityDbExponent = 20.0;
+constexpr double kTrailingVelocityDbExponent = 50.0;
+constexpr double kMonitorHeightM = 2.0;
+constexpr double kMinimumAcousticDistanceM = 1.0;
+constexpr std::array<double, 3> kAcousticBandsHz{
+    250.0, 1000.0, 4000.0
+};
 constexpr std::array<double, 3> kAWeightingDb{-8.6, 0.0, 1.0};
 constexpr std::array<double, 3> kAirAbsorptionDbPerM{
     0.0001, 0.0004, 0.0012
@@ -84,39 +125,39 @@ struct Point {
 
 struct ProxyIdentity {
     const char* case_id;
-    const char* manifest_hash;
+    const char* semantic_hash;
     double budget;
 };
 
 constexpr std::array<ProxyIdentity, 6> kProxyIdentities{{
     {
         "TAAE_Proxy_NC1_Budget600k_tn15",
-        "fnv1a64:2869e8628fc4b8ca",
+        "fnv1a64:ffdc187163fb6d97",
         600000.0
     },
     {
         "TAAE_Proxy_NC1_Budget800k_tn15",
-        "fnv1a64:c08eb00a89d64bb4",
+        "fnv1a64:d2e0cb41e02ce9c4",
         800000.0
     },
     {
         "TAAE_Proxy_NC1_Budget1000k_tn15",
-        "fnv1a64:ce544f010e589141",
+        "fnv1a64:6e9505ccedf0a578",
         1000000.0
     },
     {
         "TAAE_Proxy_NC2_Budget600k_tn15",
-        "fnv1a64:acbf3bb1fe9db7e1",
+        "fnv1a64:369f421c373bedec",
         600000.0
     },
     {
         "TAAE_Proxy_NC2_Budget800k_tn15",
-        "fnv1a64:2a66b441931a13b7",
+        "fnv1a64:25c369241a20016f",
         800000.0
     },
     {
         "TAAE_Proxy_NC2_Budget1000k_tn15",
-        "fnv1a64:5719564c01d17bcc",
+        "fnv1a64:47a7700e18311e81",
         1000000.0
     }
 }};
@@ -139,12 +180,16 @@ const ProxyIdentity& identity_for(const std::string& case_id) {
 }
 
 double terrain_height(int row, int column) {
-    const double x = static_cast<double>(column) / 19.0;
-    const double y = static_cast<double>(row) / 19.0;
-    return 50.0
-        + 35.0 * std::sin(2.0 * std::numbers::pi * x)
+    const double x =
+        static_cast<double>(column) / kTerrainGridSpan;
+    const double y =
+        static_cast<double>(row) / kTerrainGridSpan;
+    return kTerrainBaseM
+        + kTerrainWaveAmplitudeM
+            * std::sin(2.0 * std::numbers::pi * x)
             * std::cos(2.0 * std::numbers::pi * y)
-        + 15.0 * (x + y) / 2.0;
+        + kTerrainTrendAmplitudeM
+            * (x + y) / kTerrainTrendDivisor;
 }
 
 Point cell_point(const fode::CaseData& data, int cell_1based) {
@@ -152,21 +197,24 @@ Point cell_point(const fode::CaseData& data, int cell_1based) {
     const int row = cell / data.cols;
     const int column = cell - row * data.cols;
     return Point{
-        (static_cast<double>(column) + 0.5) * data.cell_width,
-        (static_cast<double>(row) + 0.5) * data.cell_width,
+        (static_cast<double>(column) + kCellCenterOffset)
+            * data.cell_width,
+        (static_cast<double>(row) + kCellCenterOffset)
+            * data.cell_width,
         terrain_height(row, column)
     };
 }
 
 double turbine_power_kw(double velocity) {
-    if (velocity < 2.0) {
+    if (velocity < kPowerCutInMps) {
         return 0.0;
     }
-    if (velocity < 12.8) {
-        return 0.3 * velocity * velocity * velocity;
+    if (velocity < kPowerRatedStartMps) {
+        return kPowerCubicCoefficient
+            * velocity * velocity * velocity;
     }
-    if (velocity <= 18.0) {
-        return 629.1;
+    if (velocity <= kPowerCutOutMps) {
+        return kPowerRatedKw;
     }
     return 0.0;
 }
@@ -183,35 +231,58 @@ double initial_wake_radius(double rotor_radius, double induction) {
     );
 }
 
-double wake_velocity_eq7(
-    double free_velocity,
+double ambient_shear(double vertical_displacement) {
+    return std::pow(
+        std::max(
+            (vertical_displacement + kHubHeightM) / kHubHeightM,
+            kMinimumShearBase
+        ),
+        kWindShearExponent
+    );
+}
+
+struct PairWakeTerms {
+    double shear = 1.0;
+    double fractional_wake_deficit = 0.0;
+};
+
+PairWakeTerms pair_wake_terms_eq7(
     double downstream_distance,
     double crosswind_distance,
     double vertical_displacement
 ) {
     if (downstream_distance <= 0.0) {
-        return free_velocity;
+        return PairWakeTerms{
+            ambient_shear(vertical_displacement),
+            0.0
+        };
     }
     const double induction = axial_induction(kThrustCoefficient);
     const double radius0 =
         initial_wake_radius(kRotorRadiusM, induction);
-    const double kz = 0.243346
-        * std::pow(kThrustCoefficient, 0.4297)
-        * std::pow(kTurbulenceIntensity, 0.4707);
-    const double ky = 0.18265
-        * std::pow(kThrustCoefficient, 0.2566)
-        * std::pow(kTurbulenceIntensity, 0.2808);
+    const double kz = kWakeVerticalCoefficient
+        * std::pow(
+            kThrustCoefficient,
+            kWakeVerticalCtExponent
+        )
+        * std::pow(
+            kTurbulenceIntensity,
+            kWakeVerticalTiExponent
+        );
+    const double ky = kWakeHorizontalCoefficient
+        * std::pow(
+            kThrustCoefficient,
+            kWakeHorizontalCtExponent
+        )
+        * std::pow(
+            kTurbulenceIntensity,
+            kWakeHorizontalTiExponent
+        );
     const double rz = kz * downstream_distance + radius0;
     const double ry = ky * downstream_distance + radius0;
-    const double sigma_z = rz / 2.58;
-    const double sigma_y = ry / 2.58;
-    const double shear = std::pow(
-        std::max(
-            (vertical_displacement + kHubHeightM) / kHubHeightM,
-            1.0e-6
-        ),
-        kWindShearExponent
-    );
+    const double sigma_z = rz / kGaussianRadiusDivisor;
+    const double sigma_y = ry / kGaussianRadiusDivisor;
+    const double shear = ambient_shear(vertical_displacement);
     const double gaussian = std::exp(
         -vertical_displacement * vertical_displacement
             / (2.0 * sigma_z * sigma_z)
@@ -243,8 +314,26 @@ double wake_velocity_eq7(
                 / (2.0 * sigma_y * sigma_y)
         )
         * shear_integral;
+    return PairWakeTerms{
+        shear,
+        std::max(first_deficit + second_deficit, 0.0)
+    };
+}
+
+double wake_velocity_eq7(
+    double free_velocity,
+    double downstream_distance,
+    double crosswind_distance,
+    double vertical_displacement
+) {
+    const PairWakeTerms terms = pair_wake_terms_eq7(
+        downstream_distance,
+        crosswind_distance,
+        vertical_displacement
+    );
     return std::max(
-        free_velocity * (shear - first_deficit - second_deficit),
+        free_velocity
+            * (terms.shear - terms.fractional_wake_deficit),
         0.0
     );
 }
@@ -260,19 +349,19 @@ double inflow_spl_eq9(
     double blades,
     double sine_squared_phi,
     double density,
-    double chord,
+    double chord_at_07_radius,
     double rotor_radius,
     double turbulent_velocity_squared,
-    double blade_velocity,
+    double blade_forward_speed_at_07_radius,
     double distance,
     double sound_speed,
     double spectral_correction
 ) {
     const double numerator =
         blades * sine_squared_phi * density * density
-        * std::pow(chord, 0.7) * rotor_radius * rotor_radius
+        * chord_at_07_radius * rotor_radius
         * turbulent_velocity_squared
-        * std::pow(blade_velocity, 0.7);
+        * std::pow(blade_forward_speed_at_07_radius, 4.0);
     const double denominator =
         distance * distance * sound_speed * sound_speed;
     return 10.0 * std::log10(numerator / denominator)
@@ -348,41 +437,37 @@ std::vector<double> state_velocities(
             const double dz =
                 turbines[static_cast<std::size_t>(downstream)].z
                 - turbines[static_cast<std::size_t>(upstream)].z;
-            const double pair_velocity =
-                wake_velocity_eq7(free_velocity, dx, dy, dz);
-            const double deficit = std::clamp(
-                1.0 - pair_velocity / free_velocity,
-                0.0,
-                1.0
+            const PairWakeTerms pair =
+                pair_wake_terms_eq7(dx, dy, dz);
+            const double deficit = std::max(
+                pair.fractional_wake_deficit,
+                0.0
             );
             squared_deficit += deficit * deficit;
         }
         const double relative_terrain =
             turbines[static_cast<std::size_t>(downstream)].z
             - kTerrainReferenceM;
-        const double shear = std::pow(
-            std::max(
-                (relative_terrain + kHubHeightM) / kHubHeightM,
-                1.0e-6
-            ),
-            kWindShearExponent
-        );
+        const double shear = ambient_shear(relative_terrain);
         velocities[static_cast<std::size_t>(downstream)] =
-            free_velocity * shear
-            * std::max(0.0, 1.0 - std::sqrt(squared_deficit));
+            std::max(
+                free_velocity
+                    * (shear - std::sqrt(squared_deficit)),
+                0.0
+            );
     }
     return velocities;
 }
 
 double proxy_source_level(int band, double velocity) {
     const double ratio =
-        std::max(velocity, 2.0) / kReferenceWindSpeed;
+        std::max(velocity, kPowerCutInMps) / kReferenceWindSpeed;
     const double inflow =
         kInflowReferenceDb[static_cast<std::size_t>(band)]
-        + 20.0 * std::log10(ratio);
+        + kInflowVelocityDbExponent * std::log10(ratio);
     const double trailing =
         kTrailingReferenceDb[static_cast<std::size_t>(band)]
-        + 50.0 * std::log10(ratio);
+        + kTrailingVelocityDbExponent * std::log10(ratio);
     return combine_decibels(inflow, trailing);
 }
 
@@ -401,10 +486,11 @@ double state_noise(
             const double dx = source.x - monitor.x;
             const double dy = source.y - monitor.y;
             const double dz =
-                source.z + kHubHeightM - (monitor.z + 2.0);
+                source.z + kHubHeightM
+                - (monitor.z + kMonitorHeightM);
             const double distance = std::max(
                 std::sqrt(dx * dx + dy * dy + dz * dz),
-                1.0
+                kMinimumAcousticDistanceM
             );
             for (int band = 0; band < 3; ++band) {
                 const double attenuation =
@@ -496,14 +582,15 @@ double effective_land_area(const std::vector<Point>& points) {
     );
     const double rectangle =
         (max_x->x - min_x->x) * (max_y->y - min_y->y);
-    return 0.5 * (convex_area + rectangle);
+    return kEffectiveAreaBlend * (convex_area + rectangle);
 }
 
 double total_cost(const std::vector<Point>& turbines) {
     const double count = static_cast<double>(turbines.size());
     const double turbine_cost = kTurbineCostScale * count * (
-        2.0 / 3.0
-        + 1.0 / 3.0 * std::exp(-0.00174 * count * count)
+        kTurbineCostFixedFraction
+        + kTurbineCostVariableFraction
+            * std::exp(-kTurbineCostExponent * count * count)
     );
     return turbine_cost
         + kLandCostPerSquareMetre * effective_land_area(turbines);
@@ -583,8 +670,8 @@ CompleteEvaluation evaluate_layout(
 
 }  // namespace
 
-std::string structured_proxy_manifest_hash(const fode::CaseData& data) {
-    std::uint64_t hash = 1469598103934665603ULL;
+std::string structured_proxy_semantic_hash(const fode::CaseData& data) {
+    std::uint64_t hash = 14695981039346656037ULL;
     auto mix_byte = [&](std::uint8_t value) {
         hash ^= static_cast<std::uint64_t>(value);
         hash *= 1099511628211ULL;
@@ -598,9 +685,87 @@ std::string structured_proxy_manifest_hash(const fode::CaseData& data) {
     auto mix_double = [&](double value) {
         mix_u64(std::bit_cast<std::uint64_t>(value));
     };
-    for (const unsigned char byte : data.case_id) {
-        mix_byte(byte);
+    auto mix_string = [&](const std::string& value) {
+        mix_u64(static_cast<std::uint64_t>(value.size()));
+        for (const unsigned char byte : value) {
+            mix_byte(byte);
+        }
+    };
+    mix_string(kSemanticHashVersion);
+    mix_string(
+        "terrain=base+wave*sin(2pi*x)*cos(2pi*y)"
+        "+trend*(x+y)/divisor;cell=grid_center"
+    );
+    mix_double(kTerrainBaseM);
+    mix_double(kTerrainWaveAmplitudeM);
+    mix_double(kTerrainTrendAmplitudeM);
+    mix_double(kTerrainGridSpan);
+    mix_double(kTerrainTrendDivisor);
+    mix_double(kCellCenterOffset);
+    mix_double(kHubHeightM);
+    mix_double(kRotorRadiusM);
+    mix_double(kThrustCoefficient);
+    mix_double(kTurbulenceIntensity);
+    mix_double(kWindShearExponent);
+    mix_double(kMinimumShearBase);
+    mix_double(kTerrainReferenceM);
+    mix_double(kWakeVerticalCoefficient);
+    mix_double(kWakeVerticalCtExponent);
+    mix_double(kWakeVerticalTiExponent);
+    mix_double(kWakeHorizontalCoefficient);
+    mix_double(kWakeHorizontalCtExponent);
+    mix_double(kWakeHorizontalTiExponent);
+    mix_double(kGaussianRadiusDivisor);
+    mix_string(
+        "multiwake=ambient_target_shear_once_minus_"
+        "rss_absolute_pair_deficits;ordered_reduction"
+    );
+    mix_double(kPowerCutInMps);
+    mix_double(kPowerRatedStartMps);
+    mix_double(kPowerCutOutMps);
+    mix_double(kPowerCubicCoefficient);
+    mix_double(kPowerRatedKw);
+    mix_string(
+        "noise=probability_weighted_monitor_mean_"
+        "three_band_energy_A_weighting"
+    );
+    for (const double value : kAcousticBandsHz) {
+        mix_double(value);
     }
+    for (const double value : kAWeightingDb) {
+        mix_double(value);
+    }
+    for (const double value : kAirAbsorptionDbPerM) {
+        mix_double(value);
+    }
+    for (const double value : kInflowReferenceDb) {
+        mix_double(value);
+    }
+    for (const double value : kTrailingReferenceDb) {
+        mix_double(value);
+    }
+    mix_double(kReferenceWindSpeed);
+    mix_double(kInflowVelocityDbExponent);
+    mix_double(kTrailingVelocityDbExponent);
+    mix_double(kMonitorHeightM);
+    mix_double(kMinimumAcousticDistanceM);
+    mix_string(
+        "cost=turbine_scale*count*(fixed+variable*"
+        "exp(-exponent*count^2))+land_scale*"
+        "blend*(convex_hull+axis_rectangle)"
+    );
+    mix_double(kTurbineCostScale);
+    mix_double(kLandCostPerSquareMetre);
+    mix_double(kTurbineCostExponent);
+    mix_double(kTurbineCostFixedFraction);
+    mix_double(kTurbineCostVariableFraction);
+    mix_double(kEffectiveAreaBlend);
+    mix_string(
+        "constraint=max(0,cost-budget)/budget;"
+        "fes=complete_energy_noise_cost_constraint_layout"
+    );
+    mix_string(data.case_id);
+    mix_double(identity_for(data.case_id).budget);
     mix_u64(static_cast<std::uint64_t>(data.rows));
     mix_u64(static_cast<std::uint64_t>(data.cols));
     mix_u64(static_cast<std::uint64_t>(data.turbine_count));
@@ -654,10 +819,10 @@ BatchEvaluation evaluate_structured_proxy(
     }
     const ProxyIdentity& identity = identity_for(data.case_id);
     const std::string observed_hash =
-        structured_proxy_manifest_hash(data);
-    if (observed_hash != identity.manifest_hash) {
+        structured_proxy_semantic_hash(data);
+    if (observed_hash != identity.semantic_hash) {
         throw std::invalid_argument(
-            "TAAE proxy manifest semantics do not match frozen profile: "
+            "TAAE proxy full problem semantics do not match frozen hash: "
             + observed_hash
         );
     }
@@ -665,9 +830,8 @@ BatchEvaluation evaluate_structured_proxy(
     result.values.resize(static_cast<std::size_t>(batch_size));
     result.complete_layout_evaluations =
         static_cast<std::uint64_t>(batch_size);
-    result.requested_workers = executor.thread_count();
-    result.observed_workers = executor.thread_count();
-    result.problem_manifest_hash = observed_hash;
+    result.configured_workers = executor.thread_count();
+    result.problem_semantic_hash = observed_hash;
     const auto started = Clock::now();
     executor.parallel_for(0, batch_size, [&](int row) {
         result.values[static_cast<std::size_t>(row)] =
@@ -701,7 +865,7 @@ void check_formula_fixture() {
         3.0, 1.0, 1.225, 0.1, 38.5, 1.0,
         40.0, 100.0, 343.0, -8.6
     );
-    if (std::abs(inflow - (-56.84831355018201)) > 1.0e-12) {
+    if (std::abs(inflow - (-22.834941131444253)) > 1.0e-12) {
         throw std::runtime_error("TAAE Eq. 9 fixture failed");
     }
     const double trailing = trailing_spl_eq10(
@@ -724,6 +888,49 @@ void check_formula_fixture() {
     );
     if (!std::isfinite(wake) || wake < 0.0 || wake >= 8.0) {
         throw std::runtime_error("TAAE Eqs. 1-8 fixture failed");
+    }
+    const Point zero_wake_point{0.0, 0.0, 65.0};
+    const std::vector<double> zero_wake = state_velocities(
+        {zero_wake_point}, 0.0, 8.0
+    );
+    const double expected_terrain_speed =
+        8.0 * ambient_shear(15.0);
+    if (std::abs(zero_wake.front() - expected_terrain_speed)
+        > 1.0e-13) {
+        throw std::runtime_error(
+            "TAAE zero-wake single-shear fixture failed"
+        );
+    }
+    const PairWakeTerms far_crosswind =
+        pair_wake_terms_eq7(500.0, 1.0e7, 15.0);
+    if (far_crosswind.fractional_wake_deficit != 0.0) {
+        throw std::runtime_error(
+            "TAAE far-crosswind zero-deficit fixture failed"
+        );
+    }
+    const Point upstream{0.0, 0.0, 50.0};
+    const Point downstream{500.0, 0.0, 65.0};
+    const std::vector<double> one_pair = state_velocities(
+        {upstream, downstream}, 0.0, 8.0
+    );
+    const PairWakeTerms pair =
+        pair_wake_terms_eq7(500.0, 0.0, 15.0);
+    const double expected_pair_speed = std::max(
+        8.0 * (
+            ambient_shear(15.0)
+            - pair.fractional_wake_deficit
+        ),
+        0.0
+    );
+    if (std::abs(one_pair.at(1) - expected_pair_speed)
+        > 1.0e-13
+        || std::abs(
+            wake_velocity_eq7(8.0, 500.0, 0.0, 15.0)
+            - expected_pair_speed
+        ) > 1.0e-13) {
+        throw std::runtime_error(
+            "TAAE one-upstream single-shear fixture failed"
+        );
     }
 }
 

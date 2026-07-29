@@ -6,11 +6,14 @@
   "profile_id": "taae_zhangbei_structured_declared_proxy_v1",
   "checks": {
     "formula_fixture": "pass",
-    "six_case_manifest": "pass",
-    "fixed_layout_oracle": "pass",
-    "one_vs_twenty_worker_scientific_equality": "bitwise_pass",
+    "six_case_full_problem_semantic_hashes": "pass",
+    "fixed_layout_oracle": "absolute_relative_tolerance_pass",
+    "configured_one_thread_team_vs_twenty_thread_team_scientific_equality_same_binary": "bitwise_pass",
+    "actual_distinct_worker_participation": "not_measured_or_claimed",
+    "eq9_corrected_chord_radius_velocity_power_fixture": "pass",
+    "zero_wake_far_crosswind_and_one_upstream_single_shear_fixtures": "pass",
     "complete_layout_fes_accounting": "pass",
-    "wrong_manifest_rejection": "pass",
+    "wrong_full_problem_semantic_hash_rejection": "pass",
     "duplicate_and_monitor_cell_rejection": "pass",
     "budget_violation_monotonicity": "pass"
   },

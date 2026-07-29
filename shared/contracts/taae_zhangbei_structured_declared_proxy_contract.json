@@ -18,30 +18,51 @@
   ],
   "constraint": "max(0,(declared turbine plus effective-land cost - paper budget)/paper budget)",
   "physical_fes": "one complete energy, acoustic, cost, and constraint evaluation of one layout",
+  "wake_completion": {
+    "paper_authority": "supplement Eqs. 1-8 define the pairwise 3D velocity field",
+    "multi_wake_rule": "compute the ambient speed at the downstream target elevation once, combine each upstream pair's absolute wake-only deficit by fixed-order root-sum-square, then subtract the combined absolute deficit",
+    "terrain_shear_rule": "apply downstream terrain shear once through v_ref*((z_target-z_reference+z_hub)/z_hub)^alpha",
+    "rejected_double_counting": "do not convert Eq. 7 pair velocity to a fractional deficit and then multiply a second terrain-shear factor",
+    "quality_status": "declared quality-sensitive completion with zero-wake, far-crosswind, and one-upstream invariants"
+  },
   "parallel_contract": {
     "cpu": "persistent team assigns independent complete layouts to workers",
     "within_layout_reductions": "fixed order",
-    "required_equality": "all returned scientific doubles are bitwise equal at 1 and 20 workers",
+    "required_equality": "all returned scientific doubles from the same binary are bitwise equal with configured one-thread and twenty-thread teams",
+    "participation_boundary": "configured team size is recorded; actual distinct worker participation is not claimed",
     "hybrid": "not implemented; fail closed",
     "gpu": "not implemented; fail closed"
   },
   "case_manifest": "shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json",
-  "case_hashes": {
-    "TAAE_Proxy_NC1_Budget600k_tn15": "fnv1a64:2869e8628fc4b8ca",
-    "TAAE_Proxy_NC1_Budget800k_tn15": "fnv1a64:c08eb00a89d64bb4",
-    "TAAE_Proxy_NC1_Budget1000k_tn15": "fnv1a64:ce544f010e589141",
-    "TAAE_Proxy_NC2_Budget600k_tn15": "fnv1a64:acbf3bb1fe9db7e1",
-    "TAAE_Proxy_NC2_Budget800k_tn15": "fnv1a64:2a66b441931a13b7",
-    "TAAE_Proxy_NC2_Budget1000k_tn15": "fnv1a64:5719564c01d17bcc"
+  "semantic_hash_contract": {
+    "version_tag": "taae_proxy_full_problem_semantics_hash_v2",
+    "coverage": "analytic-terrain coefficients, cell-center offset and mapping rule; hub, rotor, thrust, turbulence, shear exponent and minimum shear base; wake coefficients, exponents, Gaussian scale and multi-wake rule; power-curve constants; acoustic bands, weights, absorption, source levels, velocity exponents, monitor height and minimum distance; turbine, land, area and constraint rules; physical-FES rule; budget and every CaseData field",
+    "change_rule": "any scientific-constant or rule change must alter the computed hash and requires deliberate regeneration of all six frozen hashes"
+  },
+  "case_semantic_hashes": {
+    "TAAE_Proxy_NC1_Budget600k_tn15": "fnv1a64:ffdc187163fb6d97",
+    "TAAE_Proxy_NC1_Budget800k_tn15": "fnv1a64:d2e0cb41e02ce9c4",
+    "TAAE_Proxy_NC1_Budget1000k_tn15": "fnv1a64:6e9505ccedf0a578",
+    "TAAE_Proxy_NC2_Budget600k_tn15": "fnv1a64:369f421c373bedec",
+    "TAAE_Proxy_NC2_Budget800k_tn15": "fnv1a64:25c369241a20016f",
+    "TAAE_Proxy_NC2_Budget1000k_tn15": "fnv1a64:47a7700e18311e81"
   },
   "fixed_layout_oracle": {
     "case_id": "TAAE_Proxy_NC1_Budget800k_tn15",
     "layout_cells_1based": [2, 5, 8, 11, 14, 42, 65, 88, 111, 134, 157, 220, 263, 306, 349],
-    "expected_power_kw": 3288.41053054854,
-    "reciprocal_expected_power_per_kw": 0.00030409828417414476,
-    "average_a_weighted_noise_dba": 40.999881463426384,
+    "expected_power_kw": 3724.5592512660246,
+    "reciprocal_expected_power_per_kw": 0.00026848814384147264,
+    "average_a_weighted_noise_dba": 41.746465614064014,
     "total_cost_units": 460052.102524735,
-    "normalized_constraint_violation": 0.0
+    "normalized_constraint_violation": 0.0,
+    "comparison": "absolute plus relative tolerance across supported compilers, libm implementations, and architectures",
+    "tolerances": {
+      "expected_power_kw": {"absolute": 1e-9, "relative": 1e-12},
+      "reciprocal_expected_power_per_kw": {"absolute": 1e-15, "relative": 1e-12},
+      "average_a_weighted_noise_dba": {"absolute": 1e-9, "relative": 1e-12},
+      "total_cost_units": {"absolute": 1e-7, "relative": 1e-12},
+      "normalized_constraint_violation": {"absolute": 1e-15, "relative": 0.0}
+    }
   },
   "claim_boundary": "This is a declared structured proxy. It does not reproduce the unavailable Zhangbei terrain, wind, monitor, acoustics, cost arrays, or reported Pareto fronts."
 }

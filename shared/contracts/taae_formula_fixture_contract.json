@@ -8,10 +8,11 @@
     "supplement_equations": "1-20"
   },
   "covered_oracles": {
-    "equations_1_to_8": "finite positive downstream wake and strictly lower than free-stream speed for the declared scalar fixture",
+    "equations_1_to_8": "finite positive downstream wake plus zero-wake terrain-shear, far-crosswind zero-deficit, and one-upstream single-shear invariants",
     "equation_2_axial_induction_ct_0_8": 0.27639320225002106,
     "main_text_power_curve_at_8_mps_kw": 153.6,
-    "equation_9_declared_scalar_spl_db": -56.84831355018201,
+    "equation_9_declared_scalar_spl_db": -22.834941131444253,
+    "equation_9_interpretation": "C_0.7 is the chord at 0.7R, R appears once, and V_0.7 is raised to the fourth power",
     "equation_10_declared_scalar_spl_db": 30.840861708007306,
     "equation_11_two_equal_40_db_sources": 43.01029995663981,
     "equation_14_turbine_cost_factor_for_15": 13.380210252473496,

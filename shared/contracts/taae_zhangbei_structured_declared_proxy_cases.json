@@ -6,6 +6,18 @@
     "doi": "10.1109/jas.2026.126233",
     "sha256": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b"
   },
+  "full_problem_semantic_hash": {
+    "version_tag": "taae_proxy_full_problem_semantics_hash_v2",
+    "coverage": "all case arrays and budgets plus every compiled objective, wake, terrain, acoustic, cost, constraint, and FES constant or rule named by the controlling problem contract",
+    "case_hashes": {
+      "TAAE_Proxy_NC1_Budget600k_tn15": "fnv1a64:ffdc187163fb6d97",
+      "TAAE_Proxy_NC1_Budget800k_tn15": "fnv1a64:d2e0cb41e02ce9c4",
+      "TAAE_Proxy_NC1_Budget1000k_tn15": "fnv1a64:6e9505ccedf0a578",
+      "TAAE_Proxy_NC2_Budget600k_tn15": "fnv1a64:369f421c373bedec",
+      "TAAE_Proxy_NC2_Budget800k_tn15": "fnv1a64:25c369241a20016f",
+      "TAAE_Proxy_NC2_Budget1000k_tn15": "fnv1a64:47a7700e18311e81"
+    }
+  },
   "proxy_parameters": {
     "terrain": "z(row,col)=50+35*sin(2*pi*col/19)*cos(2*pi*row/19)+15*(row+col)/38 metres",
     "hub_height_m": 80.0,
@@ -19,7 +31,7 @@
     "inflow_source_reference_db": [94.0, 91.0, 84.0],
     "trailing_edge_source_reference_db": [88.0, 94.0, 89.0],
     "reference_wind_speed_mps": 8.0,
-    "reference_distance_m": 1.0,
+    "minimum_acoustic_distance_m": 1.0,
     "turbine_cost_scale": 10000.0,
     "land_cost_per_square_metre": 0.005,
     "paper_budget_thresholds": [600000.0, 800000.0, 1000000.0],
