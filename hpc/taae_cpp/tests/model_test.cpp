@@ -162,6 +162,31 @@ void test_assembled_total_loss_gradients() {
         << " rel_tol=" << relative_tolerance << '\n';
 }
 
+void test_raw_latent_public_boundary() {
+    const taae::ModelConfig config = tiny_config();
+    const auto corpus =
+        taae::deterministic_layout_corpus(1, config, 2468);
+    taae::TransformerAutoencoder model(config, 13579);
+    const std::vector<double> raw_latent = model.encode(corpus.front());
+    double squared_norm = 0.0;
+    for (double value : raw_latent) {
+        squared_norm += value * value;
+    }
+    const double norm = std::sqrt(squared_norm);
+    require(
+        std::abs(norm - 1.0) > 1.0e-3,
+        "public encode output was forcibly L2-normalized"
+    );
+    require(
+        model.decode_argmax(raw_latent).size() ==
+            static_cast<std::size_t>(config.sequence_length),
+        "decoder rejected public raw latent"
+    );
+    std::cout
+        << "raw_latent_boundary_pass encode_norm=" << norm
+        << " decoder_input=raw_h regression_metric_input=normalized_hbar\n";
+}
+
 void test_default_architecture() {
     taae::TransformerAutoencoder model(taae::ModelConfig{}, 1001);
     require(model.shape_fixture(), "default 6+6 architecture smoke failed");
@@ -404,6 +429,7 @@ int main() {
         );
         std::cout << report << '\n';
         test_paper_profile_and_layout_corpus();
+        test_raw_latent_public_boundary();
         test_assembled_total_loss_gradients();
         test_default_architecture();
         test_training_freeze_and_checkpoint();

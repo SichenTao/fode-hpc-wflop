@@ -85,7 +85,7 @@
     {
       "field": "transformer_architecture_completion",
       "completed_transition": "the paper exposes six encoder layers, six autoregressive decoder layers, four heads, 64-dimensional embeddings and latent state, BOS, causal masking, and Adam, but does not expose every engineering choice needed by a trainable implementation",
-      "selected_value_or_rule": "preserve the visible 6 plus 6, 4-head, d_model 64, latent 64 architecture, L2-normalized latent, two-layer ReLU regression branch, and latent-to-sequence decoder projection; declare FFN 256, post-norm, dropout zero, deterministic Xavier-uniform initialization, learned BOS, mean encoder pooling, and separate encoder/decoder embeddings",
+      "selected_value_or_rule": "preserve the visible 6 plus 6, 4-head, d_model 64, latent 64 architecture; expose raw compressed latent h to public encode and decoder memory projection, use L2-normalized h-bar only for the two-layer ReLU regression branch and metric alignment, and declare FFN 256, post-norm, dropout zero, deterministic Xavier-uniform initialization, learned BOS, mean encoder pooling, and separate encoder/decoder embeddings",
       "authority_type": "paper_architecture_plus_declared_method_completion",
       "immutable_authority": "Y36 paper and shared/contracts/taae_transformer_declared_reconstruction_contract.json",
       "rejected_alternatives": ["freeze randomly initialized attention", "silently select an undeclared FFN width or normalization order"],

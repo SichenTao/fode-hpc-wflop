@@ -53,15 +53,19 @@ def main() -> int:
         "token_embedding_dimension": 64,
         "ffn_width_declared_completion": 256,
         "latent_dimension": 64,
-        "latent_normalization": "L2_before_regression_metric_and_decoder",
+        "latent_normalization": (
+            "L2_before_regression_and_metric_only; decoder and latent DE "
+            "use raw h"
+        ),
         "regression_branch": (
             "hidden_linear_with_bias_then_ReLU_then_scalar_linear_with_bias"
         ),
         "decoder_start": "learned_BOS_embedding",
         "decoder_mask": "causal",
+        "public_encode_output": "raw compressed latent h",
         "decoder_memory": (
-            "latent_linear_projection_to_sequence_length_times_model_dimension"
-            "_then_reshape"
+            "raw h linear projection to sequence_length times "
+            "model_dimension then reshape"
         ),
         "normalization": "post_norm",
         "dropout": 0.0,

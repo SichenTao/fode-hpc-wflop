@@ -1032,8 +1032,8 @@ struct ModelSampleCache {
     Matrix encoder_output;
     Matrix pooled;
     LinearCache latent_linear;
-    Matrix latent_raw;
-    Matrix latent;
+    Matrix raw_latent;
+    Matrix normalized_latent;
     double latent_inverse_norm = 0.0;
     LinearCache memory_linear;
     Matrix memory_seed;
@@ -2185,23 +2185,23 @@ struct TransformerAutoencoder::Impl {
                     static_cast<double>(hidden.rows);
             }
         }
-        cache.latent_raw = linear_forward(
+        cache.raw_latent = linear_forward(
             cache.pooled,
             *latent_weight,
             static_cast<std::size_t>(config.latent_dimension),
             cache.latent_linear
         );
         for (std::size_t index = 0;
-             index < cache.latent_raw.cols;
+             index < cache.raw_latent.cols;
              ++index) {
-            cache.latent_raw(0, index) += latent_bias->value[index];
+            cache.raw_latent(0, index) += latent_bias->value[index];
         }
-        cache.latent = Matrix(1, cache.latent_raw.cols);
-        cache.latent.values = l2_normalize(
-            cache.latent_raw.values,
+        cache.normalized_latent = Matrix(1, cache.raw_latent.cols);
+        cache.normalized_latent.values = l2_normalize(
+            cache.raw_latent.values,
             cache.latent_inverse_norm
         );
-        return cache.latent;
+        return cache.raw_latent;
     }
 
     void decode_forward(
@@ -2213,7 +2213,7 @@ struct TransformerAutoencoder::Impl {
         const std::size_t dimension =
             static_cast<std::size_t>(config.model_dimension);
         cache.memory_seed = linear_forward(
-            cache.latent,
+            cache.raw_latent,
             *memory_weight,
             sequence * dimension,
             cache.memory_linear
@@ -2362,32 +2362,28 @@ struct TransformerAutoencoder::Impl {
             memory_bias->gradient[column] +=
                 memory_seed_gradient(0, column);
         }
-        Matrix normalized_latent_gradient = linear_backward(
+        Matrix raw_latent_gradient = linear_backward(
             memory_seed_gradient,
             *memory_weight,
             cache.memory_linear
         );
         if (external_normalized_latent_gradient.size() !=
-                normalized_latent_gradient.cols ||
+                raw_latent_gradient.cols ||
             external_raw_latent_gradient.size() !=
-                normalized_latent_gradient.cols) {
+                raw_latent_gradient.cols) {
             throw std::invalid_argument("external latent gradient mismatch");
         }
-        for (std::size_t column = 0;
-             column < normalized_latent_gradient.cols;
-             ++column) {
-            normalized_latent_gradient(0, column) +=
-                external_normalized_latent_gradient[column];
-        }
-        Matrix raw_latent_gradient(1, normalized_latent_gradient.cols);
-        raw_latent_gradient.values = l2_normalize_backward(
-            normalized_latent_gradient.values,
-            cache.latent.values,
-            cache.latent_inverse_norm
-        );
+        const std::vector<double> regression_raw_gradient =
+            l2_normalize_backward(
+                external_normalized_latent_gradient,
+                cache.normalized_latent.values,
+                cache.latent_inverse_norm
+            );
         for (std::size_t column = 0;
              column < raw_latent_gradient.cols;
              ++column) {
+            raw_latent_gradient(0, column) +=
+                regression_raw_gradient[column];
             raw_latent_gradient(0, column) +=
                 external_raw_latent_gradient[column];
             latent_bias->gradient[column] +=
@@ -2448,8 +2444,8 @@ struct TransformerAutoencoder::Impl {
                 layouts[sample],
                 nullptr
             ) / static_cast<double>(layouts.size());
-            latent[sample] = caches[sample].latent.values;
-            raw_latent[sample] = caches[sample].latent_raw.values;
+            latent[sample] = caches[sample].normalized_latent.values;
+            raw_latent[sample] = caches[sample].raw_latent.values;
             prediction[sample] = regression_head_forward(
                 latent[sample],
                 *regression_hidden_weight,
@@ -2788,8 +2784,8 @@ std::vector<int> TransformerAutoencoder::decode_argmax(
         throw std::invalid_argument("decode latent shape mismatch");
     }
     ModelSampleCache cache;
-    cache.latent = Matrix(1, latent.size());
-    cache.latent.values = latent;
+    cache.raw_latent = Matrix(1, latent.size());
+    cache.raw_latent.values = latent;
     std::vector<int> generated(
         static_cast<std::size_t>(impl_->config.sequence_length),
         0
