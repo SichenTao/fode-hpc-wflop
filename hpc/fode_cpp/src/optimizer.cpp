@@ -1,3 +1,20 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: canonical FODE state machine
+Paper title and DOI: A State-of-the-Art Fractional Order-Driven Differential
+Evolution for Wind Farm Layout Optimization; 10.3390/math13020282
+Paper/source basis: Eqs. 12-15, Algorithm 1, and archived FODE.m
+Public asset: not publicly redistributed; immutable hash in paper ledger
+Missing/conflicts: D=80 population crossing is disclosed and frozen
+Reconstruction: generation-snapshot, counter-random, exact-FES C++ state machine
+Method/problem semantic IDs: fode_e0_physical_fes;
+fode_wflop_e0_legacy_v1
+Controlling contract and claim boundary:
+shared/contracts/paper_implementation_ledger.tsv; semantic reproduction without
+MATLAB random-stream identity
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "fode/optimizer.hpp"
 
 #include "fode/evaluator.hpp"

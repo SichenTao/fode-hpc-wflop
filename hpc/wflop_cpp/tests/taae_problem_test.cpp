@@ -4,6 +4,9 @@ Implementation unit: TAAE P3 problem-proxy and P4 formula scientific fixtures
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Paper SHA-256: 243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b
+Public asset/source: no author source, Zhangbei numerical arrays, training corpus, or checkpoint found; evidence dossier docs/source-dossiers/Y36.json
+Missing information: original Zhangbei arrays, author model checkpoint, training corpus, and author implementation
+Reconstruction: P4 formula fixtures executed over taae_zhangbei_structured_declared_proxy_v1
 Fixture scope: checks formula transcription, full semantic hashes, feasibility rejection, physical FES, one-team versus twenty-team bitwise equality, and tolerance-based cross-toolchain golden values
 Method evidence tier: not_applicable_test_fixture
 Problem evidence tier: P4_FORMULA_FIXTURE over P3_DECLARED_PROXY

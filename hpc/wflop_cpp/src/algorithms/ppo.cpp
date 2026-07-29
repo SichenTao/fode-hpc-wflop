@@ -21,6 +21,9 @@ Reconstruction performed here: deterministic Kaiming-uniform parameter
   sampled-action likelihood ratios, clipped PPO gradients, discounted returns,
   entropy regularization, value regression, bias-corrected Adam updates, and
   fixed logical-shard batch training with deterministic ordered reduction
+Method semantic ID: rlpso_paper_corrected_training_reconstruction_v1
+Problem semantic ID: rpso2024_source_problem_ws1_ws4_v1
+Controlling contract: shared/contracts/rlpso_reconstruction_execution_contract.json
 Implementation authority/provenance: official author source plus paper
   equations, with declared corrections for the documented source conflicts
 Method evidence tier: M3_DECLARED_COMPLETION

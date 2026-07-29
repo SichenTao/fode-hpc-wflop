@@ -1,3 +1,22 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: legacy multipaper scalar algorithm module pending
+per-method physical split
+Paper title and DOI: multipaper; exact mapping is authoritative in
+shared/contracts/paper_implementation_ledger.tsv
+Paper/source basis: target PDFs, archived MATLAB assets, and explicit
+paper-derived completions
+Public asset: per-method URLs/revisions/licenses are in docs/source-dossiers
+Missing/conflicts: CEDE, MS-SHADE, AGPSO, CGPSO, and HGPSO variants remain
+separate registered identities; no source/paper result pooling
+Reconstruction: pure C++ scalar methods over canonical evaluators
+Method/problem semantic IDs: registry_defined; registry_defined
+Controlling contract and claim boundary:
+shared/contracts/paper_implementation_ledger.tsv; each result is bounded by its
+registered provenance and semantic ID
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "wflop/algorithms.hpp"
 #include "wflop/rlfode_reconstruction.hpp"
 

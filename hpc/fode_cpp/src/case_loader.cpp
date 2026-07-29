@@ -1,3 +1,19 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: canonical FODE-E0-L JSON case loader
+Paper title and DOI: A State-of-the-Art Fractional Order-Driven Differential
+Evolution for Wind Farm Layout Optimization; 10.3390/math13020282
+Paper/source basis: paper protocol and archived MATLAB wind-array assets
+Public asset: not publicly redistributed; hashes frozen in benchmark cases
+Missing/conflicts: none within the frozen synthetic identity
+Reconstruction: strict JSON loader and semantic validation
+Method/problem semantic IDs: not_applicable_shared_infrastructure;
+fode_wflop_e0_legacy_v1
+Controlling contract and claim boundary: shared/contracts/benchmark_contract.json;
+loads only declared benchmark semantics
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "fode/case.hpp"
 
 #include <algorithm>

@@ -1,3 +1,18 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: shared persistent CPU execution backend interface
+Paper title and DOI: not_applicable_shared_infrastructure
+Paper/source basis: platform H0-H6 execution contract
+Public asset: project-native implementation
+Missing/conflicts: no admitted GPU or hybrid kernels
+Reconstruction: not applicable
+Method/problem semantic IDs: not_applicable_shared_infrastructure;
+not_applicable_shared_infrastructure
+Controlling contract and claim boundary:
+shared/contracts/global_execution_capability_matrix.json; CPU capability only
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #pragma once
 
 #include <atomic>

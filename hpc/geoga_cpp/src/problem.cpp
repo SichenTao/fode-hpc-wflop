@@ -3,12 +3,16 @@ WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: GeoGA Anholt-structured declared problem evaluator
 Paper title: A Geometric Mutation-Based Genetic Algorithm for Irregular Large-Scale Offshore Wind Farm Layout Optimization
 DOI: 10.1109/CBD69312.2025.00059
+Public asset/source: no author implementation or numerical Anholt data found; evidence dossier docs/source-dossiers/L0726.json
+Missing information: original Anholt boundary, candidate set, wind arrays, turbine curves, actual layout, and author implementation
+Reconstruction: geoga_anholt_structured_declared_proxy_v1 freezes the declared P3 problem completion
 Paper-preserved fields: irregular domain, 111 turbines, approximately 180 candidates, 5D spacing, twelve joint wind bins, 4.2 MW/91.5 m/117 m/3--25 m/s turbine surface scalars, Jensen wake with root-sum-square overlap, and AEP
 Declared P3 completions: synthetic polygon, target-capped Bridson sampling with seed 20250726 and L=30, frozen wind tuples, rated speed 12 m/s, cubic power curve, Ct=0.8, k=0.05, flow-to coordinate convention, and fixed source order
 Problem evidence tier: P3_DECLARED_PROXY
 Problem semantic ID: geoga_anholt_structured_declared_proxy_v1
 Controlling contract: shared/contracts/geoga_anholt_structured_declared_proxy_contract.json
 Claim boundary: actual Anholt coordinates, author candidate set, original wind/curve arrays, actual-layout AEP, and paper rankings remain unavailable and are not approximated as original data
+Last evidence-audit date: 2026-07-30
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 #include "geoga/problem.hpp"

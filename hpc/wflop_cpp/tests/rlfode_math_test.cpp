@@ -3,9 +3,15 @@ WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: FQFODE equation, reward-timing, and FODE-core characterization fixtures
 Paper title: A Reinforcement Learning-Assisted Fractional-Order Differential Evolution for Solving Wind Farm Layout Optimization Problems
 DOI: 10.3390/math13182935
-Public author code URL: unavailable as recorded in docs/source-dossiers/S04.json
+Public asset/source: no author code or Q-table artifact found; evidence dossier docs/source-dossiers/S04.json
+Missing information: author Q tables, training seeds, and complete reported training protocol
+Reconstruction: fqfode_seeded_training_declared_reconstruction_v1 with seeded training from initialization
+Method semantic ID: fqfode_seeded_training_declared_reconstruction_v1
+Problem semantic ID: fode_wflop_e0_legacy_v1
 Fixture scope: validates declared M3 semantics and fixed-a equivalence only; it does not validate author Q-tables or reported optimization results
 Controlling contract: shared/contracts/fqfode_seeded_training_reconstruction_contract.json
+Claim boundary: equation and reward-timing fixture only; no author Q-table or reported-result reproduction claim
+Last evidence-audit date: 2026-07-30
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 

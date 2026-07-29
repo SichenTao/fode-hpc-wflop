@@ -1,3 +1,19 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: multipaper algorithm/problem/training/backend registries
+Paper title and DOI: multipaper; one row per scoped DOI in
+docs/paper_package_completion.tsv
+Paper/source basis: paper protocol, source dossier, and semantic ledgers
+Public asset: per-paper URL, revision, hash, and license records
+Missing/conflicts: variants are registered independently and incompatibility
+fails before physical FES
+Reconstruction: machine-queryable descriptors and compatibility decisions
+Method/problem semantic IDs: registry_defined; registry_defined
+Controlling contract and claim boundary: docs/paper_package_completion.tsv;
+registered, executable, and formally complete remain distinct states
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "wflop/algorithms.hpp"
 
 #include <algorithm>
@@ -246,6 +262,46 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "10.1109/jas.2026.126233",
             "paper_guided_training_from_scratch_declared_reconstruction",
             "taae_transformer_evolution_declared_reconstruction_v1",
+            {}
+        },
+        {
+            "agpso_source_replay_v1",
+            "AGPSO archived-source replay",
+            "10.1016/j.enconman.2022.116174",
+            "archived_matlab_source_no_license_behavior_oracle",
+            "agpso_source_replay_v1",
+            {}
+        },
+        {
+            "cgpso_source_replay_v1",
+            "CGPSO archived-source replay",
+            "10.1109/jas.2023.123387",
+            "archived_matlab_source_no_license_behavior_oracle",
+            "cgpso_source_replay_v1",
+            {}
+        },
+        {
+            "cede_source_replay_v1",
+            "CEDE local-source replay",
+            "10.3390/math12233762",
+            "local_source_no_license_behavior_oracle",
+            "cede_source_replay_v1",
+            {}
+        },
+        {
+            "msshade_source_replay_v1",
+            "MS-SHADE local-source replay",
+            "10.3390/electronics13163196",
+            "local_source_no_license_behavior_oracle",
+            "msshade_source_replay_v1",
+            {}
+        },
+        {
+            "hgpso_source_replay_v1",
+            "HGPSO local-source replay",
+            "10.26599/tst.2026.9010059",
+            "local_source_no_license_behavior_oracle",
+            "hgpso_source_replay_v1",
             {}
         }
     };

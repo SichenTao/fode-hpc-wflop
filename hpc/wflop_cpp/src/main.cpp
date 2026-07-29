@@ -1,3 +1,17 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: universal switchable formal CLI and CPU backend router
+Paper title and DOI: not_applicable_shared_infrastructure
+Paper/source basis: paper-paired platform contracts
+Public asset: project-native implementation
+Missing/conflicts: hybrid and GPU modes have no admitted kernels and fail closed
+Reconstruction: not applicable
+Method/problem semantic IDs: registry_defined; registry_defined
+Controlling contract and claim boundary:
+docs/paper_package_completion.tsv; CLI execution does not upgrade evidence tier
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "wflop/algorithms.hpp"
 #include "wflop/rlfode_reconstruction.hpp"
 

@@ -1,3 +1,18 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: shared algorithm/problem/training/backend registry interface
+Paper title and DOI: multipaper; authoritative identities are in
+docs/paper_package_completion.tsv
+Paper/source basis: 23 scoped PDFs and per-paper source dossiers
+Public asset: URLs, revisions, hashes, and licenses are in source dossiers
+Missing/conflicts: retained per profile; no silent merging
+Reconstruction: independent registry and compatibility contracts
+Method/problem semantic IDs: registry_defined; registry_defined
+Controlling contract and claim boundary: docs/paper_package_completion.tsv;
+registration does not imply executable or formally complete status
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #pragma once
 
 #include "fode/case.hpp"

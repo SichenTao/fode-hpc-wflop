@@ -1,3 +1,19 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: thin FODE analysis and compatibility frontend
+Paper title and DOI: A State-of-the-Art Fractional Order-Driven Differential
+Evolution for Wind Farm Layout Optimization; 10.3390/math13020282
+Paper/source basis: canonical fode_core only
+Public asset: source provenance recorded in paper ledger
+Missing/conflicts: this frontend is excluded from formal campaign authority
+Reconstruction: no scientific body; links the canonical core
+Method/problem semantic IDs: fode_e0_physical_fes;
+fode_wflop_e0_legacy_v1
+Controlling contract and claim boundary:
+scripts/audit_canonical_core_uniqueness.py; bounded analysis CLI only
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "fode/case.hpp"
 #include "fode/evaluator.hpp"
 #include "fode/optimizer.hpp"

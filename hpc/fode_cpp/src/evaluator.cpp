@@ -1,3 +1,19 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: canonical FODE-E0-L C++ evaluator
+Paper title and DOI: A State-of-the-Art Fractional Order-Driven Differential
+Evolution for Wind Farm Layout Optimization; 10.3390/math13020282
+Paper/source basis: paper Eqs. 2-7 and archived MATLAB wf_fitness_m0
+Public asset: not publicly redistributed; immutable hashes in paper ledger
+Missing/conflicts: the 18 m/s legacy curve endpoint is retained literally
+Reconstruction: cache-aware deterministic C++ equations and parallel batches
+Method/problem semantic IDs: not_applicable_shared_infrastructure;
+fode_wflop_e0_legacy_v1
+Controlling contract and claim boundary: shared/contracts/benchmark_contract.json;
+expected power in kW, not raw AEP
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "fode/evaluator.hpp"
 
 #include <algorithm>

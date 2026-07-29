@@ -1,3 +1,20 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: PBEA/MOEA-D-P three-objective C++ package
+Paper title and DOI: Probabilistic Bootstrap-Based Evolutionary Algorithm for
+Three-Objective Wind Farm Turbine Position Optimization;
+10.1016/j.swevo.2025.101972
+Paper/source basis: paper equations and local MATLAB behavior/problem oracle
+Public asset: local author archive, no redistribution license, not vendored
+Missing/conflicts: partial pcode prevents literal source distribution
+Reconstruction: independent pure C++ evaluator and six-algorithm protocol
+Method/problem semantic IDs: moead_p_repaired_v1 and registered comparators;
+zhang2025_three_objective
+Controlling contract and claim boundary:
+shared/contracts/pbea_execution_contract.json; independent reconstruction only
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "fode/executor.hpp"
 #include "fode/rng.hpp"
 

@@ -1,10 +1,17 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: PPGA Nantong-structured declared reconstruction determinism, FES, and receipt test
+Paper title: Advanced 3D Wind Farm Layout Optimization Framework via Power-Law Perturbation-Based Genetic Algorithm
+DOI: 10.1109/JAS.2025.125351
+Public asset/source: no author implementation or original Nantong arrays found; evidence dossier docs/source-dossiers/T43.json
+Missing information: author source, full original transitions, and original Nantong numerical inputs
+Reconstruction: verifies ppga_nantong_structured_3d_declared_reconstruction_v2
 Method semantic ID: ppga_nantong_structured_3d_declared_reconstruction_v2
 Problem semantic ID: ppga_nantong_structured_3d_declared_proxy_v1
 Evidence tiers: M3_DECLARED_COMPLETION on P3_DECLARED_PROXY
+Controlling contract: shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json
 Claim boundary: verifies the declared reconstruction state machine only
+Last evidence-audit date: 2026-07-30
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 #include "ppga/evolution.hpp"

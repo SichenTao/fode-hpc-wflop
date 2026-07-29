@@ -1,10 +1,16 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: GeoGA Anholt-structured declared scalar and complete-layout oracle test
+Paper title: A Geometric Mutation-Based Genetic Algorithm for Irregular Large-Scale Offshore Wind Farm Layout Optimization
+DOI: 10.1109/CBD69312.2025.00059
+Public asset/source: no author implementation or numerical Anholt data found; evidence dossier docs/source-dossiers/L0726.json
+Missing information: original Anholt numerical arrays and author oracle
+Reconstruction: verifies the frozen geoga_anholt_structured_declared_proxy_v1 oracle only
 Problem semantic ID: geoga_anholt_structured_declared_proxy_v1
 Evidence tier: P3_DECLARED_PROXY
 Controlling oracle: shared/contracts/geoga_anholt_structured_declared_proxy_oracle.json
 Claim boundary: tests only frozen proxy numerics and never compares with the unavailable actual Anholt layout
+Last evidence-audit date: 2026-07-30
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 #include "geoga/problem.hpp"

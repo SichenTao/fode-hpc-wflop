@@ -1,12 +1,19 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: GeoGA Anholt-structured declared pure-CPU CLI
+Paper title: A Geometric Mutation-Based Genetic Algorithm for Irregular Large-Scale Offshore Wind Farm Layout Optimization
+DOI: 10.1109/CBD69312.2025.00059
+Public asset/source: no author implementation or numerical Anholt data found; evidence dossier docs/source-dossiers/L0726.json
+Missing information: original Anholt numerical inputs and author executable
+Reconstruction: thin CLI over geoga_declared_reconstruction_v1 and its declared execution contract
 Method semantic ID: geoga_declared_reconstruction_v1
 Execution profile ID: geoga_anholt_structured_p3_execution_v1
 Problem semantic ID: geoga_anholt_structured_declared_proxy_v1
 Evidence tiers: admitted M3 method on P3 declared proxy
 Default execution: pure CPU with all hardware threads visible to the job
+Controlling contract: shared/contracts/geoga_anholt_structured_execution_contract.json
 Claim boundary: emits development receipts only and cannot invoke or modify the historical GGA-asset proxy path
+Last evidence-audit date: 2026-07-30
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 #include "geoga/evolution.hpp"

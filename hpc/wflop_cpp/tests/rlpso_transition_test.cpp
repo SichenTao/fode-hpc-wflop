@@ -1,3 +1,20 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: RLPSO paper/source transition discrepancy fixture
+Paper title and DOI: Reinforcement Learning-Based Particle Swarm Optimization
+for Wind Farm Layout Problems; 10.1016/j.energy.2024.134050
+Paper/source basis: paper equations and official RPSO_Wind_Code archive
+Public asset: author archive sha256 44e89c033e90f5aaaa9b84c826c95f29d3b8ad73dd363ff68de99418cdfa93a2;
+no license, not redistributed
+Missing/conflicts: action step and PPO lifecycle differ between paper and source
+Reconstruction: deterministic scalar transition fixtures for both identities
+Method/problem semantic IDs: rlpso_paper_corrected_training_reconstruction_v1;
+rpso2024_source_problem_ws1_ws4_v1
+Controlling contract and claim boundary:
+shared/contracts/rlpso_reconstruction_execution_contract.json; fixture only
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "wflop/rlpso_transition.hpp"
 
 #include <cmath>

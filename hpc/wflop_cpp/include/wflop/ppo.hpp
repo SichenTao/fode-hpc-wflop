@@ -20,6 +20,9 @@ Reconstruction performed here: deterministic parameter initialization and
   categorical sampling keyed entirely by an externally supplied CounterRng,
   correct sampled-action log probabilities, clipped PPO gradients, discounted
   returns, Adam updates, and thread-count-invariant fixed-shard batch training
+Method semantic ID: rlpso_paper_corrected_training_reconstruction_v1
+Problem semantic ID: rpso2024_source_problem_ws1_ws4_v1
+Controlling contract: shared/contracts/rlpso_reconstruction_execution_contract.json
 Implementation authority/provenance: official author source plus paper
   equations, with declared corrections for the documented source conflicts
 Method evidence tier: M3_DECLARED_COMPLETION

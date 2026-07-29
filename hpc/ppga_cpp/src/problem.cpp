@@ -3,6 +3,9 @@ WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: PPGA Nantong-structured declared 3D problem evaluator
 Paper title: Advanced 3D Wind Farm Layout Optimization Framework via Power-Law Perturbation-Based Genetic Algorithm
 DOI: 10.1109/JAS.2025.125351
+Public asset/source: no author implementation or original Nantong arrays found; evidence dossier docs/source-dossiers/T43.json
+Missing information: original Nantong terrain, elevation, wind, manufacturer, layouts, and author implementation
+Reconstruction: ppga_nantong_structured_3d_declared_proxy_v1 freezes the declared P3 problem completion
 Paper-preserved fields: 16 by 27 grid, 300 m spacing, H171-6.2MW surface parameters, four 16-direction by 7-speed scenarios, terrain-aware Gaussian wakes, and conversion efficiency
 Declared P3 completions: analytic 0--6 m seabed, factorized frozen winds, cubic-to-rated power curve, axial induction one third, Gaussian deficit, Tao-2020 root-sum-square multiple wakes, and shear exponent 0.1
 Problem evidence tier: P3_DECLARED_PROXY
@@ -12,6 +15,7 @@ semantic. The root-sum-square baseline and semantic hash remain unchanged;
 distinct problem semantics are never pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/ppga_nantong_structured_3d_declared_proxy_contract.json
 Claim boundary: original Nantong arrays, manufacturer curves, layouts, efficiencies, and author implementation remain blocked
+Last evidence-audit date: 2026-07-30
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 #include "ppga/problem.hpp"

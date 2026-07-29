@@ -1,3 +1,18 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: shared persistent CPU executor
+Paper title and DOI: not_applicable_shared_infrastructure
+Paper/source basis: project H0-H6 backend design
+Public asset: project-native implementation
+Missing/conflicts: accelerator kernels are unavailable and fail closed
+Reconstruction: not applicable
+Method/problem semantic IDs: not_applicable_shared_infrastructure;
+not_applicable_shared_infrastructure
+Controlling contract and claim boundary:
+shared/contracts/global_execution_capability_matrix.json; CPU execution only
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "fode/executor.hpp"
 
 #include <algorithm>

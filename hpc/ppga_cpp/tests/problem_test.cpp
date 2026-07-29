@@ -1,10 +1,16 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: PPGA Nantong-structured declared 3D scalar and complete-layout oracle test
+Paper title: Advanced 3D Wind Farm Layout Optimization Framework via Power-Law Perturbation-Based Genetic Algorithm
+DOI: 10.1109/JAS.2025.125351
+Public asset/source: no author implementation or original Nantong arrays found; evidence dossier docs/source-dossiers/T43.json
+Missing information: original Nantong numerical arrays and author oracle
+Reconstruction: verifies the frozen ppga_nantong_structured_3d_declared_proxy_v1 oracle only
 Problem semantic ID: ppga_nantong_structured_3d_declared_proxy_v1
 Evidence tier: P3_DECLARED_PROXY
 Controlling oracle: shared/contracts/ppga_nantong_structured_3d_declared_proxy_oracle.json
 Claim boundary: tests the frozen proxy numerics only; no original Nantong result claim
+Last evidence-audit date: 2026-07-30
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 #include "ppga/problem.hpp"
