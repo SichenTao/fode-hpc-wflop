@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T42",
+  "doi": "10.1016/j.energy.2024.134050",
+  "title": "Reinforcement Learning-Based Particle Swarm Optimization for Wind Farm Layout Problems",
+  "query_date": "2026-07-29",
+  "search_basis": [
+    "Shangce Gao homepage corpus refreshed at 2026-07-29T02:36:14Z",
+    "repository source_asset_registry and paper/problem ledgers",
+    "bounded authority ladder recorded below"
+  ],
+  "conclusion": "public_asset_found",
+  "searched_authorities": [
+    {
+      "authority": "official_author_homepage",
+      "url": "https://toyamaailab.github.io/publications.html",
+      "query": "\"10.1016/j.energy.2024.134050\" \"Reinforcement Learning-Based Particle Swarm Optimization for Wind Farm Layout Problems\"",
+      "result": "refreshed_homepage_snapshot_checked"
+    },
+    {
+      "authority": "doi_publisher_supplement_and_data_statement",
+      "url": "https://doi.org/10.1016/j.energy.2024.134050",
+      "query": "10.1016/j.energy.2024.134050",
+      "result": "paper_and_existing_supplement_ledger_checked"
+    },
+    {
+      "authority": "paper_author_or_coauthor_linked_repository",
+      "url": "https://raw.githubusercontent.com/toyamaailab/toyamaailab.github.io/main/resource/RPSO_Wind_Code.zip",
+      "query": "\"10.1016/j.energy.2024.134050\" \"Reinforcement Learning-Based Particle Swarm Optimization for Wind Farm Layout Problems\"",
+      "result": "direct_asset_recorded"
+    },
+    {
+      "authority": "author_coauthor_github",
+      "url": "https://github.com/search?q=10.1016%2Fj.energy.2024.134050&type=repositories",
+      "query": "10.1016/j.energy.2024.134050",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "general_research_data_repositories",
+      "url": "https://zenodo.org/search?q=10.1016%2Fj.energy.2024.134050",
+      "query": "10.1016/j.energy.2024.134050; Figshare; OSF; institutional repository",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "cited_implementation_and_predecessor_work",
+      "url": "https://doi.org/10.1016/j.energy.2024.134050",
+      "query": "Reinforcement Learning-Based Particle Swarm Optimization for Wind Farm Layout Problems cited implementation predecessor",
+      "result": "paper_reference_and_project_ledger_checked"
+    },
+    {
+      "authority": "same_author_problem_or_method_family",
+      "url": "https://toyamaailab.github.io/sourcedata.html",
+      "query": "Zihang Zhang; Jiayi Li; Zhenyu Lei; Qianyu Zhu; Jiujun Cheng; Shangce Gao wind farm source data",
+      "result": "refreshed_source_page_and_lineage_ledger_checked"
+    }
+  ],
+  "discovered_assets": [
+    {
+      "authority": "official_homepage_archive",
+      "url": "https://raw.githubusercontent.com/toyamaailab/toyamaailab.github.io/main/resource/RPSO_Wind_Code.zip",
+      "revision_or_sha256": "archive:sha256:44e89c033e90f5aaaa9b84c826c95f29d3b8ad73dd363ff68de99418cdfa93a2;CGPSO.m:sha256:8a9a1e8ac5589c9e185e3bfdc746c70e77ac939dd623c5e59d7f5045e26bee49;ppo.py:sha256:7a84ca4b6ccd8bd4451fa275e1dd4ca64f9a4483efac29bcc7e880ef8c95320b;main.m:sha256:7c5cd5d5526f1a63aeca35eb5b8b28bd8547d6901694f0b1b590a18237e24532",
+      "license_observation": "no_license_file_found",
+      "redistribution_policy": "do_not_redistribute",
+      "relationship": "direct_target_or_project_author_asset"
+    }
+  ],
+  "available_evidence": [
+    "validated_complete",
+    "official_source_hashed_no_license"
+  ],
+  "missing_method_or_problem_fields": [],
+  "negative_evidence_boundary": "Search is dated and bounded; later author releases require a new dossier."
+}

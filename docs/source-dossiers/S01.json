@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "corpus_id": "S01",
+  "doi": "10.3390/math12233762",
+  "title": "Competitive Elimination Improved Differential Evolution for Wind Farm Layout Optimization Problems",
+  "query_date": "2026-07-29",
+  "search_basis": [
+    "Shangce Gao homepage corpus refreshed at 2026-07-29T02:36:14Z",
+    "repository source_asset_registry and paper/problem ledgers",
+    "bounded authority ladder recorded below"
+  ],
+  "conclusion": "project_or_paper_asset_recorded",
+  "searched_authorities": [
+    {
+      "authority": "official_author_homepage",
+      "url": "https://toyamaailab.github.io/publications.html",
+      "query": "\"10.3390/math12233762\" \"Competitive Elimination Improved Differential Evolution for Wind Farm Layout Optimization Problems\"",
+      "result": "refreshed_homepage_snapshot_checked"
+    },
+    {
+      "authority": "doi_publisher_supplement_and_data_statement",
+      "url": "https://doi.org/10.3390/math12233762",
+      "query": "10.3390/math12233762",
+      "result": "paper_and_existing_supplement_ledger_checked"
+    },
+    {
+      "authority": "paper_author_or_coauthor_linked_repository",
+      "url": "not_publicly_redistributed",
+      "query": "\"10.3390/math12233762\" \"Competitive Elimination Improved Differential Evolution for Wind Farm Layout Optimization Problems\"",
+      "result": "no_direct_public_asset_recorded"
+    },
+    {
+      "authority": "author_coauthor_github",
+      "url": "https://github.com/search?q=10.3390%2Fmath12233762&type=repositories",
+      "query": "10.3390/math12233762",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "general_research_data_repositories",
+      "url": "https://zenodo.org/search?q=10.3390%2Fmath12233762",
+      "query": "10.3390/math12233762; Figshare; OSF; institutional repository",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "cited_implementation_and_predecessor_work",
+      "url": "https://doi.org/10.3390/math12233762",
+      "query": "Competitive Elimination Improved Differential Evolution for Wind Farm Layout Optimization Problems cited implementation predecessor",
+      "result": "paper_reference_and_project_ledger_checked"
+    },
+    {
+      "authority": "same_author_problem_or_method_family",
+      "url": "https://toyamaailab.github.io/sourcedata.html",
+      "query": "Sichen Tao; Yifei Yang; Ruihan Zhao; Hiroyoshi Todo; Zheng Tang wind farm source data",
+      "result": "refreshed_source_page_and_lineage_ledger_checked"
+    }
+  ],
+  "discovered_assets": [
+    {
+      "authority": "local_author_project_asset",
+      "url": "not_publicly_redistributed",
+      "revision_or_sha256": "CEDE.m:sha256:059ed3e1b8e2ff112ae1b4206f571f5fe8b9998f118374a590ff1eabfe2d007b;CEDE_recoding.m:sha256:7ab43d85aca73c57682123f577213bffa548b7f81d0ef308b2f4056671f00062",
+      "license_observation": "no_license_file_found",
+      "redistribution_policy": "do_not_redistribute",
+      "relationship": "direct_target_or_project_author_asset"
+    }
+  ],
+  "available_evidence": [
+    "validated_complete",
+    "local_source_hashed_no_license"
+  ],
+  "missing_method_or_problem_fields": [],
+  "negative_evidence_boundary": "Search is dated and bounded; later author releases require a new dossier."
+}

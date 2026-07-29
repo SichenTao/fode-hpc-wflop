@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T36",
+  "doi": "10.1109/cpeee69412.2026.11521465",
+  "title": "A Topology-Driven Multi-Objective Evolutionary Algorithm for Offshore Wind Farm Layout Optimization",
+  "query_date": "2026-07-29",
+  "search_basis": [
+    "Shangce Gao homepage corpus refreshed at 2026-07-29T02:36:14Z",
+    "repository source_asset_registry and paper/problem ledgers",
+    "bounded authority ladder recorded below"
+  ],
+  "conclusion": "bounded_no_public_asset_found",
+  "searched_authorities": [
+    {
+      "authority": "official_author_homepage",
+      "url": "https://toyamaailab.github.io/publications.html",
+      "query": "\"10.1109/cpeee69412.2026.11521465\" \"A Topology-Driven Multi-Objective Evolutionary Algorithm for Offshore Wind Farm Layout Optimization\"",
+      "result": "refreshed_homepage_snapshot_checked"
+    },
+    {
+      "authority": "doi_publisher_supplement_and_data_statement",
+      "url": "https://doi.org/10.1109/cpeee69412.2026.11521465",
+      "query": "10.1109/cpeee69412.2026.11521465",
+      "result": "paper_and_existing_supplement_ledger_checked"
+    },
+    {
+      "authority": "paper_author_or_coauthor_linked_repository",
+      "url": "not_available",
+      "query": "\"10.1109/cpeee69412.2026.11521465\" \"A Topology-Driven Multi-Objective Evolutionary Algorithm for Offshore Wind Farm Layout Optimization\"",
+      "result": "no_direct_public_asset_recorded"
+    },
+    {
+      "authority": "author_coauthor_github",
+      "url": "https://github.com/search?q=10.1109%2Fcpeee69412.2026.11521465&type=repositories",
+      "query": "10.1109/cpeee69412.2026.11521465",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "general_research_data_repositories",
+      "url": "https://zenodo.org/search?q=10.1109%2Fcpeee69412.2026.11521465",
+      "query": "10.1109/cpeee69412.2026.11521465; Figshare; OSF; institutional repository",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "cited_implementation_and_predecessor_work",
+      "url": "https://doi.org/10.1109/cpeee69412.2026.11521465",
+      "query": "A Topology-Driven Multi-Objective Evolutionary Algorithm for Offshore Wind Farm Layout Optimization cited implementation predecessor",
+      "result": "paper_reference_and_project_ledger_checked"
+    },
+    {
+      "authority": "same_author_problem_or_method_family",
+      "url": "https://toyamaailab.github.io/sourcedata.html",
+      "query": "Yixin Shao; Baohang Zhang; Wenzhu Gu; Zhenyu Lei; Shangce Gao wind farm source data",
+      "result": "refreshed_source_page_and_lineage_ledger_checked"
+    }
+  ],
+  "discovered_assets": [
+    {
+      "authority": "paper_homepage_crossref_and_github_bounded_search",
+      "url": "not_available",
+      "revision_or_sha256": "paper:sha256:ee24999861a2a42766bd62bca509bf3bc0334e6b654a61f72fd55ba829f20873;related_WFLO-GGA_commit:6ce41326e6c1d3685a01e038baf6d1d07aa46126",
+      "license_observation": "no_public_method_source_found;related_assets_not_proven_identical",
+      "redistribution_policy": "paper_only",
+      "relationship": "direct_target_or_project_author_asset"
+    }
+  ],
+  "available_evidence": [
+    "validated_complete",
+    "bounded_search_no_public_source_same_author_nysted_proxy_available"
+  ],
+  "missing_method_or_problem_fields": [
+    "paper-used boundary coordinates",
+    "twelve joint wind bins and probabilities",
+    "manufacturer power curve",
+    "substation coordinate",
+    "cable type costs, installation allowances, and rated currents",
+    "candidate point set, Poisson seed, and reference front",
+    "cable-topology decision encoding and variation",
+    "method that constructs or optimizes each radial network",
+    "k in the k-nearest-neighbor graph",
+    "crossover probability, mutation probability, and duplicate repair",
+    "topology-mutation application probability and tie rules"
+  ],
+  "negative_evidence_boundary": "Search is dated and bounded; later author releases require a new dossier."
+}

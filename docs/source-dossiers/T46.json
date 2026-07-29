@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T46",
+  "doi": "10.1016/j.swevo.2025.101972",
+  "title": "Probabilistic Bootstrap-Based Evolutionary Algorithm for Three-Objective Wind Farm Turbine Position Optimization",
+  "query_date": "2026-07-29",
+  "search_basis": [
+    "Shangce Gao homepage corpus refreshed at 2026-07-29T02:36:14Z",
+    "repository source_asset_registry and paper/problem ledgers",
+    "bounded authority ladder recorded below"
+  ],
+  "conclusion": "project_or_paper_asset_recorded",
+  "searched_authorities": [
+    {
+      "authority": "official_author_homepage",
+      "url": "https://toyamaailab.github.io/publications.html",
+      "query": "\"10.1016/j.swevo.2025.101972\" \"Probabilistic Bootstrap-Based Evolutionary Algorithm for Three-Objective Wind Farm Turbine Position Optimization\"",
+      "result": "refreshed_homepage_snapshot_checked"
+    },
+    {
+      "authority": "doi_publisher_supplement_and_data_statement",
+      "url": "https://doi.org/10.1016/j.swevo.2025.101972",
+      "query": "10.1016/j.swevo.2025.101972",
+      "result": "paper_and_existing_supplement_ledger_checked"
+    },
+    {
+      "authority": "paper_author_or_coauthor_linked_repository",
+      "url": "not_publicly_redistributed",
+      "query": "\"10.1016/j.swevo.2025.101972\" \"Probabilistic Bootstrap-Based Evolutionary Algorithm for Three-Objective Wind Farm Turbine Position Optimization\"",
+      "result": "no_direct_public_asset_recorded"
+    },
+    {
+      "authority": "author_coauthor_github",
+      "url": "https://github.com/search?q=10.1016%2Fj.swevo.2025.101972&type=repositories",
+      "query": "10.1016/j.swevo.2025.101972",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "general_research_data_repositories",
+      "url": "https://zenodo.org/search?q=10.1016%2Fj.swevo.2025.101972",
+      "query": "10.1016/j.swevo.2025.101972; Figshare; OSF; institutional repository",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "cited_implementation_and_predecessor_work",
+      "url": "https://doi.org/10.1016/j.swevo.2025.101972",
+      "query": "Probabilistic Bootstrap-Based Evolutionary Algorithm for Three-Objective Wind Farm Turbine Position Optimization cited implementation predecessor",
+      "result": "paper_reference_and_project_ledger_checked"
+    },
+    {
+      "authority": "same_author_problem_or_method_family",
+      "url": "https://toyamaailab.github.io/sourcedata.html",
+      "query": "Chen Zhang; Haotian Li; Xiuxian Li; Jiujun Cheng; Zhenyu Lei; Shangce Gao wind farm source data",
+      "result": "refreshed_source_page_and_lineage_ledger_checked"
+    }
+  ],
+  "discovered_assets": [
+    {
+      "authority": "local_author_project_archive",
+      "url": "not_publicly_redistributed",
+      "revision_or_sha256": "tree_manifest_sha256:9802cea81a715008313326308d8e65b9de67d11f2c25f241d0f4e4b9fae03b94;code_asset_manifest_sha256:826e74c455782c27174e15caaf32db4ec316279d66afe4d796973970c7a3a17e",
+      "license_observation": "no_license_or_redistribution_notice_found",
+      "redistribution_policy": "do_not_redistribute",
+      "relationship": "direct_target_or_project_author_asset"
+    }
+  ],
+  "available_evidence": [
+    "validated_complete",
+    "local_matlab_bundle_hashed_no_license_partial_pcode"
+  ],
+  "missing_method_or_problem_fields": [],
+  "negative_evidence_boundary": "Search is dated and bounded; later author releases require a new dossier."
+}

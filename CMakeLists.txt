@@ -19,6 +19,11 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_evidence_authority.py
     )
     add_test(
+        NAME source_dossiers
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_source_dossiers.py
+    )
+    add_test(
         NAME lineage_r0_r4_completion
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_lineage_r0_r4.py
