@@ -60,6 +60,68 @@ def audit_reopened(rows: list[dict[str, str]]) -> None:
             )
 
 
+def audit_historical_reopened_regression(
+    rows: list[dict[str, str]],
+) -> None:
+    supersession = json.loads(
+        (
+            ROOT
+            / "evidence/development/"
+            "plan004_plan003_neural_h5_supersession_20260730.json"
+        ).read_text(encoding="utf-8")
+    )
+    compatibility = json.loads(
+        (
+            ROOT
+            / "shared/contracts/"
+            "hpc_learning_libtorch_backend_contract.json"
+        ).read_text(encoding="utf-8")
+    )
+    require(
+        supersession["supersedes_commit"] == "25db016",
+        "historical supersession commit differs",
+    )
+    require(
+        set(supersession["affected_corpus_ids"]) == LEARNING,
+        "historical reopened set differs",
+    )
+    require(
+        supersession["corrected_status"] == REOPENED
+        and supersession["prior_claim"] == "accepted_h5",
+        "historical reopened transition differs",
+    )
+    require(
+        supersession["historical_raw_results_changed"] is False,
+        "historical raw results were not preserved",
+    )
+    require(
+        compatibility["contract_id"] == "backend_compatibility_only_v1"
+        and compatibility["target_h5_admissible"] is False,
+        "generic compatibility probe became target-H5 admissible",
+    )
+    require(
+        {"target H5", "target H6", "formal backend selection"}
+        <= set(supersession["forbidden_uses"]),
+        "historical forbidden-use boundary differs",
+    )
+    current_learning = 0
+    for row in rows:
+        if row["corpus_id"] not in LEARNING:
+            continue
+        data = json.loads(
+            validation_path(row["analysis_path"]).read_text(encoding="utf-8")
+        )
+        h5 = data["H5_bounded_equivalence"]
+        require(
+            h5["status"] == "accepted_h5"
+            and h5["independent_reference"]["does_not_call_candidate"]
+            is True,
+            f"{row['pair_id']}: current closure lost independent H5",
+        )
+        current_learning += 1
+    require(current_learning == 3, "current learning target count differs")
+
+
 def audit_strict(rows: list[dict[str, str]]) -> None:
     accepted = 0
     for row in rows:
@@ -129,6 +191,9 @@ def main() -> int:
     parser.add_argument("--scope", choices=("core",), required=True)
     modes = parser.add_mutually_exclusive_group(required=True)
     modes.add_argument("--expect-reopened-learning", action="store_true")
+    modes.add_argument(
+        "--historical-reopened-regression", action="store_true"
+    )
     modes.add_argument("--strict", action="store_true")
     args = parser.parse_args()
     with REGISTRY.open(encoding="utf-8", newline="") as handle:
@@ -139,6 +204,14 @@ def main() -> int:
         print(
             "hpc_equivalence_audit_pass pairs=23 "
             "learning_reopened=3 generic_target_h5_admissible=no mode=reopened"
+        )
+    elif args.historical_reopened_regression:
+        audit_historical_reopened_regression(rows)
+        print(
+            "hpc_equivalence_audit_pass pairs=23 "
+            "historical_learning_reopened=3 "
+            "generic_target_h5_admissible=no "
+            "current_learning_h5=accepted mode=historical-regression"
         )
     else:
         audit_strict(rows)

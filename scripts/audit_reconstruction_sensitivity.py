@@ -8,6 +8,8 @@ import hashlib
 import json
 from pathlib import Path
 
+from historical_binary_receipts import verify_historical_binary
+
 
 ROOT = Path(__file__).resolve().parents[1]
 ALLOWED = {
@@ -149,8 +151,11 @@ def main() -> int:
         or fqfode_receipt["compute_backend"] != "cpu"
     ):
         fail("S04 sensitivity workload or seed contract drifted")
-    if digest(fqfode_receipt["binary_path"]) != fqfode_receipt["binary_sha256"]:
-        fail("S04 sensitivity binary hash changed")
+    verify_historical_binary(
+        "wflop_cpp_hpc",
+        fqfode_receipt["binary_path"],
+        fqfode_receipt["binary_sha256"],
+    )
     artifact = fqfode_receipt["independent_stage_artifact"]
     if (
         digest(artifact["path"]) != artifact["sha256"]
@@ -229,9 +234,17 @@ def main() -> int:
         )
     ):
         fail("T43/T45/Y36 sensitivity boundary drifted")
-    for binary in sensitivity["binaries"].values():
-        if digest(binary["path"]) != binary["sha256"]:
-            fail(f"sensitivity binary hash changed: {binary['path']}")
+    sensitivity_targets = {
+        "wflop": "wflop_cpp_hpc",
+        "ppga": "ppga_nantong_hpc",
+        "taae": "taae_evolution_hpc",
+    }
+    for name, binary in sensitivity["binaries"].items():
+        verify_historical_binary(
+            sensitivity_targets[name],
+            binary["path"],
+            binary["sha256"],
+        )
 
     expected_family_profiles = {
         "T45": {

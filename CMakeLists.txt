@@ -62,6 +62,13 @@ if(BUILD_TESTING)
             --strict
     )
     add_test(
+        NAME hpc_learning_h5_historical_reopened_regression
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_hpc_equivalence.py
+            --scope core
+            --historical-reopened-regression
+    )
+    add_test(
         NAME hpc_core_h5_validation_receipts
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_hpc_core_h5_validation.py

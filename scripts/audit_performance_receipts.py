@@ -9,6 +9,11 @@ import math
 import re
 from pathlib import Path
 
+from historical_binary_receipts import (
+    verify_historical_binary,
+    verify_historical_source,
+)
+
 
 ROOT = Path(__file__).resolve().parents[1]
 SHA256 = re.compile(r"^[0-9a-f]{64}$")
@@ -257,8 +262,11 @@ def main() -> int:
                 fail(f"execution spec lacks {key}")
         require_sha256(spec["binary_sha256"], f"{spec['binary_target']} binary")
         require_sha256(spec["asset_sha256"], f"{spec['case_id']} asset")
-        if digest(spec["binary_path"]) != spec["binary_sha256"]:
-            fail(f"execution binary hash changed: {spec['binary_path']}")
+        verify_historical_binary(
+            spec["binary_target"],
+            spec["binary_path"],
+            spec["binary_sha256"],
+        )
         if digest(spec["asset_path"]) != spec["asset_sha256"]:
             fail(f"execution asset hash changed: {spec['asset_path']}")
         command = spec["command_template"]
@@ -426,8 +434,11 @@ def main() -> int:
     for group in contract["coverage_groups"]:
         if digest(group["evidence_path"]) != group["evidence_sha256"]:
             fail(f"accepted evidence hash changed: {group['evidence_path']}")
-        if digest(group["oracle_path"]) != group["oracle_sha256"]:
-            fail(f"oracle hash changed: {group['oracle_path']}")
+        verify_historical_source(
+            group["oracle_path"],
+            group["oracle_sha256"],
+            contract["baseline_commit"],
+        )
     print(
         "performance_receipt_audit_pass "
         f"profiles={len(expected)} quality_seeds={len(seeds)} "
