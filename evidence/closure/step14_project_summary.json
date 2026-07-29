@@ -19,6 +19,48 @@
       "bde__bde2025_source_replay_ws1_ws4"
     ]
   },
+  "completed_spark2_result_reuse": {
+    "accepted_artifact_integrity": [
+      {
+        "campaign_id": "eighteen_algorithm_cpp_hpc_spark2_v3",
+        "expected_manifest_entries": 25,
+        "status": "all_content_hashes_match",
+        "verified_manifest_entries": 25
+      },
+      {
+        "campaign_id": "bde_source_replay_spark2_v1",
+        "expected_manifest_entries": 27,
+        "status": "all_content_hashes_match",
+        "verified_manifest_entries": 27
+      },
+      {
+        "campaign_id": "pbea_six_algorithm_spark2_v1",
+        "expected_result_files": 9600,
+        "status": "all_front_and_summary_files_match",
+        "verification_fields": [
+          "bytes",
+          "sha256"
+        ],
+        "verified_result_files": 9600
+      },
+      {
+        "campaign_id": "offshore_cpp_hpc_spark2_v1",
+        "expected_manifest_entries": 426,
+        "status": "all_content_hashes_match",
+        "verified_manifest_entries": 426
+      }
+    ],
+    "claim_boundary": "This lightweight reference records completion, byte identity, counts, and exact-semantic deduplication only. It does not copy raw results and does not create a new quality or performance claim.",
+    "completed_optimization_source_commit": "2299a13d4de6e5d8e4b324ed27ce92f2ab3e99b1",
+    "evidence_id": "spark2_completed_suite_reference_v1",
+    "excluded_completed_profile_ids": [
+      "moead__zhang2025_three_objective",
+      "morime__zhang2025_three_objective",
+      "armoea__zhang2025_three_objective",
+      "geoga__admitted_gga_problem_asset_proxy"
+    ],
+    "runtime_state": "completed"
+  },
   "evidence_dimensions": {
     "execution_facets": [
       {
@@ -421,7 +463,7 @@
         "method_semantics_id": "gga_geometry_repaired_problem_physical_fes_v1",
         "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
         "problem_id": "gga2026_layout_cable",
-        "problem_semantics_id": "gga2026_layout_cable_repaired_v1",
+        "problem_semantics_id": "geojson_radians_ct_rss_repaired_v1",
         "profile_id": "gga__gga2026_layout_cable"
       },
       {
@@ -433,7 +475,7 @@
         "method_semantics_id": "geoga_declared_reconstruction_v1",
         "problem_evidence_tier": "P3_DECLARED_PROXY",
         "problem_id": "admitted_gga_problem_asset_proxy",
-        "problem_semantics_id": "gga2026_layout_cable_repaired_v1",
+        "problem_semantics_id": "geojson_radians_ct_rss_repaired_v1",
         "profile_id": "geoga__admitted_gga_problem_asset_proxy"
       },
       {
@@ -457,7 +499,7 @@
         "method_semantics_id": "tmoea_nysted_gga_asset_reconstruction_v1",
         "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
         "problem_id": "nysted_gga_asset_reconstruction",
-        "problem_semantics_id": "gga2026_layout_cable_repaired_v1",
+        "problem_semantics_id": "geojson_radians_ct_rss_repaired_v1",
         "profile_id": "tmoea__nysted_gga_asset_reconstruction"
       },
       {
@@ -583,7 +625,7 @@
       {
         "admission_status": "development_admitted_reconstruction",
         "algorithm_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
-        "claim_boundary": "Corrected bounded PPGA v2 engineering reconstruction on four separate Nantong-structured P3 cases; original Nantong arrays, author transitions, paper results, formal results, hybrid, and GPU execution remain blocked.",
+        "claim_boundary": "Corrected bounded PPGA v2 engineering reconstruction on 16 declared-proxy benchmark cases (4 wind scenarios × 4 turbine counts); original Nantong arrays, author transitions, paper results, formal results, hybrid, and GPU remain blocked.",
         "formal_status": "development_only_original_blocked_v1_invalidated",
         "method_evidence_tier": "M3_DECLARED_COMPLETION",
         "method_semantics_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
@@ -774,25 +816,34 @@
   "source_baseline_commit": "a1061177342c4d26df7746bb6008f760503302d1",
   "suite_manifests": [
     {
-      "campaign_count": 11,
+      "active_profile_count": 11,
+      "campaign_count": 9,
       "claim_boundary": null,
+      "observed_runtime_state": "no_completion_receipt_in_step14_reference",
       "path": "formal/contracts/declared_reconstruction_formal_suite_v1.json",
+      "reused_completed_profile_count": 4,
       "status": "contract_frozen_not_launched",
       "suite_id": "declared_reconstruction_formal_suite_v1",
-      "total_optimization_runs": 6625
+      "total_optimization_runs": 4025
     },
     {
+      "active_profile_count": null,
       "campaign_count": 4,
       "claim_boundary": "The four campaigns have different mathematical problems and provenance levels. Their quality results and reproduction claims remain separate even though they share the C++ HPC infrastructure.",
+      "observed_runtime_state": "completed",
       "path": "formal/contracts/spark2_campaign_suite_v1.json",
+      "reused_completed_profile_count": 0,
       "status": "approved_for_spark2_formal_execution",
       "suite_id": "spark2_campaign_suite_v1",
       "total_optimization_runs": 28325
     },
     {
+      "active_profile_count": null,
       "campaign_count": 4,
       "claim_boundary": "The four campaigns have different mathematical problems and provenance levels. Their quality results and reproduction claims remain separate even though they share the C++ HPC infrastructure.",
+      "observed_runtime_state": "no_completion_receipt_in_step14_reference",
       "path": "formal/contracts/waffle_campaign_suite_v1.json",
+      "reused_completed_profile_count": 0,
       "status": "development_admitted_waiting_for_waffle",
       "suite_id": "waffle_campaign_suite_v1",
       "total_optimization_runs": 28325

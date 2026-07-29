@@ -3,6 +3,19 @@
   "receipt_id": "step11_profile_runs_spark_20260729",
   "baseline_commit": "f4cf564e60cfc2fbba804c49d0866f3aff82de59",
   "claim_boundary": "Bounded three-seed and 1/20/20-worker development observations on shared Spark only. No formal, original-paper, universal-speedup, or cross-problem ranking claim.",
+  "provenance_corrections": [
+    {
+      "profile_id": "geoga__admitted_gga_problem_asset_proxy",
+      "field": "problem_semantics_id",
+      "recorded_value": "gga2026_layout_cable_repaired_v1",
+      "corrected_value": "geojson_radians_ct_rss_repaired_v1",
+      "authority": [
+        "shared/contracts/gga_problem_semantics.json#canonical_semantics_id",
+        "shared/contracts/gga_execution_contract.json#problem_semantics_id"
+      ],
+      "scope": "metadata identity correction only; raw development observations, scientific fields, and hashes are unchanged"
+    }
+  ],
   "host": {
     "hostname": "spark-9b6f",
     "architecture": "aarch64",
@@ -536,7 +549,7 @@
     {
       "profile_id": "geoga__admitted_gga_problem_asset_proxy",
       "method_semantics_id": "geoga_declared_reconstruction_v1",
-      "problem_semantics_id": "gga2026_layout_cable_repaired_v1",
+      "problem_semantics_id": "geojson_radians_ct_rss_repaired_v1",
       "physical_fes": 100,
       "repeat": {
         "workers": [

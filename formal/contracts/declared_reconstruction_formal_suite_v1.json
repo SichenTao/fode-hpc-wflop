@@ -109,8 +109,10 @@
       2026073125
     ]
   },
-  "profile_count": 15,
-  "campaign_count": 11,
+  "profile_count": 11,
+  "coverage_profile_count": 15,
+  "campaign_count": 9,
+  "reuse_analysis_contract_count": 2,
   "included_profile_ids": [
     "alga_attention_declared_reconstruction_v1__fode_e0_common",
     "fqfode_seeded_training_declared_reconstruction_v1__fode_e0_common",
@@ -121,12 +123,18 @@
     "ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1",
     "bde__bde2025_ws5_paper250_declared_proxy_v1",
     "bde__bde2025_ws6_paper250_declared_proxy_v1",
-    "geoga__admitted_gga_problem_asset_proxy",
     "geoga__geoga_anholt_structured_declared_proxy_v1",
-    "tmoea__nysted_paper_eq16_cpu_r4_v2",
+    "tmoea__nysted_paper_eq16_cpu_r4_v2"
+  ],
+  "reused_completed_profile_ids": [
     "moead__zhang2025_three_objective",
     "morime__zhang2025_three_objective",
-    "armoea__zhang2025_three_objective"
+    "armoea__zhang2025_three_objective",
+    "geoga__admitted_gga_problem_asset_proxy"
+  ],
+  "reuse_analysis_contracts": [
+    "formal/contracts/declared_pbea_reconstructions_v1.json",
+    "formal/contracts/declared_geoga_gga_proxy_reconstruction_v1.json"
   ],
   "matrix_profiles_deliberately_excluded": [
     {
@@ -136,6 +144,22 @@
     {
       "profile_id": "tmoea__nysted_gga_asset_reconstruction",
       "reason": "historical development admission remains governed by the preserved host formal suites; this suite freezes the corrected paper Eq.16 v2 semantic only"
+    },
+    {
+      "profile_id": "moead__zhang2025_three_objective",
+      "reason": "completed exact profile reused from pbea_six_algorithm_spark2_v1; no duplicate optimization launch"
+    },
+    {
+      "profile_id": "morime__zhang2025_three_objective",
+      "reason": "completed exact profile reused from pbea_six_algorithm_spark2_v1; no duplicate optimization launch"
+    },
+    {
+      "profile_id": "armoea__zhang2025_three_objective",
+      "reason": "completed exact profile reused from pbea_six_algorithm_spark2_v1; no duplicate optimization launch"
+    },
+    {
+      "profile_id": "geoga__admitted_gga_problem_asset_proxy",
+      "reason": "completed exact profile reused from offshore_cpp_hpc_spark2_v1; no duplicate optimization launch"
     }
   ],
   "campaign_contracts": [
@@ -146,10 +170,8 @@
     "formal/contracts/declared_ppga_nantong_reconstruction_v1.json",
     "formal/contracts/declared_bde_ws5_reconstruction_v1.json",
     "formal/contracts/declared_bde_ws6_reconstruction_v1.json",
-    "formal/contracts/declared_geoga_gga_proxy_reconstruction_v1.json",
     "formal/contracts/declared_geoga_anholt_reconstruction_v1.json",
-    "formal/contracts/declared_tmoea_eq16_reconstruction_v1.json",
-    "formal/contracts/declared_pbea_reconstructions_v1.json"
+    "formal/contracts/declared_tmoea_eq16_reconstruction_v1.json"
   ],
   "campaigns": [
     {"campaign_id": "declared_fode_common_reconstructions_v1", "contract": "formal/contracts/declared_fode_common_reconstructions_v1.json", "profile_count": 2, "case_count": 50, "physical_fes_per_run": 24000, "optimization_runs": 2500, "complete_layout_evaluations": 60000000},
@@ -159,15 +181,13 @@
     {"campaign_id": "declared_ppga_nantong_reconstruction_v1", "contract": "formal/contracts/declared_ppga_nantong_reconstruction_v1.json", "profile_count": 1, "case_count": 16, "physical_fes_per_run": 1500, "optimization_runs": 400, "complete_layout_evaluations": 600000},
     {"campaign_id": "declared_bde_ws5_reconstruction_v1", "contract": "formal/contracts/declared_bde_ws5_reconstruction_v1.json", "profile_count": 1, "case_count": 6, "physical_fes_per_run": 10000, "optimization_runs": 150, "complete_layout_evaluations": 1500000},
     {"campaign_id": "declared_bde_ws6_reconstruction_v1", "contract": "formal/contracts/declared_bde_ws6_reconstruction_v1.json", "profile_count": 1, "case_count": 6, "physical_fes_per_run": 10000, "optimization_runs": 150, "complete_layout_evaluations": 1500000},
-    {"campaign_id": "declared_geoga_gga_proxy_reconstruction_v1", "contract": "formal/contracts/declared_geoga_gga_proxy_reconstruction_v1.json", "profile_count": 1, "case_count": 8, "physical_fes_per_run": 10000, "optimization_runs": 200, "complete_layout_evaluations": 2000000},
     {"campaign_id": "declared_geoga_anholt_reconstruction_v1", "contract": "formal/contracts/declared_geoga_anholt_reconstruction_v1.json", "profile_count": 1, "case_count": 1, "physical_fes_per_run": 10000, "optimization_runs": 25, "complete_layout_evaluations": 250000},
-    {"campaign_id": "declared_tmoea_eq16_reconstruction_v1", "contract": "formal/contracts/declared_tmoea_eq16_reconstruction_v1.json", "profile_count": 1, "case_count": 1, "physical_fes_per_run": 3000, "optimization_runs": 25, "complete_layout_evaluations": 75000},
-    {"campaign_id": "declared_pbea_reconstructions_v1", "contract": "formal/contracts/declared_pbea_reconstructions_v1.json", "profile_count": 3, "case_count": 32, "physical_fes_per_run": 10100, "optimization_runs": 2400, "complete_layout_evaluations": 24240000}
+    {"campaign_id": "declared_tmoea_eq16_reconstruction_v1", "contract": "formal/contracts/declared_tmoea_eq16_reconstruction_v1.json", "profile_count": 1, "case_count": 1, "physical_fes_per_run": 3000, "optimization_runs": 25, "complete_layout_evaluations": 75000}
   ],
-  "total_optimization_runs": 6625,
-  "total_campaign_physical_layout_evaluations": 106125750,
+  "total_optimization_runs": 4025,
+  "total_campaign_physical_layout_evaluations": 79885750,
   "one_time_offline_training_physical_fes": 39700,
-  "total_physical_layout_evaluations_including_one_time_offline_training": 106165450,
+  "total_physical_layout_evaluations_including_one_time_offline_training": 79925450,
   "training_work_accounting": {
     "offline_training": "offline training physical FES are recorded separately and are not subtracted from a formal inference budget; FQFODE contributes one frozen shared 39700-FES artifact-training receipt",
     "online_training": "every online training action that calls a physical evaluator counts inside the run total; RLPSO training_physical_fes plus inference_physical_fes equals exactly 24000",
@@ -178,12 +198,26 @@
     "zero_fes_training": "model updates that reuse already evaluated fitness targets record compute work and zero additional physical FES, including ALGA attention and TAAE bounded training",
     "optimization_and_training_seed_namespaces_are_disjoint": true
   },
+  "reporting_instrumentation_gate": {
+    "status": "required_not_yet_admitted",
+    "scope": "seven active scalar campaign contracts covering nine scalar profile routes through four distinct C++ binary targets",
+    "active_scalar_campaign_contract_count": 7,
+    "active_scalar_profile_route_count": 9,
+    "distinct_cpp_binary_target_count": 4,
+    "binary_targets": ["wflop_cpp_hpc", "ppga_nantong_hpc", "bde_ws56_hpc", "geoga_anholt_hpc"],
+    "launch_blocked_until_validator_passes": true,
+    "validator_requirement": "one bounded run per active scalar profile route, including each distinct output path, must emit every exact physical-FES checkpoint, is_feasible, total_constraint_violation, constraint_violation_components, end_to_end_wall_seconds, evaluator_wall_seconds, and algorithm_wall_seconds",
+    "trajectory_source": "checkpoints emitted from one optimization run",
+    "multi_budget_rerun_stitching_prohibited": true,
+    "formal_launch_ready": false
+  },
   "scientific_invariants": {
     "distinct_semantic_profiles_are_never_pooled": true,
     "optimization_work_is_reported_as_physical_layout_evaluations": true,
     "training_seed_namespace_is_disjoint_from_optimization_seed_namespace": true,
     "training_work_has_an_explicit_offline_online_or_zero_fes_ledger": true,
     "resume_requires_atomic_complete_result_validation": true,
-    "binary_environment_and_source_commit_are_frozen": true
+    "binary_environment_and_source_commit_are_frozen": true,
+    "scalar_reporting_is_fail_closed_until_bounded_instrumentation_admission": true
   }
 }

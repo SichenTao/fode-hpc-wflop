@@ -283,6 +283,7 @@ def audit_receipt(summary: dict[str, Any]) -> dict[str, Any]:
         ROOT / "shared/contracts/executable_profile_evidence.json",
         ROOT / "shared/contracts/global_execution_capability_matrix.json",
         ROOT / "formal/contracts/declared_reconstruction_formal_suite_v1.json",
+        ROOT / "evidence/closure/spark2_completed_suite_reference.json",
     ]
     assert_equal(
         receipt["authority_registries"],
@@ -491,6 +492,9 @@ def audit_preservation() -> tuple[int, int]:
 
 
 def audit_step14_evidence_scope() -> None:
+    corrected_development_path = (
+        "evidence/development/step11_profile_runs_spark_20260729.json"
+    )
     result = subprocess.run(
         [
             "git",
@@ -507,7 +511,7 @@ def audit_step14_evidence_scope() -> None:
     )
     for line in result.stdout.splitlines():
         path = line[3:]
-        if not path.startswith("evidence/closure/"):
+        if not path.startswith("evidence/closure/") and path != corrected_development_path:
             fail(f"Step-14 modified non-closure evidence: {path}")
 
     result = subprocess.run(
@@ -527,8 +531,60 @@ def audit_step14_evidence_scope() -> None:
         capture_output=True,
     )
     for path in result.stdout.splitlines():
-        if path and not path.startswith("evidence/closure/"):
+        if (
+            path
+            and not path.startswith("evidence/closure/")
+            and path != corrected_development_path
+        ):
             fail(f"Historical evidence/result differs from source baseline: {path}")
+
+    baseline = json.loads(
+        bytes_at_commit(SOURCE_BASELINE_COMMIT, corrected_development_path)
+        .decode("utf-8")
+    )
+    corrected = read_json(corrected_development_path)
+    corrections = corrected.pop("provenance_corrections")
+    assert_equal(len(corrections), 1, "Step-11 semantic correction count")
+    correction = corrections[0]
+    baseline_target = next(
+        item
+        for item in baseline["profiles"]
+        if item["profile_id"] == "geoga__admitted_gga_problem_asset_proxy"
+    )
+    assert_equal(
+        correction,
+        {
+            "profile_id": "geoga__admitted_gga_problem_asset_proxy",
+            "field": "problem_semantics_id",
+            "recorded_value": baseline_target["problem_semantics_id"],
+            "corrected_value": "geojson_radians_ct_rss_repaired_v1",
+            "authority": [
+                "shared/contracts/gga_problem_semantics.json#canonical_semantics_id",
+                "shared/contracts/gga_execution_contract.json#problem_semantics_id",
+            ],
+            "scope": (
+                "metadata identity correction only; raw development observations, "
+                "scientific fields, and hashes are unchanged"
+            ),
+        },
+        "Step-11 semantic correction provenance",
+    )
+    target = next(
+        item
+        for item in corrected["profiles"]
+        if item["profile_id"] == correction["profile_id"]
+    )
+    assert_equal(
+        target["problem_semantics_id"],
+        correction["corrected_value"],
+        "Step-11 corrected problem semantic",
+    )
+    target["problem_semantics_id"] = correction["recorded_value"]
+    assert_equal(
+        corrected,
+        baseline,
+        "Step-11 evidence changed beyond the admitted semantic metadata correction",
+    )
 
 
 def main() -> int:

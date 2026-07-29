@@ -18,6 +18,8 @@ DECLARED_SUITE = (
     ROOT / "formal/contracts/declared_reconstruction_formal_suite_v1.json"
 )
 PROFILE_REGISTRY = ROOT / "shared/contracts/executable_profile_evidence.json"
+SCALAR_REPORTING = ROOT / "shared/contracts/single_objective_reporting_contract.json"
+COMPLETION_REFERENCE = ROOT / "evidence/closure/spark2_completed_suite_reference.json"
 CAPABILITY_MATRIX = (
     ROOT / "shared/contracts/global_execution_capability_matrix.json"
 )
@@ -82,12 +84,14 @@ EXPECTED_PROFILES = (
     "ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1",
     "bde__bde2025_ws5_paper250_declared_proxy_v1",
     "bde__bde2025_ws6_paper250_declared_proxy_v1",
-    "geoga__admitted_gga_problem_asset_proxy",
     "geoga__geoga_anholt_structured_declared_proxy_v1",
     "tmoea__nysted_paper_eq16_cpu_r4_v2",
+)
+EXPECTED_REUSED_PROFILES = (
     "moead__zhang2025_three_objective",
     "morime__zhang2025_three_objective",
     "armoea__zhang2025_three_objective",
+    "geoga__admitted_gga_problem_asset_proxy",
 )
 EXPECTED_CAMPAIGNS = (
     (
@@ -126,14 +130,6 @@ EXPECTED_CAMPAIGNS = (
     ("declared_bde_ws5_reconstruction_v1", 1, 6, 10000, 150, 1500000),
     ("declared_bde_ws6_reconstruction_v1", 1, 6, 10000, 150, 1500000),
     (
-        "declared_geoga_gga_proxy_reconstruction_v1",
-        1,
-        8,
-        10000,
-        200,
-        2000000,
-    ),
-    (
         "declared_geoga_anholt_reconstruction_v1",
         1,
         1,
@@ -149,15 +145,55 @@ EXPECTED_CAMPAIGNS = (
         25,
         75000,
     ),
-    (
-        "declared_pbea_reconstructions_v1",
-        3,
-        32,
-        10100,
-        2400,
-        24240000,
-    ),
 )
+REUSE_ANALYSIS_CONTRACTS = (
+    "formal/contracts/declared_pbea_reconstructions_v1.json",
+    "formal/contracts/declared_geoga_gga_proxy_reconstruction_v1.json",
+)
+SCALAR_CAMPAIGNS = {
+    "declared_fode_common_reconstructions_v1": {
+        "objective": ("maximize", "expected_farm_power", "kW"),
+        "checkpoints": [240, 1200, 2400, 4800, 12000, 18000, 24000],
+        "mode": "per_exact_case_seed_paired",
+        "hypotheses": 50,
+    },
+    "declared_alga_guishan_reconstruction_v1": {
+        "objective": ("maximize", "expected_farm_power", "kW"),
+        "checkpoints": [25, 122, 243, 486, 1215, 1823, 2430],
+        "mode": "descriptive_only",
+        "hypotheses": 0,
+    },
+    "declared_rlpso_reconstructions_v1": {
+        "objective": ("maximize", "expected_farm_power", "kW"),
+        "checkpoints": [240, 1200, 2400, 4800, 12000, 18000, 24000],
+        "mode": "per_exact_case_seed_paired",
+        "hypotheses": 12,
+    },
+    "declared_ppga_nantong_reconstruction_v1": {
+        "objective": ("maximize", "conversion_efficiency_ratio", "dimensionless"),
+        "checkpoints": [15, 75, 150, 300, 750, 1125, 1500],
+        "mode": "descriptive_only",
+        "hypotheses": 0,
+    },
+    "declared_bde_ws5_reconstruction_v1": {
+        "objective": ("maximize", "expected_farm_power", "kW"),
+        "checkpoints": [100, 500, 1000, 2000, 5000, 7500, 10000],
+        "mode": "descriptive_only",
+        "hypotheses": 0,
+    },
+    "declared_bde_ws6_reconstruction_v1": {
+        "objective": ("maximize", "expected_farm_power", "kW"),
+        "checkpoints": [100, 500, 1000, 2000, 5000, 7500, 10000],
+        "mode": "descriptive_only",
+        "hypotheses": 0,
+    },
+    "declared_geoga_anholt_reconstruction_v1": {
+        "objective": ("maximize", "annual_energy_production", "kWh/year"),
+        "checkpoints": [100, 500, 1000, 2000, 5000, 7500, 10000],
+        "mode": "descriptive_only",
+        "hypotheses": 0,
+    },
+}
 EXPECTED_ENVIRONMENT = {
     "environment_contract_id": "spark_9b6f_cpu20_gcc11_release_v1",
     "hostname": "spark-9b6f",
@@ -367,6 +403,29 @@ def audit_declared_cross_sources() -> None:
         int(ppga_contract["case_count"]) == len(ppga["cases"]),
         "PPGA formal case count differs from authoritative manifest",
     )
+    expected_ppga_boundary = (
+        "Corrected bounded PPGA v2 engineering reconstruction on 16 "
+        "declared-proxy benchmark cases (4 wind scenarios × 4 turbine counts); "
+        "original Nantong arrays, author transitions, paper results, formal "
+        "results, hybrid, and GPU remain blocked."
+    )
+    require(
+        ppga_contract["profile_records"][0]["claim_boundary"]
+        == expected_ppga_boundary,
+        "PPGA contract does not state the exact 16-case declared-proxy boundary",
+    )
+    registry = {
+        row["profile_id"]: row
+        for row in read_json(PROFILE_REGISTRY)["profiles"]
+    }
+    ppga_profile = (
+        "ppga_nantong_structured_3d_declared_reconstruction_v2__"
+        "ppga_nantong_structured_3d_declared_proxy_v1"
+    )
+    require(
+        registry[ppga_profile]["claim_boundary"] == expected_ppga_boundary,
+        "PPGA registry and formal claim boundaries differ",
+    )
 
     bde = read_json(
         ROOT / "shared/contracts/bde_ws56_declared_proxy_cases.json"
@@ -388,9 +447,304 @@ def audit_declared_cross_sources() -> None:
         "PBEA WS1/WS2 by turbine-count case axis drift",
     )
 
+    gga_semantics = read_json(ROOT / "shared/contracts/gga_problem_semantics.json")
+    gga_execution = read_json(ROOT / "shared/contracts/gga_execution_contract.json")
+    canonical_gga = gga_semantics["canonical_semantics_id"]
+    require(
+        canonical_gga == "geojson_radians_ct_rss_repaired_v1"
+        and gga_execution["problem_semantics_id"] == canonical_gga,
+        "GGA canonical problem semantics drift",
+    )
+    for profile_id in (
+        "gga__gga2026_layout_cable",
+        "geoga__admitted_gga_problem_asset_proxy",
+        "tmoea__nysted_gga_asset_reconstruction",
+    ):
+        require(
+            registry[profile_id]["problem_semantics_id"] == canonical_gga,
+            f"{profile_id}: GGA canonical problem semantic differs",
+        )
+
+
+def audit_scalar_reporting(
+    campaign_id: str, contract: dict, *, case_count: int, physical_fes: int
+) -> None:
+    expected = SCALAR_CAMPAIGNS.get(campaign_id)
+    if expected is None:
+        require(
+            "single_objective_reporting" not in contract,
+            f"{campaign_id}: unexpected scalar reporting contract",
+        )
+        return
+    shared = read_json(SCALAR_REPORTING)
+    require(
+        shared["contract_id"] == "declared_single_objective_reporting_v1",
+        "shared scalar reporting contract identity differs",
+    )
+    require(
+        shared["primary_quality_metric"]["field"]
+        == "best_feasible_objective_at_budget_end"
+        and shared["primary_quality_metric"]["budget_completion_required"] is True,
+        "shared scalar primary metric differs",
+    )
+    require(
+        set(shared["feasibility_reporting"]["required_fields"])
+        == {
+            "is_feasible",
+            "total_constraint_violation",
+            "constraint_violation_components",
+        },
+        "shared scalar feasibility fields differ",
+    )
+    require(
+        shared["convergence_reporting"]["index"]
+        == "complete_layout_physical_fes"
+        and shared["convergence_reporting"]["final_checkpoint_equals_exact_budget"]
+        is True,
+        "shared scalar convergence index differs",
+    )
+    require(
+        set(shared["timing_reporting"]["required_seconds_fields"])
+        == {
+            "end_to_end_wall_seconds",
+            "evaluator_wall_seconds",
+            "algorithm_wall_seconds",
+        }
+        and "never" in shared["timing_reporting"]["quality_separation_rule"],
+        "shared scalar timing/quality separation differs",
+    )
+    require(
+        int(shared["per_exact_case_seed_summary"]["seed_count"]) == 25
+        and set(shared["per_exact_case_seed_summary"]["required_statistics"])
+        == {
+            "median",
+            "q1",
+            "q3",
+            "iqr",
+            "mean",
+            "sample_standard_deviation_ddof_1",
+        }
+        and shared["global_non_pooling_rule"],
+        "shared scalar seed summary or non-pooling rule differs",
+    )
+
+    reporting = contract["single_objective_reporting"]
+    require(
+        reporting["contract"]
+        == "shared/contracts/single_objective_reporting_contract.json"
+        and reporting["contract_id"] == shared["contract_id"],
+        f"{campaign_id}: scalar reporting authority differs",
+    )
+    require(
+        tuple(reporting["objective"].get(key) for key in ("direction", "quantity", "unit"))
+        == expected["objective"],
+        f"{campaign_id}: scalar objective direction, quantity, or unit differs",
+    )
+    require(
+        int(reporting["terminal_physical_fes"]) == physical_fes
+        and reporting["physical_fes_checkpoints"] == expected["checkpoints"]
+        and reporting["physical_fes_checkpoints"][-1] == physical_fes,
+        f"{campaign_id}: exact physical-FES checkpoints differ",
+    )
+    analysis = reporting["analysis"]
+    require(
+        analysis["mode"] == expected["mode"]
+        and int(analysis["exact_case_count"]) == case_count
+        and int(analysis["hypothesis_count"]) == expected["hypotheses"],
+        f"{campaign_id}: scalar analysis mode or hypothesis family differs",
+    )
+    require(
+        reporting["cross_case_pooling"] is False
+        and reporting["cross_problem_semantics_pooling"] is False,
+        f"{campaign_id}: scalar result pooling is not fail-closed",
+    )
+    if expected["mode"] == "per_exact_case_seed_paired":
+        require(
+            analysis["effect_size"] == "matched-pairs rank-biserial correlation"
+            and analysis["test"] == "Wilcoxon signed-rank"
+            and analysis["multiplicity_correction"] == "Holm step-down"
+            and analysis["profile_order"] == contract["profile_ids"],
+            f"{campaign_id}: paired scalar inference differs",
+        )
+
+
+def audit_completion_reference(*, require_external: bool) -> dict:
+    reference = read_json(COMPLETION_REFERENCE)
+    state = reference["suite_runtime_state"]
+    require(
+        state["state"] == "completed"
+        and int(state["exit_code"]) == 0
+        and state["completed_optimization_source_commit"]
+        == "2299a13d4de6e5d8e4b324ed27ce92f2ab3e99b1",
+        "Spark2 completion runtime state differs",
+    )
+    expected_receipts = {
+        "eighteen_algorithm_cpp_hpc_spark2_v3": (
+            390,
+            "4f28144ac4c4fe007e22fcc723cfe8ea0504b1274f3980326d1fd8effc51b849",
+            22500,
+            540000000,
+        ),
+        "bde_source_replay_spark2_v1": (
+            412,
+            "7b33022785b8e5d7fffd7d63e93026f26e1306b84d591ca96707631a6551a954",
+            600,
+            6000000,
+        ),
+        "pbea_six_algorithm_spark2_v1": (
+            1741342,
+            "b37915a8a908f9a35956b244b4d861475e86188c007775e10a77159b47b695fd",
+            4800,
+            48480000,
+        ),
+        "offshore_cpp_hpc_spark2_v1": (
+            356,
+            "76aa595d3415b3d9f8704d34f12f04c3bbe78e3348c5fed33c5fcf0980a98bd0",
+            425,
+            2675000,
+        ),
+    }
+    observed = {row["campaign_id"]: row for row in reference["campaign_receipts"]}
+    require(set(observed) == set(expected_receipts), "completion receipt set differs")
+    for campaign_id, (size, digest, runs, fes) in expected_receipts.items():
+        row = observed[campaign_id]
+        require(
+            int(row["bytes"]) == size
+            and row["sha256"] == digest
+            and row["status"] == "complete_file_matrix"
+            and int(row["formal_runs"]) == runs
+            and int(row["complete_layout_evaluations"]) == fes,
+            f"{campaign_id}: completion receipt metadata differs",
+        )
+    integrity = {
+        row["campaign_id"]: row
+        for row in reference["accepted_artifact_integrity"]["campaigns"]
+    }
+    require(
+        int(integrity["pbea_six_algorithm_spark2_v1"]["verified_result_files"])
+        == 9600
+        and int(
+            integrity["offshore_cpp_hpc_spark2_v1"]["verified_manifest_entries"]
+        )
+        == 426
+        and int(
+            integrity["eighteen_algorithm_cpp_hpc_spark2_v3"][
+                "verified_manifest_entries"
+            ]
+        )
+        == 25
+        and int(
+            integrity["bde_source_replay_spark2_v1"]["verified_manifest_entries"]
+        )
+        == 27,
+        "accepted artifact integrity counts differ",
+    )
+    replay = reference["bounded_cross_commit_replay"]["checks"]
+    require(
+        int(replay[0]["science_field_count"]) == 16
+        and replay[0]["all_listed_fields_equal"] is True
+        and int(replay[1]["summary_science_field_count"]) == 14
+        and replay[1]["front_equal"] is True
+        and replay[1]["summary_science_fields_equal"] is True,
+        "bounded cross-commit replay evidence differs",
+    )
+    if require_external:
+        files = [state["status_file"], *reference["campaign_receipts"]]
+        for record in files:
+            path = Path(record["absolute_path"])
+            require(path.is_file(), f"{path}: external authority file missing")
+            require(
+                path.stat().st_size == int(record["bytes"])
+                and sha256_file(path) == record["sha256"],
+                f"{path}: external authority bytes or SHA256 differ",
+            )
+    return reference
+
+
+def audit_reuse_contracts(suite: dict, registry: dict, reference: dict) -> None:
+    require(
+        tuple(suite["reuse_analysis_contracts"]) == REUSE_ANALYSIS_CONTRACTS,
+        "reuse analysis contract list differs",
+    )
+    require(
+        int(suite["reuse_analysis_contract_count"]) == len(REUSE_ANALYSIS_CONTRACTS),
+        "reuse analysis contract count differs",
+    )
+    contracts = [read_json(ROOT / path) for path in REUSE_ANALYSIS_CONTRACTS]
+    for contract in contracts:
+        require(
+            contract["status"]
+            == "completed_result_reuse_analysis_only_no_optimization_launch"
+            and contract["launchable"] is False
+            and int(contract["new_optimization_runs"]) == 0
+            and int(contract["new_complete_layout_evaluations"]) == 0,
+            f"{contract['campaign_id']}: reuse contract is launchable",
+        )
+        require(
+            contract["completed_result_reference"][
+                "completed_optimization_source_commit"
+            ]
+            == "2299a13d4de6e5d8e4b324ed27ce92f2ab3e99b1"
+            and contract["training_work_separation"]["training"]
+            == "not_applicable"
+            and "declared_reconstruction_25_v1"
+            not in contract["training_work_separation"]["optimization_seed_namespace"],
+            f"{contract['campaign_id']}: accepted source or seed namespace differs",
+        )
+        for row in contract["profile_records"]:
+            canonical = registry[row["profile_id"]]
+            for field in (
+                "method_semantics_id",
+                "problem_semantics_id",
+                "method_evidence_tier",
+                "problem_evidence_tier",
+                "claim_boundary",
+            ):
+                require(
+                    row[field] == canonical[field],
+                    f"{contract['campaign_id']}: {row['profile_id']} {field} differs",
+                )
+    pbea, geoga = contracts
+    require(
+        pbea["completed_result_reference"]["completed_family_algorithm_count"] == 6
+        and pbea["completed_result_reference"]["completed_family_run_count"] == 4800
+        and pbea["multiobjective_reporting"]["reference_front_scope"]
+        == "all_six_completed_profiles"
+        and len(pbea["multiobjective_reporting"]["reported_completed_algorithms"])
+        == 6
+        and pbea["multiobjective_reporting"]["convergence_trajectory"]
+        == "unavailable_from_accepted_artifacts"
+        and pbea["multiobjective_reporting"]["optimization_rerun_for_trajectory_prohibited"]
+        is True,
+        "PBEA six-algorithm reuse analysis differs",
+    )
+    geoga_reporting = geoga["single_objective_reuse_reporting"]
+    require(
+        geoga["semantic_group"]["problem_semantics_id"]
+        == "geojson_radians_ct_rss_repaired_v1"
+        and geoga_reporting["analysis_mode"] == "final_budget_descriptive_only"
+        and geoga_reporting["convergence_checkpoints"]
+        == "unavailable_from_accepted_artifacts"
+        and geoga_reporting["optimization_rerun_for_trajectory_prohibited"] is True
+        and geoga_reporting["timing_source_to_canonical_mapping"]
+        == {
+            "timing_seconds.end_to_end": "end_to_end_wall_seconds",
+            "timing_seconds.evaluator": "evaluator_wall_seconds",
+            "timing_seconds.algorithm": "algorithm_wall_seconds",
+        },
+        "GeoGA accepted final-budget reuse analysis differs",
+    )
+    require(
+        reference["geoga_completed_output_semantics"]["result_file_count"] == 200,
+        "GeoGA accepted result count differs",
+    )
+
 
 def audit_declared_suite(*, require_binaries: bool) -> None:
     suite = read_json(DECLARED_SUITE)
+    completion_reference = audit_completion_reference(
+        require_external=require_binaries
+    )
     matrix = read_json(CAPABILITY_MATRIX)
     registry_rows = read_json(PROFILE_REGISTRY)["profiles"]
     registry = {row["profile_id"]: row for row in registry_rows}
@@ -454,6 +808,18 @@ def audit_declared_suite(*, require_binaries: bool) -> None:
         "declared profile order or membership drift",
     )
     require(
+        tuple(suite["reused_completed_profile_ids"]) == EXPECTED_REUSED_PROFILES,
+        "reused completed profile order or membership drift",
+    )
+    active_profiles = set(EXPECTED_PROFILES)
+    reused_profiles = set(EXPECTED_REUSED_PROFILES)
+    require(
+        active_profiles.isdisjoint(reused_profiles)
+        and len(active_profiles | reused_profiles) == 15
+        and int(suite["coverage_profile_count"]) == 15,
+        "active/reused profile coverage is not a disjoint 15-profile union",
+    )
+    require(
         set(EXPECTED_PROFILES) <= matrix_profiles,
         "declared profile missing from capability matrix",
     )
@@ -464,6 +830,29 @@ def audit_declared_suite(*, require_binaries: bool) -> None:
     require(
         int(suite["campaign_count"]) == len(EXPECTED_CAMPAIGNS),
         "suite campaign count differs",
+    )
+    reporting_gate = suite["reporting_instrumentation_gate"]
+    require(
+        reporting_gate["status"] == "required_not_yet_admitted"
+        and reporting_gate["scope"]
+        == (
+            "seven active scalar campaign contracts covering nine scalar "
+            "profile routes through four distinct C++ binary targets"
+        )
+        and int(reporting_gate["active_scalar_campaign_contract_count"]) == 7
+        and int(reporting_gate["active_scalar_profile_route_count"]) == 9
+        and int(reporting_gate["distinct_cpp_binary_target_count"]) == 4
+        and reporting_gate["binary_targets"]
+        == [
+            "wflop_cpp_hpc",
+            "ppga_nantong_hpc",
+            "bde_ws56_hpc",
+            "geoga_anholt_hpc",
+        ]
+        and reporting_gate["launch_blocked_until_validator_passes"] is True
+        and reporting_gate["multi_budget_rerun_stitching_prohibited"] is True
+        and reporting_gate["formal_launch_ready"] is False,
+        "scalar reporting instrumentation gate is not fail-closed",
     )
     require(
         "training_work_and_training_fes_are_excluded_from_optimization_fes"
@@ -601,6 +990,12 @@ def audit_declared_suite(*, require_binaries: bool) -> None:
             bool(execution["cpu_work_partition"]),
             f"{campaign_id}: CPU work partition is missing",
         )
+        audit_scalar_reporting(
+            campaign_id,
+            contract,
+            case_count=case_count,
+            physical_fes=physical_fes,
+        )
 
         records = contract["profile_records"]
         require(
@@ -677,7 +1072,7 @@ def audit_declared_suite(*, require_binaries: bool) -> None:
     require(
         sum(int(contract["formal_run_count"]) for contract in contracts)
         == int(suite["total_optimization_runs"])
-        == 6625,
+        == 4025,
         "declared suite run total differs",
     )
     require(
@@ -686,7 +1081,7 @@ def audit_declared_suite(*, require_binaries: bool) -> None:
             for contract in contracts
         )
         == int(suite["total_campaign_physical_layout_evaluations"])
-        == 106125750,
+        == 79885750,
         "declared suite physical-evaluation total differs",
     )
     require(
@@ -696,7 +1091,7 @@ def audit_declared_suite(*, require_binaries: bool) -> None:
                 "total_physical_layout_evaluations_including_one_time_offline_training"
             ]
         )
-        == 106165450,
+        == 79925450,
         "declared suite offline-training accounting differs",
     )
 
@@ -708,6 +1103,7 @@ def audit_declared_suite(*, require_binaries: bool) -> None:
         == {
             "ppga__fode_e0_common",
             "tmoea__nysted_gga_asset_reconstruction",
+            *EXPECTED_REUSED_PROFILES,
         },
         "declared suite exclusion set differs",
     )
@@ -715,7 +1111,6 @@ def audit_declared_suite(*, require_binaries: bool) -> None:
     for campaign_id in (
         "declared_taae_reconstruction_v1",
         "declared_tmoea_eq16_reconstruction_v1",
-        "declared_pbea_reconstructions_v1",
     ):
         contract = next(
             row for row in contracts if row["campaign_id"] == campaign_id
@@ -741,6 +1136,42 @@ def audit_declared_suite(*, require_binaries: bool) -> None:
         "FQFODE offline-training artifact or FES ledger differs",
     )
 
+    scalar_contracts = [
+        contract
+        for contract in contracts
+        if "single_objective_reporting" in contract
+    ]
+    scalar_targets = {
+        contract["execution"]["binary_target"] for contract in scalar_contracts
+    }
+    require(
+        len(scalar_contracts)
+        == len(SCALAR_CAMPAIGNS)
+        == int(reporting_gate["active_scalar_campaign_contract_count"])
+        == 7,
+        "active scalar campaign reporting coverage differs",
+    )
+    require(
+        sum(len(contract["profile_ids"]) for contract in scalar_contracts)
+        == int(reporting_gate["active_scalar_profile_route_count"])
+        == 9,
+        "active scalar profile-route coverage differs",
+    )
+    require(
+        scalar_targets
+        == set(reporting_gate["binary_targets"])
+        == {
+            "wflop_cpp_hpc",
+            "ppga_nantong_hpc",
+            "bde_ws56_hpc",
+            "geoga_anholt_hpc",
+        }
+        and len(scalar_targets)
+        == int(reporting_gate["distinct_cpp_binary_target_count"])
+        == 4,
+        "active scalar binary-target coverage differs",
+    )
+    audit_reuse_contracts(suite, registry, completion_reference)
     audit_declared_cross_sources()
 
 
@@ -764,9 +1195,9 @@ def main() -> int:
     print(
         "formal_suite_contract_audit_pass "
         "legacy_suites=2 legacy_campaigns=8 "
-        "declared_suites=1 declared_campaigns=11 "
-        "declared_profiles=15 declared_runs=6625 "
-        "declared_complete_layout_evaluations=106125750 "
+        "declared_suites=1 active_campaigns=9 reuse_analysis_contracts=2 "
+        "active_profiles=11 reused_profiles=4 active_runs=4025 "
+        "active_complete_layout_evaluations=79885750 "
         "declared_offline_training_layout_evaluations=39700 "
         f"binary_gate={'required_and_verified' if args.require_binaries else 'verify_if_present'}"
     )

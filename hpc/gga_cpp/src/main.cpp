@@ -26,7 +26,7 @@ Method evidence tier: M3_DECLARED_COMPLETION.
 Problem evidence tier: P2_CITATION_SAME_AUTHOR.
 Method semantic ID: tmoea_nysted_gga_asset_reconstruction_v1 (historical) or
 tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2 (corrected R4).
-Problem semantic ID: gga2026_layout_cable_repaired_v1 on the historical
+Problem semantic ID: geojson_radians_ct_rss_repaired_v1 on the historical
 nysted_gga_asset_reconstruction problem, or
 tmoea_nysted_paper_wake_gga_router_problem_v1 on the corrected
 nysted_tmoea_paper_wake_gga_router_reconstruction problem.

@@ -2,13 +2,13 @@
   "schema_version": 1,
   "campaign_id": "declared_geoga_gga_proxy_reconstruction_v1",
   "suite_id": "declared_reconstruction_formal_suite_v1",
-  "status": "contract_frozen_not_launched",
+  "status": "completed_result_reuse_analysis_only_no_optimization_launch",
   "source_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
   "capability_matrix_id": "gao_tao_wflop_global_execution_capability_matrix_step10_v1",
   "package_id": "geoga_gga_proxy",
   "semantic_group": {
     "problem_id": "admitted_gga_problem_asset_proxy",
-    "problem_semantics_id": "gga2026_layout_cable_repaired_v1",
+    "problem_semantics_id": "geojson_radians_ct_rss_repaired_v1",
     "objective_signature": "maximize_annual_energy_production_on_repaired_gga_assets",
     "pooling_rule": "each of the eight repaired GGA assets is reported separately; the GGA proxy is never pooled with the Anholt proxy"
   },
@@ -17,7 +17,7 @@
     {
       "profile_id": "geoga__admitted_gga_problem_asset_proxy",
       "method_semantics_id": "geoga_declared_reconstruction_v1",
-      "problem_semantics_id": "gga2026_layout_cable_repaired_v1",
+      "problem_semantics_id": "geojson_radians_ct_rss_repaired_v1",
       "method_evidence_tier": "M2_CITATION_PREDECESSOR",
       "problem_evidence_tier": "P3_DECLARED_PROXY",
       "claim_boundary": "GeoGA operators on admitted GGA assets; no Anholt reproduction claim."
@@ -25,38 +25,60 @@
   ],
   "case_contract": ".source-cache/generated/gga_repaired/manifest.json",
   "case_count": 8,
-  "optimization_seed_set_id": "declared_reconstruction_25_v1",
-  "optimization_seed_count": 25,
-  "physical_fes_per_run": 10000,
-  "physical_fes_definition": "one complete AEP layout evaluation on one repaired GGA problem asset",
-  "formal_run_count": 200,
-  "formal_complete_layout_evaluations": 2000000,
-  "execution": {
-    "device_mode": "cpu",
-    "workers": 20,
-    "processes_at_once": 1,
-    "cpu_work_partition": "one persistent 20-worker team partitions independent layout construction, repair, geometry mutation, and complete AEP evaluation; roulette scores and elitist survival remain ordered",
-    "gpu_used": false,
-    "binary_target": "gga_cpp_hpc",
-    "binary_relative_path": "build/full/hpc/gga_cpp/gga_cpp_hpc",
-    "environment_contract_id": "spark_9b6f_cpu20_gcc11_release_v1",
-    "binary_source_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
-    "clean_worktree_required": true,
-    "environment_receipt_required": true,
-    "environment_receipt_fields": ["hostname", "architecture", "os_release", "cpu_model", "visible_logical_cpus", "compiler_id", "compiler_version", "cmake_version", "build_type", "compiler_flags", "link_libraries", "binary_sha256", "source_commit", "git_status_porcelain"]
+  "launchable": false,
+  "new_optimization_runs": 0,
+  "new_complete_layout_evaluations": 0,
+  "completed_result_reference": {
+    "evidence": "evidence/closure/spark2_completed_suite_reference.json",
+    "campaign_id": "offshore_cpp_hpc_spark2_v1",
+    "completed_optimization_source_commit": "2299a13d4de6e5d8e4b324ed27ce92f2ab3e99b1",
+    "receipt_sha256": "76aa595d3415b3d9f8704d34f12f04c3bbe78e3348c5fed33c5fcf0980a98bd0",
+    "completed_family_run_count": 425,
+    "reused_profile_run_count": 200,
+    "result_file_count": 200,
+    "physical_fes_per_run": 10000,
+    "integrity_status": "all_426_manifest_entries_verified_by_relocated_basename_sha256",
+    "portability_boundary": "The manifest stores original Spark2 absolute paths. Direct path-based verification after relocation fails on path lookup; basename relocation verifies every stored content hash and does not indicate data corruption."
   },
   "training_work_separation": {
-    "optimization_seed_namespace": "optimization/declared_reconstruction_25_v1",
-    "training_seed_namespace": "training/not_applicable/geoga_gga_proxy",
-    "namespaces_must_be_disjoint": true,
+    "optimization_seed_namespace": "optimization/offshore_cpp_hpc_spark2_v1",
+    "optimization_seed_set": {
+      "authority": "formal/contracts/offshore_cpp_hpc_spark2_v1.json#seeds",
+      "seed_count": 25,
+      "first_seed": 2026072901,
+      "last_seed": 2026072925
+    },
+    "training": "not_applicable",
     "training_profiles": {},
     "training_work_and_training_fes_recorded_separately": true,
     "training_fes_included_in_optimization_fes": false
   },
-  "resume_policy": {
-    "result_key_fields": ["campaign_id", "profile_id", "problem_semantics_id", "case_id", "optimization_seed", "physical_fes_per_run", "binary_sha256", "environment_sha256", "source_commit"],
-    "reuse_only_complete_validated_results": true,
-    "atomic_commit": "write same-filesystem temporary result, flush and fsync, then rename",
-    "partial_results_are_never_reused": true
+  "single_objective_reuse_reporting": {
+    "artifact_scope": "accepted final-budget GeoGA result files only",
+    "objective": {
+      "direction": "maximize",
+      "quantity": "annual_energy_production",
+      "unit": "kWh/year"
+    },
+    "terminal_metric": "best feasible AEP at exact 10000 complete-layout physical FES",
+    "per_exact_case_seed_summary": ["median", "q1", "q3", "iqr", "mean", "sample_standard_deviation_ddof_1"],
+    "timing_fields": ["end_to_end_wall_seconds", "evaluator_wall_seconds", "algorithm_wall_seconds"],
+    "timing_source_to_canonical_mapping": {
+      "timing_seconds.end_to_end": "end_to_end_wall_seconds",
+      "timing_seconds.evaluator": "evaluator_wall_seconds",
+      "timing_seconds.algorithm": "algorithm_wall_seconds"
+    },
+    "timing_is_never_quality": true,
+    "analysis_mode": "final_budget_descriptive_only",
+    "cross_case_pooling": false,
+    "cross_problem_semantics_pooling": false,
+    "convergence_checkpoints": "unavailable_from_accepted_artifacts",
+    "trajectory_interpolation_prohibited": true,
+    "optimization_rerun_for_trajectory_prohibited": true
+  },
+  "analysis_only_policy": {
+    "new_optimization_launch_prohibited": true,
+    "accepted_artifacts_only": true,
+    "per_exact_case_only": true
   }
 }

@@ -71,6 +71,21 @@ def main() -> int:
         if not profile["claim_boundary"].strip():
             raise RuntimeError(f"{profile['profile_id']}: empty claim boundary")
 
+    profile_by_id = {profile["profile_id"]: profile for profile in profiles}
+    gga_semantics = load("gga_problem_semantics.json")["canonical_semantics_id"]
+    gga_execution = load("gga_execution_contract.json")["problem_semantics_id"]
+    if gga_semantics != "geojson_radians_ct_rss_repaired_v1":
+        raise RuntimeError("GGA canonical problem semantic differs")
+    if gga_execution != gga_semantics:
+        raise RuntimeError("GGA execution and problem semantic contracts differ")
+    for profile_id in (
+        "gga__gga2026_layout_cable",
+        "geoga__admitted_gga_problem_asset_proxy",
+        "tmoea__nysted_gga_asset_reconstruction",
+    ):
+        if profile_by_id[profile_id]["problem_semantics_id"] != gga_semantics:
+            raise RuntimeError(f"{profile_id}: GGA canonical semantic differs")
+
     with (CONTRACTS / "algorithm_provenance.tsv").open(
         encoding="utf-8", newline=""
     ) as handle:

@@ -50,7 +50,7 @@
       "authority_type": "target_paper_objective_plus_same_author_P2_asset_completion",
       "immutable_authority": "shared/contracts/tmoea_nysted_paper_wake_gga_router_problem.json",
       "rejected_alternatives": [
-        "reuse gga2026_layout_cable_repaired_v1 for v2",
+        "reuse geojson_radians_ct_rss_repaired_v1 for v2",
         "claim the same-author GGA Nysted arrays are the original T-MOEA inputs"
       ],
       "classification": "identity_critical",

@@ -1,0 +1,160 @@
+{
+  "schema_version": 1,
+  "evidence_id": "spark2_completed_suite_reference_v1",
+  "authority_root_absolute": "\u002fhome\u002fsichentao\u002fDesktop\u002fprojects\u002f04-ENE-wind-farm-layout-optimization\u002ffode-hpc-wflop\u002fresults",
+  "suite_runtime_state": {
+    "suite_id": "spark2_campaign_suite_v1",
+    "state": "completed",
+    "exit_code": 0,
+    "completed_optimization_source_commit": "2299a13d4de6e5d8e4b324ed27ce92f2ab3e99b1",
+    "finished_at": "2026-07-29T06:52:57+00:00",
+    "status_file": {
+      "absolute_path": "\u002fhome\u002fsichentao\u002fDesktop\u002fprojects\u002f04-ENE-wind-farm-layout-optimization\u002ffode-hpc-wflop\u002fresults\u002fspark2_campaign_suite_v1\u002fcontrol\u002fstatus.json",
+      "bytes": 318,
+      "sha256": "ee2606a9ca839acee582371c1f7409561b92b5577a3448d0b73be766773c7a5e"
+    }
+  },
+  "campaign_receipts": [
+    {
+      "campaign_id": "eighteen_algorithm_cpp_hpc_spark2_v3",
+      "absolute_path": "\u002fhome\u002fsichentao\u002fDesktop\u002fprojects\u002f04-ENE-wind-farm-layout-optimization\u002ffode-hpc-wflop\u002fresults\u002feighteen_algorithm_cpp_hpc_spark2_v3\u002fcampaign_receipt.json",
+      "bytes": 390,
+      "sha256": "4f28144ac4c4fe007e22fcc723cfe8ea0504b1274f3980326d1fd8effc51b849",
+      "status": "complete_file_matrix",
+      "formal_runs": 22500,
+      "complete_layout_evaluations": 540000000
+    },
+    {
+      "campaign_id": "bde_source_replay_spark2_v1",
+      "absolute_path": "\u002fhome\u002fsichentao\u002fDesktop\u002fprojects\u002f04-ENE-wind-farm-layout-optimization\u002ffode-hpc-wflop\u002fresults\u002fbde_source_replay_spark2_v1\u002fcampaign_receipt.json",
+      "bytes": 412,
+      "sha256": "7b33022785b8e5d7fffd7d63e93026f26e1306b84d591ca96707631a6551a954",
+      "status": "complete_file_matrix",
+      "formal_runs": 600,
+      "complete_layout_evaluations": 6000000
+    },
+    {
+      "campaign_id": "pbea_six_algorithm_spark2_v1",
+      "absolute_path": "\u002fhome\u002fsichentao\u002fDesktop\u002fprojects\u002f04-ENE-wind-farm-layout-optimization\u002ffode-hpc-wflop\u002fresults\u002fpbea_six_algorithm_spark2_v1\u002fcampaign_file_receipt.json",
+      "bytes": 1741342,
+      "sha256": "b37915a8a908f9a35956b244b4d861475e86188c007775e10a77159b47b695fd",
+      "status": "complete_file_matrix",
+      "formal_runs": 4800,
+      "complete_layout_evaluations": 48480000
+    },
+    {
+      "campaign_id": "offshore_cpp_hpc_spark2_v1",
+      "absolute_path": "\u002fhome\u002fsichentao\u002fDesktop\u002fprojects\u002f04-ENE-wind-farm-layout-optimization\u002ffode-hpc-wflop\u002fresults\u002foffshore_cpp_hpc_spark2_v1\u002fcampaign_receipt.json",
+      "bytes": 356,
+      "sha256": "76aa595d3415b3d9f8704d34f12f04c3bbe78e3348c5fed33c5fcf0980a98bd0",
+      "status": "complete_file_matrix",
+      "formal_runs": 425,
+      "complete_layout_evaluations": 2675000
+    }
+  ],
+  "accepted_artifact_integrity": {
+    "verification_mode": "stored size and SHA256, with basename relocation when the original Spark2 absolute path is no longer mounted",
+    "campaigns": [
+      {
+        "campaign_id": "eighteen_algorithm_cpp_hpc_spark2_v3",
+        "verified_manifest_entries": 25,
+        "expected_manifest_entries": 25,
+        "status": "all_content_hashes_match"
+      },
+      {
+        "campaign_id": "bde_source_replay_spark2_v1",
+        "verified_manifest_entries": 27,
+        "expected_manifest_entries": 27,
+        "status": "all_content_hashes_match"
+      },
+      {
+        "campaign_id": "pbea_six_algorithm_spark2_v1",
+        "verified_result_files": 9600,
+        "expected_result_files": 9600,
+        "verification_fields": ["bytes", "sha256"],
+        "status": "all_front_and_summary_files_match"
+      },
+      {
+        "campaign_id": "offshore_cpp_hpc_spark2_v1",
+        "verified_manifest_entries": 426,
+        "expected_manifest_entries": 426,
+        "status": "all_content_hashes_match"
+      }
+    ],
+    "portability_boundary": "Three manifests preserve original Spark2 absolute paths. Direct sha256sum -c after synchronization fails because those paths are absent; resolving each entry by basename under the synchronized campaign directory verifies every content hash. This path lookup failure is not data corruption."
+  },
+  "active_suite_deduplication": {
+    "excluded_completed_profiles": [
+      {
+        "profile_id": "moead__zhang2025_three_objective",
+        "completed_campaign_id": "pbea_six_algorithm_spark2_v1"
+      },
+      {
+        "profile_id": "morime__zhang2025_three_objective",
+        "completed_campaign_id": "pbea_six_algorithm_spark2_v1"
+      },
+      {
+        "profile_id": "armoea__zhang2025_three_objective",
+        "completed_campaign_id": "pbea_six_algorithm_spark2_v1"
+      },
+      {
+        "profile_id": "geoga__admitted_gga_problem_asset_proxy",
+        "completed_campaign_id": "offshore_cpp_hpc_spark2_v1"
+      }
+    ],
+    "rule": "An exact profile/problem-semantic execution with a complete_file_matrix receipt is not launched again by the declared-reconstruction suite."
+  },
+  "geoga_completed_output_semantics": {
+    "result_file_count": 200,
+    "algorithm_id": "geoga",
+    "problem_id": "admitted_gga_problem_asset_proxy",
+    "problem_semantics_id": "geojson_radians_ct_rss_repaired_v1",
+    "observation": "All 200 completed GeoGA result files in the authoritative offshore campaign carry this exact problem semantic ID."
+  },
+  "bounded_cross_commit_replay": {
+    "purpose": "Verify selected accepted scientific fields against the current frozen binaries without rewriting or expanding the completed campaigns.",
+    "completed_optimization_source_commit": "2299a13d4de6e5d8e4b324ed27ce92f2ab3e99b1",
+    "current_contract_source_baseline_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
+    "scope_boundary": "A selected seed and case replay establishes equality only for the listed fields. It does not reattribute the accepted artifacts to the current commit and does not prove whole-campaign cross-commit equality.",
+    "checks": [
+      {
+        "profile_id": "geoga__admitted_gga_problem_asset_proxy",
+        "case_id": "China_Shanghai_Lingang",
+        "seed": 2026072901,
+        "physical_fes": 10000,
+        "command": "build/full/hpc/gga_cpp/gga_cpp_hpc --problem .source-cache/generated/gga_repaired/China_Shanghai_Lingang.wfp --physical-fes 10000 --workers 20 --seed 2026072901 --algorithm geoga --execution-mode cpu --output <TEMP_OUTPUT>",
+        "current_binary_sha256": "777b3eeed59cde509af827d0e6a5462e57deae75e2d7c6b2da1db035bfdd214d",
+        "completed_receipt_sha256": "76aa595d3415b3d9f8704d34f12f04c3bbe78e3348c5fed33c5fcf0980a98bd0",
+        "science_fields": ["algorithm_id", "method_id", "problem_id", "problem_semantics_id", "case_id", "seed", "physical_fes", "generations", "population_size", "best_lcoe", "best_capacity_factor", "best_aep_kwh", "best_cable_cost", "best_layout_0based", "nondominated_count", "front"],
+        "science_field_count": 16,
+        "comparison": "python_structural_equality",
+        "all_listed_fields_equal": true
+      },
+      {
+        "profile_id": "armoea__zhang2025_three_objective",
+        "case_id": "ws1__tn15",
+        "seed": 202507290001,
+        "population": 100,
+        "generations": 100,
+        "ipd": 3,
+        "mu_c": 80,
+        "physical_fes": 10100,
+        "command": "build/full/hpc/pbea_cpp/pbea_cpp_hpc --algorithm armoea --scenario ws1 --turbines 15 --population 100 --generations 100 --workers 20 --seed 202507290001 --ipd 3 --mu-c 80 --execution-mode cpu --output-front <TEMP_FRONT>",
+        "current_binary_sha256": "90107179528faaa34a30bc2225c5aa56502f54f8ce161d15a5d904e489f43390",
+        "completed_receipt_sha256": "b37915a8a908f9a35956b244b4d861475e86188c007775e10a77159b47b695fd",
+        "front_comparison": "whole_JSON_object_equality",
+        "front_equal": true,
+        "summary_science_fields": ["algorithm", "complete_layout_evaluations", "generations", "minimum_inverse_power", "minimum_land_area_grid_units", "minimum_total_cost", "mode", "nondominated_count", "population", "profile", "scenario", "seed", "turbines", "workers"],
+        "summary_science_field_count": 14,
+        "summary_timing_fields_excluded": ["algorithm_seconds", "end_to_end_seconds", "evaluator_seconds"],
+        "summary_science_fields_equal": true,
+        "timing_difference_expected": true
+      }
+    ],
+    "source_change_review": {
+      "pbea": "From completed commit 2299a13 to the current baseline, the PBEA path adds execution-mode fail-closed handling; the bounded AR-MOEA front and listed summary science fields are preserved.",
+      "geoga": "From completed commit 2299a13 to the current baseline, GGA-path changes affect only the T-MOEA v2 route; the bounded GeoGA listed scientific output is preserved."
+    }
+  },
+  "evidence_boundary": "This lightweight reference records completion, byte identity, counts, and exact-semantic deduplication only. It does not copy raw results and does not create a new quality or performance claim."
+}

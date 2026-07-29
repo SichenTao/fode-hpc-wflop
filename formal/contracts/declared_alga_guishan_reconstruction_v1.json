@@ -62,6 +62,16 @@
     "training_work_and_training_fes_recorded_separately": true,
     "training_fes_included_in_optimization_fes": false
   },
+  "single_objective_reporting": {
+    "contract": "shared/contracts/single_objective_reporting_contract.json",
+    "contract_id": "declared_single_objective_reporting_v1",
+    "objective": {"direction": "maximize", "quantity": "expected_farm_power", "unit": "kW"},
+    "terminal_physical_fes": 2430,
+    "physical_fes_checkpoints": [25, 122, 243, 486, 1215, 1823, 2430],
+    "analysis": {"mode": "descriptive_only", "exact_case_count": 1, "hypothesis_count": 0},
+    "cross_case_pooling": false,
+    "cross_problem_semantics_pooling": false
+  },
   "resume_policy": {
     "result_key_fields": ["campaign_id", "profile_id", "problem_semantics_id", "case_id", "optimization_seed", "physical_fes_per_run", "binary_sha256", "environment_sha256", "source_commit"],
     "reuse_only_complete_validated_results": true,

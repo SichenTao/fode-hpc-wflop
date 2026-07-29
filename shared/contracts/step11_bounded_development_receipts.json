@@ -32,7 +32,7 @@
   "bounded_run_receipts": [
     {
       "path": "evidence/development/step11_profile_runs_spark_20260729.json",
-      "sha256": "a509133d2489e36a0ce0bf31e8924db4cab1f19540d3f6d178e2e937ddfbaa1d",
+      "sha256": "52523865b85c2b044c7fb48fa2def186d0cff20443fbc9852767ce933aa019e3",
       "profile_count": 13
     },
     {

@@ -9,8 +9,12 @@
       "sha256": "eb9eefe69dffc9acd16dd704a2ef64970ba23cf50a06f937efe9987d04fc7e7b"
     },
     {
+      "path": "evidence/closure/spark2_completed_suite_reference.json",
+      "sha256": "6adab88205ca3fc3566625a94d1246b71b7181eb3e88f0ab3f6988ec4466e887"
+    },
+    {
       "path": "formal/contracts/declared_reconstruction_formal_suite_v1.json",
-      "sha256": "66045b2e2857134052d38ed464ad45034f90372160fdf85ee7d6b1d823bc6acd"
+      "sha256": "8eecc3cddb606c4b5257ee13da8c49e5f2172c42f1435696019bd35c5005a3a8"
     },
     {
       "path": "shared/contracts/evidence_authority_schema.json",
@@ -18,7 +22,7 @@
     },
     {
       "path": "shared/contracts/executable_profile_evidence.json",
-      "sha256": "8d238dd7cb5a91386345dd379119e35cb3acf046533a2ade20cfe8590c261960"
+      "sha256": "ddbd75060f2d9a38a21e45fcef038714e47bfd994e87cc39b6f44a93d1141999"
     },
     {
       "path": "shared/contracts/global_execution_capability_matrix.json",
@@ -44,7 +48,7 @@
     },
     {
       "path": "shared/contracts/reconstruction-decisions/T36.json",
-      "sha256": "742a1eb5f8257ae0a0ed537ee65b6445fc5cdc964b275b874f31731e8bf468ed"
+      "sha256": "684cae97fee796152a61b3d18a0dc4556d5e4c576b4ce027b8f9614f087b0cf8"
     },
     {
       "path": "shared/contracts/reconstruction-decisions/T42.json",
@@ -97,43 +101,43 @@
     },
     {
       "path": "formal/contracts/declared_alga_guishan_reconstruction_v1.json",
-      "sha256": "e1b7b8535c3bd609c54e1f795fa2b5ec91eb5370119b6975e23da5dd351ef2e7"
+      "sha256": "dbe5752446316b613afdc95b778559a2d571036463c53164cd5c7e44ed7b501e"
     },
     {
       "path": "formal/contracts/declared_bde_ws5_reconstruction_v1.json",
-      "sha256": "955ba9b6cdfcc207d4ccea692f62661cba866d9aff8ffea22640f271653f6289"
+      "sha256": "5dec4638018ad8c78a2442464ecd73d2cf7c4c847c77bc9eb0e6ce8ddac2667f"
     },
     {
       "path": "formal/contracts/declared_bde_ws6_reconstruction_v1.json",
-      "sha256": "b2f2eaecb150e920734b0febd2773e71ec1e82106d07678805d13c28940b5a2c"
+      "sha256": "99401efa226e573b06084b70ce57b1813c07bbe27b2ba557626d19c893afd454"
     },
     {
       "path": "formal/contracts/declared_fode_common_reconstructions_v1.json",
-      "sha256": "859f0f2445359d15885adb0cf48c00a3f3d4d23f72983ba4920d3534df6eeb0b"
+      "sha256": "d08ecb9eb1ce182cd32aeaca3c503d8c23e38e66ef388dd09c70ecc525d6f428"
     },
     {
       "path": "formal/contracts/declared_geoga_anholt_reconstruction_v1.json",
-      "sha256": "a1c7d0fb22d4c87fdfaca34f7db751c11df3c42dd855dd7de648a276b654f9c9"
+      "sha256": "97409e92a0e58a59746f0d42797bdd38246e8df454c3b093e8198585f83955d8"
     },
     {
       "path": "formal/contracts/declared_geoga_gga_proxy_reconstruction_v1.json",
-      "sha256": "063e72d4108b9e45cb11d0588c61caba972e18817574f35e3bfe840abdd6f760"
+      "sha256": "90fd0e2a420e24e88fb8a05fa304f5d3d0df5f4b672bea08b7163e4cca97103d"
     },
     {
       "path": "formal/contracts/declared_pbea_reconstructions_v1.json",
-      "sha256": "9419483c579f9f51752a29483e9db00d5b84d19794e2e0c311e23debf25f2c7c"
+      "sha256": "45cec93dd2c20439f360e546a453f412334a9930b150a5ab510d1c234a9b016d"
     },
     {
       "path": "formal/contracts/declared_ppga_nantong_reconstruction_v1.json",
-      "sha256": "e301b8b3d2784f92790e2fa36509eb4f04dd6c5d9a08883f305e26fb714d3889"
+      "sha256": "55efed4b1ccab12352c71f184048a6eeae63443fbf5523de88a6e9002d5eaa21"
     },
     {
       "path": "formal/contracts/declared_reconstruction_formal_suite_v1.json",
-      "sha256": "66045b2e2857134052d38ed464ad45034f90372160fdf85ee7d6b1d823bc6acd"
+      "sha256": "8eecc3cddb606c4b5257ee13da8c49e5f2172c42f1435696019bd35c5005a3a8"
     },
     {
       "path": "formal/contracts/declared_rlpso_reconstructions_v1.json",
-      "sha256": "b6def07d914d0be6fb0f604c79c10fea216cd6403c10807b0c06ff20480a9e52"
+      "sha256": "1fd229569d01852c84dec2763280922f1798cb5f83c6fd57a38506c855ae6955"
     },
     {
       "path": "formal/contracts/declared_taae_reconstruction_v1.json",
@@ -213,7 +217,7 @@
   "generated_artifacts": [
     {
       "path": "evidence/closure/step14_project_summary.json",
-      "sha256": "f98831b81794f3f7d0b1125231552e589cc2825aa33a6faf3a3006787db30b59"
+      "sha256": "b159c87506e8d8e270c566a6b33c89429a4894df949ddb60e51d070eb620fd0f"
     },
     {
       "generated_block": "<!-- BEGIN GENERATED: STEP14 CLOSURE -->",
@@ -352,6 +356,10 @@
     {
       "path": "shared/contracts/rpso_source_problem_execution_contract.json",
       "sha256": "f8773a22c5a5253edc44805299a1909150c16ced78410b45f4390c578807ad0b"
+    },
+    {
+      "path": "shared/contracts/single_objective_reporting_contract.json",
+      "sha256": "0ebbde6d1f774bc633cb1ac7f39bd629253d47dc9316e2a4458af08fb7c2dfee"
     },
     {
       "path": "shared/contracts/taae_formula_fixture_contract.json",

@@ -454,8 +454,12 @@ a Release build and explicit staging of trusted ignored source assets, add
 `--build-dir BUILD` to execute every bounded CPU CLI, supported auto-to-CPU
 path, and declared hybrid/GPU fail-closed path. Original guarded identities
 remain blocked beside their separately named executable reconstructions.
-Step 10 records development capability only; Step 11 sensitivity, quality,
-and performance admission remains outside this commit.
+Step 11 bounded sensitivity, quality, and performance admission is complete.
+Step 12 contracts are frozen and unlaunched. Seven active scalar campaign
+contracts cover nine scalar profile routes through four distinct C++ binary
+targets. Every route still requires a bounded single-run checkpoint,
+feasibility, and separated-timing instrumentation validator before formal
+launch; no new declared-suite formal result has been produced.
 
 <!-- BEGIN GENERATED: STEP14 CLOSURE -->
 
@@ -471,13 +475,15 @@ Method evidence counts are M0=7, M1=7, M2=10, M3=16, M4=0. Problem evidence coun
 
 **Exact formal-suite status**
 
-| Exact suite ID | Status | Campaigns | Optimization runs |
-|---|---|---:|---:|
-| `declared_reconstruction_formal_suite_v1` | `contract_frozen_not_launched` | 11 | 6625 |
-| `spark2_campaign_suite_v1` | `approved_for_spark2_formal_execution` | 4 | 28325 |
-| `waffle_campaign_suite_v1` | `development_admitted_waiting_for_waffle` | 4 | 28325 |
+| Exact suite ID | Contract status | Observed runtime state | Active profiles | Reused completed profiles | Campaigns | Contract optimization runs |
+|---|---|---|---:|---:|---:|---:|
+| `declared_reconstruction_formal_suite_v1` | `contract_frozen_not_launched` | `no_completion_receipt_in_step14_reference` | 11 | 4 | 9 | 4025 |
+| `spark2_campaign_suite_v1` | `approved_for_spark2_formal_execution` | `completed` | n/a | 0 | 4 | 28325 |
+| `waffle_campaign_suite_v1` | `development_admitted_waiting_for_waffle` | `no_completion_receipt_in_step14_reference` | n/a | 0 | 4 | 28325 |
 
-All 6 executable learning reconstruction profiles retain explicit training-state and claim boundaries in the generated roadmap. Step 14 launched no formal campaign.
+The preserved Spark2 suite contract remains byte-identical at `approved_for_spark2_formal_execution`; its separate observed runtime receipt is `completed`. Completed exact PBEA and GeoGA-GGA profiles are reused for analysis and are excluded from the new declared optimization launch.
+
+All 6 executable learning reconstruction profiles retain explicit training-state and claim boundaries in the generated roadmap. Step 11 bounded admission is complete. Step 12 contracts are frozen and unlaunched; seven active scalar campaign contracts covering nine scalar profile routes through four distinct C++ binary targets still require the single-run checkpoint, feasibility, and separated-timing instrumentation gate, so new declared-suite formal results have not been produced.
 
 <!-- END GENERATED: STEP14 CLOSURE -->
 

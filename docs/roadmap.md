@@ -95,13 +95,13 @@ These are two different evidence axes. The following execution facets are also n
 
 ### Exact suite status
 
-| Exact suite ID | Status | Campaigns | Optimization runs |
-|---|---|---:|---:|
-| `declared_reconstruction_formal_suite_v1` | `contract_frozen_not_launched` | 11 | 6625 |
-| `spark2_campaign_suite_v1` | `approved_for_spark2_formal_execution` | 4 | 28325 |
-| `waffle_campaign_suite_v1` | `development_admitted_waiting_for_waffle` | 4 | 28325 |
+| Exact suite ID | Contract status | Observed runtime state | Active profiles | Reused completed profiles | Campaigns | Contract optimization runs |
+|---|---|---|---:|---:|---:|---:|
+| `declared_reconstruction_formal_suite_v1` | `contract_frozen_not_launched` | `no_completion_receipt_in_step14_reference` | 11 | 4 | 9 | 4025 |
+| `spark2_campaign_suite_v1` | `approved_for_spark2_formal_execution` | `completed` | n/a | 0 | 4 | 28325 |
+| `waffle_campaign_suite_v1` | `development_admitted_waiting_for_waffle` | `no_completion_receipt_in_step14_reference` | n/a | 0 | 4 | 28325 |
 
-The suite statuses above are contract states. This closure step launched no formal campaign and records no formal quality or performance result.
+The contract and runtime columns are intentionally separate. The preserved Spark2 contract remains approved while its observed receipt is completed. This closure step launched no new campaign. Step 11 bounded admission is complete; Step 12 contracts remain frozen and unlaunched. Seven active scalar campaign contracts covering nine scalar profile routes through four distinct C++ binary targets still require one-run physical-FES checkpoint, feasibility, and separated-timing instrumentation admission before formal launch.
 
 ### Guarded originals and distinct executable reconstructions
 
@@ -193,6 +193,6 @@ algorithm IDs, and 14 distinct problem IDs.
 | `alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer` | `alga_attention_declared_reconstruction_v1` | `M3_DECLARED_COMPLETION` | `alga_guishan_planar_transfer` | `P3_DECLARED_PROXY` | `development_admitted_reconstruction` | `development_only_original_blocked` | Fitness-supervised shallow attention engineering reconstruction on a composite planar transfer; no author ALGA, 3D Guishan, paper-result reproduction, local Spark speedup, or throughput-admission claim. |
 | `alga_attention_declared_reconstruction_v1__fode_e0_common` | `alga_attention_declared_reconstruction_v1` | `M3_DECLARED_COMPLETION` | `fode_e0_common` | `P0_AUTHOR_ASSET` | `development_admitted_reconstruction` | `development_only_original_blocked` | Platform-stress transfer only, including 80-turbine worker-invariance smoke; no author ALGA, reported-result reproduction, local Spark speedup, or throughput-admission claim. |
 | `taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1` | `taae_transformer_evolution_declared_reconstruction_v1` | `M3_DECLARED_COMPLETION` | `taae_zhangbei_structured_declared_proxy_v1` | `P3_DECLARED_PROXY` | `development_admitted_reconstruction` | `development_only_original_blocked` | Bounded deterministic end-to-end TAAE engineering reconstruction on the declared P3 proxy; original TAAE, Zhangbei arrays, author checkpoint, paper-scale learned state, reported fronts, formal results, and GPU execution remain blocked. |
-| `ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1` | `ppga_nantong_structured_3d_declared_reconstruction_v2` | `M3_DECLARED_COMPLETION` | `ppga_nantong_structured_3d_declared_proxy_v1` | `P3_DECLARED_PROXY` | `development_admitted_reconstruction` | `development_only_original_blocked_v1_invalidated` | Corrected bounded PPGA v2 engineering reconstruction on four separate Nantong-structured P3 cases; original Nantong arrays, author transitions, paper results, formal results, hybrid, and GPU execution remain blocked. |
+| `ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1` | `ppga_nantong_structured_3d_declared_reconstruction_v2` | `M3_DECLARED_COMPLETION` | `ppga_nantong_structured_3d_declared_proxy_v1` | `P3_DECLARED_PROXY` | `development_admitted_reconstruction` | `development_only_original_blocked_v1_invalidated` | Corrected bounded PPGA v2 engineering reconstruction on 16 declared-proxy benchmark cases (4 wind scenarios × 4 turbine counts); original Nantong arrays, author transitions, paper results, formal results, hybrid, and GPU remain blocked. |
 
 <!-- END GENERATED: STEP14 INVENTORY -->

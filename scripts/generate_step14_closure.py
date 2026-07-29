@@ -52,6 +52,13 @@ def baseline_timestamp() -> str:
 
 
 def suite_manifests() -> list[dict[str, Any]]:
+    completion = read_json(
+        "evidence/closure/spark2_completed_suite_reference.json"
+    )
+    observed_runtime_states = {
+        completion["suite_runtime_state"]["suite_id"]:
+        completion["suite_runtime_state"]["state"]
+    }
     manifests: list[dict[str, Any]] = []
     for path in sorted((ROOT / "formal/contracts").glob("*suite*.json")):
         data = json.loads(path.read_text(encoding="utf-8"))
@@ -62,8 +69,15 @@ def suite_manifests() -> list[dict[str, Any]]:
                 "path": path.relative_to(ROOT).as_posix(),
                 "suite_id": data["suite_id"],
                 "status": data["status"],
+                "observed_runtime_state": observed_runtime_states.get(
+                    data["suite_id"], "no_completion_receipt_in_step14_reference"
+                ),
                 "campaign_count": len(data.get("campaigns", [])),
                 "total_optimization_runs": data.get("total_optimization_runs"),
+                "active_profile_count": data.get("profile_count"),
+                "reused_completed_profile_count": len(
+                    data.get("reused_completed_profile_ids", [])
+                ),
                 "claim_boundary": data.get("claim_boundary"),
             }
         )
@@ -76,6 +90,9 @@ def build_summary() -> dict[str, Any]:
     profile_registry = read_json("shared/contracts/executable_profile_evidence.json")
     capability = read_json("shared/contracts/global_execution_capability_matrix.json")
     lineage_rows = read_tsv("docs/author_lineage_registry.tsv")
+    completion = read_json(
+        "evidence/closure/spark2_completed_suite_reference.json"
+    )
 
     profiles = profile_registry["profiles"]
     profile_by_id = {profile["profile_id"]: profile for profile in profiles}
@@ -291,6 +308,23 @@ def build_summary() -> dict[str, Any]:
             "profile_ids": complete_information_profiles,
         },
         "suite_manifests": suite_manifests(),
+        "completed_spark2_result_reuse": {
+            "evidence_id": completion["evidence_id"],
+            "runtime_state": completion["suite_runtime_state"]["state"],
+            "completed_optimization_source_commit": completion[
+                "suite_runtime_state"
+            ]["completed_optimization_source_commit"],
+            "excluded_completed_profile_ids": [
+                item["profile_id"]
+                for item in completion["active_suite_deduplication"][
+                    "excluded_completed_profiles"
+                ]
+            ],
+            "accepted_artifact_integrity": completion[
+                "accepted_artifact_integrity"
+            ]["campaigns"],
+            "claim_boundary": completion["evidence_boundary"],
+        },
         "frozen_binary_count": len(binaries),
         "frozen_binaries": binaries,
         "formal_campaign_launched_by_step14": False,
@@ -316,12 +350,15 @@ def evidence_table(rows: list[dict[str, Any]]) -> list[str]:
 
 def suite_table(summary: dict[str, Any]) -> list[str]:
     output = [
-        "| Exact suite ID | Status | Campaigns | Optimization runs |",
-        "|---|---|---:|---:|",
+        "| Exact suite ID | Contract status | Observed runtime state | Active profiles | Reused completed profiles | Campaigns | Contract optimization runs |",
+        "|---|---|---|---:|---:|---:|---:|",
     ]
     for item in summary["suite_manifests"]:
         output.append(
             f"| `{item['suite_id']}` | `{item['status']}` | "
+            f"`{item['observed_runtime_state']}` | "
+            f"{item['active_profile_count'] or 'n/a'} | "
+            f"{item['reused_completed_profile_count']} | "
             f"{item['campaign_count']} | {item['total_optimization_runs']} |"
         )
     return output
@@ -371,9 +408,20 @@ def render_readme_block(summary: dict[str, Any]) -> str:
         "",
         *suite_table(summary),
         "",
+        "The preserved Spark2 suite contract remains byte-identical at "
+        "`approved_for_spark2_formal_execution`; its separate observed runtime receipt is "
+        f"`{summary['completed_spark2_result_reuse']['runtime_state']}`. Completed exact "
+        "PBEA and GeoGA-GGA profiles are reused for analysis and are excluded from the "
+        "new declared optimization launch.",
+        "",
         f"All {summary['learning_reconstructions']['profile_count']} executable learning "
         "reconstruction profiles retain explicit training-state and claim boundaries in the "
-        "generated roadmap. Step 14 launched no formal campaign.",
+        "generated roadmap. Step 11 bounded admission is complete. Step 12 contracts are "
+        "frozen and unlaunched; seven active scalar campaign contracts covering nine "
+        "scalar profile routes through four distinct C++ binary targets still require "
+        "the single-run checkpoint, feasibility, and "
+        "separated-timing instrumentation gate, "
+        "so new declared-suite formal results have not been produced.",
         "",
         README_END,
     ]
@@ -421,8 +469,14 @@ def render_roadmap_block(summary: dict[str, Any]) -> str:
             "",
             *suite_table(summary),
             "",
-            "The suite statuses above are contract states. This closure step launched no formal "
-            "campaign and records no formal quality or performance result.",
+            "The contract and runtime columns are intentionally separate. The preserved "
+            "Spark2 contract remains approved while its observed receipt is completed. "
+            "This closure step launched no new campaign. Step 11 bounded admission is "
+            "complete; Step 12 contracts remain frozen and unlaunched. Seven active "
+            "scalar campaign contracts covering nine scalar profile routes through four "
+            "distinct C++ binary targets still require one-run "
+            "physical-FES checkpoint, feasibility, and separated-timing instrumentation "
+            "admission before formal launch.",
             "",
             "### Guarded originals and distinct executable reconstructions",
             "",
@@ -625,6 +679,7 @@ def build_closure_receipt(
                 ROOT / "shared/contracts/executable_profile_evidence.json",
                 ROOT / "shared/contracts/global_execution_capability_matrix.json",
                 ROOT / "formal/contracts/declared_reconstruction_formal_suite_v1.json",
+                ROOT / "evidence/closure/spark2_completed_suite_reference.json",
             ]
         ),
         "decision_ledgers": file_records(decision_paths),
