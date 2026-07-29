@@ -38,32 +38,40 @@
     "canonical_binaries": {
       "wflop_cpp_hpc": {
         "path": "build/full/hpc/wflop_cpp/wflop_cpp_hpc",
-        "sha256": "eb203f11cf1301f4e92e510c4c3a3cc54a843d365a8f3bb17e0752186715a46a"
+        "sha256": "c2937e74681704ed9c501255e615af4fb97a11e50a048b87d63ff843f26df1e1"
       },
       "taae_evolution_hpc": {
         "path": "build/full/hpc/taae_cpp/taae_evolution_hpc",
-        "sha256": "defedb4b806cfda5b90e0ffe64879d02d0b5b32d60f2ee9c1c7ef4ad28d0c228"
+        "sha256": "9f00b9b920f5c35a171d9d8e508e88c180d45d5ac690296f9d38b89f41e9d8b1"
       },
       "ppga_nantong_hpc": {
         "path": "build/full/hpc/ppga_cpp/ppga_nantong_hpc",
-        "sha256": "486781c7e4429b518dd5ba552777d4dacf98de58359aa608a7d9071184947401"
+        "sha256": "ddfea1d872fd40528c18b3fd275eec3cd34fece6864ebe4e9a44f0497cef3725"
       },
       "bde_ws56_hpc": {
         "path": "build/full/hpc/bde_ws56_cpp/bde_ws56_hpc",
-        "sha256": "344c5f6c4c02ab74512bea4f94b86a2b8606f00cae0a9121502e88e668739faf"
+        "sha256": "341b8703e66abf066ce1347cf24e9aa75c2967a1664bb4610872a2f1f9292b5d"
       },
       "gga_cpp_hpc": {
         "path": "build/full/hpc/gga_cpp/gga_cpp_hpc",
-        "sha256": "7b10bbff6e63842417509f612854f2b3ae178cb65d3b30743bde9e562a707552"
+        "sha256": "777b3eeed59cde509af827d0e6a5462e57deae75e2d7c6b2da1db035bfdd214d"
       },
       "geoga_anholt_hpc": {
         "path": "build/full/hpc/geoga_cpp/geoga_anholt_hpc",
-        "sha256": "e9da8942fb5db7fc7ada54b1c79285ee62828966d68ff6e5a250c2bc03240cb2"
+        "sha256": "584d3940283194dca648d621365e7c7a93e2598e3bd9c704fae8c3143cb85a8e"
       },
       "pbea_cpp_hpc": {
         "path": "build/full/hpc/pbea_cpp/pbea_cpp_hpc",
-        "sha256": "efad49458661173c41b48ad0e7666ed56a82bec4ac6962d8b2bc4c7442562f35"
+        "sha256": "90107179528faaa34a30bc2225c5aa56502f54f8ce161d15a5d904e489f43390"
       }
+    },
+    "canonical_rebuild_provenance": {
+      "reason": "Step 14 rebuilt every canonical Release target after full CMake reconfiguration; the prior hashes referred to incomplete pre-reconfiguration artifacts that did not satisfy the registered CLI and T-MOEA semantic tests.",
+      "source_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
+      "cpp_source_unchanged_through_step14_baseline": "a1061177342c4d26df7746bb6008f760503302d1",
+      "configure_command": "cmake -S . -B build/full -DCMAKE_BUILD_TYPE=Release",
+      "build_command": "cmake --build build/full -j20",
+      "formal_campaign_launched": false
     },
     "launch_preconditions": {
       "clean_worktree": true,
