@@ -24,6 +24,11 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_source_dossiers.py
     )
     add_test(
+        NAME reconstruction_decisions
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_reconstruction_decisions.py
+    )
+    add_test(
         NAME lineage_r0_r4_completion
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_lineage_r0_r4.py
@@ -64,6 +69,13 @@ if(BUILD_TESTING)
             NAME rpso_source_problem
             COMMAND ${Python3_EXECUTABLE}
                 ${CMAKE_CURRENT_SOURCE_DIR}/scripts/validate_rpso_source_problem.py
+                --binary $<TARGET_FILE:wflop_cpp_hpc>
+                --cases ${RPSO_SOURCE_PROBLEM_CASES}
+        )
+        add_test(
+            NAME rlpso_reconstruction
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_rlpso_reconstruction.py
                 --binary $<TARGET_FILE:wflop_cpp_hpc>
                 --cases ${RPSO_SOURCE_PROBLEM_CASES}
         )

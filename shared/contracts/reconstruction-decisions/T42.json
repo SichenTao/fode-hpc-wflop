@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T42",
+  "doi": "10.1016/j.energy.2024.134050",
+  "paper_sha256": "1b7ef1911323fcffb3c48f4ff3321c29c0bcbcd2911a3972116c531c7eb57249",
+  "source_archive_sha256": "44e89c033e90f5aaaa9b84c826c95f29d3b8ad73dd363ff68de99418cdfa93a2",
+  "profiles": ["rlpso_compact_policy_declared_reconstruction_v1"],
+  "completion_status": "engineering_proxy_only_full_seeded_cpp_ppo_still_required",
+  "decisions": [
+    {
+      "field": "policy_lifecycle",
+      "completed_transition": "Algorithm 1 lines 8-18 and official ppo.main lifecycle",
+      "selected_value_or_rule": "compact proxy retains one seeded linear policy for the optimization run; source and full-paper lifecycles remain unimplemented",
+      "authority_type": "declared_engineering_proxy",
+      "immutable_authority": "paper_sha256 and ppo.py sha256 7a84ca4b6ccd8bd4451fa275e1dd4ca64f9a4483efac29bcc7e880ef8c95320b",
+      "rejected_alternatives": ["silently treat both lifecycles as one method"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "changes policy memory and training cost across generations",
+      "sensitivity_test_required": true,
+      "adjudication_status": "proxy_only"
+    },
+    {
+      "field": "action_step",
+      "completed_transition": "paper Equation 27 versus official environment step",
+      "selected_value_or_rule": "0.001 paper action step for the compact proxy",
+      "authority_type": "paper_equation_27",
+      "immutable_authority": "paper Equation 27; ppo.py sha256 7a84ca4b6ccd8bd4451fa275e1dd4ca64f9a4483efac29bcc7e880ef8c95320b",
+      "rejected_alternatives": ["average the two steps", "select by final quality"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "changes weight trajectory and repair frequency",
+      "sensitivity_test_required": true,
+      "adjudication_status": "proxy_only"
+    },
+    {
+      "field": "ppo_action_probability",
+      "completed_transition": "paper Equations 22, 25 and 29",
+      "selected_value_or_rule": "compact proxy uses sampled categorical action probabilities in a clipped policy-gradient update without a critic",
+      "authority_type": "paper_guided_declared_completion",
+      "immutable_authority": "paper Equations 22,25,29; official ActorCritic.evaluate",
+      "rejected_alternatives": ["label the source argmax integer as a log probability"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "changes actor gradients",
+      "sensitivity_test_required": true,
+      "adjudication_status": "proxy_only_full_ppo_required"
+    },
+    {
+      "field": "network_completion",
+      "completed_transition": "paper three fully connected actor layers and official 2-256-64-4 implementation",
+      "selected_value_or_rule": "deterministic compact linear categorical actor; no critic is implemented and the profile is an M3 engineering proxy",
+      "authority_type": "official_source_then_declared_cpu_completion",
+      "immutable_authority": "ppo.py sha256 7a84ca4b6ccd8bd4451fa275e1dd4ca64f9a4483efac29bcc7e880ef8c95320b",
+      "rejected_alternatives": ["random untrained network labelled author policy", "unseeded Torch dependency"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "changes policy capacity while preserving the PPO state/action contract",
+      "sensitivity_test_required": true,
+      "adjudication_status": "declared_compact_cpu_policy"
+    },
+    {
+      "field": "training_work_budget",
+      "completed_transition": "official 100 episodes by 100 steps per outer call and paper unspecified Maxepisode termination",
+      "selected_value_or_rule": "every policy candidate is a complete-layout FES; compact proxy uses eight interactions per generation",
+      "authority_type": "declared_bounded_engineering_proxy",
+      "immutable_authority": "official ppo.py max_episodes=100 max_timesteps=100",
+      "rejected_alternatives": ["hide training evaluations", "exclude training from the fixed budget"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "changes the split between learning and PSO inference work",
+      "sensitivity_test_required": true,
+      "adjudication_status": "full_physical_fes_ledger_required"
+    },
+    {
+      "field": "random_seed_contract",
+      "completed_transition": "official Python, NumPy, Torch and MATLAB random streams",
+      "selected_value_or_rule": "one counter-keyed seed namespace derived from run seed, generation, policy step and decision coordinate",
+      "authority_type": "declared_reproducibility_completion",
+      "immutable_authority": "shared fode::CounterRng implementation at baseline commit 2299a13",
+      "rejected_alternatives": ["wall-clock seed", "thread-local nondeterministic generators"],
+      "classification": "implementation_only",
+      "expected_downstream_effect": "enables worker-count replay without changing declared probability laws",
+      "sensitivity_test_required": false,
+      "adjudication_status": "selected"
+    }
+  ]
+}

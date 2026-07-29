@@ -286,6 +286,7 @@ RunResult finish_result(
     result.case_id = data.case_id;
     result.seed = config.seed;
     result.physical_fes = runtime.fes;
+    result.inference_physical_fes = runtime.fes;
     result.generations = runtime.generations;
     result.initial_population = initial_population;
     result.final_population = final_population;
@@ -4933,6 +4934,7 @@ RunResult convert_fode(
     result.case_id = source.case_id;
     result.seed = source.seed;
     result.physical_fes = source.physical_fes;
+    result.inference_physical_fes = source.physical_fes;
     result.generations = source.generations;
     result.initial_population = source.initial_population;
     result.final_population = source.final_population;
@@ -5048,6 +5050,10 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
     }
     if (config.algorithm_id == "ppga") {
         return optimize_ppga(data, config);
+    }
+    if (config.algorithm_id
+        == "rlpso_compact_policy_declared_reconstruction_v1") {
+        return optimize_rlpso_reconstruction(data, config);
     }
     throw std::invalid_argument("unknown algorithm: " + config.algorithm_id);
 }

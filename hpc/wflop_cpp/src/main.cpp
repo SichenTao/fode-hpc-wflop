@@ -172,6 +172,10 @@ std::string to_json(const wflop::RunResult& result) {
     output << "\"case_id\":\"" << escape_json(result.case_id) << "\",";
     output << "\"seed\":" << result.seed << ",";
     output << "\"physical_fes\":" << result.physical_fes << ",";
+    output << "\"training_physical_fes\":"
+           << result.training_physical_fes << ",";
+    output << "\"inference_physical_fes\":"
+           << result.inference_physical_fes << ",";
     output << "\"generations\":" << result.generations << ",";
     output << "\"initial_population\":" << result.initial_population << ",";
     output << "\"final_population\":" << result.final_population << ",";
@@ -241,6 +245,12 @@ void validate_result(
     if (result.physical_fes != expected_fes) {
         throw std::runtime_error(
             result.algorithm_id + " did not stop at the exact physical FES"
+        );
+    }
+    if (result.training_physical_fes + result.inference_physical_fes
+        != result.physical_fes) {
+        throw std::runtime_error(
+            result.algorithm_id + " returned an inconsistent FES ledger"
         );
     }
     if (result.observed_workers != expected_workers) {
@@ -396,6 +406,11 @@ int run_self_check(const Arguments& arguments) {
         }
     }
     for (const std::string& algorithm : wflop::algorithm_ids()) {
+        if (!wflop::algorithm_supports_problem(
+                algorithm, arguments.problem
+            )) {
+            continue;
+        }
         wflop::RunConfig config;
         config.algorithm_id = algorithm;
         config.problem_id = arguments.problem;

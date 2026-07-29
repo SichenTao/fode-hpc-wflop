@@ -27,6 +27,8 @@ struct RunResult {
     std::string case_id;
     std::uint64_t seed = 0;
     std::uint64_t physical_fes = 0;
+    std::uint64_t training_physical_fes = 0;
+    std::uint64_t inference_physical_fes = 0;
     std::uint64_t generations = 0;
     int initial_population = 0;
     int final_population = 0;
@@ -66,5 +68,9 @@ bool algorithm_supports_problem(
     const std::string& problem_id
 );
 RunResult optimize(const fode::CaseData& data, const RunConfig& config);
+RunResult optimize_rlpso_reconstruction(
+    const fode::CaseData& data,
+    const RunConfig& config
+);
 
 }  // namespace wflop

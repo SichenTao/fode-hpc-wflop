@@ -192,6 +192,14 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "paper_derived_declared_problem_transfer",
             "ppga_declared_reconstruction_fode_e0_v1",
             {"fode_e0_common"}
+        },
+        {
+            "rlpso_compact_policy_declared_reconstruction_v1",
+            "RPSO-derived compact policy engineering proxy",
+            "10.1016/j.energy.2024.134050",
+            "paper_guided_declared_compact_policy_engineering_proxy",
+            "rlpso_compact_policy_declared_reconstruction_v1",
+            {"rpso2024_source_problem_ws1_ws4"}
         }
     };
     return descriptors;
