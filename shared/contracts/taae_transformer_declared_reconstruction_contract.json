@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "contract_id": "taae_transformer_declared_reconstruction_contract_v1",
+  "corpus_id": "Y36",
+  "paper": {
+    "title": "Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization",
+    "doi": "10.1109/JAS.2026.126233",
+    "public_author_method_source": "unavailable",
+    "public_author_checkpoint": "unavailable"
+  },
+  "method_semantic_id": "taae_transformer_declared_reconstruction_v1",
+  "method_evidence_tier": "M3_DECLARED_COMPLETION",
+  "implementation_language": "C++20",
+  "kernel_scope": "mathematically trainable Transformer autoencoder kernel only",
+  "admission_status": "kernel_verified_end_to_end_M3_method_not_admitted",
+  "blocked_original_algorithm_id": "taae",
+  "paper_visible_architecture": {
+    "encoder_layers": 6,
+    "autoregressive_decoder_layers": 6,
+    "attention_heads": 4,
+    "model_dimension": 64,
+    "token_embedding_dimension": 64,
+    "ffn_width_declared_completion": 256,
+    "latent_dimension": 64,
+    "decoder_start": "learned_BOS_embedding",
+    "decoder_mask": "causal",
+    "normalization": "post_norm",
+    "dropout": 0.0,
+    "initialization": "deterministic_Xavier_uniform"
+  },
+  "optimizer": {
+    "name": "Adam",
+    "learning_rate": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+  },
+  "losses": {
+    "reconstruction": "mean_token_cross_entropy",
+    "regression": "mean_squared_error",
+    "metric_alignment": "mean_squared_alignment_of_normalized_latent_distance_and_absolute_relative_fitness_distance",
+    "combined_fine_tune_weights": {
+      "lambda_reg": 30.0,
+      "lambda_smooth": 1.0
+    },
+    "decoder_freeze": "all decoder-owned parameter gradients are exactly zero and decoder Adam state is not advanced"
+  },
+  "training_work_ledger": {
+    "fields": [
+      "corpus_samples",
+      "token_operations",
+      "optimizer_steps",
+      "pretraining_epochs",
+      "fine_tuning_epochs",
+      "training_physical_fes",
+      "wall_seconds"
+    ],
+    "training_physical_fes": 0
+  },
+  "checkpoint": {
+    "format": "TAAE_KERNEL_CHECKPOINT_V1",
+    "parameter_state_hash": "FNV-1a-64 over ordered names and IEEE-754 parameter bytes",
+    "file_hash": "SHA-256",
+    "replay_requirement": "exact parameter hash, latent output, and reconstruction-loss replay"
+  },
+  "verification": {
+    "analytic_training_gradients": true,
+    "finite_differences_used_for_training": false,
+    "finite_difference_tests": [
+      "LayerNorm input, scale, and shift",
+      "four-head attention inputs and representative query, key, value, and output weights",
+      "64 to 256 to 64 FFN with residual and post-norm",
+      "reconstruction cross entropy",
+      "regression MSE",
+      "metric-alignment loss"
+    ],
+    "required_runtime_tests": [
+      "causal mask proof",
+      "default 6 encoder plus 6 decoder forward smoke",
+      "tiny deterministic corpus reconstruction loss decrease",
+      "decoder freeze",
+      "checkpoint exact replay",
+      "training physical FES equals zero"
+    ]
+  },
+  "excluded_scope": [
+    "CLI",
+    "algorithm registry entry",
+    "NSGA-II",
+    "latent differential evolution",
+    "optimizer benchmark run",
+    "formal evidence",
+    "performance claim",
+    "GPU claim",
+    "paper result reproduction"
+  ],
+  "claim_boundary": "This commit verifies a pure C++ trainable mathematical kernel under declared missing-field completions. It does not admit the end-to-end M3 evolutionary method, unblock original taae, reproduce author results, or establish CPU or GPU performance."
+}

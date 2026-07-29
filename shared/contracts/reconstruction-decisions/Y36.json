@@ -5,9 +5,10 @@
   "paper_sha256": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b",
   "profiles": [
     "taae_zhangbei_structured_declared_proxy_v1",
-    "taae_formula_fixture_v1"
+    "taae_formula_fixture_v1",
+    "taae_transformer_declared_reconstruction_v1"
   ],
-  "completion_status": "P3_problem_proxy_and_P4_formula_fixture_complete_original_TAAE_problem_and_method_blocked",
+  "completion_status": "P3_problem_proxy_P4_formula_fixture_and_trainable_Transformer_kernel_complete_end_to_end_M3_method_not_admitted_original_TAAE_problem_and_method_blocked",
   "decisions": [
     {
       "field": "terrain_and_decision_space",
@@ -80,6 +81,42 @@
       "expected_downstream_effect": "permits CPU population evaluation while preserving same-binary bitwise scientific equality between one-thread and twenty-thread configurations",
       "sensitivity_test_required": true,
       "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "transformer_architecture_completion",
+      "completed_transition": "the paper exposes six encoder layers, six autoregressive decoder layers, four heads, 64-dimensional embeddings and latent state, BOS, causal masking, and Adam, but does not expose every engineering choice needed by a trainable implementation",
+      "selected_value_or_rule": "preserve the visible 6 plus 6, 4-head, d_model 64, latent 64 architecture and declare FFN 256, post-norm, dropout zero, deterministic Xavier-uniform initialization, and learned BOS",
+      "authority_type": "paper_architecture_plus_declared_method_completion",
+      "immutable_authority": "Y36 paper and shared/contracts/taae_transformer_declared_reconstruction_contract.json",
+      "rejected_alternatives": ["freeze randomly initialized attention", "silently select an undeclared FFN width or normalization order"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines parameter shapes, information flow, initialization state, and the semantic identity of the reconstructed kernel",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_trainable_kernel_only"
+    },
+    {
+      "field": "transformer_training_objectives_and_work",
+      "completed_transition": "the paper names reconstruction and fitness-assisted learning but public source and checkpoint are unavailable and training work must remain distinct from physical wind-farm evaluation",
+      "selected_value_or_rule": "use token cross entropy, regression MSE, normalized latent-distance metric alignment, lambda_reg 30, lambda_smooth 1, Adam defaults, exact decoder freeze, and record training_physical_fes as zero",
+      "authority_type": "paper_loss_structure_plus_declared_method_and_platform_completion",
+      "immutable_authority": "shared/contracts/taae_transformer_declared_reconstruction_contract.json and hpc/taae_cpp/tests/model_test.cpp",
+      "rejected_alternatives": ["use finite differences for training", "count token or optimizer work as physical FES", "freeze random attention and describe it as trained"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "defines gradient flow, update semantics, training-work accounting, and checkpoint replay",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_trainable_kernel_only"
+    },
+    {
+      "field": "transformer_kernel_admission_boundary",
+      "completed_transition": "a verified mathematical autoencoder kernel does not by itself define or validate the paper's complete evolutionary method",
+      "selected_value_or_rule": "admit only the pure C++ trainable kernel under semantic ID taae_transformer_declared_reconstruction_v1; keep the end-to-end M3 method unadmitted and original taae blocked",
+      "authority_type": "reconstruction_admission_policy",
+      "immutable_authority": "shared/contracts/taae_transformer_declared_reconstruction_contract.json",
+      "rejected_alternatives": ["register an executable TAAE algorithm from kernel tests", "create formal optimization evidence or performance claims from the kernel milestone"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "prevents kernel verification from being upgraded to original-method, optimizer, benchmark, CPU-performance, or GPU-performance evidence",
+      "sensitivity_test_required": false,
+      "adjudication_status": "kernel_only_end_to_end_method_blocked"
     }
   ]
 }
