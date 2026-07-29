@@ -509,9 +509,10 @@ RunResult optimize_fode_hpc_controlled(
         begin_phase();
         ++generation;
         const double fractional_order = std::clamp(
-            controller.begin_generation(
+            controller.begin_generation_with_fes(
                 generation,
-                controller_best_fitness
+                controller_best_fitness,
+                physical_fes
             ),
             0.0,
             1.0

@@ -1,4 +1,5 @@
 #include "wflop/algorithms.hpp"
+#include "wflop/rlfode_reconstruction.hpp"
 
 #include "fode/case.hpp"
 #include "fode/evaluator.hpp"
@@ -22,6 +23,8 @@ struct Arguments {
     std::string cases_path = "shared/contracts/benchmark_cases.json";
     std::string models_path = "shared/models/sugga_cpp";
     std::string rlfode_models_path = "shared/models/fqfode_seeded";
+    wflop::FqfodeSensitivityProfile fqfode_sensitivity_profile =
+        wflop::FqfodeSensitivityProfile::baseline;
     std::string algorithm = "fode";
     std::vector<std::string> algorithms;
     std::string problem = "fode_e0_common";
@@ -31,6 +34,7 @@ struct Arguments {
     std::uint64_t seed = 20260728;
     std::uint64_t physical_fes = 24000;
     int workers = 20;
+    int alga_attention_hidden_width = 1;
     bool all_cases = false;
     bool all_algorithms = false;
     bool list_algorithms = false;
@@ -91,6 +95,11 @@ Arguments parse_arguments(int argc, char** argv) {
             result.models_path = next();
         } else if (flag == "--rlfode-models") {
             result.rlfode_models_path = next();
+        } else if (flag == "--fqfode-sensitivity-profile") {
+            result.fqfode_sensitivity_profile =
+                wflop::rlfode_reconstruction::parse_sensitivity_profile(
+                    next()
+                );
         } else if (flag == "--algorithm") {
             result.algorithm = next();
         } else if (flag == "--algorithms") {
@@ -109,6 +118,9 @@ Arguments parse_arguments(int argc, char** argv) {
             result.physical_fes = parse_u64(next(), flag);
         } else if (flag == "--workers") {
             result.workers = static_cast<int>(parse_u64(next(), flag));
+        } else if (flag == "--alga-attention-width") {
+            result.alga_attention_hidden_width =
+                static_cast<int>(parse_u64(next(), flag));
         } else if (flag == "--all-cases") {
             result.all_cases = true;
         } else if (flag == "--all-algorithms") {
@@ -137,8 +149,15 @@ Arguments parse_arguments(int argc, char** argv) {
                 << "  --physical-fes N     complete-layout evaluation budget per run\n"
                 << "  --seed N             deterministic algorithm seed\n"
                 << "  --workers N          persistent C++ thread-team size; formal Waffle value is 20\n"
+                << "  --alga-attention-width N"
+                   " 1 baseline or 2 sensitivity profile\n"
                 << "  --models PATH        frozen C++ SUGGA model directory\n"
                 << "  --rlfode-models PATH frozen FQFODE Q-table directory\n"
+                << "  --fqfode-sensitivity-profile ID"
+                   " baseline, multiplicative-action,"
+                   " fes-normalized-stage,"
+                   " wrap-after-generation-200, or"
+                   " independent-stage-pretraining\n"
                 << "  --output PATH        write JSON or JSONL\n"
                 << "  --self-check         bounded registered-algorithm semantic smoke\n"
                 << "  --list-algorithms    print canonical algorithm IDs\n"
@@ -201,6 +220,26 @@ std::string to_json(const wflop::RunResult& result) {
            << result.inference_physical_fes << ",";
     output << "\"policy_interactions\":" << result.policy_interactions << ",";
     output << "\"policy_updates\":" << result.policy_updates << ",";
+    output << "\"policy_stage_interactions\":[";
+    for (std::size_t index = 0;
+         index < result.policy_stage_interactions.size(); ++index) {
+        if (index != 0) {
+            output << ",";
+        }
+        output << result.policy_stage_interactions[index];
+    }
+    output << "],";
+    output << "\"policy_stage_updates\":[";
+    for (std::size_t index = 0;
+         index < result.policy_stage_updates.size(); ++index) {
+        if (index != 0) {
+            output << ",";
+        }
+        output << result.policy_stage_updates[index];
+    }
+    output << "],";
+    output << "\"alga_attention_hidden_width\":"
+           << result.alga_attention_hidden_width << ",";
     output << "\"generations\":" << result.generations << ",";
     output << "\"initial_population\":" << result.initial_population << ",";
     output << "\"final_population\":" << result.final_population << ",";
@@ -455,6 +494,10 @@ int run_self_check(const Arguments& arguments) {
         config.workers = arguments.workers;
         config.sugga_model_root = arguments.models_path;
         config.rlfode_model_root = arguments.rlfode_models_path;
+        config.fqfode_sensitivity_profile =
+            arguments.fqfode_sensitivity_profile;
+        config.alga_attention_hidden_width =
+            arguments.alga_attention_hidden_width;
         const auto first = wflop::optimize(data, config);
         const auto second = wflop::optimize(data, config);
         validate_result(
@@ -566,6 +609,10 @@ int main(int argc, char** argv) {
                 config.workers = arguments.workers;
                 config.sugga_model_root = arguments.models_path;
                 config.rlfode_model_root = arguments.rlfode_models_path;
+                config.fqfode_sensitivity_profile =
+                    arguments.fqfode_sensitivity_profile;
+                config.alga_attention_hidden_width =
+                    arguments.alga_attention_hidden_width;
                 const auto result = wflop::optimize(data, config);
                 validate_result(
                     result,

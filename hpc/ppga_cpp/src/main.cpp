@@ -9,6 +9,9 @@ Missing information: original elevation and wind arrays, turbine curves, complet
 Reconstruction decision: corrected v2 uses the frozen P3 problem, strict Eq.18 gate, independent finite-support per-dimension perturbation, parent-index stagnation before selection, counter-keyed RNG, exact complete-layout FES, and pure CPU execution
 Method semantic ID: ppga_nantong_structured_3d_declared_reconstruction_v2
 Problem semantic ID: ppga_nantong_structured_3d_declared_proxy_v1
+Step 11 multiplicative-wake probing is a sensitivity-only independent problem
+semantic. The root-sum-square baseline remains unchanged; distinct problem
+semantics are never pooled or used for cross-semantic ranking.
 Evidence tiers: M3_DECLARED_COMPLETION on P3_DECLARED_PROXY
 Default execution: pure CPU with hardware_concurrency workers
 Controlling contract: shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json
@@ -58,10 +61,26 @@ int main(int argc, char** argv) {
                     std::stoi(require_value(index, argc, argv));
             } else if (argument == "--backend") {
                 config.backend = require_value(index, argc, argv);
+            } else if (argument == "--wake-combination") {
+                const std::string value =
+                    require_value(index, argc, argv);
+                if (value == "root-sum-square") {
+                    config.wake_combination =
+                        ppga::WakeCombination::root_sum_square;
+                } else if (value == "multiplicative") {
+                    config.wake_combination =
+                        ppga::WakeCombination::multiplicative;
+                } else {
+                    throw std::invalid_argument(
+                        "unknown wake combination: " + value
+                    );
+                }
             } else if (argument == "--help") {
                 std::cout
                     << "usage: ppga_nantong_hpc --cases FILE [--case ID]"
                     << " [--seed N] [--physical-fes N] [--workers N]"
+                    << " [--wake-combination"
+                       " root-sum-square|multiplicative]"
                     << " [--backend cpu|auto|hybrid|gpu]\n";
                 return 0;
             } else {

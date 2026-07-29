@@ -10,6 +10,11 @@ Known missing information: author training seeds, exact pretraining environment/
 Reconstruction performed here: five fixed seeds, four inherited rounds, 101 complete FODE-generation interactions per round on declared fixed case WS2tn50, one aggregated Qinit copied into four stage tables, exact physical-FES accounting, and immutable table hashing
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: fqfode_seeded_training_declared_reconstruction_v1
+Bounded sensitivity semantics: the independent-stage artifact executes the
+same four rounds and five fixed agents separately for each of four stages,
+uses a distinct manifest and filename, and is a sensitivity-only independent
+method identity. The baseline remains unchanged; distinct semantics are never
+pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/fqfode_seeded_training_reconstruction_contract.json
 Claim boundary: generates a declared reconstruction artifact; it does not recover or impersonate the unavailable author-pretrained policy
 END WFLOP IMPLEMENTATION FACT DECLARATION
@@ -30,9 +35,9 @@ struct Arguments {
     std::string cases = "shared/contracts/benchmark_cases.json";
     std::string case_id =
         wflop::rlfode_reconstruction::kSharedTrainingCaseId;
-    std::string output =
-        std::string("shared/models/fqfode_seeded/")
-        + wflop::rlfode_reconstruction::kSharedArtifactFilename;
+    std::string output;
+    wflop::FqfodeSensitivityProfile sensitivity_profile =
+        wflop::FqfodeSensitivityProfile::baseline;
     int workers = 20;
 };
 
@@ -54,13 +59,20 @@ Arguments parse_arguments(int argc, char** argv) {
             result.output = next();
         } else if (flag == "--workers") {
             result.workers = std::stoi(next());
+        } else if (flag == "--sensitivity-profile") {
+            result.sensitivity_profile =
+                wflop::rlfode_reconstruction::parse_sensitivity_profile(
+                    next()
+                );
         } else if (flag == "--help" || flag == "-h") {
             std::cout
                 << "Usage: rlfode_train_qtable [options]\n"
                 << "  --cases PATH    benchmark case contract\n"
                 << "  --case ID       one training environment\n"
                 << "  --output PATH   frozen Q-table artifact\n"
-                << "  --workers N     persistent CPU thread-team size\n";
+                << "  --workers N     persistent CPU thread-team size\n"
+                << "  --sensitivity-profile ID"
+                   " baseline or independent-stage-pretraining\n";
             std::exit(0);
         } else {
             throw std::runtime_error("unknown argument: " + flag);
@@ -73,7 +85,25 @@ Arguments parse_arguments(int argc, char** argv) {
 
 int main(int argc, char** argv) {
     try {
-        const Arguments arguments = parse_arguments(argc, argv);
+        Arguments arguments = parse_arguments(argc, argv);
+        if (arguments.sensitivity_profile
+                != wflop::FqfodeSensitivityProfile::baseline
+            && arguments.sensitivity_profile
+                != wflop::FqfodeSensitivityProfile::
+                    independent_stage_pretraining) {
+            throw std::runtime_error(
+                "artifact training accepts only baseline or "
+                "independent-stage-pretraining"
+            );
+        }
+        if (arguments.output.empty()) {
+            arguments.output =
+                std::string("shared/models/fqfode_seeded/")
+                + wflop::rlfode_reconstruction::
+                    sensitivity_profile_descriptor(
+                        arguments.sensitivity_profile
+                    ).artifact_filename;
+        }
         const auto data = fode::load_case(
             arguments.cases,
             arguments.case_id
@@ -81,7 +111,8 @@ int main(int argc, char** argv) {
         const auto artifact =
             wflop::rlfode_reconstruction::train_artifact(
                 data,
-                arguments.workers
+                arguments.workers,
+                arguments.sensitivity_profile
             );
         wflop::rlfode_reconstruction::save_artifact(
             artifact,

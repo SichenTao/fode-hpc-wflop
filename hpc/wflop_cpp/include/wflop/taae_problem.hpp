@@ -10,6 +10,9 @@ Method evidence tier: not_applicable_problem_interface
 Problem evidence tier: P3_DECLARED_PROXY
 Method semantic ID: not_applicable_problem_interface
 Problem semantic ID: taae_zhangbei_structured_declared_proxy_v1
+Step 11 multiplicative-wake probing is a sensitivity-only independent problem
+semantic. Baseline semantics and semantic hash remain unchanged; distinct
+problem semantics are never pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/taae_zhangbei_structured_declared_proxy_contract.json
 Claim boundary: no TAAE Transformer method, Zhangbei numerical-case, reported-front, or speedup claim
 Last evidence audit date: 2026-07-29
@@ -25,6 +28,11 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 #include <vector>
 
 namespace wflop::taae {
+
+enum class WakeCombination {
+    root_sum_square,
+    multiplicative,
+};
 
 struct CompleteEvaluation {
     double reciprocal_expected_power_per_kw = 0.0;
@@ -46,10 +54,14 @@ BatchEvaluation evaluate_structured_proxy(
     const std::vector<int>& layouts_1based,
     int batch_size,
     const fode::CaseData& data,
-    fode::PersistentExecutor& executor
+    fode::PersistentExecutor& executor,
+    WakeCombination wake_combination = WakeCombination::root_sum_square
 );
 
-std::string structured_proxy_semantic_hash(const fode::CaseData& data);
+std::string structured_proxy_semantic_hash(
+    const fode::CaseData& data,
+    WakeCombination wake_combination = WakeCombination::root_sum_square
+);
 void check_formula_fixture();
 
 }  // namespace wflop::taae

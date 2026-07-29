@@ -1,0 +1,466 @@
+{
+  "schema_version": 1,
+  "receipt_id": "step11_reconstruction_sensitivity_receipts_20260729",
+  "scope_rule": "every decision whose classification is quality_sensitive in shared/contracts/reconstruction-decisions/*.json",
+  "predetermined_seed_set": [
+    2026072901,
+    2026072902,
+    2026072903
+  ],
+  "rules": {
+    "selected_completion_is_never_changed_after_observing_quality": true,
+    "quality_comparison_requires_identical_problem_semantics_id": true,
+    "identity_critical_problem_variants_are_excluded_from_within_id_quality_ranking": true,
+    "textual_rejected_choices_are_not_assumed_to_be_executable": true,
+    "allowed_evidence_dispositions": [
+      "executed",
+      "accepted_existing_evidence",
+      "scientifically_inadmissible_with_reason"
+    ],
+    "rejected_choices_are_classified_individually_and_verbatim": true,
+    "allowed_rejected_choice_dispositions": [
+      "executed",
+      "scientific_stop"
+    ]
+  },
+  "evidence_by_corpus": {
+    "S04": {
+      "path": "evidence/development/fqfode_sensitivity_step11_spark_20260729.json",
+      "sha256": "229450398ae213e3ae6b50c429e1cae9f3f6c8d9a2b16b8b5fcb088113118382"
+    },
+    "T42": {
+      "path": "evidence/development/rlpso_bounded_step11_spark_20260729.json",
+      "sha256": "2354d5488780032c410bf43728f8e5cbd08b4eeba1bb6af453bebf57510d7ff7"
+    },
+    "T43": {
+      "path": "evidence/development/step11_quality_sensitivity_profiles_spark_20260729.json",
+      "sha256": "7103f67ddc503f903e20bf2bba29c38dc82fe455caffc9a3f7be76710b61a3d1"
+    },
+    "T45": {
+      "path": "evidence/development/step11_quality_sensitivity_profiles_spark_20260729.json",
+      "sha256": "7103f67ddc503f903e20bf2bba29c38dc82fe455caffc9a3f7be76710b61a3d1"
+    },
+    "Y36": {
+      "path": "evidence/development/step11_quality_sensitivity_profiles_spark_20260729.json",
+      "sha256": "7103f67ddc503f903e20bf2bba29c38dc82fe455caffc9a3f7be76710b61a3d1"
+    }
+  },
+  "obligations": [
+    {
+      "corpus_id": "S04",
+      "field": "offline_training_environment",
+      "selected_baseline_status": "accepted_existing_evidence",
+      "selected_baseline_reason": "The frozen WS2tn50 shared-Qinit artifact and its training FES/hash are accepted existing evidence.",
+      "admissible_alternatives": [
+        {
+          "id": "fqfode_seeded_training_multiplicative_sensitivity_v1",
+          "status": "executed",
+          "conflict_id": "FQFODE_ACTION_RULE",
+          "profile_id": "multiplicative-action",
+          "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+          "result_locator": "profiles[profile_id=multiplicative-action].runs"
+        },
+        {
+          "id": "fqfode_independent_stage_pretraining_sensitivity_v1",
+          "status": "executed",
+          "conflict_id": "FQFODE_STAGE_PRETRAINING_IDENTITY",
+          "profile_id": "independent-stage-pretraining",
+          "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+          "result_locator": "profiles[profile_id=independent-stage-pretraining].runs"
+        }
+      ],
+      "result": "executed_distinct_method_identities_same_WS2tn50_problem_without_retroactive_selection",
+      "rejected_choices": [
+        {
+          "index": 0,
+          "text": "train a different table per formal case",
+          "disposition": "scientific_stop",
+          "reason": "Per-formal-case training would change the learned artifact and method identity by case, preventing one fixed method identity across the formal case set.",
+          "semantic_id": null,
+          "result_locator": null
+        },
+        {
+          "index": 1,
+          "text": "use sparse single-direction WS1tn10 after observing all-zero rewards",
+          "disposition": "scientific_stop",
+          "reason": "The sparse WS1tn10 choice is explicitly post-hoc and the superseded 680-FES probe did not reach generation 200 or exercise the full stage ambiguity.",
+          "semantic_id": null,
+          "result_locator": null
+        },
+        {
+          "index": 2,
+          "text": "invent an unidentified author environment",
+          "disposition": "scientific_stop",
+          "reason": "No author environment exists in the evidence corpus; inventing one would be untraceable rather than an executable scientific level.",
+          "semantic_id": null,
+          "result_locator": null
+        }
+      ]
+    },
+    {
+      "corpus_id": "S04",
+      "field": "offline_training_seeds",
+      "selected_baseline_status": "accepted_existing_evidence",
+      "selected_baseline_reason": "The five fixed seeds, artifact hash, and byte-identical worker replay are frozen.",
+      "admissible_alternatives": [],
+      "result": "SCIENTIFIC_STOP_rejected_seed_rules_are_nonreproducible_and_no_unregistered_posthoc_seed_manifest_was_invented",
+      "rejected_choices": [
+        {
+          "index": 0,
+          "text": "wall-clock seeds",
+          "disposition": "scientific_stop",
+          "reason": "Wall-clock seeds are not predetermined and cannot yield reproducible artifact identity.",
+          "semantic_id": null,
+          "result_locator": null
+        },
+        {
+          "index": 1,
+          "text": "omit seed provenance from the frozen artifact",
+          "disposition": "scientific_stop",
+          "reason": "Omitting seed provenance makes the frozen artifact scientifically unauditable.",
+          "semantic_id": null,
+          "result_locator": null
+        }
+      ]
+    },
+    {
+      "corpus_id": "S04",
+      "field": "formal_stage_schedule_after_generation_200",
+      "selected_baseline_status": "accepted_existing_evidence",
+      "selected_baseline_reason": "Stage 4 continuation is frozen before results and the accepted test checks its work ledger.",
+      "admissible_alternatives": [
+        {
+          "id": "fqfode_seeded_training_fes_normalized_stage_sensitivity_v1",
+          "status": "executed",
+          "conflict_id": "FQFODE_GENERATION_BUDGET_MAPPING",
+          "profile_id": "fes-normalized-stage",
+          "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+          "result_locator": "profiles[profile_id=fes-normalized-stage].runs"
+        },
+        {
+          "id": "fqfode_generation200_wrap_stage_sensitivity_v1",
+          "status": "executed",
+          "conflict_id": "FQFODE_GENERATION_200_WRAP",
+          "profile_id": "wrap-after-generation-200",
+          "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+          "result_locator": "profiles[profile_id=wrap-after-generation-200].runs"
+        }
+      ],
+      "result": "executed_24000_FES_WS2tn50_five_predetermined_method_profiles_all_over_200_generations",
+      "rejected_choices": [
+        {
+          "index": 0,
+          "text": "wrap back to stage 1 after generation 200",
+          "disposition": "executed",
+          "reason": "The otherwise executable stage-wrap rule was registered before the final run and evaluated as a separate method semantic on the same WS2tn50 problem.",
+          "semantic_id": "fqfode_generation200_wrap_stage_sensitivity_v1",
+          "result_locator": "profiles[profile_id=wrap-after-generation-200].runs"
+        },
+        {
+          "index": 1,
+          "text": "stop before the requested formal physical-FES budget is exhausted",
+          "disposition": "scientific_stop",
+          "reason": "Stopping before the requested 24000 physical FES would violate the common work denominator.",
+          "semantic_id": null,
+          "result_locator": null
+        }
+      ]
+    },
+    {
+      "corpus_id": "T42",
+      "field": "network_completion",
+      "selected_baseline_status": "accepted_existing_evidence",
+      "selected_baseline_reason": "Both compact and paper-corrected profiles were frozen before the Step 11 seed set.",
+      "admissible_alternatives": [
+        {
+          "id": "paper_corrected_full_ppo_distinct_profile",
+          "status": "executed",
+          "profile_id": "rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4",
+          "problem_semantics_id": "rpso2024_source_problem_ws1_ws4_v1",
+          "result_locator": "profiles.rlpso_paper_corrected_training_reconstruction_v1.quality_results"
+        }
+      ],
+      "result": "executed_distinct_profiles_same_problem_no_retroactive_selection",
+      "rejected_choices": [
+        {
+          "index": 0,
+          "text": "random untrained network labelled author policy",
+          "disposition": "scientific_stop",
+          "reason": "A random untrained network is not the declared trained-policy method identity and cannot be relabelled as author policy.",
+          "semantic_id": null,
+          "result_locator": null
+        },
+        {
+          "index": 1,
+          "text": "unseeded Torch dependency",
+          "disposition": "scientific_stop",
+          "reason": "An unseeded Torch dependency is not reproducible and provides no frozen policy identity.",
+          "semantic_id": null,
+          "result_locator": null
+        }
+      ]
+    },
+    {
+      "corpus_id": "T42",
+      "field": "training_work_budget",
+      "selected_baseline_status": "accepted_existing_evidence",
+      "selected_baseline_reason": "Compact profile exposes 32 training and 448 inference FES under the fixed 480-FES receipt.",
+      "admissible_alternatives": [
+        {
+          "id": "paper_corrected_public_loop_distinct_profile",
+          "status": "executed",
+          "profile_id": "rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4",
+          "problem_semantics_id": "rpso2024_source_problem_ws1_ws4_v1",
+          "result_locator": "profiles.rlpso_paper_corrected_training_reconstruction_v1.quality_results"
+        }
+      ],
+      "result": "executed_distinct_profiles_same_problem_no_retroactive_selection",
+      "rejected_choices": [
+        {
+          "index": 0,
+          "text": "hide training evaluations",
+          "disposition": "scientific_stop",
+          "reason": "Hidden training evaluations violate the shared complete-layout FES ledger.",
+          "semantic_id": null,
+          "result_locator": null
+        },
+        {
+          "index": 1,
+          "text": "exclude training from the fixed budget",
+          "disposition": "scientific_stop",
+          "reason": "Excluding training work changes the denominator and is not an admissible fixed-budget comparison.",
+          "semantic_id": null,
+          "result_locator": null
+        }
+      ]
+    },
+    {
+      "corpus_id": "T42",
+      "field": "paper_corrected_reward",
+      "selected_baseline_status": "executed",
+      "selected_baseline_reason": "Three predetermined seeds record exact learned-state and scientific-output hashes for the immediate-reward profile.",
+      "admissible_alternatives": [],
+      "result": "passed_no_additional_admissible_within_identity_alternative",
+      "rejected_choices": [
+        {
+          "index": 0,
+          "text": "store the running cumulative reward as each transition reward",
+          "disposition": "scientific_stop",
+          "reason": "Running cumulative reward changes every transition target and contradicts the declared immediate transition reward.",
+          "semantic_id": null,
+          "result_locator": null
+        },
+        {
+          "index": 1,
+          "text": "hide reward evaluations outside the work ledger",
+          "disposition": "scientific_stop",
+          "reason": "Hidden reward evaluations violate exact physical-FES accounting.",
+          "semantic_id": null,
+          "result_locator": null
+        }
+      ]
+    },
+    {
+      "corpus_id": "T42",
+      "field": "paper_corrected_training_work",
+      "selected_baseline_status": "executed",
+      "selected_baseline_reason": "The fixed 480-FES runs expose 430 training FES, 50 inference FES, one terminal update, and learned-state hashes.",
+      "admissible_alternatives": [
+        {
+          "id": "compact_eight_interaction_distinct_profile",
+          "status": "executed",
+          "profile_id": "rlpso_compact_policy_declared_reconstruction_v1__rpso2024_source_problem_ws1_ws4",
+          "problem_semantics_id": "rpso2024_source_problem_ws1_ws4_v1",
+          "result_locator": "profiles.rlpso_compact_policy_declared_reconstruction_v1.quality_results"
+        }
+      ],
+      "result": "executed_distinct_profiles_same_problem_no_retroactive_selection",
+      "rejected_choices": [
+        {
+          "index": 0,
+          "text": "reuse the compact proxy value of eight interactions",
+          "disposition": "executed",
+          "reason": "The compact eight-interaction completion already exists and was rerun as its own fixed method semantic on the identical RPSO source problem.",
+          "semantic_id": "rlpso_compact_policy_declared_reconstruction_v1",
+          "result_locator": "profiles.rlpso_compact_policy_declared_reconstruction_v1.quality_results"
+        },
+        {
+          "index": 1,
+          "text": "exclude PPO environment calls from FES",
+          "disposition": "scientific_stop",
+          "reason": "Excluding PPO environment calls from FES would hide physical evaluations.",
+          "semantic_id": null,
+          "result_locator": null
+        },
+        {
+          "index": 2,
+          "text": "allow the first outer call to exceed the fixed budget silently",
+          "disposition": "scientific_stop",
+          "reason": "Silent budget overshoot violates exact bounded stopping.",
+          "semantic_id": null,
+          "result_locator": null
+        }
+      ]
+    },
+    {
+      "corpus_id": "T43",
+      "field": "three_dimensional_wake_completion",
+      "selected_baseline_status": "accepted_existing_evidence",
+      "selected_baseline_reason": "The fixed P3 oracle and PPGA v2 receipt preserve one frozen wake completion.",
+      "admissible_alternatives": [
+        {
+          "id": "ppga_nantong_structured_3d_multiplicative_wake_sensitivity_v1",
+          "status": "executed",
+          "profile_id": "multiplicative",
+          "problem_semantics_id": "ppga_nantong_structured_3d_multiplicative_wake_sensitivity_v1",
+          "result_locator": "families.T43.profiles[profile_id=multiplicative].runs"
+        }
+      ],
+      "result": "executed_distinct_problem_semantic_and_hash_without_cross_semantic_pooling_or_ranking",
+      "rejected_choices": [
+        {
+          "index": 0,
+          "text": "claim Eq. 10 uniquely determines all missing wake inputs",
+          "disposition": "scientific_stop",
+          "reason": "Equation 10 does not uniquely identify all missing original wake inputs, so claiming uniqueness would be false evidence.",
+          "semantic_id": null,
+          "result_locator": null
+        },
+        {
+          "index": 1,
+          "text": "multiply successive wakes",
+          "disposition": "executed",
+          "reason": "Multiplicative wake combination was predeclared and run under a distinct problem semantic and hash; it is not pooled or ranked against the baseline problem.",
+          "semantic_id": "ppga_nantong_structured_3d_multiplicative_wake_sensitivity_v1",
+          "result_locator": "families.T43.profiles[profile_id=multiplicative].runs"
+        },
+        {
+          "index": 2,
+          "text": "import Guishan terrain or wind data",
+          "disposition": "scientific_stop",
+          "reason": "Guishan terrain or wind data belongs to a different site and would create an unsupported mixed problem identity.",
+          "semantic_id": null,
+          "result_locator": null
+        }
+      ]
+    },
+    {
+      "corpus_id": "T45",
+      "field": "attention_architecture",
+      "selected_baseline_status": "accepted_existing_evidence",
+      "selected_baseline_reason": "The shallow scalar eight-head completion was frozen before optimization and has exact worker replay.",
+      "admissible_alternatives": [
+        {
+          "id": "alga_attention_width2_sensitivity_v1",
+          "status": "executed",
+          "profile_id": "width2",
+          "problem_semantics_id": "alga_guishan_planar_wind_fode_evaluator_transfer_v1",
+          "result_locator": "families.T45.profiles[profile_id=width2].runs"
+        }
+      ],
+      "result": "executed_predetermined_width2_method_semantic_same_problem_without_retroactive_selection",
+      "rejected_choices": [
+        {
+          "index": 0,
+          "text": "invent a multi-layer feed-forward network",
+          "disposition": "scientific_stop",
+          "reason": "A multi-layer feed-forward network is not specified and adds more than the isolated hidden-width uncertainty.",
+          "semantic_id": null,
+          "result_locator": null
+        },
+        {
+          "index": 1,
+          "text": "select a wider hidden state after observing optimization results",
+          "disposition": "executed",
+          "reason": "Width two was registered before quality observation and executed as an independent method semantic, removing the rejected post-hoc selection behavior.",
+          "semantic_id": "alga_attention_width2_sensitivity_v1",
+          "result_locator": "families.T45.profiles[profile_id=width2].runs"
+        }
+      ]
+    },
+    {
+      "corpus_id": "Y36",
+      "field": "multi_wake_and_terrain_shear_completion",
+      "selected_baseline_status": "accepted_existing_evidence",
+      "selected_baseline_reason": "The P3 oracle freezes RSS wake-only deficits and target-point terrain shear.",
+      "admissible_alternatives": [
+        {
+          "id": "taae_zhangbei_structured_multiplicative_wake_sensitivity_v1",
+          "status": "executed",
+          "profile_id": "multiplicative-wake",
+          "problem_semantics_id": "taae_zhangbei_structured_multiplicative_wake_sensitivity_v1",
+          "result_locator": "families.Y36.profiles[profile_id=multiplicative-wake].runs"
+        }
+      ],
+      "result": "executed_distinct_problem_semantic_and_hash_without_cross_semantic_pooling_or_ranking",
+      "rejected_choices": [
+        {
+          "index": 0,
+          "text": "multiply terrain shear again after deriving a pair velocity that already contains shear",
+          "disposition": "scientific_stop",
+          "reason": "Applying terrain shear twice double-counts the same physical adjustment.",
+          "semantic_id": null,
+          "result_locator": null
+        },
+        {
+          "index": 1,
+          "text": "multiply successive wake factors",
+          "disposition": "executed",
+          "reason": "Multiplicative successive wake factors were predeclared and run under a distinct problem semantic and hash with no cross-semantic pooling or ranking.",
+          "semantic_id": "taae_zhangbei_structured_multiplicative_wake_sensitivity_v1",
+          "result_locator": "families.Y36.profiles[profile_id=multiplicative-wake].runs"
+        },
+        {
+          "index": 2,
+          "text": "sum signed pair velocities",
+          "disposition": "scientific_stop",
+          "reason": "Summing signed pair velocities is dimensionally inconsistent with the declared deficit completion.",
+          "semantic_id": null,
+          "result_locator": null
+        }
+      ]
+    },
+    {
+      "corpus_id": "Y36",
+      "field": "transformer_training_objectives_and_work",
+      "selected_baseline_status": "accepted_existing_evidence",
+      "selected_baseline_reason": "The bounded deterministic kernel receipt freezes gradients, training work, and zero training physical FES.",
+      "admissible_alternatives": [
+        {
+          "id": "taae_transformer_evolution_regression15_sensitivity_v1",
+          "status": "executed",
+          "profile_id": "regression-half",
+          "problem_semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+          "result_locator": "families.Y36.profiles[profile_id=regression-half].runs"
+        }
+      ],
+      "result": "executed_predetermined_regression_weight15_method_semantic_same_problem_without_retroactive_selection",
+      "rejected_choices": [
+        {
+          "index": 0,
+          "text": "use finite differences for training",
+          "disposition": "scientific_stop",
+          "reason": "Finite differences would replace the declared analytic training method and add unledgered objective probes.",
+          "semantic_id": null,
+          "result_locator": null
+        },
+        {
+          "index": 1,
+          "text": "count token or optimizer work as physical FES",
+          "disposition": "scientific_stop",
+          "reason": "Token and optimizer work are recorded separately but are not complete-layout physical FES.",
+          "semantic_id": null,
+          "result_locator": null
+        },
+        {
+          "index": 2,
+          "text": "freeze random attention and describe it as trained",
+          "disposition": "scientific_stop",
+          "reason": "Frozen random attention is not trained attention and cannot be described as such.",
+          "semantic_id": null,
+          "result_locator": null
+        }
+      ]
+    }
+  ]
+}

@@ -66,7 +66,7 @@
       "authority_type": "negative_evidence_and_claim_boundary",
       "immutable_authority": "docs/source-dossiers/L0726.json and shared/contracts/geoga_anholt_structured_declared_proxy_contract.json",
       "rejected_alternatives": ["digitize Figure 1 and compare as if exact", "compare the proxy result directly with Table I", "treat an external public turbine map as the paper evaluator baseline"],
-      "classification": "quality_sensitive",
+      "classification": "identity_critical",
       "expected_downstream_effect": "prevents a false original-layout or paper-performance claim",
       "sensitivity_test_required": false,
       "adjudication_status": "blocked_original_comparison"
@@ -78,7 +78,7 @@
       "authority_type": "platform_physical_work_and_CPU_execution_contract",
       "immutable_authority": "shared/contracts/geoga_anholt_structured_execution_contract.json and hpc/geoga_cpp/tests/evolution_test.cpp",
       "rejected_alternatives": ["count each wind bin as one FES", "execute 10050 calls while labeling them 10000", "overshoot partial budgets", "claim unsupported GPU or hybrid execution", "allow worker scheduling to change scientific output"],
-      "classification": "quality_sensitive",
+      "classification": "implementation_only",
       "expected_downstream_effect": "provides comparable selected-case work, exact one-versus-all science, and auditable CPU participation",
       "sensitivity_test_required": true,
       "adjudication_status": "selected_for_CPU_R4_development_only"

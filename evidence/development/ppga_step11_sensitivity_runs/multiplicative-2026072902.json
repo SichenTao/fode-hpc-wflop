@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "method_semantic_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
+  "problem_semantic_id": "ppga_nantong_structured_3d_multiplicative_wake_sensitivity_v1",
+  "problem_semantic_hash": "4ec1944aac0f61d3",
+  "wake_combination": "multiplicative",
+  "case_id": "PPGA_NantongStructured_WS1_tn20",
+  "seed": 2026072902,
+  "physical_fes": 60,
+  "generations": 1,
+  "backend": "cpu",
+  "requested_workers": 20,
+  "resolved_workers": 20,
+  "total_wall_seconds": 0.002458736,
+  "best": {
+    "layout_1based": [12, 16, 68, 104, 126, 141, 148, 218, 227, 231, 244, 280, 291, 301, 329, 332, 382, 397, 417, 430],
+    "expected_power_kw": 38149.176088923203,
+    "ideal_expected_power_kw": 42083.515087862426,
+    "conversion_efficiency": 0.90651116023162359,
+    "cost_per_expected_power": 0.00043663251812082858,
+    "layout_hash": "3fd76b12315d1c02"
+  },
+  "population_layout_hash": "d58d1f55e2c459ec",
+  "stage_receipts": {
+    "initialization": {"wall_seconds": 0.00047980800000000002, "parallel_regions": 1, "task_items": 30, "participant_activations": 18, "distinct_participants": 18, "peak_region_participants": 18},
+    "diversity_adaptation": {"wall_seconds": 4.2799999999999997e-05, "parallel_regions": 2, "task_items": 60, "participant_activations": 16, "distinct_participants": 14, "peak_region_participants": 14},
+    "variation_repair": {"wall_seconds": 2.3504000000000001e-05, "parallel_regions": 1, "task_items": 30, "participant_activations": 17, "distinct_participants": 17, "peak_region_participants": 17},
+    "evaluator": {"wall_seconds": 0.00153184, "parallel_regions": 2, "task_items": 60, "participant_activations": 39, "distinct_participants": 20, "peak_region_participants": 20},
+    "selection_other": {"wall_seconds": 6.336e-06, "parallel_regions": 0, "task_items": 90, "participant_activations": 0, "distinct_participants": 0, "peak_region_participants": 0}
+  },
+  "work_receipt": {
+    "pairwise_layout_distances": 435,
+    "crossover_gene_choices": 480,
+    "mutation_gene_trials": 30,
+    "mutation_events": 6,
+    "perturbation_gate_draws": 0,
+    "perturbed_individuals": 0,
+    "power_law_gene_steps": 0,
+    "stagnation_parent_offspring_comparisons": 30,
+    "duplicate_repairs": 7
+  }
+}

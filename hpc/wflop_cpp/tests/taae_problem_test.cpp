@@ -174,6 +174,31 @@ int main(int argc, char** argv) {
                 );
             }
         }
+        const auto rss_wake = wflop::taae::evaluate_structured_proxy(
+            layouts,
+            2,
+            cases.at(1),
+            serial_executor,
+            wflop::taae::WakeCombination::root_sum_square
+        );
+        const auto multiplicative_wake =
+            wflop::taae::evaluate_structured_proxy(
+                layouts,
+                2,
+                cases.at(1),
+                serial_executor,
+                wflop::taae::WakeCombination::multiplicative
+            );
+        require(
+            rss_wake.problem_semantic_hash
+                != multiplicative_wake.problem_semantic_hash,
+            "wake sensitivity semantic hash did not change"
+        );
+        require(
+            rss_wake.values[0].expected_power_kw
+                != multiplicative_wake.values[0].expected_power_kw,
+            "wake sensitivity physics did not change"
+        );
 
         const auto budget600 = wflop::taae::evaluate_structured_proxy(
             layouts, 2, cases.at(0), serial_executor

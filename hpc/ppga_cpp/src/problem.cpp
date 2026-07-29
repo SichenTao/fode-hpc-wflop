@@ -7,6 +7,9 @@ Paper-preserved fields: 16 by 27 grid, 300 m spacing, H171-6.2MW surface paramet
 Declared P3 completions: analytic 0--6 m seabed, factorized frozen winds, cubic-to-rated power curve, axial induction one third, Gaussian deficit, Tao-2020 root-sum-square multiple wakes, and shear exponent 0.1
 Problem evidence tier: P3_DECLARED_PROXY
 Problem semantic ID: ppga_nantong_structured_3d_declared_proxy_v1
+Step 11 multiplicative-wake probing is a sensitivity-only independent problem
+semantic. The root-sum-square baseline and semantic hash remain unchanged;
+distinct problem semantics are never pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/ppga_nantong_structured_3d_declared_proxy_contract.json
 Claim boundary: original Nantong arrays, manufacturer curves, layouts, efficiencies, and author implementation remain blocked
 END WFLOP IMPLEMENTATION FACT DECLARATION
@@ -323,7 +326,10 @@ Problem load_problem(const std::string& path, const std::string& case_id) {
     return problem;
 }
 
-std::string problem_semantic_hash(const Problem& problem) {
+std::string problem_semantic_hash(
+    const Problem& problem,
+    WakeCombination wake_combination
+) {
     std::uint64_t hash = 1469598103934665603ULL;
     fnv_mix(hash, kProblemSemanticId, std::char_traits<char>::length(
         kProblemSemanticId
@@ -369,6 +375,18 @@ std::string problem_semantic_hash(const Problem& problem) {
     }
     for (double value : problem.wind.speed_probabilities) {
         fnv_value(hash, std::bit_cast<std::uint64_t>(value));
+    }
+    if (wake_combination == WakeCombination::multiplicative) {
+        fnv_mix(
+            hash,
+            kMultiplicativeWakeSensitivityProblemSemanticId,
+            std::char_traits<char>::length(
+                kMultiplicativeWakeSensitivityProblemSemanticId
+            )
+        );
+        constexpr std::string_view kRule =
+            "target_ambient_times_product_one_minus_pair_deficit";
+        fnv_mix(hash, kRule.data(), kRule.size());
     }
     return hex_hash(hash);
 }
@@ -432,7 +450,8 @@ double single_wake_deficit_fraction(
 
 LayoutEvaluation evaluate_layout(
     const Problem& problem,
-    const std::vector<int>& layout_1based
+    const std::vector<int>& layout_1based,
+    WakeCombination wake_combination
 ) {
     if (static_cast<int>(layout_1based.size()) != problem.turbine_count
         || !std::is_sorted(layout_1based.begin(), layout_1based.end())
@@ -484,6 +503,7 @@ LayoutEvaluation evaluate_layout(
                     kShearExponent
                 );
                 double squared_velocity_deficit = 0.0;
+                double multiplicative_velocity_factor = 1.0;
                 for (std::size_t source = 0; source < points.size(); ++source) {
                     const double downstream =
                         downwind[target] - downwind[source];
@@ -498,11 +518,16 @@ LayoutEvaluation evaluate_layout(
                     const double velocity_deficit = ambient * fraction;
                     squared_velocity_deficit +=
                         velocity_deficit * velocity_deficit;
+                    multiplicative_velocity_factor *=
+                        std::max(0.0, 1.0 - fraction);
                 }
-                const double effective = std::max(
-                    0.0,
-                    ambient - std::sqrt(squared_velocity_deficit)
-                );
+                const double effective =
+                    wake_combination == WakeCombination::root_sum_square
+                    ? std::max(
+                        0.0,
+                        ambient - std::sqrt(squared_velocity_deficit)
+                    )
+                    : ambient * multiplicative_velocity_factor;
                 state_power += turbine_power_kw(effective);
                 state_ideal += turbine_power_kw(ambient);
             }

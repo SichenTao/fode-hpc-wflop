@@ -8,6 +8,9 @@ Paper-preserved fields: 16 by 27 grid, 300 m spacing, H171-6.2MW surface paramet
 Declared P3 completions: frozen analytic gentle seabed, factorized joint wind distributions, piecewise turbine power curve, axial induction one third, closed-form Gaussian deficit, Tao-2020 sum-of-squares multiple wakes, and deterministic ties
 Problem evidence tier: P3_DECLARED_PROXY
 Problem semantic ID: ppga_nantong_structured_3d_declared_proxy_v1
+Step 11 multiplicative-wake probing is a sensitivity-only independent problem
+semantic. The root-sum-square baseline and semantic hash remain unchanged;
+distinct problem semantics are never pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/ppga_nantong_structured_3d_declared_proxy_contract.json
 Claim boundary: distinct Nantong-structured engineering proxy only; original Nantong terrain, wind arrays, turbine curves, reported efficiencies, and author implementation remain blocked
 END WFLOP IMPLEMENTATION FACT DECLARATION
@@ -21,6 +24,13 @@ namespace ppga {
 
 inline constexpr const char* kProblemSemanticId =
     "ppga_nantong_structured_3d_declared_proxy_v1";
+inline constexpr const char* kMultiplicativeWakeSensitivityProblemSemanticId =
+    "ppga_nantong_structured_3d_multiplicative_wake_sensitivity_v1";
+
+enum class WakeCombination {
+    root_sum_square,
+    multiplicative,
+};
 
 struct WindScenario {
     std::string id;
@@ -51,7 +61,10 @@ Problem load_problem(
     const std::string& path,
     const std::string& case_id
 );
-std::string problem_semantic_hash(const Problem& problem);
+std::string problem_semantic_hash(
+    const Problem& problem,
+    WakeCombination wake_combination = WakeCombination::root_sum_square
+);
 double foundation_elevation_m(const Problem& problem, int cell_1based);
 double turbine_power_kw(double effective_speed_mps);
 double single_wake_deficit_fraction(
@@ -61,7 +74,8 @@ double single_wake_deficit_fraction(
 );
 LayoutEvaluation evaluate_layout(
     const Problem& problem,
-    const std::vector<int>& layout_1based
+    const std::vector<int>& layout_1based,
+    WakeCombination wake_combination = WakeCombination::root_sum_square
 );
 
 }  // namespace ppga

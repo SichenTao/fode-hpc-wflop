@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "method_semantic_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
+  "problem_semantic_id": "ppga_nantong_structured_3d_multiplicative_wake_sensitivity_v1",
+  "problem_semantic_hash": "4ec1944aac0f61d3",
+  "wake_combination": "multiplicative",
+  "case_id": "PPGA_NantongStructured_WS1_tn20",
+  "seed": 2026072901,
+  "physical_fes": 60,
+  "generations": 1,
+  "backend": "cpu",
+  "requested_workers": 20,
+  "resolved_workers": 20,
+  "total_wall_seconds": 0.0021597439999999999,
+  "best": {
+    "layout_1based": [3, 38, 50, 90, 109, 147, 159, 207, 216, 238, 250, 260, 276, 308, 328, 338, 347, 352, 375, 384],
+    "expected_power_kw": 38680.07653916689,
+    "ideal_expected_power_kw": 42115.149785152767,
+    "conversion_efficiency": 0.91843616220030933,
+    "cost_per_expected_power": 0.00043063955168430519,
+    "layout_hash": "31b0cfb5f1ce60e1"
+  },
+  "population_layout_hash": "b0715cd1d8adf669",
+  "stage_receipts": {
+    "initialization": {"wall_seconds": 0.00047095999999999998, "parallel_regions": 1, "task_items": 30, "participant_activations": 19, "distinct_participants": 19, "peak_region_participants": 19},
+    "diversity_adaptation": {"wall_seconds": 2.8976000000000002e-05, "parallel_regions": 2, "task_items": 60, "participant_activations": 33, "distinct_participants": 19, "peak_region_participants": 19},
+    "variation_repair": {"wall_seconds": 9.312e-06, "parallel_regions": 1, "task_items": 30, "participant_activations": 19, "distinct_participants": 19, "peak_region_participants": 19},
+    "evaluator": {"wall_seconds": 0.0012549760000000001, "parallel_regions": 2, "task_items": 60, "participant_activations": 39, "distinct_participants": 20, "peak_region_participants": 20},
+    "selection_other": {"wall_seconds": 6.3199999999999996e-06, "parallel_regions": 0, "task_items": 90, "participant_activations": 0, "distinct_participants": 0, "peak_region_participants": 0}
+  },
+  "work_receipt": {
+    "pairwise_layout_distances": 435,
+    "crossover_gene_choices": 500,
+    "mutation_gene_trials": 30,
+    "mutation_events": 2,
+    "perturbation_gate_draws": 0,
+    "perturbed_individuals": 0,
+    "power_law_gene_steps": 0,
+    "stagnation_parent_offspring_comparisons": 30,
+    "duplicate_repairs": 5
+  }
+}

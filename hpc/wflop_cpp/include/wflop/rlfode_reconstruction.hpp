@@ -9,6 +9,11 @@ Known missing information: author seeds, pretrained tables, exact pretraining en
 Reconstruction performed here: declared deterministic Qinit training on WS2tn50, four stage copies for formal online updates, and reuse of the audited FODE controlled-core interface
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: fqfode_seeded_training_declared_reconstruction_v1
+Bounded sensitivity semantics: multiplicative action, exact-FES-normalized
+four-stage scheduling, generation-200 stage wrapping, and four-round
+independent pretraining for each stage are sensitivity-only independent method
+identities. The baseline remains unchanged; distinct semantics are never
+pooled or used for cross-semantic ranking.
 Claim boundary: declared reconstruction only; no exact author-policy claim
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
@@ -51,11 +56,35 @@ struct TrainingArtifact {
     std::string table_hash;
 };
 
+struct SensitivityProfileDescriptor {
+    FqfodeSensitivityProfile profile;
+    const char* id;
+    const char* effective_semantics_id;
+    const char* artifact_filename;
+};
+
+[[nodiscard]] const std::array<SensitivityProfileDescriptor, 5>&
+sensitivity_profile_descriptors();
+[[nodiscard]] const SensitivityProfileDescriptor&
+sensitivity_profile_descriptor(FqfodeSensitivityProfile profile);
+[[nodiscard]] FqfodeSensitivityProfile parse_sensitivity_profile(
+    const std::string& id
+);
+
 [[nodiscard]] int state_index(double fractional_order);
 [[nodiscard]] double action_delta(int action_index);
 [[nodiscard]] double additive_fractional_transition(
     double fractional_order,
     int action_index
+);
+[[nodiscard]] double multiplicative_fractional_transition(
+    double fractional_order,
+    int action_index
+);
+[[nodiscard]] int fes_normalized_stage(
+    std::uint64_t physical_fes_completed_before_generation,
+    std::uint64_t initial_population,
+    std::uint64_t physical_fes_budget
 );
 [[nodiscard]] double fractional_history_value(
     double fractional_order,
@@ -74,7 +103,9 @@ void q_update(
 [[nodiscard]] bool validate_policy_update_sequence_fixture();
 [[nodiscard]] TrainingArtifact train_artifact(
     const fode::CaseData& data,
-    int workers
+    int workers,
+    FqfodeSensitivityProfile profile =
+        FqfodeSensitivityProfile::baseline
 );
 void save_artifact(
     const TrainingArtifact& artifact,

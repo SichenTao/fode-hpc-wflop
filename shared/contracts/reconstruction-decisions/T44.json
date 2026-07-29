@@ -71,7 +71,7 @@
         "claim unsupported GPU execution",
         "allow worker order to change science"
       ],
-      "classification": "quality_sensitive",
+      "classification": "implementation_only",
       "expected_downstream_effect": "provides exact selected-case work, removes 796 tiny parallel regions without changing random events, and records actual CPU participation",
       "sensitivity_test_required": true,
       "adjudication_status": "selected_for_CPU_R4_development_only"
@@ -86,7 +86,7 @@
         "present all six scenario labels in one reproduction table",
         "aggregate them under a shared benchmark identity"
       ],
-      "classification": "quality_sensitive",
+      "classification": "identity_critical",
       "expected_downstream_effect": "prevents mixed-authority performance claims",
       "sensitivity_test_required": false,
       "adjudication_status": "comparison_blocked"

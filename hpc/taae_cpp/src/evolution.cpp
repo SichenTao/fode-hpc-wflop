@@ -10,6 +10,9 @@ Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_evolution_declared_reconstruction_v1
 Kernel semantic ID: taae_transformer_declared_reconstruction_v1
 Problem semantic ID: taae_zhangbei_structured_declared_proxy_v1
+Step 11 loss-weight and multiplicative-wake probes are sensitivity-only
+independent method or problem semantics. Baseline semantics remain unchanged;
+distinct semantics are never pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json
 Claim boundary: distinct bounded end-to-end reconstruction only; original taae remains blocked, paper-scale state requires an immutable checkpoint, and no Zhangbei, reported-front, formal, performance, or GPU claim is made
 END WFLOP IMPLEMENTATION FACT DECLARATION
@@ -765,7 +768,8 @@ DecodedProposalResult filter_and_repair_decoded(
 double evaluate_population(
     std::vector<Individual>& population,
     const fode::CaseData& problem,
-    fode::PersistentExecutor& executor
+    fode::PersistentExecutor& executor,
+    wflop::taae::WakeCombination wake_combination
 ) {
     std::vector<int> flattened;
     flattened.reserve(
@@ -783,7 +787,8 @@ double evaluate_population(
         flattened,
         static_cast<int>(population.size()),
         problem,
-        executor
+        executor,
+        wake_combination
     );
     if (batch.values.size() != population.size() ||
         batch.complete_layout_evaluations != population.size()) {
@@ -990,7 +995,7 @@ void fine_tune(
         0x46494e4554554e45ULL ^
         (generation * 0x9e3779b97f4a7c15ULL)
     );
-    LossWeights weights;
+    LossWeights weights = config.fine_tune_loss_weights;
     weights.metric_pair_seed =
         config.seed ^ generation ^ 0x5041495253454544ULL;
     const auto start = Clock::now();
@@ -1412,7 +1417,12 @@ EvolutionResult run_declared_reconstruction(
             executor.reset_work_receipt();
             const auto stage_start = Clock::now();
             const double evaluator_seconds =
-                evaluate_population(values, problem, executor);
+                evaluate_population(
+                    values,
+                    problem,
+                    executor,
+                    config.wake_combination
+                );
             accumulate_stage(
                 evaluator_stage,
                 capture_stage_receipt(stage_start, executor)
@@ -1477,12 +1487,29 @@ EvolutionResult run_declared_reconstruction(
     }
 
     EvolutionResult result;
-    result.method_semantic_id = kMethodSemanticId;
+    result.method_semantic_id =
+        config.fine_tune_loss_weights.regression == 30.0
+            && config.fine_tune_loss_weights.reconstruction == 1.0
+            && config.fine_tune_loss_weights.metric_smoothness == 1.0
+        ? kMethodSemanticId
+        : kRegressionHalfSensitivitySemanticId;
     result.kernel_semantic_id =
         "taae_transformer_declared_reconstruction_v1";
-    result.problem_semantic_id = kProblemSemanticId;
+    result.problem_semantic_id =
+        config.wake_combination
+            == wflop::taae::WakeCombination::root_sum_square
+        ? kProblemSemanticId
+        : kMultiplicativeWakeProblemSemanticId;
     result.problem_semantic_hash =
-        wflop::taae::structured_proxy_semantic_hash(problem);
+        wflop::taae::structured_proxy_semantic_hash(
+            problem,
+            config.wake_combination
+        );
+    result.wake_combination =
+        config.wake_combination
+            == wflop::taae::WakeCombination::root_sum_square
+        ? "root-sum-square"
+        : "multiplicative";
     result.case_id = problem.case_id;
     result.seed = config.seed;
     result.physical_fes = physical_fes;
@@ -1494,6 +1521,7 @@ EvolutionResult run_declared_reconstruction(
             ? "taae_evolution_bounded_smoke_v1"
             : "paper_scale_declared_reconstruction_v1";
     result.model_config = model.config();
+    result.fine_tune_loss_weights = config.fine_tune_loss_weights;
     result.training_work = training_work;
     result.training_work.training_physical_fes = 0;
     result.evaluator_wall_seconds = evaluator_wall_seconds;
@@ -1928,6 +1956,8 @@ std::string result_to_json(const EvolutionResult& result) {
            << result.problem_semantic_id << "\","
            << "\"problem_semantic_hash\":\""
            << result.problem_semantic_hash << "\","
+           << "\"wake_combination\":\""
+           << result.wake_combination << "\","
            << "\"case_id\":\"" << result.case_id << "\","
            << "\"seed\":" << result.seed << ','
            << "\"physical_fes\":" << result.physical_fes << ','
@@ -1953,6 +1983,14 @@ std::string result_to_json(const EvolutionResult& result) {
            << "\"regression_hidden_width\":"
            << result.model_config.regression_hidden_width << ','
            << "\"dropout\":" << result.model_config.dropout
+           << "},"
+           << "\"fine_tune_loss_weights\":{"
+           << "\"reconstruction\":"
+           << result.fine_tune_loss_weights.reconstruction << ','
+           << "\"regression\":"
+           << result.fine_tune_loss_weights.regression << ','
+           << "\"metric_smoothness\":"
+           << result.fine_tune_loss_weights.metric_smoothness
            << "},"
            << "\"training_work\":{"
            << "\"corpus_samples\":"

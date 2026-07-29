@@ -13,6 +13,9 @@ Method evidence tier: M3_DECLARED_COMPLETION
 Problem evidence tier: P0_AUTHOR_ASSET for fode_e0_common
 Method semantic ID: fqfode_seeded_training_declared_reconstruction_v1
 Problem semantic ID: fode_wflop_e0_legacy_v1
+Step 11 sensitivity profiles are independent method semantics only. The
+baseline semantic ID and behavior remain unchanged, and results from distinct
+method semantics are never pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/fqfode_seeded_training_reconstruction_contract.json
 Claim boundary: declared seeded reconstruction only; it is not the unavailable author-pretrained FQFODE policy and must not be reported as an exact reproduction of the paper results
 Last evidence audit date: 2026-07-29
@@ -41,6 +44,40 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 
 namespace wflop::rlfode_reconstruction {
 namespace {
+
+constexpr std::array<SensitivityProfileDescriptor, 5>
+    kSensitivityProfiles{{
+        {
+            FqfodeSensitivityProfile::baseline,
+            "baseline",
+            "fqfode_seeded_training_declared_reconstruction_v1",
+            kSharedArtifactFilename,
+        },
+        {
+            FqfodeSensitivityProfile::multiplicative_action,
+            "multiplicative-action",
+            "fqfode_seeded_training_multiplicative_sensitivity_v1",
+            kSharedArtifactFilename,
+        },
+        {
+            FqfodeSensitivityProfile::fes_normalized_stage,
+            "fes-normalized-stage",
+            "fqfode_seeded_training_fes_normalized_stage_sensitivity_v1",
+            kSharedArtifactFilename,
+        },
+        {
+            FqfodeSensitivityProfile::wrap_after_generation_200,
+            "wrap-after-generation-200",
+            "fqfode_generation200_wrap_stage_sensitivity_v1",
+            kSharedArtifactFilename,
+        },
+        {
+            FqfodeSensitivityProfile::independent_stage_pretraining,
+            "independent-stage-pretraining",
+            "fqfode_independent_stage_pretraining_sensitivity_v1",
+            "fqfode_independent_stage_ws2tn50_v1.qtable.tsv",
+        },
+    }};
 
 constexpr std::array<double, kActionCount> kActions{-0.01, 0.0, 0.01};
 constexpr int kTrainingAgents = 5;
@@ -136,13 +173,20 @@ public:
         const fode::CaseData& data,
         std::uint64_t seed,
         int forced_stage,
-        bool offline_training
+        bool offline_training,
+        FqfodeSensitivityProfile profile =
+            FqfodeSensitivityProfile::baseline,
+        std::uint64_t initial_population = 0,
+        std::uint64_t physical_fes_budget = 0
     )
         : tables_(tables),
           ideal_power_(no_wake_expected_power(data)),
           rng_(seed),
           forced_stage_(forced_stage),
-          offline_training_(offline_training) {
+          offline_training_(offline_training),
+          profile_(profile),
+          initial_population_(initial_population),
+          physical_fes_budget_(physical_fes_budget) {
         if (!(ideal_power_ > 0.0)) {
             throw std::runtime_error(
                 "FQFODE requires positive no-wake expected power"
@@ -154,28 +198,55 @@ public:
         std::uint64_t generation,
         double best_expected_power_kw
     ) override {
+        return begin_generation_with_fes(
+            generation,
+            best_expected_power_kw,
+            initial_population_
+        );
+    }
+
+    double begin_generation_with_fes(
+        std::uint64_t generation,
+        double best_expected_power_kw,
+        std::uint64_t physical_fes_completed_before_generation
+    ) override {
         const double normalized_best = best_expected_power_kw / ideal_power_;
         if (offline_training_) {
-            active_stage_ = 0;
+            active_stage_ = forced_stage_ >= 0 ? forced_stage_ : 0;
             active_state_ = state_index(fractional_order_);
             active_action_ = choose_action(
-                tables_[0],
+                tables_[static_cast<std::size_t>(active_stage_)],
                 active_state_,
                 false,
                 rng_,
                 generation
             );
             ++interactions_;
-            fractional_order_ = additive_fractional_transition(
-                fractional_order_,
-                active_action_
-            );
+            ++stage_interactions_[static_cast<std::size_t>(active_stage_)];
+            apply_action();
             training_before_normalized_best_ = normalized_best;
             return fractional_order_;
         }
-        active_stage_ = forced_stage_ >= 0
-            ? forced_stage_
-            : std::min(
+        if (forced_stage_ >= 0) {
+            active_stage_ = forced_stage_;
+        } else if (
+            profile_ == FqfodeSensitivityProfile::fes_normalized_stage
+        ) {
+            active_stage_ = fes_normalized_stage(
+                physical_fes_completed_before_generation,
+                initial_population_,
+                physical_fes_budget_
+            );
+        } else if (
+            profile_
+                == FqfodeSensitivityProfile::wrap_after_generation_200
+        ) {
+            active_stage_ = static_cast<int>(
+                ((generation - 1) / 50)
+                % static_cast<std::uint64_t>(kStageCount)
+            );
+        } else {
+            active_stage_ = std::min(
                 kStageCount - 1,
                 (static_cast<int>(
                     std::min<std::uint64_t>(
@@ -184,6 +255,7 @@ public:
                     )
                 ) - 1) / 50
             );
+        }
         active_state_ = state_index(fractional_order_);
         active_action_ = choose_action(
             tables_[static_cast<std::size_t>(active_stage_)],
@@ -193,10 +265,8 @@ public:
             generation
         );
         ++interactions_;
-        fractional_order_ = additive_fractional_transition(
-            fractional_order_,
-            active_action_
-        );
+        ++stage_interactions_[static_cast<std::size_t>(active_stage_)];
+        apply_action();
         if (generation >= 7 && have_previous_value_) {
             // Algorithm 3 uses the improvement already observable before
             // generation k: f_(k-1)-f_(k-2). It assigns that reward to the
@@ -215,6 +285,7 @@ public:
                 state_index(fractional_order_)
             );
             ++updates_;
+            ++stage_updates_[static_cast<std::size_t>(active_stage_)];
         }
         previous_normalized_best_ = normalized_best;
         have_previous_value_ = true;
@@ -240,13 +311,14 @@ public:
             1.0e-12
         );
         q_update(
-            tables_[0],
+            tables_[static_cast<std::size_t>(active_stage_)],
             active_state_,
             active_action_,
             reward,
             state_index(fractional_order_)
         );
         ++updates_;
+        ++stage_updates_[static_cast<std::size_t>(active_stage_)];
     }
 
     void finish(double) override {
@@ -260,12 +332,38 @@ public:
         return updates_;
     }
 
+    [[nodiscard]] const std::array<std::uint64_t, kStageCount>&
+    stage_interactions() const {
+        return stage_interactions_;
+    }
+
+    [[nodiscard]] const std::array<std::uint64_t, kStageCount>&
+    stage_updates() const {
+        return stage_updates_;
+    }
+
 private:
+    void apply_action() {
+        fractional_order_ =
+            profile_ == FqfodeSensitivityProfile::multiplicative_action
+            ? multiplicative_fractional_transition(
+                fractional_order_,
+                active_action_
+            )
+            : additive_fractional_transition(
+                fractional_order_,
+                active_action_
+            );
+    }
+
     StageQTables& tables_;
     double ideal_power_;
     fode::CounterRng rng_;
     int forced_stage_;
     bool offline_training_;
+    FqfodeSensitivityProfile profile_;
+    std::uint64_t initial_population_;
+    std::uint64_t physical_fes_budget_;
     double fractional_order_ = kInitialFractionalOrder;
     int active_stage_ = 0;
     int active_state_ = state_index(kInitialFractionalOrder);
@@ -275,6 +373,8 @@ private:
     bool have_previous_value_ = false;
     std::uint64_t interactions_ = 0;
     std::uint64_t updates_ = 0;
+    std::array<std::uint64_t, kStageCount> stage_interactions_{};
+    std::array<std::uint64_t, kStageCount> stage_updates_{};
 };
 
 bool has_nonzero_value(const StageQTables& tables) {
@@ -299,6 +399,43 @@ bool has_identical_stage_initializers(const StageQTables& tables) {
 
 }  // namespace
 
+const std::array<SensitivityProfileDescriptor, 5>&
+sensitivity_profile_descriptors() {
+    return kSensitivityProfiles;
+}
+
+const SensitivityProfileDescriptor& sensitivity_profile_descriptor(
+    FqfodeSensitivityProfile profile
+) {
+    const auto found = std::find_if(
+        kSensitivityProfiles.begin(),
+        kSensitivityProfiles.end(),
+        [profile](const SensitivityProfileDescriptor& descriptor) {
+            return descriptor.profile == profile;
+        }
+    );
+    if (found == kSensitivityProfiles.end()) {
+        throw std::invalid_argument("unknown FQFODE sensitivity profile");
+    }
+    return *found;
+}
+
+FqfodeSensitivityProfile parse_sensitivity_profile(const std::string& id) {
+    const auto found = std::find_if(
+        kSensitivityProfiles.begin(),
+        kSensitivityProfiles.end(),
+        [&id](const SensitivityProfileDescriptor& descriptor) {
+            return id == descriptor.id;
+        }
+    );
+    if (found == kSensitivityProfiles.end()) {
+        throw std::invalid_argument(
+            "unknown FQFODE sensitivity profile ID: " + id
+        );
+    }
+    return found->profile;
+}
+
 int state_index(double fractional_order) {
     const int state = static_cast<int>(std::floor(
         std::clamp(fractional_order, 0.0, 1.0) * 100.0 + 1.0e-12
@@ -321,6 +458,44 @@ double additive_fractional_transition(
         fractional_order + action_delta(action_index_value),
         kMinimumFractionalOrder,
         kMaximumFractionalOrder
+    );
+}
+
+double multiplicative_fractional_transition(
+    double fractional_order,
+    int action_index_value
+) {
+    return std::clamp(
+        fractional_order * (1.0 + action_delta(action_index_value)),
+        kMinimumFractionalOrder,
+        kMaximumFractionalOrder
+    );
+}
+
+int fes_normalized_stage(
+    std::uint64_t physical_fes_completed_before_generation,
+    std::uint64_t initial_population,
+    std::uint64_t physical_fes_budget
+) {
+    if (physical_fes_budget <= initial_population
+        || physical_fes_completed_before_generation < initial_population) {
+        throw std::invalid_argument(
+            "FQFODE FES-normalized stage requires an exact completed-FES "
+            "counter and a budget beyond initialization"
+        );
+    }
+    const std::uint64_t inference_span =
+        physical_fes_budget - initial_population;
+    const std::uint64_t progressed = std::min(
+        physical_fes_completed_before_generation - initial_population,
+        inference_span - 1
+    );
+    return std::min(
+        kStageCount - 1,
+        static_cast<int>(
+            progressed * static_cast<std::uint64_t>(kStageCount)
+            / inference_span
+        )
     );
 }
 
@@ -444,7 +619,8 @@ bool validate_policy_update_sequence_fixture() {
 
 TrainingArtifact train_artifact(
     const fode::CaseData& data,
-    int workers
+    int workers,
+    FqfodeSensitivityProfile profile
 ) {
     if (workers <= 0) {
         throw std::invalid_argument(
@@ -467,11 +643,19 @@ TrainingArtifact train_artifact(
         static_cast<std::uint64_t>(initial_population)
         + static_cast<std::uint64_t>(kPretrainingInteractions)
             * static_cast<std::uint64_t>(initial_population + 1);
-    for (int round = 0; round < kTrainingRounds; ++round) {
-        for (int agent = 0; agent < kTrainingAgents; ++agent) {
+    const int trained_stage_count =
+        profile
+                == FqfodeSensitivityProfile::
+                    independent_stage_pretraining
+            ? kStageCount
+            : 1;
+    for (int stage = 0; stage < trained_stage_count; ++stage) {
+        for (int round = 0; round < kTrainingRounds; ++round) {
+            for (int agent = 0; agent < kTrainingAgents; ++agent) {
             const std::uint64_t seed =
                 kTrainingSeeds[static_cast<std::size_t>(agent)]
-                + static_cast<std::uint64_t>(round) * 1000003ULL;
+                + static_cast<std::uint64_t>(round) * 1000003ULL
+                + static_cast<std::uint64_t>(stage) * 1000033ULL;
             fode::RunConfig config;
             config.seed = seed;
             config.physical_fes_budget = episode_budget;
@@ -481,8 +665,9 @@ TrainingArtifact train_artifact(
                 agent_tables[static_cast<std::size_t>(agent)],
                 data,
                 seed,
-                0,
-                true
+                stage,
+                true,
+                profile
             );
             const auto trained = fode::optimize_fode_hpc_controlled(
                 data,
@@ -502,23 +687,38 @@ TrainingArtifact train_artifact(
                 );
             }
             training_fes += trained.physical_fes;
+            }
         }
     }
 
     TrainingArtifact artifact;
     artifact.training_case_id = data.case_id;
-    artifact.seed_manifest_id = "fqfode_seed_manifest_20250911_v1";
+    artifact.seed_manifest_id =
+        profile
+                == FqfodeSensitivityProfile::
+                    independent_stage_pretraining
+            ? "fqfode_independent_stage_seed_manifest_20250911_v1"
+            : "fqfode_seed_manifest_20250911_v1";
     artifact.training_physical_fes = training_fes;
-    QTable aggregated{};
-    for (std::size_t index = 0; index < aggregated.size(); ++index) {
-        double sum = 0.0;
-        for (int agent = 0; agent < kTrainingAgents; ++agent) {
-            sum += agent_tables[static_cast<std::size_t>(agent)][0][index];
+    for (int stage = 0; stage < kStageCount; ++stage) {
+        QTable aggregated{};
+        const int source_stage =
+            profile
+                    == FqfodeSensitivityProfile::
+                        independent_stage_pretraining
+                ? stage
+                : 0;
+        for (std::size_t index = 0; index < aggregated.size(); ++index) {
+            double sum = 0.0;
+            for (int agent = 0; agent < kTrainingAgents; ++agent) {
+                sum += agent_tables[
+                    static_cast<std::size_t>(agent)
+                ][static_cast<std::size_t>(source_stage)][index];
+            }
+            aggregated[index] =
+                sum / static_cast<double>(kTrainingAgents);
         }
-        aggregated[index] = sum / static_cast<double>(kTrainingAgents);
-    }
-    for (auto& stage_table : artifact.tables) {
-        stage_table = aggregated;
+        artifact.tables[static_cast<std::size_t>(stage)] = aggregated;
     }
     if (!has_nonzero_value(artifact.tables)) {
         throw std::runtime_error(
@@ -537,7 +737,11 @@ void save_artifact(
         || artifact.seed_manifest_id.empty()
         || artifact.training_physical_fes == 0
         || !has_nonzero_value(artifact.tables)
-        || !has_identical_stage_initializers(artifact.tables)
+        || (
+            artifact.seed_manifest_id
+                == "fqfode_seed_manifest_20250911_v1"
+            && !has_identical_stage_initializers(artifact.tables)
+        )
         || artifact.table_hash != qtable_hash(artifact.tables)) {
         throw std::invalid_argument(
             "cannot save an incomplete FQFODE training artifact"
@@ -658,12 +862,18 @@ TrainingArtifact load_artifact(const std::string& path) {
         artifact.tables[static_cast<std::size_t>(stage)][index] = value;
         ++count;
     }
+    const bool baseline_manifest =
+        artifact.seed_manifest_id
+        == "fqfode_seed_manifest_20250911_v1";
+    const bool independent_manifest =
+        artifact.seed_manifest_id
+        == "fqfode_independent_stage_seed_manifest_20250911_v1";
     if (count != kStageCount * kStateCount * kActionCount
         || artifact.training_physical_fes == 0
-        || artifact.seed_manifest_id
-            != "fqfode_seed_manifest_20250911_v1"
+        || (!baseline_manifest && !independent_manifest)
         || !has_nonzero_value(artifact.tables)
-        || !has_identical_stage_initializers(artifact.tables)
+        || (baseline_manifest
+            && !has_identical_stage_initializers(artifact.tables))
         || artifact.table_hash != qtable_hash(artifact.tables)) {
         throw std::runtime_error(
             "FQFODE artifact integrity check failed: " + path
@@ -691,9 +901,13 @@ RunResult optimize_rlfode_seeded_training_reconstruction(
         );
     }
     const auto started = std::chrono::steady_clock::now();
+    const auto& sensitivity =
+        rlfode_reconstruction::sensitivity_profile_descriptor(
+            config.fqfode_sensitivity_profile
+        );
     const std::filesystem::path artifact_path =
         std::filesystem::path(config.rlfode_model_root)
-        / rlfode_reconstruction::kSharedArtifactFilename;
+        / sensitivity.artifact_filename;
     const auto artifact = rlfode_reconstruction::load_artifact(
         artifact_path.string()
     );
@@ -704,7 +918,10 @@ RunResult optimize_rlfode_seeded_training_reconstruction(
         data,
         algorithm_seed,
         -1,
-        false
+        false,
+        config.fqfode_sensitivity_profile,
+        initial_population,
+        config.physical_fes_budget
     );
     fode::RunConfig fode_config;
     fode_config.seed = algorithm_seed;
@@ -719,11 +936,18 @@ RunResult optimize_rlfode_seeded_training_reconstruction(
     RunResult result;
     result.algorithm_id = config.algorithm_id;
     result.method_id =
-        "FQFODE_SEEDED_TRAINING_DECLARED_RECONSTRUCTION_V1";
+        config.fqfode_sensitivity_profile
+                == FqfodeSensitivityProfile::baseline
+            ? "FQFODE_SEEDED_TRAINING_DECLARED_RECONSTRUCTION_V1"
+            : sensitivity.effective_semantics_id;
     const auto& identity = algorithm_descriptor(config.algorithm_id);
     const auto& problem = problem_descriptor(config.problem_id);
     result.algorithm_provenance = identity.provenance;
-    result.effective_semantics_id = identity.semantics_id;
+    result.effective_semantics_id =
+        config.fqfode_sensitivity_profile
+                == FqfodeSensitivityProfile::baseline
+            ? identity.semantics_id
+            : sensitivity.effective_semantics_id;
     result.problem_id = problem.id;
     result.problem_semantics_id = problem.semantics_id;
     result.case_id = data.case_id;
@@ -735,6 +959,8 @@ RunResult optimize_rlfode_seeded_training_reconstruction(
     result.inference_physical_fes = inference.physical_fes;
     result.policy_interactions = controller.interactions();
     result.policy_updates = controller.updates();
+    result.policy_stage_interactions = controller.stage_interactions();
+    result.policy_stage_updates = controller.stage_updates();
     result.generations = inference.generations;
     result.initial_population = inference.initial_population;
     result.final_population = inference.final_population;

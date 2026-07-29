@@ -248,4 +248,14 @@ if(BUILD_TESTING)
             --models
             ${CMAKE_CURRENT_SOURCE_DIR}/shared/models/fqfode_seeded
     )
+    add_test(
+        NAME reconstruction_sensitivity_receipts
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_reconstruction_sensitivity.py
+    )
+    add_test(
+        NAME performance_receipts
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_performance_receipts.py
+    )
 endif()

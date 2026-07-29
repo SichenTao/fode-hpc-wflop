@@ -70,7 +70,7 @@
         "claim unsupported hybrid or GPU execution",
         "infer parallel execution from requested workers without receipts"
       ],
-      "classification": "quality_sensitive",
+      "classification": "implementation_only",
       "expected_downstream_effect": "provides exact work, deterministic one/all science, and auditable CPU participation",
       "sensitivity_test_required": true,
       "adjudication_status": "selected_for_CPU_R4_development_only"
@@ -85,7 +85,7 @@
         "relabel the same-author GGA assets as original T-MOEA inputs",
         "compare the reconstructed front with the unavailable paper reference front"
       ],
-      "classification": "quality_sensitive",
+      "classification": "identity_critical",
       "expected_downstream_effect": "prevents unsupported original-study or performance claims",
       "sensitivity_test_required": false,
       "adjudication_status": "original_reproduction_blocked"

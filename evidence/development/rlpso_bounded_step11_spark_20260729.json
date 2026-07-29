@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "receipt_id": "rlpso_bounded_step11_spark_20260729",
+  "baseline_commit": "f4cf564e60cfc2fbba804c49d0866f3aff82de59",
+  "claim_boundary": "Bounded development evidence on the shared Spark host. It is not an original RLPSO reproduction, author-checkpoint result, formal campaign, isolated benchmark, universal speedup, or cross-problem ranking.",
+  "host": {
+    "hostname": "spark-9b6f",
+    "architecture": "aarch64",
+    "visible_logical_cpus": 20,
+    "compiler": "c++ (Ubuntu 11.5.0-1ubuntu1~24.04.1) 11.5.0",
+    "build_type": "Release",
+    "binary_target": "wflop_cpp_hpc",
+    "binary_sha256": "c2937e74681704ed9c501255e615af4fb97a11e50a048b87d63ff843f26df1e1",
+    "gpu_used": false
+  },
+  "scope": {
+    "problem_id": "rpso2024_source_problem_ws1_ws4",
+    "problem_semantic_id": "rpso2024_source_problem_ws1_ws4_v1",
+    "case_id": "RPSO-WS1-tn30",
+    "physical_fes": 480,
+    "physical_fes_denominator": "one complete layout evaluation over the selected official-source RPSO WS1 case",
+    "quality_seed_set_predetermined": [
+      2026072901,
+      2026072902,
+      2026072903
+    ],
+    "quality_comparison_boundary": "The two declared reconstruction profiles share exactly one problem semantic ID. Results are recorded without retroactive method selection or an original-RLPSO claim."
+  },
+  "quality_metric_schema": [
+    {
+      "name": "best_expected_power",
+      "unit": "kW",
+      "direction": "maximize"
+    }
+  ],
+  "profiles": {
+    "rlpso_compact_policy_declared_reconstruction_v1": {
+      "repeatability": {
+        "seed": 2026072901,
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "canonical_scientific_output_sha256": "99827e03a459b53209021f4746604cbc17c71dae0dc04d64e3ae42c53f7adf42",
+        "raw_stdout_sha256": [
+          "6b7c480b46201285384bfbd068980388eea501fceb1895f899c4c5a8ebee6942",
+          "0d9fa52bb8188e0be7e44af1fc484840d12918b581e08093a5b6046822b47551",
+          "72369f9f78c4c7be4afda5cdcca8de9483c4fd19d952103a86145ffc162bb83b"
+        ],
+        "scientific_equivalence": "exact",
+        "tolerance": 0.0,
+        "layout_sha256": "72ce8d07ff4011b3579b8fca82dd79c23a152fd0343ae4d7453c2511bb1f5b37",
+        "training_physical_fes": 32,
+        "inference_physical_fes": 448,
+        "raw_paths": [
+          "evidence/development/step11_profile_raw/rlpso-compact-repeat-w1.json",
+          "evidence/development/step11_profile_raw/rlpso-compact-repeat-w20a.json",
+          "evidence/development/step11_profile_raw/rlpso-compact-repeat-w20b.json"
+        ]
+      },
+      "bounded_timing_seconds": {
+        "baseline_workers": 1,
+        "workers_1": {
+          "evaluator": 0.011222623999999999,
+          "algorithm_or_training": 0.008649737000000003,
+          "serialization": null,
+          "end_to_end": 0.019872361
+        },
+        "workers_20": {
+          "evaluator": 0.003229456,
+          "algorithm_or_training": 0.005820756,
+          "serialization": null,
+          "end_to_end": 0.009050212
+        },
+        "serialization_status": "not_exposed_separately"
+      },
+      "quality_results": [
+        {
+          "seed": 2026072901,
+          "best_expected_power_kw": 7586.455640515515,
+          "science_sha256": "99827e03a459b53209021f4746604cbc17c71dae0dc04d64e3ae42c53f7adf42",
+          "raw_path": "evidence/development/step11_profile_raw/rlpso-compact-quality-2026072901.json",
+          "raw_sha256": "d5d5233cde444aa476179e0a600d489d72026b0ffc487bfe26ade28abbb18913"
+        },
+        {
+          "seed": 2026072902,
+          "best_expected_power_kw": 7448.232677286446,
+          "science_sha256": "33bfaf702d59c0fa8c55e91a702a6d01bfa753667a66339656fb9cb4dda48739",
+          "raw_path": "evidence/development/step11_profile_raw/rlpso-compact-quality-2026072902.json",
+          "raw_sha256": "2a339e586b4d5affd7e8e10e7e41db1b02bf263adcd6e384c248c421d86c913a"
+        },
+        {
+          "seed": 2026072903,
+          "best_expected_power_kw": 7527.532500160308,
+          "science_sha256": "2b88b500a1bb0db9c4e91466edb1820775c280ea245abc15a51515048ae2e37e",
+          "raw_path": "evidence/development/step11_profile_raw/rlpso-compact-quality-2026072903.json",
+          "raw_sha256": "6615e0dd89f33a48832cf699c619855d2999bff1fd53348a0954f47d404acd78"
+        }
+      ]
+    },
+    "rlpso_paper_corrected_training_reconstruction_v1": {
+      "repeatability": {
+        "seed": 2026072901,
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "canonical_scientific_output_sha256": "af8409b46b35c9e3d175ff616253d94e1d68febcf83b8817f91cfe6317e8a3c9",
+        "raw_stdout_sha256": [
+          "f47e98c4cdecc091099a1303600a489e67940a589b34e1750828859af6268f47",
+          "1178bbcae205f2a2d5be39d35a38ce03f22da2d970d24086905288e455f868d7",
+          "0837ca25d3892e3e103f936a7ff7a099a81e22713320a2e2051fbaac066de2f7"
+        ],
+        "scientific_equivalence": "exact",
+        "tolerance": 0.0,
+        "layout_sha256": "59064c7e555b2f28af8e25e67bf8881f66684ddf54ce571096652ddc8ffdd0f6",
+        "learned_state_hash": "fnv1a64:ff5a9a02bef4ccd5",
+        "training_physical_fes": 430,
+        "inference_physical_fes": 50,
+        "raw_paths": [
+          "evidence/development/step11_profile_raw/rlpso-corrected-repeat-w1.json",
+          "evidence/development/step11_profile_raw/rlpso-corrected-repeat-w20a.json",
+          "evidence/development/step11_profile_raw/rlpso-corrected-repeat-w20b.json"
+        ]
+      },
+      "bounded_timing_seconds": {
+        "baseline_workers": 1,
+        "workers_1": {
+          "evaluator": 0.010939908999999998,
+          "algorithm_or_training": 0.877217792,
+          "serialization": null,
+          "end_to_end": 0.888157701
+        },
+        "workers_20": {
+          "evaluator": 0.010143891999999995,
+          "algorithm_or_training": 0.90092814,
+          "serialization": null,
+          "end_to_end": 0.911072032
+        },
+        "policy_training_workers_1": 0.901754404,
+        "policy_update_workers_1": 0.863165514,
+        "serialization_status": "not_exposed_separately"
+      },
+      "quality_results": [
+        {
+          "seed": 2026072901,
+          "best_expected_power_kw": 7525.103814532435,
+          "science_sha256": "af8409b46b35c9e3d175ff616253d94e1d68febcf83b8817f91cfe6317e8a3c9",
+          "raw_path": "evidence/development/step11_profile_raw/rlpso-corrected-quality-2026072901.json",
+          "raw_sha256": "0b813891251bcc09388f6f9e31edfb5a15073d370c8f8abc57997d6e40cbd0bf"
+        },
+        {
+          "seed": 2026072902,
+          "best_expected_power_kw": 7548.50042167807,
+          "science_sha256": "5378142533558ce4c27beac215a28311bd1f0eb7afb319e8fd09aca106d4a4c3",
+          "raw_path": "evidence/development/step11_profile_raw/rlpso-corrected-quality-2026072902.json",
+          "raw_sha256": "3792ebd1d748b63ee40f8804e9a89c1c35bffea660b382d20abef30157d7a358"
+        },
+        {
+          "seed": 2026072903,
+          "best_expected_power_kw": 7562.946836655114,
+          "science_sha256": "41303421ad696888ef0e4f56a817c2f471b5df7d3cec6dd782ea518159699011",
+          "raw_path": "evidence/development/step11_profile_raw/rlpso-corrected-quality-2026072903.json",
+          "raw_sha256": "f0fdd1f97f18b18a8ba76ba8cfe9024883ff6f41391145cf88c4a059912015df"
+        }
+      ]
+    }
+  },
+  "backend_boundary": {
+    "measured_mode": "cpu",
+    "auto": "not_measured",
+    "hybrid": "fail_closed_compatibility_test_only",
+    "gpu": "fail_closed_compatibility_test_only"
+  },
+  "science_canonicalization": "SHA-256 of sorted compact JSON after recursively removing worker-count and timing-only fields: requested_workers, observed_workers, resolved_workers, timing_seconds, total_wall_seconds, evaluator_wall_seconds, stage_receipts, and wall_seconds."
+}

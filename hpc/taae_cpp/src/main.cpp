@@ -10,6 +10,9 @@ Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_evolution_declared_reconstruction_v1
 Kernel semantic ID: taae_transformer_declared_reconstruction_v1
 Problem semantic ID: taae_zhangbei_structured_declared_proxy_v1
+Step 11 loss-weight and multiplicative-wake probes are sensitivity-only
+independent method or problem semantics. Baseline semantics remain unchanged;
+distinct semantics are never pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json
 Claim boundary: distinct bounded end-to-end reconstruction only; original taae remains blocked, paper-scale state requires an immutable checkpoint, and no Zhangbei, reported-front, formal, performance, or GPU claim is made
 END WFLOP IMPLEMENTATION FACT DECLARATION
@@ -37,6 +40,8 @@ struct Arguments {
     std::string checkpoint_sha256;
     std::string checkpoint_output;
     std::string backend = "cpu";
+    std::string loss_profile = "baseline";
+    std::string wake_combination = "root-sum-square";
 };
 
 Arguments parse_arguments(int argc, char** argv) {
@@ -51,6 +56,8 @@ Arguments parse_arguments(int argc, char** argv) {
                 << "[--profile bounded|paper-scale] "
                 << "[--checkpoint-in FILE --checkpoint-sha256 SHA256] "
                 << "[--checkpoint-out FILE] "
+                << "[--loss-profile baseline|regression-half] "
+                << "[--wake-combination root-sum-square|multiplicative] "
                 << "[--backend cpu|auto|hybrid|gpu]\n";
             std::exit(0);
         }
@@ -78,6 +85,10 @@ Arguments parse_arguments(int argc, char** argv) {
             result.checkpoint_output = value;
         } else if (option == "--backend") {
             result.backend = value;
+        } else if (option == "--loss-profile") {
+            result.loss_profile = value;
+        } else if (option == "--wake-combination") {
+            result.wake_combination = value;
         } else {
             throw std::invalid_argument("unknown option " + option);
         }
@@ -88,6 +99,18 @@ Arguments parse_arguments(int argc, char** argv) {
     if (result.profile != "bounded" &&
         result.profile != "paper-scale") {
         throw std::invalid_argument("unknown training profile");
+    }
+    if (
+        result.loss_profile != "baseline"
+        && result.loss_profile != "regression-half"
+    ) {
+        throw std::invalid_argument("unknown loss profile");
+    }
+    if (
+        result.wake_combination != "root-sum-square"
+        && result.wake_combination != "multiplicative"
+    ) {
+        throw std::invalid_argument("unknown wake combination");
     }
     if (
         result.backend != "cpu"
@@ -127,6 +150,13 @@ int main(int argc, char** argv) {
         config.checkpoint_sha256 = arguments.checkpoint_sha256;
         config.checkpoint_output = arguments.checkpoint_output;
         config.backend = arguments.backend;
+        if (arguments.loss_profile == "regression-half") {
+            config.fine_tune_loss_weights.regression = 15.0;
+        }
+        if (arguments.wake_combination == "multiplicative") {
+            config.wake_combination =
+                wflop::taae::WakeCombination::multiplicative;
+        }
         const fode::CaseData problem =
             fode::load_case(arguments.cases, arguments.case_id);
         const auto result =

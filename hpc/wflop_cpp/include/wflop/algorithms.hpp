@@ -2,11 +2,20 @@
 
 #include "fode/case.hpp"
 
+#include <array>
 #include <cstdint>
 #include <string>
 #include <vector>
 
 namespace wflop {
+
+enum class FqfodeSensitivityProfile {
+    baseline,
+    multiplicative_action,
+    fes_normalized_stage,
+    wrap_after_generation_200,
+    independent_stage_pretraining,
+};
 
 struct RunConfig {
     std::string algorithm_id;
@@ -17,6 +26,9 @@ struct RunConfig {
     int workers = 20;
     std::string sugga_model_root = "shared/models/sugga_cpp";
     std::string rlfode_model_root = "shared/models/fqfode_seeded";
+    FqfodeSensitivityProfile fqfode_sensitivity_profile =
+        FqfodeSensitivityProfile::baseline;
+    int alga_attention_hidden_width = 1;
 };
 
 struct RunResult {
@@ -34,6 +46,9 @@ struct RunResult {
     std::uint64_t inference_physical_fes = 0;
     std::uint64_t policy_interactions = 0;
     std::uint64_t policy_updates = 0;
+    std::array<std::uint64_t, 4> policy_stage_interactions{};
+    std::array<std::uint64_t, 4> policy_stage_updates{};
+    int alga_attention_hidden_width = 0;
     std::uint64_t generations = 0;
     int initial_population = 0;
     int final_population = 0;

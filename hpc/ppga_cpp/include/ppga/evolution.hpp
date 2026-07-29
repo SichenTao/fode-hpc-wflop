@@ -9,6 +9,9 @@ Declared M3 completions: normalized fitness, occupied-site distance, offspring-v
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: ppga_nantong_structured_3d_declared_reconstruction_v2
 Problem semantic ID: ppga_nantong_structured_3d_declared_proxy_v1
+Step 11 multiplicative-wake probing is a sensitivity-only independent problem
+semantic. The root-sum-square baseline remains unchanged; distinct problem
+semantics are never pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json
 Claim boundary: bounded declared reconstruction only; existing ppga_declared_reconstruction_fode_e0_v1 is unchanged and original Nantong method/results remain blocked
 END WFLOP IMPLEMENTATION FACT DECLARATION
@@ -55,6 +58,7 @@ struct EvolutionConfig {
     std::uint64_t physical_fes = 1500;
     int workers = 0;
     std::string backend = "cpu";
+    WakeCombination wake_combination = WakeCombination::root_sum_square;
 };
 
 struct StageReceipt {
@@ -82,6 +86,7 @@ struct EvolutionResult {
     std::string method_semantic_id;
     std::string problem_semantic_id;
     std::string problem_semantic_hash;
+    std::string wake_combination;
     std::string case_id;
     std::uint64_t seed = 0;
     std::uint64_t physical_fes = 0;

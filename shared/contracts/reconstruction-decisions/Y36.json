@@ -66,7 +66,7 @@
       "authority_type": "paper_equations_plus_platform_work_contract",
       "immutable_authority": "shared/contracts/taae_zhangbei_structured_declared_proxy_contract.json",
       "rejected_alternatives": ["count each wind state as one FES", "select the land coefficient after observing optimization results"],
-      "classification": "quality_sensitive",
+      "classification": "implementation_only",
       "expected_downstream_effect": "defines feasibility, comparable work, and budget stopping",
       "sensitivity_test_required": true,
       "adjudication_status": "selected_for_distinct_P3_proxy"
@@ -78,7 +78,7 @@
       "authority_type": "platform_HPC_contract",
       "immutable_authority": "hpc/wflop_cpp/tests/taae_problem_test.cpp, hpc/fode_cpp/include/fode/executor.hpp, and evidence/development/taae_problem_proxy_admission_spark_20260729.json",
       "rejected_alternatives": ["make floating-point results worker-count dependent", "silently claim an unimplemented GPU backend"],
-      "classification": "quality_sensitive",
+      "classification": "implementation_only",
       "expected_downstream_effect": "permits CPU population evaluation while preserving same-binary bitwise scientific equality between one-thread and twenty-thread configurations",
       "sensitivity_test_required": true,
       "adjudication_status": "selected_for_distinct_P3_proxy"
@@ -162,7 +162,7 @@
       "authority_type": "platform_CPU_execution_contract_with_exact_scientific_equivalence",
       "immutable_authority": "shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json, hpc/taae_cpp/tests/evolution_test.cpp, and evidence/development/taae_cpu_r4_spark_20260729.json",
       "rejected_alternatives": ["parallelize reductions or backward accumulation in a way that changes floating-point order", "commit speculative decoded proposals out of attempt order", "claim GPU or hybrid support", "retain measured Adam parameter-task parallelism after it showed no reproducible absolute gain and added executor work"],
-      "classification": "quality_sensitive",
+      "classification": "implementation_only",
       "expected_downstream_effect": "reduces bounded CPU wall time while preserving exact model, population, front, FES, generation, RNG, repair, and proposal-work semantics across one and all-visible workers; receipts demonstrate actual executor participation without creating a formal or paper-result claim",
       "sensitivity_test_required": true,
       "adjudication_status": "selected_for_CPU_R4_development_only"

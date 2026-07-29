@@ -17,6 +17,9 @@ elite count, mask construction/cardinality, initialization, and repair.
 Reconstruction action: use the frozen completions in
 shared/contracts/alga_attention_declared_reconstruction_contract.json.
 Method semantic ID: alga_attention_declared_reconstruction_v1.
+Step 11 width-two probing is a sensitivity-only independent method semantic.
+The width-one baseline remains unchanged; distinct method semantics are never
+pooled or used for cross-semantic ranking.
 Problem scope: primary transfer combines public WFLO-GGA Guishan annual wind
 with the paper-visible ideal grid and the audited FODE-E0 evaluator; an
 additional FODE-E0 common profile supports platform stress testing. Neither is
@@ -265,6 +268,7 @@ void repair_row(
 
 struct AttentionModel {
     int dimension = 0;
+    int hidden_width = 1;
     Matrix query;
     Matrix key;
     Matrix value;
@@ -273,14 +277,18 @@ struct AttentionModel {
 
     AttentionModel(
         int input_dimension,
+        int attention_hidden_width,
         const fode::CounterRng& rng
     ) : dimension(input_dimension),
+        hidden_width(attention_hidden_width),
         query(static_cast<std::size_t>(
             kAttentionHeads * input_dimension
         )),
         key(query.size()),
         value(query.size()),
-        output(static_cast<std::size_t>(kAttentionHeads)) {
+        output(static_cast<std::size_t>(
+            kAttentionHeads * attention_hidden_width
+        )) {
         const double limit = std::sqrt(
             6.0 / static_cast<double>(input_dimension + 1)
         );
@@ -312,11 +320,24 @@ struct AttentionModel {
                     ) - 1.0
                 );
             }
-            output[static_cast<std::size_t>(head)] = limit * (
-                2.0 * rng.uniform(
-                    0, 8113, static_cast<std::uint64_t>(head)
-                ) - 1.0
-            );
+            for (int hidden = 0; hidden < hidden_width; ++hidden) {
+                const std::size_t output_index =
+                    index_of(head, hidden, hidden_width);
+                output[output_index] = limit * (
+                    2.0 * (
+                        hidden == 0
+                        ? rng.uniform(
+                            0, 8113,
+                            static_cast<std::uint64_t>(head)
+                        )
+                        : rng.uniform(
+                            0, 8113,
+                            static_cast<std::uint64_t>(head),
+                            static_cast<std::uint64_t>(hidden)
+                        )
+                    ) - 1.0
+                );
+            }
         }
     }
 };
@@ -432,8 +453,13 @@ AttentionForward attention_forward(
             state.attended[index_of(head, row, population_size)] =
                 attended;
             state.prediction[static_cast<std::size_t>(row)] +=
-                model.output[static_cast<std::size_t>(head)]
+                model.output[index_of(head, 0, model.hidden_width)]
                 * attended;
+            if (model.hidden_width == 2) {
+                state.prediction[static_cast<std::size_t>(row)] +=
+                    model.output[index_of(head, 1, model.hidden_width)]
+                    * std::max(0.0, attended);
+            }
         }
     }
     return state;
@@ -495,12 +521,29 @@ AttentionForward train_one_full_batch_step(
             static_cast<std::size_t>(size), 0.0
         );
         for (int row = 0; row < size; ++row) {
-            output_gradient[static_cast<std::size_t>(head)] +=
+            output_gradient[
+                index_of(head, 0, model.hidden_width)
+            ] +=
                 prediction_gradient[static_cast<std::size_t>(row)]
                 * state.attended[index_of(head, row, size)];
-            const double attended_gradient =
+            double attended_gradient =
                 prediction_gradient[static_cast<std::size_t>(row)]
-                * model.output[static_cast<std::size_t>(head)];
+                * model.output[index_of(head, 0, model.hidden_width)];
+            if (model.hidden_width == 2) {
+                const double attended =
+                    state.attended[index_of(head, row, size)];
+                output_gradient[
+                    index_of(head, 1, model.hidden_width)
+                ] += prediction_gradient[static_cast<std::size_t>(row)]
+                    * std::max(0.0, attended);
+                if (attended > 0.0) {
+                    attended_gradient += prediction_gradient[
+                        static_cast<std::size_t>(row)
+                    ] * model.output[
+                        index_of(head, 1, model.hidden_width)
+                    ];
+                }
+            }
             double weighted_attention_gradient = 0.0;
             for (int column = 0; column < size; ++column) {
                 const std::size_t offset = static_cast<std::size_t>(
@@ -657,6 +700,14 @@ RunResult optimize_alga_attention_declared_reconstruction(
             + "' is interface-only in this build; no hidden CPU fallback"
         );
     }
+    if (
+        config.alga_attention_hidden_width != 1
+        && config.alga_attention_hidden_width != 2
+    ) {
+        throw std::invalid_argument(
+            "ALGA attention hidden width must be 1 or 2"
+        );
+    }
     if (config.problem_id == "alga_guishan_planar_transfer") {
         const std::string observed_hash = transfer_case_hash(data);
         if (observed_hash != kGuishanTransferCaseHash) {
@@ -680,7 +731,11 @@ RunResult optimize_alga_attention_declared_reconstruction(
     const int dimension = data.turbine_count;
     const int grid = data.rows * data.cols;
     Matrix population = initialize_population(data, rng, executor);
-    AttentionModel model(dimension, rng);
+    AttentionModel model(
+        dimension,
+        config.alga_attention_hidden_width,
+        rng
+    );
     std::uint64_t physical_fes = 0;
     std::uint64_t generations = 0;
     double evaluator_seconds = 0.0;
@@ -952,17 +1007,24 @@ RunResult optimize_alga_attention_declared_reconstruction(
     RunResult result;
     result.algorithm_id = config.algorithm_id;
     result.method_id =
-        "ALGA_ATTENTION_DECLARED_RECONSTRUCTION_V1";
+        config.alga_attention_hidden_width == 1
+        ? "ALGA_ATTENTION_DECLARED_RECONSTRUCTION_V1"
+        : "alga_attention_width2_sensitivity_v1";
     const auto& identity = algorithm_descriptor(config.algorithm_id);
     const auto& problem = problem_descriptor(config.problem_id);
     result.algorithm_provenance = identity.provenance;
-    result.effective_semantics_id = identity.semantics_id;
+    result.effective_semantics_id =
+        config.alga_attention_hidden_width == 1
+        ? identity.semantics_id
+        : "alga_attention_width2_sensitivity_v1";
     result.problem_id = problem.id;
     result.problem_semantics_id = problem.semantics_id;
     result.case_id = data.case_id;
     result.seed = config.seed;
     result.physical_fes = physical_fes;
     result.inference_physical_fes = physical_fes;
+    result.alga_attention_hidden_width =
+        config.alga_attention_hidden_width;
     result.generations = generations;
     result.initial_population = kPopulationSize;
     result.final_population = kPopulationSize;

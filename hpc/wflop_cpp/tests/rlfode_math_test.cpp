@@ -30,10 +30,44 @@ public:
     }
 };
 
+class RecordingController final : public fode::FractionalOrderController {
+public:
+    double begin_generation(std::uint64_t, double) override {
+        return 0.8;
+    }
+
+    double begin_generation_with_fes(
+        std::uint64_t,
+        double,
+        std::uint64_t physical_fes
+    ) override {
+        completed_fes.push_back(physical_fes);
+        return 0.8;
+    }
+
+    void finish(double) override {
+    }
+
+    std::vector<std::uint64_t> completed_fes;
+};
+
 }  // namespace
 
 int main(int argc, char** argv) {
     using namespace wflop::rlfode_reconstruction;
+
+    const auto& profiles = sensitivity_profile_descriptors();
+    if (profiles.size() != 5
+        || parse_sensitivity_profile("baseline")
+            != wflop::FqfodeSensitivityProfile::baseline
+        || sensitivity_profile_descriptor(
+            wflop::FqfodeSensitivityProfile::baseline
+        ).effective_semantics_id
+            != std::string(
+                "fqfode_seeded_training_declared_reconstruction_v1"
+            )) {
+        return 10;
+    }
 
     if (state_index(0.8) != 80
         || action_delta(0) != -0.01
@@ -46,6 +80,15 @@ int main(int argc, char** argv) {
         || additive_fractional_transition(0.9, 2) != 0.9
         || additive_fractional_transition(0.1, 0) != 0.1) {
         return 2;
+    }
+    if (std::abs(
+            multiplicative_fractional_transition(0.8, 2) - 0.808
+        ) > 1.0e-15
+        || fes_normalized_stage(67, 67, 407) != 0
+        || fes_normalized_stage(134, 67, 407) != 0
+        || fes_normalized_stage(237, 67, 407) != 2
+        || fes_normalized_stage(406, 67, 407) != 3) {
+        return 11;
     }
 
     const std::array<double, 4> history{2.0, 3.0, 4.0, 5.0};
@@ -111,6 +154,33 @@ int main(int argc, char** argv) {
         || baseline.initial_population != controlled.initial_population
         || baseline.final_population != controlled.final_population) {
         return 9;
+    }
+    RecordingController recording;
+    const auto recorded = fode::optimize_fode_hpc_controlled(
+        data,
+        config,
+        recording
+    );
+    if (recorded.generations != recording.completed_fes.size()
+        || recording.completed_fes.size() < 3
+        || recording.completed_fes[0]
+            != static_cast<std::uint64_t>(recorded.initial_population)) {
+        return 12;
+    }
+    bool nonuniform_generation_work = false;
+    for (std::size_t index = 2; index < recording.completed_fes.size();
+         ++index) {
+        const auto previous =
+            recording.completed_fes[index - 1]
+            - recording.completed_fes[index - 2];
+        const auto current =
+            recording.completed_fes[index]
+            - recording.completed_fes[index - 1];
+        nonuniform_generation_work =
+            nonuniform_generation_work || current != previous;
+    }
+    if (!nonuniform_generation_work) {
+        return 13;
     }
     std::cout << "rlfode_math_fixture_pass\n";
     return 0;

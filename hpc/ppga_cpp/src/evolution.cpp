@@ -8,6 +8,9 @@ Declared M3 completions: elite count three, min-max normalized fitness, offsprin
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: ppga_nantong_structured_3d_declared_reconstruction_v2
 Problem semantic ID: ppga_nantong_structured_3d_declared_proxy_v1
+Step 11 multiplicative-wake probing is a sensitivity-only independent problem
+semantic. The root-sum-square baseline remains unchanged; distinct problem
+semantics are never pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json
 Claim boundary: bounded declared reconstruction only; original PPGA transitions and Nantong paper results remain blocked
 END WFLOP IMPLEMENTATION FACT DECLARATION
@@ -211,6 +214,7 @@ void evaluate_batch(
     std::vector<Individual>& population,
     int count,
     const Problem& problem,
+    WakeCombination wake_combination,
     fode::PersistentExecutor& executor,
     StageReceipt& evaluator_stage
 ) {
@@ -220,7 +224,8 @@ void evaluate_batch(
             population[static_cast<std::size_t>(index)].evaluation =
                 evaluate_layout(
                     problem,
-                    population[static_cast<std::size_t>(index)].layout
+                    population[static_cast<std::size_t>(index)].layout,
+                    wake_combination
                 );
         })
     );
@@ -407,8 +412,16 @@ EvolutionResult run(
     );
     EvolutionResult result;
     result.method_semantic_id = kMethodSemanticId;
-    result.problem_semantic_id = kProblemSemanticId;
-    result.problem_semantic_hash = problem_semantic_hash(problem);
+    result.problem_semantic_id =
+        config.wake_combination == WakeCombination::root_sum_square
+        ? kProblemSemanticId
+        : kMultiplicativeWakeSensitivityProblemSemanticId;
+    result.problem_semantic_hash =
+        problem_semantic_hash(problem, config.wake_combination);
+    result.wake_combination =
+        config.wake_combination == WakeCombination::root_sum_square
+        ? "root-sum-square"
+        : "multiplicative";
     result.case_id = problem.case_id;
     result.seed = config.seed;
     result.requested_workers = config.workers;
@@ -421,7 +434,8 @@ EvolutionResult run(
         }
     );
     evaluate_batch(
-        population, kPopulationSize, problem, executor, result.evaluator_stage
+        population, kPopulationSize, problem, config.wake_combination,
+        executor, result.evaluator_stage
     );
     std::uint64_t fes = static_cast<std::uint64_t>(kPopulationSize);
     Individual best;
@@ -626,7 +640,8 @@ EvolutionResult run(
         }
 
         evaluate_batch(
-            offspring, batch, problem, executor, result.evaluator_stage
+            offspring, batch, problem, config.wake_combination,
+            executor, result.evaluator_stage
         );
         fes += static_cast<std::uint64_t>(batch);
         update_best(best, has_best, offspring, batch);
@@ -727,6 +742,8 @@ std::string result_to_json(const EvolutionResult& result) {
            << json_escape(result.problem_semantic_id) << "\",\n"
            << "  \"problem_semantic_hash\": \""
            << result.problem_semantic_hash << "\",\n"
+           << "  \"wake_combination\": \""
+           << result.wake_combination << "\",\n"
            << "  \"case_id\": \"" << json_escape(result.case_id) << "\",\n"
            << "  \"seed\": " << result.seed << ",\n"
            << "  \"physical_fes\": " << result.physical_fes << ",\n"

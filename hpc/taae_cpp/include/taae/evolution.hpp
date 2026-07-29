@@ -10,6 +10,9 @@ Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_evolution_declared_reconstruction_v1
 Kernel semantic ID: taae_transformer_declared_reconstruction_v1
 Problem semantic ID: taae_zhangbei_structured_declared_proxy_v1
+Step 11 loss-weight and multiplicative-wake probes are sensitivity-only
+independent method or problem semantics. Baseline semantics remain unchanged;
+distinct semantics are never pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json
 Claim boundary: distinct bounded end-to-end reconstruction only; original taae remains blocked, paper-scale state requires an immutable checkpoint, and no Zhangbei, reported-front, formal, performance, or GPU claim is made
 END WFLOP IMPLEMENTATION FACT DECLARATION
@@ -28,8 +31,12 @@ namespace taae::evolution {
 
 inline constexpr const char* kMethodSemanticId =
     "taae_transformer_evolution_declared_reconstruction_v1";
+inline constexpr const char* kRegressionHalfSensitivitySemanticId =
+    "taae_transformer_evolution_regression15_sensitivity_v1";
 inline constexpr const char* kProblemSemanticId =
     "taae_zhangbei_structured_declared_proxy_v1";
+inline constexpr const char* kMultiplicativeWakeProblemSemanticId =
+    "taae_zhangbei_structured_multiplicative_wake_sensitivity_v1";
 
 enum class TrainingStateProfile {
     bounded_smoke,
@@ -50,6 +57,9 @@ struct EvolutionConfig {
     std::string checkpoint_output;
     std::string backend = "cpu";
     ModelConfig model_config{};
+    LossWeights fine_tune_loss_weights{};
+    wflop::taae::WakeCombination wake_combination =
+        wflop::taae::WakeCombination::root_sum_square;
 };
 
 struct IndividualRecord {
@@ -88,6 +98,7 @@ struct EvolutionResult {
     std::string kernel_semantic_id;
     std::string problem_semantic_id;
     std::string problem_semantic_hash;
+    std::string wake_combination;
     std::string case_id;
     std::uint64_t seed = 0;
     std::uint64_t physical_fes = 0;
@@ -96,6 +107,7 @@ struct EvolutionResult {
     int resolved_workers = 0;
     std::string training_state_profile_id;
     ModelConfig model_config;
+    LossWeights fine_tune_loss_weights;
     TrainingWork training_work;
     double evaluator_wall_seconds = 0.0;
     double total_wall_seconds = 0.0;

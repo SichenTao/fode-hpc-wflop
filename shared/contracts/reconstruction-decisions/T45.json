@@ -99,7 +99,7 @@
         "claim throughput admission from the contended local Spark timing",
         "parallelize floating-point reductions in a worker-dependent order"
       ],
-      "classification": "quality_sensitive",
+      "classification": "implementation_only",
       "expected_downstream_effect": "preserves exact worker-count scientific state while leaving formal throughput claims pending",
       "sensitivity_test_required": true,
       "adjudication_status": "selected_for_declared_reconstruction"

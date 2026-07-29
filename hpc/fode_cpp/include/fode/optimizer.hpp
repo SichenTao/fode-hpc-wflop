@@ -29,6 +29,18 @@ public:
         double best_expected_power_kw
     ) = 0;
 
+    // Exact-work extension used by controllers whose schedule depends on
+    // completed physical evaluations. Existing controllers inherit the
+    // legacy behavior through this default forwarding implementation.
+    virtual double begin_generation_with_fes(
+        std::uint64_t generation,
+        double best_expected_power_kw,
+        std::uint64_t physical_fes_completed_before_generation
+    ) {
+        (void)physical_fes_completed_before_generation;
+        return begin_generation(generation, best_expected_power_kw);
+    }
+
     // Called after a complete generation, including the inherited local
     // search. Formal FQFODE does not use this hook; its declared offline
     // training environment uses it to observe the action consequence.

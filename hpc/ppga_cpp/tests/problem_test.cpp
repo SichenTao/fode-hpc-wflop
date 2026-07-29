@@ -86,6 +86,25 @@ int main(int argc, char** argv) {
             semantic_hash == "ee06013d8778fd7e",
             "problem semantic hash actual=" + semantic_hash
         );
+        const auto multiplicative = ppga::evaluate_layout(
+            problem,
+            layout,
+            ppga::WakeCombination::multiplicative
+        );
+        const std::string multiplicative_hash =
+            ppga::problem_semantic_hash(
+                problem,
+                ppga::WakeCombination::multiplicative
+            );
+        require(
+            multiplicative.expected_power_kw
+                != evaluation.expected_power_kw,
+            "wake sensitivity score did not change"
+        );
+        require(
+            multiplicative_hash != semantic_hash,
+            "wake sensitivity semantic hash did not change"
+        );
         std::cout << "PPGA problem oracle passed\n";
         return 0;
     } catch (const std::exception& error) {

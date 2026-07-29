@@ -82,7 +82,7 @@
       "authority_type": "platform_physical_work_and_CPU_execution_contract",
       "immutable_authority": "hpc/ppga_cpp/tests/evolution_test.cpp and shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json",
       "rejected_alternatives": ["count each wind state as one FES", "overshoot the requested budget", "claim an unsupported GPU or hybrid backend", "let worker completion order change scientific output"],
-      "classification": "quality_sensitive",
+      "classification": "implementation_only",
       "expected_downstream_effect": "gives exact comparable work, exact one-vs-all scientific equivalence, and auditable actual CPU participation",
       "sensitivity_test_required": true,
       "adjudication_status": "selected_for_CPU_R4_development_only"

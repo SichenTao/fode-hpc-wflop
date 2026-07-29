@@ -22,6 +22,9 @@ Formula fixture: taae_formula_fixture_v1 at P4_FORMULA_FIXTURE. It evaluates
 supplementary scalar equations using declared fixture constants and is not an
 optimization problem.
 Problem semantic ID: taae_zhangbei_structured_declared_proxy_v1.
+Step 11 multiplicative-wake probing is a sensitivity-only independent problem
+semantic. Baseline semantics and semantic hash remain unchanged; distinct
+problem semantics are never pooled or used for cross-semantic ranking.
 Controlling contracts:
 shared/contracts/taae_zhangbei_structured_declared_proxy_contract.json and
 shared/contracts/taae_formula_fixture_contract.json.
@@ -393,7 +396,9 @@ double trailing_spl_eq10(
 std::vector<double> state_velocities(
     const std::vector<Point>& turbines,
     double direction,
-    double free_velocity
+    double free_velocity,
+    WakeCombination wake_combination =
+        WakeCombination::root_sum_square
 ) {
     const int count = static_cast<int>(turbines.size());
     std::vector<double> along(static_cast<std::size_t>(count));
@@ -423,6 +428,7 @@ std::vector<double> state_velocities(
         const int downstream =
             order[static_cast<std::size_t>(downstream_position)];
         double squared_deficit = 0.0;
+        double multiplicative_factor = 1.0;
         for (int upstream_position = 0;
              upstream_position < downstream_position;
              ++upstream_position) {
@@ -444,17 +450,20 @@ std::vector<double> state_velocities(
                 0.0
             );
             squared_deficit += deficit * deficit;
+            multiplicative_factor *= std::max(0.0, 1.0 - deficit);
         }
         const double relative_terrain =
             turbines[static_cast<std::size_t>(downstream)].z
             - kTerrainReferenceM;
         const double shear = ambient_shear(relative_terrain);
         velocities[static_cast<std::size_t>(downstream)] =
-            std::max(
+            wake_combination == WakeCombination::root_sum_square
+            ? std::max(
                 free_velocity
                     * (shear - std::sqrt(squared_deficit)),
                 0.0
-            );
+            )
+            : free_velocity * shear * multiplicative_factor;
     }
     return velocities;
 }
@@ -599,7 +608,8 @@ double total_cost(const std::vector<Point>& turbines) {
 CompleteEvaluation evaluate_layout(
     const int* layout,
     const fode::CaseData& data,
-    double budget
+    double budget,
+    WakeCombination wake_combination
 ) {
     const int dimension = data.turbine_count;
     std::vector<char> occupied(
@@ -645,7 +655,8 @@ CompleteEvaluation evaluate_layout(
             const auto velocities = state_velocities(
                 turbines,
                 data.theta[direction],
-                data.velocity[static_cast<std::size_t>(speed)]
+                data.velocity[static_cast<std::size_t>(speed)],
+                wake_combination
             );
             for (const double velocity : velocities) {
                 expected_power += probability
@@ -670,7 +681,10 @@ CompleteEvaluation evaluate_layout(
 
 }  // namespace
 
-std::string structured_proxy_semantic_hash(const fode::CaseData& data) {
+std::string structured_proxy_semantic_hash(
+    const fode::CaseData& data,
+    WakeCombination wake_combination
+) {
     std::uint64_t hash = 14695981039346656037ULL;
     auto mix_byte = [&](std::uint8_t value) {
         hash ^= static_cast<std::uint64_t>(value);
@@ -788,6 +802,12 @@ std::string structured_proxy_semantic_hash(const fode::CaseData& data) {
     for (const int value : data.unavailable_cells_1based) {
         mix_u64(static_cast<std::uint64_t>(value));
     }
+    if (wake_combination == WakeCombination::multiplicative) {
+        mix_string(
+            "sensitivity_problem_semantics=ambient_target_shear_once_"
+            "times_product_one_minus_pair_fractional_wake_deficit"
+        );
+    }
     std::ostringstream output;
     output << "fnv1a64:" << std::hex << std::setfill('0')
            << std::setw(16) << hash;
@@ -798,7 +818,8 @@ BatchEvaluation evaluate_structured_proxy(
     const std::vector<int>& layouts_1based,
     int batch_size,
     const fode::CaseData& data,
-    fode::PersistentExecutor& executor
+    fode::PersistentExecutor& executor,
+    WakeCombination wake_combination
 ) {
     if (batch_size <= 0
         || layouts_1based.size()
@@ -818,12 +839,15 @@ BatchEvaluation evaluate_structured_proxy(
         );
     }
     const ProxyIdentity& identity = identity_for(data.case_id);
-    const std::string observed_hash =
-        structured_proxy_semantic_hash(data);
-    if (observed_hash != identity.semantic_hash) {
+    const std::string observed_manifest_hash =
+        structured_proxy_semantic_hash(
+            data,
+            WakeCombination::root_sum_square
+        );
+    if (observed_manifest_hash != identity.semantic_hash) {
         throw std::invalid_argument(
             "TAAE proxy full problem semantics do not match frozen hash: "
-            + observed_hash
+            + observed_manifest_hash
         );
     }
     BatchEvaluation result;
@@ -831,7 +855,8 @@ BatchEvaluation evaluate_structured_proxy(
     result.complete_layout_evaluations =
         static_cast<std::uint64_t>(batch_size);
     result.configured_workers = executor.thread_count();
-    result.problem_semantic_hash = observed_hash;
+    result.problem_semantic_hash =
+        structured_proxy_semantic_hash(data, wake_combination);
     const auto started = Clock::now();
     executor.parallel_for(0, batch_size, [&](int row) {
         result.values[static_cast<std::size_t>(row)] =
@@ -841,7 +866,8 @@ BatchEvaluation evaluate_structured_proxy(
                         row * data.turbine_count
                     ),
                 data,
-                identity.budget
+                identity.budget,
+                wake_combination
             );
     });
     result.elapsed_seconds =
