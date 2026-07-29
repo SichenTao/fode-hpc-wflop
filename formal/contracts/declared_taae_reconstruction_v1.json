@@ -1,0 +1,89 @@
+{
+  "schema_version": 1,
+  "campaign_id": "declared_taae_reconstruction_v1",
+  "suite_id": "declared_reconstruction_formal_suite_v1",
+  "status": "contract_frozen_not_launched",
+  "source_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
+  "capability_matrix_id": "gao_tao_wflop_global_execution_capability_matrix_step10_v1",
+  "package_id": "taae_bounded",
+  "semantic_group": {
+    "problem_id": "taae_zhangbei_structured_declared_proxy_v1",
+    "problem_semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+    "objective_signature": "biobjective_inverse_expected_power_and_expected_monitor_dba",
+    "pooling_rule": "every exact case semantic hash remains an independent stratum; no cross-case objective pooling"
+  },
+  "profile_ids": ["taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1"],
+  "profile_records": [
+    {
+      "profile_id": "taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1",
+      "method_semantics_id": "taae_transformer_evolution_declared_reconstruction_v1",
+      "problem_semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+      "method_evidence_tier": "M3_DECLARED_COMPLETION",
+      "problem_evidence_tier": "P3_DECLARED_PROXY",
+      "claim_boundary": "Bounded deterministic end-to-end TAAE engineering reconstruction on the declared P3 proxy; original TAAE, Zhangbei arrays, author checkpoint, paper-scale learned state, reported fronts, formal results, and GPU execution remain blocked."
+    }
+  ],
+  "case_contract": "shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json",
+  "case_semantic_hashes": {
+    "TAAE_Proxy_NC1_Budget600k_tn15": "fnv1a64:ffdc187163fb6d97",
+    "TAAE_Proxy_NC1_Budget800k_tn15": "fnv1a64:d2e0cb41e02ce9c4",
+    "TAAE_Proxy_NC1_Budget1000k_tn15": "fnv1a64:6e9505ccedf0a578",
+    "TAAE_Proxy_NC2_Budget600k_tn15": "fnv1a64:369f421c373bedec",
+    "TAAE_Proxy_NC2_Budget800k_tn15": "fnv1a64:25c369241a20016f",
+    "TAAE_Proxy_NC2_Budget1000k_tn15": "fnv1a64:47a7700e18311e81"
+  },
+  "case_count": 6,
+  "optimization_seed_set_id": "declared_reconstruction_25_v1",
+  "optimization_seed_count": 25,
+  "physical_fes_per_run": 10000,
+  "physical_fes_definition": "one complete two-objective TAAE proxy layout evaluation; checkpoint construction and training evaluations are excluded",
+  "formal_run_count": 150,
+  "formal_complete_layout_evaluations": 1500000,
+  "execution": {
+    "device_mode": "cpu",
+    "workers": 20,
+    "processes_at_once": 1,
+    "cpu_work_partition": "one persistent 20-worker executor partitions independent model forward/cache construction, population encoding, speculative decoding batches, and complete-layout evaluations under ordered deterministic commit",
+    "gpu_used": false,
+    "binary_target": "taae_evolution_hpc",
+    "binary_relative_path": "build/full/hpc/taae_cpp/taae_evolution_hpc",
+    "environment_contract_id": "spark_9b6f_cpu20_gcc11_release_v1",
+    "binary_source_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
+    "clean_worktree_required": true,
+    "environment_receipt_required": true,
+    "environment_receipt_fields": ["hostname", "architecture", "os_release", "cpu_model", "visible_logical_cpus", "compiler_id", "compiler_version", "cmake_version", "build_type", "compiler_flags", "link_libraries", "binary_sha256", "source_commit", "git_status_porcelain"]
+  },
+  "training_work_separation": {
+    "optimization_seed_namespace": "optimization/declared_reconstruction_25_v1",
+    "training_seed_namespace": "training/taae_reconstruction_v1",
+    "namespaces_must_be_disjoint": true,
+    "training_profiles": {
+      "taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1": {
+        "generator": "bounded deterministic pretraining state plus ten fine-tune epochs per generation using already evaluated population targets",
+        "seed_source": "optimization seed with domain-separated model initialization, pretraining, and fine-tuning event namespaces",
+        "artifact_hash": "record model parameter hash per run; paper-scale checkpoint remains blocked",
+        "pretraining_layout_work_units": 64,
+        "pretraining_epochs": 2,
+        "fine_tune_epochs_per_generation": 10,
+        "training_physical_fes": 0,
+        "inference_physical_fes_per_run": 10000,
+        "total_physical_fes_per_run": 10000
+      }
+    },
+    "training_work_and_training_fes_recorded_separately": true,
+    "training_fes_included_in_optimization_fes": false
+  },
+  "multiobjective_reporting": {
+    "metrics": ["hypervolume", "igd_plus", "feasible_nondominated_count", "minimum_normalized_constraint_violation"],
+    "reference_front": "construct and freeze one empirical feasible nondominated reference set per exact case from the union of all admitted profile-seed fronts; if no feasible front exists, report least-violation fronts separately and do not compute feasible-front HV or IGD+",
+    "normalization": "per exact case and per objective using frozen minima and maxima of that case's empirical reference set; zero ranges are recorded and mapped deterministically",
+    "hypervolume_reference_point": "1.1 in every normalized minimization objective",
+    "cross_case_pooling": false
+  },
+  "resume_policy": {
+    "result_key_fields": ["campaign_id", "profile_id", "problem_semantics_id", "case_id", "optimization_seed", "physical_fes_per_run", "binary_sha256", "environment_sha256", "source_commit"],
+    "reuse_only_complete_validated_results": true,
+    "atomic_commit": "write same-filesystem temporary result, flush and fsync, then rename",
+    "partial_results_are_never_reused": true
+  }
+}

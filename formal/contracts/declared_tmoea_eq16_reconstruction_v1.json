@@ -1,0 +1,69 @@
+{
+  "schema_version": 1,
+  "campaign_id": "declared_tmoea_eq16_reconstruction_v1",
+  "suite_id": "declared_reconstruction_formal_suite_v1",
+  "status": "contract_frozen_not_launched",
+  "source_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
+  "capability_matrix_id": "gao_tao_wflop_global_execution_capability_matrix_step10_v1",
+  "package_id": "tmoea_eq16_v2",
+  "semantic_group": {
+    "problem_id": "nysted_tmoea_paper_wake_gga_router_reconstruction",
+    "problem_semantics_id": "tmoea_nysted_paper_wake_gga_router_problem_v1",
+    "objective_signature": "tmoea_aep_and_declared_cable_cost",
+    "pooling_rule": "the corrected Eq.16 profile remains separate from the historical TMOEA profile and every GGA-only objective"
+  },
+  "profile_ids": ["tmoea__nysted_paper_eq16_cpu_r4_v2"],
+  "profile_records": [
+    {
+      "profile_id": "tmoea__nysted_paper_eq16_cpu_r4_v2",
+      "method_semantics_id": "tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2",
+      "problem_semantics_id": "tmoea_nysted_paper_wake_gga_router_problem_v1",
+      "method_evidence_tier": "M3_DECLARED_COMPLETION",
+      "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+      "claim_boundary": "Corrected Eq.16 declared reconstruction on same-author Nysted assets; original candidate set, router, controls, seed, reference front, and paper results remain blocked. Pure CPU and auto-to-CPU only; hybrid/GPU fail closed."
+    }
+  ],
+  "case_contract": "shared/contracts/tmoea_nysted_paper_wake_gga_router_problem.json",
+  "case_count": 1,
+  "optimization_seed_set_id": "declared_reconstruction_25_v1",
+  "optimization_seed_count": 25,
+  "physical_fes_per_run": 3000,
+  "physical_fes_definition": "one complete layout evaluation of T-MOEA AEP and declared cable cost, including 30 initial layouts and 99 complete offspring generations with no overshoot",
+  "formal_run_count": 25,
+  "formal_complete_layout_evaluations": 75000,
+  "execution": {
+    "device_mode": "cpu",
+    "workers": 20,
+    "processes_at_once": 1,
+    "cpu_work_partition": "one persistent 20-worker team partitions independent complete-layout wake and cable evaluations plus eligible per-layout construction work; ordered selection and archive updates remain deterministic",
+    "gpu_used": false,
+    "binary_target": "gga_cpp_hpc",
+    "binary_relative_path": "build/full/hpc/gga_cpp/gga_cpp_hpc",
+    "environment_contract_id": "spark_9b6f_cpu20_gcc11_release_v1",
+    "binary_source_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
+    "clean_worktree_required": true,
+    "environment_receipt_required": true,
+    "environment_receipt_fields": ["hostname", "architecture", "os_release", "cpu_model", "visible_logical_cpus", "compiler_id", "compiler_version", "cmake_version", "build_type", "compiler_flags", "link_libraries", "binary_sha256", "source_commit", "git_status_porcelain"]
+  },
+  "training_work_separation": {
+    "optimization_seed_namespace": "optimization/declared_reconstruction_25_v1",
+    "training_seed_namespace": "training/not_applicable/tmoea_eq16",
+    "namespaces_must_be_disjoint": true,
+    "training_profiles": {},
+    "training_work_and_training_fes_recorded_separately": true,
+    "training_fes_included_in_optimization_fes": false
+  },
+  "multiobjective_reporting": {
+    "metrics": ["hypervolume", "igd_plus", "feasible_nondominated_count"],
+    "reference_front": "construct and freeze an empirical nondominated reference set for the exact Nysted Eq.16 semantic from the union of all 25 seed fronts; the unavailable paper reference front is never claimed",
+    "normalization": "per objective using frozen minima and maxima of the exact-semantic empirical reference set; zero ranges are recorded and mapped deterministically",
+    "hypervolume_reference_point": "1.1 in every normalized minimization objective",
+    "cross_case_pooling": false
+  },
+  "resume_policy": {
+    "result_key_fields": ["campaign_id", "profile_id", "problem_semantics_id", "case_id", "optimization_seed", "physical_fes_per_run", "binary_sha256", "environment_sha256", "source_commit"],
+    "reuse_only_complete_validated_results": true,
+    "atomic_commit": "write same-filesystem temporary result, flush and fsync, then rename",
+    "partial_results_are_never_reused": true
+  }
+}

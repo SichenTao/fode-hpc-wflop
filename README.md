@@ -80,6 +80,23 @@ cmake --build build --parallel
 ctest --test-dir build --output-on-failure
 ```
 
+The Step-12 declared-reconstruction suite freezes its Spark CPU environment,
+canonical `build/full` binary paths, and binary SHA-256 values in
+`formal/contracts/declared_reconstruction_formal_suite_v1.json`. The default
+contract audit supports a clean clone and verifies binary hashes when those
+binaries are present. The formal launch/evidence gate requires the canonical
+Release build and all seven frozen binaries:
+
+```bash
+cmake -S . -B build/full -DCMAKE_BUILD_TYPE=Release
+cmake --build build/full -j20
+python3 scripts/audit_formal_suite_contracts.py --require-binaries
+```
+
+Both modes preserve the older Waffle and Spark2 suite checks. The
+`--require-binaries` mode additionally fails when any canonical binary is
+missing or its SHA-256 differs.
+
 Run one full fixed-work optimization:
 
 ```bash

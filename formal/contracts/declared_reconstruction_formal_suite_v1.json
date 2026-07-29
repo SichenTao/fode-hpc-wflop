@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "suite_id": "declared_reconstruction_formal_suite_v1",
+  "status": "contract_frozen_not_launched",
+  "source_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
+  "capability_matrix": {
+    "path": "shared/contracts/global_execution_capability_matrix.json",
+    "matrix_id": "gao_tao_wflop_global_execution_capability_matrix_step10_v1"
+  },
+  "execution": {
+    "device_mode": "cpu",
+    "workers": 20,
+    "processes_at_once": 1
+  },
+  "environment_contract": {
+    "environment_contract_id": "spark_9b6f_cpu20_gcc11_release_v1",
+    "hostname": "spark-9b6f",
+    "architecture": "aarch64",
+    "operating_system": "Ubuntu 24.04.4 LTS",
+    "operating_system_version_id": "24.04",
+    "kernel": "Linux 6.14.0-1015-nvidia aarch64",
+    "glibc_version": "2.39-0ubuntu8.7",
+    "cpu_model": "10x Cortex-X925 plus 10x Cortex-A725",
+    "visible_logical_cpus": 20,
+    "online_cpu_list": "0-19",
+    "threads_per_core": 1,
+    "cmake_version": "3.28.3",
+    "compiler": "Ubuntu GCC 11.5.0",
+    "build_type": "Release",
+    "cxx_flags_release": "-O3 -DNDEBUG",
+    "openmp_compile_flag": "-fopenmp",
+    "openmp_libraries": ["gomp", "pthread"],
+    "libgomp_linker_path": "/usr/lib/gcc/aarch64-linux-gnu/11/libgomp.so",
+    "libgomp_resolved_path": "/usr/lib/aarch64-linux-gnu/libgomp.so.1.0.0",
+    "libgomp_sha256": "33c8bcb7d33228fe5101bfeb201bcaff4563d4ecf09497229b9deba522ebaf3d",
+    "configure_command": "cmake -S . -B build/full -DCMAKE_BUILD_TYPE=Release",
+    "build_command": "cmake --build build/full -j20",
+    "canonical_binaries": {
+      "wflop_cpp_hpc": {
+        "path": "build/full/hpc/wflop_cpp/wflop_cpp_hpc",
+        "sha256": "eb203f11cf1301f4e92e510c4c3a3cc54a843d365a8f3bb17e0752186715a46a"
+      },
+      "taae_evolution_hpc": {
+        "path": "build/full/hpc/taae_cpp/taae_evolution_hpc",
+        "sha256": "defedb4b806cfda5b90e0ffe64879d02d0b5b32d60f2ee9c1c7ef4ad28d0c228"
+      },
+      "ppga_nantong_hpc": {
+        "path": "build/full/hpc/ppga_cpp/ppga_nantong_hpc",
+        "sha256": "486781c7e4429b518dd5ba552777d4dacf98de58359aa608a7d9071184947401"
+      },
+      "bde_ws56_hpc": {
+        "path": "build/full/hpc/bde_ws56_cpp/bde_ws56_hpc",
+        "sha256": "344c5f6c4c02ab74512bea4f94b86a2b8606f00cae0a9121502e88e668739faf"
+      },
+      "gga_cpp_hpc": {
+        "path": "build/full/hpc/gga_cpp/gga_cpp_hpc",
+        "sha256": "7b10bbff6e63842417509f612854f2b3ae178cb65d3b30743bde9e562a707552"
+      },
+      "geoga_anholt_hpc": {
+        "path": "build/full/hpc/geoga_cpp/geoga_anholt_hpc",
+        "sha256": "e9da8942fb5db7fc7ada54b1c79285ee62828966d68ff6e5a250c2bc03240cb2"
+      },
+      "pbea_cpp_hpc": {
+        "path": "build/full/hpc/pbea_cpp/pbea_cpp_hpc",
+        "sha256": "efad49458661173c41b48ad0e7666ed56a82bec4ac6962d8b2bc4c7442562f35"
+      }
+    },
+    "launch_preconditions": {
+      "clean_worktree": true,
+      "rebuild_from_source_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
+      "binary_sha256_recomputed_after_build": true,
+      "environment_receipt_revalidated": true
+    }
+  },
+  "optimization_seed_sets": {
+    "declared_reconstruction_25_v1": [
+      2026073101,
+      2026073102,
+      2026073103,
+      2026073104,
+      2026073105,
+      2026073106,
+      2026073107,
+      2026073108,
+      2026073109,
+      2026073110,
+      2026073111,
+      2026073112,
+      2026073113,
+      2026073114,
+      2026073115,
+      2026073116,
+      2026073117,
+      2026073118,
+      2026073119,
+      2026073120,
+      2026073121,
+      2026073122,
+      2026073123,
+      2026073124,
+      2026073125
+    ]
+  },
+  "profile_count": 15,
+  "campaign_count": 11,
+  "included_profile_ids": [
+    "alga_attention_declared_reconstruction_v1__fode_e0_common",
+    "fqfode_seeded_training_declared_reconstruction_v1__fode_e0_common",
+    "alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer",
+    "rlpso_compact_policy_declared_reconstruction_v1__rpso2024_source_problem_ws1_ws4",
+    "rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4",
+    "taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1",
+    "ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1",
+    "bde__bde2025_ws5_paper250_declared_proxy_v1",
+    "bde__bde2025_ws6_paper250_declared_proxy_v1",
+    "geoga__admitted_gga_problem_asset_proxy",
+    "geoga__geoga_anholt_structured_declared_proxy_v1",
+    "tmoea__nysted_paper_eq16_cpu_r4_v2",
+    "moead__zhang2025_three_objective",
+    "morime__zhang2025_three_objective",
+    "armoea__zhang2025_three_objective"
+  ],
+  "matrix_profiles_deliberately_excluded": [
+    {
+      "profile_id": "ppga__fode_e0_common",
+      "reason": "existing algorithm-transfer profile already governed by the preserved host formal suites; the declared PPGA campaign in this suite is the distinct Nantong reconstruction"
+    },
+    {
+      "profile_id": "tmoea__nysted_gga_asset_reconstruction",
+      "reason": "historical development admission remains governed by the preserved host formal suites; this suite freezes the corrected paper Eq.16 v2 semantic only"
+    }
+  ],
+  "campaign_contracts": [
+    "formal/contracts/declared_fode_common_reconstructions_v1.json",
+    "formal/contracts/declared_alga_guishan_reconstruction_v1.json",
+    "formal/contracts/declared_rlpso_reconstructions_v1.json",
+    "formal/contracts/declared_taae_reconstruction_v1.json",
+    "formal/contracts/declared_ppga_nantong_reconstruction_v1.json",
+    "formal/contracts/declared_bde_ws5_reconstruction_v1.json",
+    "formal/contracts/declared_bde_ws6_reconstruction_v1.json",
+    "formal/contracts/declared_geoga_gga_proxy_reconstruction_v1.json",
+    "formal/contracts/declared_geoga_anholt_reconstruction_v1.json",
+    "formal/contracts/declared_tmoea_eq16_reconstruction_v1.json",
+    "formal/contracts/declared_pbea_reconstructions_v1.json"
+  ],
+  "campaigns": [
+    {"campaign_id": "declared_fode_common_reconstructions_v1", "contract": "formal/contracts/declared_fode_common_reconstructions_v1.json", "profile_count": 2, "case_count": 50, "physical_fes_per_run": 24000, "optimization_runs": 2500, "complete_layout_evaluations": 60000000},
+    {"campaign_id": "declared_alga_guishan_reconstruction_v1", "contract": "formal/contracts/declared_alga_guishan_reconstruction_v1.json", "profile_count": 1, "case_count": 1, "physical_fes_per_run": 2430, "optimization_runs": 25, "complete_layout_evaluations": 60750},
+    {"campaign_id": "declared_rlpso_reconstructions_v1", "contract": "formal/contracts/declared_rlpso_reconstructions_v1.json", "profile_count": 2, "case_count": 12, "physical_fes_per_run": 24000, "optimization_runs": 600, "complete_layout_evaluations": 14400000},
+    {"campaign_id": "declared_taae_reconstruction_v1", "contract": "formal/contracts/declared_taae_reconstruction_v1.json", "profile_count": 1, "case_count": 6, "physical_fes_per_run": 10000, "optimization_runs": 150, "complete_layout_evaluations": 1500000},
+    {"campaign_id": "declared_ppga_nantong_reconstruction_v1", "contract": "formal/contracts/declared_ppga_nantong_reconstruction_v1.json", "profile_count": 1, "case_count": 16, "physical_fes_per_run": 1500, "optimization_runs": 400, "complete_layout_evaluations": 600000},
+    {"campaign_id": "declared_bde_ws5_reconstruction_v1", "contract": "formal/contracts/declared_bde_ws5_reconstruction_v1.json", "profile_count": 1, "case_count": 6, "physical_fes_per_run": 10000, "optimization_runs": 150, "complete_layout_evaluations": 1500000},
+    {"campaign_id": "declared_bde_ws6_reconstruction_v1", "contract": "formal/contracts/declared_bde_ws6_reconstruction_v1.json", "profile_count": 1, "case_count": 6, "physical_fes_per_run": 10000, "optimization_runs": 150, "complete_layout_evaluations": 1500000},
+    {"campaign_id": "declared_geoga_gga_proxy_reconstruction_v1", "contract": "formal/contracts/declared_geoga_gga_proxy_reconstruction_v1.json", "profile_count": 1, "case_count": 8, "physical_fes_per_run": 10000, "optimization_runs": 200, "complete_layout_evaluations": 2000000},
+    {"campaign_id": "declared_geoga_anholt_reconstruction_v1", "contract": "formal/contracts/declared_geoga_anholt_reconstruction_v1.json", "profile_count": 1, "case_count": 1, "physical_fes_per_run": 10000, "optimization_runs": 25, "complete_layout_evaluations": 250000},
+    {"campaign_id": "declared_tmoea_eq16_reconstruction_v1", "contract": "formal/contracts/declared_tmoea_eq16_reconstruction_v1.json", "profile_count": 1, "case_count": 1, "physical_fes_per_run": 3000, "optimization_runs": 25, "complete_layout_evaluations": 75000},
+    {"campaign_id": "declared_pbea_reconstructions_v1", "contract": "formal/contracts/declared_pbea_reconstructions_v1.json", "profile_count": 3, "case_count": 32, "physical_fes_per_run": 10100, "optimization_runs": 2400, "complete_layout_evaluations": 24240000}
+  ],
+  "total_optimization_runs": 6625,
+  "total_campaign_physical_layout_evaluations": 106125750,
+  "one_time_offline_training_physical_fes": 39700,
+  "total_physical_layout_evaluations_including_one_time_offline_training": 106165450,
+  "training_work_accounting": {
+    "offline_training": "offline training physical FES are recorded separately and are not subtracted from a formal inference budget; FQFODE contributes one frozen shared 39700-FES artifact-training receipt",
+    "online_training": "every online training action that calls a physical evaluator counts inside the run total; RLPSO training_physical_fes plus inference_physical_fes equals exactly 24000",
+    "rlpso_total_physical_fes_equation": {
+      "training_physical_fes_plus_inference_physical_fes": 24000,
+      "online_training_evaluator_calls_count_inside_total": true
+    },
+    "zero_fes_training": "model updates that reuse already evaluated fitness targets record compute work and zero additional physical FES, including ALGA attention and TAAE bounded training",
+    "optimization_and_training_seed_namespaces_are_disjoint": true
+  },
+  "scientific_invariants": {
+    "distinct_semantic_profiles_are_never_pooled": true,
+    "optimization_work_is_reported_as_physical_layout_evaluations": true,
+    "training_seed_namespace_is_disjoint_from_optimization_seed_namespace": true,
+    "training_work_has_an_explicit_offline_online_or_zero_fes_ledger": true,
+    "resume_requires_atomic_complete_result_validation": true,
+    "binary_environment_and_source_commit_are_frozen": true
+  }
+}
