@@ -600,6 +600,33 @@ def bootstrap_ci(values: list[float], seed: int) -> list[float]:
     return [medians[249], medians[9749]]
 
 
+def paired_speed_ratio_ci(
+    observations: list[dict[str, Any]],
+    fastest_workers: int,
+    compared_workers: int,
+    seed: int,
+) -> tuple[float, list[float]]:
+    by_repetition: dict[int, dict[int, float]] = defaultdict(dict)
+    for item in observations:
+        by_repetition[item["key"]["repetition"]][
+            item["key"]["workers"]
+        ] = item["timing"]["algorithm_end_to_end_seconds"]
+    ratios = [
+        values[fastest_workers] / values[compared_workers]
+        for _, values in sorted(by_repetition.items())
+    ]
+    generator = random.Random(seed)
+    bootstrapped = []
+    for _ in range(10000):
+        sample = [generator.choice(ratios) for _ in ratios]
+        bootstrapped.append(statistics.median(sample))
+    bootstrapped.sort()
+    return statistics.median(ratios), [
+        bootstrapped[249],
+        bootstrapped[9749],
+    ]
+
+
 def amdahl_fit(worker_medians: dict[int, float]) -> tuple[float, dict[int, float]]:
     baseline = worker_medians[1]
     best_s = 1.0
@@ -674,10 +701,14 @@ def summarize_target(
             speedup / worker
         )
     best_worker = min(workers, key=lambda value: medians[value])
-    fastest_ci = cis[best_worker]
+    paired_ratio, paired_ratio_ci = paired_speed_ratio_ci(
+        observations,
+        best_worker,
+        workers[-1],
+        int(hashlib.sha256(row["pair_id"].encode()).hexdigest()[:8], 16),
+    )
     all_visible_tied = (
-        cis[workers[-1]][0] <= fastest_ci[1]
-        and fastest_ci[0] <= cis[workers[-1]][1]
+        best_worker == workers[-1] or paired_ratio_ci[0] >= 0.95
     )
     selected_worker = workers[-1] if all_visible_tied else best_worker
     serial_fraction, errors = amdahl_fit(medians)
@@ -702,6 +733,13 @@ def summarize_target(
         attribution_minimum >= 0.95,
         f"{row['pair_id']}: stage attribution below 95 percent",
     )
+    h2 = analysis(row)["H2_dependency_and_parallel_width"]
+    h3 = analysis(row)["H3_performance_and_granularity"]
+    analysis_path = ROOT / row["analysis_path"]
+    serial_limited = (
+        best_worker == 1
+        and statistics_by_worker[str(workers[-1])]["speedup"] <= 1.10
+    )
     return {
         "pair_id": row["pair_id"],
         "corpus_id": row["corpus_id"],
@@ -720,18 +758,39 @@ def summarize_target(
         "fastest_measured_workers": best_worker,
         "all_visible_workers": workers[-1],
         "all_visible_statistically_tied_with_fastest": all_visible_tied,
+        "all_visible_relative_to_fastest_paired_speed_ratio": paired_ratio,
+        "all_visible_relative_to_fastest_paired_bootstrap_95_ci": (
+            paired_ratio_ci
+        ),
+        "all_visible_tie_lower_ratio_threshold": 0.95,
         "selected_workers": selected_worker,
         "selection_rule": (
-            "all-visible selected when bootstrap median intervals overlap "
-            "the fastest topology; otherwise fastest measured topology"
+            "all-visible selected when it is fastest or the paired bootstrap "
+            "95 percent lower bound of T_fastest/T_all_visible is at least "
+            "0.95; otherwise the fastest measured topology is selected"
         ),
-        "serial_limited": (
-            best_worker == 1
-            and statistics_by_worker[str(workers[-1])]["speedup"] <= 1.10
-        ),
-        "dependency_proof": (
-            "H2_dependency_and_parallel_width and measured Amdahl fit"
-        ),
+        "serial_limited": serial_limited,
+        "dependency_proof": {
+            "analysis_path": row["analysis_path"],
+            "analysis_sha256": sha256(analysis_path),
+            "h2_dependency_edges": h2["dependency_edges"],
+            "h2_dependency_edges_sha256": canonical_sha256(
+                h2["dependency_edges"]
+            ),
+            "h2_ordered_sections": h2["ordered_sections"],
+            "h3_granularity_rule": h3["granularity_rule"],
+            "h3_dispatch_crossover_source": h3[
+                "dispatch_crossover_source"
+            ],
+            "measured_crossover": {
+                "fastest_workers": best_worker,
+                "all_visible_workers": workers[-1],
+                "all_visible_speedup": statistics_by_worker[
+                    str(workers[-1])
+                ]["speedup"],
+                "measured_serial_fraction": serial_fraction,
+            },
+        },
         "observation_count": len(observations),
         "status": "accepted_h6",
     }
@@ -1014,6 +1073,18 @@ def main() -> int:
                     active["observed_outer_workers"] == worker,
                     f"{row['pair_id']}: outer worker mismatch",
                 )
+                if active["parallel_regions"] > 0:
+                    require(
+                        active["participant_activations"] > 0
+                        and 0 < active["distinct_participants"] <= worker
+                        and 0 < active["peak_region_participants"] <= worker
+                        and active["participant_activation_utilization"]
+                        is not None
+                        and 0.0
+                        < active["participant_activation_utilization"]
+                        <= 1.0 + 1.0e-12,
+                        f"{row['pair_id']}: active-worker receipt invalid",
+                    )
                 require(
                     process_receipt["affinity_cpu_union"]
                     == available_cpus[:worker],
@@ -1031,10 +1102,15 @@ def main() -> int:
                 end_to_end = internal_end_to_end(raw)
                 stages = normalized_stages(raw)
                 accounted = sum(stages.values())
-                attribution = min(1.0, accounted / end_to_end)
+                attribution = accounted / end_to_end
+                overlap = max(0.0, accounted - end_to_end)
                 require(
                     attribution >= 0.95,
                     f"{row['pair_id']}: stage attribution below 95 percent",
+                )
+                require(
+                    overlap <= max(1.0e-6, 0.01 * end_to_end),
+                    f"{row['pair_id']}: stage timers overlap excessively",
                 )
                 observation = {
                     "record_type": "observation",
@@ -1054,8 +1130,9 @@ def main() -> int:
                         "unattributed_seconds": max(
                             0.0, end_to_end - accounted
                         ),
-                        "stage_overlap_seconds": max(
-                            0.0, accounted - end_to_end
+                        "stage_overlap_seconds": overlap,
+                        "maximum_admissible_stage_overlap_seconds": max(
+                            1.0e-6, 0.01 * end_to_end
                         ),
                         "throughput_fes_per_second": (
                             physical_fes / end_to_end

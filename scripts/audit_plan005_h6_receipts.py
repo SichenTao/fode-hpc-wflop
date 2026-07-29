@@ -10,6 +10,7 @@ import json
 import math
 import statistics
 import subprocess
+import random
 from collections import defaultdict
 from pathlib import Path
 from typing import Any
@@ -70,6 +71,45 @@ def validation_path(row: dict[str, str]) -> Path:
     return analysis.with_name(
         analysis.name.replace("_hpc_analysis.json", "_hpc_validation.json")
     )
+
+
+def canonical_sha256(value: Any) -> str:
+    return hashlib.sha256(
+        json.dumps(
+            value,
+            sort_keys=True,
+            separators=(",", ":"),
+            allow_nan=False,
+        ).encode("utf-8")
+    ).hexdigest()
+
+
+def paired_speed_ratio_ci(
+    observations: list[dict[str, Any]],
+    fastest_workers: int,
+    compared_workers: int,
+    seed: int,
+) -> tuple[float, list[float]]:
+    by_repetition: dict[int, dict[int, float]] = defaultdict(dict)
+    for item in observations:
+        by_repetition[item["key"]["repetition"]][
+            item["key"]["workers"]
+        ] = item["timing"]["algorithm_end_to_end_seconds"]
+    ratios = [
+        values[fastest_workers] / values[compared_workers]
+        for _, values in sorted(by_repetition.items())
+    ]
+    generator = random.Random(seed)
+    bootstrapped = []
+    for _ in range(10000):
+        bootstrapped.append(statistics.median(
+            [generator.choice(ratios) for _ in ratios]
+        ))
+    bootstrapped.sort()
+    return statistics.median(ratios), [
+        bootstrapped[249],
+        bootstrapped[9749],
+    ]
 
 
 def audit(
@@ -212,6 +252,18 @@ def audit(
             and active["observed_outer_workers"] == key["workers"],
             f"{pair_id}: active outer worker mismatch",
         )
+        if active.get("parallel_regions", 0) > 0:
+            utilization = active.get("participant_activation_utilization")
+            require(
+                active.get("participant_activations", 0) > 0
+                and 0 < active.get("distinct_participants", 0)
+                <= key["workers"]
+                and 0 < active.get("peak_region_participants", 0)
+                <= key["workers"]
+                and finite_nonnegative(utilization)
+                and 0.0 < utilization <= 1.0 + 1.0e-12,
+                f"{pair_id}: parallel region lacks real active workers",
+            )
         timing = observation["timing"]
         require(
             finite_nonnegative(timing["algorithm_end_to_end_seconds"])
@@ -228,15 +280,30 @@ def audit(
             )
             and math.isclose(
                 timing["named_h0_stage_attribution"],
-                min(
-                    1.0,
-                    stage_sum / timing["algorithm_end_to_end_seconds"],
-                ),
+                stage_sum / timing["algorithm_end_to_end_seconds"],
                 rel_tol=1.0e-12,
                 abs_tol=1.0e-12,
             )
             and timing["named_h0_stage_attribution"] >= 0.95,
             f"{pair_id}: named H0 stage attribution invalid",
+        )
+        overlap = max(
+            0.0,
+            stage_sum - timing["algorithm_end_to_end_seconds"],
+        )
+        require(
+            math.isclose(
+                timing.get("stage_overlap_seconds", overlap),
+                overlap,
+                rel_tol=1.0e-12,
+                abs_tol=1.0e-12,
+            )
+            and overlap
+            <= max(
+                1.0e-6,
+                0.01 * timing["algorithm_end_to_end_seconds"],
+            ),
+            f"{pair_id}: named stage timers overlap excessively",
         )
         minimum_attribution = min(
             minimum_attribution,
@@ -352,6 +419,58 @@ def audit(
             == min(WORKERS, key=lambda value: medians[value]),
             f"{pair_id}: fastest topology drift",
         )
+        fastest = target["fastest_measured_workers"]
+        paired_ratio, paired_ci = paired_speed_ratio_ci(
+            items,
+            fastest,
+            20,
+            int(hashlib.sha256(pair_id.encode()).hexdigest()[:8], 16),
+        )
+        tied = fastest == 20 or paired_ci[0] >= 0.95
+        require(
+            target["all_visible_relative_to_fastest_paired_speed_ratio"]
+            == paired_ratio
+            and target[
+                "all_visible_relative_to_fastest_paired_bootstrap_95_ci"
+            ] == paired_ci
+            and target["all_visible_tie_lower_ratio_threshold"] == 0.95
+            and target["all_visible_statistically_tied_with_fastest"]
+            is tied
+            and target["selected_workers"] == (20 if tied else fastest),
+            f"{pair_id}: paired all-visible selection drift",
+        )
+        row = row_by_pair[pair_id]
+        analysis_path = ROOT / row["analysis_path"]
+        analysis_document = json.loads(
+            analysis_path.read_text(encoding="utf-8")
+        )
+        h2 = analysis_document["H2_dependency_and_parallel_width"]
+        h3 = analysis_document["H3_performance_and_granularity"]
+        proof = target["dependency_proof"]
+        require(
+            proof["analysis_path"] == row["analysis_path"]
+            and proof["analysis_sha256"] == sha256(analysis_path)
+            and proof["h2_dependency_edges"] == h2["dependency_edges"]
+            and proof["h2_dependency_edges_sha256"]
+            == canonical_sha256(h2["dependency_edges"])
+            and proof["h2_ordered_sections"] == h2["ordered_sections"]
+            and proof["h3_granularity_rule"] == h3["granularity_rule"]
+            and proof["h3_dispatch_crossover_source"]
+            == h3["dispatch_crossover_source"],
+            f"{pair_id}: pair-specific dependency/granularity proof drift",
+        )
+        if target["serial_limited"]:
+            require(
+                fastest == 1
+                and target["worker_statistics"]["20"]["speedup"] <= 1.10
+                and bool(proof["h2_dependency_edges"])
+                and bool(proof["h2_ordered_sections"])
+                and proof["measured_crossover"]["fastest_workers"] == 1
+                and proof["measured_crossover"]["all_visible_workers"] == 20
+                and proof["measured_crossover"]["all_visible_speedup"]
+                == target["worker_statistics"]["20"]["speedup"],
+                f"{pair_id}: serial-limited proof is incomplete",
+            )
 
     if verify_repository_state:
         summary_hash = sha256(summary_path)

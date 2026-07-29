@@ -24,6 +24,16 @@ def sha256(path: Path) -> str:
     return hashlib.sha256(path.read_bytes()).hexdigest()
 
 
+def canonical_sha256(value: Any) -> str:
+    return hashlib.sha256(
+        json.dumps(
+            value,
+            sort_keys=True,
+            separators=(",", ":"),
+        ).encode("utf-8")
+    ).hexdigest()
+
+
 def write_jsonl(path: Path, records: list[dict[str, Any]]) -> None:
     path.write_text(
         "".join(
@@ -175,6 +185,11 @@ def build_fixture(
                     "active_workers": {
                         "requested_outer_workers": workers,
                         "observed_outer_workers": workers,
+                        "parallel_regions": 1,
+                        "participant_activations": workers,
+                        "distinct_participants": workers,
+                        "peak_region_participants": workers,
+                        "participant_activation_utilization": 1.0,
                     },
                     "timing": {
                         "algorithm_end_to_end_seconds": duration,
@@ -194,6 +209,10 @@ def build_fixture(
             for worker, values in per_worker.items()
         }
         fastest = min(WORKERS, key=lambda worker: medians[worker])
+        analysis_path = ROOT / row["analysis_path"]
+        analysis = json.loads(analysis_path.read_text(encoding="utf-8"))
+        h2 = analysis["H2_dependency_and_parallel_width"]
+        h3 = analysis["H3_performance_and_granularity"]
         targets.append({
             "pair_id": row["pair_id"],
             "status": "accepted_h6",
@@ -202,6 +221,32 @@ def build_fixture(
             "selected_workers": fastest,
             "all_visible_workers": 20,
             "fastest_measured_workers": fastest,
+            "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+            "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+                1.0,
+                1.0,
+            ],
+            "all_visible_tie_lower_ratio_threshold": 0.95,
+            "all_visible_statistically_tied_with_fastest": True,
+            "serial_limited": False,
+            "dependency_proof": {
+                "analysis_path": row["analysis_path"],
+                "analysis_sha256": sha256(analysis_path),
+                "h2_dependency_edges": h2["dependency_edges"],
+                "h2_dependency_edges_sha256": canonical_sha256(
+                    h2["dependency_edges"]
+                ),
+                "h2_ordered_sections": h2["ordered_sections"],
+                "h3_granularity_rule": h3["granularity_rule"],
+                "h3_dispatch_crossover_source": h3[
+                    "dispatch_crossover_source"
+                ],
+                "measured_crossover": {
+                    "fastest_workers": fastest,
+                    "all_visible_workers": 20,
+                    "all_visible_speedup": medians[1] / medians[20],
+                },
+            },
             "worker_statistics": {
                 str(worker): {
                     "repetitions": 5,
@@ -307,6 +352,30 @@ def main() -> int:
             "stage attribution invalid",
         )
 
+        overlap = copy.deepcopy(records)
+        duration = overlap[1]["timing"]["algorithm_end_to_end_seconds"]
+        overlap[1]["timing"]["named_h0_stages_seconds"] = {
+            "fixture_stage": 1.2 * duration
+        }
+        overlap[1]["timing"]["named_h0_stage_attribution"] = 1.2
+        expect_failure(
+            overlap,
+            summary,
+            directory,
+            "bad-overlap",
+            "stage timers overlap excessively",
+        )
+
+        active = copy.deepcopy(records)
+        active[1]["active_workers"]["participant_activations"] = 0
+        expect_failure(
+            active,
+            summary,
+            directory,
+            "bad-active",
+            "parallel region lacks real active workers",
+        )
+
         order = copy.deepcopy(records)
         order[1]["key"]["order_index"] = 1
         order[2]["key"]["order_index"] = 0
@@ -316,7 +385,8 @@ def main() -> int:
     print(
         "plan005_h6_receipt_audit_fixture_pass "
         "positive=1 rejected_affinity=1 rejected_attribution=1 "
-        "rejected_order=1 observations=805"
+        "rejected_overlap=1 rejected_active_workers=1 rejected_order=1 "
+        "observations=805"
     )
     return 0
 
