@@ -93,7 +93,7 @@ def main() -> int:
         "ctest", "--test-dir", str(build), "--output-on-failure",
     ])
     match = re.search(
-        r"100% tests passed, 0 tests failed out of (\\d+)",
+        r"100% tests passed, 0 tests failed out of (\d+)",
         full["output"],
     )
     if not match:
