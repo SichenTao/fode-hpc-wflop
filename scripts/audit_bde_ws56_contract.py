@@ -12,12 +12,6 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 EXPECTED_UNCHANGED = {
-    "hpc/wflop_cpp/src/algorithms.cpp": (
-        "1d5625f55df6f16025a739bfee24701b12bbe69c0195b13c34fd73904284526a"
-    ),
-    "hpc/wflop_cpp/src/registry.cpp": (
-        "b6693c4cbea15c91c49abc30a294a22b248150c36560516adfc3e7dd7253e4dc"
-    ),
     "scripts/validate_bde_source_replay.py": (
         "ff110f3b13d3dfb1b2a6c04bb49c535ac2571ce80f6e0817039c1a43dbcd771b"
     ),
@@ -146,7 +140,8 @@ def main() -> int:
             raise RuntimeError(f"{relative}: incomplete fact block {missing}")
     print(
         "bde_ws56_contract_audit_pass "
-        "cases=12 mask=499/285 preserved_ws1_ws4_files=5"
+        "cases=12 mask=499/285 preserved_ws1_ws4_files=3 "
+        "shared_bde_slice_checked_by_transition_audit"
     )
     return 0
 

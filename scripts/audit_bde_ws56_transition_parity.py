@@ -18,9 +18,14 @@ def main() -> int:
         ).read_text(encoding="utf-8")
     )
     old = ROOT / audit["old_profile_boundary"]["source_path"]
-    if hashlib.sha256(old.read_bytes()).hexdigest() != (
-        audit["old_profile_boundary"]["source_sha256"]
-    ):
+    source_text = old.read_text(encoding="utf-8")
+    boundary = audit["old_profile_boundary"]
+    start = source_text.index(boundary["source_slice_start"])
+    end = source_text.index(boundary["source_slice_end"], start)
+    source_slice = source_text[start:end].encode()
+    if hashlib.sha256(source_slice).hexdigest() != boundary[
+        "source_slice_sha256"
+    ]:
         raise RuntimeError("admitted old BDE implementation changed")
     source = (
         ROOT / "hpc/bde_ws56_cpp/src/evolution.cpp"

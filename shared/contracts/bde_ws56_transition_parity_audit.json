@@ -7,6 +7,10 @@
     "method_semantic_id": "bde_paper_equations_physical_fes_v1",
     "source_path": "hpc/wflop_cpp/src/algorithms.cpp",
     "source_sha256": "1d5625f55df6f16025a739bfee24701b12bbe69c0195b13c34fd73904284526a",
+    "source_slice_start": "RunResult optimize_bde(",
+    "source_slice_end": "RunResult optimize_hgpso(",
+    "source_slice_sha256": "ed410837c0494e3e90ef10a693da2eaeb323731ddef6d53f965c376d5fbec6db",
+    "source_hash_scope_note": "The historical whole-file hash remains provenance only. Admission checks the BDE function slice because the shared monolith also contains unrelated algorithms and model loaders that legitimately evolve.",
     "non_reuse_reason": "old profile derives 398 as maximum_generations and uses it inside Eqs.23 and 25"
   },
   "exact_transition_items": [

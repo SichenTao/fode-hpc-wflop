@@ -179,6 +179,63 @@ def audit_scalar_discrete(
     return len(rows)
 
 
+def audit_heterogeneous(
+    matrix: dict[str, dict[str, str]],
+    protocols: dict[str, dict[str, str]],
+) -> int:
+    required = {
+        "T46": (
+            "zhang2025_three_objective",
+            "shared/contracts/pbea_problem_semantics.json",
+        ),
+        "T44": (
+            "bde2025_standard_daegwallyeong",
+            "shared/contracts/bde_ws56_declared_proxy_cases.json",
+        ),
+        "T43": (
+            "ppga_nantong_structured_3d_declared_proxy_v1",
+            "shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json",
+        ),
+        "Y06": (
+            "gga2026_layout_cable",
+            "shared/contracts/gga_problem_semantics.json",
+        ),
+        "T36": (
+            "nysted_paper_eq16_cpu_r4_v2",
+            "shared/contracts/tmoea_nysted_paper_wake_gga_router_problem.json",
+        ),
+        "L0726": (
+            "geoga_anholt_structured_declared_proxy_v1",
+            "shared/contracts/geoga_anholt_structured_declared_proxy_case.json",
+        ),
+    }
+    for corpus_id, (semantic_id, asset) in required.items():
+        row = matrix[corpus_id]
+        protocol = protocols[corpus_id]
+        if (
+            row["problem_semantic_id"] != semantic_id
+            or protocol["problem_semantic_id"] != semantic_id
+        ):
+            raise RuntimeError(
+                f"{corpus_id}: heterogeneous semantic identity mismatch"
+            )
+        path = ROOT / asset
+        if not path.is_file():
+            raise RuntimeError(f"{corpus_id}: missing heterogeneous asset {asset}")
+        json.loads(path.read_text(encoding="utf-8"))
+        if row["r3_status"] not in {
+            "bounded_pass", "reuse_candidate", "partial"
+        }:
+            raise RuntimeError(
+                f"{corpus_id}: heterogeneous bounded admission is absent"
+            )
+    print(
+        "heterogeneous_package_audit_pass "
+        f"papers={len(required)} native_assets={len(required)}"
+    )
+    return len(required)
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
@@ -264,9 +321,12 @@ def main() -> int:
     if args.phase in {"formal", "closure"} and unresolved:
         raise RuntimeError(f"{unresolved} paper rows are not formally complete")
     if args.family:
-        if args.family != "scalar_discrete":
+        if args.family == "scalar_discrete":
+            audit_scalar_discrete(matrix, protocols)
+        elif args.family == "heterogeneous":
+            audit_heterogeneous(matrix, protocols)
+        else:
             raise RuntimeError(f"unknown paper family: {args.family}")
-        audit_scalar_discrete(matrix, protocols)
 
     print(
         "paper_package_completion_audit_pass "
