@@ -87,8 +87,10 @@
         "WFLO-GGA provides a planar Guishan boundary and annual wind distribution",
         "those assets do not provide the ALGA terrain or four seasonal wind scenarios"
       ],
-      "safe_next_profile": "alga_attention_formula_fixture_v1",
-      "safe_next_profile_meaning": "Attention equation tests only; not the reported trained ALGA."
+      "safe_next_profile": "alga_attention_declared_reconstruction_v1",
+      "safe_next_profile_meaning": "M3 fitness-supervised shallow-attention engineering reconstruction with every missing training, mask, and repair choice frozen; not the reported trained ALGA.",
+      "admitted_transfer_problem": "alga_guishan_planar_transfer",
+      "admitted_transfer_problem_meaning": "P3 declared composite transfer using the paper-visible ideal grid, public WFLO-GGA Guishan annual wind, and the audited FODE evaluator; not the original 3D Guishan experiment."
     },
     "T44": {
       "paper_doi": "10.1016/j.energy.2025.137885",

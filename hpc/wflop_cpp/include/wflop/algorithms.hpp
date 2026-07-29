@@ -11,6 +11,7 @@ namespace wflop {
 struct RunConfig {
     std::string algorithm_id;
     std::string problem_id = "fode_e0_common";
+    std::string compute_backend = "cpu";
     std::uint64_t seed = 20260728;
     std::uint64_t physical_fes_budget = 24000;
     int workers = 20;
@@ -81,6 +82,10 @@ RunResult optimize_rlpso_reconstruction(
     const RunConfig& config
 );
 RunResult optimize_rlpso_paper_corrected_training_reconstruction(
+    const fode::CaseData& data,
+    const RunConfig& config
+);
+RunResult optimize_alga_attention_declared_reconstruction(
     const fode::CaseData& data,
     const RunConfig& config
 );

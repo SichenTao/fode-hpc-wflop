@@ -5053,6 +5053,12 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
         return optimize_ppga(data, config);
     }
     if (config.algorithm_id
+        == "alga_attention_declared_reconstruction_v1") {
+        return optimize_alga_attention_declared_reconstruction(
+            data, config
+        );
+    }
+    if (config.algorithm_id
         == "rlpso_compact_policy_declared_reconstruction_v1") {
         return optimize_rlpso_reconstruction(data, config);
     }

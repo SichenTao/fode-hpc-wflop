@@ -1,0 +1,128 @@
+{
+  "schema_version": 1,
+  "study_id": "alga_attention_declared_reconstruction_v1",
+  "date": "2026-07-29",
+  "host": {
+    "hostname": "spark-9b6f",
+    "visible_cpu_cores": 20,
+    "architecture": "Linux aarch64 heterogeneous 10 Cortex-X925 plus 10 Cortex-A725",
+    "gpu_use": "none"
+  },
+  "evidence_boundary": {
+    "method_evidence_tier": "M3_DECLARED_COMPLETION",
+    "primary_problem_evidence_tier": "P3_DECLARED_PROXY",
+    "exact_author_method": "blocked_r1_r2",
+    "claim": "Development admission of a distinct deterministic CPU engineering reconstruction; not author ALGA, real-world 3D Guishan, or paper-result reproduction."
+  },
+  "source_receipts": {
+    "paper_doi": "10.1016/j.swevo.2025.102018",
+    "paper_sha256": "770b56c0dccbd7683e3c33652d7062c385eb2f00c126d2e9f2a3b7129fdc5872",
+    "wflo_gga_repository": "https://github.com/zbh0528/WFLO-GGA",
+    "wflo_gga_commit": "6ce41326e6c1d3685a01e038baf6d1d07aa46126",
+    "wflo_gga_guishan_wind_sha256": "ba42d364a0c3623cbdd0271aa47a2f13a4e43b08d9ced000a1d4d72a7eae9718",
+    "wflo_gga_aga_sha256": "3a12fdf7acd9b168739e9379a67aa3a17506611bac50f9b9334e01d001c676d8",
+    "transfer_case_semantic_hash": "fnv1a64:7b33990a4305cdf7"
+  },
+  "admission": {
+    "ctest": {
+      "passed": 32,
+      "failed": 0
+    },
+    "primary_transfer_smoke": {
+      "problem_id": "alga_guishan_planar_transfer",
+      "case_id": "ALGA_GuishanPlanarTransfer_tn40",
+      "physical_fes": 480,
+      "workers_tested": [1, 20],
+      "scientific_state_equivalence": "exact",
+      "fields": [
+        "best_expected_power_kw",
+        "best_layout_1based",
+        "physical_fes",
+        "generations",
+        "learned_state_hash"
+      ],
+      "learned_state_hash": "fnv1a64:3102ca3b1bc54269",
+      "best_expected_power_kw": 7099.4644259722763
+    },
+    "platform_stress_smoke": {
+      "problem_id": "fode_e0_common",
+      "case_id": "WS2tn80",
+      "turbine_count": 80,
+      "physical_fes": 480,
+      "workers": 20,
+      "status": "pass"
+    },
+    "paper_generation_mapping": {
+      "population_size": 30,
+      "elite_count": 6,
+      "paper_reported_generations": 100,
+      "expected_physical_fes": 2430,
+      "formula": "30 + 100 * (30 - 6)",
+      "machine_asserted_generations": 100,
+      "machine_asserted_physical_fes": 2430,
+      "status": "pass"
+    },
+    "negative_guards": {
+      "original_alga_identifier": "blocked",
+      "wrong_manifest_under_transfer_problem": "rejected_by_semantic_hash",
+      "gpu_backend": "recognized_and_fail_closed_without_cpu_fallback",
+      "cpu_plus_gpu_backend": "recognized_interface_only"
+    }
+  },
+  "bounded_timing": {
+    "purpose": "Development throughput characterization only; not a MATLAB speedup claim and not a formal campaign result.",
+    "problem_id": "fode_e0_common",
+    "case_id": "WS2tn80",
+    "physical_fes": 24000,
+    "seed": 20260729,
+    "repetitions": 3,
+    "one_worker": {
+      "end_to_end_seconds_sorted": [
+        0.639743210,
+        0.646224097,
+        0.646302624
+      ],
+      "evaluator_seconds_sorted": [
+        0.428854719,
+        0.433407199,
+        0.433907643
+      ],
+      "algorithm_seconds_sorted": [
+        0.210888491,
+        0.212394981,
+        0.212816898
+      ],
+      "median_end_to_end_seconds": 0.646224097,
+      "median_evaluator_seconds": 0.433407199,
+      "median_algorithm_seconds": 0.212394981
+    },
+    "twenty_workers": {
+      "end_to_end_seconds_sorted": [
+        0.694398256,
+        0.714713628,
+        0.717100858
+      ],
+      "evaluator_seconds_sorted": [
+        0.552335253,
+        0.571242300,
+        0.574716455
+      ],
+      "algorithm_seconds_sorted": [
+        0.139997173,
+        0.142063003,
+        0.145858558
+      ],
+      "median_end_to_end_seconds": 0.714713628,
+      "median_evaluator_seconds": 0.571242300,
+      "median_algorithm_seconds": 0.142063003,
+      "median_complete_layout_evaluations_per_second": 33579.8830
+    },
+    "ratios": {
+      "one_worker_over_twenty_worker_end_to_end": 0.904172065,
+      "one_worker_over_twenty_worker_evaluator": 0.758709919,
+      "one_worker_over_twenty_worker_algorithm": 1.495075963
+    },
+    "interpretation": "On this sub-second local Spark workload, 20 workers accelerate the algorithm-transition portion but thread dispatch and host heterogeneity make the evaluator and end-to-end time slower than one worker. The 20-worker absolute throughput remains about 33.6 thousand complete evaluations per second. No parallel speedup claim is made from this development timing; worker-count scientific state is exact."
+  },
+  "formal_status": "semantic_development_pass_hpc_throughput_admission_pending_uncontended_formal_host_and_separate_campaign_approval"
+}

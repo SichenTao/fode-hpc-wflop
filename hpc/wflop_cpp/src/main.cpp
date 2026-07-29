@@ -25,6 +25,7 @@ struct Arguments {
     std::string algorithm = "fode";
     std::vector<std::string> algorithms;
     std::string problem = "fode_e0_common";
+    std::string compute_backend = "cpu";
     std::string case_id = "WS5tn30";
     std::string output_path;
     std::uint64_t seed = 20260728;
@@ -34,6 +35,7 @@ struct Arguments {
     bool all_algorithms = false;
     bool list_algorithms = false;
     bool list_problems = false;
+    bool list_compute_backends = false;
     bool self_check = false;
     bool check_ise_rename = false;
 };
@@ -95,6 +97,8 @@ Arguments parse_arguments(int argc, char** argv) {
             result.algorithms = parse_algorithm_list(next());
         } else if (flag == "--problem") {
             result.problem = next();
+        } else if (flag == "--compute-backend") {
+            result.compute_backend = next();
         } else if (flag == "--case") {
             result.case_id = next();
         } else if (flag == "--output") {
@@ -113,6 +117,8 @@ Arguments parse_arguments(int argc, char** argv) {
             result.list_algorithms = true;
         } else if (flag == "--list-problems") {
             result.list_problems = true;
+        } else if (flag == "--list-compute-backends") {
+            result.list_compute_backends = true;
         } else if (flag == "--self-check") {
             result.self_check = true;
         } else if (flag == "--check-ise-rename") {
@@ -123,6 +129,7 @@ Arguments parse_arguments(int argc, char** argv) {
                 << "  --algorithm ID       one registered algorithm identifier\n"
                 << "  --algorithms A,B,... run an explicit ordered algorithm set\n"
                 << "  --problem ID         registered problem family; default fode_e0_common\n"
+                << "  --compute-backend B  cpu, cpu+gpu, or gpu; this build supports cpu\n"
                 << "  --all-algorithms     run all registered algorithms sequentially\n"
                 << "  --case ID            one case from the selected manifest\n"
                 << "  --all-cases          run every case in the selected manifest\n"
@@ -143,6 +150,13 @@ Arguments parse_arguments(int argc, char** argv) {
     if (result.all_algorithms && !result.algorithms.empty()) {
         throw std::runtime_error(
             "--all-algorithms and --algorithms are mutually exclusive"
+        );
+    }
+    if (result.compute_backend != "cpu"
+        && result.compute_backend != "cpu+gpu"
+        && result.compute_backend != "gpu") {
+        throw std::runtime_error(
+            "--compute-backend must be cpu, cpu+gpu, or gpu"
         );
     }
     return result;
@@ -432,6 +446,7 @@ int run_self_check(const Arguments& arguments) {
         wflop::RunConfig config;
         config.algorithm_id = algorithm;
         config.problem_id = arguments.problem;
+        config.compute_backend = arguments.compute_backend;
         config.seed = 20260728;
         config.physical_fes_budget = 480;
         config.workers = arguments.workers;
@@ -480,6 +495,19 @@ int main(int argc, char** argv) {
             }
             return 0;
         }
+        if (arguments.list_compute_backends) {
+            std::cout << "cpu\tsupported\n"
+                      << "cpu+gpu\tinterface_only_fail_closed\n"
+                      << "gpu\tinterface_only_fail_closed\n";
+            return 0;
+        }
+        if (arguments.compute_backend != "cpu") {
+            throw std::runtime_error(
+                "compute backend '" + arguments.compute_backend
+                + "' is recognized but unavailable in this CPU build; "
+                  "no hidden fallback was performed"
+            );
+        }
         if (arguments.check_ise_rename) {
             const auto data = fode::load_case(arguments.cases_path, "WS1tn10");
             wflop::RunConfig config;
@@ -527,6 +555,7 @@ int main(int argc, char** argv) {
                 wflop::RunConfig config;
                 config.algorithm_id = algorithm;
                 config.problem_id = arguments.problem;
+                config.compute_backend = arguments.compute_backend;
                 config.seed = arguments.seed;
                 config.physical_fes_budget = arguments.physical_fes;
                 config.workers = arguments.workers;

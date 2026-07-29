@@ -51,14 +51,18 @@ problem. It does not replace or reproduce the unavailable Nantong 3D terrain
 study. Its conventional completions and problem boundary are frozen in
 `shared/contracts/ppga_fode_e0_transfer_execution_contract.json`.
 
-ALGA, TAAE, RLPSO, and RL-FODE are deliberately not executable identifiers.
-ALGA, TAAE, and RL-FODE lack required problem or learned-state assets. The
+The original ALGA, TAAE, RLPSO, and RL-FODE identifiers are deliberately not
+executable. ALGA, TAAE, and RL-FODE lack required problem or learned-state assets. The
 official RLPSO source is present, but it creates a fresh unseeded PPO policy on
 every outer iteration, performs up to 10,000 unreported complete-layout
 evaluations per call, and executes an update that conflicts with the paper PPO
 equation. Attempts to run these identifiers fail with method-specific R1/R2
 evidence. The removal conditions for these guards are frozen in
 `shared/contracts/blocked_learning_methods_execution_guard.json`.
+The separately named `alga_attention_declared_reconstruction_v1` is an M3
+engineering reconstruction and does not remove or weaken the original `alga`
+guard; its completions and composite transfer boundary are declared in
+`shared/contracts/alga_attention_declared_reconstruction_contract.json`.
 
 ## Build and test
 

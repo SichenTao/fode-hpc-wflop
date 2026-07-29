@@ -27,6 +27,14 @@ const std::vector<ProblemDescriptor>& problem_descriptors() {
             "rpso2024_source_problem_ws1_ws4_v1",
             "maximize expected complete-farm power on the official-source "
             "21 by 21 standard grid"
+        },
+        {
+            "alga_guishan_planar_transfer",
+            "ALGA declared planar Guishan-wind transfer",
+            "alga_guishan_planar_wind_fode_evaluator_transfer_v1",
+            "maximize expected complete-farm power on the paper-visible "
+            "12 by 12 ideal grid using public WFLO-GGA Guishan annual "
+            "wind probabilities and the audited FODE-E0 evaluator"
         }
     };
     return descriptors;
@@ -192,6 +200,14 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "paper_derived_declared_problem_transfer",
             "ppga_declared_reconstruction_fode_e0_v1",
             {"fode_e0_common"}
+        },
+        {
+            "alga_attention_declared_reconstruction_v1",
+            "ALGA attention engineering reconstruction",
+            "10.1016/j.swevo.2025.102018",
+            "paper_guided_citation_predecessor_derived_declared_completion",
+            "alga_attention_declared_reconstruction_v1",
+            {"alga_guishan_planar_transfer", "fode_e0_common"}
         },
         {
             "rlpso_compact_policy_declared_reconstruction_v1",

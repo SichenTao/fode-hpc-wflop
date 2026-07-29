@@ -62,11 +62,20 @@
       "license_observation": "no_public_case_source_or_learning_state_found;data_available_on_request",
       "redistribution_policy": "paper_only",
       "relationship": "direct_target_or_project_author_asset"
+    },
+    {
+      "authority": "same_research_lineage_public_repository",
+      "url": "https://github.com/zbh0528/WFLO-GGA",
+      "revision_or_sha256": "commit:6ce41326e6c1d3685a01e038baf6d1d07aa46126;guishan_wind_sha256:ba42d364a0c3623cbdd0271aa47a2f13a4e43b08d9ced000a1d4d72a7eae9718;aga_sha256:3a12fdf7acd9b168739e9379a67aa3a17506611bac50f9b9334e01d001c676d8",
+      "license_observation": "repository public; redistribution remains governed by its academic-use notice",
+      "redistribution_policy": "record hashes and derived normalized transfer manifest; do not vendor the repository",
+      "relationship": "citation_predecessor_and_distinct_planar_guishan_proxy_not_author_ALGA_source"
     }
   ],
   "available_evidence": [
     "validated_complete",
-    "bounded_search_no_public_case_or_training_assets"
+    "bounded_search_no_public_case_or_training_assets",
+    "public_WFLO_GGA_predecessor_and_distinct_planar_Guishan_asset"
   ],
   "missing_method_or_problem_fields": [
     "four ideal joint wind arrays shown only as wind-rose figures",

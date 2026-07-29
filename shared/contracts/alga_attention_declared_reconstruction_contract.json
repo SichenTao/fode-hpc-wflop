@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "contract_id": "alga_attention_declared_reconstruction_v1",
+  "corpus_id": "T45",
+  "paper": {
+    "title": "Multi-Attention-Powered Learning Genetic Algorithm for Real-World 3D Wind Farm Layout Optimization",
+    "doi": "10.1016/j.swevo.2025.102018",
+    "sha256": "770b56c0dccbd7683e3c33652d7062c385eb2f00c126d2e9f2a3b7129fdc5872"
+  },
+  "algorithm_id": "alga_attention_declared_reconstruction_v1",
+  "method_id": "ALGA_ATTENTION_DECLARED_RECONSTRUCTION_V1",
+  "method_evidence_tier": "M3_DECLARED_COMPLETION",
+  "implementation_language": "C++20",
+  "claim_boundary": "This is a deterministic paper-guided engineering reconstruction. It is not the unavailable author ALGA implementation, learned state, real-world 3D Guishan problem, or a reproduction of reported objective values.",
+  "paper_preserved_controls": {
+    "population_size": 30,
+    "crossover_rate": 0.8,
+    "mutation_probability": 0.1,
+    "attention_heads": 8,
+    "learning_rate": 0.001,
+    "attention_equations": "scaled dot-product softmax attention and concatenated multi-head output following paper Eqs. 19-23",
+    "mask_replacement": "paper Eq. 24",
+    "paper_reported_generations": 100,
+    "paper_generation_mapping_physical_fes": "30 initial evaluations plus 100 generations times 24 evaluated non-elites equals 2430 complete-layout evaluations",
+    "paper_reported_repeats": 30
+  },
+  "declared_missing_field_completions": {
+    "input": "each evaluated layout is one sequence row; its sorted occupied-cell indices are divided by grid cardinality and centered at 0.5",
+    "key_query_width": 1,
+    "network_depth": "one shallow multi-head attention layer and one linear scalar output; no hidden feed-forward layer",
+    "target": "per-generation min-max normalized complete-layout fitness; an all-equal population maps to one",
+    "loss": "full-batch mean squared error",
+    "optimizer": "deterministic vanilla full-batch gradient descent in fixed reduction order",
+    "updates_per_generation": 1,
+    "batch": "all 30 currently evaluated individuals",
+    "initialization": "counter-keyed Xavier-uniform projections and output weights; zero scalar bias",
+    "elite_count": "six, equal to the 20 percent elite fraction in the public WFLO-GGA AGA predecessor",
+    "crossover": "fitness-tournament parent selection and public-predecessor one-point crossover",
+    "mutation": "with probability 0.1 replace one gene by one uniform grid cell before deterministic common repair",
+    "individual_attention": "equal mixture of normalized fitness and multi-head mean received attention",
+    "cell_attention": "mean individual-attention weight over evaluated layouts occupying the cell",
+    "mask_cardinality": "ceil(0.1 times turbine count), using the paper mutation degree as the smallest stated replacement fraction",
+    "mask": "lowest-cell-attention genes in each non-elite offspring",
+    "high_potential_sequence": "highest-cell-attention unoccupied cells appearing in the six current elites",
+    "survival": "copy six evaluated current elites and insert 24 independently generated, attention-guided, evaluated offspring",
+    "tie_break": "stable source order followed by ascending cell index",
+    "repair": "deduplicate, exclude unavailable cells, fill from counter-keyed uniform feasible cells, and sort ascending",
+    "randomness": "counter-keyed events independent of worker scheduling"
+  },
+  "problem_profiles": {
+    "primary_transfer": {
+      "problem_id": "alga_guishan_planar_transfer",
+      "problem_semantics_id": "alga_guishan_planar_wind_fode_evaluator_transfer_v1",
+      "manifest": "shared/contracts/alga_guishan_planar_transfer_cases.json",
+      "problem_evidence_tier": "P3_DECLARED_PROXY",
+      "meaning": "paper-visible 12 by 12 ideal grid, 500 m spacing, and 40-turbine scale; public WFLO-GGA Guishan annual wind probabilities; audited FODE-E0 turbine and Jensen/Park evaluator"
+    },
+    "platform_stress_transfer": {
+      "problem_id": "fode_e0_common",
+      "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+      "problem_evidence_tier": "P0_AUTHOR_ASSET",
+      "meaning": "shared 50-case platform problem, including the 80-turbine smoke case"
+    },
+    "original": {
+      "problem_id": "yang2025_real_world_3d",
+      "status": "blocked_r1_r2",
+      "missing": [
+        "Guishan terrain elevation array",
+        "four seasonal and four ideal joint wind arrays",
+        "site coordinates and height interpolation",
+        "MySE11-230 curves",
+        "author network training state"
+      ]
+    }
+  },
+  "physical_work": {
+    "unit": "one completed feasible-layout call to the complete wind-distribution evaluator",
+    "initialization": 30,
+    "complete_generation": 24,
+    "partial_terminal_generation": "evaluate exactly the remaining requested layouts, retain the incumbent, and stop",
+    "paper_native_budget": "2430 complete-layout evaluations under this reconstruction's six-elite generational semantics",
+    "common_fixed_work_extension": "24000 complete-layout evaluations is a platform extension for equal-work comparison and is not the paper's native 100-generation protocol",
+    "attention_training": "no physical wind-farm evaluations and therefore zero additional physical FES"
+  },
+  "parallel_contract": {
+    "cpu": {
+      "supported": true,
+      "implementation": "one persistent thread team parallelizes initialization, offspring state transitions, feasibility repair, and independent complete-layout/wind-state evaluation",
+      "admission": "scientific semantics admitted; throughput admission pending an uncontended formal host"
+    },
+    "cpu+gpu": {
+      "supported": false,
+      "status": "recognized_interface_fail_closed"
+    },
+    "gpu": {
+      "supported": false,
+      "status": "recognized_interface_fail_closed"
+    },
+    "ordered_for_reproducibility": [
+      "fitness normalization",
+      "attention forward and gradient reductions",
+      "model update",
+      "stable ranking and elitist survival",
+      "state hash"
+    ],
+    "worker_count_scientific_equivalence": "exact best objective, best layout, physical FES, generation count, and learned-state hash"
+  }
+}

@@ -15,6 +15,7 @@ add_executable(wflop_cpp_hpc
     ../fode_cpp/src/optimizer.cpp
     src/registry.cpp
     src/algorithms.cpp
+    src/algorithms/alga_attention_declared_reconstruction.cpp
     src/algorithms/ppo.cpp
     src/algorithms/rlfode_seeded_reconstruction.cpp
     src/algorithms/rlpso.cpp
@@ -99,5 +100,13 @@ if(BUILD_TESTING)
             --cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/benchmark_cases.json
             --models ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/models/sugga_cpp
             --rlfode-models ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/models/fqfode_seeded
+    )
+    add_test(
+        NAME alga_attention_declared_reconstruction
+        COMMAND python3
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/test_alga_attention_reconstruction.py
+            --binary $<TARGET_FILE:wflop_cpp_hpc>
+            --common-cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/benchmark_cases.json
+            --transfer-cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/alga_guishan_planar_transfer_cases.json
     )
 endif()
