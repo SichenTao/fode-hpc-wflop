@@ -85,7 +85,12 @@ def audit_taae(data: dict[str, Any]) -> None:
     require(training["regression"]["weight"] == 30.0, "Y36 regression weight")
     require(training["pretraining"]["layouts"] == 100000, "Y36 layouts")
     require(training["pretraining"]["epochs"] == 500, "Y36 epochs")
-    require(data["evolution_bridge"]["optimizer_consumer"].startswith("taae_evolution_hpc"), "Y36 bridge")
+    require(
+        data["evolution_bridge"]["optimizer_consumer"].startswith(
+            "plan004_learning_target_hpc --method taae"
+        ),
+        "Y36 bridge",
+    )
     source = (ROOT / "hpc/taae_cpp/src/model.cpp").read_text(encoding="utf-8")
     for token in ("struct Attention", "struct EncoderLayer", "struct DecoderLayer", "causal", "metric_alignment", "xavier_uniform"):
         require(token in source, f"Y36 direct reference missing {token}")
@@ -160,6 +165,98 @@ def audit_compatibility_guard() -> None:
         require(token in source, f"generic probe missing demoted id {token}")
 
 
+def audit_optimized_libtorch(
+    loaded: dict[str, dict[str, Any]]
+) -> None:
+    header = (
+        ROOT
+        / "hpc/learning_libtorch/include/wflop_learning/models.hpp"
+    ).read_text(encoding="utf-8")
+    source = (
+        ROOT / "hpc/learning_libtorch/src/models.cpp"
+    ).read_text(encoding="utf-8")
+    executable = (
+        ROOT / "hpc/learning_libtorch/src/main.cpp"
+    ).read_text(encoding="utf-8")
+    backend_test = (
+        ROOT / "scripts/test_plan004_learning_backends.py"
+    ).read_text(encoding="utf-8")
+    require("TargetModelImpl" not in source, "optimized source is generic MLP")
+    expected = {
+        "Y36": (
+            "TaaeTransformer",
+            (
+                "TaaeTransformerImpl",
+                "TransformerEncoderLayer",
+                "TransformerDecoderLayer",
+                "taae_loss",
+                "counter_keyed_xavier_uniform_",
+                "taae_optimization_transition",
+            ),
+        ),
+        "T45": (
+            "AlgaAttention",
+            (
+                "AlgaAttentionImpl",
+                "query_weight",
+                "key_weight",
+                "value_weight",
+                "torch::softmax(scores, 2)",
+                "alga_optimization_transition",
+            ),
+        ),
+        "T42": (
+            "RlpsoActorCritic",
+            (
+                "RlpsoActorCriticImpl",
+                "torch::nn::Linear(2, 256)",
+                "torch::nn::Linear(256, 64)",
+                "torch::nn::Linear(64, 4)",
+                "kRlpsoUpdateEpochs = 80",
+                "kRlpsoUpdateInterval = 500",
+                "rlpso_discounted_normalized_returns",
+                "rlpso_ppo_loss",
+                "cumsum(-1)",
+                "rlpso_optimization_transition",
+            ),
+        ),
+    }
+    combined = header + "\n" + source
+    for corpus, (module, tokens) in expected.items():
+        implementation = loaded[corpus]["evidence_status"][
+            "optimized_implementation"
+        ]
+        require(implementation["kind"] == "typed_libtorch_module", f"{corpus}: implementation kind")
+        require(implementation["module"] == module, f"{corpus}: module")
+        require(
+            implementation["step2_receipt"]
+            == "evidence/development/plan004_learning_libtorch_step2_20260730.json",
+            f"{corpus}: Step2 receipt",
+        )
+        for token in tokens:
+            require(token in combined, f"{corpus}: optimized token {token}")
+    require("torch::optim::SGD optimizer" in executable, "ALGA SGD absent")
+    require(
+        executable.count("torch::optim::Adam optimizer") == 2,
+        "TAAE/RLPSO Adam ownership mismatch",
+    )
+    for token in (
+        "method_semantic_id",
+        "problem_semantic_id",
+        "model_config",
+        "training_work",
+        "learned_state_fnv1a64",
+        "optimizer.save",
+        "optimizer.load",
+        "transfer_bounded_queue",
+        "pin_memory",
+        "torch::cuda::synchronize",
+    ):
+        require(token in source, f"artifact field absent: {token}")
+    for token in ("cpu", "cuda", "hybrid"):
+        require(token in backend_test, f"backend matrix missing {token}")
+
+
 def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--scope", choices=("core",), required=True)
@@ -179,9 +276,11 @@ def main() -> int:
     audit_alga(loaded["T45"])
     audit_rlpso(loaded["T42"])
     audit_compatibility_guard()
+    audit_optimized_libtorch(loaded)
     print(
         "learning_architecture_contract_audit_pass "
-        "contracts=3 exact_modules=3 corrected_pdf_receipts=2 "
+        "contracts=3 exact_modules=3 typed_libtorch_modules=3 "
+        "artifact_bridges=3 corrected_pdf_receipts=2 "
         "generic_target_h5_admissible=no"
     )
     return 0

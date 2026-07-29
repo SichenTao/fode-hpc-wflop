@@ -25,6 +25,15 @@
         "hpc/wflop_cpp/src/algorithms/rlpso.cpp"
       ],
       "does_not_call_optimized_module": true
+    },
+    "optimized_implementation": {
+      "kind": "typed_libtorch_module",
+      "module": "RlpsoActorCritic",
+      "interface": "hpc/learning_libtorch/include/wflop_learning/models.hpp",
+      "source": "hpc/learning_libtorch/src/models.cpp",
+      "target_executable": "plan004_learning_target_hpc --method rlpso",
+      "backend_matrix_test": "scripts/test_plan004_learning_backends.py",
+      "step2_receipt": "evidence/development/plan004_learning_libtorch_step2_20260730.json"
     }
   },
   "tensor_contract": {
@@ -143,7 +152,8 @@
       "learned_state_fnv1a64",
       "file_sha256"
     ],
-    "optimizer_consumer": "wflop_hpc --algorithm rlpso_paper_corrected_training_reconstruction_v1 --learning-artifact"
+    "optimizer_consumer": "plan004_learning_target_hpc --method rlpso --artifact-in",
+    "consumer_bridge": "rlpso_optimization_transition in hpc/learning_libtorch/src/models.cpp"
   },
   "backend_contract": {
     "same_model_and_loss": ["cpu", "cuda", "hybrid"],

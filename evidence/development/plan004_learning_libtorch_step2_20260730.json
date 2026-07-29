@@ -1,0 +1,92 @@
+{
+  "schema_version": 1,
+  "receipt_id": "plan004_learning_libtorch_step2_20260730",
+  "date": "2026-07-30",
+  "scope": "Plan004 Step2 typed LibTorch models, same-code backend execution, serialized optimizer artifacts, and bounded target-transition bridges",
+  "model_families": [
+    {
+      "corpus_id": "Y36",
+      "module": "TaaeTransformer",
+      "semantic_id": "taae_transformer_declared_reconstruction_v1",
+      "architecture": "6 encoder layers, 6 autoregressive decoder layers, 4 heads, d_model 64, FFN 256, latent 64",
+      "loss": "token cross entropy plus 30 times regression MSE plus metric-alignment MSE",
+      "optimizer": "Adam 1e-3",
+      "artifact_transition": "latent differential mutation, autoregressive decode, and deterministic uniqueness repair"
+    },
+    {
+      "corpus_id": "T45",
+      "module": "AlgaAttention",
+      "semantic_id": "alga_attention_declared_reconstruction_v1",
+      "architecture": "8 scalar-width query/key/value heads, 8 by 30 by 30 attention, shallow scalar output",
+      "loss": "full-population MSE to normalized evaluated fitness",
+      "optimizer": "vanilla full-batch SGD 1e-3, one update per generation",
+      "artifact_transition": "attention-scored elite source and masked position replacement"
+    },
+    {
+      "corpus_id": "T42",
+      "module": "RlpsoActorCritic",
+      "semantic_id": "rlpso_paper_corrected_training_reconstruction_v1",
+      "architecture": "actor 2-256-64-4 and critic 2-256-64-1 with final critic ReLU",
+      "loss": "clipped PPO actor, entropy coefficient 0.01, value coefficient 0.5",
+      "optimizer": "Adam 1e-3 for 80 epochs per rollout update",
+      "rollout": "gamma 0.99 discounted returns, terminal reset, sample-standard-deviation normalization plus 1e-5, categorical sampled action, exact 0.001 action step",
+      "artifact_transition": "sampled policy action changes W_alpha or W_beta before candidate formation"
+    }
+  ],
+  "shared_backend_contract": {
+    "backends_executed": ["cpu", "cuda", "hybrid"],
+    "same_model_and_loss_code": true,
+    "hybrid_queue_capacity": 2,
+    "hybrid_input_transfer": "pinned nonblocking",
+    "explicit_device_synchronization": true,
+    "cpu_torch_disabled_full_build": "pass"
+  },
+  "artifact_contract": {
+    "schema": "PLAN004_TYPED_LEARNING_ARTIFACT_V1",
+    "contains": [
+      "method_semantic_id",
+      "problem_semantic_id",
+      "model_config",
+      "ordered named model parameters",
+      "optimizer state",
+      "training_work",
+      "rollout_cursor",
+      "counter_rng_state",
+      "learned_state_fnv1a64"
+    ],
+    "external_receipt_computes_file_sha256": true,
+    "fresh_load_before_transition": true
+  },
+  "verification": {
+    "torch_release_build": "pass",
+    "requested_regex_ctest": {
+      "passed": 14,
+      "failed": 0
+    },
+    "typed_model_backend_executions": {
+      "passed": 9,
+      "failed": 0
+    },
+    "artifact_target_transition_replays": {
+      "passed": 6,
+      "failed": 0,
+      "backends": ["cpu", "hybrid"],
+      "methods": ["taae", "alga", "rlpso"]
+    },
+    "timing_fields": [
+      "corpus",
+      "transfer",
+      "forward",
+      "loss",
+      "backward",
+      "gradient_aggregation",
+      "optimizer",
+      "serialization",
+      "inference",
+      "optimization_loop"
+    ],
+    "architecture_audit": "pass: contracts=3 exact_modules=3 typed_libtorch_modules=3 artifact_bridges=3",
+    "learning_h5_state": "reopened_reference_equivalence_missing"
+  },
+  "claim_boundary": "This receipt closes Plan004 Step2 implementation and backend execution only. It is not independent-reference H5 evidence, does not admit target H5, and is not a formal quality or performance result."
+}

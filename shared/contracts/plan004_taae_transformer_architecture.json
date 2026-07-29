@@ -23,6 +23,15 @@
       "kind": "independent_direct_cpp_declared_reconstruction",
       "path": "hpc/taae_cpp/src/model.cpp",
       "does_not_call_optimized_module": true
+    },
+    "optimized_implementation": {
+      "kind": "typed_libtorch_module",
+      "module": "TaaeTransformer",
+      "interface": "hpc/learning_libtorch/include/wflop_learning/models.hpp",
+      "source": "hpc/learning_libtorch/src/models.cpp",
+      "target_executable": "plan004_learning_target_hpc --method taae",
+      "backend_matrix_test": "scripts/test_plan004_learning_backends.py",
+      "step2_receipt": "evidence/development/plan004_learning_libtorch_step2_20260730.json"
     }
   },
   "tensor_contract": {
@@ -164,7 +173,7 @@
     }
   },
   "evolution_bridge": {
-    "artifact_schema": "TAAE_KERNEL_CHECKPOINT_V2",
+    "artifact_schema": "PLAN004_TYPED_LEARNING_ARTIFACT_V1_TAAE",
     "artifact_fields": [
       "method_semantic_id",
       "problem_semantic_id",
@@ -177,7 +186,8 @@
       "parameter_fnv1a64",
       "file_sha256"
     ],
-    "optimizer_consumer": "taae_evolution_hpc --checkpoint-in",
+    "optimizer_consumer": "plan004_learning_target_hpc --method taae --artifact-in",
+    "consumer_bridge": "taae_optimization_transition in hpc/learning_libtorch/src/models.cpp",
     "transition": "encode P to Hp; tournament-select H1 and H2 under CDP plus NSGA-II; Hm=Hp+0.3*(H1-H2); inherit exactly one random dimension from Hm and all others from Hp; bounded polynomial mutation probability 1/64 and distribution index 20; decode; deduplicate; Gaussian-repair at most two conflicts or reinitialize if more; evaluate; CDP plus NSGA-II environmental selection",
     "evidence": "paper Section IV-D, Algorithm 2, Eqs. 14-16, and Section V; disclosed checkpoint and deterministic tie rules are in shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json"
   },

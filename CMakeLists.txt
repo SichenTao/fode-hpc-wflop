@@ -18,6 +18,7 @@ add_subdirectory(hpc/pbea_cpp)
 if(WFLOP_ENABLE_TORCH)
     find_package(Torch CONFIG REQUIRED)
     add_subdirectory(hpc/torch_training)
+    add_subdirectory(hpc/learning_libtorch)
 endif()
 
 if(BUILD_TESTING)
@@ -75,6 +76,18 @@ if(BUILD_TESTING)
             COMMAND ${Python3_EXECUTABLE}
                 ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_hpc_learning_backend_compatibility.py
                 --binary $<TARGET_FILE:wflop_libtorch_training_hpc>
+        )
+        add_test(
+            NAME plan004_learning_backend_matrix
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_plan004_learning_backends.py
+                --binary $<TARGET_FILE:plan004_learning_models_test>
+        )
+        add_test(
+            NAME plan004_artifact_target_optimization
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_plan004_learning_target_artifacts.py
+                --binary $<TARGET_FILE:plan004_learning_target_hpc>
         )
     endif()
     add_test(

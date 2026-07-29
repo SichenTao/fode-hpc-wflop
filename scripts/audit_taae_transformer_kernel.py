@@ -46,6 +46,10 @@ def main() -> int:
     )
     assert contract["blocked_original_algorithm_id"] == "taae"
     assert architecture == {
+        "input_encoding": (
+            "selected 1-based grid-cell indices form an integer token sequence "
+            "of length Nw; target problem uses a 20 by 20 grid and Nw=15"
+        ),
         "encoder_layers": 6,
         "autoregressive_decoder_layers": 6,
         "attention_heads": 4,
@@ -60,12 +64,16 @@ def main() -> int:
         "regression_branch": (
             "hidden_linear_with_bias_then_ReLU_then_scalar_linear_with_bias"
         ),
-        "decoder_start": "learned_BOS_embedding",
+        "decoder_start": (
+            "paper requires a special start-of-sequence token; learned BOS "
+            "embedding is the disclosed representation"
+        ),
         "decoder_mask": "causal",
         "public_encode_output": "raw compressed latent h",
         "decoder_memory": (
-            "raw h linear projection to sequence_length times "
-            "model_dimension then reshape"
+            "paper requires raw h to be linearly projected and reshaped into "
+            "a sequence of static-memory embeddings; exact projection "
+            "ownership is disclosed"
         ),
         "normalization": "post_norm",
         "dropout": 0.0,
