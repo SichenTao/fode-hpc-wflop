@@ -24,6 +24,7 @@ struct Arguments {
     std::string output_path;
     std::uint64_t seed = 20260728;
     std::uint64_t physical_fes = 24000;
+    int workers = 0;
     bool self_check = false;
     bool all_cases = false;
     bool profile_phases = false;
@@ -58,6 +59,8 @@ Arguments parse_arguments(int argc, char** argv) {
             result.seed = parse_u64(value(), flag);
         } else if (flag == "--physical-fes") {
             result.physical_fes = parse_u64(value(), flag);
+        } else if (flag == "--workers") {
+            result.workers = static_cast<int>(parse_u64(value(), flag));
         } else if (flag == "--self-check") {
             result.self_check = true;
         } else if (flag == "--all-cases") {
@@ -72,6 +75,7 @@ Arguments parse_arguments(int argc, char** argv) {
                 << "  --all-cases           run all 50 cases sequentially\n"
                 << "  --physical-fes N      exact complete-layout budget\n"
                 << "  --seed N              deterministic FODE seed\n"
+                << "  --workers N           worker count; 0 means all visible CPUs\n"
                 << "  --output PATH         JSON or JSONL result path\n"
                 << "  --profile-phases      collect 17-stage diagnostic timing\n"
                 << "  --self-check          run bounded native checks\n";
@@ -329,7 +333,8 @@ int main(int argc, char** argv) {
     try {
         const Arguments arguments = parse_arguments(argc, argv);
         omp_set_dynamic(0);
-        const int workers = omp_get_num_procs();
+        const int workers =
+            arguments.workers > 0 ? arguments.workers : omp_get_num_procs();
         if (workers <= 0) {
             throw std::runtime_error("OpenMP reports no available processors");
         }

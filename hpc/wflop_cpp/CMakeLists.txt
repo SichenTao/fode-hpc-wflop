@@ -8,11 +8,14 @@ set(CMAKE_CXX_EXTENSIONS OFF)
 find_package(OpenMP REQUIRED)
 find_package(Threads REQUIRED)
 
+if(NOT TARGET fode_core)
+    add_subdirectory(
+        ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp
+        ${CMAKE_CURRENT_BINARY_DIR}/fode_cpp_core
+    )
+endif()
+
 add_executable(wflop_cpp_hpc
-    ../fode_cpp/src/case_loader.cpp
-    ../fode_cpp/src/evaluator.cpp
-    ../fode_cpp/src/executor.cpp
-    ../fode_cpp/src/optimizer.cpp
     src/registry.cpp
     src/algorithms.cpp
     src/algorithms/alga_attention_declared_reconstruction.cpp
@@ -24,10 +27,6 @@ add_executable(wflop_cpp_hpc
 )
 
 add_executable(rlfode_train_qtable
-    ../fode_cpp/src/case_loader.cpp
-    ../fode_cpp/src/evaluator.cpp
-    ../fode_cpp/src/executor.cpp
-    ../fode_cpp/src/optimizer.cpp
     src/registry.cpp
     src/algorithms/rlfode_seeded_reconstruction.cpp
     src/rlfode_train_qtable.cpp
@@ -39,6 +38,7 @@ target_include_directories(${target} PRIVATE
     ../fode_cpp/include
 )
 target_link_libraries(${target} PRIVATE
+    fode_core
     OpenMP::OpenMP_CXX
     Threads::Threads
 )
@@ -59,10 +59,6 @@ if(BUILD_TESTING)
     target_include_directories(rlpso_transition_test PRIVATE include)
     add_test(NAME rlpso_transition_fixture COMMAND rlpso_transition_test)
     add_executable(rlfode_math_test
-        ../fode_cpp/src/case_loader.cpp
-        ../fode_cpp/src/evaluator.cpp
-        ../fode_cpp/src/executor.cpp
-        ../fode_cpp/src/optimizer.cpp
         src/registry.cpp
         src/algorithms/rlfode_seeded_reconstruction.cpp
         tests/rlfode_math_test.cpp
@@ -72,6 +68,7 @@ if(BUILD_TESTING)
         ../fode_cpp/include
     )
     target_link_libraries(rlfode_math_test PRIVATE
+        fode_core
         OpenMP::OpenMP_CXX
         Threads::Threads
     )
@@ -103,6 +100,14 @@ if(BUILD_TESTING)
             --rlfode-models ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/models/fqfode_seeded
     )
     add_test(
+        NAME fode_frontend_parity
+        COMMAND python3
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/test_fode_frontend_parity.py
+            --analysis-binary $<TARGET_FILE:fode_cpp_hpc>
+            --formal-binary $<TARGET_FILE:wflop_cpp_hpc>
+            --cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/benchmark_cases.json
+    )
+    add_test(
         NAME alga_attention_declared_reconstruction
         COMMAND python3
             ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/test_alga_attention_reconstruction.py
@@ -111,8 +116,6 @@ if(BUILD_TESTING)
             --transfer-cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/alga_guishan_planar_transfer_cases.json
     )
     add_executable(taae_problem_test
-        ../fode_cpp/src/case_loader.cpp
-        ../fode_cpp/src/executor.cpp
         src/problems/taae_zhangbei_structured_proxy.cpp
         tests/taae_problem_test.cpp
     )
@@ -121,6 +124,7 @@ if(BUILD_TESTING)
         ../fode_cpp/include
     )
     target_link_libraries(taae_problem_test PRIVATE
+        fode_core
         OpenMP::OpenMP_CXX
         Threads::Threads
     )
