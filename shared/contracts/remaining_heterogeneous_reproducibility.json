@@ -55,8 +55,11 @@
       ],
       "admitted_problem_proxy": "taae_zhangbei_structured_declared_proxy_v1",
       "admitted_formula_fixture": "taae_formula_fixture_v1",
-      "safe_next_profile": "taae_transformer_declared_reconstruction_v1",
-      "safe_next_profile_meaning": "Future separately named method reconstruction on the admitted proxy only; not a reproduction of the Zhangbei study or author checkpoint."
+      "admitted_distinct_profile_id": "taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1",
+      "admitted_distinct_method_semantics_id": "taae_transformer_evolution_declared_reconstruction_v1",
+      "admitted_distinct_problem_semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+      "admitted_distinct_status": "development_admitted_reconstruction",
+      "admitted_distinct_profile_meaning": "Distinct M3 bounded deterministic end-to-end Transformer-training and latent-evolution reconstruction on the admitted P3 proxy; the original TAAE method, Zhangbei problem, author checkpoint, and paper results remain blocked at R1/R2."
     },
     "T45": {
       "paper_doi": "10.1016/j.swevo.2025.102018",
@@ -156,8 +159,12 @@
         "elite cardinality k and parent-offspring survivor details",
         "physical-FES accounting for perturbation and candidate repair"
       ],
-      "safe_next_profile": "ppga_declared_reconstruction_v1",
-      "safe_next_profile_meaning": "A fully ledgered engineering reconstruction may run on an admitted external problem, but is not the Nantong reproduction."
+      "admitted_problem_proxy": "ppga_nantong_structured_3d_declared_proxy_v1",
+      "admitted_distinct_profile_id": "ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1",
+      "admitted_distinct_method_semantics_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
+      "admitted_distinct_problem_semantics_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+      "admitted_distinct_status": "development_admitted_reconstruction",
+      "admitted_distinct_profile_meaning": "Distinct corrected M3 PPGA v2 bounded reconstruction on the admitted Nantong-structured P3 proxy; v1 is invalidated, while the original Nantong problem, author transitions, and paper results remain blocked at R1/R2."
     },
     "T36": {
       "paper_doi": "10.1109/CPEEE69412.2026.11521465",

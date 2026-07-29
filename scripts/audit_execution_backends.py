@@ -350,11 +350,95 @@ def main() -> int:
 
     blocked = matrix["blocked_original_identities"]
     blocked_ids = {row["guarded_algorithm_id"] for row in blocked}
+    blocked_by_corpus = {row["corpus_id"]: row for row in blocked}
     required_guards = {"taae", "alga", "rlpso", "rlfode"}
     if not required_guards.issubset(blocked_ids):
         fail("original learned-method guards are incomplete")
     if len(blocked_ids) != len(blocked):
         fail("duplicate guarded original identity")
+
+    expected_distinct_semantics = {
+        "Y36": (
+            "taae_transformer_evolution_declared_reconstruction_v1",
+            "taae_zhangbei_structured_declared_proxy_v1",
+        ),
+        "T43": (
+            "ppga_nantong_structured_3d_declared_reconstruction_v2",
+            "ppga_nantong_structured_3d_declared_proxy_v1",
+        ),
+    }
+    for corpus_id, expected_semantics in expected_distinct_semantics.items():
+        ledger = reproducibility["packages"][corpus_id]
+        legacy_keys = {"safe_next_profile", "safe_next_profile_meaning"}
+        if legacy_keys.intersection(ledger):
+            fail(f"{corpus_id}: obsolete future/safe-next ledger state remains")
+        required_ledger_fields = {
+            "admitted_distinct_profile_id",
+            "admitted_distinct_method_semantics_id",
+            "admitted_distinct_problem_semantics_id",
+            "admitted_distinct_status",
+            "admitted_distinct_profile_meaning",
+        }
+        missing = required_ledger_fields.difference(ledger)
+        if missing:
+            fail(
+                f"{corpus_id}: admitted distinct ledger fields missing "
+                f"{sorted(missing)}"
+            )
+        guarded = blocked_by_corpus.get(corpus_id)
+        if guarded is None:
+            fail(f"{corpus_id}: original blocker is absent from the matrix")
+        profile_id = ledger["admitted_distinct_profile_id"]
+        if profile_id != guarded["reconstruction_profile_id"]:
+            fail(
+                f"{corpus_id}: ledger profile differs from the matrix "
+                "reconstruction profile"
+            )
+        if profile_id not in registry_by_id or profile_id not in binding_by_id:
+            fail(f"{corpus_id}: admitted distinct profile is not registered")
+        profile = registry_by_id[profile_id]
+        binding = binding_by_id[profile_id]
+        observed_semantics = (
+            ledger["admitted_distinct_method_semantics_id"],
+            ledger["admitted_distinct_problem_semantics_id"],
+        )
+        registry_semantics = (
+            profile["method_semantics_id"],
+            profile["problem_semantics_id"],
+        )
+        if observed_semantics != registry_semantics:
+            fail(
+                f"{corpus_id}: ledger method/problem semantic IDs differ "
+                "from the executable profile registry"
+            )
+        if observed_semantics != expected_semantics:
+            fail(f"{corpus_id}: obsolete admitted semantic identity returned")
+        if (
+            ledger["admitted_distinct_status"] != binding["admission_status"]
+            or binding["corpus_id"] != corpus_id
+        ):
+            fail(
+                f"{corpus_id}: ledger admission status/corpus differs from "
+                "the matrix binding"
+            )
+        if (
+            profile["method_evidence_tier"] != "M3_DECLARED_COMPLETION"
+            or profile["problem_evidence_tier"] != "P3_DECLARED_PROXY"
+        ):
+            fail(f"{corpus_id}: admitted distinct profile is not M3/P3")
+        meaning = ledger["admitted_distinct_profile_meaning"].lower()
+        if (
+            "future" in meaning
+            or "original" not in meaning
+            or "blocked" not in meaning
+        ):
+            fail(f"{corpus_id}: admitted distinct profile meaning is stale")
+        if (
+            not ledger["original_problem_status"].startswith("blocked")
+            or not ledger["original_method_status"].startswith("blocked")
+        ):
+            fail(f"{corpus_id}: original R1/R2 blocker was weakened")
+
     for row in blocked:
         if not row["status"].startswith("blocked"):
             fail(f"{row['guarded_algorithm_id']}: original status is not blocked")
