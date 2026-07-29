@@ -15,6 +15,7 @@ struct RunConfig {
     std::uint64_t physical_fes_budget = 24000;
     int workers = 20;
     std::string sugga_model_root = "shared/models/sugga_cpp";
+    std::string rlfode_model_root = "shared/models/fqfode_seeded";
 };
 
 struct RunResult {
@@ -28,6 +29,7 @@ struct RunResult {
     std::uint64_t seed = 0;
     std::uint64_t physical_fes = 0;
     std::uint64_t training_physical_fes = 0;
+    std::uint64_t offline_training_physical_fes = 0;
     std::uint64_t inference_physical_fes = 0;
     std::uint64_t policy_interactions = 0;
     std::uint64_t policy_updates = 0;
@@ -44,6 +46,7 @@ struct RunResult {
     double policy_training_seconds = 0.0;
     double policy_update_seconds = 0.0;
     std::string pso_update_semantics;
+    std::string pretrained_artifact_hash;
     std::string learned_state_hash;
 };
 

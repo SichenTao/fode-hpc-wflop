@@ -208,6 +208,14 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "paper_corrected_seeded_full_ppo_declared_reconstruction",
             "rlpso_paper_corrected_training_reconstruction_v1",
             {"rpso2024_source_problem_ws1_ws4"}
+        },
+        {
+            "fqfode_seeded_training_declared_reconstruction_v1",
+            "FQFODE seeded offline-training reconstruction",
+            "10.3390/math13182935",
+            "paper_guided_seeded_offline_qtable_declared_reconstruction",
+            "fqfode_seeded_training_declared_reconstruction_v1",
+            {"fode_e0_common"}
         }
     };
     return descriptors;

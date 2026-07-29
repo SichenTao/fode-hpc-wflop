@@ -161,4 +161,14 @@ if(BUILD_TESTING)
             --cases
             ${CMAKE_CURRENT_SOURCE_DIR}/shared/contracts/benchmark_cases.json
     )
+    add_test(
+        NAME rlfode_seeded_reconstruction
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_rlfode_seeded_reconstruction.py
+            --binary $<TARGET_FILE:wflop_cpp_hpc>
+            --cases
+            ${CMAKE_CURRENT_SOURCE_DIR}/shared/contracts/benchmark_cases.json
+            --models
+            ${CMAKE_CURRENT_SOURCE_DIR}/shared/models/fqfode_seeded
+    )
 endif()

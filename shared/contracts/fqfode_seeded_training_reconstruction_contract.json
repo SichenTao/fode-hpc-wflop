@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "contract_id": "fqfode_seeded_training_declared_reconstruction_v1",
+  "corpus_id": "S04",
+  "paper": {
+    "title": "A Reinforcement Learning-Assisted Fractional-Order Differential Evolution for Solving Wind Farm Layout Optimization Problems",
+    "doi": "10.3390/math13182935",
+    "pdf_sha256": "0b388fb055956837876f5cfffd8320ab88c0bf4ef32d386c2143a0e7b498c9a0"
+  },
+  "predecessor": {
+    "title": "A State-of-the-Art Fractional Order-Driven Differential Evolution for Wind Farm Layout Optimization",
+    "doi": "10.3390/math13020282",
+    "pdf_sha256": "aa8ceb7febbf6730da8f048514e692dc5bab6edb9c9cfba4496cc24c1786c661"
+  },
+  "public_asset_finding": {
+    "query_date": "2026-07-29",
+    "status": "bounded_no_public_fqfode_source_or_pretrained_qtable_found",
+    "evidence": "docs/source-dossiers/S04.json"
+  },
+  "identity": {
+    "algorithm_id": "fqfode_seeded_training_declared_reconstruction_v1",
+    "method_id": "FQFODE_SEEDED_TRAINING_DECLARED_RECONSTRUCTION_V1",
+    "method_evidence_tier": "M3_DECLARED_COMPLETION",
+    "method_provenance": "paper_guided_citation_predecessor_derived_reconstruction",
+    "problem_id": "fode_e0_common",
+    "problem_evidence_tier": "P0_AUTHOR_ASSET",
+    "claim_boundary": "This profile is a deterministic, paper-guided reconstruction. It is not the unavailable author-pretrained FQFODE policy and must not be reported as an exact reproduction of the paper results."
+  },
+  "q_learning": {
+    "state_count": 101,
+    "action_deltas": [-0.01, 0.0, 0.01],
+    "stage_count": 4,
+    "learning_rate": 0.1,
+    "discount_factor": 0.9,
+    "epsilon": 0.2,
+    "initial_fractional_order": 0.8,
+    "fractional_order_bounds": [0.1, 0.9],
+    "first_six_formal_generations_force_zero_action": true,
+    "state_index": "floor(a*100)",
+    "reward": "At generation k>=7, after choosing the generation-k action: 100*(f_(k-1)-f_(k-2))/(1-f_(k-1)+1e-12)."
+  },
+  "offline_training": {
+    "artifact_generator": "rlfode_train_qtable",
+    "shared_training_case_id": "WS2tn50",
+    "shared_artifact_filename": "fqfode_shared_ws2tn50_v1.qtable.tsv",
+    "agents": 5,
+    "rounds_per_agent_per_stage": 4,
+    "interactions_per_round": 101,
+    "stage_tables_trained_independently": false,
+    "stage_initialization": "Algorithm 2 produces one aggregated Qinit. The same Qinit is copied into each of the four formal stage tables, which then update independently online.",
+    "round_inheritance_within_agent_and_stage": true,
+    "aggregation": "element-wise arithmetic mean over the five final agent tables",
+    "seed_manifest_id": "fqfode_seed_manifest_20250911_v1",
+    "agent_base_seeds": [
+      2025091101,
+      2025091102,
+      2025091103,
+      2025091104,
+      2025091105
+    ],
+    "round_seed_offset": 1000003,
+    "environment_completion": "One interaction executes one complete generation through the audited FODE core on the declared fixed training case WS2tn50. WS2tn50 belongs to the paper's WS2 and 50-turbine experimental family and avoids the all-zero reward degeneracy observed on sparse single-direction WS1tn10. The exact author pretraining case is not published.",
+    "starting_state_completion": "Each round uses the predefined a=0.8 starting state allowed by Algorithm 2 line 8.",
+    "training_reward_completion": "Algorithm 2 does not define its environment reward numerically. After each complete training generation, this profile applies Equation 21 to the improvement caused by that interaction: 100*(f_after-f_before)/(1-f_after+1e-12).",
+    "physical_fes": "Every complete layout evaluated during artifact training is counted and stored in the artifact metadata. It is separate from formal optimization physical_fes.",
+    "artifact_integrity": "FNV-1a-64 over the IEEE-754 bytes of the four 101x3 tables; load rejects a training-case-ID mismatch, an all-zero table set, or a hash mismatch. Every formal case loads this one shared artifact."
+  },
+  "learned_method_receipt": {
+    "training_data_or_generator_id": "fode_e0_common:WS2tn50",
+    "initialization": "five zero Q-tables; predefined fractional order a=0.8 at each round",
+    "optimizer": "tabular Q-learning alpha=0.1 gamma=0.9 epsilon=0.2",
+    "epochs_or_steps": "5 agents x 4 inherited rounds x 101 complete FODE generations",
+    "random_seeds": "fqfode_seed_manifest_20250911_v1",
+    "checkpoint_hash": "fnv1a64:8c082977549728f3",
+    "artifact_sha256": "9d047125f775a940a4c80eff50fa622c30be20b5b3cfcd55aa74f0ff614ba126",
+    "training_physical_fes": 39700,
+    "inference_physical_fes": "per formal run request; offline work remains separate",
+    "learned_state_origin": "declared deterministic reconstruction; no author Q-table was released"
+  },
+  "formal_optimization": {
+    "frozen_artifact_required": true,
+    "formal_physical_fes": "The requested formal budget, including 24000 for the paper protocol, is consumed entirely by formal layout evaluations. Offline training is not subtracted from this budget.",
+    "online_q_updates_add_physical_fes": false,
+    "stage_assignment": {
+      "generations_1_50": 1,
+      "generations_51_100": 2,
+      "generations_101_150": 3,
+      "generations_151_200": 4,
+      "generations_after_200": 4
+    }
+  },
+  "paper_internal_conflicts": [
+    {
+      "id": "FQFODE_ACTION_RULE",
+      "paper_locations": [
+        "Algorithm 3 line 23",
+        "Equation 24"
+      ],
+      "conflict": "Algorithm 3 uses a <- a + delta_a; Equation 24 uses a <- a + a*delta_a.",
+      "main_profile_decision": "additive_and_clamped",
+      "rationale": "The 101-state grid and fixed +/-0.01 actions jointly support the additive transition.",
+      "recommended_sensitivity_profile": "fqfode_seeded_training_multiplicative_sensitivity_v1",
+      "main_result_scope": "The sensitivity profile is outside the main reconstruction result."
+    },
+    {
+      "id": "FQFODE_GENERATION_BUDGET_MAPPING",
+      "paper_locations": [
+        "Section 2.6",
+        "Section 3.1"
+      ],
+      "conflict": "The paper specifies 200 generations and a 24000-FES stopping budget without publishing the executable mapping.",
+      "main_profile_decision": "generation_based_four_50_generation_stages_then_stage4",
+      "recommended_sensitivity_profile": "fqfode_seeded_training_fes_normalized_stage_sensitivity_v1",
+      "main_result_scope": "The sensitivity profile is outside the main reconstruction result."
+    },
+    {
+      "id": "FQFODE_STAGE_PRETRAINING_IDENTITY",
+      "paper_locations": [
+        "Algorithm 2",
+        "Algorithm 3 line 10 and Table 3",
+        "Section 2.6 inter-stage transition paragraph"
+      ],
+      "conflict": "The executable pseudocode produces one aggregated Qinit and initializes every online stage table from Qinit, while the prose later states that stage-specific tables are pretrained independently.",
+      "main_profile_decision": "one_aggregated_qinit_copied_to_four_online_stage_tables",
+      "rationale": "The main profile gives priority to the complete Algorithm 2 plus Algorithm 3/Table 3 executable sequence.",
+      "recommended_sensitivity_profile": "fqfode_independent_stage_pretraining_sensitivity_v1",
+      "main_result_scope": "The sensitivity profile is outside the main reconstruction result."
+    }
+  ],
+  "determinism": {
+    "counter_keyed_rng": true,
+    "required_worker_invariance": [1, 20],
+    "required_equal_fields": [
+      "best_expected_power_kw",
+      "best_layout_1based",
+      "physical_fes",
+      "training_physical_fes",
+      "inference_physical_fes",
+      "pretrained_artifact_hash",
+      "learned_state_hash"
+    ]
+  }
+}

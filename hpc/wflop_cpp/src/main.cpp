@@ -21,6 +21,7 @@ namespace {
 struct Arguments {
     std::string cases_path = "shared/contracts/benchmark_cases.json";
     std::string models_path = "shared/models/sugga_cpp";
+    std::string rlfode_models_path = "shared/models/fqfode_seeded";
     std::string algorithm = "fode";
     std::vector<std::string> algorithms;
     std::string problem = "fode_e0_common";
@@ -86,6 +87,8 @@ Arguments parse_arguments(int argc, char** argv) {
             result.cases_path = next();
         } else if (flag == "--models") {
             result.models_path = next();
+        } else if (flag == "--rlfode-models") {
+            result.rlfode_models_path = next();
         } else if (flag == "--algorithm") {
             result.algorithm = next();
         } else if (flag == "--algorithms") {
@@ -127,6 +130,7 @@ Arguments parse_arguments(int argc, char** argv) {
                 << "  --seed N             deterministic algorithm seed\n"
                 << "  --workers N          persistent C++ thread-team size; formal Waffle value is 20\n"
                 << "  --models PATH        frozen C++ SUGGA model directory\n"
+                << "  --rlfode-models PATH frozen FQFODE Q-table directory\n"
                 << "  --output PATH        write JSON or JSONL\n"
                 << "  --self-check         bounded registered-algorithm semantic smoke\n"
                 << "  --list-algorithms    print canonical algorithm IDs\n"
@@ -174,6 +178,8 @@ std::string to_json(const wflop::RunResult& result) {
     output << "\"physical_fes\":" << result.physical_fes << ",";
     output << "\"training_physical_fes\":"
            << result.training_physical_fes << ",";
+    output << "\"offline_training_physical_fes\":"
+           << result.offline_training_physical_fes << ",";
     output << "\"inference_physical_fes\":"
            << result.inference_physical_fes << ",";
     output << "\"policy_interactions\":" << result.policy_interactions << ",";
@@ -204,6 +210,10 @@ std::string to_json(const wflop::RunResult& result) {
     if (!result.pso_update_semantics.empty()) {
         output << ",\"pso_update_semantics\":\""
                << escape_json(result.pso_update_semantics) << "\"";
+    }
+    if (!result.pretrained_artifact_hash.empty()) {
+        output << ",\"pretrained_artifact_hash\":\""
+               << escape_json(result.pretrained_artifact_hash) << "\"";
     }
     if (!result.learned_state_hash.empty()) {
         output << ",\"learned_state_hash\":\""
@@ -426,6 +436,7 @@ int run_self_check(const Arguments& arguments) {
         config.physical_fes_budget = 480;
         config.workers = arguments.workers;
         config.sugga_model_root = arguments.models_path;
+        config.rlfode_model_root = arguments.rlfode_models_path;
         const auto first = wflop::optimize(data, config);
         const auto second = wflop::optimize(data, config);
         validate_result(
@@ -520,6 +531,7 @@ int main(int argc, char** argv) {
                 config.physical_fes_budget = arguments.physical_fes;
                 config.workers = arguments.workers;
                 config.sugga_model_root = arguments.models_path;
+                config.rlfode_model_root = arguments.rlfode_models_path;
                 const auto result = wflop::optimize(data, config);
                 validate_result(
                     result,

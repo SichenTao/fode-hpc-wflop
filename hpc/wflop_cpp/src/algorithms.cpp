@@ -1,4 +1,5 @@
 #include "wflop/algorithms.hpp"
+#include "wflop/rlfode_reconstruction.hpp"
 
 #include "fode/evaluator.hpp"
 #include "fode/executor.hpp"
@@ -5060,6 +5061,10 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
         return optimize_rlpso_paper_corrected_training_reconstruction(
             data, config
         );
+    }
+    if (config.algorithm_id
+        == "fqfode_seeded_training_declared_reconstruction_v1") {
+        return optimize_rlfode_seeded_training_reconstruction(data, config);
     }
     throw std::invalid_argument("unknown algorithm: " + config.algorithm_id);
 }

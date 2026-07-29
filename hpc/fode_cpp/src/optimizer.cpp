@@ -238,6 +238,7 @@ void repair_population(
 }
 
 double fractional_value(
+    double fractional_order,
     double current,
     const std::vector<double>& h1,
     const std::vector<double>& h2,
@@ -249,22 +250,23 @@ double fractional_value(
     if (h1.empty()) {
         return current;
     }
-    double result = kFractionalA * current;
+    const double a = fractional_order;
+    double result = a * current;
     if (iteration >= 2) {
-        result += 0.5 * kFractionalA * (1.0 - kFractionalA) * h1[index];
+        result += 0.5 * a * (1.0 - a) * h1[index];
     }
     if (iteration >= 3 && !h2.empty()) {
-        result += (1.0 / 6.0) * kFractionalA * (1.0 - kFractionalA)
-            * (2.0 - kFractionalA) * h2[index];
+        result += (1.0 / 6.0) * a * (1.0 - a)
+            * (2.0 - a) * h2[index];
     }
     if (iteration >= 4 && !h3.empty()) {
-        result += (1.0 / 24.0) * kFractionalA * (1.0 - kFractionalA)
-            * (2.0 - kFractionalA) * (3.0 - kFractionalA) * h3[index];
+        result += (1.0 / 24.0) * a * (1.0 - a)
+            * (2.0 - a) * (3.0 - a) * h3[index];
     }
     if (iteration >= 5 && !h4.empty()) {
-        result += (1.0 / 120.0) * kFractionalA * (1.0 - kFractionalA)
-            * (2.0 - kFractionalA) * (3.0 - kFractionalA)
-            * (4.0 - kFractionalA) * h4[index];
+        result += (1.0 / 120.0) * a * (1.0 - a)
+            * (2.0 - a) * (3.0 - a)
+            * (4.0 - a) * h4[index];
     }
     return result;
 }
@@ -408,7 +410,11 @@ std::vector<int> survivor_rows(
 
 }  // namespace
 
-RunResult optimize_fode_hpc(const CaseData& data, const RunConfig& config) {
+RunResult optimize_fode_hpc_controlled(
+    const CaseData& data,
+    const RunConfig& config,
+    FractionalOrderController& controller
+) {
     if (config.physical_fes_budget == 0 || config.workers <= 0) {
         throw std::invalid_argument("FES budget and workers must be positive");
     }
@@ -459,6 +465,10 @@ RunResult optimize_fode_hpc(const CaseData& data, const RunConfig& config) {
     double evaluator_seconds = initial.elapsed_seconds;
     int observed_workers = initial.observed_workers;
     std::vector<double> fitness = initial.fitness;
+    double controller_best_fitness = *std::max_element(
+        fitness.begin(),
+        fitness.end()
+    );
 
     // Source identity: initial candidates do not enter the search-best state.
     double best_fitness = 0.0;
@@ -491,9 +501,21 @@ RunResult optimize_fode_hpc(const CaseData& data, const RunConfig& config) {
     std::uint64_t generation = 0;
 
     while (legacy_fes < legacy_fes_budget
-           && physical_fes < config.physical_fes_budget) {
+           && physical_fes < config.physical_fes_budget
+           && (
+               config.maximum_generations == 0
+               || generation < config.maximum_generations
+           )) {
         begin_phase();
         ++generation;
+        const double fractional_order = std::clamp(
+            controller.begin_generation(
+                generation,
+                controller_best_fitness
+            ),
+            0.0,
+            1.0
+        );
         const int old_population_size = population_size;
         const std::vector<double> parent = population;
 
@@ -647,10 +669,24 @@ RunResult optimize_fode_hpc(const CaseData& data, const RunConfig& config) {
                 dp_current[index] = dp;
                 da_current[index] = da;
                 const double fo_dp = fractional_value(
-                    dp, dp_h1, dp_h2, dp_h3, dp_h4, index, iteration
+                    fractional_order,
+                    dp,
+                    dp_h1,
+                    dp_h2,
+                    dp_h3,
+                    dp_h4,
+                    index,
+                    iteration
                 );
                 const double fo_da = fractional_value(
-                    da, da_h1, da_h2, da_h3, da_h4, index, iteration
+                    fractional_order,
+                    da,
+                    da_h1,
+                    da_h2,
+                    da_h3,
+                    da_h4,
+                    index,
+                    iteration
                 );
                 double value = parent[index]
                     + sf[static_cast<std::size_t>(individual)]
@@ -728,6 +764,10 @@ RunResult optimize_fode_hpc(const CaseData& data, const RunConfig& config) {
                     );
                 }
             }
+            controller_best_fitness = std::max(
+                controller_best_fitness,
+                value
+            );
         }
         end_phase(7);
         if (completed < old_population_size) {
@@ -998,11 +1038,17 @@ RunResult optimize_fode_hpc(const CaseData& data, const RunConfig& config) {
                         ));
                 }
             }
+            controller_best_fitness = std::max(
+                controller_best_fitness,
+                local_result.fitness[0]
+            );
             const std::uint64_t legacy_before_local = legacy_fes;
             ++legacy_fes;
             iteration += legacy_fes / 120 - legacy_before_local / 120;
         }
+        controller.end_generation(generation, controller_best_fitness);
     }
+    controller.finish(controller_best_fitness);
 
     begin_phase();
     RunResult result;
@@ -1026,6 +1072,26 @@ RunResult optimize_fode_hpc(const CaseData& data, const RunConfig& config) {
     result.algorithm_seconds =
         std::max(0.0, result.total_seconds - evaluator_seconds);
     return result;
+}
+
+namespace {
+
+class FixedFractionalOrderController final
+    : public FractionalOrderController {
+public:
+    double begin_generation(std::uint64_t, double) override {
+        return kFractionalA;
+    }
+
+    void finish(double) override {
+    }
+};
+
+}  // namespace
+
+RunResult optimize_fode_hpc(const CaseData& data, const RunConfig& config) {
+    FixedFractionalOrderController controller;
+    return optimize_fode_hpc_controlled(data, config, controller);
 }
 
 }  // namespace fode

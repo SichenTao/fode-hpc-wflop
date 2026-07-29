@@ -1,0 +1,133 @@
+{
+  "schema_version": 1,
+  "corpus_id": "S04",
+  "doi": "10.3390/math13182935",
+  "paper_sha256": "0b388fb055956837876f5cfffd8320ab88c0bf4ef32d386c2143a0e7b498c9a0",
+  "profiles": [
+    "fqfode_seeded_training_declared_reconstruction_v1"
+  ],
+  "completion_status": "declared_seeded_offline_training_complete_author_qtables_unavailable",
+  "decisions": [
+    {
+      "field": "evolutionary_core_identity",
+      "completed_transition": "Algorithm 3 instruction to run FODE with updated fractional order",
+      "selected_value_or_rule": "reuse the audited FODE optimizer core and inject only the generation-specific fractional order through a controller",
+      "authority_type": "paper_cited_predecessor_and_archived_source",
+      "immutable_authority": "FQFODE paper Algorithm 3; FODE DOI 10.3390/math13020282; repository FODE source semantics",
+      "rejected_alternatives": [
+        "maintain a copied evolutionary loop that omits FODE local search or changes its population and history schedules"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "preserves FODE initialization, legacy-FES history, linear population reduction, local search, archive, and repair semantics",
+      "sensitivity_test_required": false,
+      "adjudication_status": "selected_for_declared_reconstruction"
+    },
+    {
+      "field": "offline_training_environment",
+      "completed_transition": "paper fixed wind-farm environment without a published case identifier",
+      "selected_value_or_rule": "train one aggregated Qinit on WS2tn50, copy Qinit into four formal online stage tables, and share that frozen artifact across every formal case",
+      "authority_type": "paper_family_plus_declared_completion",
+      "immutable_authority": "paper WS2 and 50-turbine experimental family; shared/contracts/benchmark_cases.json case hash 0e6d6f35d7a5b156260d6b0e1519a97a9dcfb4adbafc5454c2c5d11e389db2de",
+      "rejected_alternatives": [
+        "train a different table per formal case",
+        "use sparse single-direction WS1tn10 after observing all-zero rewards",
+        "invent an unidentified author environment"
+      ],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "changes learned Q values while retaining the paper requirement that formal runs share pretrained stage tables",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_main_profile_sensitivity_outside_main_results"
+    },
+    {
+      "field": "offline_training_seeds",
+      "completed_transition": "paper five agents and four rounds with unpublished seeds",
+      "selected_value_or_rule": "five fixed base seeds 2025091101 through 2025091105 with deterministic round and stage offsets",
+      "authority_type": "declared_reproducibility_completion",
+      "immutable_authority": "seed manifest fqfode_seed_manifest_20250911_v1",
+      "rejected_alternatives": [
+        "wall-clock seeds",
+        "omit seed provenance from the frozen artifact"
+      ],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "changes trained Q values while making the artifact exactly regenerable and worker invariant",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_declared_reconstruction"
+    },
+    {
+      "field": "stage_pretraining_identity",
+      "completed_transition": "Algorithm 2 and Algorithm 3/Table 3 versus the Section 2.6 inter-stage transition paragraph",
+      "selected_value_or_rule": "aggregate one Qinit across agents and copy it into four online stage tables before formal optimization",
+      "authority_type": "target_paper_executable_pseudocode_priority",
+      "immutable_authority": "Algorithm 2 lines 14-17; Algorithm 3 line 10; Table 3 Q(s) initialized from Qinit",
+      "rejected_alternatives": [
+        "train four independent stage tables in the main profile",
+        "silently merge the contradictory descriptions"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "sets the same prior values for all four stages while allowing their formal online trajectories to diverge",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_main_profile_independent_stage_pretraining_recommended_sensitivity"
+    },
+    {
+      "field": "pretraining_environment_transition",
+      "completed_transition": "paper 101 state interactions per agent-round without executable environment details",
+      "selected_value_or_rule": "one interaction executes one complete generation of the audited FODE core; every complete layout evaluation is counted in offline_training_physical_fes",
+      "authority_type": "paper_structure_plus_declared_physical_work_completion",
+      "immutable_authority": "FQFODE Algorithm 2 and project complete-layout physical-FES contract",
+      "rejected_alternatives": [
+        "treat one interaction as zero-cost table arithmetic",
+        "hide training evaluations from the work ledger"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines the learned policy and exposes 39700 offline physical evaluations separately from formal inference",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_declared_reconstruction"
+    },
+    {
+      "field": "offline_training_reward",
+      "completed_transition": "Algorithm 2 unspecified environment reward and Equation 21 formal normalized-improvement reward",
+      "selected_value_or_rule": "after each training action and complete FODE generation, use 100*(f_after-f_before)/(1-f_after+1e-12)",
+      "authority_type": "target_paper_equation_21_declared_pretraining_completion",
+      "immutable_authority": "Algorithm 2 lines 10-13 and Equation 21",
+      "rejected_alternatives": [
+        "reuse the formal six-generation delay in offline training",
+        "assign zero reward",
+        "invent a hidden fractional-contribution formula"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "changes every offline Q update and the frozen Qinit artifact",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_declared_reconstruction"
+    },
+    {
+      "field": "fractional_order_action_transition",
+      "completed_transition": "Algorithm 3 additive update versus Equation 24 multiplicative update",
+      "selected_value_or_rule": "add delta_a directly and clamp to the paper state interval",
+      "authority_type": "paper_pseudocode_and_state_grid",
+      "immutable_authority": "Algorithm 3 line 23; 101-state grid; action set {-0.01,0,+0.01}",
+      "rejected_alternatives": [
+        "multiply delta_a by the current fractional order",
+        "average the two conflicting transitions"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "changes state transitions, action consequences, Q-table values, and optimization trajectories",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_main_profile_multiplicative_sensitivity_recommended_outside_main_results"
+    },
+    {
+      "field": "formal_stage_schedule_after_generation_200",
+      "completed_transition": "paper defines four 50-generation stages and also permits a 24000-FES stop that may exceed 200 generations",
+      "selected_value_or_rule": "use stages 1-4 for generations 1-50, 51-100, 101-150, and 151 onward respectively",
+      "authority_type": "paper_schedule_plus_declared_completion",
+      "immutable_authority": "paper Section 2.6 and Algorithm 3",
+      "rejected_alternatives": [
+        "wrap back to stage 1 after generation 200",
+        "stop before the requested formal physical-FES budget is exhausted"
+      ],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "stage-4 Q values govern any formal generations beyond 200",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_main_profile_fes_normalized_sensitivity_recommended_outside_main_results"
+    }
+  ]
+}
