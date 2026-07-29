@@ -1,0 +1,335 @@
+{
+  "architecture": "aarch64",
+  "binary_receipts": {
+    "taae": {
+      "logical_path": "build/plan005-torch/hpc/taae_cpp/taae_evolution_hpc",
+      "sha256": "db228706750efe23d78abd61cc6b3bc13dce76fc11dc014e672a3b74fb483a23"
+    },
+    "trainer": {
+      "logical_path": "build/plan005-torch/hpc/learning_libtorch/plan004_learning_target_hpc",
+      "sha256": "53d3e3d6b3e180b1110e8491a070d546e46b5e91faa864c38b06359bd787424a"
+    },
+    "wflop": {
+      "logical_path": "build/plan005-torch/hpc/wflop_cpp/wflop_cpp_hpc",
+      "sha256": "e8adf0b1339f356f49abfc0795d97c32104eef0d5adc1079bcc0b1cadac21a77"
+    }
+  },
+  "claim_boundary": "The performance-only thread-pool controls do not alter method, problem, random-event, artifact, or physical-FES semantics. The original append-only Plan-004 H5 receipt remains unchanged.",
+  "full_torch_ctest": {
+    "command": [
+      "ctest",
+      "--test-dir",
+      "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch",
+      "--output-on-failure"
+    ],
+    "measured_wall_seconds": 134.1072464050958,
+    "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\n      Start  1: lineage_registry\n 1/85 Test  #1: lineage_registry .............................................................................   Passed    0.03 sec\n      Start  2: evidence_authority\n 2/85 Test  #2: evidence_authority ...........................................................................   Passed    0.03 sec\n      Start  3: execution_backends\n 3/85 Test  #3: execution_backends ...........................................................................   Passed    9.68 sec\n      Start  4: hpc_core_cpu_implementation_traceability\n 4/85 Test  #4: hpc_core_cpu_implementation_traceability .....................................................   Passed    0.05 sec\n      Start  5: hpc_core_cpu_runtime_coverage\n 5/85 Test  #5: hpc_core_cpu_runtime_coverage ................................................................   Passed    0.05 sec\n      Start  6: hpc_core_equivalence_current_state\n 6/85 Test  #6: hpc_core_equivalence_current_state ...........................................................   Passed    0.03 sec\n      Start  7: hpc_learning_h5_historical_reopened_regression\n 7/85 Test  #7: hpc_learning_h5_historical_reopened_regression ...............................................   Passed    0.03 sec\n      Start  8: hpc_core_h5_validation_receipts\n 8/85 Test  #8: hpc_core_h5_validation_receipts ..............................................................   Passed    0.03 sec\n      Start  9: learning_architecture_contracts\n 9/85 Test  #9: learning_architecture_contracts ..............................................................   Passed    0.88 sec\n      Start 10: learning_pdf_consumption\n10/85 Test #10: learning_pdf_consumption .....................................................................   Passed    0.87 sec\n      Start 11: hpc_learning_backend_compatibility\n11/85 Test #11: hpc_learning_backend_compatibility ...........................................................   Passed   11.64 sec\n      Start 12: plan004_learning_backend_matrix\n12/85 Test #12: plan004_learning_backend_matrix ..............................................................   Passed    8.66 sec\n      Start 13: plan004_artifact_target_optimization\n13/85 Test #13: plan004_artifact_target_optimization .........................................................   Passed    8.94 sec\n      Start 14: source_dossiers\n14/85 Test #14: source_dossiers ..............................................................................   Passed    0.03 sec\n      Start 15: reconstruction_decisions\n15/85 Test #15: reconstruction_decisions .....................................................................   Passed    0.03 sec\n      Start 16: taae_fact_declarations\n16/85 Test #16: taae_fact_declarations .......................................................................   Passed    0.02 sec\n      Start 17: taae_semantic_contract\n17/85 Test #17: taae_semantic_contract .......................................................................   Passed    0.03 sec\n      Start 18: taae_transformer_kernel_contract\n18/85 Test #18: taae_transformer_kernel_contract .............................................................   Passed    0.03 sec\n      Start 19: taae_transformer_evolution_contract\n19/85 Test #19: taae_transformer_evolution_contract ..........................................................   Passed    0.03 sec\n      Start 20: ppga_nantong_contract\n20/85 Test #20: ppga_nantong_contract ........................................................................   Passed    0.02 sec\n      Start 21: geoga_anholt_contract\n21/85 Test #21: geoga_anholt_contract ........................................................................   Passed    0.03 sec\n      Start 22: geoga_operator_parity\n22/85 Test #22: geoga_operator_parity ........................................................................   Passed    0.02 sec\n      Start 23: bde_ws56_contract\n23/85 Test #23: bde_ws56_contract ............................................................................   Passed    0.05 sec\n      Start 24: bde_ws56_transition_parity\n24/85 Test #24: bde_ws56_transition_parity ...................................................................   Passed    0.03 sec\n      Start 25: tmoea_nysted_r4_contract\n25/85 Test #25: tmoea_nysted_r4_contract .....................................................................   Passed    0.02 sec\n      Start 26: bde_ws56_independent_oracle\n26/85 Test #26: bde_ws56_independent_oracle ..................................................................   Passed    0.07 sec\n      Start 27: ppo_math\n27/85 Test #27: ppo_math .....................................................................................   Passed    1.18 sec\n      Start 28: lineage_r0_r4_completion\n28/85 Test #28: lineage_r0_r4_completion .....................................................................   Passed    0.02 sec\n      Start 29: problem_package_registry\n29/85 Test #29: problem_package_registry .....................................................................   Passed    0.01 sec\n      Start 30: formal_suite_summary_self_test\n30/85 Test #30: formal_suite_summary_self_test ...............................................................   Passed    0.04 sec\n      Start 31: formal_suite_contracts\n31/85 Test #31: formal_suite_contracts .......................................................................   Passed    0.04 sec\n      Start 32: bde_source_replay\n32/85 Test #32: bde_source_replay ............................................................................   Passed    1.12 sec\n      Start 33: rpso_source_problem\n33/85 Test #33: rpso_source_problem ..........................................................................   Passed    1.12 sec\n      Start 34: rlpso_reconstruction\n34/85 Test #34: rlpso_reconstruction .........................................................................   Passed    5.54 sec\n      Start 35: plan004_learning_full_optimizer_artifacts\n35/85 Test #35: plan004_learning_full_optimizer_artifacts ....................................................   Passed   10.91 sec\n      Start 36: gga_generated_asset_validation\n36/85 Test #36: gga_generated_asset_validation ...............................................................   Passed    0.04 sec\n      Start 37: gga_cpp_evaluator_oracle\n37/85 Test #37: gga_cpp_evaluator_oracle .....................................................................   Passed    0.91 sec\n      Start 38: gga_cpp_determinism\n38/85 Test #38: gga_cpp_determinism ..........................................................................   Passed    0.08 sec\n      Start 39: geoga_cpp_declared_reconstruction\n39/85 Test #39: geoga_cpp_declared_reconstruction ............................................................   Passed    0.22 sec\n      Start 40: tmoea_cpp_nysted_reconstruction\n40/85 Test #40: tmoea_cpp_nysted_reconstruction ..............................................................   Passed    1.51 sec\n      Start 41: tmoea_nysted_r4_independent_oracle\n41/85 Test #41: tmoea_nysted_r4_independent_oracle ...........................................................   Passed    1.12 sec\n      Start 42: plan004_tmoea_nysted_r4_numerical_receipt\n42/85 Test #42: plan004_tmoea_nysted_r4_numerical_receipt ....................................................   Passed    1.12 sec\n      Start 43: pbea_cpp_evaluator_oracle\n43/85 Test #43: pbea_cpp_evaluator_oracle ....................................................................   Passed    0.05 sec\n      Start 44: pbea_cpp_determinism\n44/85 Test #44: pbea_cpp_determinism .........................................................................   Passed    0.05 sec\n      Start 45: pbea_cpp_front_artifacts\n45/85 Test #45: pbea_cpp_front_artifacts .....................................................................   Passed    0.07 sec\n      Start 46: ppga_cpp_declared_transfer\n46/85 Test #46: ppga_cpp_declared_transfer ...................................................................   Passed    0.58 sec\n      Start 47: blocked_learning_methods_guard\n47/85 Test #47: blocked_learning_methods_guard ...............................................................   Passed    1.04 sec\n      Start 48: rlfode_seeded_reconstruction\n48/85 Test #48: rlfode_seeded_reconstruction .................................................................   Passed    1.15 sec\n      Start 49: reconstruction_sensitivity_receipts\n49/85 Test #49: reconstruction_sensitivity_receipts ..........................................................   Passed    0.04 sec\n      Start 50: performance_receipts\n50/85 Test #50: performance_receipts .........................................................................   Passed    0.05 sec\n      Start 51: taae_transformer_libtorch_cpu\n51/85 Test #51: taae_transformer_libtorch_cpu ................................................................   Passed    0.39 sec\n      Start 52: alga_attention_libtorch_cpu\n52/85 Test #52: alga_attention_libtorch_cpu ..................................................................   Passed    0.28 sec\n      Start 53: rlpso_ppo_libtorch_cpu\n53/85 Test #53: rlpso_ppo_libtorch_cpu .......................................................................   Passed    0.32 sec\n      Start 54: artifact_optimization_bridge_cpu\n54/85 Test #54: artifact_optimization_bridge_cpu .............................................................   Passed    0.44 sec\n      Start 55: plan004_taae_reference_equivalence\n55/85 Test #55: plan004_taae_reference_equivalence ...........................................................   Passed    0.45 sec\n      Start 56: plan004_alga_reference_equivalence\n56/85 Test #56: plan004_alga_reference_equivalence ...........................................................   Passed    0.29 sec\n      Start 57: plan004_rlpso_reference_equivalence\n57/85 Test #57: plan004_rlpso_reference_equivalence ..........................................................   Passed    0.29 sec\n      Start 58: fode_cpp_hpc_self_check\n58/85 Test #58: fode_cpp_hpc_self_check ......................................................................   Passed    0.02 sec\n      Start 59: scalar_native_evaluator_oracle\n59/85 Test #59: scalar_native_evaluator_oracle ...............................................................   Passed    0.07 sec\n      Start 60: rlpso_transition_fixture\n60/85 Test #60: rlpso_transition_fixture .....................................................................   Passed    0.00 sec\n      Start 61: rlfode_math_fixture\n61/85 Test #61: rlfode_math_fixture ..........................................................................   Passed    0.06 sec\n      Start 62: registry\n62/85 Test #62: registry .....................................................................................   Passed    0.26 sec\n      Start 63: problem_registry\n63/85 Test #63: problem_registry .............................................................................   Passed    0.24 sec\n      Start 64: training_registry\n64/85 Test #64: training_registry ............................................................................   Passed    0.24 sec\n      Start 65: backend_characterization\n65/85 Test #65: backend_characterization .....................................................................   Passed    0.25 sec\n      Start 66: algorithm_problem_compatibility\n66/85 Test #66: algorithm_problem_compatibility ..............................................................   Passed    3.53 sec\n      Start 67: ise_rename_guard\n67/85 Test #67: ise_rename_guard .............................................................................   Passed    0.26 sec\n      Start 68: registered_algorithm_smoke\n68/85 Test #68: registered_algorithm_smoke ...................................................................   Passed    0.54 sec\n      Start 69: fode_alshade_agpso_clshade_ise_wfadde_aiga_ciga_cede_msshade_lsde_cgpso_hgpso_native_smoke\n69/85 Test #69: fode_alshade_agpso_clshade_ise_wfadde_aiga_ciga_cede_msshade_lsde_cgpso_hgpso_native_smoke ...   Passed    3.56 sec\n      Start 70: scalar_paper_comparator_packages\n70/85 Test #70: scalar_paper_comparator_packages .............................................................   Passed   41.31 sec\n      Start 71: scalar_native_transition_replay\n71/85 Test #71: scalar_native_transition_replay ..............................................................   Passed    6.94 sec\n      Start 72: fode_frontend_parity\n72/85 Test #72: fode_frontend_parity .........................................................................   Passed    0.30 sec\n      Start 73: alga_attention_declared_reconstruction\n73/85 Test #73: alga_attention_declared_reconstruction .......................................................   Passed    1.94 sec\n      Start 74: alga_guishan_3d_evaluator_oracle\n74/85 Test #74: alga_guishan_3d_evaluator_oracle .............................................................   Passed    0.04 sec\n      Start 75: taae_problem_fixture\n75/85 Test #75: taae_problem_fixture .........................................................................   Passed    0.01 sec\n      Start 76: taae_transformer_model\n76/85 Test #76: taae_transformer_model .......................................................................   Passed    0.03 sec\n      Start 77: taae_transformer_evolution\n77/85 Test #77: taae_transformer_evolution ...................................................................   Passed    2.56 sec\n      Start 78: ppga_nantong_problem\n78/85 Test #78: ppga_nantong_problem .........................................................................   Passed    0.00 sec\n      Start 79: ppga_nantong_evolution\n79/85 Test #79: ppga_nantong_evolution .......................................................................   Passed    0.04 sec\n      Start 80: bde_ws56_declared_proxy_evolution\n80/85 Test #80: bde_ws56_declared_proxy_evolution ............................................................   Passed    0.02 sec\n      Start 81: geoga_anholt_structured_problem\n81/85 Test #81: geoga_anholt_structured_problem ..............................................................   Passed    0.00 sec\n      Start 82: geoga_anholt_structured_evolution\n82/85 Test #82: geoga_anholt_structured_evolution ............................................................   Passed    0.06 sec\n      Start 83: tmoea_topology_eq16_fixture\n83/85 Test #83: tmoea_topology_eq16_fixture ..................................................................   Passed    0.00 sec\n      Start 84: gga_cpp_help\n84/85 Test #84: gga_cpp_help .................................................................................   Passed    0.00 sec\n      Start 85: pbea_cpp_help\n85/85 Test #85: pbea_cpp_help ................................................................................   Passed    0.00 sec\n\n100% tests passed, 0 tests failed out of 85\n\nTotal Test time (real) = 134.10 sec\n",
+    "output_sha256": "b70075ab843b1551ce8966402211f6aca8b4c80a4bf56e6915b202a8318109de",
+    "return_code": 0
+  },
+  "full_torch_test_count": 85,
+  "host": "spark-9b6f",
+  "original_plan004_h5_receipt": "evidence/development/plan004_h5_independent_reference_receipts_20260730.json",
+  "original_plan004_h5_receipt_sha256": "66fbcfbeec589cd69e9d2e07916a8686a538dcc7cbd322a7641b437401689219",
+  "receipt_id": "plan005_h5_post_thread_topology_revalidation_spark_20260730",
+  "schema_version": 1,
+  "selected_h5_tests": {
+    "plan004_alga_reference_equivalence": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^plan004_alga_reference_equivalence$"
+      ],
+      "measured_wall_seconds": 0.29589287703856826,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 56\n    Start 56: plan004_alga_reference_equivalence\n\n56: Test command: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/hpc/learning_libtorch/plan004_learning_reference_equivalence \"--method\" \"alga\"\n56: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/hpc/learning_libtorch\n56: Test timeout computed to be: 1500\n56: {\"status\":\"pass\",\"method\":\"alga\",\"reference\":\"independent_direct_formula_cpp\",\"does_not_call_candidate\":true,\"named_parameter_count\":5,\"maximum_absolute_error\":0,\"absolute_tolerance_per_tensor\":2.0000000000000001e-10,\"errors\":{\"forward_tensors\":0,\"losses\":0,\"all_named_parameter_gradients\":0,\"one_optimizer_step\":0,\"artifact_reload\":0,\"artifact_driven_transition\":0},\"tolerances\":{\"forward_tensors\":2.0000000000000001e-10,\"losses\":2.0000000000000001e-10,\"all_named_parameter_gradients\":2.0000000000000001e-10,\"one_optimizer_step\":2.0000000000000001e-10,\"artifact_reload\":2.0000000000000001e-10,\"artifact_driven_transition\":2.0000000000000001e-10},\"coverage\":{\"forward_tensors\":\"passed\",\"losses\":\"passed\",\"all_named_parameter_gradients\":\"passed\",\"one_optimizer_step\":\"passed\",\"artifact_reload\":\"passed\",\"artifact_driven_transition\":\"passed\"}}\n1/1 Test #56: plan004_alga_reference_equivalence ...   Passed    0.29 sec\n\nThe following tests passed:\n\tplan004_alga_reference_equivalence\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.29 sec\n",
+      "output_sha256": "b2747f2c4990d9f7af7be5c140d77de65d6b8b70cad2c528ea72aa74b4e44c62",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "absolute_tolerance_per_tensor": 2e-10,
+          "coverage": {
+            "all_named_parameter_gradients": "passed",
+            "artifact_driven_transition": "passed",
+            "artifact_reload": "passed",
+            "forward_tensors": "passed",
+            "losses": "passed",
+            "one_optimizer_step": "passed"
+          },
+          "does_not_call_candidate": true,
+          "errors": {
+            "all_named_parameter_gradients": 0,
+            "artifact_driven_transition": 0,
+            "artifact_reload": 0,
+            "forward_tensors": 0,
+            "losses": 0,
+            "one_optimizer_step": 0
+          },
+          "maximum_absolute_error": 0,
+          "method": "alga",
+          "named_parameter_count": 5,
+          "reference": "independent_direct_formula_cpp",
+          "status": "pass",
+          "tolerances": {
+            "all_named_parameter_gradients": 2e-10,
+            "artifact_driven_transition": 2e-10,
+            "artifact_reload": 2e-10,
+            "forward_tensors": 2e-10,
+            "losses": 2e-10,
+            "one_optimizer_step": 2e-10
+          }
+        }
+      ]
+    },
+    "plan004_artifact_target_optimization": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^plan004_artifact_target_optimization$"
+      ],
+      "measured_wall_seconds": 8.996425625984557,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 13\n    Start 13: plan004_artifact_target_optimization\n\n13: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/test_plan004_learning_target_artifacts.py\" \"--binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/hpc/learning_libtorch/plan004_learning_target_hpc\"\n13: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\n13: Test timeout computed to be: 1500\n13: {\"contract\": \"plan004_artifact_target_optimization_v1\", \"exact_transition_replays\": 6, \"records\": [{\"artifact_bytes\": 20838957, \"artifact_sha256\": \"318a491e5f13af9fc928c38c30a171a7dcafa54c716b2bfd333554337d905c9f\", \"backend\": \"cpu\", \"bridge_checksum\": 3169.9877416, \"method\": \"taae\"}, {\"artifact_bytes\": 13654, \"artifact_sha256\": \"1102f666e1d835174bc11e451c80dd8148e1ecd2bf6a45da3539cffffcd76ba7\", \"backend\": \"cpu\", \"bridge_checksum\": 119600.152755, \"method\": \"alga\"}, {\"artifact_bytes\": 870399, \"artifact_sha256\": \"7243ca09060e782395d13de68e921bf58a5d8cc42a85b87ce709b8a33f122e17\", \"backend\": \"cpu\", \"bridge_checksum\": 39.832, \"method\": \"rlpso\"}, {\"artifact_bytes\": 20842939, \"artifact_sha256\": \"d23ddb01e7da6e77a328481e6daff010bf4329dd00068f727b60e1e4fed0fb97\", \"backend\": \"hybrid\", \"bridge_checksum\": 3169.9877416, \"method\": \"taae\"}, {\"artifact_bytes\": 13808, \"artifact_sha256\": \"b70e9cc5850874260c4aabbe512bec16ebfa2638ece7efca9fa80d89edd83e20\", \"backend\": \"hybrid\", \"bridge_checksum\": 119600.152755, \"method\": \"alga\"}, {\"artifact_bytes\": 870732, \"artifact_sha256\": \"59938d4f07d3014191ca3b00c2537885f3b0bdd7fb4d43b3232aae9c0b39cf09\", \"backend\": \"hybrid\", \"bridge_checksum\": 39.832, \"method\": \"rlpso\"}], \"status\": \"pass\", \"timing_fields\": [\"backward\", \"corpus\", \"forward\", \"gradient_aggregation\", \"inference\", \"loss\", \"optimization_loop\", \"optimizer\", \"serialization\", \"transfer\"]}\n1/1 Test #13: plan004_artifact_target_optimization ...   Passed    8.99 sec\n\nThe following tests passed:\n\tplan004_artifact_target_optimization\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   8.99 sec\n",
+      "output_sha256": "232da02542eec2f5a9584b7776f500b57ac51b5d45c682e7d85f6f8b433d9e82",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "contract": "plan004_artifact_target_optimization_v1",
+          "exact_transition_replays": 6,
+          "records": [
+            {
+              "artifact_bytes": 20838957,
+              "artifact_sha256": "318a491e5f13af9fc928c38c30a171a7dcafa54c716b2bfd333554337d905c9f",
+              "backend": "cpu",
+              "bridge_checksum": 3169.9877416,
+              "method": "taae"
+            },
+            {
+              "artifact_bytes": 13654,
+              "artifact_sha256": "1102f666e1d835174bc11e451c80dd8148e1ecd2bf6a45da3539cffffcd76ba7",
+              "backend": "cpu",
+              "bridge_checksum": 119600.152755,
+              "method": "alga"
+            },
+            {
+              "artifact_bytes": 870399,
+              "artifact_sha256": "7243ca09060e782395d13de68e921bf58a5d8cc42a85b87ce709b8a33f122e17",
+              "backend": "cpu",
+              "bridge_checksum": 39.832,
+              "method": "rlpso"
+            },
+            {
+              "artifact_bytes": 20842939,
+              "artifact_sha256": "d23ddb01e7da6e77a328481e6daff010bf4329dd00068f727b60e1e4fed0fb97",
+              "backend": "hybrid",
+              "bridge_checksum": 3169.9877416,
+              "method": "taae"
+            },
+            {
+              "artifact_bytes": 13808,
+              "artifact_sha256": "b70e9cc5850874260c4aabbe512bec16ebfa2638ece7efca9fa80d89edd83e20",
+              "backend": "hybrid",
+              "bridge_checksum": 119600.152755,
+              "method": "alga"
+            },
+            {
+              "artifact_bytes": 870732,
+              "artifact_sha256": "59938d4f07d3014191ca3b00c2537885f3b0bdd7fb4d43b3232aae9c0b39cf09",
+              "backend": "hybrid",
+              "bridge_checksum": 39.832,
+              "method": "rlpso"
+            }
+          ],
+          "status": "pass",
+          "timing_fields": [
+            "backward",
+            "corpus",
+            "forward",
+            "gradient_aggregation",
+            "inference",
+            "loss",
+            "optimization_loop",
+            "optimizer",
+            "serialization",
+            "transfer"
+          ]
+        }
+      ]
+    },
+    "plan004_learning_backend_matrix": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^plan004_learning_backend_matrix$"
+      ],
+      "measured_wall_seconds": 8.688692298950627,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 12\n    Start 12: plan004_learning_backend_matrix\n\n12: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/test_plan004_learning_backends.py\" \"--binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/hpc/learning_libtorch/plan004_learning_models_test\"\n12: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\n12: Test timeout computed to be: 1500\n12: {\"backend_count\": 3, \"contract\": \"plan004_faithful_learning_backend_matrix_v1\", \"cuda_exercised\": true, \"execution_count\": 9, \"hybrid_pinned_async_exercised\": true, \"status\": \"pass\", \"target_optimization_bridges\": 3}\n1/1 Test #12: plan004_learning_backend_matrix ...   Passed    8.68 sec\n\nThe following tests passed:\n\tplan004_learning_backend_matrix\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   8.68 sec\n",
+      "output_sha256": "a7ab1ebc1bba1d79e9610aa20f0df0e957e97f4d0afdcffc73bb8cb4903f5584",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "backend_count": 3,
+          "contract": "plan004_faithful_learning_backend_matrix_v1",
+          "cuda_exercised": true,
+          "execution_count": 9,
+          "hybrid_pinned_async_exercised": true,
+          "status": "pass",
+          "target_optimization_bridges": 3
+        }
+      ]
+    },
+    "plan004_learning_full_optimizer_artifacts": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^plan004_learning_full_optimizer_artifacts$"
+      ],
+      "measured_wall_seconds": 10.869235360994935,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 35\n    Start 35: plan004_learning_full_optimizer_artifacts\n\n35: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/test_plan004_learning_full_optimizers.py\" \"--trainer\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/hpc/learning_libtorch/plan004_learning_target_hpc\" \"--taae-binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/hpc/taae_cpp/taae_evolution_hpc\" \"--wflop-binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/hpc/wflop_cpp/wflop_cpp_hpc\" \"--taae-cases\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json\" \"--alga-cases\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/shared/contracts/alga_guishan_3d_declared_proxy_cases.json\" \"--rlpso-cases\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/.source-cache/generated/rpso_source_problem/benchmark_cases.json\"\n35: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\n35: Test timeout computed to be: 1500\n35: {\"different_artifact_changes_learned_decision\": true, \"exact_physical_fes\": {\"alga\": 35, \"rlpso\": 150, \"taae\": 103}, \"methods\": 3, \"native_evaluator\": true, \"random_event_ownership\": \"optimizer-owned seeded events replay exactly; artifact identity is varied independently\", \"same_artifact_seed_replay\": \"exact\", \"status\": \"pass\", \"terminal_partial_work\": true}\n1/1 Test #35: plan004_learning_full_optimizer_artifacts ...   Passed   10.86 sec\n\nThe following tests passed:\n\tplan004_learning_full_optimizer_artifacts\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =  10.86 sec\n",
+      "output_sha256": "f69821c48251ccf3c1cf85602ff77e9ea9ce45563c366754208bb7664a821b21",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "different_artifact_changes_learned_decision": true,
+          "exact_physical_fes": {
+            "alga": 35,
+            "rlpso": 150,
+            "taae": 103
+          },
+          "methods": 3,
+          "native_evaluator": true,
+          "random_event_ownership": "optimizer-owned seeded events replay exactly; artifact identity is varied independently",
+          "same_artifact_seed_replay": "exact",
+          "status": "pass",
+          "terminal_partial_work": true
+        }
+      ]
+    },
+    "plan004_rlpso_reference_equivalence": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^plan004_rlpso_reference_equivalence$"
+      ],
+      "measured_wall_seconds": 0.31691531790420413,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 57\n    Start 57: plan004_rlpso_reference_equivalence\n\n57: Test command: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/hpc/learning_libtorch/plan004_learning_reference_equivalence \"--method\" \"rlpso\"\n57: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/hpc/learning_libtorch\n57: Test timeout computed to be: 1500\n57: {\"status\":\"pass\",\"method\":\"rlpso\",\"reference\":\"independent_direct_formula_cpp\",\"does_not_call_candidate\":true,\"named_parameter_count\":12,\"maximum_absolute_error\":5.2735593669694936e-16,\"absolute_tolerance_per_tensor\":2.0000000000000001e-10,\"errors\":{\"forward_tensors\":5.2735593669694936e-16,\"losses\":5.5511151231257827e-17,\"all_named_parameter_gradients\":4.9960036108132044e-16,\"one_optimizer_step\":1.1102230246251565e-16,\"artifact_reload\":0,\"artifact_driven_transition\":0},\"tolerances\":{\"forward_tensors\":2.0000000000000001e-10,\"losses\":2.0000000000000001e-10,\"all_named_parameter_gradients\":2.0000000000000001e-10,\"one_optimizer_step\":2.0000000000000001e-10,\"artifact_reload\":2.0000000000000001e-10,\"artifact_driven_transition\":2.0000000000000001e-10},\"coverage\":{\"forward_tensors\":\"passed\",\"losses\":\"passed\",\"all_named_parameter_gradients\":\"passed\",\"one_optimizer_step\":\"passed\",\"artifact_reload\":\"passed\",\"artifact_driven_transition\":\"passed\"}}\n1/1 Test #57: plan004_rlpso_reference_equivalence ...   Passed    0.30 sec\n\nThe following tests passed:\n\tplan004_rlpso_reference_equivalence\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.31 sec\n",
+      "output_sha256": "fc4bea63de5b31e6856162d08b1c676c9b4a97dedbdf503274ce8d1d47300021",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "absolute_tolerance_per_tensor": 2e-10,
+          "coverage": {
+            "all_named_parameter_gradients": "passed",
+            "artifact_driven_transition": "passed",
+            "artifact_reload": "passed",
+            "forward_tensors": "passed",
+            "losses": "passed",
+            "one_optimizer_step": "passed"
+          },
+          "does_not_call_candidate": true,
+          "errors": {
+            "all_named_parameter_gradients": 4.996003610813204e-16,
+            "artifact_driven_transition": 0,
+            "artifact_reload": 0,
+            "forward_tensors": 5.273559366969494e-16,
+            "losses": 5.551115123125783e-17,
+            "one_optimizer_step": 1.1102230246251565e-16
+          },
+          "maximum_absolute_error": 5.273559366969494e-16,
+          "method": "rlpso",
+          "named_parameter_count": 12,
+          "reference": "independent_direct_formula_cpp",
+          "status": "pass",
+          "tolerances": {
+            "all_named_parameter_gradients": 2e-10,
+            "artifact_driven_transition": 2e-10,
+            "artifact_reload": 2e-10,
+            "forward_tensors": 2e-10,
+            "losses": 2e-10,
+            "one_optimizer_step": 2e-10
+          }
+        }
+      ]
+    },
+    "plan004_taae_reference_equivalence": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^plan004_taae_reference_equivalence$"
+      ],
+      "measured_wall_seconds": 0.4756519329966977,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 55\n    Start 55: plan004_taae_reference_equivalence\n\n55: Test command: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/hpc/learning_libtorch/plan004_learning_reference_equivalence \"--method\" \"taae\"\n55: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan005-torch/hpc/learning_libtorch\n55: Test timeout computed to be: 1500\n55: {\"status\":\"pass\",\"method\":\"taae\",\"reference\":\"independent_direct_formula_cpp\",\"does_not_call_candidate\":true,\"named_parameter_count\":195,\"maximum_absolute_error\":2.4719809501655261e-12,\"absolute_tolerance_per_tensor\":2.0000000000000001e-09,\"errors\":{\"forward_tensors\":2.248201624865942e-15,\"losses\":3.5527136788005009e-15,\"all_named_parameter_gradients\":3.1641356201816961e-15,\"one_optimizer_step\":2.4719809501655261e-12,\"artifact_reload\":0,\"artifact_driven_transition\":0},\"tolerances\":{\"forward_tensors\":2.0000000000000001e-09,\"losses\":2.0000000000000001e-09,\"all_named_parameter_gradients\":2.0000000000000001e-09,\"one_optimizer_step\":2.0000000000000001e-09,\"artifact_reload\":2.0000000000000001e-09,\"artifact_driven_transition\":2.0000000000000001e-09},\"coverage\":{\"forward_tensors\":\"passed\",\"losses\":\"passed\",\"all_named_parameter_gradients\":\"passed\",\"one_optimizer_step\":\"passed\",\"artifact_reload\":\"passed\",\"artifact_driven_transition\":\"passed\"}}\n1/1 Test #55: plan004_taae_reference_equivalence ...   Passed    0.47 sec\n\nThe following tests passed:\n\tplan004_taae_reference_equivalence\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.47 sec\n",
+      "output_sha256": "905d4aa7e73f71b0157244b6a51a0985aec06e19bbc08bc7d1b5a67bbb5ad175",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "absolute_tolerance_per_tensor": 2e-09,
+          "coverage": {
+            "all_named_parameter_gradients": "passed",
+            "artifact_driven_transition": "passed",
+            "artifact_reload": "passed",
+            "forward_tensors": "passed",
+            "losses": "passed",
+            "one_optimizer_step": "passed"
+          },
+          "does_not_call_candidate": true,
+          "errors": {
+            "all_named_parameter_gradients": 3.164135620181696e-15,
+            "artifact_driven_transition": 0,
+            "artifact_reload": 0,
+            "forward_tensors": 2.248201624865942e-15,
+            "losses": 3.552713678800501e-15,
+            "one_optimizer_step": 2.471980950165526e-12
+          },
+          "maximum_absolute_error": 2.471980950165526e-12,
+          "method": "taae",
+          "named_parameter_count": 195,
+          "reference": "independent_direct_formula_cpp",
+          "status": "pass",
+          "tolerances": {
+            "all_named_parameter_gradients": 2e-09,
+            "artifact_driven_transition": 2e-09,
+            "artifact_reload": 2e-09,
+            "forward_tensors": 2e-09,
+            "losses": 2e-09,
+            "one_optimizer_step": 2e-09
+          }
+        }
+      ]
+    }
+  },
+  "source_commit": "1cae96d51674cdc276045c4859531376d00fc266",
+  "status": "accepted_h5_revalidated_after_nonsemantic_thread_control",
+  "thread_topology_contract": {
+    "bounded_h5_observed_topology": {
+      "outer_workers": 1,
+      "torch_interop_threads": 1,
+      "torch_intraop_threads": 1
+    },
+    "explicit_outer_workers": true,
+    "explicit_torch_interop_threads": true,
+    "explicit_torch_intraop_threads": true
+  }
+}
