@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "example_id": "fqfode_reference_only_v1",
+  "references_only": true,
+  "contains_restricted_data": false,
+  "contains_third_party_source": false,
+  "profile_id": "fqfode_seeded_training_declared_reconstruction_v1__fode_e0_common",
+  "algorithm_id": "fqfode_seeded_training_declared_reconstruction_v1",
+  "method_semantics_id": "fqfode_seeded_training_declared_reconstruction_v1",
+  "problem_id": "fode_e0_common",
+  "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+  "method_evidence_tier": "M3_DECLARED_COMPLETION",
+  "problem_evidence_tier": "P0_AUTHOR_ASSET",
+  "doi": "10.3390/math13182935",
+  "project_references": [
+    {"path": "shared/contracts/fqfode_seeded_training_reconstruction_contract.json", "id": "fqfode_seeded_training_declared_reconstruction_v1", "sha256": "311eb093b6375433f8f6f7de36aa4b38aa6474c6212acbfb913e396ea29d2598"},
+    {"path": "shared/contracts/benchmark_contract.json", "id": "FODE-E0-L", "sha256": "d45f497d2019709070b73e5e3a561a039b7ef703cc246be013b8fdc8582619f2"},
+    {"path": "shared/contracts/executable_profile_evidence.json", "id": "wflop_executable_profile_evidence_v1", "sha256": "8d238dd7cb5a91386345dd379119e35cb3acf046533a2ade20cfe8590c261960"},
+    {"path": "docs/source-dossiers/S04.json", "id": "S04", "sha256": "6ff22b23ec7745a8854218d228d183cc11eed11256514510e1ce840fe0010e8a"},
+    {"path": "formal/contracts/declared_fode_common_reconstructions_v1.json", "id": "declared_fode_common_reconstructions_v1", "sha256": "859f0f2445359d15885adb0cf48c00a3f3d4d23f72983ba4920d3534df6eeb0b"}
+  ],
+  "learned_state_reference": {
+    "training_seed_manifest_id": "fqfode_seed_manifest_20250911_v1",
+    "checkpoint_hash": "fnv1a64:8c082977549728f3",
+    "artifact_sha256": "9d047125f775a940a4c80eff50fa622c30be20b5b3cfcd55aa74f0ff614ba126",
+    "offline_training_physical_fes": 39700,
+    "formal_inference_physical_fes_per_run": 24000
+  },
+  "claim_boundary": "Metadata reference to an existing declared reconstruction; no paper PDF, author asset, learned-state bytes, third-party source, or result is copied into this template."
+}

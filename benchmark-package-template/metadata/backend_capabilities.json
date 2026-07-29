@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "capability_id": "REQUIRED_BACKEND_CAPABILITY_ID",
+  "backends": {
+    "cpu": {
+      "supported": true,
+      "status": "pure_cpp_cpu",
+      "work_partition": "REQUIRED_SAFE_PARALLEL_STAGES",
+      "ordered_stages": ["REQUIRED_ORDERED_STAGE"]
+    },
+    "hybrid": {
+      "supported": false,
+      "status": "fails_closed",
+      "admission_requirements": ["semantic equivalence", "deterministic transfer/order contract", "device receipt", "scaling evidence"]
+    },
+    "gpu": {
+      "supported": false,
+      "status": "fails_closed",
+      "admission_requirements": ["semantic equivalence", "deterministic kernel/reduction contract", "device receipt", "scaling evidence"]
+    },
+    "auto": {
+      "supported": true,
+      "status": "resolves_to_cpu_until_an_accelerator_backend_is_admitted"
+    }
+  },
+  "fail_closed_rule": "A requested unsupported backend returns a nonzero status before optimization and cannot silently fall back.",
+  "cpu_only_formal_runs_are_valid": true
+}

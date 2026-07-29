@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "log_id": "REQUIRED_QUERY_LOG_ID",
+  "search_scope": "Complete five-rank authority ladder before any reconstruction decision.",
+  "entries": [
+    {"query_id": "REQUIRED_QUERY_ID_R1", "authority_rank": 1, "authority": "paper_and_supplement", "query": "REQUIRED_QUERY", "url": "REQUIRED_URL", "searched_at_utc": "REQUIRED_ISO_8601", "status": "REQUIRED_SEARCHED_FOUND_OR_NOT_FOUND", "immutable_receipt": {"kind": "REQUIRED_HTTP_HASH_DOI_OR_ARCHIVE", "value": "REQUIRED_VALUE", "sha256": "REQUIRED_SHA256_OR_NOT_APPLICABLE"}},
+    {"query_id": "REQUIRED_QUERY_ID_R2", "authority_rank": 2, "authority": "author_repository_release_and_project_page", "query": "REQUIRED_QUERY", "url": "REQUIRED_URL", "searched_at_utc": "REQUIRED_ISO_8601", "status": "REQUIRED_SEARCHED_FOUND_OR_NOT_FOUND", "immutable_receipt": {"kind": "REQUIRED_HTTP_HASH_DOI_OR_ARCHIVE", "value": "REQUIRED_VALUE", "sha256": "REQUIRED_SHA256_OR_NOT_APPLICABLE"}},
+    {"query_id": "REQUIRED_QUERY_ID_R3", "authority_rank": 3, "authority": "publisher_and_data_repository", "query": "REQUIRED_QUERY", "url": "REQUIRED_URL", "searched_at_utc": "REQUIRED_ISO_8601", "status": "REQUIRED_SEARCHED_FOUND_OR_NOT_FOUND", "immutable_receipt": {"kind": "REQUIRED_HTTP_HASH_DOI_OR_ARCHIVE", "value": "REQUIRED_VALUE", "sha256": "REQUIRED_SHA256_OR_NOT_APPLICABLE"}},
+    {"query_id": "REQUIRED_QUERY_ID_R4", "authority_rank": 4, "authority": "explicitly_cited_implementation", "query": "REQUIRED_QUERY", "url": "REQUIRED_URL", "searched_at_utc": "REQUIRED_ISO_8601", "status": "REQUIRED_SEARCHED_FOUND_OR_NOT_FOUND", "immutable_receipt": {"kind": "REQUIRED_HTTP_HASH_DOI_OR_ARCHIVE", "value": "REQUIRED_VALUE", "sha256": "REQUIRED_SHA256_OR_NOT_APPLICABLE"}},
+    {"query_id": "REQUIRED_QUERY_ID_R5", "authority_rank": 5, "authority": "same_author_predecessor", "query": "REQUIRED_QUERY", "url": "REQUIRED_URL", "searched_at_utc": "REQUIRED_ISO_8601", "status": "REQUIRED_SEARCHED_FOUND_OR_NOT_FOUND", "immutable_receipt": {"kind": "REQUIRED_HTTP_HASH_DOI_OR_ARCHIVE", "value": "REQUIRED_VALUE", "sha256": "REQUIRED_SHA256_OR_NOT_APPLICABLE"}}
+  ],
+  "bounded_negative_statement": "Only fields absent from every logged authority rank may enter the decision ledger."
+}

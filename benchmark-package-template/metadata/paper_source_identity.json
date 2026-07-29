@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "package_id": "REQUIRED_PACKAGE_ID",
+  "profile_id": "REQUIRED_ALGORITHM_ID__REQUIRED_PROBLEM_ID",
+  "paper": {
+    "corpus_id": "REQUIRED_CORPUS_ID",
+    "doi": "REQUIRED_DOI",
+    "title": "REQUIRED_TITLE",
+    "authors": ["REQUIRED_AUTHOR"],
+    "publisher_landing_url": "REQUIRED_URL",
+    "pdf_sha256": "REQUIRED_SHA256_OR_EXPLICITLY_UNAVAILABLE",
+    "supplement_sha256": "REQUIRED_SHA256_OR_EXPLICITLY_NOT_PUBLISHED"
+  },
+  "source": {
+    "author_repository_url": "REQUIRED_URL_OR_EXPLICITLY_NOT_FOUND",
+    "immutable_revision": "REQUIRED_COMMIT_TAG_OR_EXPLICITLY_NOT_FOUND",
+    "tree_or_archive_sha256": "REQUIRED_SHA256_OR_EXPLICITLY_NOT_FOUND",
+    "license_identifier": "REQUIRED_LICENSE_OR_NO_LICENSE_FOUND",
+    "redistribution_allowed": false,
+    "source_use_boundary": "REQUIRED_ORACLE_REIMPLEMENTATION_OR_REDISTRIBUTION_BOUNDARY"
+  },
+  "identity_status": "template_unresolved",
+  "claim_boundary": "REQUIRED_EXACT_CLAIM_BOUNDARY"
+}

@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "contract_id": "REQUIRED_RANDOM_EVENT_CONTRACT_ID",
+  "master_seed_type": "unsigned 64-bit integer",
+  "generator": "counter-keyed deterministic SplitMix64-derived stream",
+  "event_key": ["master_seed", "semantic_profile_hash", "case_hash", "stage_id", "generation_or_iteration", "individual_index", "operator_id", "draw_index"],
+  "schedule_independence": true,
+  "rules": [
+    "A random event receives one immutable logical key before parallel execution.",
+    "Thread identifier, scheduling order, wall clock, process identifier, and container address never enter a key.",
+    "Rejected proposals consume only their explicitly registered event keys.",
+    "Changing worker count preserves every scientific output field and event receipt."
+  ],
+  "ordered_reductions": ["REQUIRED_TIE_BREAK", "REQUIRED_SELECTION_ORDER", "REQUIRED_HASH_SERIALIZATION_ORDER"],
+  "required_receipts": ["master seed", "event-contract ID", "event counts by operator", "scientific output hash", "worker count"],
+  "worker_equivalence_set": [1, "all_visible_workers"],
+  "prohibited_sources": ["std::random_device", "time", "thread id", "process id", "shared mutable RNG engine"]
+}

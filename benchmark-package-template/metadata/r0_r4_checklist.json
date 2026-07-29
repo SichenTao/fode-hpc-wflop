@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "package_id": "REQUIRED_PACKAGE_ID",
+  "gates": {
+    "R0": {
+      "name": "identity",
+      "required_outputs": ["DOI, title, authors, full-text status", "source status, license, immutable revisions, hashes"],
+      "blocking_condition": "paper or source identity unresolved",
+      "status": "template_unresolved",
+      "evidence_paths": ["metadata/paper_source_identity.json", "metadata/source_search_evidence.json"]
+    },
+    "R1": {
+      "name": "problem",
+      "required_outputs": ["decision variables", "objective and sense", "constraints and repair", "wake and turbine models", "wind sampling/aggregation", "exact physical-FES unit", "problem semantic ID", "scalar oracle and fixed-layout fixture"],
+      "blocking_condition": "any input that changes feasibility or objective remains implicit",
+      "status": "template_unresolved",
+      "evidence_paths": ["metadata/problem_physical_fes_contract.json", "fixtures/scalar_oracle.json", "fixtures/fixed_layout_fixture.json"]
+    },
+    "R2": {
+      "name": "algorithm",
+      "required_outputs": ["equations and parameters", "state-transition order", "random-event contract", "learned-state receipt or explicit not-applicable state", "method semantic ID", "decision ledger and sensitivities"],
+      "blocking_condition": "method identity or learned-state lifecycle remains ambiguous",
+      "status": "template_unresolved",
+      "evidence_paths": ["metadata/uncertainty_decision_ledger.json", "metadata/learned_state_training_contract.json", "metadata/deterministic_random_event_contract.json"]
+    },
+    "R3": {
+      "name": "bounded_reproduction",
+      "required_outputs": ["pure C++ executable", "algorithm/problem registry entries", "bounded deterministic reference run", "oracle and semantic tests", "claim boundary"],
+      "blocking_condition": "implementation is not executable or scalar/transition fixtures fail",
+      "status": "template_unresolved",
+      "evidence_paths": ["cpp/", "metadata/claim_boundary_non_pooling.json"]
+    },
+    "R4": {
+      "name": "hpc_admission",
+      "required_outputs": ["safe parallel-stage analysis", "backend capability map", "worker-equivalence receipt", "scaling receipt", "exact-work formal campaign contract"],
+      "blocking_condition": "semantic equivalence, exact physical work, or scaling evidence fails",
+      "status": "template_unresolved",
+      "evidence_paths": ["metadata/backend_capabilities.json", "cpp/tests/scaling_test.cpp", "cpp/tests/formal_campaign_test.cpp"]
+    }
+  },
+  "formal_admission_rule": "R0 through R4 must pass for the exact method/problem semantic pair; compilation alone never admits a campaign."
+}

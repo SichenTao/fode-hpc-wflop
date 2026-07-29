@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "package_id": "REQUIRED_PACKAGE_ID",
+  "applies": "REQUIRED_TRUE_OR_FALSE",
+  "not_applicable_reason": "REQUIRED_IF_APPLIES_FALSE",
+  "training_data_or_generator_id": "REQUIRED_ID_OR_NOT_APPLICABLE",
+  "training_data_semantic_id": "REQUIRED_ID_OR_NOT_APPLICABLE",
+  "initialization": "REQUIRED_RULE_OR_NOT_APPLICABLE",
+  "optimizer": "REQUIRED_OPTIMIZER_OR_NOT_APPLICABLE",
+  "epochs_or_steps": "REQUIRED_EXACT_WORK_OR_NOT_APPLICABLE",
+  "random_seeds": {
+    "namespace": "training/REQUIRED_PACKAGE_ID",
+    "values_or_manifest": "REQUIRED_VALUES_MANIFEST_OR_NOT_APPLICABLE",
+    "disjoint_from_optimization_namespace": true
+  },
+  "checkpoint": {
+    "required": "REQUIRED_TRUE_OR_FALSE",
+    "path": "REQUIRED_RELATIVE_PATH_OR_NOT_APPLICABLE",
+    "sha256": "REQUIRED_SHA256_OR_NOT_APPLICABLE",
+    "metadata_hash": "REQUIRED_HASH_OR_NOT_APPLICABLE",
+    "author_checkpoint": false
+  },
+  "training_work": {
+    "compute_unit": "REQUIRED_FORWARD_BACKWARD_UPDATE_OR_NOT_APPLICABLE",
+    "compute_count": "REQUIRED_INTEGER_OR_FORMULA",
+    "training_physical_fes": "REQUIRED_INTEGER_OR_RUNTIME_LEDGER",
+    "inference_physical_fes": "REQUIRED_INTEGER_OR_RUNTIME_LEDGER",
+    "total_physical_fes_equation": "REQUIRED_EXACT_EQUATION",
+    "offline_training_is_separate_from_inference_budget": "REQUIRED_TRUE_OR_FALSE",
+    "online_evaluator_calls_count_inside_run_total": "REQUIRED_TRUE_OR_FALSE"
+  },
+  "learned_state_origin": "REQUIRED_AUTHOR_PAPER_DERIVED_DECLARED_OR_NOT_APPLICABLE",
+  "required_run_receipts": ["training seed", "training work", "training physical FES", "inference physical FES", "model/checkpoint hash"],
+  "claim_boundary": "REQUIRED_LEARNED_STATE_CLAIM_BOUNDARY"
+}

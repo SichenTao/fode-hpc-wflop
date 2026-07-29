@@ -1,0 +1,61 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "wflop_method_problem_evidence_tiers_v1",
+  "title": "WFLOP method and problem evidence tiers",
+  "type": "object",
+  "method_evidence_tiers": {
+    "M0_AUTHOR_SOURCE": "Author-released executable source and, where applicable, author-released learned state.",
+    "M1_PAPER_COMPLETE": "A clean-room implementation uniquely specified by the paper and supplement.",
+    "M2_CITATION_PREDECESSOR": "Missing choices are completed from explicitly cited methods, author-linked predecessor code, or documented direct lineage.",
+    "M3_DECLARED_COMPLETION": "Remaining choices are completed by registered engineering decisions with alternatives and sensitivity obligations.",
+    "M4_FORMULA_FIXTURE": "Equation or operator fixtures only; no optimization-quality or original-method claim."
+  },
+  "problem_evidence_tiers": {
+    "P0_AUTHOR_ASSET": "Author-released machine-readable case assets.",
+    "P1_PAPER_COMPLETE": "The paper and supplement uniquely define every numerical input affecting objective or feasibility.",
+    "P2_CITATION_SAME_AUTHOR": "Cited, predecessor, or same-author problem-family assets under a distinct semantic identifier.",
+    "P3_DECLARED_PROXY": "A documented external or synthetic problem carrying the required mathematical structure.",
+    "P4_FORMULA_FIXTURE": "Scalar or unit fixtures only; no optimization-quality claim."
+  },
+  "properties": {
+    "profile_id": {"type": "string", "minLength": 1},
+    "algorithm_id": {"type": "string", "minLength": 1},
+    "method_semantics_id": {"type": "string", "minLength": 1},
+    "problem_id": {"type": "string", "minLength": 1},
+    "problem_semantics_id": {"type": "string", "minLength": 1},
+    "method_evidence_tier": {
+      "enum": ["M0_AUTHOR_SOURCE", "M1_PAPER_COMPLETE", "M2_CITATION_PREDECESSOR", "M3_DECLARED_COMPLETION", "M4_FORMULA_FIXTURE"]
+    },
+    "problem_evidence_tier": {
+      "enum": ["P0_AUTHOR_ASSET", "P1_PAPER_COMPLETE", "P2_CITATION_SAME_AUTHOR", "P3_DECLARED_PROXY", "P4_FORMULA_FIXTURE"]
+    },
+    "claim_boundary": {"type": "string", "minLength": 1},
+    "execution_modes": {
+      "type": "object",
+      "required": ["cpu", "hybrid", "gpu", "auto"]
+    }
+  },
+  "required": [
+    "profile_id",
+    "algorithm_id",
+    "method_semantics_id",
+    "problem_id",
+    "problem_semantics_id",
+    "method_evidence_tier",
+    "problem_evidence_tier",
+    "claim_boundary",
+    "execution_modes"
+  ],
+  "required_profile_fields": [
+    "profile_id",
+    "algorithm_id",
+    "method_semantics_id",
+    "problem_id",
+    "problem_semantics_id",
+    "method_evidence_tier",
+    "problem_evidence_tier",
+    "claim_boundary",
+    "execution_modes"
+  ],
+  "admission_rule": "M and P tiers are independent. A higher method tier cannot upgrade a weaker problem tier, and vice versa."
+}

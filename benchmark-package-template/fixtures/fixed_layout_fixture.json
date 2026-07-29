@@ -1,0 +1,13 @@
+{
+  "schema_version": 1,
+  "fixture_id": "REQUIRED_FIXED_LAYOUT_FIXTURE_ID",
+  "problem_semantics_id": "REQUIRED_PROBLEM_SEMANTICS_ID",
+  "case_id": "REQUIRED_CASE_ID",
+  "case_semantic_hash": "REQUIRED_HASH",
+  "layout_encoding": "REQUIRED_ENCODING",
+  "layout": ["REQUIRED_LAYOUT_VALUE"],
+  "feasible": "REQUIRED_TRUE_OR_FALSE",
+  "expected_constraint_values": ["REQUIRED_HIGH_PRECISION_VALUE"],
+  "source": "REQUIRED_PAPER_SOURCE_OR_DECLARED_FIXTURE",
+  "claim_boundary": "This fixture validates one frozen layout only and does not establish optimization quality."
+}

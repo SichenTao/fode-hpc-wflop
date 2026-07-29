@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "package_id": "REQUIRED_PACKAGE_ID",
+  "rule": "Only fields still absent after the complete recorded authority search may appear here.",
+  "decisions": [
+    {
+      "decision_id": "REQUIRED_DECISION_ID",
+      "field": "REQUIRED_MISSING_FIELD",
+      "completed_transition": "REQUIRED_STATE_TRANSITION_AFFECTED",
+      "selected_value_or_rule": "REQUIRED_SELECTED_COMPLETION",
+      "authority_type": "REQUIRED_M2_OR_M3_AUTHORITY",
+      "immutable_authority": ["REQUIRED_RELATIVE_PATH_OR_DOI_LOCATION"],
+      "rejected_alternatives": ["REQUIRED_ALTERNATIVE_AND_REASON"],
+      "expected_downstream_effect": "REQUIRED_EFFECT_ON_TRAJECTORY_OBJECTIVE_OR_FEASIBILITY",
+      "sensitivity_test_required": true,
+      "sensitivity_profile_id": "REQUIRED_DISTINCT_SENSITIVITY_ID",
+      "adjudication_status": "template_unresolved"
+    }
+  ],
+  "semantic_identity_rule": "A decision that changes objective, feasible set, state transition, learned state, or physical-FES mapping creates a distinct semantic identifier.",
+  "silent_defaults_forbidden": true
+}

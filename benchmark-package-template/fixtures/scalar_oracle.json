@@ -1,0 +1,19 @@
+{
+  "schema_version": 1,
+  "oracle_id": "REQUIRED_SCALAR_ORACLE_ID",
+  "fixture_id": "REQUIRED_FIXED_LAYOUT_FIXTURE_ID",
+  "problem_semantics_id": "REQUIRED_PROBLEM_SEMANTICS_ID",
+  "oracle_authority": "REQUIRED_INDEPENDENT_EQUATION_SCRIPT_OR_AUTHOR_VALUE",
+  "oracle_implementation_independent_from_cpp": true,
+  "expected_outputs": [
+    {
+      "name": "REQUIRED_OBJECTIVE_OR_INTERMEDIATE",
+      "value": "REQUIRED_FULL_PRECISION_VALUE",
+      "unit": "REQUIRED_UNIT",
+      "absolute_tolerance": "REQUIRED_TOLERANCE",
+      "relative_tolerance": "REQUIRED_TOLERANCE"
+    }
+  ],
+  "oracle_source_sha256": "REQUIRED_SHA256",
+  "claim_boundary": "Scalar fixture evidence only; no optimizer trajectory, distributional result, or original paper reproduction claim."
+}

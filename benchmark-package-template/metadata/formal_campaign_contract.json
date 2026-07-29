@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "campaign_id": "REQUIRED_CAMPAIGN_ID",
+  "suite_id": "REQUIRED_SUITE_ID",
+  "status": "contract_frozen_not_launched",
+  "source": {
+    "commit": "REQUIRED_FULL_COMMIT",
+    "clean_worktree_required": true
+  },
+  "environment": {
+    "hostname": "REQUIRED_HOST",
+    "architecture": "REQUIRED_ARCH",
+    "operating_system": "REQUIRED_OS",
+    "cpu_model": "REQUIRED_CPU",
+    "visible_logical_cpus": "REQUIRED_POSITIVE_INTEGER",
+    "compiler": "REQUIRED_COMPILER_AND_VERSION",
+    "build_type": "Release",
+    "compiler_flags": ["REQUIRED_FLAG"],
+    "libraries": [{"name": "REQUIRED_LIBRARY", "path": "REQUIRED_PATH", "sha256": "REQUIRED_SHA256"}]
+  },
+  "binary": {
+    "target": "benchmark_package_runner",
+    "relative_build_path": "benchmark_package_runner",
+    "sha256": "REQUIRED_SHA256"
+  },
+  "execution": {
+    "backend": "cpu",
+    "workers": "REQUIRED_POSITIVE_INTEGER",
+    "processes_at_once": 1,
+    "cpu_work_partition": "REQUIRED_SAFE_PARALLEL_STAGES",
+    "gpu_used": false
+  },
+  "profile": {
+    "profile_id": "REQUIRED_PROFILE_ID",
+    "method_semantics_id": "REQUIRED_METHOD_SEMANTICS_ID",
+    "problem_semantics_id": "REQUIRED_PROBLEM_SEMANTICS_ID",
+    "method_evidence_tier": "REQUIRED_M0_TO_M4",
+    "problem_evidence_tier": "REQUIRED_P0_TO_P4",
+    "claim_boundary": "REQUIRED_EXACT_CLAIM_BOUNDARY"
+  },
+  "work": {
+    "training_seed_namespace": "training/REQUIRED_PACKAGE_ID",
+    "optimization_seed_namespace": "optimization/REQUIRED_PACKAGE_ID",
+    "namespaces_disjoint": true,
+    "training_physical_fes": "REQUIRED_INTEGER_OR_RUNTIME_LEDGER",
+    "inference_physical_fes": "REQUIRED_INTEGER_OR_RUNTIME_LEDGER",
+    "total_physical_fes_equation": "REQUIRED_EQUATION",
+    "physical_fes_per_run": "REQUIRED_POSITIVE_INTEGER",
+    "overshoot_forbidden": true
+  },
+  "optimization_seeds": ["REQUIRED_EXACTLY_25_UNIQUE_INTEGER_SEEDS"],
+  "cases": [{"case_id": "REQUIRED_CASE_ID", "case_semantic_hash": "REQUIRED_HASH"}],
+  "resume": {
+    "result_key_fields": ["campaign_id", "profile_id", "problem_semantics_id", "case_semantic_hash", "optimization_seed", "physical_fes_per_run", "binary_sha256", "environment_sha256", "source_commit"],
+    "reuse_only_complete_validated_results": true,
+    "atomic_commit": "write same-filesystem temporary result, flush and fsync, then rename",
+    "partial_results_never_reused": true
+  },
+  "non_pooling": {
+    "enabled": true,
+    "pooling_key": ["method_semantics_id", "problem_semantics_id", "case_semantic_hash", "objective_signature", "physical_fes_contract_id"]
+  },
+  "reporting": {
+    "active_objective_type": "REQUIRED_SCALAR_OR_MULTIOBJECTIVE",
+    "scalar": {
+      "metrics": ["best objective", "median", "interquartile range", "success rate when a target is frozen"],
+      "normalization": "explicit unit-preserving raw scale or REQUIRED_NORMALIZATION",
+      "reference": "fixed scalar oracle/target or explicitly not applicable"
+    },
+    "multiobjective": {
+      "metrics": ["hypervolume", "IGD+", "feasible nondominated count"],
+      "normalization": "REQUIRED_PER_CASE_FROZEN_NORMALIZATION",
+      "reference_front": "REQUIRED_PER_CASE_FROZEN_REFERENCE_FRONT",
+      "hypervolume_reference_point": "REQUIRED_FROZEN_POINT"
+    },
+    "cross_case_pooling": false
+  }
+}
