@@ -137,6 +137,26 @@ build/hpc/gga_cpp/gga_cpp_hpc \
 The exact reconstruction controls and claim boundary are frozen in
 `shared/contracts/geoga_reconstruction_execution_contract.json`.
 
+An isolated executable also reuses those admitted operator transitions on a
+new Anholt-structured P3 declared proxy. It freezes a synthetic irregular
+polygon, deterministic 180-point Poisson sample, 111 turbines, twelve declared
+joint wind bins, and explicit turbine/wake completions. The original Anholt
+boundary, candidate and wind arrays, actual layout, reported AEP, and
+actual-layout comparison remain blocked:
+
+```bash
+build/hpc/geoga_cpp/geoga_anholt_hpc \
+  --case shared/contracts/geoga_anholt_structured_declared_proxy_case.json \
+  --physical-fes 10000 \
+  --seed 20260729 \
+  --workers 0
+```
+
+Here `--workers 0` resolves to every hardware thread visible to the job. One
+physical FES is one complete layout evaluation over this selected case's twelve
+joint wind states. The problem, operator-parity, oracle, and execution
+boundaries are frozen in the `geoga_anholt_structured_*` contracts.
+
 The GGA executable also provides an equation-led T-MOEA reconstruction on the
 same-author public Nysted asset. It preserves the paper's two objectives,
 Jensen wake equation, NSGA-II environmental selection, single-point crossover,

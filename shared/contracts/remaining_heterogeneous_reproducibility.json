@@ -211,8 +211,12 @@
         "duplicate repair after one-point crossover",
         "whether initialization evaluations are included in the stated 10000 physical evaluations"
       ],
-      "safe_next_profile": "geoga_declared_reconstruction_v1",
-      "safe_next_profile_meaning": "Paper operators plus ledgered conventional GA controls on an admitted irregular problem; not the Anholt reproduction."
+      "completed_declared_profiles": [
+        "geoga_declared_reconstruction_v1 on the historical admitted GGA-asset proxy",
+        "geoga_declared_reconstruction_v1 on geoga_anholt_structured_declared_proxy_v1 with execution profile geoga_anholt_structured_p3_execution_v1"
+      ],
+      "safe_next_profile": "geoga_anholt_structured_p3_execution_v1",
+      "safe_next_profile_meaning": "The admitted GeoGA operators on a synthetic irregular polygon with declared Poisson, wind, turbine, wake, actual-layout blocking, and exact selected-case physical-FES semantics; not the original Anholt experiment."
     }
   },
   "prohibited_claims": [

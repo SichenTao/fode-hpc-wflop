@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "contract_id": "geoga_anholt_structured_execution_contract_v1",
+  "study_id": "geoga_anholt_structured_p3_execution_v1",
+  "method_semantic_id": "geoga_declared_reconstruction_v1",
+  "problem_semantic_id": "geoga_anholt_structured_declared_proxy_v1",
+  "method_evidence_tier": "M3_DECLARED_COMPLETION",
+  "problem_evidence_tier": "P3_DECLARED_PROXY",
+  "preserved_historical_profile": {
+    "method_semantic_id": "geoga_declared_reconstruction_v1",
+    "problem_id": "admitted_gga_problem_asset_proxy",
+    "status": "unchanged"
+  },
+  "reused_admitted_method_semantics": {
+    "population_size": 50,
+    "selection": "roulette proportional to nonnegative AEP",
+    "crossover": "one-point crossover on sorted unique zero-based candidate indices",
+    "crossover_probability": 1.0,
+    "duplicate_repair": "sort, retain unique valid indices, then use the admitted counter-keyed candidate-wide rejection sampler until free candidates refill the layout, and sort",
+    "geometry_mutation": "one selected turbine per evaluated child is replaced uniformly from its five nearest free candidates",
+    "geometry_mutation_probability": 1.0,
+    "survival": "deterministic best-50 AEP from parents plus evaluated offspring",
+    "tie_break": "lexicographically smaller sorted candidate-index vector",
+    "rng": "counter-keyed and independent of worker scheduling"
+  },
+  "physical_fes": {
+    "unit": "one complete layout evaluation across the selected case's twelve joint wind states",
+    "denominator_scope": "selected case only",
+    "initialization": "the first 50 complete layout evaluations consume the first 50 physical FES",
+    "terminal_batch": "evaluate exactly the remaining number of offspring when fewer than 50 physical FES remain",
+    "paper_boundary": "The paper reports 50 x 200 = 10000 evaluations but does not resolve whether initialization is extra; this profile stops at exactly the requested total."
+  },
+  "execution": {
+    "language": "C++20",
+    "default_backend": "pure CPU",
+    "default_workers": "all hardware threads visible to the job",
+    "unsupported_backends": "GPU and hybrid fail closed",
+    "parallel_stages": [
+      "initial population construction",
+      "offspring construction, repair, and geometric mutation",
+      "complete independent layout evaluation"
+    ],
+    "ordered_stages": [
+      "roulette score construction",
+      "parent-plus-offspring survival",
+      "best-layout reduction"
+    ],
+    "worker_count_scientific_equivalence": "exact"
+  },
+  "required_receipts": [
+    "problem semantic hash",
+    "actual stage work receipts",
+    "algorithm work counts",
+    "selected-case physical FES denominator",
+    "best complete-layout replay",
+    "one-versus-all-visible exact science",
+    "bounded performance observations"
+  ],
+  "claim_boundary": "The admitted operators are reused on a new declared P3 problem. This is not an original Anholt execution, result, or actual-layout comparison."
+}

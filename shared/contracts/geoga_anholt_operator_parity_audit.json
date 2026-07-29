@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "audit_id": "geoga_anholt_operator_parity_audit_v1",
+  "admitted_method_semantic_id": "geoga_declared_reconstruction_v1",
+  "admitted_implementation": "hpc/gga_cpp/src/main.cpp::optimize_geoga",
+  "extension_implementation": "hpc/geoga_cpp/src/evolution.cpp::run",
+  "admitted_source_sha256": "1d639544b21e3aec593980f94e1d2dca24b21a2538e20fb8e47aebf9f8739405",
+  "parity_items": [
+    {"transition": "rng_salt", "admitted": "seed XOR 0x47454f4741", "extension": "identical", "status": "exact"},
+    {"transition": "initial_population", "admitted": "50 counter-keyed random layouts, RNG phase 3000, sorted genes, population order retained", "extension": "identical", "status": "exact"},
+    {"transition": "initial_evaluation", "admitted": "50 complete AEP-only layout calls consume first 50 FES", "extension": "identical selected-case semantics", "status": "exact"},
+    {"transition": "roulette", "admitted": "nonnegative AEP sum, threshold cumulative scan, phases 3001 and 3002, same-parent second index increment", "extension": "identical", "status": "exact"},
+    {"transition": "crossover", "admitted": "one cut uniformly from 1 through M-1 using phase 3003; first prefix plus second suffix", "extension": "identical", "status": "exact"},
+    {"transition": "duplicate_repair", "admitted": "sort, unique, remove invalid, then phase-3004 full-candidate-range rejection with monotonically increasing draw until filled, final sort", "extension": "identical", "status": "exact"},
+    {"transition": "geometric_mutation_position", "admitted": "one position from phase 3006", "extension": "identical", "status": "exact"},
+    {"transition": "geometric_mutation_neighborhood", "admitted": "all free candidates sorted by squared Euclidean distance then candidate index, top five", "extension": "identical", "status": "exact"},
+    {"transition": "geometric_mutation_choice", "admitted": "uniform top-five index from phase 3007 then final gene sort", "extension": "identical", "status": "exact"},
+    {"transition": "survival", "admitted": "stable sort parents plus evaluated offspring by descending AEP then lexicographic layout; retain 50", "extension": "identical", "status": "exact"},
+    {"transition": "terminal_budget", "admitted": "offspring count min(50, requested FES minus current FES), including partial terminal survival", "extension": "identical", "status": "exact"},
+    {"transition": "final_best", "admitted": "first maximum-AEP population member", "extension": "identical", "status": "exact"},
+    {"transition": "worker_invariance", "admitted": "counter-keyed construction and independent parallel evaluation with ordered reductions", "extension": "identical plus explicit stage receipts", "status": "exact"}
+  ],
+  "problem_specific_non_method_changes": [
+    "P3 polygon and Poisson candidate construction",
+    "P3 wind, turbine, wake, and AEP evaluator",
+    "selected-case physical-FES wording",
+    "stage and algorithm-work receipt emission",
+    "all-visible worker resolution in the standalone CLI"
+  ],
+  "deterministic_extension_fixture": {
+    "case_id": "GeoGA_AnholtStructured_P3_111",
+    "seed": 20260729,
+    "physical_fes": 95,
+    "best_layout_hash": "38586c5be1c4592c",
+    "population_layout_hash": "ac49817b9dfc98cf",
+    "duplicate_repairs": 38,
+    "aep_kwh": 1975430052.916392
+  },
+  "conclusion": "The extension reuses the admitted method state transition exactly. The old method semantic ID is valid; only the problem and execution-profile IDs are new."
+}

@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "problem_semantic_id": "geoga_anholt_structured_declared_proxy_v1",
+  "case_id": "GeoGA_AnholtStructured_P3_111",
+  "claim_boundary": "Declared Anholt-structured proxy only; not the original Anholt boundary, wind data, candidate set, actual layout, evaluator, or reported result.",
+  "boundary": {
+    "model": "declared_synthetic_irregular_polygon_local_meters",
+    "boundary_vertices_m": [
+      [0.0, 2200.0],
+      [1800.0, 350.0],
+      [4800.0, 0.0],
+      [7600.0, 500.0],
+      [10400.0, 2100.0],
+      [11600.0, 5000.0],
+      [10800.0, 8000.0],
+      [8500.0, 10300.0],
+      [5200.0, 11200.0],
+      [2300.0, 10100.0],
+      [500.0, 7600.0],
+      [900.0, 5000.0]
+    ],
+    "coordinate_system": "local Cartesian meters; no geospatial or actual Anholt identity"
+  },
+  "turbine_count": 111,
+  "target_candidate_count": 180,
+  "turbine": {
+    "rotor_diameter_m": 117.0,
+    "hub_height_m": 91.5,
+    "rated_power_kw": 4200.0,
+    "cut_in_speed_mps": 3.0,
+    "rated_speed_mps": 12.0,
+    "cut_out_speed_mps": 25.0,
+    "air_density_kg_m3": 1.225,
+    "roughness_length_m": 0.00025,
+    "turbulence_intensity": 0.10,
+    "power_curve": "declared cubic in speed cubed from cut-in to rated, rated plateau through cut-out, zero outside"
+  },
+  "wake": {
+    "model": "Jensen top-hat",
+    "thrust_coefficient": 0.8,
+    "wake_expansion": 0.05,
+    "multiple_wake_superposition": "root sum square of fixed-source-order fractional deficits"
+  },
+  "poisson_sampling": {
+    "minimum_spacing_m": 585.0,
+    "minimum_spacing_rule": "5 times rotor diameter",
+    "annulus": "[d,2d] with radius sampled uniformly as stated by Algorithm 1",
+    "active_base_selection": "uniform",
+    "max_trials": 30,
+    "seed": 20250726,
+    "termination": "stop when 180 candidates are accepted; declared cardinality completion for the paper's approximately 180 statement"
+  },
+  "wind_coordinate_convention": "flow_to_degrees is Cartesian counterclockwise from positive x",
+  "wind_bins": [
+    {"flow_to_degrees": 0.0, "free_speed_mps": 10.8, "probability": 0.20},
+    {"flow_to_degrees": 30.0, "free_speed_mps": 10.4, "probability": 0.13},
+    {"flow_to_degrees": 60.0, "free_speed_mps": 9.6, "probability": 0.08},
+    {"flow_to_degrees": 90.0, "free_speed_mps": 8.9, "probability": 0.06},
+    {"flow_to_degrees": 120.0, "free_speed_mps": 8.5, "probability": 0.04},
+    {"flow_to_degrees": 150.0, "free_speed_mps": 8.3, "probability": 0.04},
+    {"flow_to_degrees": 180.0, "free_speed_mps": 8.4, "probability": 0.04},
+    {"flow_to_degrees": 210.0, "free_speed_mps": 8.7, "probability": 0.04},
+    {"flow_to_degrees": 240.0, "free_speed_mps": 9.1, "probability": 0.05},
+    {"flow_to_degrees": 270.0, "free_speed_mps": 9.7, "probability": 0.08},
+    {"flow_to_degrees": 300.0, "free_speed_mps": 10.5, "probability": 0.11},
+    {"flow_to_degrees": 330.0, "free_speed_mps": 11.1, "probability": 0.13}
+  ],
+  "objective": "maximize annual energy production in kWh, defined as 8760 times the joint-probability-weighted total turbine power",
+  "actual_layout_comparison": {
+    "status": "blocked",
+    "reason": "The paper plots but does not publish the actual-layout coordinates, full original wind tuples, or curves needed for replay.",
+    "permitted_output": "status and reason only; no actual-layout AEP or percentage improvement"
+  }
+}

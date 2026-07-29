@@ -1,0 +1,161 @@
+{
+  "schema_version": 1,
+  "receipt_id": "geoga_anholt_structured_cpu_r4_spark_20260729",
+  "recorded_at": "2026-07-29T17:30:32+09:00",
+  "approved_source_base_commit": "92cd96efd21361bd991dce6c67e1bc60c1172c7f",
+  "branch": "advisor/001-evidence-driven-wflop-reconstruction",
+  "scope": {
+    "method_semantic_id": "geoga_declared_reconstruction_v1",
+    "execution_profile_id": "geoga_anholt_structured_p3_execution_v1",
+    "problem_semantic_id": "geoga_anholt_structured_declared_proxy_v1",
+    "case_id": "GeoGA_AnholtStructured_P3_111",
+    "seed": 1,
+    "physical_fes": 1500,
+    "physical_fes_denominator": "one complete layout evaluation over this selected case's twelve joint wind states",
+    "backend": "pure_cpp_cpu",
+    "evidence_class": "bounded_development_R4",
+    "formal_campaign": false,
+    "original_anholt_reproduction": false,
+    "actual_layout_comparison": false
+  },
+  "host": {
+    "host_role": "spark_native_shared_development_host",
+    "architecture": "aarch64",
+    "visible_logical_cpus": 20,
+    "cpu_models": ["10 x Cortex-X925", "10 x Cortex-A725"],
+    "threads_per_core": 1,
+    "compiler": "c++ (Ubuntu 11.5.0-1ubuntu1~24.04.1) 11.5.0",
+    "load_average_at_receipt": [5.11, 3.45, 2.89],
+    "load_boundary": "Shared-host background activity was not isolated. Timings are bounded development observations only."
+  },
+  "problem_and_method_validation": {
+    "problem_semantic_hash": "42a7899a17237389",
+    "candidate_count": 180,
+    "minimum_candidate_spacing_m": 586.1221415894472,
+    "turbine_count": 111,
+    "wind_bin_count": 12,
+    "full_problem_oracle": "pass",
+    "operator_state_transition_parity": "13_of_13_exact_against_historical_optimize_geoga",
+    "historical_method_semantic_id": "geoga_declared_reconstruction_v1",
+    "historical_GGA_asset_proxy_files_unchanged": true,
+    "actual_layout_boundary": "blocked because original coordinates and evaluator arrays are unavailable"
+  },
+  "scientific_equivalence_workers_1_vs_default_all_visible": {
+    "exact_match": true,
+    "canonical_science_sha256_all_ten_runs": "a97d51dfbcc90d3f40328a3f480535e5889a411ecd7fe32cbfc8b2ac05179898",
+    "compared_fields": [
+      "method and execution profile IDs",
+      "problem semantic ID and full semantic hash",
+      "case, seed, selected-case FES denominator, physical FES, and generations",
+      "best complete layout, layout hash, AEP, no-wake AEP, and capacity factor",
+      "population layout hash",
+      "all algorithm work counts",
+      "actual-layout blocked status and claim boundary"
+    ],
+    "physical_fes": 1500,
+    "generations": 29,
+    "best_layout_hash": "f9dadd4c1eea3844",
+    "population_layout_hash": "ea55829e0c5a776a",
+    "best_aep_kwh": 2035412900.8512495,
+    "best_no_wake_aep_kwh": 2395029927.706667,
+    "best_capacity_factor": 0.4983978354213434,
+    "work_receipt": {
+      "roulette_parent_draws": 2900,
+      "crossover_gene_copies": 160950,
+      "duplicate_repairs": 686,
+      "geometry_distance_checks": 100050,
+      "geometry_mutations": 1450,
+      "survivor_candidates_ranked": 2900
+    }
+  },
+  "canonical_default_all_visible_run": {
+    "requested_workers": 0,
+    "resolved_workers": 20,
+    "stages": {
+      "initialization": {
+        "wall_seconds": 0.00060026,
+        "parallel_regions": 1,
+        "task_items": 50,
+        "distinct_participants": 15,
+        "peak_region_participants": 15
+      },
+      "variation_repair": {
+        "wall_seconds": 0.004193283000000001,
+        "parallel_regions": 29,
+        "task_items": 1450,
+        "distinct_participants": 19,
+        "peak_region_participants": 19
+      },
+      "evaluator": {
+        "wall_seconds": 0.05138561199999999,
+        "parallel_regions": 30,
+        "task_items": 1500,
+        "distinct_participants": 20,
+        "peak_region_participants": 20
+      },
+      "selection_other": {
+        "wall_seconds": 0.0007366929999999997,
+        "parallel_regions": 0,
+        "task_items": 4350,
+        "distinct_participants": 0,
+        "peak_region_participants": 0
+      }
+    }
+  },
+  "paper_nominal_budget_smoke": {
+    "requested_physical_fes": 10000,
+    "executed_physical_fes": 10000,
+    "complete_evaluator_tasks": 10000,
+    "generations_after_counted_initialization": 199,
+    "resolved_workers": 20,
+    "problem_semantic_hash": "42a7899a17237389",
+    "best_layout_hash": "def6703b7d851f05",
+    "best_aep_kwh": 2075506284.8861117,
+    "actual_layout_comparison": "blocked",
+    "interpretation_boundary": "The target paper says 200 iterations and 10000 evaluations without resolving initialization. This profile counts the first 50 evaluations, so an exact 10000-FES run has 199 offspring generations and is not labeled a literal 200-generation reproduction."
+  },
+  "bounded_timing": {
+    "protocol": "five alternating runs per worker configuration from the focused Release build; same declared case, seed, and 1500 selected-case physical FES",
+    "binary_path": "build-geoga/hpc/geoga_cpp/geoga_anholt_hpc",
+    "binary_sha256": "e9da8942fb5db7fc7ada54b1c79285ee62828966d68ff6e5a250c2bc03240cb2",
+    "command_prefix": "build-geoga/hpc/geoga_cpp/geoga_anholt_hpc --case shared/contracts/geoga_anholt_structured_declared_proxy_case.json --seed 1 --physical-fes 1500 --workers",
+    "runs": [
+      {"repetition": 1, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.533928096, "result_json_sha256": "82eab9df68339fb512629b3e14d952a940f74f8c307508e507e3281a5c297ae8", "evaluator_distinct_participants": 1},
+      {"repetition": 1, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.05082245, "result_json_sha256": "4c47385dc18f224f0bb54ceb0227a4be595a9d2acd9994256c8c73f8de841bf3", "evaluator_distinct_participants": 20},
+      {"repetition": 2, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.534228898, "result_json_sha256": "47a4cb671a49a713b37817c08aff23463be3255d46dc0d78028191320427262d", "evaluator_distinct_participants": 1},
+      {"repetition": 2, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.052404572, "result_json_sha256": "11b4267c348008d74881cbb6210236c86b06dc3fa2fc421f9f06f86b842446cd", "evaluator_distinct_participants": 20},
+      {"repetition": 3, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.533616111, "result_json_sha256": "7676a0226e9e3807825b8a32e861ae100db428757741466f91b6374561f29b11", "evaluator_distinct_participants": 1},
+      {"repetition": 3, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.049162456, "result_json_sha256": "48cefe745c6cd8698dba71c6595d597b7aba7d5e423614187cf70df1e48dfb43", "evaluator_distinct_participants": 20},
+      {"repetition": 4, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.533945201, "result_json_sha256": "5679bb09868c02aa480f7fe5620d18091608467512522ef05def8d0e476c3a14", "evaluator_distinct_participants": 1},
+      {"repetition": 4, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.04714054, "result_json_sha256": "a8eb9e4cd13a3a488ea167fdfe94cf4fe9d98b41ccb6ffcd279e319bf495cb61", "evaluator_distinct_participants": 20},
+      {"repetition": 5, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.547159506, "result_json_sha256": "8469f6f590f4d2b7fccf081b421d74d7b56f7887d754b60e0b3006c7d53f0063", "evaluator_distinct_participants": 1},
+      {"repetition": 5, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.048875223, "result_json_sha256": "b94c813ce842f8c6f784bef305fa8c79f871e34adc5ff0e7f686bd4313589281", "evaluator_distinct_participants": 20}
+    ],
+    "workers_1_median_seconds": 0.533945201,
+    "workers_default_20_median_seconds": 0.049162456,
+    "observed_median_speedup": 10.860832522280823,
+    "claim_boundary": "This is not a formal, isolated, cross-host, GPU, hybrid, or paper performance result."
+  },
+  "validation": {
+    "focused_geoga_contract_and_cpp_ctest": "4_of_4_pass",
+    "exact_partial_terminal_fes": "pass_at_95_fes",
+    "unsupported_gpu_backend": "fails_closed",
+    "fresh_full_build_directory": "build-geoga-full",
+    "fresh_full_build_source_cache": "authorized read-only assets via temporary .source-cache symlink to ../fode-hpc-wflop/.source-cache; link removed after validation",
+    "complete_release_build": "pass",
+    "full_fresh_authorized_cache_regression": "46_of_46_pass",
+    "full_regression_seconds": 9.18,
+    "full_regression_log_sha256": "e8e186fb93c235290d6db3bf006562c8b2669b175d290b213a06ca98a5577dee",
+    "fresh_full_binary_sha256": "e9da8942fb5db7fc7ada54b1c79285ee62828966d68ff6e5a250c2bc03240cb2",
+    "historical_geoga_cpp_declared_reconstruction": "pass_unchanged",
+    "spark2_formal_suite_touched": false
+  },
+  "blocked_claims": [
+    "original Anholt boundary and candidate coordinates",
+    "original twelve wind tuples and manufacturer curves",
+    "actual-layout coordinates, AEP, or percentage improvement",
+    "paper Table I and II reproduction",
+    "formal or isolated speedup",
+    "GPU or hybrid execution"
+  ]
+}

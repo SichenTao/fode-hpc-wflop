@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "profile_id": "geoga_anholt_structured_p3_execution_v1",
+  "target_paper": {
+    "corpus_id": "L0726",
+    "doi": "10.1109/CBD69312.2025.00059",
+    "pdf_sha256": "8bdca5f23fc34687ab8069eb0ee8d6c1b3775567ba688fdc9248b91ce5f6fb7c",
+    "relationship": "direct formula and scalar authority"
+  },
+  "cited_or_same_author_sources": [
+    {
+      "doi": "10.1007/s42235-024-00498-3",
+      "pdf_sha256": "656e328266459a42563e7af9fa5872af5124fe65cb9b67a5f3c9e842ab5d2ebb",
+      "relationship": "same-author evaluator and integer-GA family context only"
+    },
+    {
+      "citation": "Davis et al. 2023, target-paper reference 20",
+      "relationship": "target-paper-cited Global Wind Atlas description only"
+    }
+  ],
+  "negative_asset_evidence": "docs/source-dossiers/L0726.json",
+  "paper_visible_problem_fields": "shared/contracts/geoga_anholt_structured_declared_proxy_contract.json",
+  "declared_numeric_inputs": "shared/contracts/geoga_anholt_structured_declared_proxy_case.json",
+  "method_contract": "shared/contracts/geoga_anholt_structured_execution_contract.json",
+  "actual_layout_status": "blocked_unavailable",
+  "redistribution": "No publisher PDF or third-party protected array is redistributed by this profile."
+}

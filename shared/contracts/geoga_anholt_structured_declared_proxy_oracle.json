@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "problem_semantic_id": "geoga_anholt_structured_declared_proxy_v1",
+  "case_id": "GeoGA_AnholtStructured_P3_111",
+  "status": "frozen",
+  "candidate_fixture": {
+    "candidate_count": 180,
+    "minimum_pairwise_spacing_m": 586.1221415894472,
+    "all_candidates_inside_polygon": true
+  },
+  "scalar_fixtures": {
+    "power_kw_at_2_99_mps": 0.0,
+    "power_kw_at_7_mps": 780.2469135802469,
+    "power_kw_at_12_mps": 4200.0,
+    "power_kw_at_25_01_mps": 0.0,
+    "jensen_deficit_at_downstream_585_crosswind_0": 0.24568284644446317,
+    "jensen_deficit_at_downstream_585_crosswind_100": 0.0
+  },
+  "complete_layout_fixture": {
+    "layout_0based": "integer sequence 0 through 110 inclusive",
+    "aep_kwh": 1845129182.7933457,
+    "no_wake_aep_kwh": 2395029927.706667,
+    "capacity_factor": 0.4518043441664134
+  },
+  "problem_semantic_hash": "42a7899a17237389",
+  "oracle_method": "Closed-form scalar values and a frozen complete-layout vector are compared at double precision by the standalone C++ problem test.",
+  "claim_boundary": "Frozen proxy numerics only; no original Anholt result oracle."
+}

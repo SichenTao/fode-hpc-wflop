@@ -1,0 +1,87 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0726",
+  "doi": "10.1109/cbd69312.2025.00059",
+  "paper_sha256": "8bdca5f23fc34687ab8069eb0ee8d6c1b3775567ba688fdc9248b91ce5f6fb7c",
+  "profiles": [
+    "geoga_declared_reconstruction_v1",
+    "geoga_anholt_structured_declared_proxy_v1",
+    "geoga_anholt_structured_p3_execution_v1"
+  ],
+  "completion_status": "historical_GGA_asset_proxy_preserved_distinct_Anholt_structured_P3_complete_original_Anholt_problem_and_results_blocked",
+  "approved_source_base_commit": "92cd96efd21361bd991dce6c67e1bc60c1172c7f",
+  "decisions": [
+    {
+      "field": "anholt_boundary_identity",
+      "completed_transition": "the target paper shows an irregular Anholt outline but publishes no boundary coordinate array or geospatial transform",
+      "selected_value_or_rule": "freeze a twelve-vertex synthetic irregular polygon in local metres under a distinct P3 semantic ID",
+      "authority_type": "target_paper_structure_plus_declared_proxy_completion",
+      "immutable_authority": "shared/contracts/geoga_anholt_structured_declared_proxy_case.json",
+      "rejected_alternatives": ["digitize Figure 1 and label it the original Anholt boundary", "reuse a historical GGA farm boundary under the Anholt name"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines candidate feasibility and prevents an original-site reproduction claim",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "poisson_candidate_generation",
+      "completed_transition": "Algorithm 1 gives active-list Poisson sampling, uniform angle and radius in [d,2d], and maximum trials L, while the paper gives 5D and approximately 180 candidates but omits the seed, L, and stopping rule",
+      "selected_value_or_rule": "use deterministic seed 20250726, L=30, uniform active-base selection, literal uniform radius, fixed acceptance order, and stop when 180 candidates are accepted",
+      "authority_type": "target_paper_pseudocode_plus_declared_proxy_completion",
+      "immutable_authority": "shared/contracts/geoga_anholt_structured_declared_proxy_case.json",
+      "rejected_alternatives": ["claim the plotted candidate points are recoverable author data", "sample an undocumented grid", "continue to exhaustion and choose a favorable random seed after observing candidate count"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "fixes the discrete decision space, neighborhood geometry, and every optimized layout",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "wind_turbine_and_wake_arrays",
+      "completed_transition": "the paper gives twelve joint bins and turbine surface scalars plus Jensen and sum-of-squares structure but not the twelve tuples, manufacturer power or thrust curves, rated speed, or wake expansion",
+      "selected_value_or_rule": "freeze twelve declared flow-to tuples, rated speed 12 m/s, cubic-to-rated 4.2 MW curve, constant Ct 0.8, and wake expansion 0.05 with fixed-source-order RSS deficits",
+      "authority_type": "target_paper_structure_same_author_model_family_plus_declared_proxy_completion",
+      "immutable_authority": "shared/contracts/geoga_anholt_structured_declared_proxy_case.json and shared/contracts/geoga_anholt_structured_provenance.json",
+      "rejected_alternatives": ["digitize the wind rose as exact author tuples", "silently import a Vestas manufacturer table", "claim air density, roughness, and turbulence uniquely determine the missing curves"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines effective speed, power, AEP magnitude, wake loss, and layout ranking",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "geoga_operator_semantics",
+      "completed_transition": "the new problem does not change the paper-visible geometry operator or the conventional GA controls already admitted under geoga_declared_reconstruction_v1",
+      "selected_value_or_rule": "reuse the admitted method semantic ID unchanged and add only a distinct execution-profile ID bound to the new P3 problem",
+      "authority_type": "existing_admitted_method_contract",
+      "immutable_authority": "shared/contracts/geoga_reconstruction_execution_contract.json and shared/contracts/geoga_anholt_structured_execution_contract.json",
+      "rejected_alternatives": ["silently change old GeoGA controls", "invent a new method ID with identical transitions", "let the problem extension alter historical GGA-asset results"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "isolates problem evidence from method identity and preserves historical semantic IDs",
+      "sensitivity_test_required": false,
+      "adjudication_status": "reused_admitted_M3_semantics"
+    },
+    {
+      "field": "actual_layout_comparison",
+      "completed_transition": "Figure 1 visualizes actual turbines and the paper reports up to one percent improvement, but actual coordinates and the original evaluator arrays are unavailable",
+      "selected_value_or_rule": "emit only blocked status and reason; do not emit actual-layout AEP, percentage improvement, or a digitized baseline",
+      "authority_type": "negative_evidence_and_claim_boundary",
+      "immutable_authority": "docs/source-dossiers/L0726.json and shared/contracts/geoga_anholt_structured_declared_proxy_contract.json",
+      "rejected_alternatives": ["digitize Figure 1 and compare as if exact", "compare the proxy result directly with Table I", "treat an external public turbine map as the paper evaluator baseline"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "prevents a false original-layout or paper-performance claim",
+      "sensitivity_test_required": false,
+      "adjudication_status": "blocked_original_comparison"
+    },
+    {
+      "field": "physical_fes_and_cpu_execution",
+      "completed_transition": "the paper reports population 50, 200 iterations, and 10000 evaluations but does not state whether initialization is additional or define partial budgets and parallel scheduling",
+      "selected_value_or_rule": "count one complete layout evaluation across this selected case's twelve wind states as one physical FES, include the first 50 initialization evaluations, stop at the exact requested total including partial terminal batches, default to all visible CPU threads, and emit actual stage and algorithm-work receipts",
+      "authority_type": "platform_physical_work_and_CPU_execution_contract",
+      "immutable_authority": "shared/contracts/geoga_anholt_structured_execution_contract.json and hpc/geoga_cpp/tests/evolution_test.cpp",
+      "rejected_alternatives": ["count each wind bin as one FES", "execute 10050 calls while labeling them 10000", "overshoot partial budgets", "claim unsupported GPU or hybrid execution", "allow worker scheduling to change scientific output"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "provides comparable selected-case work, exact one-versus-all science, and auditable CPU participation",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_CPU_R4_development_only"
+    }
+  ]
+}
