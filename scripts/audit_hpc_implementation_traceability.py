@@ -16,8 +16,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 
-def rows() -> list[dict[str, str]]:
-    with (ROOT / "docs/hpc_required_pairs.tsv").open(
+def rows(scope: str = "all") -> list[dict[str, str]]:
+    registry = (
+        "docs/hpc_core_target_pairs.tsv"
+        if scope == "core"
+        else "docs/hpc_required_pairs.tsv"
+    )
+    with (ROOT / registry).open(
         encoding="utf-8", newline=""
     ) as handle:
         return list(csv.DictReader(handle, delimiter="\t"))
@@ -56,12 +61,14 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--all-paper-packages", action="store_true")
     parser.add_argument("--inventory-only", action="store_true")
+    parser.add_argument("--scope", choices=("all", "core"), default="all")
+    parser.add_argument("--backend", choices=("cpu", "gpu", "hybrid"))
     args = parser.parse_args()
-    if not args.all_paper_packages:
+    if args.scope == "all" and not args.all_paper_packages:
         parser.error("--all-paper-packages is required")
     blockers = {
         row["pair_id"]: trace(row)
-        for row in rows()
+        for row in rows(args.scope)
     }
     blockers = {pair: reasons for pair, reasons in blockers.items() if reasons}
     if blockers and not args.inventory_only:
@@ -71,7 +78,8 @@ def main() -> int:
         )
     print(
         "hpc_implementation_traceability_inventory_pass "
-        f"pairs={len(rows())} blocked_pairs={len(blockers)}"
+        f"scope={args.scope} backend={args.backend or 'all'} "
+        f"pairs={len(rows(args.scope))} blocked_pairs={len(blockers)}"
     )
     return 0
 

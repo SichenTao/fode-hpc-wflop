@@ -22,8 +22,9 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--all-paper-packages", action="store_true")
     parser.add_argument("--inventory-only", action="store_true")
+    parser.add_argument("--scope", choices=("all", "core"), default="all")
     args = parser.parse_args()
-    if not args.all_paper_packages:
+    if args.scope == "all" and not args.all_paper_packages:
         parser.error("--all-paper-packages is required")
 
     papers = read_tsv(ROOT / "docs/paper_package_completion.tsv")
@@ -31,7 +32,14 @@ def main() -> int:
         row["corpus_id"]: row
         for row in read_tsv(ROOT / "docs/paper_experiment_protocols.tsv")
     }
-    pairs = read_tsv(ROOT / "docs/hpc_required_pairs.tsv")
+    pairs = read_tsv(
+        ROOT
+        / (
+            "docs/hpc_core_target_pairs.tsv"
+            if args.scope == "core"
+            else "docs/hpc_required_pairs.tsv"
+        )
+    )
     by_paper: dict[str, list[dict[str, str]]] = {}
     for row in pairs:
         by_paper.setdefault(row["corpus_id"], []).append(row)
@@ -67,17 +75,18 @@ def main() -> int:
         if reasons:
             blockers[corpus] = reasons
 
-    taae = json.loads(
-        (
-            ROOT
-            / "evidence/development/"
-            "taae_paper_scale_cpu_feasibility_spark2_20260730.json"
-        ).read_text(encoding="utf-8")
-    )
-    if taae["status"] == "profile_specific_stop":
-        blockers.setdefault("Y36", []).append(
-            "paper_scale_training_profile_specific_stop"
+    if args.scope == "all":
+        taae = json.loads(
+            (
+                ROOT
+                / "evidence/development/"
+                "taae_paper_scale_cpu_feasibility_spark2_20260730.json"
+            ).read_text(encoding="utf-8")
         )
+        if taae["status"] == "profile_specific_stop":
+            blockers.setdefault("Y36", []).append(
+                "paper_scale_training_profile_specific_stop"
+            )
 
     status_counts = Counter(row["implementation_status"] for row in pairs)
     result = {
@@ -93,6 +102,7 @@ def main() -> int:
         )
     print(
         "hpc_maturity_inventory_pass "
+        f"scope={args.scope} "
         f"papers={len(papers)} pairs={len(pairs)} "
         f"blocked_papers={len(blockers)}"
     )

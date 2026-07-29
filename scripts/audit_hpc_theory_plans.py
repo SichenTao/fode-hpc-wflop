@@ -22,10 +22,17 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--all-paper-packages", action="store_true")
     parser.add_argument("--inventory-only", action="store_true")
+    parser.add_argument("--scope", choices=("all", "core"), default="all")
+    parser.add_argument("--allow-draft", action="store_true")
     args = parser.parse_args()
-    if not args.all_paper_packages:
+    if args.scope == "all" and not args.all_paper_packages:
         parser.error("--all-paper-packages is required")
-    with (ROOT / "docs/hpc_required_pairs.tsv").open(
+    registry = (
+        "docs/hpc_core_target_pairs.tsv"
+        if args.scope == "core"
+        else "docs/hpc_required_pairs.tsv"
+    )
+    with (ROOT / registry).open(
         encoding="utf-8", newline=""
     ) as handle:
         rows = list(csv.DictReader(handle, delimiter="\t"))
@@ -93,7 +100,11 @@ def main() -> int:
             != "accepted_pair_specific_h0_h4"
         ):
             draft_pairs.append(row["pair_id"])
-    if not args.inventory_only and (missing_pairs or draft_pairs):
+    if (
+        not args.inventory_only
+        and not args.allow_draft
+        and (missing_pairs or draft_pairs)
+    ):
         detail = {
             "missing_native_implementations": missing_pairs,
             "draft_unadmitted_theory_pairs": draft_pairs,
@@ -104,6 +115,7 @@ def main() -> int:
         )
     print(
         "hpc_theory_plan_inventory_pass "
+        f"scope={args.scope} "
         f"pairs={len(rows)} pair_specific_json={len(rows)} "
         f"planned_missing_native_comparators={missing_implementation} "
         f"draft_unadmitted={len(draft_pairs)}"
