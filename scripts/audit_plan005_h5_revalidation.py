@@ -49,6 +49,7 @@ def main() -> int:
     require(
         set(data["selected_h5_tests"]) == {
             "plan004_learning_backend_matrix",
+            "plan004_artifact_target_optimization",
             "plan004_learning_full_optimizer_artifacts",
             "plan004_taae_reference_equivalence",
             "plan004_alga_reference_equivalence",

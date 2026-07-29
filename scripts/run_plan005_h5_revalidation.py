@@ -27,6 +27,7 @@ DEFAULT_RECEIPT = (
 )
 LEARNING_TESTS = (
     "plan004_learning_backend_matrix",
+    "plan004_artifact_target_optimization",
     "plan004_learning_full_optimizer_artifacts",
     "plan004_taae_reference_equivalence",
     "plan004_alga_reference_equivalence",
@@ -115,16 +116,16 @@ def main() -> int:
         for value in full_optimizer
     ):
         raise RuntimeError("full learned optimizer H5 receipt is absent")
-    backend = selected["plan004_learning_backend_matrix"][
+    artifact_target = selected["plan004_artifact_target_optimization"][
         "structured_output"
     ]
-    backend_records = [
-        value for value in backend
+    artifact_records = [
+        value for value in artifact_target
         if value.get("status") == "pass"
         and value.get("contract") == "plan004_artifact_target_optimization_v1"
     ]
-    if len(backend_records) != 1:
-        raise RuntimeError("learning artifact backend receipt is absent")
+    if len(artifact_records) != 1:
+        raise RuntimeError("learning artifact target receipt is absent")
     source_commit = subprocess.run(
         ["git", "rev-parse", "HEAD"],
         cwd=ROOT,
