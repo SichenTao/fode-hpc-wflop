@@ -2,6 +2,11 @@ cmake_minimum_required(VERSION 3.20)
 project(fode_hpc_wflop VERSION 0.1.0 LANGUAGES CXX)
 
 include(CTest)
+option(
+    WFLOP_ENABLE_TORCH
+    "Build the Plan-003 LibTorch CPU/CUDA/hybrid learning backend"
+    OFF
+)
 add_subdirectory(hpc/fode_cpp)
 add_subdirectory(hpc/wflop_cpp)
 add_subdirectory(hpc/taae_cpp)
@@ -10,6 +15,10 @@ add_subdirectory(hpc/bde_ws56_cpp)
 add_subdirectory(hpc/geoga_cpp)
 add_subdirectory(hpc/gga_cpp)
 add_subdirectory(hpc/pbea_cpp)
+if(WFLOP_ENABLE_TORCH)
+    find_package(Torch CONFIG REQUIRED)
+    add_subdirectory(hpc/torch_training)
+endif()
 
 if(BUILD_TESTING)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
@@ -42,6 +51,14 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_hpc_core_cpu_runtime_coverage.py
             --build-dir ${CMAKE_BINARY_DIR}
     )
+    if(WFLOP_ENABLE_TORCH)
+        add_test(
+            NAME hpc_learning_libtorch_backends
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_hpc_learning_libtorch_backends.py
+                --binary $<TARGET_FILE:wflop_libtorch_training_hpc>
+        )
+    endif()
     add_test(
         NAME source_dossiers
         COMMAND ${Python3_EXECUTABLE}

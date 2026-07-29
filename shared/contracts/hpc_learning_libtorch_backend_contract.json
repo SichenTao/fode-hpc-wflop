@@ -1,0 +1,54 @@
+{
+  "schema_version": 1,
+  "contract_id": "plan003_learning_libtorch_backend_v1",
+  "claim_boundary": "Bounded declared-reconstruction training backend for the three target learning methods. It validates real LibTorch CPU/CUDA/hybrid tensor execution and artifact replay; author checkpoints, paper-reported quality, H5 admission, H6 performance, and formal campaigns remain separate gates.",
+  "backends": {
+    "cpu": {
+      "backend_id_suffix": "__cpu_hpc_v1",
+      "corpus_device": "cpu",
+      "training_device": "cpu",
+      "transfer": "none"
+    },
+    "gpu": {
+      "backend_id_suffix": "__gpu_hpc_v1",
+      "corpus_device": "cpu_deterministic_contract_generator",
+      "training_device": "cuda",
+      "transfer": "pageable_host_to_device"
+    },
+    "hybrid": {
+      "backend_id_suffix": "__hybrid_cpu_gpu_hpc_v1",
+      "corpus_device": "cpu_deterministic_contract_generator",
+      "training_device": "cuda",
+      "transfer": "pinned_host_to_device"
+    }
+  },
+  "methods": {
+    "taae": {
+      "method_semantic_id": "taae_transformer_declared_reconstruction_v1",
+      "training_schema_id": "taae_occupancy16_reconstruction_regression_metric_v1",
+      "loss_contract_id": "taae_bce_regression_metric_composite_v1",
+      "registered_model": "shared encoder 16-64-32, occupancy decoder 32-16, scalar regression head"
+    },
+    "alga": {
+      "method_semantic_id": "alga_attention_declared_reconstruction_v1",
+      "training_schema_id": "alga_population_feature8_selection_v1",
+      "loss_contract_id": "alga_selection_cross_entropy_regression_v1",
+      "registered_model": "shared encoder 8-64-32, four-way attention-selection head, scalar fitness head"
+    },
+    "rlpso": {
+      "method_semantic_id": "rlpso_paper_corrected_training_reconstruction_v1",
+      "training_schema_id": "rlpso_state2_action4_ppo_v1",
+      "loss_contract_id": "rlpso_clipped_ppo_actor_critic_entropy_v1",
+      "registered_model": "paper-declared 2-256-64 actor with four actions and 2-256-64 critic head"
+    }
+  },
+  "artifact_bridge": {
+    "format": "LibTorch module archive",
+    "required_checks": [
+      "registered parameter hash before save equals hash after reload",
+      "canonical inference hash before save equals hash after reload",
+      "backend identity and actual device are explicit",
+      "CUDA and hybrid fail before training when CUDA is unavailable"
+    ]
+  }
+}
