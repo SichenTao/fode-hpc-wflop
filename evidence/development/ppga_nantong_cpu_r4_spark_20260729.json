@@ -1,0 +1,155 @@
+{
+  "schema_version": 1,
+  "receipt_id": "ppga_nantong_cpu_r4_spark_20260729",
+  "recorded_at": "2026-07-29T16:51:13+09:00",
+  "approved_source_base_commit": "13f967dd9a228ba7d5db563c58d2fb9879990178",
+  "branch": "advisor/001-evidence-driven-wflop-reconstruction",
+  "scope": {
+    "method_semantic_id": "ppga_nantong_structured_3d_declared_reconstruction_v1",
+    "problem_semantic_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+    "case_id": "PPGA_NantongStructured_WS1_tn20",
+    "seed": 1,
+    "physical_fes": 1500,
+    "physical_fes_denominator": "one complete layout evaluation over this selected case's 16 x 7 joint wind states; WS1, WS2, WS3, and WS4 are separate benchmark cases",
+    "backend": "pure_cpp_cpu",
+    "evidence_class": "bounded_development_R4",
+    "formal_campaign": false,
+    "paper_result_reproduction": false
+  },
+  "host": {
+    "host_role": "spark_native_shared_development_host",
+    "architecture": "aarch64",
+    "visible_logical_cpus": 20,
+    "cpu_models": ["10 x Cortex-X925", "10 x Cortex-A725"],
+    "threads_per_core": 1,
+    "compiler": "c++ (Ubuntu 11.5.0-1ubuntu1~24.04.1) 11.5.0",
+    "load_average_at_receipt": [2.97, 2.43, 2.27],
+    "load_boundary": "Shared-host background activity was not isolated. Timings are bounded development observations only."
+  },
+  "scientific_equivalence_workers_1_vs_default_all_visible": {
+    "exact_match": true,
+    "compared_fields": [
+      "problem_semantic_hash",
+      "physical_fes",
+      "generations",
+      "best complete layout",
+      "expected power",
+      "ideal expected power",
+      "conversion efficiency",
+      "cost per expected power diagnostic",
+      "best layout hash",
+      "population layout hash",
+      "all algorithm work counts"
+    ],
+    "problem_semantic_hash": "ee06013d8778fd7e",
+    "physical_fes": 1500,
+    "generations": 49,
+    "best_layout_1based": [6, 24, 29, 46, 96, 112, 160, 175, 199, 215, 237, 250, 273, 282, 314, 352, 378, 389, 400, 421],
+    "expected_power_kw": 40704.797270620576,
+    "ideal_expected_power_kw": 42113.479960832701,
+    "conversion_efficiency": 0.96655031378261169,
+    "cost_per_expected_power_diagnostic": 0.00040921886207167174,
+    "best_layout_hash": "971c1de83e6b8061",
+    "population_layout_hash": "95a1146d1288682b",
+    "work_receipt": {
+      "pairwise_layout_distances": 21315,
+      "crossover_gene_choices": 23500,
+      "mutation_gene_trials": 1470,
+      "mutation_events": 147,
+      "perturbed_individuals": 743,
+      "power_law_gene_steps": 743,
+      "duplicate_repairs": 396
+    }
+  },
+  "canonical_default_all_visible_run": {
+    "requested_workers": 0,
+    "resolved_workers": 20,
+    "total_wall_seconds": 0.075681523,
+    "stages": {
+      "initialization": {
+        "wall_seconds": 0.000843771,
+        "parallel_regions": 1,
+        "task_items": 30,
+        "distinct_participants": 10,
+        "peak_region_participants": 10
+      },
+      "diversity_adaptation": {
+        "wall_seconds": 0.026547621,
+        "parallel_regions": 98,
+        "task_items": 2940,
+        "distinct_participants": 19,
+        "peak_region_participants": 19
+      },
+      "variation_repair": {
+        "wall_seconds": 0.015935005,
+        "parallel_regions": 49,
+        "task_items": 1470,
+        "distinct_participants": 19,
+        "peak_region_participants": 19
+      },
+      "evaluator": {
+        "wall_seconds": 0.031125440,
+        "parallel_regions": 50,
+        "task_items": 1500,
+        "distinct_participants": 20,
+        "peak_region_participants": 20
+      },
+      "selection_other": {
+        "wall_seconds": 0.000247760,
+        "parallel_regions": 0,
+        "task_items": 2940,
+        "distinct_participants": 0,
+        "peak_region_participants": 0
+      }
+    }
+  },
+  "bounded_timing": {
+    "protocol": "five alternating runs per worker configuration from the fresh authorized-source-cache Release build; same case, seed, and 1500 physical FES",
+    "binary_path": "build-ppga-full/hpc/ppga_cpp/ppga_nantong_hpc",
+    "binary_sha256": "3cd35a5821491ae129bd7415ab23ca104df2b5d5020cf1d9fe46ee76464fef9e",
+    "command_prefix": "build-ppga-full/hpc/ppga_cpp/ppga_nantong_hpc --cases shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json --case PPGA_NantongStructured_WS1_tn20 --seed 1 --physical-fes 1500 --workers",
+    "scientific_result_canonicalization": "JSON containing method_semantic_id, problem_semantic_id, problem_semantic_hash, case_id, seed, physical_fes, generations, best, population_layout_hash, and work_receipt; sorted keys with compact separators",
+    "scientific_result_sha256_all_ten_runs": "b02fe29a31f17e287e389208ac926d93bf593cb8b0c09e56308cdc12c02265a3",
+    "runs": [
+      {"repetition": 1, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.292143760, "result_json_sha256": "e0537aa9d3c82a94f87ddb5f0e90bd2d2cdd49a1ee5b0aecd2ee04a2d5cfd929", "evaluator_distinct_participants": 1},
+      {"repetition": 1, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.035684897, "result_json_sha256": "3d5199146f3b1ec3e38c9d166d57e0c18925eb8f4f0c0d9aa7fa31857f8a149c", "evaluator_distinct_participants": 19},
+      {"repetition": 2, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.292225967, "result_json_sha256": "cbd5ddc7691177120e854f82070eec172690e9f526a8bf704d34c0fa82b02eaf", "evaluator_distinct_participants": 1},
+      {"repetition": 2, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.036280509, "result_json_sha256": "eee0a2d410cc2a8257385f9fb5c15a9fae467dc02473d7788eb9f38b6f78074b", "evaluator_distinct_participants": 20},
+      {"repetition": 3, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.276549377, "result_json_sha256": "ee46f145a3afd40d792b5f83c159398e78ab970769a6afd372ada54b6c5ffdc8", "evaluator_distinct_participants": 1},
+      {"repetition": 3, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.033467279, "result_json_sha256": "9a5df215975aa71175cb1cad8102ccdccdaaf9843b6a93515ef2f6b97ede3e5e", "evaluator_distinct_participants": 20},
+      {"repetition": 4, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.276526744, "result_json_sha256": "187701506ffb972af270a4faf4ed22d344d536ddcfd3516a7fa8b2579b5ebfea", "evaluator_distinct_participants": 1},
+      {"repetition": 4, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.068695397, "result_json_sha256": "a90da4ea2d88c1502faf51666fa7846824773b286d2f7c649ace1e67c0d7f0af", "evaluator_distinct_participants": 19},
+      {"repetition": 5, "requested_workers": 1, "resolved_workers": 1, "wall_seconds": 0.291918377, "result_json_sha256": "a1647e7268005c7fd55357c2109b7159447f211e3c9c2a15cbc2ad5959c16322", "evaluator_distinct_participants": 1},
+      {"repetition": 5, "requested_workers": 0, "resolved_workers": 20, "wall_seconds": 0.079345826, "result_json_sha256": "39fd97561b43e680616adf33f61a2083dc8be822597234e8e797eddf5e8a1da1", "evaluator_distinct_participants": 19}
+    ],
+    "workers_1_median_seconds": 0.291918377,
+    "workers_default_20_median_seconds": 0.036280509,
+    "observed_median_speedup": 8.046148883964113,
+    "claim_boundary": "This is not a formal, isolated, cross-host, or paper performance result."
+  },
+  "validation": {
+    "focused_ppga_and_contract_ctest": "6_of_6_pass",
+    "complete_release_build": "pass",
+    "fresh_full_build_source_cache": "authorized read-only assets via .source-cache symlink to ../fode-hpc-wflop/.source-cache",
+    "full_configured_ctest_after_complete_build": "42_of_42_pass",
+    "full_configured_ctest_seconds": 9.24,
+    "full_configured_ctest_log_sha256": "aa9249d568162f440bb821ee5b1d4cecb7a43e9aff9bc1bf50d3748630a56139",
+    "problem_oracle": "pass",
+    "exact_partial_terminal_fes": "pass_at_95_fes",
+    "unsupported_gpu_backend": "fails_closed",
+    "old_ppga_e0_transfer_files_unchanged_from_approved_base": true,
+    "old_ppga_e0_transfer_file_sha256": {
+      "hpc/wflop_cpp/src/algorithms.cpp": "1d5625f55df6f16025a739bfee24701b12bbe69c0195b13c34fd73904284526a",
+      "shared/contracts/ppga_fode_e0_transfer_execution_contract.json": "35bac3ae5344119f8ecc2a4ba490a9f94bbbdf91f69f1bb97b42a56920a851e4",
+      "scripts/test_ppga_cpp.py": "5fd2810b83cebea58c5aa946282cd50b0798837ffdef739d9e8d5bdfff7b7d89"
+    }
+  },
+  "blocked_claims": [
+    "original 432-cell Nantong elevation field",
+    "original four numerical wind arrays",
+    "manufacturer H171 power and thrust curves",
+    "author-exact PPGA state transition",
+    "paper efficiencies, layouts, rankings, and speedups",
+    "GPU or hybrid execution"
+  ]
+}

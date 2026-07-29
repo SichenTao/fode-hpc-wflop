@@ -4,6 +4,7 @@ project(fode_hpc_wflop VERSION 0.1.0 LANGUAGES CXX)
 include(CTest)
 add_subdirectory(hpc/wflop_cpp)
 add_subdirectory(hpc/taae_cpp)
+add_subdirectory(hpc/ppga_cpp)
 add_subdirectory(hpc/gga_cpp)
 add_subdirectory(hpc/pbea_cpp)
 
@@ -48,6 +49,11 @@ if(BUILD_TESTING)
         NAME taae_transformer_evolution_contract
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_taae_evolution_contract.py
+    )
+    add_test(
+        NAME ppga_nantong_contract
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_ppga_nantong_contract.py
     )
     add_test(
         NAME ppo_math

@@ -1,0 +1,78 @@
+{
+  "schema_version": 1,
+  "problem_semantic_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+  "grid": {
+    "rows": 16,
+    "cols": 27,
+    "cell_width_m": 300.0
+  },
+  "terrain": {
+    "model": "analytic_gentle_seabed_p3",
+    "formula": "z=3+1.5*cos(2*pi*col/(cols-1))+1.5*cos(pi*row/(rows-1))",
+    "minimum_elevation_m": 0.0,
+    "maximum_elevation_m": 6.0
+  },
+  "turbine": {
+    "surface_model": "H171-6.2MW",
+    "rotor_diameter_m": 171.0,
+    "hub_height_m": 107.0,
+    "rated_power_kw": 6200.0,
+    "cut_in_speed_mps": 3.0,
+    "rated_speed_mps": 11.0,
+    "cut_out_speed_mps": 25.0,
+    "power_curve_completion": "zero below cut-in; cubic ramp to rated; rated plateau through cut-out; zero above cut-out"
+  },
+  "wake": {
+    "axial_induction": 0.3333333333333333,
+    "wake_expansion": 0.05,
+    "gaussian_xi": 1.98,
+    "multiple_wake_superposition": "root_sum_square_velocity_deficits",
+    "wind_shear_exponent": 0.1,
+    "wind_shear_reference_height_m": 107.0
+  },
+  "wind_directions_deg": [
+    0.0, 22.5, 45.0, 67.5, 90.0, 112.5, 135.0, 157.5,
+    180.0, 202.5, 225.0, 247.5, 270.0, 292.5, 315.0, 337.5
+  ],
+  "wind_speeds_mps": [1.0, 3.0, 5.0, 7.0, 9.0, 11.0, 13.0],
+  "wind_scenarios": [
+    {
+      "id": "WS1",
+      "direction_probabilities": [0.16, 0.14, 0.10, 0.07, 0.05, 0.04, 0.03, 0.03, 0.03, 0.04, 0.05, 0.06, 0.07, 0.06, 0.04, 0.03],
+      "speed_probabilities": [0.04, 0.12, 0.24, 0.26, 0.18, 0.10, 0.06]
+    },
+    {
+      "id": "WS2",
+      "direction_probabilities": [0.03, 0.04, 0.06, 0.09, 0.15, 0.16, 0.12, 0.08, 0.05, 0.04, 0.03, 0.03, 0.03, 0.03, 0.03, 0.03],
+      "speed_probabilities": [0.03, 0.09, 0.20, 0.28, 0.22, 0.12, 0.06]
+    },
+    {
+      "id": "WS3",
+      "direction_probabilities": [0.03, 0.03, 0.03, 0.04, 0.05, 0.07, 0.10, 0.14, 0.16, 0.14, 0.08, 0.05, 0.03, 0.02, 0.01, 0.02],
+      "speed_probabilities": [0.08, 0.18, 0.27, 0.24, 0.14, 0.06, 0.03]
+    },
+    {
+      "id": "WS4",
+      "direction_probabilities": [0.08, 0.10, 0.12, 0.10, 0.07, 0.05, 0.04, 0.03, 0.03, 0.03, 0.04, 0.05, 0.06, 0.06, 0.04, 0.10],
+      "speed_probabilities": [0.02, 0.07, 0.16, 0.25, 0.26, 0.16, 0.08]
+    }
+  ],
+  "cases": [
+    {"case_id": "PPGA_NantongStructured_WS1_tn20", "wind_scenario_id": "WS1", "turbine_count": 20},
+    {"case_id": "PPGA_NantongStructured_WS1_tn30", "wind_scenario_id": "WS1", "turbine_count": 30},
+    {"case_id": "PPGA_NantongStructured_WS1_tn40", "wind_scenario_id": "WS1", "turbine_count": 40},
+    {"case_id": "PPGA_NantongStructured_WS1_tn50", "wind_scenario_id": "WS1", "turbine_count": 50},
+    {"case_id": "PPGA_NantongStructured_WS2_tn20", "wind_scenario_id": "WS2", "turbine_count": 20},
+    {"case_id": "PPGA_NantongStructured_WS2_tn30", "wind_scenario_id": "WS2", "turbine_count": 30},
+    {"case_id": "PPGA_NantongStructured_WS2_tn40", "wind_scenario_id": "WS2", "turbine_count": 40},
+    {"case_id": "PPGA_NantongStructured_WS2_tn50", "wind_scenario_id": "WS2", "turbine_count": 50},
+    {"case_id": "PPGA_NantongStructured_WS3_tn20", "wind_scenario_id": "WS3", "turbine_count": 20},
+    {"case_id": "PPGA_NantongStructured_WS3_tn30", "wind_scenario_id": "WS3", "turbine_count": 30},
+    {"case_id": "PPGA_NantongStructured_WS3_tn40", "wind_scenario_id": "WS3", "turbine_count": 40},
+    {"case_id": "PPGA_NantongStructured_WS3_tn50", "wind_scenario_id": "WS3", "turbine_count": 50},
+    {"case_id": "PPGA_NantongStructured_WS4_tn20", "wind_scenario_id": "WS4", "turbine_count": 20},
+    {"case_id": "PPGA_NantongStructured_WS4_tn30", "wind_scenario_id": "WS4", "turbine_count": 30},
+    {"case_id": "PPGA_NantongStructured_WS4_tn40", "wind_scenario_id": "WS4", "turbine_count": 40},
+    {"case_id": "PPGA_NantongStructured_WS4_tn50", "wind_scenario_id": "WS4", "turbine_count": 50}
+  ]
+}

@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "problem_semantic_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+  "case_id": "PPGA_NantongStructured_WS1_tn20",
+  "problem_semantic_hash": "ee06013d8778fd7e",
+  "scalar_oracles": {
+    "foundation_elevation_cell_1_m": 6.0,
+    "foundation_elevation_cell_419_m": 0.0,
+    "foundation_elevation_cell_432_m": 3.0,
+    "turbine_power_at_7_mps_kw": 1502.4539877300614,
+    "centerline_wake_fraction_at_300_m": 0.48251280908888394
+  },
+  "complete_layout_oracle": {
+    "layout_1based": [1, 14, 27, 55, 82, 109, 122, 135, 163, 217, 230, 243, 298, 311, 324, 352, 379, 406, 419, 432],
+    "expected_power_kw": 37839.685912350418,
+    "ideal_expected_power_kw": 42154.187661866963,
+    "conversion_efficiency": 0.89764951031378837,
+    "cost_per_expected_power": 0.00044020372839576722
+  },
+  "floating_point_contract": {
+    "compiler_option": "-ffp-contract=off",
+    "summation_order": "direction, speed, target turbine, source turbine",
+    "absolute_tolerance_power_kw": 1e-9,
+    "absolute_tolerance_efficiency": 1e-14
+  },
+  "claim_boundary": "Oracle values validate only the declared P3 proxy evaluator."
+}

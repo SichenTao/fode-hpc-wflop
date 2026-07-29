@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "contract_id": "ppga_nantong_structured_3d_declared_reconstruction_contract_v1",
+  "method_semantic_id": "ppga_nantong_structured_3d_declared_reconstruction_v1",
+  "problem_semantic_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+  "evidence_tier": "M3_DECLARED_COMPLETION",
+  "preserved_e0_semantic_id": "ppga_declared_reconstruction_fode_e0_v1",
+  "paper_preserved": {
+    "population_size": 30,
+    "threshold": 0.0,
+    "crossover_probability": 0.8,
+    "mutation_probability": 0.1,
+    "power_law_exponent": 2.5,
+    "power_law_start_generation": 2,
+    "independent_runs_reported_by_paper": 30
+  },
+  "declared_method_completions": {
+    "elite_count": 3,
+    "fitness_normalization": "population min-max; all equal maps to one",
+    "diversity": "mean normalized symmetric-difference distance over occupied-cell sets",
+    "stagnation": "fraction of population no better than its row-aligned parent",
+    "adaptation": "theta_i=normalized_fitness_i*sqrt(diversity)-stagnation; perturb when theta_i<=0",
+    "crossover": "uniform occupied-cell gene choice from two tournament-selected parents",
+    "mutation": "per-individual Bernoulli 0.1 then one cell replacement",
+    "power_law": "truncated inverse-CDF integer displacement with exponent 2.5",
+    "repair": "sort, remove duplicates, then deterministic cyclic fill",
+    "selection": "three elites plus stable best remaining offspring",
+    "terminal_budget": "evaluate an exact partial offspring batch when fewer than 30 physical FES remain",
+    "rng": "counter-keyed schedule-independent generator"
+  },
+  "physical_fes": "one complete layout evaluation over the selected case's 16 x 7 joint wind states counts as one physical FES; WS1, WS2, WS3, and WS4 are separate benchmark cases",
+  "execution": {
+    "default_backend": "cpu",
+    "default_workers": "hardware_concurrency",
+    "gpu_and_hybrid": "fail_closed",
+    "parallel_stages": [
+      "initialization",
+      "diversity_adaptation",
+      "variation_repair",
+      "evaluator"
+    ]
+  },
+  "claim_boundary": "Bounded declared reconstruction only. Original PPGA transition details and original Nantong result claims remain blocked."
+}
