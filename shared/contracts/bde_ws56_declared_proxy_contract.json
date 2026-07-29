@@ -1,0 +1,102 @@
+{
+  "schema_version": 1,
+  "contract_id": "bde2025_ws56_declared_composite_proxy_v1",
+  "problem_semantic_ids": [
+    "bde2025_ws5_paper250_declared_proxy_v1",
+    "bde2025_ws6_paper250_declared_proxy_v1"
+  ],
+  "problem_evidence_tier": "P3_DECLARED_PROXY",
+  "problem_evidence_subtype": "composite_proxy",
+  "method_semantic_id": "bde_paper_equations_imax400_exact_fes_v1",
+  "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+  "method_evidence_subtype": "paper_equation_direct_source_resolved",
+  "paper": {
+    "title": "Discrete Bi-Population Differential Evolution for Optimizing Complex Wind Farm Layouts in Diverse Terrains",
+    "doi": "10.1016/j.energy.2025.137885",
+    "corpus_id": "T44",
+    "local_pdf_sha256": "5029841587d4199ab846ddff971a178d52af7ccec0e758a22f5be2eff6626e85"
+  },
+  "official_source": {
+    "url": "https://raw.githubusercontent.com/toyamaailab/toyamaailab.github.io/main/resource/BDE-WindFarm_code.zip",
+    "archive_sha256": "f4a317d4d727a9d452f76376373e2c8ad5546e35ff19530eda0ba328682dd140",
+    "bde_m_sha256": "0a0bf2845857ce91c2d1284233b2ab1963b081d7a2e46ca8314d7b2e32c2d58d",
+    "mask_source_sha256": "91fc345b6910a2df011630ac7cd2d24886879ec9edf977e4e4423af95ab3d7b7",
+    "license_observation": "no_license_file_found",
+    "redistribution_boundary": "archive is not vendored"
+  },
+  "problem_authority_composition": {
+    "paper_visible": [
+      "WS5 has eight wind speeds and twelve uneven wind directions",
+      "WS6 has eight wind speeds and sixteen uneven wind directions",
+      "standard farm is 21 by 21 at 231 m",
+      "Daegwallyeong is 28 by 28 at 250 m",
+      "turbine counts are 30, 35, and 40"
+    ],
+    "paper_figure_digitized": [
+      "manual two-pass row-major transcription of numbered Fig.5 with 499 blocked and 285 available cells"
+    ],
+    "source_cross_checked": [
+      "NA_type=13 topology independently matches the manual Fig.5 transcription",
+      "Park/Jensen partial-overlap evaluator family",
+      "GE1.5sle scalar power model"
+    ],
+    "declared_p3": [
+      "wind speeds [4,6,8,10,12,14,15,16] m/s",
+      "speed marginal [0.05,0.10,0.18,0.24,0.20,0.13,0.07,0.03]",
+      "WS5 twelve equally spaced angles and literal direction marginal",
+      "WS6 sixteen equally spaced angles and literal direction marginal",
+      "direction-speed independence and product joint probabilities"
+    ],
+    "spacing_boundary": "The paper gives the Fig.5 topology and 250 m. The source independently matches the digitization but executes 231 m; this mixed authority remains a composite P3 problem, not an original-array reproduction.",
+    "digitization_uncertainty": "Each visible numbered cell was classified red/white manually in two passes. The exact match to the hash-frozen source topology is an independent cross-check, not redistribution of the no-license file."
+  },
+  "method_freeze": {
+    "population_size": 50,
+    "paper_fes": 10000,
+    "paper_schedule_imax": 400,
+    "physical_fes_rule": "initial 50 plus at most 25 complete-layout evaluations per generation, stopping exactly at the requested total",
+    "full_10000_fes_generation_count": 398,
+    "fusion_rule": "source-resolved half-sized floor rule: G-prime gets 12 superior and 13 inferior; B-prime gets 13 superior and 12 inferior",
+    "scale_rule": "literal paper Eq.23 with Imax fixed at 400",
+    "crossover_rule": "literal paper Eq.25 with Imax fixed at 400",
+    "pbest_count": 3,
+    "method_identity_boundary": "Distinct from bde_paper_equations_physical_fes_v1 because that implementation derived 398 as the schedule denominator."
+  },
+  "execution_scheduling": {
+    "evaluator": "GranularityAware fused-state schedule with fixed reduction order",
+    "variation_repair": "mutation, crossover, and repair are fused per offspring row",
+    "logical_work_definition": "offspring_count times turbine_count",
+    "local_execution_rule": "execute on the caller when logical_work is below 2048; otherwise use the persistent CPU executor",
+    "rejected_alternative": "always dispatch two separate worker-team regions per generation for 25-row variation and repair",
+    "semantic_boundary": "implementation scheduling only; RNG keys, random-event counts, transition order, exact FES, layouts, and objectives are invariant",
+    "measured_effect_receipt": "evidence/development/bde_ws56_declared_proxy_cpu_r4_spark_20260729.json"
+  },
+  "hash_contract": {
+    "case_manifest_sha256": "4a48939117a6dd900842e0aaa948cefd6ec9b5e1d0d02892ffdad2d6d940d2e8",
+    "runtime_objective_hash_rule": "FNV-1a-64 over all evaluator constants, dimensions, spacing, turbine count, directions, speeds, and every joint probability",
+    "runtime_feasible_hash_rule": "FNV-1a-64 over the full one-based grid availability vector, dimensions, spacing, and turbine count",
+    "manifest_case_hash_rule": "SHA256 of each canonical case before its case_sha256 field is inserted"
+  },
+  "alternatives_rejected": [
+    "reuse common FODE WS5/WS6, which are 13 speeds by 5/6 directions at 231 m",
+    "digitize Fig.4 and label plot estimates as exact author arrays",
+    "label the source's 231 m execution as the paper's 250 m experiment",
+    "inherit the old 398 schedule denominator under the old method semantic ID",
+    "pool or rank these P3 results with official-source WS1-WS4"
+  ],
+  "sensitivity_obligation": {
+    "required_before_external_scientific_claim": true,
+    "factors": [
+      "manual Fig.5 cell-state transcription",
+      "speed support and marginal",
+      "direction rotation and marginal",
+      "joint dependence versus product construction",
+      "231 m versus 250 m spacing",
+      "literal paper increasing scale schedule versus source decreasing schedule"
+    ]
+  },
+  "case_manifest": "shared/contracts/bde_ws56_declared_proxy_cases.json",
+  "oracle_contract": "shared/contracts/bde_ws56_declared_proxy_oracle.json",
+  "transition_contract": "shared/contracts/bde_ws56_transition_parity_audit.json",
+  "claim_boundary": "Development evidence for two distinct P3 composite problem identities only. Original WS5/WS6 arrays and paper results remain blocked; WS1-WS4 source replay is unchanged and incomparable."
+}

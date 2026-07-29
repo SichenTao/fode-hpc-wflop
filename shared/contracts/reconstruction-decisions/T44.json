@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T44",
+  "doi": "10.1016/j.energy.2025.137885",
+  "paper_sha256": "5029841587d4199ab846ddff971a178d52af7ccec0e758a22f5be2eff6626e85",
+  "profiles": [
+    "bde2025_source_replay_ws1_ws4_v1",
+    "bde2025_ws5_paper250_declared_proxy_v1",
+    "bde2025_ws6_paper250_declared_proxy_v1",
+    "bde_paper_equations_imax400_exact_fes_v1"
+  ],
+  "completion_status": "official_WS1_WS4_replay_preserved_distinct_WS5_WS6_P3_composite_CPU_R4_development_complete_original_WS5_WS6_and_results_blocked",
+  "approved_source_base_commit": "56ba40ca6a39b21eca7a9d4567ea55d40b471885",
+  "decisions": [
+    {
+      "field": "ws5_ws6_wind_arrays",
+      "completed_transition": "the paper fixes 8 by 12 uneven WS5 and 8 by 16 uneven WS6 and Fig.4 gives qualitative roses, while neither paper nor official archive exposes numeric arrays",
+      "selected_value_or_rule": "freeze explicit 4,6,8,10,12,14,15,16 m/s support, literal normalized speed and direction marginals, equally spaced angles, and the independent product joint distribution under two distinct P3 problem IDs",
+      "authority_type": "target_paper_structure_plus_declared_proxy_completion",
+      "immutable_authority": "shared/contracts/bde_ws56_declared_proxy_cases.json",
+      "rejected_alternatives": [
+        "reuse common FODE WS5/WS6 with 13 speeds and 5/6 directions",
+        "digitize Fig.4 and claim exact author arrays"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines every objective state and prevents a false original-array claim",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_composite"
+    },
+    {
+      "field": "daegwallyeong_topology_and_spacing",
+      "completed_transition": "Fig.5 and official gene_NA_loc.m support the same numbered 28 by 28 topology, Table 1 states 250 m, and source main_D.m executes 231 m",
+      "selected_value_or_rule": "manually transcribe all numbered white cells from paper Fig.5 in two row-major passes, apply paper 250 m, and use the matching hash-frozen source topology only as an independent cross-check; keep the executed 231 m source replay unchanged",
+      "authority_type": "target_paper_figure_digitization_plus_official_source_cross_check",
+      "immutable_authority": "shared/contracts/bde_ws56_declared_proxy_contract.json and cross-check source sha256 91fc345b6910a2df011630ac7cd2d24886879ec9edf977e4e4423af95ab3d7b7",
+      "rejected_alternatives": [
+        "silently relabel source 231 m output as 250 m",
+        "copy a no-license source array into Git and call it redistributed author data"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "changes every turbine coordinate, wake distance, feasible layout, and objective",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_composite"
+    },
+    {
+      "field": "bde_method_schedule_and_fusion",
+      "completed_transition": "paper Eq.27 yields Imax 400 while exact 10000 physical FES after 50 initialization calls permits 398 half-population generations; Eq.20 sample cardinality conflicts with Eq.21",
+      "selected_value_or_rule": "freeze Imax=400 inside paper Eqs.23 and 25, execute exactly 10000 complete-layout FES, and use the official source-resolved 12 superior plus 13 inferior G-prime with complementary B-prime",
+      "authority_type": "target_paper_equations_plus_official_source_conflict_resolution",
+      "immutable_authority": "shared/contracts/bde_ws56_transition_parity_audit.json",
+      "rejected_alternatives": [
+        "reuse the old 398 schedule denominator under the old semantic ID",
+        "execute 10050 calls while labeling them 10000",
+        "interpret Eq.20 as two full populations"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "changes F and CR schedules and every stochastic transition, requiring a distinct method ID",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_M2_profile"
+    },
+    {
+      "field": "physical_fes_and_cpu_r4",
+      "completed_transition": "the selected P3 cases require a standalone executable with deterministic CPU parallelism and auditable work",
+      "selected_value_or_rule": "count one complete layout over all selected-case wind states as one physical FES, include initialization, stop exactly at budget, default to all visible CPUs, use the fused-state evaluator, fuse per-row variation and repair, execute that stage locally when offspring_count times turbine_count is below 2048, emit receipts, and prove exact 1/all science",
+      "authority_type": "platform_physical_work_and_CPU_execution_contract",
+      "immutable_authority": "hpc/bde_ws56_cpp/tests/evolution_test.cpp and scripts/validate_bde_ws56_declared_proxy.py",
+      "rejected_alternatives": [
+        "count wind states as FES",
+        "overshoot a selected-case budget",
+        "always dispatch two tiny worker-team regions per generation",
+        "claim unsupported GPU execution",
+        "allow worker order to change science"
+      ],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "provides exact selected-case work, removes 796 tiny parallel regions without changing random events, and records actual CPU participation",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_CPU_R4_development_only"
+    },
+    {
+      "field": "cross_profile_comparability",
+      "completed_transition": "WS1-WS4 use official arrays at executed 231 m while WS5/WS6 are declared composite wind cases and include paper 250 m Daegwallyeong spacing",
+      "selected_value_or_rule": "forbid pooling, ranking, or aggregate claims across the source replay and P3 composite profiles",
+      "authority_type": "evidence_boundary",
+      "immutable_authority": "shared/contracts/bde_ws56_declared_proxy_contract.json",
+      "rejected_alternatives": [
+        "present all six scenario labels in one reproduction table",
+        "aggregate them under a shared benchmark identity"
+      ],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "prevents mixed-authority performance claims",
+      "sensitivity_test_required": false,
+      "adjudication_status": "comparison_blocked"
+    }
+  ]
+}

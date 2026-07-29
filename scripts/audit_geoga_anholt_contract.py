@@ -19,9 +19,13 @@ OLD_GUARD_HASHES = {
         "3356d9ea850b8623a8786a69428ff3df286db6ac46eec6e32555b20fa6071b70",
     "scripts/test_geoga_cpp.py":
         "f4c2717ad2f03286a7d3360450438b7187123c0dae22bc6613c97ff643c74846",
-    "shared/contracts/algorithm_provenance.tsv":
-        "25033d22281248010c6b03a02ed3dc7b4095a27048eddec5db31d7d59ce5c545",
 }
+HISTORICAL_GEOGA_PROVENANCE_ROW = (
+    "geoga\tGeoGA\tpaper_derived_declared_problem_proxy\t"
+    "Zhang et al. 2025 geometric mutation operators; unavailable Anholt assets "
+    "are replaced only by a separately declared GGA-asset proxy\t"
+    "10.1109/cbd69312.2025.00059\tgeoga_declared_reconstruction_v1"
+)
 
 
 def load(relative: str) -> dict:
@@ -91,6 +95,15 @@ def main() -> int:
                 f"historical GeoGA semantic asset changed: {relative}"
             )
 
+    provenance_rows = (
+        ROOT / "shared/contracts/algorithm_provenance.tsv"
+    ).read_text(encoding="utf-8").splitlines()
+    geoga_rows = [row for row in provenance_rows if row.startswith("geoga\t")]
+    if geoga_rows != [HISTORICAL_GEOGA_PROVENANCE_ROW]:
+        raise RuntimeError(
+            "historical GeoGA algorithm-provenance row changed or duplicated"
+        )
+
     implementation_files = sorted(
         (ROOT / "hpc/geoga_cpp").glob("**/*.cpp")
     ) + sorted((ROOT / "hpc/geoga_cpp").glob("**/*.hpp"))
@@ -106,7 +119,8 @@ def main() -> int:
     print(
         "geoga_anholt_contract_audit_pass "
         f"problem={PROBLEM_ID} method={METHOD_ID} "
-        f"old_guard_files={len(OLD_GUARD_HASHES)}"
+        f"old_guard_files={len(OLD_GUARD_HASHES)} "
+        "shared_registry_guard=exact_geoga_row"
     )
     return 0
 

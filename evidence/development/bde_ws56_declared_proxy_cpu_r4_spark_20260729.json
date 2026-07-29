@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "receipt_id": "bde_ws56_declared_proxy_cpu_r4_spark_20260729",
+  "status": "development_pass",
+  "audit_date": "2026-07-29",
+  "approved_source_base_commit": "56ba40ca6a39b21eca7a9d4567ea55d40b471885",
+  "host": {
+    "hostname": "spark-9b6f",
+    "kernel": "Linux 6.14.0-1015-nvidia aarch64",
+    "visible_cpus": 20,
+    "cpu_models": [
+      "10 Cortex-X925 cores",
+      "10 Cortex-A725 cores"
+    ],
+    "numa_nodes": 1,
+    "compiler": "Ubuntu g++ 11.5.0",
+    "cmake": "3.28.3"
+  },
+  "artifacts": {
+    "binary_sha256": "344c5f6c4c02ab74512bea4f94b86a2b8606f00cae0a9121502e88e668739faf",
+    "evolution_source_sha256": "81ca513ccbed05e41761f50ff4851221fd602489ebfa6108998a0322b8b53d86",
+    "case_manifest_sha256": "4a48939117a6dd900842e0aaa948cefd6ec9b5e1d0d02892ffdad2d6d940d2e8"
+  },
+  "identity": {
+    "method_semantic_id": "bde_paper_equations_imax400_exact_fes_v1",
+    "problem_semantic_id": "bde2025_ws5_paper250_declared_proxy_v1",
+    "case_id": "BDEWS5P3DAEtn30",
+    "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+    "method_evidence_subtype": "paper_equation_direct_source_resolved",
+    "problem_evidence_tier": "P3_DECLARED_PROXY",
+    "problem_evidence_subtype": "composite_proxy"
+  },
+  "validation": {
+    "cpp_unit": "pass",
+    "independent_scalar_and_layout_oracle": "pass",
+    "transition_parity_audit": "pass",
+    "contract_and_preservation_audit": "pass",
+    "one_all_scientific_equivalence_75_fes": "exact",
+    "one_all_scientific_equivalence_10000_fes": "exact",
+    "unsupported_hybrid_and_gpu": "explicit_fail_closed",
+    "objective_semantics_hash": "fnv1a64:0681d279ff856425",
+    "feasible_set_hash": "fnv1a64:833b9504f906384f"
+  },
+  "full_budget_science": {
+    "physical_fes": 10000,
+    "schedule_imax": 400,
+    "completed_generations": 398,
+    "best_expected_power_kw": 10545.891039401913,
+    "no_wake_expected_power_kw": 10663.830000000002,
+    "conversion_efficiency_percent": 98.8940281249974,
+    "best_layout_hash": "fnv1a64:0d7f27b5842fc418",
+    "population_layout_hash": "fnv1a64:f6e20cd5670379d5"
+  },
+  "work_receipt": {
+    "complete_layout_evaluations": 10000,
+    "ranked_individuals": 19900,
+    "fusion_memberships": 19900,
+    "mutation_vectors": 9950,
+    "crossover_gene_trials": 298500,
+    "forced_crossover_genes": 9950,
+    "repair_random_draws": 38214,
+    "accepted_replacements": 1387
+  },
+  "performance_protocol": {
+    "purpose": "bounded local CPU execution evidence, not a cross-machine or paper runtime claim",
+    "runs_per_worker_setting": 9,
+    "order": "alternating all,one then one,all",
+    "seed": 20260729,
+    "case_id": "BDEWS5P3DAEtn30",
+    "physical_fes_per_run": 10000,
+    "concurrent_shared_host_workload": {
+      "observed": true,
+      "pid": 566436,
+      "owner": "sichentao",
+      "description": "IsaacLab SAC training",
+      "observed_cpu_percent": 148,
+      "affinity": "0-19",
+      "action": "left running and unmodified",
+      "implication": "timing is bounded diagnostic evidence with an uncontrolled shared-host denominator; formal performance requires the frozen Spark2 or target-host resource contract"
+    },
+    "one_worker_external_seconds": [
+      0.20081444492097944,
+      0.19797913799993694,
+      0.1790896459715441,
+      0.17919036897365004,
+      0.17896602593827993,
+      0.19686872803140432,
+      0.17942416190635413,
+      0.17850033601280302,
+      0.17900267895311117
+    ],
+    "all_visible_external_seconds": [
+      0.07914467598311603,
+      0.08777314890176058,
+      0.08658573310822248,
+      0.08709361497312784,
+      0.0741641940549016,
+      0.07356035604607314,
+      0.08242965000681579,
+      0.08579146000556648,
+      0.0812830519862473
+    ],
+    "median_one_worker_external_seconds": 0.17919036897365004,
+    "median_all_visible_external_seconds": 0.08242965000681579,
+    "median_external_speedup": 2.1738581803857406,
+    "median_one_worker_internal_seconds": 0.177382618,
+    "median_all_visible_internal_seconds": 0.078637351,
+    "median_internal_speedup": 2.25570439167006,
+    "median_one_worker_evaluator_seconds": 0.16562129300000006,
+    "median_all_visible_evaluator_seconds": 0.06450671200000004,
+    "median_evaluator_speedup": 2.567504804771323,
+    "median_one_worker_local_variation_repair_seconds": 0.010458785999999989,
+    "median_all_visible_local_variation_repair_seconds": 0.012188205000000004,
+    "variation_repair_execution": "locally executed below a 2048 logical-work threshold; no worker-team dispatch and no parallel speedup claim",
+    "speedup_denominator": "one-worker elapsed time divided by all-visible elapsed time on the same selected case, seed, physical FES, binary, and host"
+  },
+  "representative_all_visible_stage_receipt": {
+    "resolved_workers": 20,
+    "initialization": {
+      "wall_seconds": 0.000534363,
+      "parallel_regions": 1,
+      "task_items": 50,
+      "distinct_participants": 18,
+      "peak_region_participants": 18
+    },
+    "fusion_variation_repair": {
+      "wall_seconds": 0.011368368000000004,
+      "parallel_regions": 0,
+      "task_items": 9950,
+      "distinct_participants": 1,
+      "peak_region_participants": 1
+    },
+    "evaluator": {
+      "wall_seconds": 0.06333838299999997,
+      "parallel_regions": 399,
+      "task_items": 120000,
+      "distinct_participants": 20,
+      "peak_region_participants": 20
+    },
+    "selection_other_wall_seconds": 0.0007059189999999997
+  },
+  "schedule_adjudication": {
+    "discarded_diagnostic": "The first full-stage schedule created 1995 evaluator regions and made 20 workers slower than one worker (0.3468 versus 0.1904 internal seconds).",
+    "selected": "GranularityAware fused-state evaluator plus fused variation-repair; execute variation-repair locally when offspring_count times turbine_count is below 2048",
+    "rejected_alternative": "always dispatch the worker team for two separate 25-row variation and repair regions per generation",
+    "semantic_boundary": "scheduling only; all RNG keys, event counts, repair order, layouts, objectives, and physical FES remain unchanged",
+    "effect": "399 evaluator regions, zero variation-repair parallel regions, exact unchanged scientific fields, and a final nine-pair alternating-median all-visible speedup of 2.174x externally."
+  },
+  "claim_boundary": "Development-only CPU evidence on one selected P3 composite case. It is not a paper reproduction, formal multi-seed result, general scaling claim, or basis for pooling with WS1-WS4."
+}

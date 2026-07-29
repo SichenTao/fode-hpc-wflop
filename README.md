@@ -98,6 +98,41 @@ OMP_DYNAMIC=FALSE OMP_NUM_THREADS=20 OMP_PROC_BIND=spread OMP_PLACES=threads \
 List the canonical algorithm identifiers with
 `build/hpc/wflop_cpp/wflop_cpp_hpc --list-algorithms`.
 
+The isolated BDE WS5/WS6 executable covers the paper-visible 8-by-12 and
+8-by-16 scenario structures under two distinct P3 composite problem IDs. The
+numeric wind arrays are explicit declared constructions. The 28-by-28 mask is
+a manual two-pass transcription of numbered paper Fig. 5, independently
+cross-checked against the hash-frozen author source; Table 1 supplies 250 m,
+while the separately preserved source replay executes 231 m. These results
+must never be pooled or ranked with official-source WS1--WS4:
+
+```bash
+python3 scripts/prepare_bde_ws56_declared_proxy.py
+cmake -S hpc/bde_ws56_cpp -B build/bde_ws56_cpp \
+  -DCMAKE_BUILD_TYPE=Release
+cmake --build build/bde_ws56_cpp -j "$(nproc)"
+
+build/bde_ws56_cpp/bde_ws56_hpc \
+  --cases shared/contracts/bde_ws56_declared_proxy_cases.json \
+  --case BDEWS5P3DAEtn30 \
+  --physical-fes 10000 \
+  --seed 20260729 \
+  --workers 0 \
+  --execution-mode auto
+```
+
+The method ID
+`bde_paper_equations_imax400_exact_fes_v1` keeps paper
+`Imax=2*FES/L=400` inside the scale and crossover schedules. A 10,000-FES
+run includes 50 initialization evaluations and therefore completes 398
+half-population generations. Fusion is source-resolved as 12 superior plus 13
+inferior rows, with the complementary 13 plus 12 rows. Full objective and
+feasible-set hashes, exact selected-case FES, independent layout oracles,
+stage/work receipts, and one/all-visible scientific equivalence are audited by
+`scripts/audit_bde_ws56_contract.py`,
+`scripts/audit_bde_ws56_transition_parity.py`, and
+`scripts/validate_bde_ws56_declared_proxy.py`.
+
 The GGA package uses locally generated snapshots because the upstream
 repository has an academic-use notice but no standard redistribution license:
 
@@ -249,7 +284,8 @@ objective values across different problem profiles.
 It runs one optimization process at a time and uses all processors visible to
 that process internally. The four result families remain separate:
 18 algorithms on the common 50-case problem; BDE on 24 official-source WS1-WS4
-standard/Daegwallyeong cases; six algorithms on the three-objective T46
+standard/Daegwallyeong cases; isolated development-only BDE WS5/WS6 P3 cases
+outside the formal suite and its rankings; six algorithms on the three-objective T46
 problem; and GGA/GeoGA/T-MOEA on their declared offshore profiles. The BDE
 source arrays have no license file and remain outside Git; the campaign
 regenerates its local manifest from a staged authorized archive. ALGA, TAAE,

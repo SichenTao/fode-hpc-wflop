@@ -5,6 +5,7 @@ include(CTest)
 add_subdirectory(hpc/wflop_cpp)
 add_subdirectory(hpc/taae_cpp)
 add_subdirectory(hpc/ppga_cpp)
+add_subdirectory(hpc/bde_ws56_cpp)
 add_subdirectory(hpc/geoga_cpp)
 add_subdirectory(hpc/gga_cpp)
 add_subdirectory(hpc/pbea_cpp)
@@ -65,6 +66,25 @@ if(BUILD_TESTING)
         NAME geoga_operator_parity
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_geoga_operator_parity.py
+    )
+    add_test(
+        NAME bde_ws56_contract
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_bde_ws56_contract.py
+    )
+    add_test(
+        NAME bde_ws56_transition_parity
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_bde_ws56_transition_parity.py
+    )
+    add_test(
+        NAME bde_ws56_independent_oracle
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/validate_bde_ws56_declared_proxy.py
+            --binary $<TARGET_FILE:bde_ws56_hpc>
+            --cases ${CMAKE_CURRENT_SOURCE_DIR}/shared/contracts/bde_ws56_declared_proxy_cases.json
+            --physical-fes 75
+            --all-workers 0
     )
     add_test(
         NAME ppo_math

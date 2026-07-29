@@ -1,0 +1,43 @@
+{
+  "schema_version": 1,
+  "audit_id": "bde_ws56_transition_parity_20260729",
+  "audit_date": "2026-07-29",
+  "method_semantic_id": "bde_paper_equations_imax400_exact_fes_v1",
+  "old_profile_boundary": {
+    "method_semantic_id": "bde_paper_equations_physical_fes_v1",
+    "source_path": "hpc/wflop_cpp/src/algorithms.cpp",
+    "source_sha256": "1d5625f55df6f16025a739bfee24701b12bbe69c0195b13c34fd73904284526a",
+    "non_reuse_reason": "old profile derives 398 as maximum_generations and uses it inside Eqs.23 and 25"
+  },
+  "exact_transition_items": [
+    "counter RNG seed xor algorithm_salt(bde)",
+    "initial population phase 900 and sorted unique feasible cells",
+    "stable descending fitness ranking",
+    "superior/inferior deterministic shuffles phases 901 and 902",
+    "source-resolved 12/13 and 13/12 fused half-populations",
+    "distinct r1/r2/r3 phases 903/904/905",
+    "paper top-ceil(0.05L)=3 pbest phase 906",
+    "forced jrand phase 907 and binomial crossover phase 908",
+    "ceil and unique-cell repair phases 909/910",
+    "frozen-generation superior-half target replacement with >= tie acceptance",
+    "exact selected-case complete-layout FES",
+    "granularity-aware fused-state evaluator with fixed reduction order",
+    "fused variation-repair with local execution when offspring_count times turbine_count is below 2048"
+  ],
+  "intentional_transition_difference": {
+    "field": "paper_schedule_denominator",
+    "selected": 400,
+    "authority": "paper Eq.27 Imax=2*FES/L with FES=10000 and L=50",
+    "full_budget_completed_generations": 398,
+    "result": "new method semantic ID required"
+  },
+  "frozen_75_fes_fixture": {
+    "case_id": "BDEWS5P3DAEtn30",
+    "seed": 20260729,
+    "best_expected_power_kw": 10042.342862330535,
+    "best_layout_hash": "fnv1a64:e756087b66420fd9",
+    "population_layout_hash": "fnv1a64:3497b72377aab6a6",
+    "repair_random_draws": 40,
+    "accepted_replacements": 23
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "oracle_id": "bde_ws56_declared_proxy_oracle_v1",
+  "case_id": "BDEWS5P3DAEtn30",
+  "scalar_power_oracles_kw": {
+    "v_1p999": 0.0,
+    "v_8": 153.6,
+    "v_12p8": 629.1,
+    "v_17p999": 629.1,
+    "v_18": 0.0,
+    "v_18p001": 0.0
+  },
+  "complete_layout_1based": [
+    11, 12, 13, 14, 15, 40, 41, 42, 43, 44,
+    45, 69, 70, 71, 72, 73, 98, 99, 100, 101,
+    102, 127, 128, 129, 130, 131, 155, 156, 157, 158
+  ],
+  "expected_power_kw": 6625.9281689497684,
+  "no_wake_expected_power_kw": 10663.83,
+  "conversion_efficiency_percent": 62.13460050422567,
+  "independent_oracle": "scripts/validate_bde_ws56_declared_proxy.py imports the independently implemented Park/Jensen scalar evaluator from scripts/validate_bde_source_replay.py",
+  "tolerance": "1e-10 times max(1,abs(oracle))",
+  "objective_semantics_hash": "fnv1a64:0681d279ff856425",
+  "feasible_set_hash": "fnv1a64:833b9504f906384f"
+}
