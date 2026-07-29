@@ -1,0 +1,7174 @@
+{
+  "schema_version": 1,
+  "problem_id": "ise_landuse_117",
+  "semantics_id": "ise_landuse_117_v1",
+  "paper_doi": "10.1016/j.engappai.2023.106198",
+  "fidelity_class": "P1_paper_declared",
+  "claim_boundary": "Paper-declared P1-P3 x N15/20/25 x L0-L12 with 154 m cells; the shared discrete evaluator is parameterized per case.",
+  "physical_fes_budget": 20000,
+  "case_count": 117,
+  "cases": [
+    {
+      "case_id": "WS1_N15_NA0",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 0,
+      "unavailable_cells_1based": [],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "ea21727f90e087407beaabb7181d5ed9499f811d426fa4993ec10e9a50be2c62"
+    },
+    {
+      "case_id": "WS1_N15_NA1",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 1,
+      "unavailable_cells_1based": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "adedaeb1c0b57ccc8b9c5cae2e9e8a645bab4a20c3aff34f36ff2030be0141ad"
+    },
+    {
+      "case_id": "WS1_N15_NA2",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 2,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "930dfaf887c8ca05bf713ccd81cdeac072bb12254e7132684cbebbadc0049b05"
+    },
+    {
+      "case_id": "WS1_N15_NA3",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 3,
+      "unavailable_cells_1based": [
+        11,
+        12,
+        23,
+        24,
+        35,
+        36,
+        47,
+        48,
+        59,
+        60,
+        71,
+        72,
+        83,
+        84,
+        95,
+        96,
+        107,
+        108,
+        119,
+        120,
+        131,
+        132,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "34cf00c24e3760017d873631c48f20eafc117f240bc1e1a2dd7b711bfc1935fc"
+    },
+    {
+      "case_id": "WS1_N15_NA4",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 4,
+      "unavailable_cells_1based": [
+        6,
+        7,
+        18,
+        19,
+        30,
+        31,
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103,
+        114,
+        115,
+        126,
+        127,
+        138,
+        139
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "01c8d164ac3a5b2064584aa58422b338560af606feb03fb74014dc477d6771f4"
+    },
+    {
+      "case_id": "WS1_N15_NA5",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 5,
+      "unavailable_cells_1based": [
+        41,
+        42,
+        43,
+        44,
+        53,
+        54,
+        55,
+        56,
+        65,
+        66,
+        67,
+        68,
+        77,
+        78,
+        79,
+        80,
+        89,
+        90,
+        91,
+        92,
+        101,
+        102,
+        103,
+        104
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "a3ed8eb8d03758f4eab8079becf78d612709f04c0ef45fc174b9b18d44ffed86"
+    },
+    {
+      "case_id": "WS1_N15_NA6",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 6,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        14,
+        23,
+        24,
+        25,
+        26,
+        35,
+        36,
+        109,
+        110,
+        119,
+        120,
+        121,
+        122,
+        131,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "539b2935d5e0ae80af35177705d4548c812fbc3f8ec1db28b64ad3f42b9f9857"
+    },
+    {
+      "case_id": "WS1_N15_NA7",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 7,
+      "unavailable_cells_1based": [
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "fb60207ec6b44e7d72bb03b4e5788bc034beda8e40e73187d3269eaef7e9dca3"
+    },
+    {
+      "case_id": "WS1_N15_NA8",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 8,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "946289f12e4211c5dce9b48177335097c81345482c34aa4433c9d02d9b612c16"
+    },
+    {
+      "case_id": "WS1_N15_NA9",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 9,
+      "unavailable_cells_1based": [
+        12,
+        24,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "7f469805a9ab44c331d2a83abb6ce006b5c5d550e73284956bc72da7e03dac70"
+    },
+    {
+      "case_id": "WS1_N15_NA10",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 10,
+      "unavailable_cells_1based": [
+        6,
+        18,
+        30,
+        42,
+        54,
+        66,
+        78,
+        90,
+        102,
+        114,
+        126,
+        138
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "8f4d4fc6facaa8c364b5e52108e44574b552ef6354c239b9796e40ed081161f3"
+    },
+    {
+      "case_id": "WS1_N15_NA11",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 11,
+      "unavailable_cells_1based": [
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "8f34553eb75bdab2c108db0bb30895215141b65c11c3e7a024d96257e321fd96"
+    },
+    {
+      "case_id": "WS1_N15_NA12",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 12,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        24,
+        121,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "0beb1b9210ec8260ed5b02b58380d7b79e9f605fa7b02e62d36d00e3e5420ae0"
+    },
+    {
+      "case_id": "WS1_N20_NA0",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 0,
+      "unavailable_cells_1based": [],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "03aa17745132f2ea7b4c906531bfe011c627e03800c61935473432b8b04e674e"
+    },
+    {
+      "case_id": "WS1_N20_NA1",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 1,
+      "unavailable_cells_1based": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "a8bd4ad2713debff3068ccc470075d77caa505a1a5bcf62eccc6c9c4e998a8c4"
+    },
+    {
+      "case_id": "WS1_N20_NA2",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 2,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "f4d1d8eecd00ccc271c841ac0d286a8060ecede6735d21f254e79e2e2ce714eb"
+    },
+    {
+      "case_id": "WS1_N20_NA3",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 3,
+      "unavailable_cells_1based": [
+        11,
+        12,
+        23,
+        24,
+        35,
+        36,
+        47,
+        48,
+        59,
+        60,
+        71,
+        72,
+        83,
+        84,
+        95,
+        96,
+        107,
+        108,
+        119,
+        120,
+        131,
+        132,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "97df11c499fe2053dd66d48aa61e4b9c92fb1844d7a839fc9ddb5323e2621b78"
+    },
+    {
+      "case_id": "WS1_N20_NA4",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 4,
+      "unavailable_cells_1based": [
+        6,
+        7,
+        18,
+        19,
+        30,
+        31,
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103,
+        114,
+        115,
+        126,
+        127,
+        138,
+        139
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "1f30c4157ad18b54311bdf45f95ce37ee2883045aeb6dc31e377397efdd37239"
+    },
+    {
+      "case_id": "WS1_N20_NA5",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 5,
+      "unavailable_cells_1based": [
+        41,
+        42,
+        43,
+        44,
+        53,
+        54,
+        55,
+        56,
+        65,
+        66,
+        67,
+        68,
+        77,
+        78,
+        79,
+        80,
+        89,
+        90,
+        91,
+        92,
+        101,
+        102,
+        103,
+        104
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "afd2e0acf5c755f50c0aadaa2f7b5bd1a16c921212ea4c9f86beaa878429d201"
+    },
+    {
+      "case_id": "WS1_N20_NA6",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 6,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        14,
+        23,
+        24,
+        25,
+        26,
+        35,
+        36,
+        109,
+        110,
+        119,
+        120,
+        121,
+        122,
+        131,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "b631f57f7cba1124eff32b546659758137f982c8156fee0e4ac21d245e75f622"
+    },
+    {
+      "case_id": "WS1_N20_NA7",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 7,
+      "unavailable_cells_1based": [
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "8a51420c9f2be73376255bfe023737196fd78edaef66265eb16285f2b304d623"
+    },
+    {
+      "case_id": "WS1_N20_NA8",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 8,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "adccb435b05ca7acf216ddbebf5ec10f9c00cf335e2080ac90d79e873a89a466"
+    },
+    {
+      "case_id": "WS1_N20_NA9",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 9,
+      "unavailable_cells_1based": [
+        12,
+        24,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "01e136eb780f085fed2f7c7fac5d99eacc4e2d3d25fa39c167402d9b424ea36b"
+    },
+    {
+      "case_id": "WS1_N20_NA10",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 10,
+      "unavailable_cells_1based": [
+        6,
+        18,
+        30,
+        42,
+        54,
+        66,
+        78,
+        90,
+        102,
+        114,
+        126,
+        138
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "11cd6256659fdc1f5b800c95a8285d10191c45b95d5004c161b8776ecd9fb43e"
+    },
+    {
+      "case_id": "WS1_N20_NA11",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 11,
+      "unavailable_cells_1based": [
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "3c658cb797bc6dfac1f1fb279bba1675b6c9c72c757d7a058b1eeed6a8ff472e"
+    },
+    {
+      "case_id": "WS1_N20_NA12",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 12,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        24,
+        121,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "0be75cb49154a4d03e74c584066899c229d072cf546df25f7a0e8074f4880b25"
+    },
+    {
+      "case_id": "WS1_N25_NA0",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 0,
+      "unavailable_cells_1based": [],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "aa78387b1848264f5d61066490e2258594a8e3ce766663cd4f602bcf2df0be05"
+    },
+    {
+      "case_id": "WS1_N25_NA1",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 1,
+      "unavailable_cells_1based": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "928725159f2956eefd94552f84c762e25719ff334f1e3c4391894e0554be5b43"
+    },
+    {
+      "case_id": "WS1_N25_NA2",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 2,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "680cc9b0e153d369aff4613bda1e4ad0173c0c3ff85466ec0b1a7e516d7be94e"
+    },
+    {
+      "case_id": "WS1_N25_NA3",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 3,
+      "unavailable_cells_1based": [
+        11,
+        12,
+        23,
+        24,
+        35,
+        36,
+        47,
+        48,
+        59,
+        60,
+        71,
+        72,
+        83,
+        84,
+        95,
+        96,
+        107,
+        108,
+        119,
+        120,
+        131,
+        132,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "32d0f03d4707093d7a0ccc57293fa9be0822ef6614b110f48574000fd626fc8a"
+    },
+    {
+      "case_id": "WS1_N25_NA4",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 4,
+      "unavailable_cells_1based": [
+        6,
+        7,
+        18,
+        19,
+        30,
+        31,
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103,
+        114,
+        115,
+        126,
+        127,
+        138,
+        139
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "d32ccc46d9c0ef28aba4962d7439214935a21e21e85a10c52f061b5579d0b3a3"
+    },
+    {
+      "case_id": "WS1_N25_NA5",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 5,
+      "unavailable_cells_1based": [
+        41,
+        42,
+        43,
+        44,
+        53,
+        54,
+        55,
+        56,
+        65,
+        66,
+        67,
+        68,
+        77,
+        78,
+        79,
+        80,
+        89,
+        90,
+        91,
+        92,
+        101,
+        102,
+        103,
+        104
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "bf1cb9a291e4b9e5fe20f9642196255ca55298a4f336d9cdf983d18da2020704"
+    },
+    {
+      "case_id": "WS1_N25_NA6",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 6,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        14,
+        23,
+        24,
+        25,
+        26,
+        35,
+        36,
+        109,
+        110,
+        119,
+        120,
+        121,
+        122,
+        131,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "299f2c50612c2f92ca1d4af5c04d380e60ce61a13c0260b4da0c37dd9ecf538e"
+    },
+    {
+      "case_id": "WS1_N25_NA7",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 7,
+      "unavailable_cells_1based": [
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "3f673bc025f6ae02fbc9a834ad5beeffedfd0e6b921af10971ef722df5f13272"
+    },
+    {
+      "case_id": "WS1_N25_NA8",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 8,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "231be65061f830294d5f9ba5f30f4add98589aa4375179e9ff35f5ee46e12a19"
+    },
+    {
+      "case_id": "WS1_N25_NA9",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 9,
+      "unavailable_cells_1based": [
+        12,
+        24,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "4c522d073516cb65007614c81ba42105e04ef897a99911cbc7c3820df40abcbf"
+    },
+    {
+      "case_id": "WS1_N25_NA10",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 10,
+      "unavailable_cells_1based": [
+        6,
+        18,
+        30,
+        42,
+        54,
+        66,
+        78,
+        90,
+        102,
+        114,
+        126,
+        138
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "961d115dff6d79391e67df3da40e118905427f9e6a9353ca9ca48bf99f2d96a1"
+    },
+    {
+      "case_id": "WS1_N25_NA11",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 11,
+      "unavailable_cells_1based": [
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "7e5dd927777bc8c2138dd927845ad413d17c69b3783ada0a58e721da8e9abc33"
+    },
+    {
+      "case_id": "WS1_N25_NA12",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 12,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        24,
+        121,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "f935b581c6ad1e6da9affae8ade1831136c83990f9c5aceadcd32c1511d13344"
+    },
+    {
+      "case_id": "WS2_N15_NA0",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 0,
+      "unavailable_cells_1based": [],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "6aa720a9f5213b6f7f261fc2c49124bef87b86a1150ef53cc3ff4c3761519433"
+    },
+    {
+      "case_id": "WS2_N15_NA1",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 1,
+      "unavailable_cells_1based": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "191a58b39ba6317f870630fdb089aaf93c5612e41421f9a1d2db0999d6a623eb"
+    },
+    {
+      "case_id": "WS2_N15_NA2",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 2,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "c82c1cb764bcca34460966d5278e04845431e95aef1b8b1c690c1cc5e3ba0207"
+    },
+    {
+      "case_id": "WS2_N15_NA3",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 3,
+      "unavailable_cells_1based": [
+        11,
+        12,
+        23,
+        24,
+        35,
+        36,
+        47,
+        48,
+        59,
+        60,
+        71,
+        72,
+        83,
+        84,
+        95,
+        96,
+        107,
+        108,
+        119,
+        120,
+        131,
+        132,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "d017a7a0acf97b5cae71de1ea297bb204b07460abd35d4f3e0c365782671b3f6"
+    },
+    {
+      "case_id": "WS2_N15_NA4",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 4,
+      "unavailable_cells_1based": [
+        6,
+        7,
+        18,
+        19,
+        30,
+        31,
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103,
+        114,
+        115,
+        126,
+        127,
+        138,
+        139
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "a576a30ea7e38df8720961a451c8e37487f434a05fadb04f28cb734e1b2b1b9a"
+    },
+    {
+      "case_id": "WS2_N15_NA5",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 5,
+      "unavailable_cells_1based": [
+        41,
+        42,
+        43,
+        44,
+        53,
+        54,
+        55,
+        56,
+        65,
+        66,
+        67,
+        68,
+        77,
+        78,
+        79,
+        80,
+        89,
+        90,
+        91,
+        92,
+        101,
+        102,
+        103,
+        104
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "7fbf985059d34241230dd3dd254431d1b64f895af3586b28a3eac714aaa928ba"
+    },
+    {
+      "case_id": "WS2_N15_NA6",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 6,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        14,
+        23,
+        24,
+        25,
+        26,
+        35,
+        36,
+        109,
+        110,
+        119,
+        120,
+        121,
+        122,
+        131,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "74eb1e7125911b723d89275ffafeaa211a3399de02580c538181e4a2742c24d3"
+    },
+    {
+      "case_id": "WS2_N15_NA7",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 7,
+      "unavailable_cells_1based": [
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "2dcd44967a5c578162569c541a3d9713e0188af336935b0b954f4556f1376c08"
+    },
+    {
+      "case_id": "WS2_N15_NA8",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 8,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "22e4fcf6d9482f58c6d3d72722905bf37dd0df800a2e35641aabfefe38a03458"
+    },
+    {
+      "case_id": "WS2_N15_NA9",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 9,
+      "unavailable_cells_1based": [
+        12,
+        24,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "1234ed020a5cab1f4fdef479974a2c1d79b2c237a28fa34afce7af1634c7fbaf"
+    },
+    {
+      "case_id": "WS2_N15_NA10",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 10,
+      "unavailable_cells_1based": [
+        6,
+        18,
+        30,
+        42,
+        54,
+        66,
+        78,
+        90,
+        102,
+        114,
+        126,
+        138
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "84c6ac57190c335ee35d094eeab83695713d59f76bbc57990c3f1ea5c324ebb5"
+    },
+    {
+      "case_id": "WS2_N15_NA11",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 11,
+      "unavailable_cells_1based": [
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "4ad8256640df7da343706d0b6fb953e33ce6f28539eb255f4a02a4bc6d61a9cc"
+    },
+    {
+      "case_id": "WS2_N15_NA12",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 12,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        24,
+        121,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "2762069acea8ff5e8125d945e0135ad6ebdad2cc51f5c6df9dff32b558532051"
+    },
+    {
+      "case_id": "WS2_N20_NA0",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 0,
+      "unavailable_cells_1based": [],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "3da271ca5896218103bb4fab36f53ffa5b2be728e2bb2912cf8bcf1c0f6a9bf7"
+    },
+    {
+      "case_id": "WS2_N20_NA1",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 1,
+      "unavailable_cells_1based": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "8d86c912799b8789f279d23bd4c045c9f545c15b5955820b64b931656fafa506"
+    },
+    {
+      "case_id": "WS2_N20_NA2",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 2,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "f836bffd67502c770fc9f555b63e1584d0a5e085a5e00c1888a2e5848830ef94"
+    },
+    {
+      "case_id": "WS2_N20_NA3",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 3,
+      "unavailable_cells_1based": [
+        11,
+        12,
+        23,
+        24,
+        35,
+        36,
+        47,
+        48,
+        59,
+        60,
+        71,
+        72,
+        83,
+        84,
+        95,
+        96,
+        107,
+        108,
+        119,
+        120,
+        131,
+        132,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "b757136b97e4f5d5e44921f1b97ab64483fa84ad8598a30019f35d7f3e64c59e"
+    },
+    {
+      "case_id": "WS2_N20_NA4",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 4,
+      "unavailable_cells_1based": [
+        6,
+        7,
+        18,
+        19,
+        30,
+        31,
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103,
+        114,
+        115,
+        126,
+        127,
+        138,
+        139
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "ae78348d3afe4aadb7b267b1f324e0b628e8ed89dd0179ecf58e647871b37c87"
+    },
+    {
+      "case_id": "WS2_N20_NA5",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 5,
+      "unavailable_cells_1based": [
+        41,
+        42,
+        43,
+        44,
+        53,
+        54,
+        55,
+        56,
+        65,
+        66,
+        67,
+        68,
+        77,
+        78,
+        79,
+        80,
+        89,
+        90,
+        91,
+        92,
+        101,
+        102,
+        103,
+        104
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "811466c875d180574a742f18944ba4fc5baeff37a967c2b49e034d9b86cebe8d"
+    },
+    {
+      "case_id": "WS2_N20_NA6",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 6,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        14,
+        23,
+        24,
+        25,
+        26,
+        35,
+        36,
+        109,
+        110,
+        119,
+        120,
+        121,
+        122,
+        131,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "e13ff7961a39c5fea55ef3cf38688ba2c7275b8378d67b0262513ab6a828c2d8"
+    },
+    {
+      "case_id": "WS2_N20_NA7",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 7,
+      "unavailable_cells_1based": [
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "f0115ae4fa523c676b1c826cd09f1a0b7f453d38823c2df6ff0eb3d670774ebc"
+    },
+    {
+      "case_id": "WS2_N20_NA8",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 8,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "715a649b3d6f3bd169fbe38fa0f552bea7637597cd0995f2ca29e96de7a97316"
+    },
+    {
+      "case_id": "WS2_N20_NA9",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 9,
+      "unavailable_cells_1based": [
+        12,
+        24,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "f4867aa2712b12eee7d132d6c6a63d428a7afd992c7e72cbfa1551f2b29d10e3"
+    },
+    {
+      "case_id": "WS2_N20_NA10",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 10,
+      "unavailable_cells_1based": [
+        6,
+        18,
+        30,
+        42,
+        54,
+        66,
+        78,
+        90,
+        102,
+        114,
+        126,
+        138
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "0e04cd925166103a29c3012d48b5f72e7fbc82741965d0d389f6e743a4810abe"
+    },
+    {
+      "case_id": "WS2_N20_NA11",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 11,
+      "unavailable_cells_1based": [
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "4ea7217a5417b6f73ab49fc37fc7ab8a8a16aebb1d4d7da47363da5f3f9535e9"
+    },
+    {
+      "case_id": "WS2_N20_NA12",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 12,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        24,
+        121,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "27ae97735900926b18ae21ecc22bb4275fe00faadc6b2d9f1fe3cc92ed729084"
+    },
+    {
+      "case_id": "WS2_N25_NA0",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 0,
+      "unavailable_cells_1based": [],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "311c84f78a10f6e02717d839b4d5a2b15539f9aa1a7585372d5864f8d2c1734b"
+    },
+    {
+      "case_id": "WS2_N25_NA1",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 1,
+      "unavailable_cells_1based": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "57bed3c087d6ed0279408f83dc13e8f8780afc72d4e864fe59bf27e6ea6ef0b5"
+    },
+    {
+      "case_id": "WS2_N25_NA2",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 2,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "940bcf824cdc296f7881c8e8528b5aac1f5da03fe6666779a5066711d6b2bdce"
+    },
+    {
+      "case_id": "WS2_N25_NA3",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 3,
+      "unavailable_cells_1based": [
+        11,
+        12,
+        23,
+        24,
+        35,
+        36,
+        47,
+        48,
+        59,
+        60,
+        71,
+        72,
+        83,
+        84,
+        95,
+        96,
+        107,
+        108,
+        119,
+        120,
+        131,
+        132,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "f9bb74b49e8e5837d12cc83caf145a4f56091e48fe5324f681782855f80a9d82"
+    },
+    {
+      "case_id": "WS2_N25_NA4",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 4,
+      "unavailable_cells_1based": [
+        6,
+        7,
+        18,
+        19,
+        30,
+        31,
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103,
+        114,
+        115,
+        126,
+        127,
+        138,
+        139
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "1244849e123c6b6ab2a16270a9408f96927f2414c6fe370a9c91cb16922c027b"
+    },
+    {
+      "case_id": "WS2_N25_NA5",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 5,
+      "unavailable_cells_1based": [
+        41,
+        42,
+        43,
+        44,
+        53,
+        54,
+        55,
+        56,
+        65,
+        66,
+        67,
+        68,
+        77,
+        78,
+        79,
+        80,
+        89,
+        90,
+        91,
+        92,
+        101,
+        102,
+        103,
+        104
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "9e746f230e8343a3261db47cc2dd20133f7f96eba47f538dc2f66864bfda7707"
+    },
+    {
+      "case_id": "WS2_N25_NA6",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 6,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        14,
+        23,
+        24,
+        25,
+        26,
+        35,
+        36,
+        109,
+        110,
+        119,
+        120,
+        121,
+        122,
+        131,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "906476192d36c67b2837a968290fd491069868a0bbef165751d02a3f33cd0940"
+    },
+    {
+      "case_id": "WS2_N25_NA7",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 7,
+      "unavailable_cells_1based": [
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "b73530dde6ef1155373f1900b3acf21026046eed8e48108c6a50e459336962bc"
+    },
+    {
+      "case_id": "WS2_N25_NA8",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 8,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "aae892569dd593500ce1cdbe9507b82af0909fb93ece630cff3d78cb70ba2b2e"
+    },
+    {
+      "case_id": "WS2_N25_NA9",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 9,
+      "unavailable_cells_1based": [
+        12,
+        24,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "1ce83436aed8a5c2585ff4d155a66804e2754e3573393da47c1782a40d8586ae"
+    },
+    {
+      "case_id": "WS2_N25_NA10",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 10,
+      "unavailable_cells_1based": [
+        6,
+        18,
+        30,
+        42,
+        54,
+        66,
+        78,
+        90,
+        102,
+        114,
+        126,
+        138
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "16a6ec53a0fc331334cf103f5c95a2f70fddea7ad0e6f5cb786e444e38e23213"
+    },
+    {
+      "case_id": "WS2_N25_NA11",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 11,
+      "unavailable_cells_1based": [
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "bd17633804a00949a72b3f84166d46fde9186cd905c1e26258fb4049c07b308e"
+    },
+    {
+      "case_id": "WS2_N25_NA12",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 12,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        24,
+        121,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "e272257e134e0afbf424befd467c6c690399b6a2df5071335259c9fc07bbebd5"
+    },
+    {
+      "case_id": "WS3_N15_NA0",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 0,
+      "unavailable_cells_1based": [],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "e03f3c237484907386143bbe3d6ebf76985c1c3d4be0ee916570a5d3e1bc4aa3"
+    },
+    {
+      "case_id": "WS3_N15_NA1",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 1,
+      "unavailable_cells_1based": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "0fa811f02ae5ee4488db3de7f00e6cf10188d56e4c31c2aa80045896784cd0ff"
+    },
+    {
+      "case_id": "WS3_N15_NA2",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 2,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "ce44393f8f89c947a4a6db23ba2b77a5b85c4e631ece6d40666d1102fda627ac"
+    },
+    {
+      "case_id": "WS3_N15_NA3",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 3,
+      "unavailable_cells_1based": [
+        11,
+        12,
+        23,
+        24,
+        35,
+        36,
+        47,
+        48,
+        59,
+        60,
+        71,
+        72,
+        83,
+        84,
+        95,
+        96,
+        107,
+        108,
+        119,
+        120,
+        131,
+        132,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "7dfb681a8c91ad38fb6a175aa8d91615628e35b3ec76e86ba8cfa86d2c7c81ba"
+    },
+    {
+      "case_id": "WS3_N15_NA4",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 4,
+      "unavailable_cells_1based": [
+        6,
+        7,
+        18,
+        19,
+        30,
+        31,
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103,
+        114,
+        115,
+        126,
+        127,
+        138,
+        139
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "a003f30d6d1ae5fc19b67660afab393e1868137bd5e90cabf9b75fcacc32e1e8"
+    },
+    {
+      "case_id": "WS3_N15_NA5",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 5,
+      "unavailable_cells_1based": [
+        41,
+        42,
+        43,
+        44,
+        53,
+        54,
+        55,
+        56,
+        65,
+        66,
+        67,
+        68,
+        77,
+        78,
+        79,
+        80,
+        89,
+        90,
+        91,
+        92,
+        101,
+        102,
+        103,
+        104
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "6b8bbd505d5e82cf83e4e14a8396b4648751cf69c16f39b0f4973216294c0e62"
+    },
+    {
+      "case_id": "WS3_N15_NA6",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 6,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        14,
+        23,
+        24,
+        25,
+        26,
+        35,
+        36,
+        109,
+        110,
+        119,
+        120,
+        121,
+        122,
+        131,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "115262c298cc68abbff4f991e5a5fa15db40ab39975d2a39f56c017536fff427"
+    },
+    {
+      "case_id": "WS3_N15_NA7",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 7,
+      "unavailable_cells_1based": [
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "aaded2266ba7fc3be6cd62d67a50dcd99dccccd5bd0b982d27e8398d2075b5e7"
+    },
+    {
+      "case_id": "WS3_N15_NA8",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 8,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "8b5b76cb0a03f61506ccfa2fc743c65af97cae27f90967a01ee4b4bfd7c7f737"
+    },
+    {
+      "case_id": "WS3_N15_NA9",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 9,
+      "unavailable_cells_1based": [
+        12,
+        24,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "0418c38998cbd7812a25a4d3d734e582fc53b71ee366d661c96ec0851772ce89"
+    },
+    {
+      "case_id": "WS3_N15_NA10",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 10,
+      "unavailable_cells_1based": [
+        6,
+        18,
+        30,
+        42,
+        54,
+        66,
+        78,
+        90,
+        102,
+        114,
+        126,
+        138
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "b3bb38b2128747a46c76660cad1b011136946c687415dc64b7cdbd99508df406"
+    },
+    {
+      "case_id": "WS3_N15_NA11",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 11,
+      "unavailable_cells_1based": [
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "00df71ec40e2874078a44894adf0ca46785af98dcc5d76f2129dd9bc91eb6cfd"
+    },
+    {
+      "case_id": "WS3_N15_NA12",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 12,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        24,
+        121,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "4170e6af05c8559b976562a4e68836c92692405d8a31ad5f59a57c4cb5f211a7"
+    },
+    {
+      "case_id": "WS3_N20_NA0",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 0,
+      "unavailable_cells_1based": [],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "7091dbdba68d83bd43a5a00ae145b8826fdf7030e2bec161c1dc4abbd598295f"
+    },
+    {
+      "case_id": "WS3_N20_NA1",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 1,
+      "unavailable_cells_1based": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "7ed6f65022f2aab2f3234dc279defb44d3726fd4866fec13fc22711decfc0232"
+    },
+    {
+      "case_id": "WS3_N20_NA2",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 2,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "c0aca048e1f6cfbdadb75f76ea6852d9c977bb801588aad4ba3303a347d65be3"
+    },
+    {
+      "case_id": "WS3_N20_NA3",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 3,
+      "unavailable_cells_1based": [
+        11,
+        12,
+        23,
+        24,
+        35,
+        36,
+        47,
+        48,
+        59,
+        60,
+        71,
+        72,
+        83,
+        84,
+        95,
+        96,
+        107,
+        108,
+        119,
+        120,
+        131,
+        132,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "5b6c13a8e47a8b457b906c564d2c3302b0326e5926b2b022334dfc955b109366"
+    },
+    {
+      "case_id": "WS3_N20_NA4",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 4,
+      "unavailable_cells_1based": [
+        6,
+        7,
+        18,
+        19,
+        30,
+        31,
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103,
+        114,
+        115,
+        126,
+        127,
+        138,
+        139
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "c613c89bf2c183d705bddc43a2ac49f46b97905517f084ceb07c166f0d96816f"
+    },
+    {
+      "case_id": "WS3_N20_NA5",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 5,
+      "unavailable_cells_1based": [
+        41,
+        42,
+        43,
+        44,
+        53,
+        54,
+        55,
+        56,
+        65,
+        66,
+        67,
+        68,
+        77,
+        78,
+        79,
+        80,
+        89,
+        90,
+        91,
+        92,
+        101,
+        102,
+        103,
+        104
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "4a8f046dc7f9f1316c7331318384244e422bc92083a9d4acf1e4e1154f48e33e"
+    },
+    {
+      "case_id": "WS3_N20_NA6",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 6,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        14,
+        23,
+        24,
+        25,
+        26,
+        35,
+        36,
+        109,
+        110,
+        119,
+        120,
+        121,
+        122,
+        131,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "38155fabbbef55a5a624f746f0037349994837b764b745112596bd67127c2b19"
+    },
+    {
+      "case_id": "WS3_N20_NA7",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 7,
+      "unavailable_cells_1based": [
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "95463097f8151c99a6f9382b6fea16a0da5720147fa6b78d62104aed55680a70"
+    },
+    {
+      "case_id": "WS3_N20_NA8",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 8,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "8ac37a86801750d98dc7eedef726ea32f57d0be7e859d349745beb196711b496"
+    },
+    {
+      "case_id": "WS3_N20_NA9",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 9,
+      "unavailable_cells_1based": [
+        12,
+        24,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "500e01694dd39ef5a4660fe54e034ee52b29610eb1b154138283226a8b07f2fe"
+    },
+    {
+      "case_id": "WS3_N20_NA10",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 10,
+      "unavailable_cells_1based": [
+        6,
+        18,
+        30,
+        42,
+        54,
+        66,
+        78,
+        90,
+        102,
+        114,
+        126,
+        138
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "07d14e1fd064b091c3aaa404bc6c2e92fc17a596c4eec8a92def8c4629b7ed5f"
+    },
+    {
+      "case_id": "WS3_N20_NA11",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 11,
+      "unavailable_cells_1based": [
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "3bd19f6234143bc48394cd735d7a00db6bad44ab03e5a4289be539c58f06319e"
+    },
+    {
+      "case_id": "WS3_N20_NA12",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 20,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 12,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        24,
+        121,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "fe0649105c25fcb665fc2ddd0754983dccc69a9364c10a5567e7b10469f6422b"
+    },
+    {
+      "case_id": "WS3_N25_NA0",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 0,
+      "unavailable_cells_1based": [],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "47881430415b998af9657871c83b1d82b0a070a1770ba0648def07b2217dea12"
+    },
+    {
+      "case_id": "WS3_N25_NA1",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 1,
+      "unavailable_cells_1based": [
+        121,
+        122,
+        123,
+        124,
+        125,
+        126,
+        127,
+        128,
+        129,
+        130,
+        131,
+        132,
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "2a09a9e15c162017e6eec52f00108548c1a232d7fc97589c71e88a07fb99d4e5"
+    },
+    {
+      "case_id": "WS3_N25_NA2",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 2,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72,
+        73,
+        74,
+        75,
+        76,
+        77,
+        78,
+        79,
+        80,
+        81,
+        82,
+        83,
+        84
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "81b8d062c267ab19d43641365930fb260001905752a936db0229b83cb0d50d79"
+    },
+    {
+      "case_id": "WS3_N25_NA3",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 3,
+      "unavailable_cells_1based": [
+        11,
+        12,
+        23,
+        24,
+        35,
+        36,
+        47,
+        48,
+        59,
+        60,
+        71,
+        72,
+        83,
+        84,
+        95,
+        96,
+        107,
+        108,
+        119,
+        120,
+        131,
+        132,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "022c73e138841b491ece5db161d74f52fb3b2902cb89855e4a49cdbb3e2b61f6"
+    },
+    {
+      "case_id": "WS3_N25_NA4",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 4,
+      "unavailable_cells_1based": [
+        6,
+        7,
+        18,
+        19,
+        30,
+        31,
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103,
+        114,
+        115,
+        126,
+        127,
+        138,
+        139
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "d27631bbdd3c829ecfd408f47c7b962d88a505b12f339ed6a19a7eaf3ae490f1"
+    },
+    {
+      "case_id": "WS3_N25_NA5",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 5,
+      "unavailable_cells_1based": [
+        41,
+        42,
+        43,
+        44,
+        53,
+        54,
+        55,
+        56,
+        65,
+        66,
+        67,
+        68,
+        77,
+        78,
+        79,
+        80,
+        89,
+        90,
+        91,
+        92,
+        101,
+        102,
+        103,
+        104
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "5392a122923bde5c34dc7a5d25ecd593453854f65e18d74b60a7dafe619bf2d6"
+    },
+    {
+      "case_id": "WS3_N25_NA6",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 6,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        14,
+        23,
+        24,
+        25,
+        26,
+        35,
+        36,
+        109,
+        110,
+        119,
+        120,
+        121,
+        122,
+        131,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "f344b192f524adbaab5d46755888b752fb82dfbab3ccbcf2f1b86cd15b395947"
+    },
+    {
+      "case_id": "WS3_N25_NA7",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 7,
+      "unavailable_cells_1based": [
+        133,
+        134,
+        135,
+        136,
+        137,
+        138,
+        139,
+        140,
+        141,
+        142,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "9f29e96e8b749bfcc9fbefdb4c47106971f367e5f2459aac7544662c9e3f9037"
+    },
+    {
+      "case_id": "WS3_N25_NA8",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 8,
+      "unavailable_cells_1based": [
+        61,
+        62,
+        63,
+        64,
+        65,
+        66,
+        67,
+        68,
+        69,
+        70,
+        71,
+        72
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "e7b138d2205c5271138728c1281e98e4bb49b4acc115c70130dc2276c21f5c32"
+    },
+    {
+      "case_id": "WS3_N25_NA9",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 9,
+      "unavailable_cells_1based": [
+        12,
+        24,
+        36,
+        48,
+        60,
+        72,
+        84,
+        96,
+        108,
+        120,
+        132,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "59e393561e70611993fd2a10b878676ee611e78d076e9318ca815051ed947d20"
+    },
+    {
+      "case_id": "WS3_N25_NA10",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 10,
+      "unavailable_cells_1based": [
+        6,
+        18,
+        30,
+        42,
+        54,
+        66,
+        78,
+        90,
+        102,
+        114,
+        126,
+        138
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "e3d39aad7a3114789bb82adb99a00f926db8d7dcd0ef070ee1eb37cdee7dec40"
+    },
+    {
+      "case_id": "WS3_N25_NA11",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 11,
+      "unavailable_cells_1based": [
+        42,
+        43,
+        54,
+        55,
+        66,
+        67,
+        78,
+        79,
+        90,
+        91,
+        102,
+        103
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "92338728ff53407ad58ef9af1af592f20e3918a6fd261bd128fbd848c1f8c1e9"
+    },
+    {
+      "case_id": "WS3_N25_NA12",
+      "semantics_id": "ise_landuse_117_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 25,
+      "cell_width": 154.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 12,
+      "unavailable_cells_1based": [
+        1,
+        2,
+        11,
+        12,
+        13,
+        24,
+        121,
+        132,
+        133,
+        134,
+        143,
+        144
+      ],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "40be8b88b08660f3e96e66124b37206f321baa75e574349f7044e2f4547c769c"
+    }
+  ],
+  "contract_hash": "cec5f6c9c324bcaff84b058485f11cb5625a8506ba62407ae73a77e420711128"
+}

@@ -1,0 +1,30 @@
+algorithm_id	display_label	method_semantic_id	evidence_authority	clean_room_completion	bounded_execution_status	claim_boundary
+aga	AGA	aga_paper_first_e0_physical_fes_v1	10.1016/j.apenergy.2019.04.084 plus archived source	canonical existing C++ implementation	executable	Paper/source implementation on the selected native problem
+sugga	SUGGA	sugga_frozen_surrogate_e0_physical_fes_v1	10.1016/j.enconman.2019.06.082 plus archived source	canonical existing C++ state machine; new paper-native case models must be trained	training_required	No FODE surrogate is reused for a different wind/problem semantic
+pso	PSO	pso_canonical_integer_wflop_v1	10.1109/ICNN.1995.488968 plus target-paper parameters	clean-room canonical PSO with discrete repair	executable	Canonical comparator reconstruction, not an unavailable author executable
+cgpso	CGPSO	cgpso_paper_staged_parallel_e0_physical_fes_v1	10.1109/jas.2023.123387 plus archived source	canonical existing C++ paper-first implementation	executable	Paper-first barrier semantics
+lshade	LSHADE	lshade_paper_first_e0_physical_fes_v1	10.1109/CEC.2014.6900380 plus archived source	canonical existing C++ implementation	executable	Paper/source implementation on the selected native problem
+lshadecnepsin	LSHADE-cnEpSin	lshadecnepsin_paper_guided_reconstruction_v1	CLSHADE target paper parameter table and LSHADE predecessor	clean-room current-to-pbest success-history sinusoidal/local-search reconstruction	executable	Comparator reconstruction; unavailable exact author state is not claimed
+cjade	CJADE	cjade_archived_source_reconstruction_v1	archived local CJADE source plus target paper	clean-room current-to-pbest chaotic-local-search reconstruction	executable	Behavior reconstruction under no-redistribution source evidence
+clpso	CLPSO	clpso_archived_source_reconstruction_v1	archived local CLPSO source plus target paper	clean-room comprehensive-learning PSO reconstruction	executable	Behavior reconstruction under no-redistribution source evidence
+se	Spherical Evolution	se_spherical_paper_guided_reconstruction_v1	ISE paper predecessor equations	clean-room spherical-coordinate search reconstruction	executable	Paper-guided comparator reconstruction
+de	DE/rand/1/bin	de_rand_1_bin_integer_wflop_v1	canonical DE paper plus target paper parameters	clean-room canonical DE with discrete repair	executable	Canonical comparator reconstruction
+scjade	SCJADE	scjade_paper_guided_reconstruction_v1	ISE paper parameter table plus CJADE predecessor	clean-room self-adaptive chaotic JADE reconstruction	executable	Paper-guided comparator reconstruction
+shade	SHADE	shade_success_history_integer_wflop_v1	10.1109/CEC.2013.6557555 plus target paper parameters	clean-room fixed-population success-history DE reconstruction	executable	Canonical comparator reconstruction
+algsa	ALGSA	algsa_archived_source_reconstruction_v1	archived local ALGSA source plus target paper	clean-room adaptive gravitational reconstruction	executable	Behavior reconstruction under no-redistribution source evidence
+hgsa	HGSA	hgsa_archived_source_reconstruction_v1	archived local HGSA source plus target paper	clean-room hybrid gravitational reconstruction	executable	Behavior reconstruction under no-redistribution source evidence
+glpso	GLPSO	glpso_archived_source_reconstruction_v1	archived local GLPSO source plus target paper	clean-room genetic-learning PSO reconstruction	executable	Behavior reconstruction under no-redistribution source evidence
+siga	SIGA	siga_information_guided_integer_wflop_v1	10.1016/j.apenergy.2019.04.084	clean-room information-guided GA with declared cell-information completion	executable	MARS asset is unavailable; declared information completion is distinct
+fode	FODE	fode_e0_physical_fes	10.3390/math13020282 plus archived source	canonical existing C++ implementation	executable	Paper/source implementation on the selected native problem
+clshade	CLSHADE	clshade_paper_derived_e0_physical_fes_v1	10.1016/j.asoc.2023.110306	canonical existing paper-derived C++ implementation	executable	Paper-derived implementation
+cede	CEDE	cede_paper_equations_physical_fes_v1	10.3390/math12233762 plus local source	canonical paper-first C++ implementation	executable	Paper/source variants remain separate
+msshade	MS-SHADE	msshade_paper_equations_physical_fes_v1	10.3390/electronics13163196 plus local source	canonical paper-first C++ implementation	executable	Paper/source variants remain separate
+agpso	AGPSO	agpso_paper_staged_parallel_e0_physical_fes_v1	10.1016/j.enconman.2022.116174 plus archived source	canonical paper-first C++ implementation	executable	Paper/source variants remain separate
+ise	ISE	ise_paper_derived_e0_physical_fes_v1	10.1016/j.engappai.2023.106198	canonical paper-derived C++ implementation	executable	Paper-derived implementation
+bde	BDE	bde_paper_equations_physical_fes_v1	10.1016/j.energy.2025.137885 plus official source	canonical paper-first C++ implementation	executable	Problem identity remains selected by the paper protocol
+wfadde	WFADDE	wfadde_preprint_derived_e0_physical_fes_v1	10.2139/ssrn.6135326	canonical preprint-derived C++ implementation	executable	Preprint-derived implementation
+aiga	AIGA	aiga_paper_derived_e0_physical_fes_v1	10.1007/s42235-024-00498-3	canonical paper-derived C++ implementation	executable	Paper-derived implementation
+alshade	A-LSHADE	alshade_paper_derived_e0_physical_fes_v1	10.1109/pic62406.2024.10892732	canonical paper-derived C++ implementation	executable	Paper-derived implementation
+ciga	CIGA	ciga_paper_derived_e0_physical_fes_v1	10.1145/3766671.3766786	canonical paper-derived C++ implementation with declared missing-array completion	executable	Paper-derived implementation on the explicit P3 case contract
+hgpso	HGPSO	hgpso_paper_guided_e0_physical_fes_v1	10.26599/tst.2026.9010059 plus local source	canonical paper-first C++ implementation	executable	Paper/source variants remain separate
+lsde	LSDE	lsde_paper_derived_e0_physical_fes_v1	10.1049/cit2.70150	canonical paper-derived C++ implementation with declared missing-array completion	executable	Paper-derived implementation on the explicit P3 case contract

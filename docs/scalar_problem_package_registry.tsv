@@ -1,0 +1,14 @@
+corpus_id	doi	target_algorithm	problem_id	problem_semantic_id	case_contract	expected_cases	physical_fes	primary_fidelity	source_authority	native_status
+S03	10.3390/math13020282	FODE	fode_e0_common	fode_wflop_e0_legacy_v1	shared/contracts/benchmark_cases.json	50	24000	P1	author MATLAB plus paper	executable
+L0608	10.1109/pic62406.2024.10892732	A-LSHADE	alshade_complex_wake_117	alshade_complex_wake_117_v1	shared/contracts/alshade_native_117_cases.json	117	24000	P1	paper equations and tables	executable
+T37	10.1016/j.enconman.2022.116174	AGPSO	agpso_aiga_hgpso_landuse_156	agpso_aiga_hgpso_landuse_156_v1	shared/contracts/agpso_aiga_hgpso_native_156_cases.json	156	24000	P1	paper plus local source-equivalent benchmark	executable
+T38	10.1016/j.asoc.2023.110306	CLSHADE	clshade_landuse_117	clshade_landuse_117_v1	shared/contracts/clshade_native_117_cases.json	117	20000	P1	paper equations and tables	executable
+T39	10.1016/j.engappai.2023.106198	ISE	ise_landuse_117	ise_landuse_117_v1	shared/contracts/ise_native_117_cases.json	117	20000	P1	paper equations and tables	executable
+S05	10.2139/ssrn.6135326	WFADDE	wfadde_native_declared_24	wfadde_native_declared_24_p3_v1	shared/contracts/wfadde_native_declared_24_cases.json	24	24000	P3	preprint plus hashed same-lineage arrays	executable_reconstruction
+T41	10.1007/s42235-024-00498-3	AIGA	agpso_aiga_hgpso_landuse_156	agpso_aiga_hgpso_landuse_156_v1	shared/contracts/agpso_aiga_hgpso_native_156_cases.json	156	24000	P1	paper plus same-lineage benchmark	executable
+T47	10.1145/3766671.3766786	CIGA	ciga_native_declared_4	ciga_native_declared_4_p3_v1	shared/contracts/ciga_native_declared_4_cases.json	4	24000	P3	paper-visible dimensions and conditions; unavailable masks omitted	executable_reconstruction
+S01	10.3390/math12233762	CEDE	fode_e0_common	fode_wflop_e0_legacy_v1	shared/contracts/benchmark_cases.json	50	24000	P1	paper plus local algorithm source	executable
+S02	10.3390/electronics13163196	MS-SHADE	msshade_native_declared_16	msshade_native_declared_16_p3_v1	shared/contracts/msshade_native_declared_16_cases.json	16	24000	P3	paper plus local algorithm source and hashed same-lineage arrays	executable_reconstruction
+Y34	10.1049/cit2.70150	LSDE	lsde_large_declared_12	lsde_large_declared_12_p3_v1	shared/contracts/lsde_native_declared_12_cases.json	12	20000	P3	paper plus hashed same-lineage arrays	executable_reconstruction
+T40	10.1109/jas.2023.123387	CGPSO	cgpso_complex_large_16	cgpso_complex_large_16_v1	shared/contracts/cgpso_native_16_cases.json	16	24000	P1	paper plus local source arrays	executable
+Y35	10.26599/tst.2026.9010059	HGPSO	agpso_aiga_hgpso_landuse_156	agpso_aiga_hgpso_landuse_156_v1	shared/contracts/agpso_aiga_hgpso_native_156_cases.json	156	24000	P1	paper plus local Python and MATLAB source	executable

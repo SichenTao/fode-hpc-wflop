@@ -1,18 +1,16 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
-Implementation unit: canonical FODE-E0-L case contract interface
-Paper title and DOI: A State-of-the-Art Fractional Order-Driven Differential
-Evolution for Wind Farm Layout Optimization; 10.3390/math13020282
-Paper/source basis: Section 2; archived MATLAB benchmark and wind arrays
-Public asset: not publicly redistributed; hashes are in
-shared/contracts/paper_implementation_ledger.tsv
-Missing/conflicts: legacy physical conventions are frozen in the benchmark
-contract and are not upgraded to engineering-realistic claims
-Reconstruction: none; literal frozen case identity
+Implementation unit: shared parameterized scalar/discrete WFLOP case interface
+Paper title and DOI: thirteen scalar WFLOP packages; see
+docs/scalar_problem_package_registry.tsv
+Paper/source basis: paper-native case contracts and hashed source arrays
+Public asset: per-paper source and fidelity are recorded in the scalar registry
+Missing/conflicts: P3 reconstructions remain distinct semantic identities
+Reconstruction: optional per-case physical constants preserve paper models
 Method/problem semantic IDs: not_applicable_shared_infrastructure;
-fode_wflop_e0_legacy_v1
-Controlling contract and claim boundary: shared/contracts/benchmark_contract.json;
-FODE-E0-L synthetic benchmark only
+registry_defined
+Controlling contract and claim boundary:
+docs/scalar_problem_package_registry.tsv; loading does not upgrade fidelity
 Last evidence-audit date: 2026-07-30
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
@@ -29,6 +27,15 @@ struct CaseData {
     int cols = 0;
     int turbine_count = 0;
     double cell_width = 0.0;
+    double rotor_diameter = 77.0;
+    double hub_height = 80.0;
+    double surface_roughness = 0.00025;
+    double wake_deficit_coefficient = 2.0 / 3.0;
+    double power_curve_cubic_coefficient = 0.3;
+    double power_curve_rated_kw = 629.1;
+    double power_curve_cutin_mps = 2.0;
+    double power_curve_rated_mps = 12.8;
+    double power_curve_cutout_mps = 18.0;
     std::vector<double> theta;
     std::vector<double> velocity;
     std::vector<double> probability;

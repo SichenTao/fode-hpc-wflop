@@ -1,16 +1,16 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
-Implementation unit: canonical FODE-E0-L C++ evaluator
-Paper title and DOI: A State-of-the-Art Fractional Order-Driven Differential
-Evolution for Wind Farm Layout Optimization; 10.3390/math13020282
-Paper/source basis: paper Eqs. 2-7 and archived MATLAB wf_fitness_m0
-Public asset: not publicly redistributed; immutable hashes in paper ledger
-Missing/conflicts: the 18 m/s legacy curve endpoint is retained literally
-Reconstruction: cache-aware deterministic C++ equations and parallel batches
+Implementation unit: shared parameterized scalar/discrete WFLOP C++ evaluator
+Paper title and DOI: thirteen scalar WFLOP packages; see
+docs/scalar_problem_package_registry.tsv
+Paper/source basis: Jensen/Park equations and per-case physical constants
+Public asset: paper/source authority is recorded by each case contract
+Missing/conflicts: legacy FODE defaults remain literal when fields are absent
+Reconstruction: cache-aware deterministic equations and parallel batches
 Method/problem semantic IDs: not_applicable_shared_infrastructure;
-fode_wflop_e0_legacy_v1
-Controlling contract and claim boundary: shared/contracts/benchmark_contract.json;
-expected power in kW, not raw AEP
+registry_defined
+Controlling contract and claim boundary:
+docs/scalar_problem_package_registry.tsv; expected power in kW, not raw AEP
 Last evidence-audit date: 2026-07-30
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
@@ -28,11 +28,6 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 
 namespace fode {
 namespace {
-
-constexpr double kRotorDiameter = 77.0;
-constexpr double kHubHeight = 80.0;
-constexpr double kSurfaceRoughness = 0.25 * 0.001;
-constexpr double kRotorRadius = kRotorDiameter / 2.0;
 
 template <typename Task>
 void execute_stage(
@@ -89,30 +84,32 @@ double interaction_area(double dx, double radius, double wake_radius) {
     return std::numbers::pi * radius * radius;
 }
 
-double deficiency(double dx, double dy) {
+double deficiency(const CaseData& data, double dx, double dy) {
     if (dy == 0.0) {
         return 0.0;
     }
-    static const double entrainment =
-        0.5 / std::log(kHubHeight / kSurfaceRoughness);
-    const double wake_radius = kRotorRadius + entrainment * dy;
-    const double area = interaction_area(dx, kRotorRadius, wake_radius);
-    return (2.0 / 3.0)
-        * (kRotorRadius * kRotorRadius)
+    const double rotor_radius = data.rotor_diameter / 2.0;
+    const double entrainment =
+        0.5 / std::log(data.hub_height / data.surface_roughness);
+    const double wake_radius = rotor_radius + entrainment * dy;
+    const double area = interaction_area(dx, rotor_radius, wake_radius);
+    return data.wake_deficit_coefficient
+        * (rotor_radius * rotor_radius)
         / (wake_radius * wake_radius)
         * area
-        / (std::numbers::pi * kRotorRadius * kRotorRadius);
+        / (std::numbers::pi * rotor_radius * rotor_radius);
 }
 
-double turbine_power(double velocity) {
-    if (velocity < 2.0) {
+double turbine_power(const CaseData& data, double velocity) {
+    if (velocity < data.power_curve_cutin_mps) {
         return 0.0;
     }
-    if (velocity < 12.8) {
-        return 0.3 * velocity * velocity * velocity;
+    if (velocity < data.power_curve_rated_mps) {
+        return data.power_curve_cubic_coefficient
+            * velocity * velocity * velocity;
     }
-    if (velocity < 18.0) {
-        return 629.1;
+    if (velocity < data.power_curve_cutout_mps) {
+        return data.power_curve_rated_kw;
     }
     return 0.0;
 }
@@ -208,7 +205,7 @@ void evaluate_fused_states(
                     transformed_y[static_cast<std::size_t>(downstream)]
                     - transformed_y[static_cast<std::size_t>(upstream)]
                 );
-                const double value = deficiency(dx, dy);
+                const double value = deficiency(data, dx, dy);
                 squared_sum += value * value;
             }
             wake[state_offset + static_cast<std::size_t>(downstream)] =
@@ -243,7 +240,7 @@ void evaluate_fused_states(
                 for (int speed = 0; speed < speeds; ++speed) {
                     const double actual_velocity =
                         (1.0 - loss) * data.velocity[speed];
-                    power += turbine_power(actual_velocity)
+                    power += turbine_power(data, actual_velocity)
                         * data.probability[
                             static_cast<std::size_t>(
                                 direction * speeds + speed
@@ -493,7 +490,7 @@ Evaluation evaluate_population_hpc(
                     state_offset + static_cast<std::size_t>(upstream)
                 ]
             );
-            const double value = deficiency(dx, dy);
+            const double value = deficiency(data, dx, dy);
             squared_sum += value * value;
         }
         wake[state_offset + static_cast<std::size_t>(downstream)] =
@@ -520,7 +517,7 @@ Evaluation evaluate_population_hpc(
             for (int speed = 0; speed < speeds; ++speed) {
                 const double actual_velocity =
                     (1.0 - loss) * data.velocity[speed];
-                power += turbine_power(actual_velocity)
+                power += turbine_power(data, actual_velocity)
                     * data.probability[
                         static_cast<std::size_t>(
                             direction * speeds + speed

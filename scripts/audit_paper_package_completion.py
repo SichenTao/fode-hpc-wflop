@@ -9,6 +9,8 @@ from __future__ import annotations
 
 import argparse
 import csv
+import hashlib
+import json
 from pathlib import Path
 
 
@@ -17,6 +19,7 @@ MATRIX = ROOT / "docs/paper_package_completion.tsv"
 PROTOCOLS = ROOT / "docs/paper_experiment_protocols.tsv"
 GAPS = ROOT / "docs/paper_asset_gap_ledger.tsv"
 LINEAGE = ROOT / "docs/author_lineage_registry.tsv"
+SCALAR_REGISTRY = ROOT / "docs/scalar_problem_package_registry.tsv"
 
 MATRIX_COLUMNS = {
     "corpus_id", "doi", "target_algorithm", "method_semantic_id",
@@ -64,6 +67,116 @@ def index(rows: list[dict[str, str]], name: str) -> dict[str, dict[str, str]]:
             raise RuntimeError(f"duplicate {name} corpus_id {corpus_id}")
         result[corpus_id] = row
     return result
+
+
+def canonical_hash(value: object) -> str:
+    encoded = json.dumps(
+        value, sort_keys=True, separators=(",", ":"), ensure_ascii=True
+    ).encode()
+    return hashlib.sha256(encoded).hexdigest()
+
+
+def audit_scalar_discrete(
+    matrix: dict[str, dict[str, str]],
+    protocols: dict[str, dict[str, str]],
+) -> int:
+    rows = read_tsv(SCALAR_REGISTRY)
+    scalar = index(rows, "scalar package")
+    expected_ids = {
+        "S03", "L0608", "T37", "T38", "T39", "S05", "T41",
+        "T47", "S01", "S02", "Y34", "T40", "Y35",
+    }
+    if set(scalar) != expected_ids:
+        raise RuntimeError(
+            "scalar package coverage mismatch "
+            f"expected={sorted(expected_ids)} found={sorted(scalar)}"
+        )
+    seen_contracts: dict[Path, dict] = {}
+    total_cases = 0
+    for corpus_id, row in scalar.items():
+        authority = matrix[corpus_id]
+        protocol = protocols[corpus_id]
+        if authority["target_algorithm"].lower() != row["target_algorithm"].lower():
+            raise RuntimeError(f"{corpus_id}: scalar target algorithm mismatch")
+        if authority["paper_native_problem_id"] != row["problem_id"]:
+            raise RuntimeError(f"{corpus_id}: scalar problem ID mismatch")
+        if authority["problem_semantic_id"] != row["problem_semantic_id"]:
+            raise RuntimeError(f"{corpus_id}: scalar semantic ID mismatch")
+        if protocol["problem_semantic_id"] != row["problem_semantic_id"]:
+            raise RuntimeError(f"{corpus_id}: protocol semantic ID mismatch")
+        if row["native_status"] not in {"executable", "executable_reconstruction"}:
+            raise RuntimeError(f"{corpus_id}: native scalar package is not executable")
+        contract_path = ROOT / row["case_contract"]
+        if not contract_path.is_file():
+            raise RuntimeError(f"{corpus_id}: missing {row['case_contract']}")
+        contract = seen_contracts.get(contract_path)
+        if contract is None:
+            contract = json.loads(contract_path.read_text(encoding="utf-8"))
+            seen_contracts[contract_path] = contract
+        cases = contract.get("cases", [])
+        expected_count = int(row["expected_cases"])
+        if len(cases) != expected_count:
+            raise RuntimeError(
+                f"{corpus_id}: expected {expected_count} cases, found {len(cases)}"
+            )
+        if contract.get("case_count") != expected_count:
+            raise RuntimeError(f"{corpus_id}: case_count field mismatch")
+        contract_semantics = (
+            row["problem_semantic_id"]
+            if contract_path.name == "benchmark_cases.json"
+            else contract.get(
+                "semantics_id",
+                cases[0].get("semantics_id") if cases else "",
+            )
+        )
+        if contract_semantics != row["problem_semantic_id"]:
+            raise RuntimeError(f"{corpus_id}: case contract semantic mismatch")
+        contract_budget = contract.get("physical_fes_budget")
+        if contract_budget is not None and contract_budget != int(row["physical_fes"]):
+            raise RuntimeError(f"{corpus_id}: physical-FES budget mismatch")
+        if "contract_hash" in contract:
+            frozen = contract.pop("contract_hash")
+            actual = canonical_hash(contract)
+            contract["contract_hash"] = frozen
+            if actual != frozen:
+                raise RuntimeError(f"{corpus_id}: contract hash mismatch")
+        case_ids: set[str] = set()
+        for case in cases:
+            case_id = case["case_id"]
+            if case_id in case_ids:
+                raise RuntimeError(f"{corpus_id}: duplicate case {case_id}")
+            case_ids.add(case_id)
+            probabilities = [
+                float(value)
+                for probability_row in case["joint_probabilities"]
+                for value in probability_row
+            ]
+            if abs(sum(probabilities) - 1.0) > 1.0e-4:
+                raise RuntimeError(f"{corpus_id}/{case_id}: probability mass")
+            available = (
+                int(case["rows"]) * int(case["cols"])
+                - len(case["unavailable_cells_1based"])
+            )
+            if int(case["turbine_count"]) > available:
+                raise RuntimeError(f"{corpus_id}/{case_id}: infeasible turbine count")
+            for model_field in (
+                "cell_width", "rotor_diameter", "hub_height",
+                "surface_roughness", "wake_deficit_coefficient",
+                "power_curve_cubic_coefficient", "power_curve_rated_kw",
+                "power_curve_cutin_mps", "power_curve_rated_mps",
+                "power_curve_cutout_mps",
+            ):
+                if contract_path.name != "benchmark_cases.json" and model_field not in case:
+                    raise RuntimeError(
+                        f"{corpus_id}/{case_id}: missing {model_field}"
+                    )
+        total_cases += expected_count
+    print(
+        "scalar_discrete_package_audit_pass "
+        f"papers={len(rows)} unique_contracts={len(seen_contracts)} "
+        f"paper_case_rows={total_cases}"
+    )
+    return len(rows)
 
 
 def main() -> int:
@@ -150,6 +263,10 @@ def main() -> int:
                 )
     if args.phase in {"formal", "closure"} and unresolved:
         raise RuntimeError(f"{unresolved} paper rows are not formally complete")
+    if args.family:
+        if args.family != "scalar_discrete":
+            raise RuntimeError(f"unknown paper family: {args.family}")
+        audit_scalar_discrete(matrix, protocols)
 
     print(
         "paper_package_completion_audit_pass "

@@ -55,6 +55,22 @@ endforeach()
 
 include(CTest)
 if(BUILD_TESTING)
+    add_executable(
+        scalar_evaluator_probe
+        tests/scalar_evaluator_probe.cpp
+    )
+    target_include_directories(
+        scalar_evaluator_probe PRIVATE ../fode_cpp/include
+    )
+    target_link_libraries(
+        scalar_evaluator_probe PRIVATE fode_core OpenMP::OpenMP_CXX Threads::Threads
+    )
+    add_test(
+        NAME scalar_native_evaluator_oracle
+        COMMAND python3
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_scalar_native_evaluator.py
+            --probe $<TARGET_FILE:scalar_evaluator_probe>
+    )
     add_executable(rlpso_transition_test tests/rlpso_transition_test.cpp)
     target_include_directories(rlpso_transition_test PRIVATE include)
     add_test(NAME rlpso_transition_fixture COMMAND rlpso_transition_test)
@@ -112,6 +128,28 @@ if(BUILD_TESTING)
             --cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/benchmark_cases.json
             --models ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/models/sugga_cpp
             --rlfode-models ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/models/fqfode_seeded
+    )
+    add_test(
+        NAME fode_alshade_agpso_clshade_ise_wfadde_aiga_ciga_cede_msshade_lsde_cgpso_hgpso_native_smoke
+        COMMAND python3
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/test_scalar_native_packages.py
+            --binary $<TARGET_FILE:wflop_cpp_hpc>
+            --workers 2
+    )
+    add_test(
+        NAME scalar_paper_comparator_packages
+        COMMAND python3
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/audit_scalar_comparator_packages.py
+            --binary $<TARGET_FILE:wflop_cpp_hpc>
+            --workers 2
+            --execute
+    )
+    add_test(
+        NAME scalar_native_transition_replay
+        COMMAND python3
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/test_scalar_native_transition_replay.py
+            --binary $<TARGET_FILE:wflop_cpp_hpc>
+            --parallel-workers 2
     )
     add_test(
         NAME fode_frontend_parity

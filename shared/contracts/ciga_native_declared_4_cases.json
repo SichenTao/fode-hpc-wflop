@@ -1,0 +1,247 @@
+{
+  "schema_version": 1,
+  "problem_id": "ciga_native_declared_4",
+  "semantics_id": "ciga_native_declared_4_p3_v1",
+  "paper_doi": "10.1145/3766671.3766786",
+  "fidelity_class": "P3_declared_reconstruction",
+  "claim_boundary": "The paper fixes 12x12, N15, and four wind conditions but does not expose machine-readable land masks. L0 is used explicitly; this is not the unavailable original constrained data.",
+  "physical_fes_budget": 24000,
+  "case_count": 4,
+  "cases": [
+    {
+      "case_id": "WS1_N15_NA0",
+      "semantics_id": "ciga_native_declared_4_p3_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 231.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          1.0
+        ]
+      ],
+      "na_pattern": 0,
+      "unavailable_cells_1based": [],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS1",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "0afa2e97537e45b324b962b2de2e7fe3ed40ca311276c05ab972c2cd5b9ff002"
+    },
+    {
+      "case_id": "WS2_N15_NA0",
+      "semantics_id": "ciga_native_declared_4_p3_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 231.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.5707963267948966,
+        3.141592653589793,
+        4.71238898038469
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ],
+        [
+          0.25
+        ]
+      ],
+      "na_pattern": 0,
+      "unavailable_cells_1based": [],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS2",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "bee0cd1dc6eb7182d0869f0251904726bba8ddac6e349e27a019354ad8493ceb"
+    },
+    {
+      "case_id": "WS3_N15_NA0",
+      "semantics_id": "ciga_native_declared_4_p3_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 231.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        1.0471975511965976,
+        2.0943951023931953,
+        3.141592653589793,
+        4.1887902047863905,
+        5.235987755982989
+      ],
+      "wind_speeds_mps": [
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.2
+        ],
+        [
+          0.3
+        ],
+        [
+          0.2
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ],
+        [
+          0.1
+        ]
+      ],
+      "na_pattern": 0,
+      "unavailable_cells_1based": [],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS3",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "fa40bd53b38a4efdd863aa7d4904a0e56497e059d4ab4d24f47c4607f09244e3"
+    },
+    {
+      "case_id": "WS4_N15_NA0",
+      "semantics_id": "ciga_native_declared_4_p3_v1",
+      "rows": 12,
+      "cols": 12,
+      "turbine_count": 15,
+      "cell_width": 231.0,
+      "rotor_diameter": 77.0,
+      "hub_height": 80.0,
+      "surface_roughness": 0.00025,
+      "wake_deficit_coefficient": 0.6666666666666666,
+      "power_curve_cubic_coefficient": 0.3,
+      "power_curve_rated_kw": 629.1,
+      "power_curve_cutin_mps": 2.0,
+      "power_curve_rated_mps": 12.8,
+      "power_curve_cutout_mps": 18.0,
+      "wind_directions_rad": [
+        0.0,
+        0.5235987755982988,
+        1.0471975511965976,
+        1.5707963267948966,
+        2.0943951023931953,
+        2.6179938779914944,
+        3.141592653589793,
+        3.6651914291880923,
+        4.1887902047863905,
+        4.71238898038469,
+        5.235987755982989,
+        5.759586531581287
+      ],
+      "wind_speeds_mps": [
+        7.0,
+        10.0,
+        13.0
+      ],
+      "joint_probabilities": [
+        [
+          0.008333,
+          0.016667,
+          0.058333
+        ],
+        [
+          0.008333,
+          0.016667,
+          0.058333
+        ],
+        [
+          0.008333,
+          0.016667,
+          0.058333
+        ],
+        [
+          0.008333,
+          0.016667,
+          0.058333
+        ],
+        [
+          0.008333,
+          0.016667,
+          0.058333
+        ],
+        [
+          0.008333,
+          0.016667,
+          0.058333
+        ],
+        [
+          0.008333,
+          0.016667,
+          0.058333
+        ],
+        [
+          0.008333,
+          0.016667,
+          0.058333
+        ],
+        [
+          0.008333,
+          0.016667,
+          0.058333
+        ],
+        [
+          0.008333,
+          0.016667,
+          0.058333
+        ],
+        [
+          0.008333,
+          0.016667,
+          0.058333
+        ],
+        [
+          0.008333,
+          0.016667,
+          0.058333
+        ]
+      ],
+      "na_pattern": 0,
+      "unavailable_cells_1based": [],
+      "source_windscenario": "AGPSO/HGPSO paper-declared WS4",
+      "source_windscenario_sha256": "paper_declared_no_separate_binary_asset",
+      "case_hash": "d41e4012cad5b6b4ed02ddb1ed3568b963ad9fa654262a36d9eac3caef125362"
+    }
+  ],
+  "contract_hash": "282aca8ffcb24d8d8f303de99bd13ca0bf824c85d06af2fdf521ce82529902f9"
+}
