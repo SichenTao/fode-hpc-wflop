@@ -4,7 +4,7 @@ Implementation unit: TAAE end-to-end declared-reconstruction method interface
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: SPEA2 density k, CDP and tournament ties, raw-latent mutation bounds, Gaussian covariance regularization, repair/refill caps, partial batches, and checkpoint admission
+Missing choices completed here: SPEA2 density k, CDP and tournament ties, raw-latent mutation bounds, pre-repair decoded-solution filtering, Gaussian covariance regularization, post-repair guards, no-feasible front output, partial batches, and checkpoint admission
 Reconstruction status: bounded executable M3 engineering reconstruction on the declared P3 problem proxy
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_evolution_declared_reconstruction_v1
@@ -78,6 +78,8 @@ struct EvolutionResult {
     std::string model_hash;
     std::string population_layout_hash;
     std::string front_hash;
+    std::string front_feasibility;
+    double front_minimum_normalized_constraint_violation = 0.0;
     std::vector<IndividualRecord> front;
     CheckpointMetadata checkpoint;
 };

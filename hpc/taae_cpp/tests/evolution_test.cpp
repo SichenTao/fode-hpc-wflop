@@ -4,7 +4,7 @@ Implementation unit: TAAE end-to-end declared-reconstruction scientific tests
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: scalar ranking fixtures, latent and repair fixtures, exact terminal FES, bounded checkpoint replay, training-FES separation, front validity, and worker-count equality
+Missing choices completed here: scalar ranking fixtures, pre/post-repair duplicate-order fixtures, exact terminal FES, bounded checkpoint replay, training-FES separation, no-feasible front output, and worker-count equality
 Reconstruction status: bounded executable M3 engineering reconstruction on the declared P3 problem proxy
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_evolution_declared_reconstruction_v1
@@ -185,6 +185,15 @@ int main(int argc, char** argv) {
             "hidden training FES or epoch mismatch"
         );
         require(
+            serial_result.front_feasibility == "all_feasible" &&
+            serial_result
+                    .front_minimum_normalized_constraint_violation == 0.0 &&
+            taae::evolution::result_to_json(serial_result).find(
+                "\"front_feasibility\":\"all_feasible\""
+            ) != std::string::npos,
+            "front feasibility output mismatch"
+        );
+        require(
             serial_result.model_hash == parallel_result.model_hash &&
             serial_result.population_layout_hash ==
                 parallel_result.population_layout_hash &&
@@ -262,6 +271,7 @@ int main(int argc, char** argv) {
             << "partial_batch=50 fine_tune_epochs=30 "
             << "training_physical_fes=0 checkpoint_replay=pass "
             << "workers=1,20 exact=pass front=feasible_nondominated "
+            << "no_feasible_front=least_violation_labeled "
             << "paper_scale_without_or_with_bounded_checkpoint=rejected "
             << "gpu_hybrid=rejected\n";
         return 0;

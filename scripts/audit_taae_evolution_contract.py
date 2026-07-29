@@ -5,7 +5,7 @@ Implementation unit: TAAE end-to-end declared-reconstruction contract audit
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: method identity, SPEA2 density, ranking ties, latent bounds, repair/refill caps, partial FES, checkpoint gate, and CPU-only execution
+Missing choices completed here: method identity, SPEA2 density, ranking ties, latent bounds, pre-repair decoded filtering, post-repair guards, no-feasible front output, partial FES, checkpoint gate, and CPU-only execution
 Reconstruction status: bounded executable M3 engineering reconstruction on the declared P3 problem proxy
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_evolution_declared_reconstruction_v1
@@ -61,11 +61,14 @@ def main() -> int:
         "tournament",
         "latent_bounds",
         "polynomial_mutation_bounds",
+        "decoded_filter_order",
+        "proposal_traversal",
         "gaussian_covariance",
         "nearest_cell_tie",
         "repair_fallback",
         "duplicate_refill",
         "partial_generation",
+        "no_feasible_front",
         "pretraining_checkpoint",
     ):
         assert completions[field]
@@ -88,6 +91,16 @@ def main() -> int:
         "training-state profile ID and actual model architecture"
         in contract["required_outputs"]
     )
+    assert (
+        "front feasibility label and minimum normalized constraint violation"
+        in contract["required_outputs"]
+    )
+    assert contract["repair_contract"]["ordering"].startswith(
+        "integer decode, raw decoded multiset"
+    )
+    assert contract["declared_identity_critical_completions"][
+        "cdp_rule"
+    ].startswith("one feasible solution beats one infeasible solution")
     assert METHOD_ID in decisions["profiles"]
     assert "paper_scale_checkpoint_blocked" in decisions["completion_status"]
 
@@ -102,12 +115,39 @@ def main() -> int:
         "kGaussianAttemptCap = 64",
         "kProposalMultiplierCap = 10",
         "kRefillMultiplierCap = 10",
+        "canonical_solution_key",
+        "duplicate_raw_before_repair",
+        "parent_identical_before_repair",
+        "duplicate_after_repair",
+        "least_violation_infeasible",
+        "const std::size_t current = attempt % population.size();",
+        "value.source_index = population.size() + offspring.size();",
         "TrainingStateProfile::paper_scale_checkpoint",
         "training_state_profile_id",
         "model_architecture",
         "training_physical_fes = 0",
     ):
         assert token in source, f"source missing {token}"
+    filter_start = source.index("DecodedProposalResult filter_and_repair_decoded(")
+    filter_end = source.index("\ndouble evaluate_population(", filter_start)
+    filter_source = source[filter_start:filter_end]
+    assert filter_source.index("canonical_solution_key(decoded)") < (
+        filter_source.index("repair_layout(decoded")
+    )
+    assert filter_source.index("parent_keys.contains(raw_key)") < (
+        filter_source.index("repair_layout(decoded")
+    )
+    cdp_start = source.index("bool cdp_dominates(")
+    cdp_end = source.index(
+        "\nstd::vector<std::vector<std::size_t>> assign_nondomination(",
+        cdp_start,
+    )
+    cdp_source = source[cdp_start:cdp_end]
+    assert "if (!left_feasible)" in cdp_source
+    assert "return lhs < rhs;" in cdp_source
+    assert cdp_source.index("return lhs < rhs;") < (
+        cdp_source.index("return pareto_dominates(left, right);")
+    )
     cmake = (ROOT / "hpc/taae_cpp/CMakeLists.txt").read_text(
         encoding="utf-8"
     )

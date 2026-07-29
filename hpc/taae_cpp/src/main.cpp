@@ -4,7 +4,7 @@ Implementation unit: TAAE end-to-end declared-reconstruction CPU CLI
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: explicit P3 case selection, bounded versus checkpoint-gated paper-scale state, checkpoint SHA-256 admission, terminal partial FES, and unsupported backend rejection
+Missing choices completed here: explicit P3 case selection, bounded versus checkpoint-gated paper-scale state, pre-repair decoded-solution filtering, no-feasible front labeling, checkpoint SHA-256 admission, terminal partial FES, and unsupported backend rejection
 Reconstruction status: bounded executable M3 engineering reconstruction on the declared P3 problem proxy
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_evolution_declared_reconstruction_v1

@@ -4,7 +4,7 @@ Implementation unit: TAAE end-to-end declared-reconstruction evolutionary method
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: SPEA2 density k, CDP and tournament ties, raw-latent mutation bounds, Gaussian covariance regularization, repair/refill caps, partial batches, and checkpoint admission
+Missing choices completed here: SPEA2 density k, CDP and tournament ties, raw-latent mutation bounds, pre-repair decoded-solution filtering, Gaussian covariance regularization, post-repair guards, no-feasible front output, partial batches, and checkpoint admission
 Reconstruction status: bounded executable M3 engineering reconstruction on the declared P3 problem proxy
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_evolution_declared_reconstruction_v1
@@ -125,9 +125,7 @@ bool cdp_dominates(const Individual& left, const Individual& right) {
             left.evaluation.normalized_constraint_violation;
         const double rhs =
             right.evaluation.normalized_constraint_violation;
-        if (lhs != rhs) {
-            return lhs < rhs;
-        }
+        return lhs < rhs;
     }
     return pareto_dominates(left, right);
 }
@@ -646,12 +644,86 @@ std::vector<int> repair_layout(
     return std::vector<int>(retained.begin(), retained.end());
 }
 
-std::string layout_key(const std::vector<int>& layout) {
+std::string canonical_solution_key(const std::vector<int>& tokens) {
+    std::vector<int> canonical = tokens;
+    std::sort(canonical.begin(), canonical.end());
     std::ostringstream stream;
-    for (int cell : layout) {
-        stream << cell << ',';
+    stream << canonical.size() << ':';
+    for (int token : canonical) {
+        stream << token << ',';
     }
     return stream.str();
+}
+
+bool is_valid_decoded_solution(
+    const std::vector<int>& decoded,
+    const fode::CaseData& problem
+) {
+    if (decoded.size() !=
+        static_cast<std::size_t>(problem.turbine_count)) {
+        return false;
+    }
+    const std::set<int> unavailable = unavailable_cells(problem);
+    std::set<int> unique;
+    for (int cell : decoded) {
+        if (cell < 1 || cell > problem.rows * problem.cols ||
+            unavailable.contains(cell) || !unique.insert(cell).second) {
+            return false;
+        }
+    }
+    return true;
+}
+
+enum class DecodedProposalStatus {
+    accepted,
+    duplicate_raw_before_repair,
+    parent_identical_before_repair,
+    duplicate_after_repair,
+};
+
+struct DecodedProposalResult {
+    DecodedProposalStatus status =
+        DecodedProposalStatus::duplicate_after_repair;
+    std::vector<int> repaired;
+};
+
+DecodedProposalResult filter_and_repair_decoded(
+    const std::vector<int>& decoded,
+    const fode::CaseData& problem,
+    DeterministicRng& rng,
+    const std::set<std::string>& parent_keys,
+    std::set<std::string>& raw_decoded_keys,
+    std::set<std::string>& accepted_repaired_keys
+) {
+    const std::string raw_key = canonical_solution_key(decoded);
+    if (!raw_decoded_keys.insert(raw_key).second) {
+        return {
+            DecodedProposalStatus::duplicate_raw_before_repair,
+            {},
+        };
+    }
+    if (is_valid_decoded_solution(decoded, problem) &&
+        parent_keys.contains(raw_key)) {
+        return {
+            DecodedProposalStatus::parent_identical_before_repair,
+            {},
+        };
+    }
+    std::vector<int> repaired =
+        repair_layout(decoded, problem, rng, nullptr);
+    const std::string repaired_key =
+        canonical_solution_key(repaired);
+    if (parent_keys.contains(repaired_key) ||
+        !accepted_repaired_keys.insert(repaired_key).second) {
+        return {
+            DecodedProposalStatus::duplicate_after_repair,
+            {},
+        };
+    }
+    return {
+        DecodedProposalStatus::accepted,
+        std::move(repaired),
+    };
 }
 
 double evaluate_population(
@@ -934,7 +1006,7 @@ std::vector<Individual> initialize_population(
              static_cast<std::size_t>(config.population_size);
          ++attempt) {
         std::vector<int> layout = uniform_feasible_layout(problem, rng);
-        if (seen.insert(layout_key(layout)).second) {
+        if (seen.insert(canonical_solution_key(layout)).second) {
             Individual value;
             value.layout = std::move(layout);
             value.source_index = population.size();
@@ -987,8 +1059,9 @@ std::vector<Individual> generate_offspring(
     }
     std::set<std::string> parent_keys;
     for (const Individual& value : population) {
-        parent_keys.insert(layout_key(value.layout));
+        parent_keys.insert(canonical_solution_key(value.layout));
     }
+    std::set<std::string> raw_decoded_keys;
     std::set<std::string> accepted_keys;
     std::vector<Individual> offspring;
     offspring.reserve(requested);
@@ -1014,15 +1087,19 @@ std::vector<Individual> generate_offspring(
         for (int& cell : decoded) {
             ++cell;
         }
-        const std::vector<int> repaired =
-            repair_layout(decoded, problem, rng, nullptr);
-        const std::string key = layout_key(repaired);
-        if (parent_keys.contains(key) || accepted_keys.contains(key)) {
+        DecodedProposalResult filtered = filter_and_repair_decoded(
+            decoded,
+            problem,
+            rng,
+            parent_keys,
+            raw_decoded_keys,
+            accepted_keys
+        );
+        if (filtered.status != DecodedProposalStatus::accepted) {
             continue;
         }
-        accepted_keys.insert(key);
         Individual value;
-        value.layout = repaired;
+        value.layout = std::move(filtered.repaired);
         value.source_index = population.size() + offspring.size();
         offspring.push_back(std::move(value));
     }
@@ -1033,7 +1110,7 @@ std::vector<Individual> generate_offspring(
          ++attempt) {
         const std::vector<int> repaired =
             uniform_feasible_layout(problem, rng);
-        const std::string key = layout_key(repaired);
+        const std::string key = canonical_solution_key(repaired);
         if (parent_keys.contains(key) || accepted_keys.contains(key)) {
             continue;
         }
@@ -1107,7 +1184,7 @@ std::vector<Individual> nondominated_front(
     assign_selection_state(population);
     std::vector<Individual> front;
     for (const Individual& value : population) {
-        if (value.rank == 0 && feasible(value)) {
+        if (value.rank == 0) {
             front.push_back(value);
         }
     }
@@ -1206,7 +1283,7 @@ EvolutionResult run_declared_reconstruction(
     assign_spea2_relative_fitness(population);
     const std::vector<Individual> front = nondominated_front(population);
     if (front.empty()) {
-        throw std::runtime_error("final feasible nondominated front is empty");
+        throw std::runtime_error("final CDP rank-0 front is empty");
     }
 
     EvolutionResult result;
@@ -1233,7 +1310,18 @@ EvolutionResult run_declared_reconstruction(
     result.population_layout_hash =
         hash_individuals(population, false);
     result.front_hash = hash_individuals(front, true);
+    result.front_feasibility = std::all_of(
+        front.begin(),
+        front.end(),
+        feasible
+    ) ? "all_feasible" : "least_violation_infeasible";
+    result.front_minimum_normalized_constraint_violation =
+        std::numeric_limits<double>::infinity();
     for (const Individual& value : front) {
+        result.front_minimum_normalized_constraint_violation = std::min(
+            result.front_minimum_normalized_constraint_violation,
+            value.evaluation.normalized_constraint_violation
+        );
         IndividualRecord record;
         record.layout_1based = value.layout;
         record.evaluation = value.evaluation;
@@ -1301,9 +1389,63 @@ bool run_scalar_selection_fixtures(std::string& report) {
             return false;
         }
     }
+    Individual equal_cv_dominating;
+    equal_cv_dominating
+        .evaluation.reciprocal_expected_power_per_kw = 1.0;
+    equal_cv_dominating
+        .evaluation.average_a_weighted_noise_dba = 1.0;
+    equal_cv_dominating
+        .evaluation.normalized_constraint_violation = 0.3;
+    equal_cv_dominating.source_index = 1;
+    Individual equal_cv_dominated;
+    equal_cv_dominated
+        .evaluation.reciprocal_expected_power_per_kw = 2.0;
+    equal_cv_dominated
+        .evaluation.average_a_weighted_noise_dba = 2.0;
+    equal_cv_dominated
+        .evaluation.normalized_constraint_violation = 0.3;
+    equal_cv_dominated.source_index = 0;
+    if (!pareto_dominates(equal_cv_dominating, equal_cv_dominated) ||
+        cdp_dominates(equal_cv_dominating, equal_cv_dominated) ||
+        cdp_dominates(equal_cv_dominated, equal_cv_dominating)) {
+        report = "equal-CV infeasible CDP fixture failed";
+        return false;
+    }
+    std::vector<Individual> equal_cv{
+        equal_cv_dominating,
+        equal_cv_dominated,
+    };
+    assign_selection_state(equal_cv);
+    if (equal_cv[0].rank != 0 || equal_cv[1].rank != 0 ||
+        !tournament_better(equal_cv[1], equal_cv[0])) {
+        report = "equal-CV NSGA-II deterministic tie fixture failed";
+        return false;
+    }
+    std::vector<Individual> no_feasible(3);
+    no_feasible[0].evaluation.reciprocal_expected_power_per_kw = 1.0;
+    no_feasible[0].evaluation.average_a_weighted_noise_dba = 3.0;
+    no_feasible[0].evaluation.normalized_constraint_violation = 0.1;
+    no_feasible[1].evaluation.reciprocal_expected_power_per_kw = 3.0;
+    no_feasible[1].evaluation.average_a_weighted_noise_dba = 1.0;
+    no_feasible[1].evaluation.normalized_constraint_violation = 0.1;
+    no_feasible[2].evaluation.reciprocal_expected_power_per_kw = 0.5;
+    no_feasible[2].evaluation.average_a_weighted_noise_dba = 0.5;
+    no_feasible[2].evaluation.normalized_constraint_violation = 0.2;
+    for (std::size_t index = 0; index < no_feasible.size(); ++index) {
+        no_feasible[index].source_index = index;
+    }
+    const std::vector<Individual> fallback =
+        nondominated_front(no_feasible);
+    if (fallback.size() != 2 ||
+        fallback[0].evaluation.normalized_constraint_violation != 0.1 ||
+        fallback[1].evaluation.normalized_constraint_violation != 0.1) {
+        report = "CDP no-feasible rank-0 fallback fixture failed";
+        return false;
+    }
     report =
         "selection_fixture_pass cdp=pass spea2_k=floor_sqrt_N "
-        "zero_range=0 nsgaii=pass";
+        "zero_range=0 equal_cv=no_cdp_dominance "
+        "nsgaii_tie=stable_source no_feasible=least_violation_front";
     return true;
 }
 
@@ -1393,7 +1535,7 @@ bool run_repair_and_duplicate_fixtures(
         return false;
     }
     std::set<std::string> keys;
-    keys.insert(layout_key(base));
+    keys.insert(canonical_solution_key(base));
     std::size_t duplicate_rejections = 0;
     std::vector<std::vector<int>> refill;
     for (int attempt = 0;
@@ -1401,7 +1543,7 @@ bool run_repair_and_duplicate_fixtures(
          ++attempt) {
         const std::vector<int> candidate =
             attempt == 0 ? base : uniform_feasible_layout(problem, rng);
-        if (!keys.insert(layout_key(candidate)).second) {
+        if (!keys.insert(canonical_solution_key(candidate)).second) {
             ++duplicate_rejections;
             continue;
         }
@@ -1411,9 +1553,94 @@ bool run_repair_and_duplicate_fixtures(
         report = "duplicate removal/refill fixture failed";
         return false;
     }
+
+    fode::CaseData constrained = problem;
+    constrained.unavailable_cells_1based.clear();
+    const std::set<int> base_cells(base.begin(), base.end());
+    for (int cell = 1; cell <= problem.rows * problem.cols; ++cell) {
+        if (!base_cells.contains(cell)) {
+            constrained.unavailable_cells_1based.push_back(cell);
+        }
+    }
+    std::set<std::string> no_parents;
+    std::set<std::string> raw_decoded_keys;
+    std::set<std::string> accepted_repaired_keys;
+    DeterministicRng filter_rng(771);
+    std::vector<int> first_raw = base;
+    first_raw[0] = 0;
+    const DecodedProposalResult first_result =
+        filter_and_repair_decoded(
+            first_raw,
+            constrained,
+            filter_rng,
+            no_parents,
+            raw_decoded_keys,
+            accepted_repaired_keys
+        );
+    std::reverse(first_raw.begin(), first_raw.end());
+    const std::uint64_t before_raw_duplicate = filter_rng.state;
+    const DecodedProposalResult duplicate_raw_result =
+        filter_and_repair_decoded(
+            first_raw,
+            constrained,
+            filter_rng,
+            no_parents,
+            raw_decoded_keys,
+            accepted_repaired_keys
+        );
+    if (first_result.status != DecodedProposalStatus::accepted ||
+        duplicate_raw_result.status !=
+            DecodedProposalStatus::duplicate_raw_before_repair ||
+        filter_rng.state != before_raw_duplicate) {
+        report = "pre-repair raw decoded duplicate fixture failed";
+        return false;
+    }
+
+    std::set<std::string> parent_keys{
+        canonical_solution_key(base),
+    };
+    std::set<std::string> parent_raw_keys;
+    std::set<std::string> parent_accepted_keys;
+    std::vector<int> shuffled_parent = base;
+    std::reverse(shuffled_parent.begin(), shuffled_parent.end());
+    const std::uint64_t before_parent = filter_rng.state;
+    const DecodedProposalResult parent_result =
+        filter_and_repair_decoded(
+            shuffled_parent,
+            constrained,
+            filter_rng,
+            parent_keys,
+            parent_raw_keys,
+            parent_accepted_keys
+        );
+    if (parent_result.status !=
+            DecodedProposalStatus::parent_identical_before_repair ||
+        filter_rng.state != before_parent) {
+        report = "pre-repair parent identity fixture failed";
+        return false;
+    }
+
+    std::vector<int> second_raw = base;
+    second_raw[0] = problem.rows * problem.cols + 1;
+    const DecodedProposalResult post_repair_result =
+        filter_and_repair_decoded(
+            second_raw,
+            constrained,
+            filter_rng,
+            no_parents,
+            raw_decoded_keys,
+            accepted_repaired_keys
+        );
+    if (post_repair_result.status !=
+        DecodedProposalStatus::duplicate_after_repair) {
+        report = "post-repair duplicate fixture failed";
+        return false;
+    }
     report =
         "repair_fixture_pass gaussian_conflicts=2 full_reinit_conflicts=3 "
-        "nearest_tie=ascending duplicate_refill=pass";
+        "nearest_tie=ascending raw_duplicate=pre_repair_no_rng "
+        "parent_identity=pre_repair_no_rng "
+        "repaired_collision=post_repair duplicate_refill=pass";
     return true;
 }
 
@@ -1478,6 +1705,10 @@ std::string result_to_json(const EvolutionResult& result) {
            << "\"population_layout_hash\":\""
            << result.population_layout_hash << "\","
            << "\"front_hash\":\"" << result.front_hash << "\","
+           << "\"front_feasibility\":\""
+           << result.front_feasibility << "\","
+           << "\"front_minimum_normalized_constraint_violation\":"
+           << result.front_minimum_normalized_constraint_violation << ','
            << "\"front\":[";
     for (std::size_t index = 0; index < result.front.size(); ++index) {
         if (index != 0) {

@@ -28,7 +28,7 @@
   },
   "declared_identity_critical_completions": {
     "relative_fitness": "SPEA2 strength plus raw fitness plus density, ordered through CDP and min-max normalized to [0,1]; zero range maps every target to 0",
-    "cdp_rule": "lower positive constraint violation wins; if both feasible compare Pareto dominance; otherwise continue to deterministic NSGA-II rank, crowding, and source-index ties",
+    "cdp_rule": "one feasible solution beats one infeasible solution; if both are infeasible, lower positive constraint violation wins and equal violation proceeds to deterministic NSGA-II ranking and ties; if both are feasible, compare Pareto dominance before deterministic NSGA-II ranking and ties",
     "spea2_density_k": "floor(sqrt(population_size)), at least 1, using the kth Euclidean objective-space neighbor after per-objective min-max normalization",
     "tournament": "binary tournament sampled with replacement; CDP first, then lower NSGA-II rank, then larger crowding distance, then smaller stable source index",
     "latent_bounds": "per-dimension minimum and maximum raw h observed in the current parent population; zero-range dimensions remain at the current value",
@@ -37,8 +37,11 @@
     "gaussian_sampling": "fixed-order Box-Muller draws; at most 64 projected samples per conflicting turbine",
     "nearest_cell_tie": "minimum squared planar distance, then smaller 1-based cell index",
     "repair_fallback": "if a Gaussian attempt cannot select an admissible unoccupied cell, choose the smallest admissible unoccupied cell; more than two conflicts reinitializes the full layout",
-    "duplicate_refill": "discard offspring duplicate to a prior accepted offspring or identical to any current parent; attempt latent proposals at most 10 times the requested batch, then attempt deterministic uniformly sampled feasible refill at most another 10 times the requested batch and fail closed if still incomplete",
+    "decoded_filter_order": "after integer decoding and before Gaussian repair, canonicalize the unordered token multiset while retaining multiplicity and invalid token values; discard a repeated raw decoded solution and discard a valid decoded solution identical to a current parent without consuming repair RNG; after repair, also discard any result identical to a parent or prior accepted repaired offspring",
+    "proposal_traversal": "visit proposal attempts in ascending order with current parent row equal to attempt modulo population size; rejected proposals do not receive a source index, and each accepted repaired offspring receives population size plus its accepted order",
+    "duplicate_refill": "apply both the pre-repair decoded-solution filter and post-repair physical-layout guard; attempt latent proposals at most 10 times the requested batch, then attempt deterministic uniformly sampled feasible refill at most another 10 times the requested batch and fail closed if still incomplete",
     "partial_generation": "request exactly min(population_size, remaining physical FES) unique offspring and evaluate no layout beyond the requested physical-FES cap",
+    "no_feasible_front": "emit the deterministic CDP rank-0 least-constraint-violation front when no feasible solution exists and label it least_violation_infeasible; do not fail solely because the final population has no feasible solution",
     "pretraining_checkpoint": "bounded profile may construct deterministic bounded pretraining state; paper-scale profile requires an input checkpoint whose SHA-256 is supplied and whose metadata records the paper-scale profile, 100000 corpus samples, and at least 500 pretraining epochs",
     "front_ties": "stable source order followed by lexicographic ascending layout cells",
     "unsupported_backends": "hybrid and gpu fail closed; cpu is the only supported backend"
@@ -63,6 +66,7 @@
     }
   },
   "repair_contract": {
+    "ordering": "integer decode, raw decoded multiset duplicate and valid-parent filter, conflict repair, repaired-layout duplicate and parent guard, then physical evaluation",
     "conflicts": [
       "duplicate turbine cell after integer decoding",
       "overlap with one of the selected P3 case's four monitor cells"
@@ -94,6 +98,7 @@
     "model parameter hash",
     "population layout hash",
     "nondominated front hash and records",
+    "front feasibility label and minimum normalized constraint violation",
     "checkpoint metadata when written"
   ],
   "claim_boundary": "Executable bounded M3 declared reconstruction on a declared P3 problem proxy only. It is not the unavailable original taae method, Zhangbei numerical case, reported Pareto front, paper-scale trained state, formal evidence, performance result, or GPU implementation."
