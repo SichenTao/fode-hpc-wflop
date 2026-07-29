@@ -64,6 +64,11 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_learning_architecture_contracts.py
             --scope core
     )
+    add_test(
+        NAME learning_pdf_consumption
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_learning_pdf_consumption.py
+    )
     if(WFLOP_ENABLE_TORCH)
         add_test(
             NAME hpc_learning_backend_compatibility

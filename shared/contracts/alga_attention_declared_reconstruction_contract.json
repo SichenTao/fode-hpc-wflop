@@ -5,7 +5,9 @@
   "paper": {
     "title": "Multi-Attention-Powered Learning Genetic Algorithm for Real-World 3D Wind Farm Layout Optimization",
     "doi": "10.1016/j.swevo.2025.102018",
-    "sha256": "770b56c0dccbd7683e3c33652d7062c385eb2f00c126d2e9f2a3b7129fdc5872"
+    "sha256": "770b56c0dccbd7683e3c33652d7062c385eb2f00c126d2e9f2a3b7129fdc5872",
+    "local_authoritative_pdf": "/home/sichentao/Desktop/projects/wflop-projects/01-wflop-first-principles-design-space/litnotes-wflop-core/papers/2025_Yang_Multi_Attention_Powered_Learning_Genetic_Algorithm_for_Real_World_3D_Wind_Farm_Layout_Optimization.pdf",
+    "plan004_full_text_receipt": "evidence/development/plan004_learning_pdf_consumption_20260730.json"
   },
   "algorithm_id": "alga_attention_declared_reconstruction_v1",
   "method_id": "ALGA_ATTENTION_DECLARED_RECONSTRUCTION_V1",
@@ -18,14 +20,15 @@
     "mutation_probability": 0.1,
     "attention_heads": 8,
     "learning_rate": 0.001,
-    "attention_equations": "scaled dot-product softmax attention and concatenated multi-head output following paper Eqs. 19-23",
+    "attention_equations": "Psi in R^(l by d); Q=XW_Q, K=XW_K, V=XW_V with W in R^(d by d_k); scaled QK^T/sqrt(d_k); row softmax; weighted V; concatenated multi-head output following paper Eqs. 19-23",
     "mask_replacement": "paper Eq. 24",
     "paper_reported_generations": 100,
     "paper_generation_mapping_physical_fes": "30 initial evaluations plus 100 generations times 24 evaluated non-elites equals 2430 complete-layout evaluations",
     "paper_reported_repeats": 30
   },
   "declared_missing_field_completions": {
-    "input": "each evaluated layout is one sequence row; its sorted occupied-cell indices are divided by grid cardinality and centered at 0.5",
+    "paper_input_ambiguity": "the paper defines Psi in R^(l by d), discusses both inter-individual dependencies and attention over position elements, and gives O(N D^2 + N^2 h), but does not unambiguously bind l and d to population versus within-layout positions",
+    "input": "declared executable mapping: each evaluated layout is one sequence row; its sorted occupied-cell indices are divided by grid cardinality and centered at 0.5",
     "key_query_width": 1,
     "network_depth": "one shallow multi-head attention layer and one linear scalar output; no hidden feed-forward layer",
     "target": "per-generation min-max normalized complete-layout fitness; an all-equal population maps to one",

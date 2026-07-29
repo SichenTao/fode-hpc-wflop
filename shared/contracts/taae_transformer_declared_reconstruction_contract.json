@@ -5,6 +5,9 @@
   "paper": {
     "title": "Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization",
     "doi": "10.1109/JAS.2026.126233",
+    "sha256": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b",
+    "local_authoritative_pdf": "/home/sichentao/Desktop/projects/wflop-projects/01-wflop-first-principles-design-space/litnotes-wflop-core/papers/2026_Ma_Transformer_Autoencoder_Assisted_Evolutionary_Framework_for_Constrained_Multiobjective_3D_Wind_Farm_Layout_Optimization.pdf",
+    "plan004_full_text_receipt": "evidence/development/plan004_learning_pdf_consumption_20260730.json",
     "public_author_method_source": "unavailable",
     "public_author_checkpoint": "unavailable"
   },
@@ -15,6 +18,7 @@
   "admission_status": "kernel_verified_does_not_itself_admit_evolution_method",
   "blocked_original_algorithm_id": "taae",
   "paper_visible_architecture": {
+    "input_encoding": "selected 1-based grid-cell indices form an integer token sequence of length Nw; target problem uses a 20 by 20 grid and Nw=15",
     "encoder_layers": 6,
     "autoregressive_decoder_layers": 6,
     "attention_heads": 4,
@@ -24,10 +28,10 @@
     "latent_dimension": 64,
     "latent_normalization": "L2_before_regression_and_metric_only; decoder and latent DE use raw h",
     "regression_branch": "hidden_linear_with_bias_then_ReLU_then_scalar_linear_with_bias",
-    "decoder_start": "learned_BOS_embedding",
+    "decoder_start": "paper requires a special start-of-sequence token; learned BOS embedding is the disclosed representation",
     "decoder_mask": "causal",
     "public_encode_output": "raw compressed latent h",
-    "decoder_memory": "raw h linear projection to sequence_length times model_dimension then reshape",
+    "decoder_memory": "paper requires raw h to be linearly projected and reshaped into a sequence of static-memory embeddings; exact projection ownership is disclosed",
     "normalization": "post_norm",
     "dropout": 0.0,
     "initialization": "deterministic_Xavier_uniform"
@@ -38,6 +42,15 @@
     "regression_hidden_width": 64,
     "generic_layout_corpus": "exactly sequence_length unique vocabulary cells in canonical ascending order",
     "problem_monitor_exclusions": "deferred to the blocked end-to-end M3 problem binding"
+  },
+  "paper_formula_ledger": {
+    "reconstruction_loss": "Section IV-C Eq. 8",
+    "regression_hidden_and_output": "Section IV-C Eqs. 9-10",
+    "regression_loss": "Section IV-C Eq. 11",
+    "metric_alignment_loss": "Section IV-C Eq. 12",
+    "combined_loss": "Section IV-C Eq. 13",
+    "evolution_and_repair": "Section IV-D Algorithm 2 and Eqs. 14-16",
+    "experimental_scale": "Section V-B and embedded supplement Tables S19-S21"
   },
   "paper_scale_pretraining": {
     "layouts": 100000,

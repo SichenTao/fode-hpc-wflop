@@ -8,7 +8,12 @@
     "paper": {
       "title": "Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization",
       "doi": "10.1109/JAS.2026.126233",
-      "local_or_public_full_text_available_for_plan004": false
+      "sha256": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b",
+      "local_authoritative_pdf": "/home/sichentao/Desktop/projects/wflop-projects/01-wflop-first-principles-design-space/litnotes-wflop-core/papers/2026_Ma_Transformer_Autoencoder_Assisted_Evolutionary_Framework_for_Constrained_Multiobjective_3D_Wind_Farm_Layout_Optimization.pdf",
+      "pages": 49,
+      "contains_embedded_supplement": true,
+      "plan004_consumption_receipt": "evidence/development/plan004_learning_pdf_consumption_20260730.json",
+      "full_text_consumed": true
     },
     "author_method_source": {
       "available": false,
@@ -24,72 +29,72 @@
     "token_input": {
       "shape": ["batch", 15],
       "dtype": "int64",
-      "evidence": "paper_visible_architecture.sequence_length in shared/contracts/taae_transformer_declared_reconstruction_contract.json"
+      "evidence": "paper Section IV-B Eqs. 4-7 and Section V: 15 turbines on a 20 by 20 grid"
     },
     "encoder_token_embedding": {
       "shape": [400, 64],
-      "evidence": "paper_visible vocabulary and token embedding dimensions; vocabulary completion is frozen in the prior declared-reconstruction contract"
+      "evidence": "paper Section IV-B and Fig. 5: tokenized selected grid-cell indices; Section V fixes a 20 by 20 grid; embedding dimension 64"
     },
     "encoder_position_embedding": {
       "shape": [15, 64],
-      "evidence": "disclosed_reconstruction: learned absolute positions"
+      "evidence": "paper Fig. 5 requires positional encoding; disclosed reconstruction: learned absolute positions"
     },
     "decoder_token_embedding": {
       "shape": [400, 64],
-      "evidence": "disclosed_reconstruction: decoder owns a separate embedding table"
+      "evidence": "paper Fig. 5 shows decoder token embedding; disclosed reconstruction: decoder owns a separate table"
     },
     "decoder_position_embedding": {
       "shape": [15, 64],
-      "evidence": "disclosed_reconstruction: learned absolute positions"
+      "evidence": "paper Fig. 5 requires decoder positional encoding; disclosed reconstruction: learned absolute positions"
     },
     "decoder_bos": {
       "shape": [64],
-      "evidence": "paper_visible decoder start plus disclosed learned-vector representation"
+      "evidence": "paper Section IV-B: special start-of-sequence token; disclosed reconstruction: learned vector"
     },
     "encoder_hidden": {
       "shape": ["batch", 15, 64],
-      "evidence": "paper_visible architecture dimensions"
+      "evidence": "paper Section IV-B: six encoder layers, four heads, embedding dimension 64, token length Nw=15"
     },
     "latent": {
       "shape": ["batch", 64],
-      "evidence": "paper_visible latent dimension"
+      "evidence": "paper Sections IV-B and V-B: latent bottleneck dimension 64"
     },
     "decoder_memory_projection": {
       "weight_shape": [64, 960],
       "bias_shape": [960],
       "output_shape": ["batch", 15, 64],
-      "evidence": "disclosed_reconstruction: raw latent linearly expands to sequence_length times model_dimension"
+      "evidence": "paper Section IV-B: latent is linearly projected and reshaped into a sequence of static-memory embeddings; exact projection ownership is disclosed reconstruction"
     },
     "decoder_logits": {
       "shape": ["batch", 15, 400],
-      "evidence": "autoregressive reconstruction over the fixed vocabulary"
+      "evidence": "paper Section IV-B and Fig. 5: autoregressive sequence reconstruction projected to vocabulary"
     },
     "regression_hidden": {
       "weight_shape": [64, 64],
       "bias_shape": [64],
       "activation": "ReLU",
-      "evidence": "paper_visible regression branch and disclosed hidden width"
+      "evidence": "paper Section IV-C Eqs. 9-10 specifies hidden ReLU then linear output; width 64 is disclosed reconstruction"
     },
     "regression_output": {
       "weight_shape": [1, 64],
       "bias_shape": [1],
-      "evidence": "paper_visible scalar regression branch"
+      "evidence": "paper Section IV-C Eq. 10"
     }
   },
   "architecture": {
     "encoder_layers": {
       "value": 6,
-      "evidence": "paper_visible_architecture"
+      "evidence": "paper Section IV-B and Fig. 5"
     },
     "decoder_layers": {
       "value": 6,
-      "evidence": "paper_visible_architecture"
+      "evidence": "paper Section IV-B and Fig. 5"
     },
     "attention_heads": {
       "value": 4,
       "head_dimension": 16,
       "score_scale": "1/sqrt(16)",
-      "evidence": "paper_visible heads/model dimension; standard scaled dot-product formula"
+      "evidence": "paper Section IV-B specifies four heads and embedding dimension 64; scaled dot-product follows cited Transformer architecture"
     },
     "feed_forward": {
       "shape": [64, 256, 64],
@@ -103,7 +108,7 @@
     },
     "decoder_self_attention_mask": {
       "type": "strict_future_causal_mask",
-      "evidence": "paper_visible autoregressive decoder"
+      "evidence": "paper Section IV-B explicitly specifies a causal attention mask"
     },
     "encoder_pooling": {
       "type": "fixed_order_arithmetic_mean_over_sequence",
@@ -123,19 +128,19 @@
     "reconstruction": {
       "formula": "mean token cross entropy over batch times sequence",
       "weight": 1.0,
-      "evidence": "paper_visible objective"
+      "evidence": "paper Section IV-B and Eq. 8"
     },
     "regression": {
       "formula": "mean squared error",
       "weight": 30.0,
-      "evidence": "paper_visible lambda_reg"
+      "evidence": "paper Section IV-C Eqs. 9-11 and 13; lambda_reg=30"
     },
     "metric_alignment": {
       "formula": "mean squared difference between L2-normalized latent distance and absolute relative-fitness distance",
       "weight": 1.0,
       "pairs_per_batch": "batch_size",
       "pair_seed": "0x5943365041495253",
-      "evidence": "paper_visible loss plus disclosed deterministic pair sampler"
+      "evidence": "paper Section IV-C Eqs. 12-13 specifies exactly batch-size randomly sampled pairs and lambda_smooth=1; deterministic sampler is disclosed reconstruction"
     },
     "optimizer": {
       "type": "Adam",
@@ -143,19 +148,19 @@
       "beta1": 0.9,
       "beta2": 0.999,
       "epsilon": 1e-08,
-      "evidence": "paper_visible schedule and disclosed standard Adam constants"
+      "evidence": "paper Section IV-B specifies Adam and learning rate 1e-3; beta and epsilon values are disclosed standard-Adam reconstruction"
     },
     "pretraining": {
       "layouts": 100000,
       "epochs": 500,
       "batch_size": 64,
       "batch_order": "deterministic Fisher-Yates per epoch",
-      "evidence": "paper_visible scale; deterministic order is disclosed reconstruction"
+      "evidence": "paper Section IV-B specifies 100000 layouts, 500 epochs, and batch size 64; deterministic order is disclosed reconstruction"
     },
     "fine_tuning": {
       "decoder_frozen": true,
       "decoder_adam_age_unchanged": true,
-      "evidence": "paper_visible freeze plus disclosed optimizer-state rule"
+      "evidence": "paper Section IV-C explicitly freezes decoder parameters; unchanged decoder Adam age is disclosed reconstruction"
     }
   },
   "evolution_bridge": {
@@ -173,8 +178,8 @@
       "file_sha256"
     ],
     "optimizer_consumer": "taae_evolution_hpc --checkpoint-in",
-    "transition": "encode raw latent h, apply latent differential evolution, decode and repair layouts, count only physical layout evaluations as FES",
-    "evidence": "shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json plus disclosed checkpoint schema"
+    "transition": "encode P to Hp; tournament-select H1 and H2 under CDP plus NSGA-II; Hm=Hp+0.3*(H1-H2); inherit exactly one random dimension from Hm and all others from Hp; bounded polynomial mutation probability 1/64 and distribution index 20; decode; deduplicate; Gaussian-repair at most two conflicts or reinitialize if more; evaluate; CDP plus NSGA-II environmental selection",
+    "evidence": "paper Section IV-D, Algorithm 2, Eqs. 14-16, and Section V; disclosed checkpoint and deterministic tie rules are in shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json"
   },
   "backend_contract": {
     "same_model_and_loss": ["cpu", "cuda", "hybrid"],

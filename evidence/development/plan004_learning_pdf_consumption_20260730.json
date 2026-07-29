@@ -1,0 +1,50 @@
+{
+  "schema_version": 1,
+  "receipt_id": "plan004_learning_pdf_consumption_20260730",
+  "review_date": "2026-07-30",
+  "review_method": [
+    "sha256sum",
+    "pdfinfo",
+    "pdftotext -raw and -layout over every page",
+    "pdftoppm render of formula, architecture, and algorithm pages",
+    "visual inspection of rendered pages"
+  ],
+  "papers": [
+    {
+      "corpus_id": "T45",
+      "path": "/home/sichentao/Desktop/projects/wflop-projects/01-wflop-first-principles-design-space/litnotes-wflop-core/papers/2025_Yang_Multi_Attention_Powered_Learning_Genetic_Algorithm_for_Real_World_3D_Wind_Farm_Layout_Optimization.pdf",
+      "sha256": "770b56c0dccbd7683e3c33652d7062c385eb2f00c126d2e9f2a3b7129fdc5872",
+      "pages": 22,
+      "consumed_page_ranges": ["1-22"],
+      "rendered_and_visually_inspected_pages": [8, 10],
+      "appendix_or_supplement": "none in the 22-page file",
+      "method_anchors": [
+        "Section 4.2 Eqs. 13-24",
+        "Algorithm 1",
+        "Section 4.3 complexity",
+        "Section 5.1 and Tables 1-2",
+        "Section 6.1 and Table 13"
+      ],
+      "evidence_boundary": "Full paper was read; author ALGA source, Guishan arrays, exact learning loss/optimizer/epochs, d_k, elite E, and mask construction are not disclosed."
+    },
+    {
+      "corpus_id": "Y36",
+      "path": "/home/sichentao/Desktop/projects/wflop-projects/01-wflop-first-principles-design-space/litnotes-wflop-core/papers/2026_Ma_Transformer_Autoencoder_Assisted_Evolutionary_Framework_for_Constrained_Multiobjective_3D_Wind_Farm_Layout_Optimization.pdf",
+      "sha256": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b",
+      "pages": 49,
+      "consumed_page_ranges": ["1-49"],
+      "rendered_and_visually_inspected_pages": [5, 6, 7, 8],
+      "appendix_or_supplement": "embedded supplementary material consumed in full, including Eqs. 1-20, Tables S1-S21, and Figs. S1-S51",
+      "method_anchors": [
+        "Section IV-B and Fig. 5",
+        "Section IV-C Eqs. 8-13",
+        "Section IV-D Algorithm 2 and Eqs. 14-16",
+        "Section V-B",
+        "Supplement Tables S19-S21"
+      ],
+      "evidence_boundary": "Full paper and embedded supplement were read; author code/checkpoint, exact FFN width, normalization placement, dropout, initialization, pooling, fine-tuning batch construction, and complete RNG lifecycle are not disclosed."
+    }
+  ],
+  "supersedes_statement": "The Plan004 Step1 commit 63c7708 incorrectly stated that the local TAAE and ALGA full texts were unavailable.",
+  "historical_raw_results_changed": false
+}

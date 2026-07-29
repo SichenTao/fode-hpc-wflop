@@ -5,6 +5,9 @@
   "paper": {
     "title": "Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization",
     "doi": "10.1109/JAS.2026.126233",
+    "sha256": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b",
+    "local_authoritative_pdf": "/home/sichentao/Desktop/projects/wflop-projects/01-wflop-first-principles-design-space/litnotes-wflop-core/papers/2026_Ma_Transformer_Autoencoder_Assisted_Evolutionary_Framework_for_Constrained_Multiobjective_3D_Wind_Farm_Layout_Optimization.pdf",
+    "plan004_full_text_receipt": "evidence/development/plan004_learning_pdf_consumption_20260730.json",
     "public_author_method_source": "unavailable",
     "public_author_checkpoint": "unavailable"
   },
@@ -21,10 +24,16 @@
     "maximum_physical_fes": 10000,
     "fine_tune_epochs_per_generation": 10,
     "latent_differential_weight": 0.3,
-    "latent_crossover": "exactly one uniformly selected dimension from mutant and every remaining dimension from current raw latent h",
+    "relative_fitness": "SPEA2 fitness assignment combined with CDP, then min-max normalized for learning",
+    "latent_mutant": "Algorithm 2 Eq. 14: Hm = Hp + 0.3 * (H1 - H2), with H1 and H2 formed by tournament selection guided by CDP and NSGA-II",
+    "latent_crossover": "exactly one randomly selected dimension from the mutant latent vector and every remaining dimension from the corresponding current raw latent h",
     "polynomial_mutation_probability": "1 divided by latent dimension",
     "polynomial_mutation_distribution_index": 20.0,
-    "survival": "merge parent and evaluated offspring populations then CDP plus NSGA-II environmental selection to N"
+    "duplicate_filter": "remove duplicate offspring and offspring identical to a current parent before physical evaluation",
+    "repair_at_most_two_conflicts": "fit full planar Gaussian mean and covariance to nonconflicting turbine coordinates, sample conflicting turbines, and project to nearest admissible unoccupied cells",
+    "repair_more_than_two_conflicts": "randomly reinitialize the complete wind farm layout",
+    "survival": "merge parent and evaluated offspring populations then CDP plus NSGA-II environmental selection to N",
+    "paper_source": "Section IV-D Algorithm 2 and Eqs. 14-16; Section V-B; embedded supplement Tables S19-S21"
   },
   "declared_identity_critical_completions": {
     "relative_fitness": "SPEA2 strength plus raw fitness plus density, ordered through CDP and min-max normalized to [0,1]; zero range maps every target to 0",

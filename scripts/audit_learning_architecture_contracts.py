@@ -8,6 +8,8 @@ import json
 from pathlib import Path
 from typing import Any
 
+from audit_learning_pdf_consumption import audit as audit_pdf_consumption
+
 
 ROOT = Path(__file__).resolve().parents[1]
 CONTRACTS = {
@@ -162,6 +164,7 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--scope", choices=("core",), required=True)
     parser.parse_args()
+    audit_pdf_consumption()
     loaded: dict[str, dict[str, Any]] = {}
     for corpus, (path, contract_id, method_id, module) in CONTRACTS.items():
         data = load(path)
@@ -178,7 +181,8 @@ def main() -> int:
     audit_compatibility_guard()
     print(
         "learning_architecture_contract_audit_pass "
-        "contracts=3 exact_modules=3 generic_target_h5_admissible=no"
+        "contracts=3 exact_modules=3 corrected_pdf_receipts=2 "
+        "generic_target_h5_admissible=no"
     )
     return 0
 
