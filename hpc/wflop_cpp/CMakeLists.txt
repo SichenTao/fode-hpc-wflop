@@ -15,6 +15,7 @@ add_executable(wflop_cpp_hpc
     ../fode_cpp/src/optimizer.cpp
     src/registry.cpp
     src/algorithms.cpp
+    src/algorithms/ppo.cpp
     src/algorithms/rlpso.cpp
     src/main.cpp
 )

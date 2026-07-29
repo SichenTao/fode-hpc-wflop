@@ -1,6 +1,6 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
-Implementation unit: RPSO-derived compact policy engineering proxy
+Implementation unit: T42 seeded RPSO reconstruction profiles
 Paper title: Reinforcement Learning-Based Particle Swarm Optimization for Wind Farm Layout Problems
 DOI: 10.1016/j.energy.2024.134050
 Paper provides: RPSO equations, PPO objective, four actions, 0.001 action step, population 50 and 200 iterations
@@ -8,18 +8,25 @@ Public author code URL: https://raw.githubusercontent.com/toyamaailab/toyamaaila
 Public author code revision or archive hash: sha256:44e89c033e90f5aaaa9b84c826c95f29d3b8ad73dd363ff68de99418cdfa93a2
 Public code/assets provide: MATLAB PSO lifecycle, Python PPO prototype and WS1-WS4 problem arrays
 Known missing information: author-result seed lifecycle and a PPO update consistent with the paper
-Reconstruction performed here: seeded linear categorical immediate-reward policy-gradient proxy with complete FES ledger
+Reconstruction performed here: (1) the retained seeded linear categorical
+  engineering proxy and (2) a separately identified persistent, seeded
+  2-256-64 actor/critic PPO reconstruction using sampled-action log
+  probabilities, gamma=0.99, clip=0.2, Adam, K=80, the paper's 0.001 action
+  step, a clear-after-update on-policy buffer, and a complete FES ledger
 Method evidence tier: M3_DECLARED_COMPLETION
 Problem evidence tier: P0_AUTHOR_ASSET
-Method semantic ID: rlpso_compact_policy_declared_reconstruction_v1
+Method semantic IDs: rlpso_compact_policy_declared_reconstruction_v1 and
+  rlpso_paper_corrected_training_reconstruction_v1
 Problem semantic ID: rpso2024_source_problem_ws1_ws4_v1
 Controlling contracts: shared/contracts/rlpso_reconstruction_execution_contract.json
-Claim boundary: engineering proxy only; no RLPSO reproduction or full PPO claim
+Claim boundary: both profiles are declared M3 reconstructions; neither is an
+  author checkpoint or reproduction of the paper's reported numerical results
 Last evidence audit date: 2026-07-29
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 
 #include "wflop/algorithms.hpp"
+#include "wflop/ppo.hpp"
 #include "wflop/rlpso_transition.hpp"
 
 #include "fode/evaluator.hpp"
@@ -34,6 +41,8 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 #include <cstdint>
 #include <limits>
 #include <numeric>
+#include <sstream>
+#include <string>
 #include <vector>
 
 namespace wflop {
@@ -180,18 +189,15 @@ int sample_action(
     return 3;
 }
 
-void apply_action(int action, double step, double& r1, double& r2) {
-    if (action == 0) {
-        r1 += step;
-    } else if (action == 1) {
-        r1 -= step;
-    } else if (action == 2) {
-        r2 += step;
-    } else {
-        r2 -= step;
+std::string hexadecimal_hash(std::uint64_t value) {
+    constexpr char digits[] = "0123456789abcdef";
+    std::string result(16, '0');
+    for (int index = 15; index >= 0; --index) {
+        result[static_cast<std::size_t>(index)] =
+            digits[static_cast<std::size_t>(value & 0xfULL)];
+        value >>= 4;
     }
-    r1 = std::clamp(r1, 0.0, 1.0);
-    r2 = std::clamp(r2, 0.0, 1.0);
+    return "fnv1a64:" + result;
 }
 
 }  // namespace
@@ -285,8 +291,8 @@ RunResult optimize_rlpso_reconstruction(
             const double old_r2 = r2;
             double proposed_r1 = r1;
             double proposed_r2 = r2;
-            apply_action(
-                action, 0.001, proposed_r1, proposed_r2
+            rlpso_transition::apply_compact_proxy_action(
+                action, proposed_r1, proposed_r2
             );
             const int row = step_index % population_size;
             const int peer = rng.integer(
@@ -468,6 +474,373 @@ RunResult optimize_rlpso_reconstruction(
         std::max(0.0, result.total_seconds - evaluator_seconds);
     result.pso_update_semantics =
         "declared_linear_categorical_immediate_reward_policy_gradient_proxy";
+    return result;
+}
+
+RunResult optimize_rlpso_paper_corrected_training_reconstruction(
+    const fode::CaseData& data,
+    const RunConfig& config
+) {
+    const auto started = Clock::now();
+    fode::PersistentExecutor executor(config.workers);
+    fode::CounterRng rng(config.seed ^ 0x5250534f50504fULL);
+    const int population_size = static_cast<int>(
+        std::min<std::uint64_t>(50, config.physical_fes_budget)
+    );
+    const int dimension = data.turbine_count;
+    Matrix population = initialize(population_size, data, rng, executor);
+    std::uint64_t fes = 0;
+    std::uint64_t training_fes = 0;
+    std::uint64_t generations = 0;
+    std::uint64_t training_step = 0;
+    std::uint64_t policy_updates = 0;
+    double evaluator_seconds = 0.0;
+    double policy_training_seconds = 0.0;
+    double policy_update_seconds = 0.0;
+    double best = -std::numeric_limits<double>::infinity();
+    std::vector<int> best_layout;
+    auto evaluate = [&](const Matrix& batch, int requested, bool training) {
+        const int completed = static_cast<int>(std::min<std::uint64_t>(
+            static_cast<std::uint64_t>(requested),
+            config.physical_fes_budget - fes
+        ));
+        if (completed <= 0) {
+            throw std::runtime_error(
+                "paper-corrected RLPSO evaluation exhausted its FES budget"
+            );
+        }
+        Matrix prefix(
+            batch.begin(),
+            batch.begin()
+                + static_cast<std::ptrdiff_t>(completed * dimension)
+        );
+        auto result = fode::evaluate_population_hpc(
+            prefix,
+            completed,
+            data,
+            executor,
+            fode::EvaluationDetail::TotalOnly,
+            fode::EvaluationSchedule::GranularityAware
+        );
+        evaluator_seconds += result.elapsed_seconds;
+        for (int row = 0; row < completed; ++row) {
+            if (result.fitness[static_cast<std::size_t>(row)] > best) {
+                best = result.fitness[static_cast<std::size_t>(row)];
+                best_layout.resize(static_cast<std::size_t>(dimension));
+                for (int d = 0; d < dimension; ++d) {
+                    best_layout[static_cast<std::size_t>(d)] =
+                        static_cast<int>(std::llround(
+                            prefix[index_of(row, d, dimension)]
+                        ));
+                }
+            }
+        }
+        fes += static_cast<std::uint64_t>(completed);
+        if (training) {
+            training_fes += static_cast<std::uint64_t>(completed);
+        }
+        return result;
+    };
+
+    auto initial = evaluate(population, population_size, false);
+    std::vector<double> fitness = initial.fitness;
+    Matrix pbest = population;
+    std::vector<double> pbest_fitness = fitness;
+    Matrix velocity(population.size(), 0.0);
+    int best_row = static_cast<int>(std::distance(
+        pbest_fitness.begin(),
+        std::max_element(pbest_fitness.begin(), pbest_fitness.end())
+    ));
+    Matrix gbest(static_cast<std::size_t>(dimension));
+    std::copy_n(
+        pbest.begin() + static_cast<std::ptrdiff_t>(best_row * dimension),
+        dimension,
+        gbest.begin()
+    );
+
+    ppo::SeededPpo policy(rng, 0x50504fULL);
+    std::vector<ppo::Transition> rollout;
+    rollout.reserve(500);
+    auto update_policy = [&]() {
+        const auto update_started = Clock::now();
+        static_cast<void>(policy.update(rollout));
+        const double elapsed = std::chrono::duration<double>(
+            Clock::now() - update_started
+        ).count();
+        policy_update_seconds += elapsed;
+        ++policy_updates;
+        rollout.clear();
+        return elapsed;
+    };
+    double r1 = 0.5;
+    double r2 = 0.5;
+
+    while (fes < config.physical_fes_budget) {
+        ++generations;
+        const auto training_started = Clock::now();
+        constexpr int interactions_per_generation = 10000;
+        for (int interaction = 0;
+             interaction < interactions_per_generation
+                 && fes < config.physical_fes_budget;
+             ++interaction) {
+            const std::array<double, 2> state{r1, r2};
+            const auto sample = policy.sample_action(
+                state,
+                rng,
+                ppo::RngKey{
+                    generations,
+                    20,
+                    static_cast<std::uint64_t>(interaction),
+                    0,
+                    training_step
+                }
+            );
+            rlpso_transition::apply_paper_corrected_action(
+                sample.action, r1, r2
+            );
+            const int row = interaction % population_size;
+            Matrix candidate(static_cast<std::size_t>(dimension));
+            for (int d = 0; d < dimension; ++d) {
+                const int peer = rng.integer(
+                    0,
+                    population_size,
+                    generations,
+                    21,
+                    static_cast<std::uint64_t>(interaction),
+                    static_cast<std::uint64_t>(d)
+                );
+                candidate[static_cast<std::size_t>(d)] =
+                    pbest_fitness[static_cast<std::size_t>(row)]
+                        > pbest_fitness[static_cast<std::size_t>(peer)]
+                    ? rlpso_transition::paper_corrected_candidate(
+                        r1,
+                        r2,
+                        pbest[index_of(row, d, dimension)],
+                        gbest[static_cast<std::size_t>(d)]
+                    )
+                    : pbest[index_of(peer, d, dimension)];
+            }
+            repair(
+                candidate,
+                1,
+                data,
+                rng,
+                executor,
+                generations,
+                static_cast<std::uint64_t>(30 + interaction)
+            );
+            const double prior_best = best;
+            const auto observation = evaluate(candidate, 1, true);
+            const double candidate_fitness = observation.fitness.front();
+            const double reward = candidate_fitness > prior_best ? 1.1 : -1.0;
+            ++training_step;
+            rollout.push_back(ppo::Transition{
+                state,
+                sample.action,
+                sample.log_probability,
+                reward,
+                training_step % 100 == 0
+            });
+            if (candidate_fitness
+                > pbest_fitness[static_cast<std::size_t>(row)]) {
+                pbest_fitness[static_cast<std::size_t>(row)] =
+                    candidate_fitness;
+                std::copy(
+                    candidate.begin(),
+                    candidate.end(),
+                    pbest.begin()
+                        + static_cast<std::ptrdiff_t>(row * dimension)
+                );
+            }
+            if (candidate_fitness > prior_best) {
+                best_row = row;
+                gbest = candidate;
+            }
+            if (rollout.size() == 500) {
+                static_cast<void>(update_policy());
+            }
+        }
+        policy_training_seconds += std::chrono::duration<double>(
+            Clock::now() - training_started
+        ).count();
+        if (fes >= config.physical_fes_budget) {
+            break;
+        }
+
+        const int exemplar_batch = static_cast<int>(
+            std::min<std::uint64_t>(
+                static_cast<std::uint64_t>(population_size),
+                config.physical_fes_budget - fes
+            )
+        );
+        Matrix offspring(
+            static_cast<std::size_t>(exemplar_batch * dimension),
+            0.0
+        );
+        executor.parallel_for(0, exemplar_batch, [&](int row) {
+            for (int d = 0; d < dimension; ++d) {
+                const int peer = rng.integer(
+                    0,
+                    population_size,
+                    generations,
+                    40,
+                    static_cast<std::uint64_t>(row),
+                    static_cast<std::uint64_t>(d)
+                );
+                offspring[index_of(row, d, dimension)] =
+                    pbest_fitness[static_cast<std::size_t>(row)]
+                        > pbest_fitness[static_cast<std::size_t>(peer)]
+                    ? rlpso_transition::paper_corrected_candidate(
+                        r1,
+                        r2,
+                        pbest[index_of(row, d, dimension)],
+                        gbest[static_cast<std::size_t>(d)]
+                    )
+                    : pbest[index_of(peer, d, dimension)];
+            }
+        });
+        repair(
+            offspring,
+            exemplar_batch,
+            data,
+            rng,
+            executor,
+            generations,
+            41
+        );
+        const auto offspring_evaluation =
+            evaluate(offspring, exemplar_batch, false);
+        for (int row = 0; row < exemplar_batch; ++row) {
+            if (offspring_evaluation.fitness[static_cast<std::size_t>(row)]
+                > pbest_fitness[static_cast<std::size_t>(row)]) {
+                pbest_fitness[static_cast<std::size_t>(row)] =
+                    offspring_evaluation.fitness[static_cast<std::size_t>(row)];
+                std::copy_n(
+                    offspring.begin()
+                        + static_cast<std::ptrdiff_t>(row * dimension),
+                    dimension,
+                    pbest.begin()
+                        + static_cast<std::ptrdiff_t>(row * dimension)
+                );
+            }
+        }
+        if (exemplar_batch < population_size
+            || fes >= config.physical_fes_budget) {
+            break;
+        }
+
+        best_row = static_cast<int>(std::distance(
+            pbest_fitness.begin(),
+            std::max_element(pbest_fitness.begin(), pbest_fitness.end())
+        ));
+        std::copy_n(
+            pbest.begin() + static_cast<std::ptrdiff_t>(best_row * dimension),
+            dimension,
+            gbest.begin()
+        );
+        executor.parallel_for(
+            0,
+            population_size * dimension,
+            [&](int task) {
+                const int row = task / dimension;
+                const int d = task % dimension;
+                velocity[index_of(row, d, dimension)] =
+                    rlpso_transition::source_velocity(
+                        0.9,
+                        velocity[index_of(row, d, dimension)],
+                        1.49618,
+                        rng.uniform(
+                            generations,
+                            50,
+                            static_cast<std::uint64_t>(row),
+                            static_cast<std::uint64_t>(d)
+                        ),
+                        pbest[index_of(row, d, dimension)],
+                        1.49618,
+                        rng.uniform(
+                            generations,
+                            51,
+                            static_cast<std::uint64_t>(row),
+                            static_cast<std::uint64_t>(d)
+                        ),
+                        population[index_of(row, d, dimension)]
+                    );
+                population[index_of(row, d, dimension)] +=
+                    velocity[index_of(row, d, dimension)];
+            }
+        );
+        repair(
+            population,
+            population_size,
+            data,
+            rng,
+            executor,
+            generations,
+            52
+        );
+        const int population_batch = static_cast<int>(
+            std::min<std::uint64_t>(
+                static_cast<std::uint64_t>(population_size),
+                config.physical_fes_budget - fes
+            )
+        );
+        const auto population_evaluation =
+            evaluate(population, population_batch, false);
+        for (int row = 0; row < population_batch; ++row) {
+            if (population_evaluation.fitness[static_cast<std::size_t>(row)]
+                > pbest_fitness[static_cast<std::size_t>(row)]) {
+                pbest_fitness[static_cast<std::size_t>(row)] =
+                    population_evaluation.fitness[static_cast<std::size_t>(row)];
+                std::copy_n(
+                    population.begin()
+                        + static_cast<std::ptrdiff_t>(row * dimension),
+                    dimension,
+                    pbest.begin()
+                        + static_cast<std::ptrdiff_t>(row * dimension)
+                );
+            }
+        }
+    }
+
+    if (!rollout.empty()) {
+        rollout.back().terminal = true;
+        policy_training_seconds += update_policy();
+    }
+
+    RunResult result;
+    const auto& descriptor = algorithm_descriptor(config.algorithm_id);
+    const auto& problem = problem_descriptor(config.problem_id);
+    result.algorithm_id = config.algorithm_id;
+    result.method_id =
+        "RLPSO_PAPER_CORRECTED_TRAINING_RECONSTRUCTION_V1";
+    result.algorithm_provenance = descriptor.provenance;
+    result.effective_semantics_id = descriptor.semantics_id;
+    result.problem_id = problem.id;
+    result.problem_semantics_id = problem.semantics_id;
+    result.case_id = data.case_id;
+    result.seed = config.seed;
+    result.physical_fes = fes;
+    result.training_physical_fes = training_fes;
+    result.inference_physical_fes = fes - training_fes;
+    result.policy_interactions = training_step;
+    result.policy_updates = policy_updates;
+    result.generations = generations;
+    result.initial_population = population_size;
+    result.final_population = population_size;
+    result.requested_workers = config.workers;
+    result.observed_workers = executor.thread_count();
+    result.best_expected_power_kw = best;
+    result.best_layout_1based = best_layout;
+    result.total_seconds =
+        std::chrono::duration<double>(Clock::now() - started).count();
+    result.evaluator_seconds = evaluator_seconds;
+    result.algorithm_seconds =
+        std::max(0.0, result.total_seconds - evaluator_seconds);
+    result.policy_training_seconds = policy_training_seconds;
+    result.policy_update_seconds = policy_update_seconds;
+    result.pso_update_semantics =
+        "paper_corrected_seeded_persistent_ppo_staged_parallel";
+    result.learned_state_hash = hexadecimal_hash(policy.parameter_hash());
     return result;
 }
 

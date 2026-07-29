@@ -176,6 +176,8 @@ std::string to_json(const wflop::RunResult& result) {
            << result.training_physical_fes << ",";
     output << "\"inference_physical_fes\":"
            << result.inference_physical_fes << ",";
+    output << "\"policy_interactions\":" << result.policy_interactions << ",";
+    output << "\"policy_updates\":" << result.policy_updates << ",";
     output << "\"generations\":" << result.generations << ",";
     output << "\"initial_population\":" << result.initial_population << ",";
     output << "\"final_population\":" << result.final_population << ",";
@@ -196,10 +198,16 @@ std::string to_json(const wflop::RunResult& result) {
     output << "\"timing_seconds\":{";
     output << "\"end_to_end\":" << result.total_seconds << ",";
     output << "\"evaluator\":" << result.evaluator_seconds << ",";
-    output << "\"algorithm\":" << result.algorithm_seconds << "}";
+    output << "\"algorithm\":" << result.algorithm_seconds << ",";
+    output << "\"policy_training\":" << result.policy_training_seconds << ",";
+    output << "\"policy_update\":" << result.policy_update_seconds << "}";
     if (!result.pso_update_semantics.empty()) {
         output << ",\"pso_update_semantics\":\""
                << escape_json(result.pso_update_semantics) << "\"";
+    }
+    if (!result.learned_state_hash.empty()) {
+        output << ",\"learned_state_hash\":\""
+               << escape_json(result.learned_state_hash) << "\"";
     }
     output << "}";
     return output.str();

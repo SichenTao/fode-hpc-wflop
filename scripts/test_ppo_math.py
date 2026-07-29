@@ -100,6 +100,8 @@ int main() {
         replay.parameter_checksum(),
         0.0
     ));
+    assert(first.parameter_hash() == replay.parameter_hash());
+    assert(first.parameter_hash() != other_stream.parameter_hash());
     assert(!close(
         first.parameter_checksum(),
         other_stream.parameter_checksum(),
@@ -248,6 +250,7 @@ int main() {
     }
 
     const double before = first.parameter_checksum();
+    const std::uint64_t hash_before = first.parameter_hash();
     const auto report = first.update(trajectory);
     const auto replay_report = replay.update(trajectory);
     const double after = first.parameter_checksum();
@@ -256,6 +259,8 @@ int main() {
     assert(report.adam_step == 80);
     assert(first.adam_step() == 80);
     assert(!close(before, after, 1.0e-10));
+    assert(hash_before != first.parameter_hash());
+    assert(first.parameter_hash() == replay.parameter_hash());
     assert(close(after, replay.parameter_checksum(), 1.0e-12));
     assert(close(report.actor_loss, replay_report.actor_loss, 1.0e-13));
     assert(close(report.critic_loss, replay_report.critic_loss, 1.0e-13));

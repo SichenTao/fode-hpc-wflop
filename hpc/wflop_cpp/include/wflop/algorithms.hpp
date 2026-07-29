@@ -29,6 +29,8 @@ struct RunResult {
     std::uint64_t physical_fes = 0;
     std::uint64_t training_physical_fes = 0;
     std::uint64_t inference_physical_fes = 0;
+    std::uint64_t policy_interactions = 0;
+    std::uint64_t policy_updates = 0;
     std::uint64_t generations = 0;
     int initial_population = 0;
     int final_population = 0;
@@ -39,7 +41,10 @@ struct RunResult {
     double total_seconds = 0.0;
     double evaluator_seconds = 0.0;
     double algorithm_seconds = 0.0;
+    double policy_training_seconds = 0.0;
+    double policy_update_seconds = 0.0;
     std::string pso_update_semantics;
+    std::string learned_state_hash;
 };
 
 struct AlgorithmDescriptor {
@@ -69,6 +74,10 @@ bool algorithm_supports_problem(
 );
 RunResult optimize(const fode::CaseData& data, const RunConfig& config);
 RunResult optimize_rlpso_reconstruction(
+    const fode::CaseData& data,
+    const RunConfig& config
+);
+RunResult optimize_rlpso_paper_corrected_training_reconstruction(
     const fode::CaseData& data,
     const RunConfig& config
 );

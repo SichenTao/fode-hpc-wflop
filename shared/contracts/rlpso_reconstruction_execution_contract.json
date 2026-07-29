@@ -14,9 +14,44 @@
       "implemented_policy": "seeded linear categorical actor with immediate-reward policy-gradient update",
       "explicitly_absent": ["critic", "discounted return", "GAE", "Adam", "K epochs", "2-256-64 actor and critic"],
       "claim_boundary": "RPSO-derived engineering proxy only; no source replay, full PPO, paper reproduction, or author-policy claim."
+    },
+    "rlpso_paper_corrected_training_reconstruction_v1": {
+      "method_evidence_tier": "M3_DECLARED_COMPLETION",
+      "action_step": 0.001,
+      "policy_lifecycle": "one seeded persistent actor critic and Adam state per optimization run",
+      "network_topology": {
+        "actor": "2-256-64-4 ReLU then softmax",
+        "critic": "2-256-64-1 ReLU including the public final ReLU"
+      },
+      "ppo": {
+        "gamma": 0.99,
+        "clip_epsilon": 0.2,
+        "learning_rate": 0.001,
+        "adam_betas": [0.9, 0.999],
+        "update_epochs": 80
+      },
+      "rollout": {
+        "max_episodes_per_outer_generation": 100,
+        "max_timesteps_per_episode": 100,
+        "maximum_training_interactions_per_outer_generation": 10000,
+        "fixed_physical_fes_truncation": true,
+        "update_interval": 500,
+        "episode_length": 100,
+        "clear_after_update": true,
+        "update_final_partial_buffer": true
+      },
+      "learned_state_receipt": "fnv1a64 fingerprint over ordered actor and critic parameters",
+      "explicitly_corrected": [
+        "sampled action log probability replaces source argmax integer",
+        "paper action step 0.001 replaces source environment step 0.01",
+        "on-policy buffer is cleared after update",
+        "all PPO environment evaluations are counted as physical FES",
+        "all random sources are replaced by one counter-keyed seed contract"
+      ],
+      "claim_boundary": "Paper-corrected seeded PPO reconstruction only; no author checkpoint, literal source replay, or reproduction of reported results."
     }
   },
-  "remaining_t42_completion": "A separate seeded C++ implementation of the complete 2-256-64 actor/critic PPO lifecycle is required before T42 is marked complete.",
+  "remaining_t42_completion": "A distinct literal official-source replay identity remains required before the two-profile T42 plan is complete.",
   "physical_fes": {
     "training": "every action-reward candidate invokes and counts one complete-layout evaluation",
     "inference": "initial population, exemplar trials, and updated population each count one complete-layout evaluation per layout",

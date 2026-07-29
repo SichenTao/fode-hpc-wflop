@@ -19,7 +19,7 @@ Known source conflicts: the public evaluate routine returns an argmax action
 Reconstruction performed here: deterministic parameter initialization and
   categorical sampling keyed entirely by an externally supplied CounterRng,
   correct sampled-action log probabilities, clipped PPO gradients, discounted
-  returns, and Adam updates
+  returns, Adam updates, and thread-count-invariant fixed-shard batch training
 Implementation authority/provenance: official author source plus paper
   equations, with declared corrections for the documented source conflicts
 Method evidence tier: M3_DECLARED_COMPLETION
@@ -39,6 +39,10 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 #include <cstdint>
 #include <memory>
 #include <vector>
+
+namespace fode {
+class PersistentExecutor;
+}
 
 namespace wflop::ppo {
 
@@ -161,8 +165,14 @@ public:
     [[nodiscard]] TrainingReport update(
         const std::vector<Transition>& trajectory
     );
+    [[nodiscard]] TrainingReport update_parallel(
+        const std::vector<Transition>& trajectory,
+        fode::PersistentExecutor& executor,
+        int logical_shards = 20
+    );
 
     [[nodiscard]] double parameter_checksum() const noexcept;
+    [[nodiscard]] std::uint64_t parameter_hash() const noexcept;
     [[nodiscard]] std::uint64_t adam_step() const noexcept;
 
 private:

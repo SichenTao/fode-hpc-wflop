@@ -4,8 +4,11 @@
   "doi": "10.1016/j.energy.2024.134050",
   "paper_sha256": "1b7ef1911323fcffb3c48f4ff3321c29c0bcbcd2911a3972116c531c7eb57249",
   "source_archive_sha256": "44e89c033e90f5aaaa9b84c826c95f29d3b8ad73dd363ff68de99418cdfa93a2",
-  "profiles": ["rlpso_compact_policy_declared_reconstruction_v1"],
-  "completion_status": "engineering_proxy_only_full_seeded_cpp_ppo_still_required",
+  "profiles": [
+    "rlpso_compact_policy_declared_reconstruction_v1",
+    "rlpso_paper_corrected_training_reconstruction_v1"
+  ],
+  "completion_status": "paper_corrected_seeded_ppo_complete_official_source_replay_still_required",
   "decisions": [
     {
       "field": "policy_lifecycle",
@@ -78,6 +81,66 @@
       "expected_downstream_effect": "enables worker-count replay without changing declared probability laws",
       "sensitivity_test_required": false,
       "adjudication_status": "selected"
+    },
+    {
+      "field": "paper_corrected_policy_lifecycle",
+      "completed_transition": "paper Algorithm 1 RL control across outer iterations versus official fresh PPO per outer call",
+      "selected_value_or_rule": "one seeded actor/critic and Adam state persist for the complete optimization run",
+      "authority_type": "paper_guided_declared_completion",
+      "immutable_authority": "paper_sha256 and official ppo.py sha256 7a84ca4b6ccd8bd4451fa275e1dd4ca64f9a4483efac29bcc7e880ef8c95320b",
+      "rejected_alternatives": ["fresh unseeded policy per outer iteration", "silently reuse an author checkpoint that was not released"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "allows learned policy state to affect later outer iterations and defines one replayable method identity",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_paper_corrected_profile"
+    },
+    {
+      "field": "paper_corrected_rollout_lifecycle",
+      "completed_transition": "official update interval 500 with the public memory-clear call commented out",
+      "selected_value_or_rule": "update after 500 on-policy transitions, clear the buffer after each update, and update the final partial buffer at fixed-budget termination",
+      "authority_type": "official_interval_plus_ppo_on_policy_correction",
+      "immutable_authority": "official ppo.py lines 262 and 304-307",
+      "rejected_alternatives": ["retrain repeatedly on an ever-growing stale buffer", "discard the final partial fixed-budget rollout"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "prevents repeated off-policy reuse while preserving the public update interval",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_paper_corrected_profile"
+    },
+    {
+      "field": "paper_corrected_reward",
+      "completed_transition": "official cumulative reward initialized at -100 versus an immediate PPO transition reward",
+      "selected_value_or_rule": "record immediate reward +1.1 for a new global best and -1.0 otherwise; terminal markers occur every 100 interactions and at final flush",
+      "authority_type": "official_reward_increment_plus_declared_markov_correction",
+      "immutable_authority": "official ppo.py lines 217-224 and max_timesteps=100",
+      "rejected_alternatives": ["store the running cumulative reward as each transition reward", "hide reward evaluations outside the work ledger"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "changes discounted returns and policy gradients",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_paper_corrected_profile"
+    },
+    {
+      "field": "paper_corrected_training_work",
+      "completed_transition": "official 10000 potential training interactions per outer call under a finite complete-layout FES budget",
+      "selected_value_or_rule": "execute up to the public 100 episodes by 100 timesteps, or 10000 policy-environment interactions, per outer generation; the remaining physical-FES budget truncates the loop exactly and every candidate evaluation is reported as training_physical_fes",
+      "authority_type": "official_training_loop_under_fixed_budget",
+      "immutable_authority": "official ppo.py max_episodes=100 max_timesteps=100 and project physical-FES contract",
+      "rejected_alternatives": ["reuse the compact proxy value of eight interactions", "exclude PPO environment calls from FES", "allow the first outer call to exceed the fixed budget silently"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "sets the learning versus optimization work allocation under an auditable budget",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_paper_corrected_profile"
+    },
+    {
+      "field": "paper_corrected_learned_state_receipt",
+      "completed_transition": "paper reports no public frozen policy checkpoint",
+      "selected_value_or_rule": "emit a deterministic FNV-1a 64-bit fingerprint over actor and critic parameters after the terminal PPO update",
+      "authority_type": "declared_reproducibility_completion",
+      "immutable_authority": "seed, case, FES budget, compiler floating-point contract and ordered parameter serialization",
+      "rejected_alternatives": ["omit the learned-state receipt", "claim the fingerprint is an author checkpoint hash"],
+      "classification": "implementation_only",
+      "expected_downstream_effect": "makes learned-state replay machine-checkable without changing the policy",
+      "sensitivity_test_required": false,
+      "adjudication_status": "selected_for_paper_corrected_profile"
     }
   ]
 }

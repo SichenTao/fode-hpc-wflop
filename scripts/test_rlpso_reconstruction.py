@@ -32,7 +32,10 @@ def main() -> int:
     parser.add_argument("--binary", required=True)
     parser.add_argument("--cases", required=True)
     args = parser.parse_args()
-    profiles = ["rlpso_compact_policy_declared_reconstruction_v1"]
+    profiles = [
+        "rlpso_compact_policy_declared_reconstruction_v1",
+        "rlpso_paper_corrected_training_reconstruction_v1",
+    ]
     for profile in profiles:
         first = run(args.binary, args.cases, profile, 20)
         second = run(args.binary, args.cases, profile, 20)
@@ -56,6 +59,48 @@ def main() -> int:
             != scalar["best_expected_power_kw"]
         ):
             raise RuntimeError(f"{profile}: 1/20 worker semantics differ")
+        if profile == "rlpso_paper_corrected_training_reconstruction_v1":
+            if first["training_physical_fes"] != 430:
+                raise RuntimeError(
+                    f"{profile}: source training loop was not FES-truncated"
+                )
+            if first["inference_physical_fes"] != 50:
+                raise RuntimeError(
+                    f"{profile}: initialization inference ledger differs"
+                )
+            if first.get("policy_interactions") != 430:
+                raise RuntimeError(
+                    f"{profile}: policy interaction receipt differs"
+                )
+            if first.get("policy_updates") != 1:
+                raise RuntimeError(
+                    f"{profile}: terminal partial-buffer update was omitted"
+                )
+            if first["timing_seconds"].get("policy_training", 0.0) <= 0.0:
+                raise RuntimeError(
+                    f"{profile}: policy training time was not exposed"
+                )
+            if first["timing_seconds"].get("policy_update", 0.0) <= 0.0:
+                raise RuntimeError(
+                    f"{profile}: PPO update time was not exposed"
+                )
+            learned_hash = first.get("learned_state_hash", "")
+            if not learned_hash.startswith("fnv1a64:"):
+                raise RuntimeError(
+                    f"{profile}: learned-state hash was not exposed"
+                )
+            if learned_hash != second.get("learned_state_hash"):
+                raise RuntimeError(
+                    f"{profile}: learned-state replay hash differs"
+                )
+            if learned_hash != scalar.get("learned_state_hash"):
+                raise RuntimeError(
+                    f"{profile}: 1/20 worker learned-state hash differs"
+                )
+            if learned_hash != "fnv1a64:ff5a9a02bef4ccd5":
+                raise RuntimeError(
+                    f"{profile}: frozen seed/case/FES policy hash differs"
+                )
     blocked = subprocess.run(
         [
             args.binary,
@@ -71,7 +116,7 @@ def main() -> int:
     )
     if blocked.returncode == 0 or "intentionally blocked at R2" not in blocked.stderr:
         raise RuntimeError("original rlpso identifier was not guarded")
-    print("rlpso_reconstruction_test_pass profiles=1 workers=20 fes=480")
+    print("rlpso_reconstruction_test_pass profiles=2 workers=20 fes=480")
     return 0
 
 

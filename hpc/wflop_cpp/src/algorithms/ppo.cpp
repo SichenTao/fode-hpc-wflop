@@ -19,7 +19,8 @@ Known source conflicts: the public evaluate routine returns an argmax action
 Reconstruction performed here: deterministic Kaiming-uniform parameter
   initialization and categorical sampling keyed by an external CounterRng,
   sampled-action likelihood ratios, clipped PPO gradients, discounted returns,
-  entropy regularization, value regression, and bias-corrected Adam updates
+  entropy regularization, value regression, bias-corrected Adam updates, and
+  fixed logical-shard batch training with deterministic ordered reduction
 Implementation authority/provenance: official author source plus paper
   equations, with declared corrections for the documented source conflicts
 Method evidence tier: M3_DECLARED_COMPLETION
@@ -32,7 +33,10 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 
 #include "wflop/ppo.hpp"
 
+#include "fode/executor.hpp"
+
 #include <algorithm>
+#include <bit>
 #include <cmath>
 #include <cstddef>
 #include <cstdint>
@@ -279,6 +283,15 @@ public:
         return result;
     }
 
+    void append_hash(std::uint64_t& value) const noexcept {
+        for (const double parameter : weights_) {
+            hash_double(value, parameter);
+        }
+        for (const double parameter : biases_) {
+            hash_double(value, parameter);
+        }
+    }
+
 private:
     std::size_t input_width_;
     std::size_t output_width_;
@@ -295,6 +308,17 @@ private:
         const std::uint64_t folded =
             (index * 11400714819323198485ULL) >> 48;
         return 1.0 + static_cast<double>(folded) / 65536.0;
+    }
+
+    static void hash_double(
+        std::uint64_t& hash,
+        double parameter
+    ) noexcept {
+        const std::uint64_t bits = std::bit_cast<std::uint64_t>(parameter);
+        for (int byte = 0; byte < 8; ++byte) {
+            hash ^= (bits >> (8 * byte)) & 0xffULL;
+            hash *= 1099511628211ULL;
+        }
     }
 
     static void update_parameter_vector(
@@ -415,6 +439,12 @@ public:
         return first_.checksum(index)
             + second_.checksum(index)
             + third_.checksum(index);
+    }
+
+    void append_hash(std::uint64_t& value) const noexcept {
+        first_.append_hash(value);
+        second_.append_hash(value);
+        third_.append_hash(value);
     }
 
 private:
@@ -773,6 +803,13 @@ public:
         return actor_.checksum(index) + critic_.checksum(index);
     }
 
+    [[nodiscard]] std::uint64_t parameter_hash() const noexcept {
+        std::uint64_t value = 1469598103934665603ULL;
+        actor_.append_hash(value);
+        critic_.append_hash(value);
+        return value;
+    }
+
     Hyperparameters parameters_;
     Network actor_;
     Network critic_;
@@ -820,6 +857,10 @@ TrainingReport SeededPpo::update(
 
 double SeededPpo::parameter_checksum() const noexcept {
     return impl_->parameter_checksum();
+}
+
+std::uint64_t SeededPpo::parameter_hash() const noexcept {
+    return impl_->parameter_hash();
 }
 
 std::uint64_t SeededPpo::adam_step() const noexcept {

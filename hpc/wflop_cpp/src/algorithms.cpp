@@ -5055,6 +5055,12 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
         == "rlpso_compact_policy_declared_reconstruction_v1") {
         return optimize_rlpso_reconstruction(data, config);
     }
+    if (config.algorithm_id
+        == "rlpso_paper_corrected_training_reconstruction_v1") {
+        return optimize_rlpso_paper_corrected_training_reconstruction(
+            data, config
+        );
+    }
     throw std::invalid_argument("unknown algorithm: " + config.algorithm_id);
 }
 

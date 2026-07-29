@@ -200,6 +200,14 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "paper_guided_declared_compact_policy_engineering_proxy",
             "rlpso_compact_policy_declared_reconstruction_v1",
             {"rpso2024_source_problem_ws1_ws4"}
+        },
+        {
+            "rlpso_paper_corrected_training_reconstruction_v1",
+            "RPSO paper-corrected seeded PPO reconstruction",
+            "10.1016/j.energy.2024.134050",
+            "paper_corrected_seeded_full_ppo_declared_reconstruction",
+            "rlpso_paper_corrected_training_reconstruction_v1",
+            {"rpso2024_source_problem_ws1_ws4"}
         }
     };
     return descriptors;
