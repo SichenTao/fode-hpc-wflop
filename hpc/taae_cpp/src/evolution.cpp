@@ -6,6 +6,10 @@ DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
 Missing choices completed here: SPEA2 density k, CDP and tournament ties, raw-latent mutation bounds, pre-repair decoded-solution filtering, Gaussian covariance regularization, post-repair guards, no-feasible front output, partial batches, checkpoint admission, exact-trajectory CPU speculation, and stage/work receipts
 Reconstruction status: bounded executable M3 engineering reconstruction on the declared P3 problem proxy
+Plan-004 artifact path: an explicitly supplied typed LibTorch Transformer and
+Adam state replace only the learning kernel inside this real SPEA2 population,
+fine-tuning, latent-variation, autoregressive-decode, repair, native-evaluation,
+exact-FES partial-offspring, and environmental-selection loop.
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_evolution_declared_reconstruction_v1
 Kernel semantic ID: taae_transformer_declared_reconstruction_v1
@@ -22,6 +26,10 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 
 #include "fode/executor.hpp"
 
+#ifdef WFLOP_PLAN004_LIBTORCH
+#include "wflop_learning/models.hpp"
+#endif
+
 #include <algorithm>
 #include <bit>
 #include <chrono>
@@ -32,6 +40,7 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 #include <iomanip>
 #include <iterator>
 #include <limits>
+#include <memory>
 #include <numeric>
 #include <set>
 #include <sstream>
@@ -895,6 +904,273 @@ void deterministic_shuffle(
     }
 }
 
+class EvolutionLearningModel {
+public:
+    virtual ~EvolutionLearningModel() = default;
+    virtual const ModelConfig& config() const noexcept = 0;
+    virtual std::vector<double> encode(
+        const std::vector<int>& tokens
+    ) = 0;
+    virtual std::vector<int> decode_argmax(
+        const std::vector<double>& latent
+    ) = 0;
+    virtual void train_batch(
+        const std::vector<std::vector<int>>& layouts,
+        const std::vector<double>& relative_fitness,
+        const LossWeights& weights,
+        bool freeze_decoder,
+        fode::PersistentExecutor* executor
+    ) = 0;
+    virtual std::string parameter_hash() const = 0;
+    virtual bool artifact_backed() const noexcept = 0;
+    virtual CheckpointMetadata save_checkpoint(
+        const std::string& path,
+        const std::string& training_profile_id,
+        std::uint64_t seed,
+        const TrainingWork& work
+    ) const = 0;
+};
+
+class NativeLearningModel final : public EvolutionLearningModel {
+public:
+    explicit NativeLearningModel(TransformerAutoencoder model)
+        : model_(std::move(model)) {}
+
+    const ModelConfig& config() const noexcept override {
+        return model_.config();
+    }
+
+    std::vector<double> encode(
+        const std::vector<int>& tokens
+    ) override {
+        return model_.encode(tokens);
+    }
+
+    std::vector<int> decode_argmax(
+        const std::vector<double>& latent
+    ) override {
+        return model_.decode_argmax(latent);
+    }
+
+    void train_batch(
+        const std::vector<std::vector<int>>& layouts,
+        const std::vector<double>& relative_fitness,
+        const LossWeights& weights,
+        bool freeze_decoder,
+        fode::PersistentExecutor* executor
+    ) override {
+        static_cast<void>(model_.train_batch(
+            layouts,
+            relative_fitness,
+            weights,
+            1.0e-3,
+            0.9,
+            0.999,
+            1.0e-8,
+            freeze_decoder,
+            executor
+        ));
+    }
+
+    std::string parameter_hash() const override {
+        return model_.parameter_hash();
+    }
+
+    bool artifact_backed() const noexcept override {
+        return false;
+    }
+
+    CheckpointMetadata save_checkpoint(
+        const std::string& path,
+        const std::string& training_profile_id,
+        std::uint64_t seed,
+        const TrainingWork& work
+    ) const override {
+        return model_.save_checkpoint(
+            path,
+            training_profile_id,
+            seed,
+            work
+        );
+    }
+
+private:
+    TransformerAutoencoder model_;
+};
+
+#ifdef WFLOP_PLAN004_LIBTORCH
+class LibTorchLearningModel final : public EvolutionLearningModel {
+public:
+    LibTorchLearningModel(
+        const EvolutionConfig& evolution_config,
+        TrainingWork& work
+    )
+        : config_(evolution_config.model_config),
+          model_(
+              wflop_learning::TaaeConfig{
+                  config_.vocabulary,
+                  config_.sequence_length,
+                  config_.model_dimension,
+                  config_.latent_dimension,
+                  config_.heads,
+                  config_.encoder_layers,
+                  config_.decoder_layers,
+                  config_.ffn_width,
+              },
+              evolution_config.seed
+          ),
+          optimizer_(
+              model_->parameters(),
+              torch::optim::AdamOptions(1.0e-3)
+          ) {
+        model_->to(torch::kFloat64);
+        const wflop_learning::ArtifactMetadata metadata =
+            wflop_learning::load_artifact(
+                *model_,
+                optimizer_,
+                wflop_learning::ModelKind::Taae,
+                evolution_config.learning_artifact_input,
+                torch::Device(torch::kCPU)
+            );
+        work.optimizer_steps = metadata.optimizer_step;
+        work.token_operations =
+            metadata.rollout_cursor
+            * static_cast<std::uint64_t>(config_.sequence_length);
+    }
+
+    const ModelConfig& config() const noexcept override {
+        return config_;
+    }
+
+    std::vector<double> encode(
+        const std::vector<int>& tokens
+    ) override {
+        torch::NoGradGuard no_grad;
+        torch::Tensor input = torch::tensor(
+            tokens,
+            torch::TensorOptions().dtype(torch::kInt64)
+        ).reshape({1, config_.sequence_length});
+        torch::Tensor latent =
+            model_->encode(input).to(torch::kCPU).contiguous();
+        return std::vector<double>(
+            latent.data_ptr<double>(),
+            latent.data_ptr<double>() + latent.numel()
+        );
+    }
+
+    std::vector<int> decode_argmax(
+        const std::vector<double>& latent
+    ) override {
+        torch::NoGradGuard no_grad;
+        torch::Tensor input = torch::from_blob(
+            const_cast<double*>(latent.data()),
+            {1, config_.latent_dimension},
+            torch::TensorOptions().dtype(torch::kFloat64)
+        ).clone();
+        torch::Tensor decoded =
+            model_->decode_argmax(input).to(torch::kCPU).contiguous();
+        const std::int64_t* values = decoded.data_ptr<std::int64_t>();
+        std::vector<int> result(
+            static_cast<std::size_t>(decoded.numel())
+        );
+        for (std::size_t index = 0; index < result.size(); ++index) {
+            result[index] = static_cast<int>(values[index]);
+        }
+        return result;
+    }
+
+    void train_batch(
+        const std::vector<std::vector<int>>& layouts,
+        const std::vector<double>& relative_fitness,
+        const LossWeights& weights,
+        bool freeze_decoder,
+        fode::PersistentExecutor*
+    ) override {
+        std::vector<std::int64_t> flattened;
+        flattened.reserve(
+            layouts.size()
+            * static_cast<std::size_t>(config_.sequence_length)
+        );
+        for (const auto& layout : layouts) {
+            flattened.insert(
+                flattened.end(),
+                layout.begin(),
+                layout.end()
+            );
+        }
+        const std::int64_t count =
+            static_cast<std::int64_t>(layouts.size());
+        torch::Tensor tokens = torch::from_blob(
+            flattened.data(),
+            {count, config_.sequence_length},
+            torch::TensorOptions().dtype(torch::kInt64)
+        ).clone();
+        torch::Tensor targets = torch::from_blob(
+            const_cast<double*>(relative_fitness.data()),
+            {count},
+            torch::TensorOptions().dtype(torch::kFloat64)
+        ).clone();
+        for (auto& parameter : model_->named_parameters()) {
+            const std::string& name = parameter.key();
+            const bool decoder_parameter =
+                name.rfind("decoder", 0) == 0
+                || name.rfind("memory_projection", 0) == 0
+                || name.rfind("vocabulary_projection", 0) == 0;
+            parameter.value().set_requires_grad(
+                !(freeze_decoder && decoder_parameter)
+            );
+        }
+        model_->train();
+        optimizer_.zero_grad();
+        const wflop_learning::TaaeOutput output =
+            model_->forward(tokens);
+        const wflop_learning::TaaeLoss components =
+            wflop_learning::taae_loss(
+                output,
+                tokens,
+                targets,
+                weights.metric_pair_seed
+            );
+        torch::Tensor total =
+            weights.reconstruction * components.reconstruction
+            + weights.regression * components.regression
+            + weights.metric_smoothness
+                * components.metric_alignment;
+        total.backward();
+        optimizer_.step();
+        for (auto& parameter : model_->named_parameters()) {
+            parameter.value().set_requires_grad(true);
+        }
+        model_->eval();
+    }
+
+    std::string parameter_hash() const override {
+        return wflop_learning::learned_state_hash(*model_);
+    }
+
+    bool artifact_backed() const noexcept override {
+        return true;
+    }
+
+    CheckpointMetadata save_checkpoint(
+        const std::string&,
+        const std::string&,
+        std::uint64_t,
+        const TrainingWork&
+    ) const override {
+        throw std::invalid_argument(
+            "legacy TAAE checkpoint output is incompatible with a "
+            "Plan-004 LibTorch artifact consumer"
+        );
+    }
+
+private:
+    ModelConfig config_;
+    wflop_learning::TaaeTransformer model_;
+    torch::optim::Adam optimizer_;
+};
+#endif
+
 void bounded_pretrain(
     TransformerAutoencoder& model,
     std::uint64_t seed,
@@ -966,7 +1242,7 @@ void bounded_pretrain(
 }
 
 void fine_tune(
-    TransformerAutoencoder& model,
+    EvolutionLearningModel& model,
     const std::vector<Individual>& population,
     const EvolutionConfig& config,
     std::uint64_t generation,
@@ -1023,10 +1299,6 @@ void fine_tune(
                 batch_layouts,
                 batch_targets,
                 weights,
-                1.0e-3,
-                0.9,
-                0.999,
-                1.0e-8,
                 true,
                 &executor
             );
@@ -1083,12 +1355,13 @@ std::vector<Individual> generate_offspring(
     std::vector<Individual>& population,
     std::size_t requested,
     const fode::CaseData& problem,
-    TransformerAutoencoder& model,
+    EvolutionLearningModel& model,
     DeterministicRng& rng,
     fode::PersistentExecutor& executor,
     StageReceipt& population_encoding_stage,
     StageReceipt& offspring_stage,
-    ProposalWorkReceipt& proposal_work
+    ProposalWorkReceipt& proposal_work,
+    std::uint64_t& learning_decision_hash
 ) {
     executor.reset_work_receipt();
     const auto encoding_start = Clock::now();
@@ -1202,6 +1475,12 @@ std::vector<Individual> generate_offspring(
         bool invalidated = false;
         for (; processed < batch_size; ++processed) {
             ++proposal_work.latent_proposal_attempts;
+            for (const int token : proposals[processed].decoded) {
+                learning_decision_hash = fnv_value(
+                    learning_decision_hash,
+                    static_cast<std::uint64_t>(token)
+                );
+            }
             rng.state = proposals[processed].post_latent_rng_state;
             const std::uint64_t before_repair_rng_state = rng.state;
             DecodedProposalResult filtered =
@@ -1280,13 +1559,29 @@ std::vector<Individual> generate_offspring(
     return offspring;
 }
 
-TransformerAutoencoder initialize_model(
+std::unique_ptr<EvolutionLearningModel> initialize_model(
     const EvolutionConfig& config,
     TrainingWork& work,
     CheckpointMetadata& input_metadata,
     fode::PersistentExecutor& executor,
     StageReceipt& bounded_pretraining_stage
 ) {
+    if (!config.learning_artifact_input.empty()) {
+        if (!config.checkpoint_input.empty()
+            || !config.checkpoint_output.empty()) {
+            throw std::invalid_argument(
+                "Plan-004 learning artifact cannot be combined with "
+                "legacy TAAE checkpoints"
+            );
+        }
+#ifdef WFLOP_PLAN004_LIBTORCH
+        return std::make_unique<LibTorchLearningModel>(config, work);
+#else
+        throw std::invalid_argument(
+            "TAAE learning artifact requires WFLOP_ENABLE_TORCH"
+        );
+#endif
+    }
     if (config.training_profile ==
             TrainingStateProfile::paper_scale_checkpoint &&
         (config.checkpoint_input.empty() ||
@@ -1327,7 +1622,9 @@ TransformerAutoencoder initialize_model(
         }
         work = input_metadata.work;
         work.training_physical_fes = 0;
-        return model;
+        return std::make_unique<NativeLearningModel>(
+            std::move(model)
+        );
     }
     TransformerAutoencoder model(config.model_config, config.seed);
     bounded_pretrain(
@@ -1337,7 +1634,9 @@ TransformerAutoencoder initialize_model(
         executor,
         bounded_pretraining_stage
     );
-    return model;
+    return std::make_unique<NativeLearningModel>(
+        std::move(model)
+    );
 }
 
 std::vector<Individual> nondominated_front(
@@ -1403,7 +1702,9 @@ EvolutionResult run_declared_reconstruction(
     StageReceipt offspring_stage;
     StageReceipt evaluator_stage;
     ProposalWorkReceipt proposal_work;
-    TransformerAutoencoder model = initialize_model(
+    std::uint64_t learning_decision_hash = 1469598103934665603ULL;
+    std::size_t terminal_requested = 0;
+    std::unique_ptr<EvolutionLearningModel> model = initialize_model(
         config,
         training_work,
         input_metadata,
@@ -1439,7 +1740,7 @@ EvolutionResult run_declared_reconstruction(
         assign_selection_state(population);
         assign_spea2_relative_fitness(population);
         fine_tune(
-            model,
+            *model,
             population,
             config,
             generation,
@@ -1453,16 +1754,18 @@ EvolutionResult run_declared_reconstruction(
                 config.maximum_physical_fes - physical_fes
             )
         );
+        terminal_requested = requested;
         std::vector<Individual> offspring = generate_offspring(
             population,
             requested,
             problem,
-            model,
+            *model,
             rng,
             executor,
             population_encoding_stage,
             offspring_stage,
-            proposal_work
+            proposal_work,
+            learning_decision_hash
         );
         evaluator_wall_seconds +=
             evaluate_and_record(offspring);
@@ -1520,7 +1823,7 @@ EvolutionResult run_declared_reconstruction(
         config.training_profile == TrainingStateProfile::bounded_smoke
             ? "taae_evolution_bounded_smoke_v1"
             : "paper_scale_declared_reconstruction_v1";
-    result.model_config = model.config();
+    result.model_config = model->config();
     result.fine_tune_loss_weights = config.fine_tune_loss_weights;
     result.training_work = training_work;
     result.training_work.training_physical_fes = 0;
@@ -1532,7 +1835,20 @@ EvolutionResult run_declared_reconstruction(
         offspring_stage;
     result.evaluator_stage = evaluator_stage;
     result.proposal_work = proposal_work;
-    result.model_hash = model.parameter_hash();
+    result.model_hash = model->parameter_hash();
+    if (model->artifact_backed()) {
+        std::ostringstream decision_stream;
+        decision_stream << "fnv1a64:" << std::hex << std::setfill('0')
+                        << std::setw(16) << learning_decision_hash;
+        result.learning_artifact_consumed = true;
+        result.learning_decision_hash = decision_stream.str();
+    }
+    result.terminal_partial_work =
+        terminal_requested
+            < static_cast<std::size_t>(config.population_size)
+        ? "exact_fes_partial_offspring="
+            + std::to_string(terminal_requested)
+        : "exact_fes_full_offspring";
     result.population_layout_hash =
         hash_individuals(population, false);
     result.front_hash = hash_individuals(front, true);
@@ -1557,7 +1873,7 @@ EvolutionResult run_declared_reconstruction(
         result.front.push_back(std::move(record));
     }
     if (!config.checkpoint_output.empty()) {
-        result.checkpoint = model.save_checkpoint(
+        result.checkpoint = model->save_checkpoint(
             config.checkpoint_output,
             config.training_profile ==
                     TrainingStateProfile::bounded_smoke
@@ -2078,6 +2394,13 @@ std::string result_to_json(const EvolutionResult& result) {
            << "\"refill_rejects\":"
            << result.proposal_work.refill_rejects << "},"
            << "\"model_hash\":\"" << result.model_hash << "\","
+           << "\"learning_artifact_consumed\":"
+           << (result.learning_artifact_consumed ? "true" : "false")
+           << ','
+           << "\"learning_decision_hash\":\""
+           << result.learning_decision_hash << "\","
+           << "\"terminal_partial_work\":\""
+           << result.terminal_partial_work << "\","
            << "\"population_layout_hash\":\""
            << result.population_layout_hash << "\","
            << "\"front_hash\":\"" << result.front_hash << "\","

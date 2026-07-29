@@ -316,6 +316,16 @@ std::string to_json(const wflop::RunResult& result) {
         output << ",\"learned_state_hash\":\""
                << escape_json(result.learned_state_hash) << "\"";
     }
+    output << ",\"learning_artifact_consumed\":"
+           << (result.learning_artifact_consumed ? "true" : "false");
+    if (!result.learning_decision_hash.empty()) {
+        output << ",\"learning_decision_hash\":\""
+               << escape_json(result.learning_decision_hash) << "\"";
+    }
+    if (!result.terminal_partial_work.empty()) {
+        output << ",\"terminal_partial_work\":\""
+               << escape_json(result.terminal_partial_work) << "\"";
+    }
     output << "}";
     return output.str();
 }
@@ -672,6 +682,13 @@ int main(int argc, char** argv) {
                 config.compute_backend = arguments.compute_backend;
                 config.paper_protocol_id = arguments.paper_protocol;
                 config.training_artifact_id = arguments.training_artifact;
+                if (
+                    arguments.training_artifact != "not_applicable"
+                    && arguments.training_artifact != "train"
+                ) {
+                    config.learning_artifact_path =
+                        arguments.training_artifact;
+                }
                 config.seed = arguments.seed;
                 config.physical_fes_budget = arguments.physical_fes;
                 config.workers = arguments.workers;

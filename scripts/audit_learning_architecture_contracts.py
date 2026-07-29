@@ -86,9 +86,8 @@ def audit_taae(data: dict[str, Any]) -> None:
     require(training["pretraining"]["layouts"] == 100000, "Y36 layouts")
     require(training["pretraining"]["epochs"] == 500, "Y36 epochs")
     require(
-        data["evolution_bridge"]["optimizer_consumer"].startswith(
-            "plan004_learning_target_hpc --method taae"
-        ),
+        data["evolution_bridge"]["optimizer_consumer"]
+        == "taae_evolution_hpc --learning-artifact",
         "Y36 bridge",
     )
     source = (ROOT / "hpc/taae_cpp/src/model.cpp").read_text(encoding="utf-8")
@@ -255,6 +254,48 @@ def audit_optimized_libtorch(
         require(token in source, f"artifact field absent: {token}")
     for token in ("cpu", "cuda", "hybrid"):
         require(token in backend_test, f"backend matrix missing {token}")
+    full_e2e_test = (
+        ROOT / "scripts/test_plan004_learning_full_optimizers.py"
+    ).read_text(encoding="utf-8")
+    taae_consumer = (
+        ROOT / "hpc/taae_cpp/src/evolution.cpp"
+    ).read_text(encoding="utf-8")
+    wflop_consumers = "\n".join(
+        (
+            ROOT
+            / "hpc/wflop_cpp/src/algorithms"
+            / filename
+        ).read_text(encoding="utf-8")
+        for filename in (
+            "alga_attention_declared_reconstruction.cpp",
+            "rlpso.cpp",
+        )
+    )
+    for token in (
+        "LibTorchLearningModel",
+        "learning_artifact_input",
+        "generate_offspring",
+        "environmental_selection",
+    ):
+        require(token in taae_consumer, f"TAAE full consumer missing {token}")
+    for token in (
+        "train_libtorch_full_batch_step",
+        "LibTorchRlpsoPolicy",
+        "learning_artifact_path",
+        "learning_decision_hash",
+        "terminal_partial_work",
+    ):
+        require(
+            token in wflop_consumers,
+            f"WFLOP full consumer missing {token}",
+        )
+    for token in (
+        "different artifact did not change learned decision",
+        "same artifact/seed replay changed",
+        "inexact FES",
+        "terminal partial work unreported",
+    ):
+        require(token in full_e2e_test, f"full E2E assertion missing {token}")
 
 
 def main() -> int:
@@ -281,6 +322,7 @@ def main() -> int:
         "learning_architecture_contract_audit_pass "
         "contracts=3 exact_modules=3 typed_libtorch_modules=3 "
         "artifact_bridges=3 corrected_pdf_receipts=2 "
+        "real_optimizer_consumers=3 bounded_e2e=3 "
         "generic_target_h5_admissible=no"
     )
     return 0

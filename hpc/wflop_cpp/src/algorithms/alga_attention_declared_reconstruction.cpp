@@ -16,6 +16,11 @@ Missing paper fields: target, loss, optimizer, batch/epoch schedule, key width,
 elite count, mask construction/cardinality, initialization, and repair.
 Reconstruction action: use the frozen completions in
 shared/contracts/alga_attention_declared_reconstruction_contract.json.
+Plan-004 artifact path: an explicitly supplied typed LibTorch artifact is
+loaded with its SGD state, updated once per real generation, and its complete
+attention-ranked cell order drives the same native crossover, mutation, repair,
+evaluation, exact-FES partial-offspring, and elitist-selection loop. Without an
+artifact the independent direct-C++ learning kernel remains the selected path.
 Method semantic ID: alga_attention_declared_reconstruction_v1.
 Step 11 width-two probing is a sensitivity-only independent method semantic.
 The width-one baseline remains unchanged; distinct method semantics are never
@@ -39,6 +44,10 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 #include "fode/evaluator.hpp"
 #include "fode/executor.hpp"
 #include "fode/rng.hpp"
+
+#ifdef WFLOP_PLAN004_LIBTORCH
+#include "wflop_learning/models.hpp"
+#endif
 
 #include <algorithm>
 #include <bit>
@@ -689,6 +698,84 @@ std::string model_hash(const AttentionModel& model) {
     return output.str();
 }
 
+#ifdef WFLOP_PLAN004_LIBTORCH
+std::string hexadecimal_hash(std::uint64_t hash) {
+    std::ostringstream output;
+    output << "fnv1a64:" << std::hex << std::setfill('0')
+           << std::setw(16) << hash;
+    return output.str();
+}
+#endif
+
+void mix_decision(std::uint64_t& hash, std::uint64_t value) {
+    for (int byte = 0; byte < 8; ++byte) {
+        hash ^= value & 0xffULL;
+        hash *= 1099511628211ULL;
+        value >>= 8;
+    }
+}
+
+#ifdef WFLOP_PLAN004_LIBTORCH
+AttentionForward train_libtorch_full_batch_step(
+    wflop_learning::AlgaAttention& model,
+    torch::optim::SGD& optimizer,
+    const Matrix& population,
+    const std::vector<double>& fitness,
+    int dimension,
+    int grid
+) {
+    const int size = static_cast<int>(fitness.size());
+    Matrix normalized(population.size());
+    for (std::size_t index = 0; index < population.size(); ++index) {
+        normalized[index] =
+            population[index] / static_cast<double>(grid) - 0.5;
+    }
+    torch::Tensor input = torch::from_blob(
+        normalized.data(),
+        {size, dimension},
+        torch::TensorOptions().dtype(torch::kFloat64)
+    ).clone();
+    const std::vector<double> normalized_fitness =
+        normalized_fitness_targets(fitness);
+    torch::Tensor target = torch::from_blob(
+        const_cast<double*>(normalized_fitness.data()),
+        {size},
+        torch::TensorOptions().dtype(torch::kFloat64)
+    ).clone();
+    model->train();
+    optimizer.zero_grad();
+    wflop_learning::AlgaOutput output = model->forward(input);
+    torch::Tensor loss = wflop_learning::alga_loss(output, target);
+    loss.backward();
+    optimizer.step();
+    model->eval();
+    torch::NoGradGuard no_grad;
+    output = model->forward(input);
+
+    AttentionForward state;
+    state.input = std::move(normalized);
+    const torch::Tensor attention =
+        output.attention.detach().to(torch::kCPU).contiguous();
+    const torch::Tensor attended =
+        output.attended.detach().to(torch::kCPU).contiguous();
+    const torch::Tensor prediction =
+        output.prediction.detach().to(torch::kCPU).contiguous();
+    state.weights.assign(
+        attention.data_ptr<double>(),
+        attention.data_ptr<double>() + attention.numel()
+    );
+    state.attended.assign(
+        attended.data_ptr<double>(),
+        attended.data_ptr<double>() + attended.numel()
+    );
+    state.prediction.assign(
+        prediction.data_ptr<double>(),
+        prediction.data_ptr<double>() + prediction.numel()
+    );
+    return state;
+}
+#endif
+
 }  // namespace
 
 RunResult optimize_alga_attention_declared_reconstruction(
@@ -759,8 +846,49 @@ RunResult optimize_alga_attention_declared_reconstruction(
         config.alga_attention_hidden_width,
         rng
     );
+#ifdef WFLOP_PLAN004_LIBTORCH
+    std::unique_ptr<wflop_learning::AlgaAttention> artifact_model;
+    std::unique_ptr<torch::optim::SGD> artifact_optimizer;
+    if (!config.learning_artifact_path.empty()) {
+        if (config.alga_attention_hidden_width != 1) {
+            throw std::invalid_argument(
+                "Plan-004 ALGA artifact requires the width-one baseline"
+            );
+        }
+        artifact_model =
+            std::make_unique<wflop_learning::AlgaAttention>(
+                wflop_learning::AlgaConfig{
+                    kPopulationSize,
+                    dimension,
+                    kAttentionHeads,
+                    1,
+                },
+                config.seed
+            );
+        (*artifact_model)->to(torch::kFloat64);
+        artifact_optimizer = std::make_unique<torch::optim::SGD>(
+            (*artifact_model)->parameters(),
+            torch::optim::SGDOptions(kLearningRate)
+        );
+        static_cast<void>(wflop_learning::load_artifact(
+            **artifact_model,
+            *artifact_optimizer,
+            wflop_learning::ModelKind::Alga,
+            config.learning_artifact_path,
+            torch::Device(torch::kCPU)
+        ));
+    }
+#else
+    if (!config.learning_artifact_path.empty()) {
+        throw std::invalid_argument(
+            "ALGA learning artifact requires WFLOP_ENABLE_TORCH"
+        );
+    }
+#endif
     std::uint64_t physical_fes = 0;
     std::uint64_t generations = 0;
+    std::uint64_t learning_decision_hash = 1469598103934665603ULL;
+    int terminal_offspring_count = 0;
     double evaluator_seconds = 0.0;
     double best = -std::numeric_limits<double>::infinity();
     std::vector<int> best_layout;
@@ -800,12 +928,54 @@ RunResult optimize_alga_attention_declared_reconstruction(
         evaluate(population, kPopulationSize);
     while (physical_fes < config.physical_fes_budget) {
         ++generations;
-        const auto attention = train_one_full_batch_step(
-            model, population, fitness, grid
-        );
+        AttentionForward attention;
+#ifdef WFLOP_PLAN004_LIBTORCH
+        if (artifact_model) {
+            attention = train_libtorch_full_batch_step(
+                *artifact_model,
+                *artifact_optimizer,
+                population,
+                fitness,
+                dimension,
+                grid
+            );
+        } else
+#endif
+        {
+            attention = train_one_full_batch_step(
+                model, population, fitness, grid
+            );
+        }
         const auto potential = cell_attention_scores(
             attention, population, fitness, dimension, grid
         );
+        std::vector<int> learned_cell_order(
+            static_cast<std::size_t>(grid)
+        );
+        std::iota(
+            learned_cell_order.begin(),
+            learned_cell_order.end(),
+            0
+        );
+        std::stable_sort(
+            learned_cell_order.begin(),
+            learned_cell_order.end(),
+            [&](int left, int right) {
+                if (potential[static_cast<std::size_t>(left)]
+                    != potential[static_cast<std::size_t>(right)]) {
+                    return potential[static_cast<std::size_t>(left)]
+                        > potential[static_cast<std::size_t>(right)];
+                }
+                return left < right;
+            }
+        );
+        mix_decision(learning_decision_hash, generations);
+        for (const int cell : learned_cell_order) {
+            mix_decision(
+                learning_decision_hash,
+                static_cast<std::uint64_t>(cell + 1)
+            );
+        }
         const auto ranking = stable_rank_descending(fitness);
         const int offspring_count = static_cast<int>(
             std::min<std::uint64_t>(
@@ -815,6 +985,7 @@ RunResult optimize_alga_attention_declared_reconstruction(
                 config.physical_fes_budget - physical_fes
             )
         );
+        terminal_offspring_count = offspring_count;
         Matrix offspring(
             static_cast<std::size_t>(offspring_count * dimension),
             0.0
@@ -1060,7 +1231,23 @@ RunResult optimize_alga_attention_declared_reconstruction(
     result.evaluator_seconds = evaluator_seconds;
     result.algorithm_seconds =
         std::max(0.0, result.total_seconds - evaluator_seconds);
-    result.learned_state_hash = model_hash(model);
+    #ifdef WFLOP_PLAN004_LIBTORCH
+    if (artifact_model) {
+        result.learning_artifact_consumed = true;
+        result.learning_decision_hash =
+            hexadecimal_hash(learning_decision_hash);
+        result.learned_state_hash =
+            wflop_learning::learned_state_hash(**artifact_model);
+    } else
+    #endif
+    {
+        result.learned_state_hash = model_hash(model);
+    }
+    result.terminal_partial_work =
+        terminal_offspring_count < kPopulationSize - kEliteCount
+        ? "exact_fes_partial_offspring="
+            + std::to_string(terminal_offspring_count)
+        : "exact_fes_full_offspring";
     return result;
 }
 

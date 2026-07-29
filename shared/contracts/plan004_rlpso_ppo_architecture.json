@@ -24,7 +24,8 @@
         "hpc/wflop_cpp/src/algorithms/ppo.cpp",
         "hpc/wflop_cpp/src/algorithms/rlpso.cpp"
       ],
-      "does_not_call_optimized_module": true
+      "isolation_scope": "SeededPpo in ppo.cpp is independent of LibTorch; rlpso.cpp is the shared real optimizer orchestrator and selects SeededPpo or LibTorchRlpsoPolicy from the explicit artifact input",
+      "does_not_call_optimized_module": false
     },
     "optimized_implementation": {
       "kind": "typed_libtorch_module",
@@ -152,8 +153,10 @@
       "learned_state_fnv1a64",
       "file_sha256"
     ],
-    "optimizer_consumer": "plan004_learning_target_hpc --method rlpso --artifact-in",
-    "consumer_bridge": "rlpso_optimization_transition in hpc/learning_libtorch/src/models.cpp"
+    "artifact_trainer": "plan004_learning_target_hpc --method rlpso --artifact-out",
+    "optimizer_consumer": "wflop_cpp_hpc --algorithm rlpso_paper_corrected_training_reconstruction_v1 --training-artifact",
+    "consumer_bridge": "LibTorchRlpsoPolicy in hpc/wflop_cpp/src/algorithms/rlpso.cpp drives categorical actions, the real repaired CGPSO candidate and native evaluator, pbest and gbest updates, exact-FES terminal partial rollout, and the 80-epoch final PPO update",
+    "bounded_e2e_test": "scripts/test_plan004_learning_full_optimizers.py"
   },
   "backend_contract": {
     "same_model_and_loss": ["cpu", "cuda", "hybrid"],

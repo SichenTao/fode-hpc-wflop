@@ -6,6 +6,9 @@ DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
 Missing choices completed here: explicit P3 case selection, bounded versus checkpoint-gated paper-scale state, pre-repair decoded-solution filtering, no-feasible front labeling, checkpoint SHA-256 admission, terminal partial FES, all-visible CPU default, and unsupported backend rejection
 Reconstruction status: bounded executable M3 engineering reconstruction on the declared P3 problem proxy
+Plan-004 artifact input: --learning-artifact loads the typed Transformer and
+Adam state into the same real native-evaluator optimization loop; it is
+mutually exclusive with the legacy direct-C++ checkpoint format.
 Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_evolution_declared_reconstruction_v1
 Kernel semantic ID: taae_transformer_declared_reconstruction_v1
@@ -39,6 +42,7 @@ struct Arguments {
     std::string checkpoint_input;
     std::string checkpoint_sha256;
     std::string checkpoint_output;
+    std::string learning_artifact;
     std::string backend = "cpu";
     std::string loss_profile = "baseline";
     std::string wake_combination = "root-sum-square";
@@ -56,6 +60,7 @@ Arguments parse_arguments(int argc, char** argv) {
                 << "[--profile bounded|paper-scale] "
                 << "[--checkpoint-in FILE --checkpoint-sha256 SHA256] "
                 << "[--checkpoint-out FILE] "
+                << "[--learning-artifact FILE] "
                 << "[--loss-profile baseline|regression-half] "
                 << "[--wake-combination root-sum-square|multiplicative] "
                 << "[--backend cpu|auto|hybrid|gpu]\n";
@@ -83,6 +88,8 @@ Arguments parse_arguments(int argc, char** argv) {
             result.checkpoint_sha256 = value;
         } else if (option == "--checkpoint-out") {
             result.checkpoint_output = value;
+        } else if (option == "--learning-artifact") {
+            result.learning_artifact = value;
         } else if (option == "--backend") {
             result.backend = value;
         } else if (option == "--loss-profile") {
@@ -149,6 +156,7 @@ int main(int argc, char** argv) {
         config.checkpoint_input = arguments.checkpoint_input;
         config.checkpoint_sha256 = arguments.checkpoint_sha256;
         config.checkpoint_output = arguments.checkpoint_output;
+        config.learning_artifact_input = arguments.learning_artifact;
         config.backend = arguments.backend;
         if (arguments.loss_profile == "regression-half") {
             config.fine_tune_loss_weights.regression = 15.0;

@@ -2,7 +2,7 @@
   "schema_version": 1,
   "receipt_id": "plan004_learning_libtorch_step2_20260730",
   "date": "2026-07-30",
-  "scope": "Plan004 Step2 typed LibTorch models, same-code backend execution, serialized optimizer artifacts, and bounded target-transition bridges",
+  "scope": "Plan004 Step2 typed LibTorch models, same-code backend execution, serialized optimizer artifacts, and real full-optimizer artifact consumers",
   "model_families": [
     {
       "corpus_id": "Y36",
@@ -57,6 +57,23 @@
     "external_receipt_computes_file_sha256": true,
     "fresh_load_before_transition": true
   },
+  "full_optimizer_consumers": [
+    {
+      "method": "taae",
+      "executable": "taae_evolution_hpc --learning-artifact",
+      "real_loop": "SPEA2 population, fine-tuning with frozen decoder, latent variation, autoregressive decode, repair, native multiobjective evaluation, exact-FES partial offspring, environmental selection"
+    },
+    {
+      "method": "alga",
+      "executable": "wflop_cpp_hpc --algorithm alga_attention_declared_reconstruction_v1 --training-artifact",
+      "real_loop": "population-30 full-batch attention update, attention-ranked cell replacement, crossover, mutation, repair, native evaluation, exact-FES partial offspring, elitist selection"
+    },
+    {
+      "method": "rlpso",
+      "executable": "wflop_cpp_hpc --algorithm rlpso_paper_corrected_training_reconstruction_v1 --training-artifact",
+      "real_loop": "categorical action, 0.001 coefficient transition, repaired CGPSO candidate, native evaluation, pbest and gbest update, exact-FES terminal partial rollout, final 80-epoch PPO update"
+    }
+  ],
   "verification": {
     "torch_release_build": "pass",
     "requested_regex_ctest": {
@@ -73,6 +90,31 @@
       "backends": ["cpu", "hybrid"],
       "methods": ["taae", "alga", "rlpso"]
     },
+    "full_optimizer_artifact_e2e": {
+      "status": "pass",
+      "methods": 3,
+      "test": "scripts/test_plan004_learning_full_optimizers.py",
+      "same_artifact_and_seed_exact_replay": true,
+      "different_artifact_changes_learned_decision": true,
+      "native_evaluator_used": true,
+      "exact_fes": true,
+      "terminal_partial_work_reported": true,
+      "bounded_budgets": {
+        "taae": 103,
+        "alga": 35,
+        "rlpso": 150
+      }
+    },
+    "regression_ctest": {
+      "status": "pass",
+      "passed": 77,
+      "failed": 0,
+      "excluded": [
+        "reconstruction_sensitivity_receipts",
+        "performance_receipts"
+      ],
+      "exclusion_reason": "pre-existing receipts name unavailable historical build/step10-release binaries and are outside Plan004 Step2"
+    },
     "timing_fields": [
       "corpus",
       "transfer",
@@ -85,8 +127,8 @@
       "inference",
       "optimization_loop"
     ],
-    "architecture_audit": "pass: contracts=3 exact_modules=3 typed_libtorch_modules=3 artifact_bridges=3",
+    "architecture_audit": "pass: contracts=3 exact_modules=3 typed_libtorch_modules=3 artifact_bridges=3 real_optimizer_consumers=3 bounded_e2e=3",
     "learning_h5_state": "reopened_reference_equivalence_missing"
   },
-  "claim_boundary": "This receipt closes Plan004 Step2 implementation and backend execution only. It is not independent-reference H5 evidence, does not admit target H5, and is not a formal quality or performance result."
+  "claim_boundary": "This receipt closes Plan004 Step2 implementation, backend execution, and bounded real-optimizer artifact consumption only. It is not independent-reference H5 evidence, does not admit target H5, and is not a formal quality or performance result."
 }

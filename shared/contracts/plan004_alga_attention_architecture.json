@@ -27,7 +27,8 @@
     "reference_implementation": {
       "kind": "independent_direct_cpp_declared_reconstruction",
       "path": "hpc/wflop_cpp/src/algorithms/alga_attention_declared_reconstruction.cpp",
-      "does_not_call_optimized_module": true
+      "isolation_scope": "AttentionModel, attention_forward, and train_one_full_batch_step are independent of LibTorch; the same full optimizer source selects this kernel when no artifact is supplied and the typed LibTorch kernel when an artifact is supplied",
+      "does_not_call_optimized_module": false
     },
     "optimized_implementation": {
       "kind": "typed_libtorch_module",
@@ -146,8 +147,10 @@
       "learned_state_fnv1a64",
       "file_sha256"
     ],
-    "optimizer_consumer": "plan004_learning_target_hpc --method alga --artifact-in",
-    "consumer_bridge": "alga_optimization_transition in hpc/learning_libtorch/src/models.cpp",
+    "artifact_trainer": "plan004_learning_target_hpc --method alga --artifact-out",
+    "optimizer_consumer": "wflop_cpp_hpc --algorithm alga_attention_declared_reconstruction_v1 --training-artifact",
+    "consumer_bridge": "train_libtorch_full_batch_step in hpc/wflop_cpp/src/algorithms/alga_attention_declared_reconstruction.cpp drives the real population, attention-ranked cell replacement, crossover, mutation, repair, native evaluation, exact-FES partial offspring, and elitist selection loop",
+    "bounded_e2e_test": "scripts/test_plan004_learning_full_optimizers.py",
     "physical_fes": "initial 30 plus each evaluated non-elite offspring; attention training adds zero FES"
   },
   "backend_contract": {

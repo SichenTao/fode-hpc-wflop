@@ -77,7 +77,8 @@ TORCH_MODULE(TaaeTransformer);
 TaaeLoss taae_loss(
     const TaaeOutput& output,
     const torch::Tensor& tokens,
-    const torch::Tensor& relative_fitness
+    const torch::Tensor& relative_fitness,
+    std::uint64_t metric_pair_seed = 0x5943365041495253ULL
 );
 
 struct AlgaConfig {
@@ -192,6 +193,8 @@ ArtifactMetadata load_artifact(
     const std::string& path,
     const torch::Device& device
 );
+
+std::string learned_state_hash(const torch::nn::Module& model);
 
 torch::Tensor transfer_tensor(
     torch::Tensor tensor,

@@ -7,6 +7,10 @@ option(
     "Build Plan-004 LibTorch learning targets and the non-target backend compatibility probe"
     OFF
 )
+if(WFLOP_ENABLE_TORCH)
+    find_package(Torch CONFIG REQUIRED)
+    add_subdirectory(hpc/learning_libtorch)
+endif()
 add_subdirectory(hpc/fode_cpp)
 add_subdirectory(hpc/wflop_cpp)
 add_subdirectory(hpc/taae_cpp)
@@ -16,9 +20,7 @@ add_subdirectory(hpc/geoga_cpp)
 add_subdirectory(hpc/gga_cpp)
 add_subdirectory(hpc/pbea_cpp)
 if(WFLOP_ENABLE_TORCH)
-    find_package(Torch CONFIG REQUIRED)
     add_subdirectory(hpc/torch_training)
-    add_subdirectory(hpc/learning_libtorch)
 endif()
 
 if(BUILD_TESTING)
@@ -215,6 +217,21 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:wflop_cpp_hpc>
                 --cases ${RPSO_SOURCE_PROBLEM_CASES}
         )
+        if(WFLOP_ENABLE_TORCH)
+            add_test(
+                NAME plan004_learning_full_optimizer_artifacts
+                COMMAND ${Python3_EXECUTABLE}
+                    ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_plan004_learning_full_optimizers.py
+                    --trainer $<TARGET_FILE:plan004_learning_target_hpc>
+                    --taae-binary $<TARGET_FILE:taae_evolution_hpc>
+                    --wflop-binary $<TARGET_FILE:wflop_cpp_hpc>
+                    --taae-cases
+                    ${CMAKE_CURRENT_SOURCE_DIR}/shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json
+                    --alga-cases
+                    ${CMAKE_CURRENT_SOURCE_DIR}/shared/contracts/alga_guishan_3d_declared_proxy_cases.json
+                    --rlpso-cases ${RPSO_SOURCE_PROBLEM_CASES}
+            )
+        endif()
     endif()
     set(GGA_GENERATED_ASSETS
         ${CMAKE_CURRENT_SOURCE_DIR}/.source-cache/generated/gga_repaired

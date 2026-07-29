@@ -55,6 +55,7 @@ struct EvolutionConfig {
     std::string checkpoint_input;
     std::string checkpoint_sha256;
     std::string checkpoint_output;
+    std::string learning_artifact_input;
     std::string backend = "cpu";
     ModelConfig model_config{};
     LossWeights fine_tune_loss_weights{};
@@ -119,6 +120,9 @@ struct EvolutionResult {
     StageReceipt selection_other_stage;
     ProposalWorkReceipt proposal_work;
     std::string model_hash;
+    bool learning_artifact_consumed = false;
+    std::string learning_decision_hash;
+    std::string terminal_partial_work;
     std::string population_layout_hash;
     std::string front_hash;
     std::string front_feasibility;

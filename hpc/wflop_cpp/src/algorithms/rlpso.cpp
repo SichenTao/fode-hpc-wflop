@@ -13,6 +13,11 @@ Reconstruction performed here: (1) the retained seeded linear categorical
   2-256-64 actor/critic PPO reconstruction using sampled-action log
   probabilities, gamma=0.99, clip=0.2, Adam, K=80, the paper's 0.001 action
   step, a clear-after-update on-policy buffer, and a complete FES ledger
+Plan-004 artifact path: the paper-corrected profile can load the typed
+LibTorch actor, critic, and Adam state; sampled actions then drive the same
+real repaired candidate, native evaluator, pbest/gbest, exact-FES terminal
+partial rollout, and final 80-epoch PPO update. Literal-source replay rejects
+this artifact path.
 Method evidence tier: M3_DECLARED_COMPLETION
 Problem evidence tier: P0_AUTHOR_ASSET
 Method semantic IDs: rlpso_compact_policy_declared_reconstruction_v1 and
@@ -32,6 +37,10 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 #include "fode/evaluator.hpp"
 #include "fode/executor.hpp"
 #include "fode/rng.hpp"
+
+#ifdef WFLOP_PLAN004_LIBTORCH
+#include "wflop_learning/models.hpp"
+#endif
 
 #include <algorithm>
 #include <array>
@@ -200,6 +209,149 @@ std::string hexadecimal_hash(std::uint64_t value) {
     }
     return "fnv1a64:" + result;
 }
+
+void mix_decision(std::uint64_t& hash, std::uint64_t value) {
+    for (int byte = 0; byte < 8; ++byte) {
+        hash ^= value & 0xffULL;
+        hash *= 1099511628211ULL;
+        value >>= 8;
+    }
+}
+
+#ifdef WFLOP_PLAN004_LIBTORCH
+class LibTorchRlpsoPolicy {
+public:
+    LibTorchRlpsoPolicy(
+        const std::string& artifact_path,
+        std::uint64_t seed
+    )
+        : model_(seed),
+          optimizer_(
+              model_->parameters(),
+              torch::optim::AdamOptions(1.0e-3)
+          ) {
+        model_->to(torch::kFloat64);
+        static_cast<void>(wflop_learning::load_artifact(
+            *model_,
+            optimizer_,
+            wflop_learning::ModelKind::Rlpso,
+            artifact_path,
+            torch::Device(torch::kCPU)
+        ));
+    }
+
+    ppo::ActionSample sample_action(
+        const std::array<double, 2>& state,
+        double draw
+    ) {
+        torch::NoGradGuard no_grad;
+        model_->eval();
+        torch::Tensor state_tensor = torch::tensor(
+            {{state[0], state[1]}},
+            torch::TensorOptions().dtype(torch::kFloat64)
+        );
+        const wflop_learning::RlpsoOutput output =
+            model_->forward(state_tensor);
+        const torch::Tensor probability =
+            output.probabilities.to(torch::kCPU).contiguous();
+        ppo::ActionSample sample;
+        for (int action = 0; action < 4; ++action) {
+            sample.evaluation.probabilities[
+                static_cast<std::size_t>(action)
+            ] = probability[0][action].item<double>();
+        }
+        sample.evaluation.value = output.value[0].item<double>();
+        sample.action = ::wflop::sample_action(
+            sample.evaluation.probabilities,
+            draw
+        );
+        sample.log_probability = std::log(std::max(
+            sample.evaluation.probabilities[
+                static_cast<std::size_t>(sample.action)
+            ],
+            1.0e-12
+        ));
+        return sample;
+    }
+
+    void update(const std::vector<ppo::Transition>& rollout) {
+        if (rollout.empty()) {
+            return;
+        }
+        const std::int64_t count =
+            static_cast<std::int64_t>(rollout.size());
+        std::vector<double> state;
+        std::vector<std::int64_t> action;
+        std::vector<double> old_log_probability;
+        std::vector<double> reward;
+        std::vector<std::uint8_t> terminal;
+        state.reserve(rollout.size() * 2);
+        action.reserve(rollout.size());
+        old_log_probability.reserve(rollout.size());
+        reward.reserve(rollout.size());
+        terminal.reserve(rollout.size());
+        for (const ppo::Transition& value : rollout) {
+            state.push_back(value.state[0]);
+            state.push_back(value.state[1]);
+            action.push_back(value.action);
+            old_log_probability.push_back(value.old_log_probability);
+            reward.push_back(value.reward);
+            terminal.push_back(value.terminal ? 1U : 0U);
+        }
+        const auto floating =
+            torch::TensorOptions().dtype(torch::kFloat64);
+        const auto integer =
+            torch::TensorOptions().dtype(torch::kInt64);
+        wflop_learning::PpoBatch batch{
+            torch::from_blob(state.data(), {count, 2}, floating).clone(),
+            torch::from_blob(action.data(), {count}, integer).clone(),
+            torch::from_blob(
+                old_log_probability.data(), {count}, floating
+            ).clone(),
+            {},
+            {},
+        };
+        torch::Tensor reward_tensor =
+            torch::from_blob(reward.data(), {count}, floating).clone();
+        torch::Tensor terminal_tensor = torch::from_blob(
+            terminal.data(),
+            {count},
+            torch::TensorOptions().dtype(torch::kUInt8)
+        ).clone().to(torch::kBool);
+        batch.returns =
+            wflop_learning::rlpso_discounted_normalized_returns(
+                reward_tensor,
+                terminal_tensor
+            );
+        {
+            torch::NoGradGuard no_grad;
+            batch.advantage = batch.returns
+                - model_->forward(batch.state).value;
+        }
+        model_->train();
+        for (std::int64_t epoch = 0;
+             epoch < wflop_learning::kRlpsoUpdateEpochs;
+             ++epoch) {
+            optimizer_.zero_grad();
+            const wflop_learning::PpoLoss loss =
+                wflop_learning::rlpso_ppo_loss(
+                    model_->forward(batch.state),
+                    batch
+                );
+            loss.total.backward();
+            optimizer_.step();
+        }
+    }
+
+    std::string parameter_hash() const {
+        return wflop_learning::learned_state_hash(*model_);
+    }
+
+private:
+    wflop_learning::RlpsoActorCritic model_;
+    torch::optim::Adam optimizer_;
+};
+#endif
 
 }  // namespace
 
@@ -483,6 +635,12 @@ RunResult optimize_rlpso_training_reconstruction(
     const RunConfig& config,
     bool literal_source_replay
 ) {
+    if (literal_source_replay && !config.learning_artifact_path.empty()) {
+        throw std::invalid_argument(
+            "Plan-004 RLPSO artifacts are only valid for the "
+            "paper-corrected training reconstruction"
+        );
+    }
     const auto started = Clock::now();
     fode::PersistentExecutor executor(config.workers);
     fode::CounterRng rng(config.seed ^ 0x5250534f50504fULL);
@@ -496,6 +654,8 @@ RunResult optimize_rlpso_training_reconstruction(
     std::uint64_t generations = 0;
     std::uint64_t training_step = 0;
     std::uint64_t policy_updates = 0;
+    std::uint64_t learning_decision_hash = 1469598103934665603ULL;
+    int terminal_training_interactions = 0;
     double evaluator_seconds = 0.0;
     double policy_training_seconds = 0.0;
     double policy_update_seconds = 0.0;
@@ -572,13 +732,37 @@ RunResult optimize_rlpso_training_reconstruction(
             policy_parameters
         );
     };
-    std::unique_ptr<ppo::SeededPpo> policy =
-        make_policy(0);
+    std::unique_ptr<ppo::SeededPpo> policy;
+#ifdef WFLOP_PLAN004_LIBTORCH
+    std::unique_ptr<LibTorchRlpsoPolicy> artifact_policy;
+    if (!config.learning_artifact_path.empty()) {
+        artifact_policy = std::make_unique<LibTorchRlpsoPolicy>(
+            config.learning_artifact_path,
+            config.seed
+        );
+    } else {
+        policy = make_policy(0);
+    }
+#else
+    if (!config.learning_artifact_path.empty()) {
+        throw std::invalid_argument(
+            "RLPSO learning artifact requires WFLOP_ENABLE_TORCH"
+        );
+    }
+    policy = make_policy(0);
+#endif
     std::vector<ppo::Transition> rollout;
     rollout.reserve(literal_source_replay ? 10000 : 500);
     auto update_policy = [&]() {
         const auto update_started = Clock::now();
-        static_cast<void>(policy->update(rollout));
+#ifdef WFLOP_PLAN004_LIBTORCH
+        if (artifact_policy) {
+            artifact_policy->update(rollout);
+        } else
+#endif
+        {
+            static_cast<void>(policy->update(rollout));
+        }
         const double elapsed = std::chrono::duration<double>(
             Clock::now() - update_started
         ).count();
@@ -606,17 +790,39 @@ RunResult optimize_rlpso_training_reconstruction(
              interaction < interactions_per_generation
                  && fes < config.physical_fes_budget;
              ++interaction) {
+            terminal_training_interactions = interaction + 1;
             const std::array<double, 2> state{r1, r2};
-            const auto sample = policy->sample_action(
-                state,
-                rng,
-                ppo::RngKey{
-                    generations,
-                    20,
-                    static_cast<std::uint64_t>(interaction),
-                    0,
-                    training_step
-                }
+            ppo::ActionSample sample;
+#ifdef WFLOP_PLAN004_LIBTORCH
+            if (artifact_policy) {
+                sample = artifact_policy->sample_action(
+                    state,
+                    rng.uniform(
+                        generations,
+                        20,
+                        static_cast<std::uint64_t>(interaction),
+                        0,
+                        training_step
+                    )
+                );
+            } else
+#endif
+            {
+                sample = policy->sample_action(
+                    state,
+                    rng,
+                    ppo::RngKey{
+                        generations,
+                        20,
+                        static_cast<std::uint64_t>(interaction),
+                        0,
+                        training_step
+                    }
+                );
+            }
+            mix_decision(
+                learning_decision_hash,
+                static_cast<std::uint64_t>(sample.action)
             );
             if (literal_source_replay) {
                 rlpso_transition::apply_literal_source_action(
@@ -907,7 +1113,24 @@ RunResult optimize_rlpso_training_reconstruction(
     result.pso_update_semantics = literal_source_replay
         ? "literal_source_reinitialized_ppo_step001_argmax_bug_memory_reuse"
         : "paper_corrected_seeded_persistent_ppo_staged_parallel";
-    result.learned_state_hash = hexadecimal_hash(policy->parameter_hash());
+#ifdef WFLOP_PLAN004_LIBTORCH
+    if (artifact_policy) {
+        result.learning_artifact_consumed = true;
+        result.learning_decision_hash =
+            hexadecimal_hash(learning_decision_hash);
+        result.learned_state_hash = artifact_policy->parameter_hash();
+    } else
+#endif
+    {
+        result.learned_state_hash =
+            hexadecimal_hash(policy->parameter_hash());
+    }
+    result.terminal_partial_work =
+        terminal_training_interactions < 10000
+        ? "exact_fes_partial_training_interactions="
+            + std::to_string(terminal_training_interactions)
+            + "_of_10000"
+        : "exact_fes_full_training_block";
     return result;
 }
 

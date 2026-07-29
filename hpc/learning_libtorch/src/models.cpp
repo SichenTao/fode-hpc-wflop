@@ -42,9 +42,8 @@ torch::Tensor causal_mask(
 }
 
 torch::Tensor normalize_latent(const torch::Tensor& latent) {
-    return latent / torch::clamp_min(
-        torch::linalg_vector_norm(latent, 2, {-1}, true),
-        1.0e-12
+    return latent / torch::sqrt(
+        (latent * latent).sum(-1, true) + 1.0e-12
     );
 }
 
@@ -230,12 +229,41 @@ std::string problem_semantic_id(ModelKind kind) {
     return "rpso2024_source_problem_ws1_ws4_v1";
 }
 
-torch::Tensor configuration_tensor(ModelKind kind) {
+torch::Tensor configuration_tensor(
+    ModelKind kind,
+    const torch::nn::Module& model
+) {
     std::vector<std::int64_t> fields;
     if (kind == ModelKind::Taae) {
-        fields = {400, 15, 64, 64, 4, 6, 6, 256};
+        const auto* typed =
+            dynamic_cast<const TaaeTransformerImpl*>(&model);
+        if (typed == nullptr) {
+            throw std::runtime_error("TAAE artifact module type mismatch");
+        }
+        const TaaeConfig& config = typed->config();
+        fields = {
+            config.vocabulary,
+            config.sequence_length,
+            config.model_dimension,
+            config.latent_dimension,
+            config.heads,
+            config.encoder_layers,
+            config.decoder_layers,
+            config.feed_forward_width,
+        };
     } else if (kind == ModelKind::Alga) {
-        fields = {30, 20, 8, 1};
+        const auto* typed =
+            dynamic_cast<const AlgaAttentionImpl*>(&model);
+        if (typed == nullptr) {
+            throw std::runtime_error("ALGA artifact module type mismatch");
+        }
+        const AlgaConfig& config = typed->config();
+        fields = {
+            config.population_size,
+            config.turbine_count,
+            config.attention_heads,
+            config.projection_width,
+        };
     } else {
         fields = {2, 256, 64, 4, 256, 64, 1};
     }
@@ -458,7 +486,8 @@ const TaaeConfig& TaaeTransformerImpl::config() const noexcept {
 TaaeLoss taae_loss(
     const TaaeOutput& output,
     const torch::Tensor& tokens,
-    const torch::Tensor& relative_fitness
+    const torch::Tensor& relative_fitness,
+    std::uint64_t metric_pair_seed
 ) {
     torch::Tensor reconstruction =
         torch::nn::functional::cross_entropy(
@@ -470,15 +499,63 @@ TaaeLoss taae_loss(
     torch::Tensor regression =
         torch::mse_loss(output.regression, relative_fitness);
     torch::Tensor normalized = normalize_latent(output.latent);
-    torch::Tensor paired_latent = normalized.roll({1}, {0});
+    const std::int64_t count = normalized.size(0);
+    if (count < 2) {
+        torch::Tensor zero = output.latent.sum() * 0.0;
+        torch::Tensor total = reconstruction + 30.0 * regression;
+        return {reconstruction, regression, zero, total};
+    }
+    std::vector<std::int64_t> left(
+        static_cast<std::size_t>(count)
+    );
+    std::vector<std::int64_t> right(
+        static_cast<std::size_t>(count)
+    );
+    std::uint64_t state =
+        metric_pair_seed ^ (static_cast<std::uint64_t>(count) << 32U);
+    const auto next = [&state]() {
+        state += 0x9e3779b97f4a7c15ULL;
+        std::uint64_t value = state;
+        value =
+            (value ^ (value >> 30U)) * 0xbf58476d1ce4e5b9ULL;
+        value =
+            (value ^ (value >> 27U)) * 0x94d049bb133111ebULL;
+        return value ^ (value >> 31U);
+    };
+    for (std::int64_t pair = 0; pair < count; ++pair) {
+        const std::int64_t first = static_cast<std::int64_t>(
+            next() % static_cast<std::uint64_t>(count)
+        );
+        std::int64_t second = static_cast<std::int64_t>(
+            next() % static_cast<std::uint64_t>(count - 1)
+        );
+        if (second >= first) {
+            ++second;
+        }
+        left[static_cast<std::size_t>(pair)] = first;
+        right[static_cast<std::size_t>(pair)] = second;
+    }
+    const torch::TensorOptions index_options =
+        torch::TensorOptions()
+            .dtype(torch::kInt64)
+            .device(normalized.device());
+    const torch::Tensor left_index = torch::tensor(left, index_options);
+    const torch::Tensor right_index = torch::tensor(right, index_options);
+    torch::Tensor left_latent = normalized.index_select(0, left_index);
+    torch::Tensor paired_latent =
+        normalized.index_select(0, right_index);
     torch::Tensor latent_distance = torch::linalg_vector_norm(
-        normalized - paired_latent,
+        left_latent - paired_latent,
         2,
         {-1},
         false
     );
+    latent_distance = torch::sqrt(
+        latent_distance * latent_distance + 1.0e-12
+    );
     torch::Tensor fitness_distance = torch::abs(
-        relative_fitness - relative_fitness.roll({1}, {0})
+        relative_fitness.index_select(0, left_index)
+        - relative_fitness.index_select(0, right_index)
     );
     torch::Tensor metric_alignment =
         torch::mse_loss(latent_distance, fitness_distance);
@@ -704,7 +781,10 @@ void save_artifact(
         "problem_semantic_id",
         c10::IValue(problem_semantic_id(metadata.kind))
     );
-    root.write("model_config", configuration_tensor(metadata.kind));
+    root.write(
+        "model_config",
+        configuration_tensor(metadata.kind, model)
+    );
     root.write(
         "training_work",
         torch::tensor(
@@ -760,7 +840,7 @@ ArtifactMetadata load_artifact(
     if (
         !torch::equal(
             stored_config.to(torch::kCPU),
-            configuration_tensor(expected_kind)
+            configuration_tensor(expected_kind, model)
         )
     ) {
         throw std::runtime_error("artifact model config mismatch");
@@ -777,6 +857,10 @@ ArtifactMetadata load_artifact(
     root.read("optimizer", optimizer_archive);
     optimizer.load(optimizer_archive);
     return parsed;
+}
+
+std::string learned_state_hash(const torch::nn::Module& model) {
+    return parameter_hash(model);
 }
 
 torch::Tensor transfer_tensor(

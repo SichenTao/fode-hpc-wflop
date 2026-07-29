@@ -38,6 +38,7 @@ struct RunConfig {
     std::string compute_backend = "cpu";
     std::string paper_protocol_id = "unregistered_cli_protocol";
     std::string training_artifact_id = "not_applicable";
+    std::string learning_artifact_path;
     std::uint64_t seed = 20260728;
     std::uint64_t physical_fes_budget = 24000;
     int workers = 20;
@@ -84,6 +85,9 @@ struct RunResult {
     std::string pso_update_semantics;
     std::string pretrained_artifact_hash;
     std::string learned_state_hash;
+    bool learning_artifact_consumed = false;
+    std::string learning_decision_hash;
+    std::string terminal_partial_work;
 };
 
 struct AlgorithmDescriptor {

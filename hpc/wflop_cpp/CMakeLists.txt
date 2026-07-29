@@ -55,6 +55,15 @@ target_compile_options(${target} PRIVATE
 )
 endforeach()
 
+if(TARGET plan004_learning_libtorch)
+    target_link_libraries(
+        wflop_cpp_hpc PRIVATE plan004_learning_libtorch
+    )
+    target_compile_definitions(
+        wflop_cpp_hpc PRIVATE WFLOP_PLAN004_LIBTORCH=1
+    )
+endif()
+
 include(CTest)
 if(BUILD_TESTING)
     add_executable(

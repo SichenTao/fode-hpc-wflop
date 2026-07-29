@@ -41,6 +41,14 @@ target_include_directories(taae_evolution_core PUBLIC
 target_link_libraries(taae_evolution_core PUBLIC
     taae_cpp_core
 )
+if(TARGET plan004_learning_libtorch)
+    target_link_libraries(
+        taae_evolution_core PUBLIC plan004_learning_libtorch
+    )
+    target_compile_definitions(
+        taae_evolution_core PRIVATE WFLOP_PLAN004_LIBTORCH=1
+    )
+endif()
 target_compile_options(taae_evolution_core PRIVATE
     -O3
     -ffp-contract=off
