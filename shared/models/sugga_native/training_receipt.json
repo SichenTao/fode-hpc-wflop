@@ -20,7 +20,7 @@
       "case_count": 16,
       "path": "shared/contracts/cgpso_native_16_cases.json",
       "problem_id": "cgpso_complex_large_16",
-      "sha256": "cd432b6db8e89d1bc24e3b9c46c8198d0ce15c723baf25599214f6b3e4363439",
+      "sha256": "684a7c75a18bbb0a8a7ac739bf047f9174be4f4039434889d8743ebd40142636",
       "training_physical_fes": 160000
     },
     {
@@ -48,21 +48,21 @@
       "case_count": 12,
       "path": "shared/contracts/lsde_native_declared_12_cases.json",
       "problem_id": "lsde_large_declared_12",
-      "sha256": "2cba4b139a821f7d2f5c37327954aef1d648d36cf716e673dc676eff85ae4b19",
+      "sha256": "13bc82d03653160c7a3ca02627e869a30c99a8f3d30ef67d96933a4d393b24f5",
       "training_physical_fes": 120000
     },
     {
       "case_count": 16,
       "path": "shared/contracts/msshade_native_declared_16_cases.json",
       "problem_id": "msshade_native_declared_16",
-      "sha256": "a63414667b839e696be62b9761d898dd49f8bc2a80dedde0ebf88ac271319487",
+      "sha256": "c7fb48cd71c05d1f18bb32f74131880ce12b761c82e73fc1225831e4f1d77730",
       "training_physical_fes": 160000
     },
     {
       "case_count": 24,
       "path": "shared/contracts/wfadde_native_declared_24_cases.json",
       "problem_id": "wfadde_native_declared_24",
-      "sha256": "cf4dd748d227c34281e61f9878cd1268a80b2e67c2ee2e0874f6a77ea2dd9df0",
+      "sha256": "557b1c67fb3451e9fe24ab65671a0a013245a26bd8cfb58da0968b54a3e762bc",
       "training_physical_fes": 240000
     },
     {

@@ -26,9 +26,9 @@ from scipy.io import loadmat
 
 
 ROOT = Path(__file__).resolve().parents[1]
-DEFAULT_WIND_ROOT = Path(
-    "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/"
-    "WFLOP-HGPSO-TsungHua/data/benchmarks/windscenarios"
+DEFAULT_WIND_ROOT = (
+    ROOT.parent
+    / "WFLOP-HGPSO-TsungHua/data/benchmarks/windscenarios"
 )
 
 
@@ -82,7 +82,10 @@ def scenario_from_mat(root: Path, filename: str, name: str) -> Scenario:
         directions_rad=theta,
         speeds_mps=velocity,
         probabilities=probabilities,
-        source=str(path),
+        source=(
+            "external/WFLOP-HGPSO-TsungHua/data/benchmarks/"
+            f"windscenarios/{filename}"
+        ),
         source_sha256=sha256(path),
     )
 
