@@ -20,10 +20,11 @@ Method semantic ID: alga_attention_declared_reconstruction_v1.
 Step 11 width-two probing is a sensitivity-only independent method semantic.
 The width-one baseline remains unchanged; distinct method semantics are never
 pooled or used for cross-semantic ranking.
-Problem scope: primary transfer combines public WFLO-GGA Guishan annual wind
-with the paper-visible ideal grid and the audited FODE-E0 evaluator; an
-additional FODE-E0 common profile supports platform stress testing. Neither is
-the unavailable real-world 3D Guishan experiment.
+Problem scope: primary P3 reconstruction combines a declared analytic
+Guishan-family terrain and seasonal wind completion with the paper-visible
+grid, MySE11-230 controls, and 3D Gaussian wake equations. The historical
+planar and FODE-E0 profiles remain interoperability transfers. The P3 profile
+is distinct from the unavailable original Guishan arrays.
 Backend: persistent-team deterministic CPU parallel implementation. Its
 scientific semantics are admitted; HPC throughput admission remains pending an
 uncontended formal host. Hybrid/GPU names are fail-closed compatibility
@@ -714,6 +715,28 @@ RunResult optimize_alga_attention_declared_reconstruction(
             throw std::invalid_argument(
                 "ALGA Guishan planar transfer manifest semantics do not "
                 "match the frozen profile: observed " + observed_hash
+            );
+        }
+    }
+    if (config.problem_id == "alga_guishan_3d_declared_proxy_v1") {
+        const bool valid_native_contract =
+            data.case_id.rfind("ALGA_Guishan3D_", 0) == 0
+            && data.rows == 12
+            && data.cols == 12
+            && data.cell_width == 500.0
+            && (data.turbine_count == 20
+                || data.turbine_count == 30
+                || data.turbine_count == 40)
+            && data.wake_model == "terrain_gaussian_rss"
+            && data.power_curve_model == "cutin_shifted_cubic"
+            && data.terrain_elevation_m.size() == 144
+            && data.rotor_diameter == 135.0
+            && data.hub_height == 100.0
+            && data.power_curve_rated_kw == 3000.0;
+        if (!valid_native_contract) {
+            throw std::invalid_argument(
+                "ALGA Guishan 3D manifest semantics do not match the "
+                "declared native contract"
             );
         }
     }

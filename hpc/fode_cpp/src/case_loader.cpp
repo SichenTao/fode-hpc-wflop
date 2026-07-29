@@ -233,6 +233,18 @@ CaseData parse_case(std::string_view object) {
             ? fallback
             : parse_scalar(raw_value(object, key));
     };
+    auto optional_string = [&](std::string_view key, std::string fallback) {
+        const std::string needle = "\"" + std::string(key) + "\"";
+        return object.find(needle) == std::string_view::npos
+            ? std::move(fallback)
+            : parse_string(raw_value(object, key));
+    };
+    auto optional_numbers = [&](std::string_view key) {
+        const std::string needle = "\"" + std::string(key) + "\"";
+        return object.find(needle) == std::string_view::npos
+            ? std::vector<double>{}
+            : parse_numbers(raw_value(object, key));
+    };
     data.rotor_diameter = optional_scalar(
         "rotor_diameter", data.rotor_diameter
     );
@@ -259,6 +271,17 @@ CaseData parse_case(std::string_view object) {
     data.power_curve_cutout_mps = optional_scalar(
         "power_curve_cutout_mps", data.power_curve_cutout_mps
     );
+    data.wake_model = optional_string("wake_model", data.wake_model);
+    data.power_curve_model = optional_string(
+        "power_curve_model", data.power_curve_model
+    );
+    data.terrain_shear_exponent = optional_scalar(
+        "terrain_shear_exponent", data.terrain_shear_exponent
+    );
+    data.gaussian_wake_expansion = optional_scalar(
+        "gaussian_wake_expansion", data.gaussian_wake_expansion
+    );
+    data.terrain_elevation_m = optional_numbers("terrain_elevation_m");
     data.theta = parse_numbers(raw_value(object, "wind_directions_rad"));
     data.velocity = parse_numbers(raw_value(object, "wind_speeds_mps"));
     data.probability = parse_numbers(raw_value(object, "joint_probabilities"));
@@ -286,6 +309,11 @@ CaseData parse_case(std::string_view object) {
         data.probability.end(),
         [](double value) { return std::isfinite(value) && value >= 0.0; }
     );
+    const bool finite_terrain = std::all_of(
+        data.terrain_elevation_m.begin(),
+        data.terrain_elevation_m.end(),
+        [](double value) { return std::isfinite(value); }
+    );
     const double probability_sum = std::accumulate(
         data.probability.begin(),
         data.probability.end(),
@@ -303,6 +331,22 @@ CaseData parse_case(std::string_view object) {
         || data.power_curve_cutin_mps < 0.0
         || data.power_curve_rated_mps <= data.power_curve_cutin_mps
         || data.power_curve_cutout_mps <= data.power_curve_rated_mps
+        || (
+            data.wake_model != "jensen_park_overlap_rss"
+            && data.wake_model != "terrain_gaussian_rss"
+        )
+        || (
+            data.power_curve_model != "legacy_cubic"
+            && data.power_curve_model != "cutin_shifted_cubic"
+        )
+        || data.terrain_shear_exponent < 0.0
+        || data.gaussian_wake_expansion <= 0.0
+        || !finite_terrain
+        || (
+            !data.terrain_elevation_m.empty()
+            && static_cast<int>(data.terrain_elevation_m.size())
+                != data.rows * data.cols
+        )
         || data.theta.empty()
         || data.velocity.empty()
         || data.probability.size()

@@ -62,6 +62,14 @@
       "license_observation": "no_license_file_found",
       "redistribution_policy": "do_not_redistribute",
       "relationship": "direct_target_or_project_author_asset"
+    },
+    {
+      "authority": "official_homepage_archive_checkpoint",
+      "url": "RPSO_Wind_Code.zip/RPSO_Wind/PPO_GPSO_wind.pth",
+      "revision_or_sha256": "sha256:5a48ab91f7e52d0b86d330f98f362f4d75c3ec66cb8332d4cf97a687acd710eb",
+      "license_observation": "no_license_file_found",
+      "redistribution_policy": "do_not_redistribute",
+      "relationship": "released actor-critic state_dict; ppo.py saves but never loads it, so it is evidence rather than the literal runtime initial state"
     }
   ],
   "available_evidence": [

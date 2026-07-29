@@ -40,6 +40,7 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 #include <cstddef>
 #include <cstdint>
 #include <limits>
+#include <memory>
 #include <numeric>
 #include <sstream>
 #include <string>
@@ -477,9 +478,10 @@ RunResult optimize_rlpso_reconstruction(
     return result;
 }
 
-RunResult optimize_rlpso_paper_corrected_training_reconstruction(
+RunResult optimize_rlpso_training_reconstruction(
     const fode::CaseData& data,
-    const RunConfig& config
+    const RunConfig& config,
+    bool literal_source_replay
 ) {
     const auto started = Clock::now();
     fode::PersistentExecutor executor(config.workers);
@@ -558,18 +560,33 @@ RunResult optimize_rlpso_paper_corrected_training_reconstruction(
         gbest.begin()
     );
 
-    ppo::SeededPpo policy(rng, 0x50504fULL);
+    ppo::Hyperparameters policy_parameters;
+    policy_parameters.literal_source_argmax_logprob_bug =
+        literal_source_replay;
+    auto make_policy = [&](std::uint64_t generation) {
+        return std::make_unique<ppo::SeededPpo>(
+            rng,
+            literal_source_replay
+                ? 0x50504fULL ^ generation
+                : 0x50504fULL,
+            policy_parameters
+        );
+    };
+    std::unique_ptr<ppo::SeededPpo> policy =
+        make_policy(0);
     std::vector<ppo::Transition> rollout;
-    rollout.reserve(500);
+    rollout.reserve(literal_source_replay ? 10000 : 500);
     auto update_policy = [&]() {
         const auto update_started = Clock::now();
-        static_cast<void>(policy.update(rollout));
+        static_cast<void>(policy->update(rollout));
         const double elapsed = std::chrono::duration<double>(
             Clock::now() - update_started
         ).count();
         policy_update_seconds += elapsed;
         ++policy_updates;
-        rollout.clear();
+        if (!literal_source_replay) {
+            rollout.clear();
+        }
         return elapsed;
     };
     double r1 = 0.5;
@@ -577,14 +594,20 @@ RunResult optimize_rlpso_paper_corrected_training_reconstruction(
 
     while (fes < config.physical_fes_budget) {
         ++generations;
+        if (literal_source_replay) {
+            policy = make_policy(generations);
+            rollout.clear();
+        }
         const auto training_started = Clock::now();
+        double source_cumulative_reward = -100.0;
+        double source_previous_fitness = 1.01;
         constexpr int interactions_per_generation = 10000;
         for (int interaction = 0;
              interaction < interactions_per_generation
                  && fes < config.physical_fes_budget;
              ++interaction) {
             const std::array<double, 2> state{r1, r2};
-            const auto sample = policy.sample_action(
+            const auto sample = policy->sample_action(
                 state,
                 rng,
                 ppo::RngKey{
@@ -595,9 +618,15 @@ RunResult optimize_rlpso_paper_corrected_training_reconstruction(
                     training_step
                 }
             );
-            rlpso_transition::apply_paper_corrected_action(
-                sample.action, r1, r2
-            );
+            if (literal_source_replay) {
+                rlpso_transition::apply_literal_source_action(
+                    sample.action, r1, r2
+                );
+            } else {
+                rlpso_transition::apply_paper_corrected_action(
+                    sample.action, r1, r2
+                );
+            }
             const int row = interaction % population_size;
             Matrix candidate(static_cast<std::size_t>(dimension));
             for (int d = 0; d < dimension; ++d) {
@@ -612,11 +641,20 @@ RunResult optimize_rlpso_paper_corrected_training_reconstruction(
                 candidate[static_cast<std::size_t>(d)] =
                     pbest_fitness[static_cast<std::size_t>(row)]
                         > pbest_fitness[static_cast<std::size_t>(peer)]
-                    ? rlpso_transition::paper_corrected_candidate(
-                        r1,
-                        r2,
-                        pbest[index_of(row, d, dimension)],
-                        gbest[static_cast<std::size_t>(d)]
+                    ? (
+                        literal_source_replay
+                        ? rlpso_transition::source_candidate(
+                            r1,
+                            r2,
+                            pbest[index_of(row, d, dimension)],
+                            gbest[static_cast<std::size_t>(d)]
+                        )
+                        : rlpso_transition::paper_corrected_candidate(
+                            r1,
+                            r2,
+                            pbest[index_of(row, d, dimension)],
+                            gbest[static_cast<std::size_t>(d)]
+                        )
                     )
                     : pbest[index_of(peer, d, dimension)];
             }
@@ -632,17 +670,32 @@ RunResult optimize_rlpso_paper_corrected_training_reconstruction(
             const double prior_best = best;
             const auto observation = evaluate(candidate, 1, true);
             const double candidate_fitness = observation.fitness.front();
-            const double reward = candidate_fitness > prior_best ? 1.1 : -1.0;
+            double reward = candidate_fitness > prior_best ? 1.1 : -1.0;
+            if (literal_source_replay) {
+                if (candidate_fitness > source_previous_fitness) {
+                    source_cumulative_reward += 1.1;
+                } else if (candidate_fitness < source_previous_fitness) {
+                    source_cumulative_reward -= 1.0;
+                }
+                source_previous_fitness = candidate_fitness;
+                reward = source_cumulative_reward;
+            }
             ++training_step;
             rollout.push_back(ppo::Transition{
                 state,
                 sample.action,
                 sample.log_probability,
                 reward,
-                training_step % 100 == 0
+                literal_source_replay
+                    ? candidate_fitness > prior_best
+                    : training_step % 100 == 0
             });
+            if (candidate_fitness > prior_best) {
+                best_row = row;
+                gbest = candidate;
+            }
             if (candidate_fitness
-                > pbest_fitness[static_cast<std::size_t>(row)]) {
+                    > pbest_fitness[static_cast<std::size_t>(row)]) {
                 pbest_fitness[static_cast<std::size_t>(row)] =
                     candidate_fitness;
                 std::copy(
@@ -652,11 +705,13 @@ RunResult optimize_rlpso_paper_corrected_training_reconstruction(
                         + static_cast<std::ptrdiff_t>(row * dimension)
                 );
             }
-            if (candidate_fitness > prior_best) {
-                best_row = row;
-                gbest = candidate;
-            }
             if (rollout.size() == 500) {
+                static_cast<void>(update_policy());
+            } else if (
+                literal_source_replay
+                && rollout.size() > 500
+                && rollout.size() % 500 == 0
+            ) {
                 static_cast<void>(update_policy());
             }
         }
@@ -690,11 +745,20 @@ RunResult optimize_rlpso_paper_corrected_training_reconstruction(
                 offspring[index_of(row, d, dimension)] =
                     pbest_fitness[static_cast<std::size_t>(row)]
                         > pbest_fitness[static_cast<std::size_t>(peer)]
-                    ? rlpso_transition::paper_corrected_candidate(
-                        r1,
-                        r2,
-                        pbest[index_of(row, d, dimension)],
-                        gbest[static_cast<std::size_t>(d)]
+                    ? (
+                        literal_source_replay
+                        ? rlpso_transition::source_candidate(
+                            r1,
+                            r2,
+                            pbest[index_of(row, d, dimension)],
+                            gbest[static_cast<std::size_t>(d)]
+                        )
+                        : rlpso_transition::paper_corrected_candidate(
+                            r1,
+                            r2,
+                            pbest[index_of(row, d, dimension)],
+                            gbest[static_cast<std::size_t>(d)]
+                        )
                     )
                     : pbest[index_of(peer, d, dimension)];
             }
@@ -802,7 +866,7 @@ RunResult optimize_rlpso_paper_corrected_training_reconstruction(
         }
     }
 
-    if (!rollout.empty()) {
+    if (!literal_source_replay && !rollout.empty()) {
         rollout.back().terminal = true;
         policy_training_seconds += update_policy();
     }
@@ -812,7 +876,9 @@ RunResult optimize_rlpso_paper_corrected_training_reconstruction(
     const auto& problem = problem_descriptor(config.problem_id);
     result.algorithm_id = config.algorithm_id;
     result.method_id =
-        "RLPSO_PAPER_CORRECTED_TRAINING_RECONSTRUCTION_V1";
+        literal_source_replay
+            ? "RLPSO_LITERAL_OFFICIAL_SOURCE_REPLAY_V1"
+            : "RLPSO_PAPER_CORRECTED_TRAINING_RECONSTRUCTION_V1";
     result.algorithm_provenance = descriptor.provenance;
     result.effective_semantics_id = descriptor.semantics_id;
     result.problem_id = problem.id;
@@ -838,10 +904,25 @@ RunResult optimize_rlpso_paper_corrected_training_reconstruction(
         std::max(0.0, result.total_seconds - evaluator_seconds);
     result.policy_training_seconds = policy_training_seconds;
     result.policy_update_seconds = policy_update_seconds;
-    result.pso_update_semantics =
-        "paper_corrected_seeded_persistent_ppo_staged_parallel";
-    result.learned_state_hash = hexadecimal_hash(policy.parameter_hash());
+    result.pso_update_semantics = literal_source_replay
+        ? "literal_source_reinitialized_ppo_step001_argmax_bug_memory_reuse"
+        : "paper_corrected_seeded_persistent_ppo_staged_parallel";
+    result.learned_state_hash = hexadecimal_hash(policy->parameter_hash());
     return result;
+}
+
+RunResult optimize_rlpso_paper_corrected_training_reconstruction(
+    const fode::CaseData& data,
+    const RunConfig& config
+) {
+    return optimize_rlpso_training_reconstruction(data, config, false);
+}
+
+RunResult optimize_rlpso_literal_source_replay(
+    const fode::CaseData& data,
+    const RunConfig& config
+) {
+    return optimize_rlpso_training_reconstruction(data, config, true);
 }
 
 }  // namespace wflop

@@ -36,6 +36,11 @@ struct CaseData {
     double power_curve_cutin_mps = 2.0;
     double power_curve_rated_mps = 12.8;
     double power_curve_cutout_mps = 18.0;
+    std::string wake_model = "jensen_park_overlap_rss";
+    std::string power_curve_model = "legacy_cubic";
+    double terrain_shear_exponent = 0.0;
+    double gaussian_wake_expansion = 0.05;
+    std::vector<double> terrain_elevation_m;
     std::vector<double> theta;
     std::vector<double> velocity;
     std::vector<double> probability;

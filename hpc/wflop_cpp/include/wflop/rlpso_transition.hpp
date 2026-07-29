@@ -94,6 +94,23 @@ inline void apply_paper_corrected_action(
     weight_beta = std::clamp(weight_beta, 0.0, 1.0);
 }
 
+inline void apply_literal_source_action(
+    int action,
+    double& r1,
+    double& r2
+) {
+    constexpr double step = 0.01;
+    if (action == 0) {
+        r1 += step;
+    } else if (action == 1) {
+        r1 -= step;
+    } else if (action == 2) {
+        r2 += step;
+    } else if (action == 3) {
+        r2 -= step;
+    }
+}
+
 inline double paper_corrected_candidate(
     double weight_alpha,
     double weight_beta,

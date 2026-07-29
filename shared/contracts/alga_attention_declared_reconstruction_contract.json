@@ -11,7 +11,7 @@
   "method_id": "ALGA_ATTENTION_DECLARED_RECONSTRUCTION_V1",
   "method_evidence_tier": "M3_DECLARED_COMPLETION",
   "implementation_language": "C++20",
-  "claim_boundary": "This is a deterministic paper-guided engineering reconstruction. It is not the unavailable author ALGA implementation, learned state, real-world 3D Guishan problem, or a reproduction of reported objective values.",
+  "claim_boundary": "This is a deterministic paper-guided engineering reconstruction on a separately named P3 analytic Guishan-family problem. It is not the unavailable author ALGA implementation, learned state, original Guishan arrays, or a reproduction of reported objective values.",
   "paper_preserved_controls": {
     "population_size": 30,
     "crossover_rate": 0.8,
@@ -48,6 +48,13 @@
     "randomness": "counter-keyed events independent of worker scheduling"
   },
   "problem_profiles": {
+    "primary_declared_3d_reconstruction": {
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantics_id": "alga_guishan_3d_declared_proxy_v1",
+      "manifest": "shared/contracts/alga_guishan_3d_declared_proxy_cases.json",
+      "problem_evidence_tier": "P3_DECLARED_PROXY",
+      "meaning": "paper-visible 12 by 12 grid, 500 m spacing, N=20/30/40, four ideal and four seasonal classes, MySE11-230 surface controls, and 3D Gaussian wake equations; missing elevation and seasonal arrays are replaced by frozen analytic completions under a distinct identity"
+    },
     "primary_transfer": {
       "problem_id": "alga_guishan_planar_transfer",
       "problem_semantics_id": "alga_guishan_planar_wind_fode_evaluator_transfer_v1",

@@ -96,23 +96,24 @@ def main() -> int:
     parser.add_argument("--binary", type=Path, required=True)
     parser.add_argument("--common-cases", type=Path, required=True)
     parser.add_argument("--transfer-cases", type=Path, required=True)
+    parser.add_argument("--native-3d-cases", type=Path, required=True)
     arguments = parser.parse_args()
 
     with tempfile.TemporaryDirectory(prefix="alga-m3-admission-") as temp:
         root = Path(temp)
         one = run(
             arguments.binary,
-            arguments.transfer_cases,
-            "alga_guishan_planar_transfer",
-            "ALGA_GuishanPlanarTransfer_tn40",
+            arguments.native_3d_cases,
+            "alga_guishan_3d_declared_proxy_v1",
+            "ALGA_Guishan3D_SEASON1_tn40",
             1,
             root / "one.json",
         )
         twenty = run(
             arguments.binary,
-            arguments.transfer_cases,
-            "alga_guishan_planar_transfer",
-            "ALGA_GuishanPlanarTransfer_tn40",
+            arguments.native_3d_cases,
+            "alga_guishan_3d_declared_proxy_v1",
+            "ALGA_Guishan3D_SEASON1_tn40",
             20,
             root / "twenty.json",
         )
@@ -126,9 +127,9 @@ def main() -> int:
         )
         paper_generation_mapping = run(
             arguments.binary,
-            arguments.transfer_cases,
-            "alga_guishan_planar_transfer",
-            "ALGA_GuishanPlanarTransfer_tn40",
+            arguments.native_3d_cases,
+            "alga_guishan_3d_declared_proxy_v1",
+            "ALGA_Guishan3D_SEASON1_tn40",
             20,
             root / "paper_generation_mapping.json",
             physical_fes=2430,
@@ -143,8 +144,8 @@ def main() -> int:
         )
     if one["method_id"] != "ALGA_ATTENTION_DECLARED_RECONSTRUCTION_V1":
         raise RuntimeError("ALGA reconstruction identity is missing")
-    if one["problem_id"] != "alga_guishan_planar_transfer":
-        raise RuntimeError("primary ALGA transfer problem identity is missing")
+    if one["problem_id"] != "alga_guishan_3d_declared_proxy_v1":
+        raise RuntimeError("primary ALGA 3D problem identity is missing")
     if one["physical_fes"] != 480 or one["inference_physical_fes"] != 480:
         raise RuntimeError("ALGA reconstruction did not stop at exact FES")
     if one["initial_population"] != 30 or one["final_population"] != 30:
@@ -222,7 +223,7 @@ def main() -> int:
             "--algorithm",
             ALGORITHM,
             "--problem",
-            "alga_guishan_planar_transfer",
+            "alga_guishan_3d_declared_proxy_v1",
             "--cases",
             str(arguments.common_cases),
             "--case",
@@ -242,14 +243,14 @@ def main() -> int:
         or "manifest semantics do not match" not in wrong_manifest.stderr
     ):
         raise RuntimeError(
-            "ALGA transfer problem accepted an arbitrary case manifest"
+            "ALGA 3D problem accepted an arbitrary case manifest"
         )
 
     print(
         "alga_attention_reconstruction_pass "
         f"primary_hash={one['learned_state_hash']} "
         "workers=1,20 d80_fes=480 original=blocked gpu=fail_closed "
-        "transfer_manifest=frozen paper_100_generations_fes=2430"
+        "native_3d_manifest=frozen paper_100_generations_fes=2430"
     )
     return 0
 

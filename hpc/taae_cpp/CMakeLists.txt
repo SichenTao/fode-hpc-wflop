@@ -63,6 +63,18 @@ target_compile_options(taae_evolution_hpc PRIVATE
     -Wshadow
 )
 
+add_executable(taae_pretrain_hpc src/pretrain_main.cpp)
+target_link_libraries(taae_pretrain_hpc PRIVATE taae_cpp_core)
+target_compile_options(taae_pretrain_hpc PRIVATE
+    -O3
+    -ffp-contract=off
+    -Wall
+    -Wextra
+    -Wpedantic
+    -Wconversion
+    -Wshadow
+)
+
 include(CTest)
 if(BUILD_TESTING)
     add_executable(taae_model_test tests/model_test.cpp)

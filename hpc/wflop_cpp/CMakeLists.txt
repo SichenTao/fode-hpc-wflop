@@ -32,7 +32,9 @@ add_executable(rlfode_train_qtable
     src/rlfode_train_qtable.cpp
 )
 
-foreach(target wflop_cpp_hpc rlfode_train_qtable)
+add_executable(sugga_mc_response src/sugga_mc_response.cpp)
+
+foreach(target wflop_cpp_hpc rlfode_train_qtable sugga_mc_response)
 target_include_directories(${target} PRIVATE
     include
     ../fode_cpp/include
@@ -166,6 +168,14 @@ if(BUILD_TESTING)
             --binary $<TARGET_FILE:wflop_cpp_hpc>
             --common-cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/benchmark_cases.json
             --transfer-cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/alga_guishan_planar_transfer_cases.json
+            --native-3d-cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/alga_guishan_3d_declared_proxy_cases.json
+    )
+    add_test(
+        NAME alga_guishan_3d_evaluator_oracle
+        COMMAND python3
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_alga_3d_evaluator.py
+            --probe $<TARGET_FILE:scalar_evaluator_probe>
+            --cases ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/alga_guishan_3d_declared_proxy_cases.json
     )
     add_executable(taae_problem_test
         src/problems/taae_zhangbei_structured_proxy.cpp

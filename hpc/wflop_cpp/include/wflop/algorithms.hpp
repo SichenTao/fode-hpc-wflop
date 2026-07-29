@@ -153,6 +153,10 @@ RunResult optimize_rlpso_paper_corrected_training_reconstruction(
     const fode::CaseData& data,
     const RunConfig& config
 );
+RunResult optimize_rlpso_literal_source_replay(
+    const fode::CaseData& data,
+    const RunConfig& config
+);
 RunResult optimize_alga_attention_declared_reconstruction(
     const fode::CaseData& data,
     const RunConfig& config

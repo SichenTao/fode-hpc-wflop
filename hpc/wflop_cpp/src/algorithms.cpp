@@ -495,9 +495,15 @@ struct SvrModel {
 };
 
 SvrModel load_svr(const RunConfig& config, const fode::CaseData& data) {
-    const std::filesystem::path path =
+    const std::filesystem::path root(config.sugga_model_root);
+    std::filesystem::path path =
+        root / config.problem_id / (data.case_id + ".svr.tsv");
+    if (!std::filesystem::exists(path)) {
+        // Backward-compatible FODE-E0-L author-lineage model layout.
+        path =
         std::filesystem::path(config.sugga_model_root)
         / (data.case_id + ".svr.tsv");
+    }
     std::ifstream stream(path);
     if (!stream) {
         throw std::runtime_error("missing frozen C++ SUGGA model: " + path.string());
@@ -5853,6 +5859,10 @@ RunResult optimize(const fode::CaseData& data, const RunConfig& config) {
         return optimize_rlpso_paper_corrected_training_reconstruction(
             data, config
         );
+    }
+    if (config.algorithm_id
+        == "rlpso_literal_official_source_replay_v1") {
+        return optimize_rlpso_literal_source_replay(data, config);
     }
     if (config.algorithm_id
         == "fqfode_seeded_training_declared_reconstruction_v1") {

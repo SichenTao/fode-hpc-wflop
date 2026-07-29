@@ -5,8 +5,31 @@
   "doi": "10.1016/j.energy.2024.134050",
   "problem_id": "rpso2024_source_problem_ws1_ws4",
   "problem_semantics_id": "rpso2024_source_problem_ws1_ws4_v1",
-  "profiles": {
-    "rlpso_compact_policy_declared_reconstruction_v1": {
+    "profiles": {
+        "rlpso_literal_official_source_replay_v1": {
+            "method_evidence_tier": "M1_LITERAL_SOURCE_REPLAY",
+            "action_step": 0.01,
+            "policy_lifecycle": "new unseeded-in-source actor critic and Adam state for every MATLAB outer iteration; deterministic seed completion is required for replay",
+            "network_topology": {
+                "actor": "2-256-64-4 ReLU then softmax",
+                "critic": "2-256-64-1 ReLU including the public final ReLU"
+            },
+            "source_defects_preserved": [
+                "ActorCritic.evaluate converts policy output to NumPy argmax and returns that integer as action_logprobs",
+                "memory.clear_memory converts list entries to tensors but does not clear lists and its call is commented out",
+                "100 episodes by 100 steps are executed on every MATLAB outer iteration",
+                "the PPO network and optimizer are reconstructed on every ppo.main call",
+                "the action step is 0.01",
+                "all environment evaluator calls are counted as physical FES"
+            ],
+            "released_checkpoint": {
+                "filename": "PPO_GPSO_wind.pth",
+                "sha256": "5a48ab91f7e52d0b86d330f98f362f4d75c3ec66cb8332d4cf97a687acd710eb",
+                "runtime_role": "the released ppo.py saves this filename but never loads it; literal source replay therefore does not initialize from it"
+            },
+            "claim_boundary": "Literal official-source behavior replay with a declared deterministic seed completion; not the paper-corrected PPO method or reported-result reproduction."
+        },
+        "rlpso_compact_policy_declared_reconstruction_v1": {
       "method_evidence_tier": "M3_DECLARED_COMPLETION",
       "action_step": 0.001,
       "policy_lifecycle": "persistent_per_optimization_run",
@@ -51,7 +74,7 @@
       "claim_boundary": "Paper-corrected seeded PPO reconstruction only; no author checkpoint, literal source replay, or reproduction of reported results."
     }
   },
-  "remaining_t42_completion": "A distinct literal official-source replay identity remains required before the two-profile T42 plan is complete.",
+    "remaining_t42_completion": "All three source, compact-proxy, and paper-corrected profiles are executable; paper-native campaign and H0-H6 admission remain separate gates.",
   "physical_fes": {
     "training": "every action-reward candidate invokes and counts one complete-layout evaluation",
     "inference": "initial population, exemplar trials, and updated population each count one complete-layout evaluation per layout",

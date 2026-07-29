@@ -137,6 +137,18 @@ def main() -> int:
             "--workers",
             str(args.workers),
         ]
+        if algorithm == "sugga":
+            model_root = (
+                ROOT / "shared/models/sugga_cpp"
+                if paper["problem_id"] == "fode_e0_common"
+                else ROOT / "shared/models/sugga_native"
+            )
+            command.extend(
+                [
+                    "--models",
+                    str(model_root),
+                ]
+            )
         receipt = json.loads(run_text(command))
         if int(receipt["physical_fes"]) != budget:
             raise RuntimeError(

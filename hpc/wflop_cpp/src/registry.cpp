@@ -108,6 +108,15 @@ const std::vector<ProblemDescriptor>& problem_descriptors() {
             "21 by 21 standard grid"
         },
         {
+            "alga_guishan_3d_declared_proxy_v1",
+            "ALGA Guishan-family declared 3D reconstruction",
+            "alga_guishan_3d_declared_proxy_v1",
+            "maximize terrain-aware expected farm power on the paper-visible "
+            "12 by 12 grid using a declared analytic Guishan-family terrain, "
+            "four ideal winds, four seasonal wind completions, and the "
+            "paper's 3D Gaussian wake structure"
+        },
+        {
             "alga_guishan_planar_transfer",
             "ALGA declared planar Guishan-wind transfer",
             "alga_guishan_planar_wind_fode_evaluator_transfer_v1",
@@ -394,7 +403,11 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "10.1016/j.swevo.2025.102018",
             "paper_guided_citation_predecessor_derived_declared_completion",
             "alga_attention_declared_reconstruction_v1",
-            {"alga_guishan_planar_transfer", "fode_e0_common"}
+            {
+                "alga_guishan_3d_declared_proxy_v1",
+                "alga_guishan_planar_transfer",
+                "fode_e0_common"
+            }
         },
         {
             "rlpso_compact_policy_declared_reconstruction_v1",
@@ -410,6 +423,14 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "10.1016/j.energy.2024.134050",
             "paper_corrected_seeded_full_ppo_declared_reconstruction",
             "rlpso_paper_corrected_training_reconstruction_v1",
+            {"rpso2024_source_problem_ws1_ws4"}
+        },
+        {
+            "rlpso_literal_official_source_replay_v1",
+            "RPSO literal official-source replay",
+            "10.1016/j.energy.2024.134050",
+            "literal_official_matlab_python_source_replay_with_seeded_rng",
+            "rlpso_literal_official_source_replay_v1",
             {"rpso2024_source_problem_ws1_ws4"}
         },
         {
@@ -565,6 +586,14 @@ const std::vector<TrainingDescriptor>& training_descriptors() {
             "rlpso_paper_corrected_train_from_scratch_v1",
             "rlpso_paper_corrected_training_reconstruction_v1",
             "train seeded PPO; validate; freeze run state; optimize",
+            true,
+        },
+        {
+            "rlpso_literal_source_train_from_scratch_v1",
+            "rlpso_literal_official_source_replay_v1",
+            "reinitialize the released PPO topology on every MATLAB outer "
+            "iteration; execute 100x100 source interactions with the 0.01 "
+            "action step, argmax-as-logprob defect, and uncleared memory",
             true,
         },
         {

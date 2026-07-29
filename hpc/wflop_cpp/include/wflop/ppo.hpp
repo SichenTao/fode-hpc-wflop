@@ -65,6 +65,7 @@ struct Hyperparameters {
     double value_loss_coefficient = 0.5;
     double entropy_coefficient = 0.01;
     bool normalize_returns = true;
+    bool literal_source_argmax_logprob_bug = false;
 };
 
 struct RngKey {

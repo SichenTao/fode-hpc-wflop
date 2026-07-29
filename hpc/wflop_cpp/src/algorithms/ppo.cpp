@@ -756,15 +756,41 @@ public:
                     Hyperparameters::action_dimension,
                     logits.begin()
                 );
-                const ActorObjective actor_objective =
-                    clipped_actor_objective(
-                        logits,
-                        transition.action,
-                        transition.old_log_probability,
-                        advantage,
-                        parameters_.clip_epsilon,
-                        parameters_.entropy_coefficient
+                ActorObjective actor_objective = clipped_actor_objective(
+                    logits,
+                    transition.action,
+                    transition.old_log_probability,
+                    advantage,
+                    parameters_.clip_epsilon,
+                    parameters_.entropy_coefficient
+                );
+                if (parameters_.literal_source_argmax_logprob_bug) {
+                    // The released Python evaluate() converts actor output to
+                    // NumPy and returns argmax as "action_logprobs".  That
+                    // severs the policy-ratio gradient; only the entropy term
+                    // remains connected to the actor.  Preserve that defect
+                    // only in the separately named source-replay profile.
+                    const auto probability = softmax(
+                        std::vector<double>(logits.begin(), logits.end())
                     );
+                    actor_objective.loss =
+                        -parameters_.entropy_coefficient
+                        * actor_objective.entropy;
+                    for (std::size_t action = 0;
+                         action < probability.size();
+                         ++action) {
+                        const double log_probability = std::log(
+                            std::max(probability[action], minimum_probability)
+                        );
+                        actor_objective.logit_gradient[action] =
+                            parameters_.entropy_coefficient
+                            * probability[action]
+                            * (
+                                log_probability
+                                + actor_objective.entropy
+                            );
+                    }
+                }
                 const CriticObjective critic_objective =
                     critic_squared_error_objective(
                         value,
