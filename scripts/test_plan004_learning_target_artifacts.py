@@ -45,6 +45,10 @@ def invoke(
             str(artifact),
             "--seed",
             "20260730",
+            "--torch-intraop-threads",
+            "1",
+            "--torch-interop-threads",
+            "1",
         ],
         check=True,
         capture_output=True,
@@ -55,6 +59,11 @@ def invoke(
         raise RuntimeError(f"{method}/{backend}: target executable failed")
     if receipt["artifact_driven_optimization_transition"] is not True:
         raise RuntimeError(f"{method}/{backend}: transition bridge absent")
+    if receipt.get("thread_topology") != {
+        "torch_intraop_threads": 1,
+        "torch_interop_threads": 1,
+    }:
+        raise RuntimeError(f"{method}/{backend}: thread topology mismatch")
     if set(receipt["timing_seconds"]) != TIMING_FIELDS:
         raise RuntimeError(f"{method}/{backend}: timing ledger mismatch")
     if backend == "hybrid":

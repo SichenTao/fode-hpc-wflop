@@ -42,6 +42,8 @@ struct RunConfig {
     std::uint64_t seed = 20260728;
     std::uint64_t physical_fes_budget = 24000;
     int workers = 20;
+    int torch_intraop_threads = 0;
+    int torch_interop_threads = 0;
     std::string sugga_model_root = "shared/models/sugga_cpp";
     std::string rlfode_model_root = "shared/models/fqfode_seeded";
     FqfodeSensitivityProfile fqfode_sensitivity_profile =
@@ -75,6 +77,8 @@ struct RunResult {
     int final_population = 0;
     int requested_workers = 0;
     int observed_workers = 0;
+    int torch_intraop_threads = 0;
+    int torch_interop_threads = 0;
     double best_expected_power_kw = 0.0;
     std::vector<int> best_layout_1based;
     double total_seconds = 0.0;

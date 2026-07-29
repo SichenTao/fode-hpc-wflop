@@ -38,6 +38,8 @@ struct Arguments {
     std::uint64_t seed = 1;
     std::uint64_t physical_fes = 10000;
     int workers = 0;
+    int torch_intraop_threads = 1;
+    int torch_interop_threads = 1;
     std::string profile = "bounded";
     std::string checkpoint_input;
     std::string checkpoint_sha256;
@@ -57,6 +59,8 @@ Arguments parse_arguments(int argc, char** argv) {
                 << "usage: taae_evolution_hpc --cases FILE --case ID "
                 << "[--seed N] [--physical-fes N] "
                 << "[--workers N (default: all visible CPUs)] "
+                << "[--torch-intraop-threads N] "
+                << "[--torch-interop-threads N] "
                 << "[--profile bounded|paper-scale] "
                 << "[--checkpoint-in FILE --checkpoint-sha256 SHA256] "
                 << "[--checkpoint-out FILE] "
@@ -80,6 +84,10 @@ Arguments parse_arguments(int argc, char** argv) {
             result.physical_fes = std::stoull(value);
         } else if (option == "--workers") {
             result.workers = std::stoi(value);
+        } else if (option == "--torch-intraop-threads") {
+            result.torch_intraop_threads = std::stoi(value);
+        } else if (option == "--torch-interop-threads") {
+            result.torch_interop_threads = std::stoi(value);
         } else if (option == "--profile") {
             result.profile = value;
         } else if (option == "--checkpoint-in") {
@@ -136,6 +144,14 @@ Arguments parse_arguments(int argc, char** argv) {
               "was performed"
         );
     }
+    if (
+        result.torch_intraop_threads <= 0
+        || result.torch_interop_threads <= 0
+    ) {
+        throw std::invalid_argument(
+            "Torch intra-op and inter-op thread counts must be positive"
+        );
+    }
     return result;
 }
 
@@ -148,6 +164,8 @@ int main(int argc, char** argv) {
         config.seed = arguments.seed;
         config.maximum_physical_fes = arguments.physical_fes;
         config.workers = arguments.workers;
+        config.torch_intraop_threads = arguments.torch_intraop_threads;
+        config.torch_interop_threads = arguments.torch_interop_threads;
         config.training_profile =
             arguments.profile == "bounded"
                 ? taae::evolution::TrainingStateProfile::bounded_smoke

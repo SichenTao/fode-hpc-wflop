@@ -47,6 +47,8 @@ struct EvolutionConfig {
     std::uint64_t seed = 1;
     std::uint64_t maximum_physical_fes = 10000;
     int workers = 1;
+    int torch_intraop_threads = 1;
+    int torch_interop_threads = 1;
     int population_size = 100;
     int fine_tune_epochs = 10;
     int fine_tune_batch_size = 64;
@@ -106,6 +108,8 @@ struct EvolutionResult {
     std::uint64_t generations = 0;
     int requested_workers = 0;
     int resolved_workers = 0;
+    int torch_intraop_threads = 0;
+    int torch_interop_threads = 0;
     std::string training_state_profile_id;
     ModelConfig model_config;
     LossWeights fine_tune_loss_weights;

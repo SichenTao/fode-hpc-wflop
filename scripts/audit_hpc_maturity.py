@@ -23,6 +23,7 @@ def main() -> int:
     parser.add_argument("--all-paper-packages", action="store_true")
     parser.add_argument("--inventory-only", action="store_true")
     parser.add_argument("--scope", choices=("all", "core"), default="all")
+    parser.add_argument("--strict", action="store_true")
     args = parser.parse_args()
     if args.scope == "all" and not args.all_paper_packages:
         parser.error("--all-paper-packages is required")
@@ -99,6 +100,23 @@ def main() -> int:
         raise RuntimeError(
             "Plan-002 HPC maturity is blocked:\n"
             + json.dumps(result, indent=2, sort_keys=True)
+        )
+    if args.strict:
+        if args.scope != "core":
+            parser.error("--strict is supported only with --scope core")
+        from audit_plan005_h6_receipts import audit
+
+        audit(
+            raw_path=(
+                ROOT
+                / "evidence/performance/"
+                "plan005_h6_raw_observations_20260730.jsonl"
+            ),
+            summary_path=(
+                ROOT
+                / "evidence/performance/"
+                "plan005_h6_summary_20260730.json"
+            ),
         )
     print(
         "hpc_maturity_inventory_pass "

@@ -12,6 +12,7 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 
 #include "wflop_learning/models.hpp"
 
+#include <ATen/Parallel.h>
 #include <torch/cuda.h>
 
 #include <algorithm>
@@ -25,6 +26,28 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 #include <vector>
 
 namespace wflop_learning {
+
+TorchThreadTopology configure_torch_thread_topology(
+    int intraop_threads,
+    int interop_threads
+) {
+    if (intraop_threads <= 0 || interop_threads <= 0) {
+        throw std::invalid_argument(
+            "Torch intra-op and inter-op thread counts must be positive"
+        );
+    }
+    at::set_num_threads(intraop_threads);
+    at::set_num_interop_threads(interop_threads);
+    return current_torch_thread_topology();
+}
+
+TorchThreadTopology current_torch_thread_topology() {
+    return TorchThreadTopology{
+        at::get_num_threads(),
+        static_cast<int>(at::get_num_interop_threads()),
+    };
+}
+
 namespace {
 
 torch::Tensor causal_mask(

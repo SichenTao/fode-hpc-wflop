@@ -35,6 +35,8 @@ struct Arguments {
     std::string artifact_in;
     std::string artifact_out;
     std::uint64_t seed = 20260730;
+    int torch_intraop_threads = 1;
+    int torch_interop_threads = 1;
 };
 
 struct Timings {
@@ -60,7 +62,8 @@ Arguments parse(int argc, char** argv) {
                 << "--method taae|alga|rlpso "
                 << "--backend cpu|cuda|hybrid "
                 << "(--artifact-out FILE | --artifact-in FILE) "
-                << "[--seed N]\n";
+                << "[--seed N] [--torch-intraop-threads N] "
+                << "[--torch-interop-threads N]\n";
             std::exit(0);
         }
         if (index + 1 >= argc) {
@@ -77,6 +80,10 @@ Arguments parse(int argc, char** argv) {
             result.artifact_out = value;
         } else if (option == "--seed") {
             result.seed = std::stoull(value);
+        } else if (option == "--torch-intraop-threads") {
+            result.torch_intraop_threads = std::stoi(value);
+        } else if (option == "--torch-interop-threads") {
+            result.torch_interop_threads = std::stoi(value);
         } else {
             throw std::invalid_argument("unknown option " + option);
         }
@@ -96,6 +103,14 @@ Arguments parse(int argc, char** argv) {
     if (result.artifact_in.empty() == result.artifact_out.empty()) {
         throw std::invalid_argument(
             "exactly one artifact input or output is required"
+        );
+    }
+    if (
+        result.torch_intraop_threads <= 0
+        || result.torch_interop_threads <= 0
+    ) {
+        throw std::invalid_argument(
+            "Torch intra-op and inter-op thread counts must be positive"
         );
     }
     return result;
@@ -137,6 +152,8 @@ void print_receipt(
     double bridge_checksum
 ) {
     const bool is_hybrid = arguments.backend == "hybrid";
+    const TorchThreadTopology topology =
+        current_torch_thread_topology();
     std::cout << std::setprecision(12)
         << "{"
         << "\"status\":\"pass\","
@@ -151,6 +168,11 @@ void print_receipt(
         << (is_hybrid ? "true" : "false") << ","
         << "\"explicit_synchronization\":true,"
         << "\"artifact_driven_optimization_transition\":true,"
+        << "\"thread_topology\":{"
+        << "\"torch_intraop_threads\":"
+        << topology.intraop_threads << ","
+        << "\"torch_interop_threads\":"
+        << topology.interop_threads << "},"
         << "\"loss\":" << loss << ","
         << "\"gradient_checksum\":" << gradient << ","
         << "\"bridge_checksum\":" << bridge_checksum << ","
@@ -574,7 +596,10 @@ int main(int argc, char** argv) {
     try {
         const Arguments arguments = parse(argc, argv);
         torch::manual_seed(static_cast<std::int64_t>(arguments.seed));
-        torch::set_num_threads(1);
+        static_cast<void>(configure_torch_thread_topology(
+            arguments.torch_intraop_threads,
+            arguments.torch_interop_threads
+        ));
         const torch::Device device = resolve_device(arguments.backend);
         if (arguments.method == "taae") {
             execute_taae(arguments, device);

@@ -3,6 +3,7 @@
 
 from __future__ import annotations
 
+import argparse
 import hashlib
 import json
 import math
@@ -227,6 +228,33 @@ def validate_quality_item(
 
 
 def main() -> int:
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--scope", choices=("core",))
+    parser.add_argument("--strict", action="store_true")
+    arguments = parser.parse_args()
+    if arguments.scope is not None or arguments.strict:
+        if arguments.scope != "core" or not arguments.strict:
+            parser.error("Plan-005 performance audit requires --scope core --strict")
+        from audit_plan005_h6_receipts import audit
+
+        result = audit(
+            raw_path=(
+                ROOT
+                / "evidence/performance/"
+                "plan005_h6_raw_observations_20260730.jsonl"
+            ),
+            summary_path=(
+                ROOT
+                / "evidence/performance/"
+                "plan005_h6_summary_20260730.json"
+            ),
+        )
+        print(
+            "performance_receipt_audit_pass "
+            f"scope=core pairs={result['pairs']} "
+            f"observations={result['observations']} mode=strict"
+        )
+        return 0
     matrix = load("shared/contracts/global_execution_capability_matrix.json")
     registry = load("shared/contracts/executable_profile_evidence.json")
     contract = load("shared/contracts/step11_bounded_development_receipts.json")

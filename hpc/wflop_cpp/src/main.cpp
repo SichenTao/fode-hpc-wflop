@@ -19,6 +19,10 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 #include "fode/evaluator.hpp"
 #include "fode/executor.hpp"
 
+#ifdef WFLOP_PLAN004_LIBTORCH
+#include "wflop_learning/models.hpp"
+#endif
+
 #include <algorithm>
 #include <cmath>
 #include <cstdint>
@@ -54,6 +58,8 @@ struct Arguments {
     std::uint64_t seed = 20260728;
     std::uint64_t physical_fes = 24000;
     int workers = 0;
+    int torch_intraop_threads = 1;
+    int torch_interop_threads = 1;
     int alga_attention_hidden_width = 1;
     bool all_cases = false;
     bool all_algorithms = false;
@@ -150,6 +156,12 @@ Arguments parse_arguments(int argc, char** argv) {
             result.physical_fes = parse_u64(next(), flag);
         } else if (flag == "--workers") {
             result.workers = static_cast<int>(parse_u64(next(), flag));
+        } else if (flag == "--torch-intraop-threads") {
+            result.torch_intraop_threads =
+                static_cast<int>(parse_u64(next(), flag));
+        } else if (flag == "--torch-interop-threads") {
+            result.torch_interop_threads =
+                static_cast<int>(parse_u64(next(), flag));
         } else if (flag == "--alga-attention-width") {
             result.alga_attention_hidden_width =
                 static_cast<int>(parse_u64(next(), flag));
@@ -187,6 +199,10 @@ Arguments parse_arguments(int argc, char** argv) {
                 << "  --physical-fes N     complete-layout evaluation budget per run\n"
                 << "  --seed N             deterministic algorithm seed\n"
                 << "  --workers N          persistent C++ worker count; 0 means all visible CPUs\n"
+                << "  --torch-intraop-threads N"
+                   " LibTorch CPU intra-op threads; default 1\n"
+                << "  --torch-interop-threads N"
+                   " LibTorch CPU inter-op threads; default 1\n"
                 << "  --alga-attention-width N"
                    " 1 baseline or 2 sensitivity profile\n"
                 << "  --models PATH        frozen C++ SUGGA model directory\n"
@@ -216,6 +232,14 @@ Arguments parse_arguments(int argc, char** argv) {
     }
     if (result.workers <= 0) {
         throw std::runtime_error("no CPU workers are visible");
+    }
+    if (
+        result.torch_intraop_threads <= 0
+        || result.torch_interop_threads <= 0
+    ) {
+        throw std::runtime_error(
+            "Torch intra-op and inter-op thread counts must be positive"
+        );
     }
     return result;
 }
@@ -286,6 +310,12 @@ std::string to_json(const wflop::RunResult& result) {
     output << "\"final_population\":" << result.final_population << ",";
     output << "\"requested_workers\":" << result.requested_workers << ",";
     output << "\"observed_workers\":" << result.observed_workers << ",";
+    output << "\"thread_topology\":{"
+           << "\"outer_workers\":" << result.observed_workers << ","
+           << "\"torch_intraop_threads\":"
+           << result.torch_intraop_threads << ","
+           << "\"torch_interop_threads\":"
+           << result.torch_interop_threads << "},";
     output << "\"best_expected_power_kw\":"
            << result.best_expected_power_kw << ",";
     output << "\"best_layout_1based\":[";
@@ -667,6 +697,28 @@ int main(int argc, char** argv) {
                         ? std::vector<std::string>{arguments.algorithm}
                         : arguments.algorithms
                 );
+#ifdef WFLOP_PLAN004_LIBTORCH
+        wflop_learning::TorchThreadTopology torch_topology{};
+        if (
+            arguments.training_artifact != "not_applicable"
+            && arguments.training_artifact != "train"
+        ) {
+            torch_topology =
+                wflop_learning::configure_torch_thread_topology(
+                    arguments.torch_intraop_threads,
+                    arguments.torch_interop_threads
+                );
+        }
+#else
+        if (
+            arguments.training_artifact != "not_applicable"
+            && arguments.training_artifact != "train"
+        ) {
+            throw std::runtime_error(
+                "learning artifact requires WFLOP_ENABLE_TORCH"
+            );
+        }
+#endif
         const std::vector<fode::CaseData> cases = arguments.all_cases
             ? fode::load_cases(arguments.cases_path)
             : std::vector<fode::CaseData>{
@@ -692,6 +744,10 @@ int main(int argc, char** argv) {
                 config.seed = arguments.seed;
                 config.physical_fes_budget = arguments.physical_fes;
                 config.workers = arguments.workers;
+                config.torch_intraop_threads =
+                    arguments.torch_intraop_threads;
+                config.torch_interop_threads =
+                    arguments.torch_interop_threads;
                 config.sugga_model_root = arguments.models_path;
                 config.rlfode_model_root = arguments.rlfode_models_path;
                 config.fqfode_sensitivity_profile =
@@ -699,6 +755,17 @@ int main(int argc, char** argv) {
                 config.alga_attention_hidden_width =
                     arguments.alga_attention_hidden_width;
                 auto result = wflop::optimize(data, config);
+#ifdef WFLOP_PLAN004_LIBTORCH
+                if (
+                    arguments.training_artifact != "not_applicable"
+                    && arguments.training_artifact != "train"
+                ) {
+                    result.torch_intraop_threads =
+                        torch_topology.intraop_threads;
+                    result.torch_interop_threads =
+                        torch_topology.interop_threads;
+                }
+#endif
                 result.paper_protocol_id = config.paper_protocol_id;
                 result.training_artifact_id = config.training_artifact_id;
                 result.backend_id = wflop::backend_descriptor(

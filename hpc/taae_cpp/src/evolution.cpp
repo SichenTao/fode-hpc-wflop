@@ -1669,6 +1669,19 @@ EvolutionResult run_declared_reconstruction(
     const fode::CaseData& problem
 ) {
     const auto total_start = Clock::now();
+    int observed_torch_intraop_threads = 0;
+    int observed_torch_interop_threads = 0;
+    if (!config.learning_artifact_input.empty()) {
+#ifdef WFLOP_PLAN004_LIBTORCH
+        const wflop_learning::TorchThreadTopology topology =
+            wflop_learning::configure_torch_thread_topology(
+                config.torch_intraop_threads,
+                config.torch_interop_threads
+            );
+        observed_torch_intraop_threads = topology.intraop_threads;
+        observed_torch_interop_threads = topology.interop_threads;
+#endif
+    }
     if (config.backend != "cpu") {
         throw std::invalid_argument("unsupported backend: " + config.backend);
     }
@@ -1677,6 +1690,8 @@ EvolutionResult run_declared_reconstruction(
             static_cast<std::uint64_t>(config.population_size) ||
         config.maximum_physical_fes > kPaperMaximumFes ||
         config.workers < 0 ||
+        config.torch_intraop_threads <= 0 ||
+        config.torch_interop_threads <= 0 ||
         config.fine_tune_epochs != 10 ||
         config.fine_tune_batch_size <= 0) {
         throw std::invalid_argument("evolution config violates contract");
@@ -1819,6 +1834,8 @@ EvolutionResult run_declared_reconstruction(
     result.generations = generation;
     result.requested_workers = config.workers;
     result.resolved_workers = resolved_workers;
+    result.torch_intraop_threads = observed_torch_intraop_threads;
+    result.torch_interop_threads = observed_torch_interop_threads;
     result.training_state_profile_id =
         config.training_profile == TrainingStateProfile::bounded_smoke
             ? "taae_evolution_bounded_smoke_v1"
@@ -2280,6 +2297,12 @@ std::string result_to_json(const EvolutionResult& result) {
            << "\"generations\":" << result.generations << ','
            << "\"requested_workers\":" << result.requested_workers << ','
            << "\"resolved_workers\":" << result.resolved_workers << ','
+           << "\"thread_topology\":{"
+           << "\"outer_workers\":" << result.resolved_workers << ','
+           << "\"torch_intraop_threads\":"
+           << result.torch_intraop_threads << ','
+           << "\"torch_interop_threads\":"
+           << result.torch_interop_threads << "},"
            << "\"training_state_profile_id\":\""
            << result.training_state_profile_id << "\","
            << "\"model_architecture\":{"

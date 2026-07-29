@@ -19,6 +19,18 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 
 namespace wflop_learning {
 
+struct TorchThreadTopology {
+    int intraop_threads = 0;
+    int interop_threads = 0;
+};
+
+TorchThreadTopology configure_torch_thread_topology(
+    int intraop_threads,
+    int interop_threads
+);
+
+TorchThreadTopology current_torch_thread_topology();
+
 struct TaaeConfig {
     std::int64_t vocabulary = 400;
     std::int64_t sequence_length = 15;

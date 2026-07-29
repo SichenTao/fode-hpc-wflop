@@ -48,6 +48,10 @@ def train_artifacts(
                     str(artifact),
                     "--seed",
                     str(seed),
+                    "--torch-intraop-threads",
+                    "1",
+                    "--torch-interop-threads",
+                    "1",
                 ]
             )
             require(artifact.is_file(), f"{method}: artifact absent")
@@ -75,6 +79,10 @@ def run_taae(
             "1",
             "--learning-artifact",
             str(artifact),
+            "--torch-intraop-threads",
+            "1",
+            "--torch-interop-threads",
+            "1",
         ]
     )
     return json.loads(completed.stdout)
@@ -119,6 +127,10 @@ def run_wflop(
             "1",
             "--training-artifact",
             str(artifact),
+            "--torch-intraop-threads",
+            "1",
+            "--torch-interop-threads",
+            "1",
             "--output",
             str(output),
         ]
@@ -144,6 +156,14 @@ def audit_triplet(
         require(
             result.get("learning_artifact_consumed") is True,
             f"{method}/{label}: artifact was not consumed",
+        )
+        require(
+            result.get("thread_topology") == {
+                "outer_workers": 1,
+                "torch_intraop_threads": 1,
+                "torch_interop_threads": 1,
+            },
+            f"{method}/{label}: nested thread topology is uncontrolled",
         )
         require(
             result.get("physical_fes") == budget,
