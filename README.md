@@ -192,27 +192,43 @@ physical FES is one complete layout evaluation over this selected case's twelve
 joint wind states. The problem, operator-parity, oracle, and execution
 boundaries are frozen in the `geoga_anholt_structured_*` contracts.
 
-The GGA executable also provides an equation-led T-MOEA reconstruction on the
-same-author public Nysted asset. It preserves the paper's two objectives,
-Jensen wake equation, NSGA-II environmental selection, single-point crossover,
-topology-isolation mutation, and order-changing index swap. The missing
-nearest-neighbor size, probabilities, cable router, candidate sample, and tie
-rules are explicit reconstruction controls. The complete nondominated front is
-written atomically and every member can be replayed through `--evaluate-layout`:
+The GGA executable also preserves the historical v1 T-MOEA Nysted
+reconstruction and exposes a distinct corrected CPU R4 profile. The corrected
+profile uses the paper's Eq. (16) complement set, so the relocated turbine
+cannot return to any site occupied by the complete pre-mutation layout. It has
+the separate method semantic ID
+`tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2` and the complete
+biobjective problem semantic ID
+`tmoea_nysted_paper_wake_gga_router_problem_v1`. The latter binds the paper's
+fixed-deficit Jensen AEP objective to the same-author GGA Nysted feasible set
+and declared cable router; it is distinct from the GGA LCOE problem.
 
 ```bash
 build/hpc/gga_cpp/gga_cpp_hpc \
   --algorithm tmoea \
+  --tmoea-profile paper-eq16-v2 \
+  --execution-mode auto \
   --problem .source-cache/generated/gga_repaired/Denmark_Nysted.wfp \
   --physical-fes 3000 \
   --seed 20260729 \
-  --workers "$(nproc)" \
-  --output results/tmoea_nysted_reconstruction.json
+  --output results/tmoea_nysted_paper_eq16_r4.json
 ```
 
-This command is not the unavailable original T-MOEA experiment. Its
-same-author asset boundary and every conventional completion are frozen in
-`shared/contracts/tmoea_nysted_reconstruction_execution_contract.json`.
+Omitting `--workers` in this corrected profile requests all hardware threads
+visible to the process; `--workers 1` selects serial execution. `cpu` and
+`auto` are admitted, while `hybrid` and `gpu` fail closed. One physical
+fitness evaluation (FES) is one complete AEP-plus-cable layout evaluation,
+including initialization. Output includes actual stage/work receipts and
+population/front hashes. The independent Python oracle re-evaluates every
+stored front member and checks nondominance.
+
+The default `--tmoea-profile historical-v1` retains the earlier output under a
+frozen canonical scientific hash. Both profiles remain declared
+reconstructions: the original T-MOEA candidate set, router, omitted controls,
+seed, and reference front are unavailable. The v1 boundary remains in
+`shared/contracts/tmoea_nysted_reconstruction_execution_contract.json`; the
+corrected profile and its distinct problem are controlled by the
+`tmoea_nysted_paper_*` contracts.
 
 After a target machine, compiler, and worker count have been frozen, run the
 25-seed fixed-work campaign with:

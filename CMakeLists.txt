@@ -78,6 +78,11 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_bde_ws56_transition_parity.py
     )
     add_test(
+        NAME tmoea_nysted_r4_contract
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_tmoea_nysted_r4.py
+    )
+    add_test(
         NAME bde_ws56_independent_oracle
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/validate_bde_ws56_declared_proxy.py
@@ -180,6 +185,14 @@ if(BUILD_TESTING)
             NAME tmoea_cpp_nysted_reconstruction
             COMMAND ${Python3_EXECUTABLE}
                 ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_tmoea_cpp.py
+                --binary $<TARGET_FILE:gga_cpp_hpc>
+                --problem
+                ${GGA_GENERATED_ASSETS}/Denmark_Nysted.wfp
+        )
+        add_test(
+            NAME tmoea_nysted_r4_independent_oracle
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/validate_tmoea_nysted_r4.py
                 --binary $<TARGET_FILE:gga_cpp_hpc>
                 --problem
                 ${GGA_GENERATED_ASSETS}/Denmark_Nysted.wfp

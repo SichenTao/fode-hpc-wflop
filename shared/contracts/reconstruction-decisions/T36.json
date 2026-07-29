@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T36",
+  "doi": "10.1109/CPEEE69412.2026.11521465",
+  "paper_sha256": "ee24999861a2a42766bd62bca509bf3bc0334e6b654a61f72fd55ba829f20873",
+  "profiles": [
+    "tmoea_nysted_gga_asset_reconstruction_v1",
+    "tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2",
+    "tmoea_nysted_paper_wake_gga_router_problem_v1",
+    "tmoea_nysted_paper_eq16_cpu_r4_v2"
+  ],
+  "completion_status": "historical_v1_preserved_corrected_M3_P2_CPU_R4_complete_original_TMOEA_problem_method_and_reference_front_blocked",
+  "approved_source_base_commit": "dfcc4e533344c32944fca795582fe414719e991c",
+  "decisions": [
+    {
+      "field": "equation_16_complement_set",
+      "completed_transition": "the historical v1 releases the isolated old site before selecting the closest available candidate, while paper Eq. (16) defines U as the complement of the complete pre-mutation layout",
+      "selected_value_or_rule": "preserve v1 output and add v2 that excludes every pre-mutation candidate, including the relocated old site",
+      "authority_type": "target_paper_equation_plus_historical_compatibility_guard",
+      "immutable_authority": "hpc/gga_cpp/tests/tmoea_topology_test.cpp and canonical v1 scientific hash bf9c4eb51d95632acecb0a06f9c008a4e28e783308b5d0b048a44a8ce390a04c",
+      "rejected_alternatives": [
+        "silently overwrite the v1 transition",
+        "allow the old site to remain eligible under a paper-corrected identity"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "changes mutation transitions and therefore requires the distinct v2 method semantic ID",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_M3_v2"
+    },
+    {
+      "field": "omitted_transition_controls",
+      "completed_transition": "the paper does not uniquely fix k, variation probabilities, duplicate repair, parent-equality resolution, adjacency direction, or tie rules",
+      "selected_value_or_rule": "freeze k=5, crossover and topology mutation probability 1, pm=0.1, first-occurrence counter-keyed duplicate repair, increment-modulo parent-equality resolution, undirected-union kNN, and deterministic candidate/chromosome ties",
+      "authority_type": "declared_engineering_completion",
+      "immutable_authority": "shared/contracts/tmoea_nysted_paper_eq16_r4_execution_contract.json",
+      "rejected_alternatives": [
+        "classify the completed method as M2",
+        "leave worker- or container-order-dependent ties",
+        "claim the choices came from unavailable author code"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "makes the transition executable and classifies the method as M3_DECLARED_COMPLETION",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_declared_M3_completion"
+    },
+    {
+      "field": "problem_objective_identity",
+      "completed_transition": "the legacy output reuses the GGA repaired profile string although T-MOEA uses a fixed 2/3 paper wake law and a two-objective AEP-plus-cable vector instead of GGA CT-based LCOE",
+      "selected_value_or_rule": "retain the legacy v1 field and bind v2 to tmoea_nysted_paper_wake_gga_router_problem_v1, including the full asset, feasible-set, wake, wind, power, and cable completion semantics",
+      "authority_type": "target_paper_objective_plus_same_author_P2_asset_completion",
+      "immutable_authority": "shared/contracts/tmoea_nysted_paper_wake_gga_router_problem.json",
+      "rejected_alternatives": [
+        "reuse gga2026_layout_cable_repaired_v1 for v2",
+        "claim the same-author GGA Nysted arrays are the original T-MOEA inputs"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "separates T-MOEA biobjective science from GGA LCOE science while preserving lineage",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P2_problem_semantics"
+    },
+    {
+      "field": "physical_fes_cpu_and_receipts",
+      "completed_transition": "the corrected profile needs exact scientific work, schedule-independent CPU execution, and evidence that configured workers performed work",
+      "selected_value_or_rule": "count one full AEP-plus-cable layout as one physical FES including initialization, default workers=0 to all visible hardware threads, admit cpu and auto-to-cpu, fail closed for hybrid/gpu, emit stage/work receipts and scientific hashes, and require exact workers=1/default-all equivalence",
+      "authority_type": "platform_physical_work_and_CPU_execution_contract",
+      "immutable_authority": "scripts/validate_tmoea_nysted_r4.py and shared/contracts/tmoea_nysted_paper_eq16_r4_execution_contract.json",
+      "rejected_alternatives": [
+        "count wind bins or objectives as FES",
+        "overshoot partial budgets",
+        "claim unsupported hybrid or GPU execution",
+        "infer parallel execution from requested workers without receipts"
+      ],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "provides exact work, deterministic one/all science, and auditable CPU participation",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_CPU_R4_development_only"
+    },
+    {
+      "field": "original_reproduction_boundary",
+      "completed_transition": "the original T-MOEA candidate set, router, omitted controls, seed, and reference front remain unavailable after the bounded authority search",
+      "selected_value_or_rule": "keep original reproduction and paper-result comparison blocked; report only the declared same-author Nysted reconstruction",
+      "authority_type": "dated_negative_evidence_boundary",
+      "immutable_authority": "docs/source-dossiers/T36.json",
+      "rejected_alternatives": [
+        "relabel the same-author GGA assets as original T-MOEA inputs",
+        "compare the reconstructed front with the unavailable paper reference front"
+      ],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "prevents unsupported original-study or performance claims",
+      "sensitivity_test_required": false,
+      "adjudication_status": "original_reproduction_blocked"
+    }
+  ]
+}

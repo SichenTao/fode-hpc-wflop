@@ -47,8 +47,27 @@ def main() -> int:
             raise RuntimeError(f"{profile['profile_id']}: invalid method tier")
         if profile["problem_evidence_tier"] not in problem_tiers:
             raise RuntimeError(f"{profile['profile_id']}: invalid problem tier")
-        if profile["execution_modes"] != "@execution_mode_template":
-            raise RuntimeError(f"{profile['profile_id']}: unknown mode declaration")
+        mode_declaration = profile["execution_modes"]
+        if mode_declaration == "@execution_mode_template":
+            pass
+        elif isinstance(mode_declaration, dict):
+            if set(mode_declaration) != modes:
+                raise RuntimeError(
+                    f"{profile['profile_id']}: mode declaration is incomplete"
+                )
+            for mode, declaration in mode_declaration.items():
+                if (
+                    not isinstance(declaration, dict)
+                    or not isinstance(declaration.get("supported"), bool)
+                    or not str(declaration.get("status", "")).strip()
+                ):
+                    raise RuntimeError(
+                        f"{profile['profile_id']}: invalid {mode} mode"
+                    )
+        else:
+            raise RuntimeError(
+                f"{profile['profile_id']}: unknown mode declaration"
+            )
         if not profile["claim_boundary"].strip():
             raise RuntimeError(f"{profile['profile_id']}: empty claim boundary")
 

@@ -13,13 +13,15 @@ PROBLEM_ID = "geoga_anholt_structured_declared_proxy_v1"
 METHOD_ID = "geoga_declared_reconstruction_v1"
 PROFILE_ID = "geoga_anholt_structured_p3_execution_v1"
 OLD_GUARD_HASHES = {
-    "hpc/gga_cpp/src/main.cpp":
-        "1d639544b21e3aec593980f94e1d2dca24b21a2538e20fb8e47aebf9f8739405",
     "shared/contracts/geoga_reconstruction_execution_contract.json":
         "3356d9ea850b8623a8786a69428ff3df286db6ac46eec6e32555b20fa6071b70",
     "scripts/test_geoga_cpp.py":
         "f4c2717ad2f03286a7d3360450438b7187123c0dae22bc6613c97ff643c74846",
 }
+HISTORICAL_GEOGA_FUNCTION_SHA256 = (
+    "d49a8caa42affdf45b912c27e8eb1aaf"
+    "5857fc3a87a7fee3d08f121af09540ca"
+)
 HISTORICAL_GEOGA_PROVENANCE_ROW = (
     "geoga\tGeoGA\tpaper_derived_declared_problem_proxy\t"
     "Zhang et al. 2025 geometric mutation operators; unavailable Anholt assets "
@@ -95,6 +97,19 @@ def main() -> int:
                 f"historical GeoGA semantic asset changed: {relative}"
             )
 
+    shared_source = (
+        ROOT / "hpc/gga_cpp/src/main.cpp"
+    ).read_text(encoding="utf-8")
+    geoga_function = shared_source[
+        shared_source.index("RunResult optimize_geoga("):
+        shared_source.index("RunResult optimize_tmoea(")
+    ]
+    geoga_function_hash = hashlib.sha256(
+        geoga_function.encode("utf-8")
+    ).hexdigest()
+    if geoga_function_hash != HISTORICAL_GEOGA_FUNCTION_SHA256:
+        raise RuntimeError("historical GeoGA optimize function changed")
+
     provenance_rows = (
         ROOT / "shared/contracts/algorithm_provenance.tsv"
     ).read_text(encoding="utf-8").splitlines()
@@ -120,6 +135,7 @@ def main() -> int:
         "geoga_anholt_contract_audit_pass "
         f"problem={PROBLEM_ID} method={METHOD_ID} "
         f"old_guard_files={len(OLD_GUARD_HASHES)} "
+        "shared_source_guard=exact_geoga_function "
         "shared_registry_guard=exact_geoga_row"
     )
     return 0

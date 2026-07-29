@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "receipt_id": "tmoea_nysted_paper_eq16_cpu_r4_spark_20260729",
+  "evidence_class": "development_diagnostic",
+  "approved_base_commit": "dfcc4e533344c32944fca795582fe414719e991c",
+  "algorithm_id": "tmoea",
+  "method_semantic_id": "tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2",
+  "execution_profile_id": "tmoea_nysted_paper_eq16_cpu_r4_v2",
+  "problem_id": "nysted_tmoea_paper_wake_gga_router_reconstruction",
+  "problem_semantic_id": "tmoea_nysted_paper_wake_gga_router_problem_v1",
+  "method_evidence_tier": "M3_DECLARED_COMPLETION",
+  "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+  "claim_boundary": "Corrected equation-led reconstruction on same-author Nysted assets. This receipt is not the unavailable original T-MOEA candidate set, router, controls, seed, reference front, reported-result reproduction, or a formal host result.",
+  "artifacts": {
+    "binary": "build/tmoea-baseline/hpc/gga_cpp/gga_cpp_hpc",
+    "binary_sha256": "b9f44c62eab4855e63c40376c5bbee32769a5dce208aa05ef18c85d997662c0a",
+    "implementation_source": "hpc/gga_cpp/src/main.cpp",
+    "implementation_source_sha256": "0d08387b679be07b0ce685e556bf80494c6945b95445a349c8b4b1b0ad42916d",
+    "independent_oracle": "scripts/validate_tmoea_nysted_r4.py",
+    "independent_oracle_sha256": "47ebc233895bedbc19d15588f65cee28b2596c5c55332dbadc76fc9b317bbf3f",
+    "nysted_asset": ".source-cache/generated/gga_repaired/Denmark_Nysted.wfp",
+    "nysted_asset_sha256": "920cb61b0dc1415af4b6908252799d703c884f2eeaec9ba7b9590c42d40791c4",
+    "asset_tracking": "ignored local authority asset; not vendored"
+  },
+  "host": {
+    "hostname": "spark-9b6f",
+    "kernel": "Linux 6.14.0-1015-nvidia aarch64",
+    "visible_cpus": 20,
+    "cpu_groups": [
+      "10 Cortex-X925 cores",
+      "10 Cortex-A725 cores"
+    ],
+    "compiler": "Ubuntu g++ 11.5.0",
+    "cmake": "3.28.3",
+    "concurrent_shared_host_workload": {
+      "observed_pid": 566436,
+      "observed_cpu_percent": 148,
+      "command_class": "IsaacLab SAC training with 256 environments",
+      "ownership": "user-owned pre-existing workload",
+      "action": "not touched, stopped, restarted, or relabeled",
+      "implication": "timing is bounded diagnostic evidence with an uncontrolled shared-host denominator"
+    }
+  },
+  "science": {
+    "seed": 20260729,
+    "physical_fes": 3000,
+    "generations_after_initialization": 99,
+    "population_size": 30,
+    "nondominated_count": 28,
+    "representative_aep_kwh": 1224977037.287571,
+    "representative_cable_cost": 10395718.062718594,
+    "final_population_hash": "fnv1a64:9b97211b41eaf35a",
+    "nondominated_front_hash": "fnv1a64:ee626f1a0882d596",
+    "canonical_scientific_json_sha256": "90f3d7d30fdfeae7e50402c4391be4c1f802aba2ecf9e293be6d0ae9094c5112",
+    "workers_1_vs_0_scientific_differences": [],
+    "worker_zero_meaning": "all 20 hardware threads reported visible by std::thread::hardware_concurrency",
+    "independent_oracle": "all 28 front layouts independently replayed through Python T-MOEA Eq. (2)-(3) AEP and balanced-substation cable routing; independent nondominance check passed"
+  },
+  "work_receipt": {
+    "complete_layout_evaluations": 3000,
+    "initial_layouts": 30,
+    "offspring_layouts": 2970,
+    "ranked_individuals": 8940,
+    "tournament_candidates": 11880,
+    "parent_equality_resolutions": 141,
+    "crossover_offspring": 2970,
+    "duplicate_repairs": 2970,
+    "topology_mutation_trials": 2970,
+    "topology_relocations": 2970,
+    "random_swap_trials": 2970,
+    "random_swaps": 311,
+    "environmental_candidates": 5940
+  },
+  "stage_receipt_summary": {
+    "workers_1": {
+      "initialization": {
+        "parallel_regions": 1,
+        "task_items": 30,
+        "distinct_participants": [
+          1
+        ]
+      },
+      "variation_repair": {
+        "parallel_regions": 99,
+        "task_items": 2970,
+        "distinct_participants": [
+          1
+        ]
+      },
+      "evaluator": {
+        "parallel_regions": 100,
+        "task_items": 3000,
+        "distinct_participants": [
+          1
+        ]
+      },
+      "selection_serialization": {
+        "parallel_regions": 0,
+        "task_items": 8940,
+        "distinct_participants": [
+          1
+        ]
+      }
+    },
+    "workers_0_all_visible": {
+      "initialization_distinct_participants_across_runs": [
+        4,
+        6,
+        8,
+        10,
+        13,
+        19,
+        20
+      ],
+      "variation_repair": {
+        "parallel_regions": 99,
+        "task_items": 2970,
+        "distinct_participants_across_runs": [
+          19,
+          20
+        ]
+      },
+      "evaluator": {
+        "parallel_regions": 100,
+        "task_items": 3000,
+        "distinct_participants_across_runs": [
+          19,
+          20
+        ]
+      },
+      "selection_serialization": {
+        "parallel_regions": 0,
+        "task_items": 8940,
+        "distinct_participants": [
+          1
+        ]
+      }
+    }
+  },
+  "timing_protocol": {
+    "pairs": 9,
+    "order": "AB/BA alternating by pair, where A is workers=1 and B is workers=0",
+    "fixed_denominator": "same Release binary, Nysted asset SHA-256, method and problem semantic IDs, seed 20260729, exactly 3000 complete AEP-plus-cable physical FES, and spark-9b6f host",
+    "external_scope": "Python perf_counter around process launch through successful process exit and atomic result write",
+    "internal_scope": "C++ steady_clock from optimization entry through final front and receipt construction; result-file serialization follows the internal endpoint",
+    "speedup_definition": "median workers=1 seconds divided by median workers=0 seconds",
+    "one_worker_external_seconds": [
+      1.386872104019858,
+      1.388852381031029,
+      1.3834917530184612,
+      1.3758974500233307,
+      1.374473239062354,
+      1.3899197620339692,
+      1.3748758360743523,
+      1.380574494949542,
+      1.3751707370392978
+    ],
+    "all_visible_external_seconds": [
+      0.1747072320431471,
+      0.17380169196985662,
+      0.17501852801069617,
+      0.185202241060324,
+      0.17682260903529823,
+      0.17585328896529973,
+      0.1759735579835251,
+      0.17852523492183536,
+      0.17489391705021262
+    ],
+    "one_worker_internal_seconds": [
+      1.384309132,
+      1.386374641,
+      1.3815474,
+      1.373998809,
+      1.37299381,
+      1.387270502,
+      1.373227672,
+      1.378632351,
+      1.373471277
+    ],
+    "all_visible_internal_seconds": [
+      0.171900759,
+      0.171440382,
+      0.172147319,
+      0.173349679,
+      0.174685394,
+      0.172873649,
+      0.173835335,
+      0.175578601,
+      0.172050259
+    ],
+    "medians_seconds": {
+      "one_worker_external": 1.380574494949542,
+      "all_visible_external": 0.17585328896529973,
+      "one_worker_internal": 1.378632351,
+      "all_visible_internal": 0.172873649,
+      "one_worker_evaluator": 1.0460276890000002,
+      "all_visible_evaluator": 0.13066235099999995,
+      "one_worker_algorithm": 0.33051063800000025,
+      "all_visible_algorithm": 0.04225398600000002,
+      "one_worker_variation_repair": 0.3283638769999999,
+      "all_visible_variation_repair": 0.037699938,
+      "one_worker_selection_serialization": 0.0018073879999999998,
+      "all_visible_selection_serialization": 0.0025998080000000003
+    },
+    "median_speedups": {
+      "external": 7.850717510446813,
+      "internal": 7.974797541295609,
+      "evaluator": 8.005578355160628,
+      "algorithm": 7.821999041699878
+    },
+    "claim": "The measured pure-CPU implementation is faster with all visible workers for this fixed local denominator. This shared-host development diagnostic is not a formal cross-host or paper-performance result."
+  },
+  "historical_v1_preservation": {
+    "canonical_scientific_json_sha256": "bf9c4eb51d95632acecb0a06f9c008a4e28e783308b5d0b048a44a8ce390a04c",
+    "status": "exact guard passed after v2 integration",
+    "existing_development_receipt": "evidence/development/tmoea_nysted_reconstruction_admission_spark_20260729.json",
+    "existing_receipt_status": "byte unchanged"
+  },
+  "formal_status": "development_only; stop before Step 10 global package admission and do not copy into the legacy Spark2 formal suite"
+}

@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "study_id": "tmoea_nysted_paper_eq16_cpu_r4_v2",
+  "corpus_id": "T36",
+  "paper_doi": "10.1109/CPEEE69412.2026.11521465",
+  "paper_sha256": "ee24999861a2a42766bd62bca509bf3bc0334e6b654a61f72fd55ba829f20873",
+  "algorithm_id": "tmoea",
+  "method_semantic_id": "tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2",
+  "method_evidence_tier": "M3_DECLARED_COMPLETION",
+  "problem_id": "nysted_tmoea_paper_wake_gga_router_reconstruction",
+  "problem_semantic_id": "tmoea_nysted_paper_wake_gga_router_problem_v1",
+  "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+  "implementation_language": "C++20",
+  "claim_boundary": "Corrected equation-led T-MOEA reconstruction on same-author public Nysted assets. It is not the unavailable original T-MOEA candidate set, cable transition/router, control set, seed, reference front, or reported-result reproduction.",
+  "historical_v1_guard": {
+    "method_semantic_id": "tmoea_nysted_gga_asset_reconstruction_v1",
+    "default_cli_profile": "historical-v1",
+    "canonical_scientific_json_sha256": "bf9c4eb51d95632acecb0a06f9c008a4e28e783308b5d0b048a44a8ce390a04c",
+    "guard_protocol": "seed 20260729, 3000 complete-layout physical FES; remove only requested_workers, observed_workers, and timing_seconds; canonical JSON uses sorted keys and compact separators",
+    "status": "preserved_as_historical_output",
+    "earlier_evidence_label": "M2_CITATION_PREDECESSOR",
+    "label_correction": "The earlier M2 label is superseded for new work because several transition choices are engineering declarations. The historical row remains for compatibility; v2 is explicitly M3."
+  },
+  "paper_preserved_controls": {
+    "wake": "paper Eqs. (2)-(3): alpha=0.5/ln(H/0.0002), fixed 2/3 deficit, root-sum-square superposition, and 8760-hour AEP",
+    "objectives": [
+      "minimize negative annual energy production",
+      "minimize cable cost"
+    ],
+    "selection": "NSGA-II nondominated rank and crowding distance",
+    "crossover": "single-point exchange",
+    "topology_mutation": "symmetrized k-nearest-neighbor isolation score followed by centroid-directed relocation",
+    "equation_16": "the relocation candidate belongs to the complement of the entire pre-mutation layout",
+    "random_swap": "swap two chromosome positions with probability pm",
+    "population_size": 30,
+    "physical_fes": 3000
+  },
+  "declared_reconstruction_controls": {
+    "nearest_neighbor_k": 5,
+    "crossover_probability": 1.0,
+    "topology_mutation_probability": 1.0,
+    "random_swap_probability": 0.1,
+    "duplicate_repair": "retain first occurrence in chromosome order and counter-keyed uniformly refill free candidate indices",
+    "parent_selection": "two binary rank/crowding tournaments per offspring",
+    "parent_equality_resolution": "if the two selected parent indices are equal, replace the second with (second+1) modulo population size",
+    "knn_adjacency": "undirected union of directed five-nearest-neighbor arcs",
+    "isolation_tie": "smaller candidate index",
+    "centroid_relocation_tie": "smaller candidate index",
+    "environmental_selection_tie": "lexicographic ordered chromosome",
+    "randomness": "counter-keyed events independent of worker scheduling",
+    "partial_terminal_generation": "evaluate exactly min(30, remaining physical FES) offspring and select back to 30"
+  },
+  "exact_physical_work": {
+    "unit": "one complete layout evaluation of T-MOEA AEP and declared cable cost",
+    "initialization_included": true,
+    "reported_3000_fes": "30 initial layouts plus 99 complete offspring generations",
+    "overshoot": "forbidden"
+  },
+  "cpu_execution": {
+    "stable_cli": "--algorithm tmoea --tmoea-profile paper-eq16-v2 --execution-mode cpu|auto --workers N",
+    "default_workers": "0 means all hardware threads visible through std::thread::hardware_concurrency",
+    "admitted_modes": [
+      "cpu",
+      "auto resolving to cpu"
+    ],
+    "fail_closed_modes": [
+      "hybrid",
+      "gpu"
+    ],
+    "parallel_stages": [
+      "population initialization",
+      "offspring parent selection, crossover, repair, topology mutation, and swap",
+      "complete independent biobjective layout evaluation"
+    ],
+    "ordered_stages": [
+      "nondominated ranking and crowding",
+      "environmental selection",
+      "front ordering and serialization"
+    ],
+    "worker_count_scientific_equivalence": "exact"
+  },
+  "receipts": {
+    "stage": [
+      "wall seconds",
+      "parallel regions",
+      "task items",
+      "participant activations",
+      "distinct participants",
+      "peak region participants"
+    ],
+    "algorithm_work": [
+      "complete layout evaluations",
+      "initial and offspring layouts",
+      "ranked individuals",
+      "tournament candidates and parent-equality resolutions",
+      "crossover and duplicate repair",
+      "topology trials and actual relocations",
+      "random-swap trials and accepted swaps",
+      "environmental candidates"
+    ],
+    "scientific_hashes": [
+      "final ordered population layout hash",
+      "ordered nondominated front objective-layout hash"
+    ]
+  },
+  "independent_oracle": "scripts/validate_tmoea_nysted_r4.py",
+  "problem_contract": "shared/contracts/tmoea_nysted_paper_wake_gga_router_problem.json",
+  "original_tmoea_status": "blocked_r1_r2_missing_original_case_router_controls_seed_and_reference_front"
+}

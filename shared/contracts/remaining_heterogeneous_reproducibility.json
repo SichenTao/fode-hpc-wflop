@@ -190,8 +190,11 @@
         "WFLO-GGA provides machine-readable Nysted boundary, wind, turbine, substation, and cable arrays",
         "the public assets are a candidate reconstruction authority, not proof of identity with T-MOEA"
       ],
-      "safe_next_profile": "tmoea_nysted_gga_asset_reconstruction_v1",
-      "safe_next_profile_meaning": "T-MOEA equations completed with explicitly frozen WFLO-GGA Nysted assets and routing; not the inaccessible original implementation."
+      "historical_profile": "tmoea_nysted_gga_asset_reconstruction_v1",
+      "historical_profile_status": "preserved under canonical scientific output hash; earlier M2 evidence label is superseded for new work because omitted controls are declared engineering choices",
+      "safe_next_profile": "tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2",
+      "safe_next_problem_semantics": "tmoea_nysted_paper_wake_gga_router_problem_v1",
+      "safe_next_profile_meaning": "M3 T-MOEA equation-led completion with Eq.16 corrected, explicitly frozen WFLO-GGA Nysted P2 assets and routing, exact CPU work and receipts; not the inaccessible original implementation or reference front."
     },
     "L0726": {
       "paper_doi": "10.1109/CBD69312.2025.00059",

@@ -28,9 +28,15 @@ def main() -> int:
     new_path = ROOT / "hpc/geoga_cpp/src/evolution.cpp"
     old_text = old_path.read_text(encoding="utf-8")
     new_text = new_path.read_text(encoding="utf-8")
-    old_hash = hashlib.sha256(old_path.read_bytes()).hexdigest()
-    if old_hash != audit["admitted_source_sha256"]:
-        raise RuntimeError("admitted GeoGA source changed after parity freeze")
+    old_geoga = old_text[
+        old_text.index("RunResult optimize_geoga("):
+        old_text.index("RunResult optimize_tmoea(")
+    ]
+    old_geoga_hash = hashlib.sha256(old_geoga.encode("utf-8")).hexdigest()
+    if old_geoga_hash != audit["admitted_geoga_function_slice_sha256"]:
+        raise RuntimeError(
+            "admitted GeoGA function changed after parity freeze"
+        )
     if any(item["status"] != "exact" for item in audit["parity_items"]):
         raise RuntimeError("GeoGA parity ledger contains a non-exact transition")
 
@@ -63,10 +69,6 @@ def main() -> int:
         ],
         "extension",
     )
-    old_geoga = old_text[
-        old_text.index("RunResult optimize_geoga("):
-        old_text.index("RunResult optimize_tmoea(")
-    ]
     require_tokens(
         old_geoga,
         [
