@@ -86,6 +86,20 @@ if(BUILD_TESTING)
         COMMAND wflop_cpp_hpc --list-problems
     )
     add_test(
+        NAME training_registry
+        COMMAND wflop_cpp_hpc --list-training
+    )
+    add_test(
+        NAME backend_characterization
+        COMMAND wflop_cpp_hpc --list-compute-backends
+    )
+    add_test(
+        NAME algorithm_problem_compatibility
+        COMMAND python3
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/audit_algorithm_problem_compatibility.py
+            --binary $<TARGET_FILE:wflop_cpp_hpc>
+    )
+    add_test(
         NAME ise_rename_guard
         COMMAND wflop_cpp_hpc
             --check-ise-rename

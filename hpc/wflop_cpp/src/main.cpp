@@ -17,6 +17,8 @@
 #include <string>
 #include <vector>
 
+#include <omp.h>
+
 namespace {
 
 struct Arguments {
@@ -29,17 +31,23 @@ struct Arguments {
     std::vector<std::string> algorithms;
     std::string problem = "fode_e0_common";
     std::string compute_backend = "cpu";
+    std::string paper_protocol = "unregistered_cli_protocol";
+    std::string training_artifact = "not_applicable";
+    std::string explain_algorithm;
+    std::string explain_problem;
     std::string case_id = "WS5tn30";
     std::string output_path;
     std::uint64_t seed = 20260728;
     std::uint64_t physical_fes = 24000;
-    int workers = 20;
+    int workers = 0;
     int alga_attention_hidden_width = 1;
     bool all_cases = false;
     bool all_algorithms = false;
     bool list_algorithms = false;
     bool list_problems = false;
     bool list_compute_backends = false;
+    bool list_training = false;
+    bool explain_compatibility = false;
     bool self_check = false;
     bool check_ise_rename = false;
 };
@@ -108,6 +116,16 @@ Arguments parse_arguments(int argc, char** argv) {
             result.problem = next();
         } else if (flag == "--compute-backend") {
             result.compute_backend = next();
+        } else if (flag == "--backend") {
+            result.compute_backend = next();
+        } else if (flag == "--paper-protocol") {
+            result.paper_protocol = next();
+        } else if (flag == "--training-artifact") {
+            result.training_artifact = next();
+        } else if (flag == "--explain-compatibility") {
+            result.explain_algorithm = next();
+            result.explain_problem = next();
+            result.explain_compatibility = true;
         } else if (flag == "--case") {
             result.case_id = next();
         } else if (flag == "--output") {
@@ -131,6 +149,8 @@ Arguments parse_arguments(int argc, char** argv) {
             result.list_problems = true;
         } else if (flag == "--list-compute-backends") {
             result.list_compute_backends = true;
+        } else if (flag == "--list-training") {
+            result.list_training = true;
         } else if (flag == "--self-check") {
             result.self_check = true;
         } else if (flag == "--check-ise-rename") {
@@ -141,14 +161,18 @@ Arguments parse_arguments(int argc, char** argv) {
                 << "  --algorithm ID       one registered algorithm identifier\n"
                 << "  --algorithms A,B,... run an explicit ordered algorithm set\n"
                 << "  --problem ID         registered problem family; default fode_e0_common\n"
-                << "  --compute-backend B  cpu, auto, hybrid (cpu+gpu alias), or gpu; only cpu is supported\n"
+                << "  --backend B          cpu, auto, hybrid, or gpu\n"
+                << "  --compute-backend B  compatibility alias for --backend\n"
+                << "  --paper-protocol ID  frozen paper-native protocol identity\n"
+                << "  --training-artifact P artifact path, ID, or train\n"
+                << "  --explain-compatibility A P  explain algorithm/problem admission\n"
                 << "  --all-algorithms     run all registered algorithms sequentially\n"
                 << "  --cases PATH         selected problem manifest\n"
                 << "  --case ID            one case from the selected manifest\n"
                 << "  --all-cases          run every case in the selected manifest\n"
                 << "  --physical-fes N     complete-layout evaluation budget per run\n"
                 << "  --seed N             deterministic algorithm seed\n"
-                << "  --workers N          persistent C++ thread-team size; formal Waffle value is 20\n"
+                << "  --workers N          persistent C++ worker count; 0 means all visible CPUs\n"
                 << "  --alga-attention-width N"
                    " 1 baseline or 2 sensitivity profile\n"
                 << "  --models PATH        frozen C++ SUGGA model directory\n"
@@ -172,14 +196,12 @@ Arguments parse_arguments(int argc, char** argv) {
             "--all-algorithms and --algorithms are mutually exclusive"
         );
     }
-    if (result.compute_backend != "cpu"
-        && result.compute_backend != "auto"
-        && result.compute_backend != "hybrid"
-        && result.compute_backend != "cpu+gpu"
-        && result.compute_backend != "gpu") {
-        throw std::runtime_error(
-            "--compute-backend must be cpu, auto, hybrid, cpu+gpu, or gpu"
-        );
+    static_cast<void>(wflop::backend_descriptor(result.compute_backend));
+    if (result.workers == 0) {
+        result.workers = omp_get_num_procs();
+    }
+    if (result.workers <= 0) {
+        throw std::runtime_error("no CPU workers are visible");
     }
     return result;
 }
@@ -209,6 +231,11 @@ std::string to_json(const wflop::RunResult& result) {
     output << "\"problem_id\":\"" << escape_json(result.problem_id) << "\",";
     output << "\"problem_semantics_id\":\""
            << escape_json(result.problem_semantics_id) << "\",";
+    output << "\"paper_protocol_id\":\""
+           << escape_json(result.paper_protocol_id) << "\",";
+    output << "\"training_artifact_id\":\""
+           << escape_json(result.training_artifact_id) << "\",";
+    output << "\"backend_id\":\"" << escape_json(result.backend_id) << "\",";
     output << "\"case_id\":\"" << escape_json(result.case_id) << "\",";
     output << "\"seed\":" << result.seed << ",";
     output << "\"physical_fes\":" << result.physical_fes << ",";
@@ -542,14 +569,39 @@ int main(int argc, char** argv) {
             return 0;
         }
         if (arguments.list_compute_backends) {
-            std::cout << "cpu\tsupported\n"
-                      << "auto\tinterface_only_fail_closed\n"
-                      << "hybrid\tinterface_only_fail_closed"
-                         " (cpu+gpu compatibility alias)\n"
-                      << "gpu\tinterface_only_fail_closed\n";
+            for (const auto& backend : wflop::backend_descriptors()) {
+                std::cout << backend.id << "\t"
+                          << (backend.executable ? "supported" : "fail_closed")
+                          << "\t" << backend.capability << "\n";
+            }
             return 0;
         }
-        if (arguments.compute_backend != "cpu") {
+        if (arguments.list_training) {
+            for (const auto& training : wflop::training_descriptors()) {
+                std::cout << training.id << "\t" << training.algorithm_id
+                          << "\t" << training.lifecycle << "\n";
+            }
+            return 0;
+        }
+        if (arguments.explain_compatibility) {
+            const auto decision = wflop::explain_compatibility(
+                arguments.explain_algorithm,
+                arguments.explain_problem
+            );
+            std::cout
+                << "{\"algorithm_id\":\""
+                << escape_json(decision.algorithm_id)
+                << "\",\"problem_id\":\""
+                << escape_json(decision.problem_id)
+                << "\",\"compatible\":"
+                << (decision.compatible ? "true" : "false")
+                << ",\"reason\":\"" << escape_json(decision.reason)
+                << "\"}\n";
+            return 0;
+        }
+        const auto& backend =
+            wflop::backend_descriptor(arguments.compute_backend);
+        if (!backend.executable) {
             throw std::runtime_error(
                 "compute backend '" + arguments.compute_backend
                 + "' is recognized but unavailable in this CPU build; "
@@ -604,6 +656,8 @@ int main(int argc, char** argv) {
                 config.algorithm_id = algorithm;
                 config.problem_id = arguments.problem;
                 config.compute_backend = arguments.compute_backend;
+                config.paper_protocol_id = arguments.paper_protocol;
+                config.training_artifact_id = arguments.training_artifact;
                 config.seed = arguments.seed;
                 config.physical_fes_budget = arguments.physical_fes;
                 config.workers = arguments.workers;
@@ -613,7 +667,12 @@ int main(int argc, char** argv) {
                     arguments.fqfode_sensitivity_profile;
                 config.alga_attention_hidden_width =
                     arguments.alga_attention_hidden_width;
-                const auto result = wflop::optimize(data, config);
+                auto result = wflop::optimize(data, config);
+                result.paper_protocol_id = config.paper_protocol_id;
+                result.training_artifact_id = config.training_artifact_id;
+                result.backend_id = wflop::backend_descriptor(
+                    config.compute_backend
+                ).id;
                 validate_result(
                     result,
                     data,

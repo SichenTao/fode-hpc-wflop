@@ -21,6 +21,8 @@ struct RunConfig {
     std::string algorithm_id;
     std::string problem_id = "fode_e0_common";
     std::string compute_backend = "cpu";
+    std::string paper_protocol_id = "unregistered_cli_protocol";
+    std::string training_artifact_id = "not_applicable";
     std::uint64_t seed = 20260728;
     std::uint64_t physical_fes_budget = 24000;
     int workers = 20;
@@ -38,6 +40,9 @@ struct RunResult {
     std::string effective_semantics_id;
     std::string problem_id;
     std::string problem_semantics_id;
+    std::string paper_protocol_id;
+    std::string training_artifact_id;
+    std::string backend_id;
     std::string case_id;
     std::uint64_t seed = 0;
     std::uint64_t physical_fes = 0;
@@ -75,6 +80,12 @@ struct AlgorithmDescriptor {
     std::vector<std::string> compatible_problem_ids;
 };
 
+struct AlgorithmState {
+    std::string algorithm_semantic_id;
+    std::uint64_t completed_physical_fes = 0;
+    std::uint64_t generation = 0;
+};
+
 struct ProblemDescriptor {
     std::string id;
     std::string display_label;
@@ -82,11 +93,38 @@ struct ProblemDescriptor {
     std::string objective;
 };
 
+struct TrainingDescriptor {
+    std::string id;
+    std::string algorithm_id;
+    std::string lifecycle;
+    bool counts_physical_fes = false;
+};
+
+struct BackendDescriptor {
+    std::string id;
+    std::string capability;
+    bool executable = false;
+};
+
+struct CompatibilityDescriptor {
+    std::string algorithm_id;
+    std::string problem_id;
+    bool compatible = false;
+    std::string reason;
+};
+
 const std::vector<AlgorithmDescriptor>& algorithm_descriptors();
 const AlgorithmDescriptor& algorithm_descriptor(const std::string& id);
 const std::vector<std::string>& algorithm_ids();
 const std::vector<ProblemDescriptor>& problem_descriptors();
 const ProblemDescriptor& problem_descriptor(const std::string& id);
+const std::vector<TrainingDescriptor>& training_descriptors();
+const std::vector<BackendDescriptor>& backend_descriptors();
+const BackendDescriptor& backend_descriptor(const std::string& id);
+CompatibilityDescriptor explain_compatibility(
+    const std::string& algorithm_id,
+    const std::string& problem_id
+);
 bool algorithm_supports_problem(
     const std::string& algorithm_id,
     const std::string& problem_id

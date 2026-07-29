@@ -239,6 +239,14 @@ const std::vector<AlgorithmDescriptor>& algorithm_descriptors() {
             "paper_guided_seeded_offline_qtable_declared_reconstruction",
             "fqfode_seeded_training_declared_reconstruction_v1",
             {"fode_e0_common"}
+        },
+        {
+            "taae_transformer_evolution_declared_reconstruction_v1",
+            "TAAE Transformer-evolution reconstruction",
+            "10.1109/jas.2026.126233",
+            "paper_guided_training_from_scratch_declared_reconstruction",
+            "taae_transformer_evolution_declared_reconstruction_v1",
+            {}
         }
     };
     return descriptors;
@@ -271,16 +279,103 @@ const std::vector<std::string>& algorithm_ids() {
     return ids;
 }
 
+const std::vector<TrainingDescriptor>& training_descriptors() {
+    static const std::vector<TrainingDescriptor> descriptors{
+        {
+            "alga_attention_train_from_scratch_v1",
+            "alga_attention_declared_reconstruction_v1",
+            "generate deterministic generation corpus; train attention; "
+            "freeze artifact; optimize",
+            false,
+        },
+        {
+            "rlpso_compact_policy_train_from_scratch_v1",
+            "rlpso_compact_policy_declared_reconstruction_v1",
+            "train online policy; validate; freeze run state; optimize",
+            true,
+        },
+        {
+            "rlpso_paper_corrected_train_from_scratch_v1",
+            "rlpso_paper_corrected_training_reconstruction_v1",
+            "train seeded PPO; validate; freeze run state; optimize",
+            true,
+        },
+        {
+            "fqfode_train_from_scratch_v1",
+            "fqfode_seeded_training_declared_reconstruction_v1",
+            "train four Q tables; validate; freeze artifact; optimize",
+            true,
+        },
+        {
+            "taae_train_from_scratch_v1",
+            "taae_transformer_evolution_declared_reconstruction_v1",
+            "generate corpus; pretrain Transformer; fine tune; freeze "
+            "artifact; optimize latent representation",
+            false,
+        },
+    };
+    return descriptors;
+}
+
+const std::vector<BackendDescriptor>& backend_descriptors() {
+    static const std::vector<BackendDescriptor> descriptors{
+        {"cpu", "optimized pure C++ persistent-worker CPU path", true},
+        {"auto", "resolves only to a measured executable backend", false},
+        {"hybrid", "registered CPU+GPU capability; no admitted kernels", false},
+        {"gpu", "registered GPU capability; no admitted kernels", false},
+    };
+    return descriptors;
+}
+
+const BackendDescriptor& backend_descriptor(const std::string& id) {
+    const std::string normalized = id == "cpu+gpu" ? "hybrid" : id;
+    const auto& descriptors = backend_descriptors();
+    const auto found = std::find_if(
+        descriptors.begin(),
+        descriptors.end(),
+        [&](const BackendDescriptor& descriptor) {
+            return descriptor.id == normalized;
+        }
+    );
+    if (found == descriptors.end()) {
+        throw std::invalid_argument("unknown backend: " + id);
+    }
+    return *found;
+}
+
+CompatibilityDescriptor explain_compatibility(
+    const std::string& algorithm_id,
+    const std::string& problem_id
+) {
+    const auto& algorithm = algorithm_descriptor(algorithm_id);
+    const auto& problem = problem_descriptor(problem_id);
+    const bool admitted = std::find(
+        algorithm.compatible_problem_ids.begin(),
+        algorithm.compatible_problem_ids.end(),
+        problem_id
+    ) != algorithm.compatible_problem_ids.end();
+    CompatibilityDescriptor result;
+    result.algorithm_id = algorithm.id;
+    result.problem_id = problem.id;
+    result.compatible = admitted;
+    if (admitted) {
+        result.reason =
+            "registered method and problem semantic identities preserve "
+            "decision encoding, objective, constraints, evaluator detail, "
+            "and physical-FES meaning";
+    } else {
+        result.reason =
+            "method semantic identity does not admit this problem; no "
+            "objective, decision, constraint, or physics coercion is allowed";
+    }
+    return result;
+}
+
 bool algorithm_supports_problem(
     const std::string& algorithm_id,
     const std::string& problem_id
 ) {
-    const auto& descriptor = algorithm_descriptor(algorithm_id);
-    return std::find(
-        descriptor.compatible_problem_ids.begin(),
-        descriptor.compatible_problem_ids.end(),
-        problem_id
-    ) != descriptor.compatible_problem_ids.end();
+    return explain_compatibility(algorithm_id, problem_id).compatible;
 }
 
 }  // namespace wflop
