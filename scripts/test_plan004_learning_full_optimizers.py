@@ -300,12 +300,23 @@ def main() -> int:
             ),
         )
 
-    print(
-        "plan004_full_optimizer_artifact_e2e_pass "
-        "methods=3 same_artifact_replay=exact "
-        "different_artifact_changes_decision=yes exact_fes=yes "
-        "terminal_partial_work=yes native_evaluator=yes"
-    )
+    print(json.dumps({
+        "status": "pass",
+        "methods": 3,
+        "same_artifact_seed_replay": "exact",
+        "different_artifact_changes_learned_decision": True,
+        "exact_physical_fes": {
+            "taae": 103,
+            "alga": 35,
+            "rlpso": 150,
+        },
+        "terminal_partial_work": True,
+        "native_evaluator": True,
+        "random_event_ownership": (
+            "optimizer-owned seeded events replay exactly; artifact "
+            "identity is varied independently"
+        ),
+    }, sort_keys=True))
     return 0
 
 

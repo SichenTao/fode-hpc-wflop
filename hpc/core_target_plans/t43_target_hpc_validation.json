@@ -3,15 +3,32 @@
     "candidate_backends": [
       "cpu_hpc_v1"
     ],
-    "comparison_scope": "reference CPU versus persistent-team CPU: exact discrete state, FES, layout/front/artifact hashes, with floating values checked by the routed target test",
-    "learning_backend_output_sha256": null,
-    "learning_backend_test": null,
-    "physical_fes_ledger": "target runtime test checks the declared bounded physical-FES ledger; LibTorch training records zero physical objective calls",
-    "reference_backend": "bounded_reference_cpu_v1",
+    "comparison_scope": "independent oracle/formula comparison plus bounded target optimizer execution; backend self-agreement alone is not accepted as equivalence",
+    "independent_reference": {
+      "ctest_names": [
+        "ppga_nantong_problem"
+      ],
+      "description": "independently frozen declared-proxy scalar and layout oracle",
+      "does_not_call_candidate": true,
+      "implementation_or_oracle": "shared/contracts/ppga_nantong_structured_3d_declared_proxy_oracle.json",
+      "primary_test_output_sha256": "84307c9cd0b8dc01ebafd6ba4095b022cacf43a904afe3f43f81eb9e7ee546f0"
+    },
+    "numerical_comparison": {
+      "maximum_absolute_error": 0,
+      "observed_result": {
+        "maximum_absolute_error": 0,
+        "status": "pass",
+        "tolerance_policy": "per-field absolute"
+      },
+      "passed": true,
+      "tolerance_policy": "per-field absolute"
+    },
+    "physical_fes_ledger": "bounded target runtime checks exact physical objective work; learning artifact training is outside that ledger",
+    "reference_backend": "independent_reference_v1",
     "runtime_test": "ppga_nantong_evolution",
-    "runtime_test_output_sha256": "8336a23e43412c661bed428eaac8cee6265763072d3ec1a5118d9ffe72a52c56",
-    "runtime_test_receipt": "evidence/development/plan003_h5_ctest_receipts_20260730.json",
-    "runtime_test_receipt_sha256": "16c0cbff8fd9db96ed93cd0141e855a66049ea91fcca89ce0e5fd114f90ce963",
+    "runtime_test_output_sha256": "e4d9929c1cf50676b0c3bfb33915076153bdc34fdc9ce7abbe7ed09e6ae4873e",
+    "runtime_test_receipt": "evidence/development/plan004_h5_independent_reference_receipts_20260730.json",
+    "runtime_test_receipt_sha256": "66fbcfbeec589cd69e9d2e07916a8686a538dcc7cbd322a7641b437401689219",
     "status": "accepted_h5"
   },
   "H6_performance_validation": {
@@ -20,7 +37,7 @@
   },
   "analysis_path": "hpc/core_target_plans/t43_target_hpc_analysis.json",
   "analysis_sha256": "77a22d7eaf7c666fcb674fc4a981735442d1dfbee87173ed5c8dd29b0f966da1",
-  "claim_boundary": "H5 is accepted only for bounded implementation equivalence. No backend is selected until exact-pair H6, and no formal-quality claim is made.",
+  "claim_boundary": "H5 accepts bounded independent-reference equivalence only. No backend is selected before exact-pair H6 and no formal-quality claim is made.",
   "corpus_id": "T43",
   "method_semantic_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
   "native_asset": "shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json",
@@ -29,6 +46,6 @@
   "pair_id": "T43__ppga__ppga_nantong_structured_3d_declared_proxy_v1__target",
   "paper_protocol_id": "jas2025_ppga_native_25_v1",
   "problem_semantic_id": "ppga_nantong_structured_3d_declared_proxy_v1",
-  "schema_version": 1,
-  "validation_id": "plan003_h5__T43__ppga__ppga_nantong_structured_3d_declared_proxy_v1__target__spark_20260730"
+  "schema_version": 2,
+  "validation_id": "plan004_h5__T43__ppga__ppga_nantong_structured_3d_declared_proxy_v1__target__spark_20260730"
 }

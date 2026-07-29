@@ -75,4 +75,28 @@ if(BUILD_TESTING)
         NAME artifact_optimization_bridge_cpu
         COMMAND plan004_learning_models_test --method all --backend cpu
     )
+    add_executable(
+        plan004_learning_reference_equivalence
+        tests/reference_equivalence_test.cpp
+    )
+    target_link_libraries(
+        plan004_learning_reference_equivalence
+        PRIVATE plan004_learning_libtorch
+    )
+    target_compile_options(
+        plan004_learning_reference_equivalence
+        PRIVATE
+            -O1
+            -ffp-contract=off
+            -Wall
+            -Wextra
+            -Wpedantic
+    )
+    foreach(method taae alga rlpso)
+        add_test(
+            NAME plan004_${method}_reference_equivalence
+            COMMAND plan004_learning_reference_equivalence
+                --method ${method}
+        )
+    endforeach()
 endif()

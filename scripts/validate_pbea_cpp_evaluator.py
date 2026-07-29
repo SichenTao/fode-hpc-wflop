@@ -138,6 +138,7 @@ def main():
         [2, 18, 39, 64, 87, 111, 139, 165, 203, 228, 257, 291, 326, 364, 399],
     ]
     maximum = 0.0
+    maximum_absolute = 0.0
     cases = 0
     for scenario in ("ws1", "ws2"):
         for layout in layouts:
@@ -149,12 +150,19 @@ def main():
             expected = oracle(layout, scenario)
             for key, value in expected.items():
                 error = abs(actual[key] - value)
+                maximum_absolute = max(maximum_absolute, error)
                 maximum = max(maximum, error / max(1.0, abs(value)))
                 if error > 2e-12 * max(1.0, abs(value)):
                     raise SystemExit(
                         f"{scenario} {key}: actual={actual[key]} expected={value}")
             cases += 1
-    print(json.dumps({"cases": cases, "max_scaled_absolute_error": maximum}))
+    print(json.dumps({
+        "status": "pass",
+        "cases": cases,
+        "maximum_absolute_error": maximum_absolute,
+        "maximum_scaled_absolute_error": maximum,
+        "scaled_tolerance": 2.0e-12,
+    }, sort_keys=True))
 
 
 if __name__ == "__main__":

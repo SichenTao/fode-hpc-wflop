@@ -15,6 +15,7 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 #include "ppga/problem.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <iostream>
 #include <iomanip>
@@ -25,6 +26,8 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 
 namespace {
 
+double maximum_absolute_error = 0.0;
+
 void require(bool condition, const std::string& message) {
     if (!condition) {
         throw std::runtime_error(message);
@@ -33,7 +36,11 @@ void require(bool condition, const std::string& message) {
 
 void near(double actual, double expected, double tolerance,
           const std::string& label) {
-    if (std::abs(actual - expected) > tolerance) {
+    const double absolute_error = std::abs(actual - expected);
+    maximum_absolute_error = std::max(
+        maximum_absolute_error, absolute_error
+    );
+    if (absolute_error > tolerance) {
         std::ostringstream details;
         details << std::setprecision(17) << label << " actual=" << actual
                 << " expected=" << expected;
@@ -111,7 +118,10 @@ int main(int argc, char** argv) {
             multiplicative_hash != semantic_hash,
             "wake sensitivity semantic hash did not change"
         );
-        std::cout << "PPGA problem oracle passed\n";
+        std::cout << "{\"status\":\"pass\","
+                  << "\"maximum_absolute_error\":"
+                  << std::setprecision(17) << maximum_absolute_error
+                  << ",\"tolerance_policy\":\"per-field absolute\"}\n";
         return 0;
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';

@@ -15,6 +15,7 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 #include "geoga/problem.hpp"
 
+#include <algorithm>
 #include <cmath>
 #include <iomanip>
 #include <iostream>
@@ -25,6 +26,8 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 #include <vector>
 
 namespace {
+
+double maximum_absolute_error = 0.0;
 
 void require(bool condition, const std::string& message) {
     if (!condition) {
@@ -38,7 +41,11 @@ void near(
     double tolerance,
     const std::string& label
 ) {
-    if (std::abs(actual - expected) > tolerance) {
+    const double absolute_error = std::abs(actual - expected);
+    maximum_absolute_error = std::max(
+        maximum_absolute_error, absolute_error
+    );
+    if (absolute_error > tolerance) {
         std::ostringstream details;
         details << std::setprecision(17) << label << " actual=" << actual
                 << " expected=" << expected;
@@ -129,7 +136,10 @@ int main(int argc, char** argv) {
             geoga::problem_semantic_hash(problem) == "42a7899a17237389",
             "full problem semantic hash"
         );
-        std::cout << "GeoGA Anholt structured problem oracle passed\n";
+        std::cout << "{\"status\":\"pass\","
+                  << "\"maximum_absolute_error\":"
+                  << std::setprecision(17) << maximum_absolute_error
+                  << ",\"tolerance_policy\":\"per-field absolute\"}\n";
         return 0;
     } catch (const std::exception& error) {
         std::cerr << error.what() << '\n';

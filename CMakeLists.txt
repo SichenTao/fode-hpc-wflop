@@ -59,7 +59,12 @@ if(BUILD_TESTING)
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_hpc_equivalence.py
             --scope core
-            --expect-reopened-learning
+            --strict
+    )
+    add_test(
+        NAME hpc_core_h5_validation_receipts
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_hpc_core_h5_validation.py
     )
     add_test(
         NAME learning_architecture_contracts
@@ -278,6 +283,14 @@ if(BUILD_TESTING)
             NAME tmoea_nysted_r4_independent_oracle
             COMMAND ${Python3_EXECUTABLE}
                 ${CMAKE_CURRENT_SOURCE_DIR}/scripts/validate_tmoea_nysted_r4.py
+                --binary $<TARGET_FILE:gga_cpp_hpc>
+                --problem
+                ${GGA_GENERATED_ASSETS}/Denmark_Nysted.wfp
+        )
+        add_test(
+            NAME plan004_tmoea_nysted_r4_numerical_receipt
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/measure_tmoea_nysted_r4_equivalence.py
                 --binary $<TARGET_FILE:gga_cpp_hpc>
                 --problem
                 ${GGA_GENERATED_ASSETS}/Denmark_Nysted.wfp

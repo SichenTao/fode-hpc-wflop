@@ -73,6 +73,8 @@ def main() -> int:
 
     manifest = json.loads(arguments.cases.read_text(encoding="utf-8"))
     cases = {case["case_id"]: case for case in manifest["cases"]}
+    maximum_absolute_error = 0.0
+    maximum_scaled_absolute_error = 0.0
     for case_id in ("BDEWS5P3DAEtn30", "BDEWS6P3STDtn30"):
         serial = run(
             arguments.binary,
@@ -100,7 +102,13 @@ def main() -> int:
             [int(cell) for cell in serial["best_layout_1based"]],
         )
         cpp = float(serial["best_expected_power_kw"])
-        if abs(cpp - oracle) > 1.0e-10 * max(1.0, abs(oracle)):
+        absolute_error = abs(cpp - oracle)
+        scaled_error = absolute_error / max(1.0, abs(oracle))
+        maximum_absolute_error = max(maximum_absolute_error, absolute_error)
+        maximum_scaled_absolute_error = max(
+            maximum_scaled_absolute_error, scaled_error
+        )
+        if absolute_error > 1.0e-10 * max(1.0, abs(oracle)):
             raise RuntimeError(
                 f"{case_id}: C++ {cpp} differs from oracle {oracle}"
             )
@@ -113,14 +121,30 @@ def main() -> int:
             for s, speed in enumerate(speeds)
         )
         no_wake = int(case["turbine_count"]) * no_wake_per_turbine
-        if abs(float(serial["no_wake_expected_power_kw"]) - no_wake) > (
-            1.0e-12 * no_wake
-        ):
+        no_wake_error = abs(
+            float(serial["no_wake_expected_power_kw"]) - no_wake
+        )
+        maximum_absolute_error = max(
+            maximum_absolute_error, no_wake_error
+        )
+        maximum_scaled_absolute_error = max(
+            maximum_scaled_absolute_error,
+            no_wake_error / max(1.0, abs(no_wake)),
+        )
+        if no_wake_error > 1.0e-12 * no_wake:
             raise RuntimeError(f"{case_id}: no-wake oracle differs")
         efficiency = 100.0 * oracle / no_wake
-        if abs(
+        efficiency_error = abs(
             float(serial["conversion_efficiency_percent"]) - efficiency
-        ) > 1.0e-10:
+        )
+        maximum_absolute_error = max(
+            maximum_absolute_error, efficiency_error
+        )
+        maximum_scaled_absolute_error = max(
+            maximum_scaled_absolute_error,
+            efficiency_error / max(1.0, abs(efficiency)),
+        )
+        if efficiency_error > 1.0e-10:
             raise RuntimeError(
                 f"{case_id}: conversion-efficiency oracle differs"
             )
@@ -130,10 +154,15 @@ def main() -> int:
             arguments.physical_fes
         ):
             raise RuntimeError(f"{case_id}: work receipt differs from FES")
-    print(
-        "bde_ws56_declared_proxy_validation_pass "
-        f"cases=2 workers=1,all physical_fes={arguments.physical_fes}"
-    )
+    print(json.dumps({
+        "status": "pass",
+        "cases": 2,
+        "workers": "1,all",
+        "physical_fes": arguments.physical_fes,
+        "maximum_absolute_error": maximum_absolute_error,
+        "maximum_scaled_absolute_error": maximum_scaled_absolute_error,
+        "scaled_tolerance": 1.0e-10,
+    }, sort_keys=True))
     return 0
 
 

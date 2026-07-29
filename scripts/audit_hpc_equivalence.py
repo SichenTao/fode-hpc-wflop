@@ -6,6 +6,7 @@ from __future__ import annotations
 import argparse
 import csv
 import json
+import math
 from pathlib import Path
 
 
@@ -72,8 +73,38 @@ def audit_strict(rows: list[dict[str, str]]) -> None:
         comparison = h5.get("numerical_comparison")
         require(isinstance(comparison, dict), f"{row['pair_id']}: numerical comparison absent")
         require(comparison.get("passed") is True, f"{row['pair_id']}: numerical comparison failed")
-        require("maximum_absolute_error" in comparison, f"{row['pair_id']}: maximum error absent")
+        maximum_error = comparison.get("maximum_absolute_error")
+        require(
+            not isinstance(maximum_error, bool)
+            and isinstance(maximum_error, (int, float))
+            and math.isfinite(maximum_error)
+            and maximum_error >= 0.0,
+            f"{row['pair_id']}: maximum error invalid",
+        )
+        require(
+            "backend self-agreement alone is not accepted"
+            in h5.get("comparison_scope", ""),
+            f"{row['pair_id']}: self-agreement boundary absent",
+        )
         if row["corpus_id"] in LEARNING:
+            require(
+                h5.get("runtime_test")
+                == "plan004_learning_full_optimizer_artifacts",
+                f"{row['pair_id']}: real full optimizer evidence absent",
+            )
+            require(
+                isinstance(
+                    comparison.get("absolute_tolerance_per_tensor"),
+                    (int, float),
+                )
+                and isinstance(
+                    comparison.get("observed_result", {}).get(
+                        "tolerances"
+                    ),
+                    dict,
+                ),
+                f"{row['pair_id']}: per-tensor tolerances absent",
+            )
             for field in (
                 "forward_tensors",
                 "losses",

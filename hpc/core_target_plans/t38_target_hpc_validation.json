@@ -3,15 +3,35 @@
     "candidate_backends": [
       "cpu_hpc_v1"
     ],
-    "comparison_scope": "reference CPU versus persistent-team CPU: exact discrete state, FES, layout/front/artifact hashes, with floating values checked by the routed target test",
-    "learning_backend_output_sha256": null,
-    "learning_backend_test": null,
-    "physical_fes_ledger": "target runtime test checks the declared bounded physical-FES ledger; LibTorch training records zero physical objective calls",
-    "reference_backend": "bounded_reference_cpu_v1",
+    "comparison_scope": "independent oracle/formula comparison plus bounded target optimizer execution; backend self-agreement alone is not accepted as equivalence",
+    "independent_reference": {
+      "ctest_names": [
+        "scalar_native_evaluator_oracle"
+      ],
+      "description": "independent Python Jensen/Park complete-layout evaluator",
+      "does_not_call_candidate": true,
+      "implementation_or_oracle": "scripts/validate_scalar_native_evaluator.py",
+      "primary_test_output_sha256": "fb746c1831ac9b0263cad3ed9182286f259f8c94262c380f90ea38723556800d"
+    },
+    "numerical_comparison": {
+      "maximum_absolute_error": 3.637978807091713e-12,
+      "maximum_scaled_absolute_error": 3.497401131706813e-16,
+      "observed_result": {
+        "contracts": 10,
+        "maximum_absolute_error": 3.637978807091713e-12,
+        "maximum_scaled_absolute_error": 3.497401131706813e-16,
+        "scaled_tolerance": 1e-10,
+        "status": "pass"
+      },
+      "passed": true,
+      "scaled_tolerance": 1e-10
+    },
+    "physical_fes_ledger": "bounded target runtime checks exact physical objective work; learning artifact training is outside that ledger",
+    "reference_backend": "independent_reference_v1",
     "runtime_test": "scalar_native_transition_replay",
-    "runtime_test_output_sha256": "e4513aaf194a3f234315c6647131e0898537d855d5641e9c1d07f4590afc136c",
-    "runtime_test_receipt": "evidence/development/plan003_h5_ctest_receipts_20260730.json",
-    "runtime_test_receipt_sha256": "16c0cbff8fd9db96ed93cd0141e855a66049ea91fcca89ce0e5fd114f90ce963",
+    "runtime_test_output_sha256": "71fd09659a93fa3ff4859c7d795fb1820f16b8557f3b01f6abd3738a315178f8",
+    "runtime_test_receipt": "evidence/development/plan004_h5_independent_reference_receipts_20260730.json",
+    "runtime_test_receipt_sha256": "66fbcfbeec589cd69e9d2e07916a8686a538dcc7cbd322a7641b437401689219",
     "status": "accepted_h5"
   },
   "H6_performance_validation": {
@@ -20,7 +40,7 @@
   },
   "analysis_path": "hpc/core_target_plans/t38_target_hpc_analysis.json",
   "analysis_sha256": "d388d7fefe1d599c5c46d068802e3dd6fccc491cb3e42b6d8435950c821f0a91",
-  "claim_boundary": "H5 is accepted only for bounded implementation equivalence. No backend is selected until exact-pair H6, and no formal-quality claim is made.",
+  "claim_boundary": "H5 accepts bounded independent-reference equivalence only. No backend is selected before exact-pair H6 and no formal-quality claim is made.",
   "corpus_id": "T38",
   "method_semantic_id": "clshade_paper_derived_e0_physical_fes_v1",
   "native_asset": "shared/contracts/clshade_native_117_cases.json",
@@ -29,6 +49,6 @@
   "pair_id": "T38__clshade__clshade_landuse_117_v1__target",
   "paper_protocol_id": "asoc2023_clshade_native_25_v1",
   "problem_semantic_id": "clshade_landuse_117_v1",
-  "schema_version": 1,
-  "validation_id": "plan003_h5__T38__clshade__clshade_landuse_117_v1__target__spark_20260730"
+  "schema_version": 2,
+  "validation_id": "plan004_h5__T38__clshade__clshade_landuse_117_v1__target__spark_20260730"
 }

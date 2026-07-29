@@ -125,6 +125,8 @@ def main() -> int:
         rows = list(csv.DictReader(handle, delimiter="\t"))
     seen: set[str] = set()
     checked = 0
+    maximum_absolute_error = 0.0
+    maximum_scaled_absolute_error = 0.0
     for row in rows:
         contract_name = row["case_contract"]
         if contract_name in seen:
@@ -153,17 +155,28 @@ def main() -> int:
             text=True,
         )
         cpp = float(completed.stdout)
+        absolute_error = abs(cpp - oracle)
+        scaled_absolute_error = absolute_error / max(1.0, abs(oracle))
+        maximum_absolute_error = max(
+            maximum_absolute_error, absolute_error
+        )
+        maximum_scaled_absolute_error = max(
+            maximum_scaled_absolute_error, scaled_absolute_error
+        )
         tolerance = 1.0e-10 * max(1.0, abs(oracle))
-        if abs(cpp - oracle) > tolerance:
+        if absolute_error > tolerance:
             raise RuntimeError(
                 f"{contract_name}/{case['case_id']}: "
                 f"C++={cpp:.17g} oracle={oracle:.17g}"
             )
         checked += 1
-    print(
-        "scalar_native_evaluator_oracle_pass "
-        f"contracts={checked} absolute_relative_tolerance=1e-10"
-    )
+    print(json.dumps({
+        "status": "pass",
+        "contracts": checked,
+        "maximum_absolute_error": maximum_absolute_error,
+        "maximum_scaled_absolute_error": maximum_scaled_absolute_error,
+        "scaled_tolerance": 1.0e-10,
+    }, sort_keys=True))
     return 0
 
 

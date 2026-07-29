@@ -1,0 +1,536 @@
+{
+  "build_dir": "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+  "claim_boundary": "Bounded H5 independent-reference and runtime evidence only; this is not H6 performance or formal campaign evidence.",
+  "host": "spark-9b6f",
+  "independent_reference_required": true,
+  "logical_cpu_count": 20,
+  "machine": "aarch64",
+  "receipt_id": "plan004_h5_independent_reference_receipts_spark_20260730",
+  "schema_version": 2,
+  "scope": "23 target-only pairs",
+  "tests": {
+    "bde_ws56_declared_proxy_evolution": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^bde_ws56_declared_proxy_evolution$"
+      ],
+      "measured_wall_seconds": 0.03095083497464657,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 79\n    Start 79: bde_ws56_declared_proxy_evolution\n\n79: Test command: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/bde_ws56_cpp/bde_ws56_evolution_test \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/hpc/bde_ws56_cpp/../../shared/contracts/bde_ws56_declared_proxy_cases.json\"\n79: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/bde_ws56_cpp\n79: Test timeout computed to be: 1500\n79: BDE WS5/WS6 P3 exact science passed workers=1,20 physical_fes=75\n1/1 Test #79: bde_ws56_declared_proxy_evolution ...   Passed    0.02 sec\n\nThe following tests passed:\n\tbde_ws56_declared_proxy_evolution\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.02 sec\n",
+      "output_sha256": "d45d525237b4bd869254dd2dfdb1379d9bea0f3b4d039b78948283c66d12b268",
+      "return_code": 0,
+      "structured_output": [],
+      "test_name": "bde_ws56_declared_proxy_evolution"
+    },
+    "bde_ws56_independent_oracle": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^bde_ws56_independent_oracle$"
+      ],
+      "measured_wall_seconds": 0.08261436899192631,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 25\n    Start 25: bde_ws56_independent_oracle\n\n25: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/validate_bde_ws56_declared_proxy.py\" \"--binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/bde_ws56_cpp/bde_ws56_hpc\" \"--cases\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/shared/contracts/bde_ws56_declared_proxy_cases.json\" \"--physical-fes\" \"75\" \"--all-workers\" \"0\"\n25: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\n25: Test timeout computed to be: 1500\n25: {\"cases\": 2, \"maximum_absolute_error\": 1.8189894035458565e-12, \"maximum_scaled_absolute_error\": 4.527095148465506e-16, \"physical_fes\": 75, \"scaled_tolerance\": 1e-10, \"status\": \"pass\", \"workers\": \"1,all\"}\n1/1 Test #25: bde_ws56_independent_oracle ......   Passed    0.07 sec\n\nThe following tests passed:\n\tbde_ws56_independent_oracle\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.08 sec\n",
+      "output_sha256": "66bf0c63552f79a14c75024771b20736096daa83f8a63cc1107cf3254c13d08b",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "cases": 2,
+          "maximum_absolute_error": 1.8189894035458565e-12,
+          "maximum_scaled_absolute_error": 4.527095148465506e-16,
+          "physical_fes": 75,
+          "scaled_tolerance": 1e-10,
+          "status": "pass",
+          "workers": "1,all"
+        }
+      ],
+      "test_name": "bde_ws56_independent_oracle"
+    },
+    "geoga_anholt_structured_evolution": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^geoga_anholt_structured_evolution$"
+      ],
+      "measured_wall_seconds": 0.07754632597789168,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 81\n    Start 81: geoga_anholt_structured_evolution\n\n81: Test command: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/geoga_cpp/geoga_anholt_evolution_test \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/hpc/geoga_cpp/../../shared/contracts/geoga_anholt_structured_declared_proxy_case.json\"\n81: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/geoga_cpp\n81: Test timeout computed to be: 1500\n81: GeoGA Anholt structured exact science passed workers=1,20 physical_fes=95\n1/1 Test #81: geoga_anholt_structured_evolution ...   Passed    0.06 sec\n\nThe following tests passed:\n\tgeoga_anholt_structured_evolution\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.07 sec\n",
+      "output_sha256": "f2193e753edc9e3e8e956c5baa27516c4ed852e765a56ade073aefe5dc04539f",
+      "return_code": 0,
+      "structured_output": [],
+      "test_name": "geoga_anholt_structured_evolution"
+    },
+    "geoga_anholt_structured_problem": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^geoga_anholt_structured_problem$"
+      ],
+      "measured_wall_seconds": 0.011376502923667431,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 80\n    Start 80: geoga_anholt_structured_problem\n\n80: Test command: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/geoga_cpp/geoga_anholt_problem_test \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/hpc/geoga_cpp/../../shared/contracts/geoga_anholt_structured_declared_proxy_case.json\"\n80: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/geoga_cpp\n80: Test timeout computed to be: 1500\n80: {\"status\":\"pass\",\"maximum_absolute_error\":0,\"tolerance_policy\":\"per-field absolute\"}\n1/1 Test #80: geoga_anholt_structured_problem ...   Passed    0.00 sec\n\nThe following tests passed:\n\tgeoga_anholt_structured_problem\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.01 sec\n",
+      "output_sha256": "5d72f7d56f9a6f76ea55e9c3c1bbf69a7fc7f8eba45b756854c1feb3f6cc2eb2",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "maximum_absolute_error": 0,
+          "status": "pass",
+          "tolerance_policy": "per-field absolute"
+        }
+      ],
+      "test_name": "geoga_anholt_structured_problem"
+    },
+    "gga_cpp_determinism": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^gga_cpp_determinism$"
+      ],
+      "measured_wall_seconds": 0.11147336906287819,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 37\n    Start 37: gga_cpp_determinism\n\n37: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/test_gga_cpp_determinism.py\" \"--binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/gga_cpp/gga_cpp_hpc\" \"--problem\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/.source-cache/generated/gga_repaired/Netherlands_Egmond_aan_Zee.wfp\"\n37: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\n37: Test timeout computed to be: 1500\n37: gga_cpp_determinism_pass physical_fes=300 workers=1,20\n1/1 Test #37: gga_cpp_determinism ..............   Passed    0.10 sec\n\nThe following tests passed:\n\tgga_cpp_determinism\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.10 sec\n",
+      "output_sha256": "d6db436ead4660128fc9f5db143c5e3215071742054721a09965f605a96d2107",
+      "return_code": 0,
+      "structured_output": [],
+      "test_name": "gga_cpp_determinism"
+    },
+    "gga_cpp_evaluator_oracle": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^gga_cpp_evaluator_oracle$"
+      ],
+      "measured_wall_seconds": 0.90110044402536,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 36\n    Start 36: gga_cpp_evaluator_oracle\n\n36: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/validate_gga_cpp_evaluator.py\" \"--binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/gga_cpp/gga_cpp_hpc\" \"--assets\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/.source-cache/generated/gga_repaired\"\n36: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\n36: Test timeout computed to be: 1500\n36: {\"cases\": 8, \"maximum_absolute_error\": 1.430511474609375e-06, \"maximum_scaled_absolute_error\": 4.441684900785787e-16, \"scaled_tolerance\": 2e-12, \"status\": \"pass\"}\n1/1 Test #36: gga_cpp_evaluator_oracle .........   Passed    0.89 sec\n\nThe following tests passed:\n\tgga_cpp_evaluator_oracle\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.89 sec\n",
+      "output_sha256": "52572769adca6392d797cdeeb04007dd2af47354a82242f2defb7f5c49e6c9f9",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "cases": 8,
+          "maximum_absolute_error": 1.430511474609375e-06,
+          "maximum_scaled_absolute_error": 4.441684900785787e-16,
+          "scaled_tolerance": 2e-12,
+          "status": "pass"
+        }
+      ],
+      "test_name": "gga_cpp_evaluator_oracle"
+    },
+    "pbea_cpp_determinism": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^pbea_cpp_determinism$"
+      ],
+      "measured_wall_seconds": 0.07962052104994655,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 43\n    Start 43: pbea_cpp_determinism\n\n43: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/test_pbea_cpp_determinism.py\" \"--binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/pbea_cpp/pbea_cpp_hpc\"\n43: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\n43: Test timeout computed to be: 1500\n43: {\"serial_equals_parallel\": true, \"algorithms\": {\"moead_p\": 80, \"moead\": 80, \"nsgaii\": 80, \"mopso\": 80, \"morime\": 80, \"armoea\": 80}}\n1/1 Test #43: pbea_cpp_determinism .............   Passed    0.07 sec\n\nThe following tests passed:\n\tpbea_cpp_determinism\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.07 sec\n",
+      "output_sha256": "3de2790584aa7473a1878876a03d43126642fb68989dc6eb2b7752a15cb70561",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "algorithms": {
+            "armoea": 80,
+            "moead": 80,
+            "moead_p": 80,
+            "mopso": 80,
+            "morime": 80,
+            "nsgaii": 80
+          },
+          "serial_equals_parallel": true
+        }
+      ],
+      "test_name": "pbea_cpp_determinism"
+    },
+    "pbea_cpp_evaluator_oracle": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^pbea_cpp_evaluator_oracle$"
+      ],
+      "measured_wall_seconds": 0.043642234057188034,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 42\n    Start 42: pbea_cpp_evaluator_oracle\n\n42: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/validate_pbea_cpp_evaluator.py\" \"--binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/pbea_cpp/pbea_cpp_hpc\"\n42: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\n42: Test timeout computed to be: 1500\n42: {\"cases\": 6, \"maximum_absolute_error\": 8.131516293641283e-20, \"maximum_scaled_absolute_error\": 8.131516293641283e-20, \"scaled_tolerance\": 2e-12, \"status\": \"pass\"}\n1/1 Test #42: pbea_cpp_evaluator_oracle ........   Passed    0.03 sec\n\nThe following tests passed:\n\tpbea_cpp_evaluator_oracle\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.03 sec\n",
+      "output_sha256": "01d63386e3a77e3a531628f3cca4970b518f5ce751c7b367c2204c138547e516",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "cases": 6,
+          "maximum_absolute_error": 8.131516293641283e-20,
+          "maximum_scaled_absolute_error": 8.131516293641283e-20,
+          "scaled_tolerance": 2e-12,
+          "status": "pass"
+        }
+      ],
+      "test_name": "pbea_cpp_evaluator_oracle"
+    },
+    "plan004_alga_reference_equivalence": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^plan004_alga_reference_equivalence$"
+      ],
+      "measured_wall_seconds": 0.29205281496979296,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 55\n    Start 55: plan004_alga_reference_equivalence\n\n55: Test command: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/learning_libtorch/plan004_learning_reference_equivalence \"--method\" \"alga\"\n55: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/learning_libtorch\n55: Test timeout computed to be: 1500\n55: {\"status\":\"pass\",\"method\":\"alga\",\"reference\":\"independent_direct_formula_cpp\",\"does_not_call_candidate\":true,\"named_parameter_count\":5,\"maximum_absolute_error\":0,\"absolute_tolerance_per_tensor\":2.0000000000000001e-10,\"errors\":{\"forward_tensors\":0,\"losses\":0,\"all_named_parameter_gradients\":0,\"one_optimizer_step\":0,\"artifact_reload\":0,\"artifact_driven_transition\":0},\"tolerances\":{\"forward_tensors\":2.0000000000000001e-10,\"losses\":2.0000000000000001e-10,\"all_named_parameter_gradients\":2.0000000000000001e-10,\"one_optimizer_step\":2.0000000000000001e-10,\"artifact_reload\":2.0000000000000001e-10,\"artifact_driven_transition\":2.0000000000000001e-10},\"coverage\":{\"forward_tensors\":\"passed\",\"losses\":\"passed\",\"all_named_parameter_gradients\":\"passed\",\"one_optimizer_step\":\"passed\",\"artifact_reload\":\"passed\",\"artifact_driven_transition\":\"passed\"}}\n1/1 Test #55: plan004_alga_reference_equivalence ...   Passed    0.28 sec\n\nThe following tests passed:\n\tplan004_alga_reference_equivalence\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.29 sec\n",
+      "output_sha256": "578b329c9444077e3ccce7068d2b468b81b0814d6f2657165b76b53cdf029e73",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "absolute_tolerance_per_tensor": 2e-10,
+          "coverage": {
+            "all_named_parameter_gradients": "passed",
+            "artifact_driven_transition": "passed",
+            "artifact_reload": "passed",
+            "forward_tensors": "passed",
+            "losses": "passed",
+            "one_optimizer_step": "passed"
+          },
+          "does_not_call_candidate": true,
+          "errors": {
+            "all_named_parameter_gradients": 0,
+            "artifact_driven_transition": 0,
+            "artifact_reload": 0,
+            "forward_tensors": 0,
+            "losses": 0,
+            "one_optimizer_step": 0
+          },
+          "maximum_absolute_error": 0,
+          "method": "alga",
+          "named_parameter_count": 5,
+          "reference": "independent_direct_formula_cpp",
+          "status": "pass",
+          "tolerances": {
+            "all_named_parameter_gradients": 2e-10,
+            "artifact_driven_transition": 2e-10,
+            "artifact_reload": 2e-10,
+            "forward_tensors": 2e-10,
+            "losses": 2e-10,
+            "one_optimizer_step": 2e-10
+          }
+        }
+      ],
+      "test_name": "plan004_alga_reference_equivalence"
+    },
+    "plan004_learning_full_optimizer_artifacts": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^plan004_learning_full_optimizer_artifacts$"
+      ],
+      "measured_wall_seconds": 54.08524697099347,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 34\n    Start 34: plan004_learning_full_optimizer_artifacts\n\n34: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/test_plan004_learning_full_optimizers.py\" \"--trainer\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/learning_libtorch/plan004_learning_target_hpc\" \"--taae-binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/taae_cpp/taae_evolution_hpc\" \"--wflop-binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/wflop_cpp/wflop_cpp_hpc\" \"--taae-cases\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json\" \"--alga-cases\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/shared/contracts/alga_guishan_3d_declared_proxy_cases.json\" \"--rlpso-cases\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/.source-cache/generated/rpso_source_problem/benchmark_cases.json\"\n34: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\n34: Test timeout computed to be: 1500\n34: {\"different_artifact_changes_learned_decision\": true, \"exact_physical_fes\": {\"alga\": 35, \"rlpso\": 150, \"taae\": 103}, \"methods\": 3, \"native_evaluator\": true, \"random_event_ownership\": \"optimizer-owned seeded events replay exactly; artifact identity is varied independently\", \"same_artifact_seed_replay\": \"exact\", \"status\": \"pass\", \"terminal_partial_work\": true}\n1/1 Test #34: plan004_learning_full_optimizer_artifacts ...   Passed   54.08 sec\n\nThe following tests passed:\n\tplan004_learning_full_optimizer_artifacts\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =  54.08 sec\n",
+      "output_sha256": "6046bee06ada58fd0d59854c57556f271ecde0da69ef12d400011e466cfd3962",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "different_artifact_changes_learned_decision": true,
+          "exact_physical_fes": {
+            "alga": 35,
+            "rlpso": 150,
+            "taae": 103
+          },
+          "methods": 3,
+          "native_evaluator": true,
+          "random_event_ownership": "optimizer-owned seeded events replay exactly; artifact identity is varied independently",
+          "same_artifact_seed_replay": "exact",
+          "status": "pass",
+          "terminal_partial_work": true
+        }
+      ],
+      "test_name": "plan004_learning_full_optimizer_artifacts"
+    },
+    "plan004_rlpso_reference_equivalence": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^plan004_rlpso_reference_equivalence$"
+      ],
+      "measured_wall_seconds": 0.3064572929870337,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 56\n    Start 56: plan004_rlpso_reference_equivalence\n\n56: Test command: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/learning_libtorch/plan004_learning_reference_equivalence \"--method\" \"rlpso\"\n56: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/learning_libtorch\n56: Test timeout computed to be: 1500\n56: {\"status\":\"pass\",\"method\":\"rlpso\",\"reference\":\"independent_direct_formula_cpp\",\"does_not_call_candidate\":true,\"named_parameter_count\":12,\"maximum_absolute_error\":5.2735593669694936e-16,\"absolute_tolerance_per_tensor\":2.0000000000000001e-10,\"errors\":{\"forward_tensors\":5.2735593669694936e-16,\"losses\":5.5511151231257827e-17,\"all_named_parameter_gradients\":4.9960036108132044e-16,\"one_optimizer_step\":1.1102230246251565e-16,\"artifact_reload\":0,\"artifact_driven_transition\":0},\"tolerances\":{\"forward_tensors\":2.0000000000000001e-10,\"losses\":2.0000000000000001e-10,\"all_named_parameter_gradients\":2.0000000000000001e-10,\"one_optimizer_step\":2.0000000000000001e-10,\"artifact_reload\":2.0000000000000001e-10,\"artifact_driven_transition\":2.0000000000000001e-10},\"coverage\":{\"forward_tensors\":\"passed\",\"losses\":\"passed\",\"all_named_parameter_gradients\":\"passed\",\"one_optimizer_step\":\"passed\",\"artifact_reload\":\"passed\",\"artifact_driven_transition\":\"passed\"}}\n1/1 Test #56: plan004_rlpso_reference_equivalence ...   Passed    0.29 sec\n\nThe following tests passed:\n\tplan004_rlpso_reference_equivalence\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.30 sec\n",
+      "output_sha256": "a4ae15f5b604463b31237bf2590dfbde506b31d102e54a07a59771f76379127f",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "absolute_tolerance_per_tensor": 2e-10,
+          "coverage": {
+            "all_named_parameter_gradients": "passed",
+            "artifact_driven_transition": "passed",
+            "artifact_reload": "passed",
+            "forward_tensors": "passed",
+            "losses": "passed",
+            "one_optimizer_step": "passed"
+          },
+          "does_not_call_candidate": true,
+          "errors": {
+            "all_named_parameter_gradients": 4.996003610813204e-16,
+            "artifact_driven_transition": 0,
+            "artifact_reload": 0,
+            "forward_tensors": 5.273559366969494e-16,
+            "losses": 5.551115123125783e-17,
+            "one_optimizer_step": 1.1102230246251565e-16
+          },
+          "maximum_absolute_error": 5.273559366969494e-16,
+          "method": "rlpso",
+          "named_parameter_count": 12,
+          "reference": "independent_direct_formula_cpp",
+          "status": "pass",
+          "tolerances": {
+            "all_named_parameter_gradients": 2e-10,
+            "artifact_driven_transition": 2e-10,
+            "artifact_reload": 2e-10,
+            "forward_tensors": 2e-10,
+            "losses": 2e-10,
+            "one_optimizer_step": 2e-10
+          }
+        }
+      ],
+      "test_name": "plan004_rlpso_reference_equivalence"
+    },
+    "plan004_taae_reference_equivalence": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^plan004_taae_reference_equivalence$"
+      ],
+      "measured_wall_seconds": 0.4641947039635852,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 54\n    Start 54: plan004_taae_reference_equivalence\n\n54: Test command: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/learning_libtorch/plan004_learning_reference_equivalence \"--method\" \"taae\"\n54: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/learning_libtorch\n54: Test timeout computed to be: 1500\n54: {\"status\":\"pass\",\"method\":\"taae\",\"reference\":\"independent_direct_formula_cpp\",\"does_not_call_candidate\":true,\"named_parameter_count\":195,\"maximum_absolute_error\":2.4719809501655261e-12,\"absolute_tolerance_per_tensor\":2.0000000000000001e-09,\"errors\":{\"forward_tensors\":2.248201624865942e-15,\"losses\":3.5527136788005009e-15,\"all_named_parameter_gradients\":3.1641356201816961e-15,\"one_optimizer_step\":2.4719809501655261e-12,\"artifact_reload\":0,\"artifact_driven_transition\":0},\"tolerances\":{\"forward_tensors\":2.0000000000000001e-09,\"losses\":2.0000000000000001e-09,\"all_named_parameter_gradients\":2.0000000000000001e-09,\"one_optimizer_step\":2.0000000000000001e-09,\"artifact_reload\":2.0000000000000001e-09,\"artifact_driven_transition\":2.0000000000000001e-09},\"coverage\":{\"forward_tensors\":\"passed\",\"losses\":\"passed\",\"all_named_parameter_gradients\":\"passed\",\"one_optimizer_step\":\"passed\",\"artifact_reload\":\"passed\",\"artifact_driven_transition\":\"passed\"}}\n1/1 Test #54: plan004_taae_reference_equivalence ...   Passed    0.45 sec\n\nThe following tests passed:\n\tplan004_taae_reference_equivalence\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.45 sec\n",
+      "output_sha256": "b2ba7940c0712b78d58aec4a6ea74c8695382dfae8b0e2d8059d817ea86f9864",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "absolute_tolerance_per_tensor": 2e-09,
+          "coverage": {
+            "all_named_parameter_gradients": "passed",
+            "artifact_driven_transition": "passed",
+            "artifact_reload": "passed",
+            "forward_tensors": "passed",
+            "losses": "passed",
+            "one_optimizer_step": "passed"
+          },
+          "does_not_call_candidate": true,
+          "errors": {
+            "all_named_parameter_gradients": 3.164135620181696e-15,
+            "artifact_driven_transition": 0,
+            "artifact_reload": 0,
+            "forward_tensors": 2.248201624865942e-15,
+            "losses": 3.552713678800501e-15,
+            "one_optimizer_step": 2.471980950165526e-12
+          },
+          "maximum_absolute_error": 2.471980950165526e-12,
+          "method": "taae",
+          "named_parameter_count": 195,
+          "reference": "independent_direct_formula_cpp",
+          "status": "pass",
+          "tolerances": {
+            "all_named_parameter_gradients": 2e-09,
+            "artifact_driven_transition": 2e-09,
+            "artifact_reload": 2e-09,
+            "forward_tensors": 2e-09,
+            "losses": 2e-09,
+            "one_optimizer_step": 2e-09
+          }
+        }
+      ],
+      "test_name": "plan004_taae_reference_equivalence"
+    },
+    "plan004_tmoea_nysted_r4_numerical_receipt": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^plan004_tmoea_nysted_r4_numerical_receipt$"
+      ],
+      "measured_wall_seconds": 1.1627534599974751,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 41\n    Start 41: plan004_tmoea_nysted_r4_numerical_receipt\n\n41: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/measure_tmoea_nysted_r4_equivalence.py\" \"--binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/gga_cpp/gga_cpp_hpc\" \"--problem\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/.source-cache/generated/gga_repaired/Denmark_Nysted.wfp\"\n41: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\n41: Test timeout computed to be: 1500\n41: tmoea_nysted_r4_oracle_pass physical_fes=150 front=13 workers=1,default-all(20)\n41: {\"maximum_absolute_error\": 4.76837158203125e-07, \"maximum_scaled_absolute_error\": 4.129936584590176e-16, \"oracle\": \"scripts/validate_tmoea_nysted_r4.py\", \"scaled_tolerance\": 2e-12, \"status\": \"pass\"}\n1/1 Test #41: plan004_tmoea_nysted_r4_numerical_receipt ...   Passed    1.15 sec\n\nThe following tests passed:\n\tplan004_tmoea_nysted_r4_numerical_receipt\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   1.15 sec\n",
+      "output_sha256": "9e45d6e84a096ec232db6c0b220309b2d7f5c3a147299bd6b055ccba919e2ba3",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "maximum_absolute_error": 4.76837158203125e-07,
+          "maximum_scaled_absolute_error": 4.129936584590176e-16,
+          "oracle": "scripts/validate_tmoea_nysted_r4.py",
+          "scaled_tolerance": 2e-12,
+          "status": "pass"
+        }
+      ],
+      "test_name": "plan004_tmoea_nysted_r4_numerical_receipt"
+    },
+    "ppga_nantong_evolution": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^ppga_nantong_evolution$"
+      ],
+      "measured_wall_seconds": 0.04916301788762212,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 78\n    Start 78: ppga_nantong_evolution\n\n78: Test command: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/ppga_cpp/ppga_nantong_evolution_test \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/hpc/ppga_cpp/../../shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json\"\n78: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/ppga_cpp\n78: Test timeout computed to be: 1500\n78: PPGA evolution equivalence and receipts passed\n1/1 Test #78: ppga_nantong_evolution ...........   Passed    0.04 sec\n\nThe following tests passed:\n\tppga_nantong_evolution\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.04 sec\n",
+      "output_sha256": "e4d9929c1cf50676b0c3bfb33915076153bdc34fdc9ce7abbe7ed09e6ae4873e",
+      "return_code": 0,
+      "structured_output": [],
+      "test_name": "ppga_nantong_evolution"
+    },
+    "ppga_nantong_problem": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^ppga_nantong_problem$"
+      ],
+      "measured_wall_seconds": 0.0104250320000574,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 77\n    Start 77: ppga_nantong_problem\n\n77: Test command: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/ppga_cpp/ppga_nantong_problem_test \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/hpc/ppga_cpp/../../shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json\"\n77: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/ppga_cpp\n77: Test timeout computed to be: 1500\n77: {\"status\":\"pass\",\"maximum_absolute_error\":0,\"tolerance_policy\":\"per-field absolute\"}\n1/1 Test #77: ppga_nantong_problem .............   Passed    0.00 sec\n\nThe following tests passed:\n\tppga_nantong_problem\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.00 sec\n",
+      "output_sha256": "84307c9cd0b8dc01ebafd6ba4095b022cacf43a904afe3f43f81eb9e7ee546f0",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "maximum_absolute_error": 0,
+          "status": "pass",
+          "tolerance_policy": "per-field absolute"
+        }
+      ],
+      "test_name": "ppga_nantong_problem"
+    },
+    "rlfode_math_fixture": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^rlfode_math_fixture$"
+      ],
+      "measured_wall_seconds": 0.0626685949973762,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 60\n    Start 60: rlfode_math_fixture\n\n60: Test command: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/wflop_cpp/rlfode_math_test \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/hpc/wflop_cpp/../../shared/contracts/benchmark_cases.json\"\n60: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/wflop_cpp\n60: Test timeout computed to be: 1500\n60: rlfode_math_fixture_pass\n1/1 Test #60: rlfode_math_fixture ..............   Passed    0.05 sec\n\nThe following tests passed:\n\trlfode_math_fixture\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.05 sec\n",
+      "output_sha256": "a67e1724fe3fea512ba7be7e43e77960537048bb09b34c4e97f18f774a47c39f",
+      "return_code": 0,
+      "structured_output": [],
+      "test_name": "rlfode_math_fixture"
+    },
+    "rlfode_seeded_reconstruction": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^rlfode_seeded_reconstruction$"
+      ],
+      "measured_wall_seconds": 1.147849200060591,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 47\n    Start 47: rlfode_seeded_reconstruction\n\n47: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/test_rlfode_seeded_reconstruction.py\" \"--binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/wflop_cpp/wflop_cpp_hpc\" \"--cases\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/shared/contracts/benchmark_cases.json\" \"--models\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/shared/models/fqfode_seeded\"\n47: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\n47: Test timeout computed to be: 1500\n47: fqfode_seeded_training_declared_reconstruction_v1 WS2tn50 FES=480 best_kW=18561.2 seconds=0.0161545\n47: fqfode_seeded_training_declared_reconstruction_v1 WS2tn50 FES=480 best_kW=18561.2 seconds=0.0113254\n47: fqfode_seeded_training_declared_reconstruction_v1 WS2tn80 FES=480 best_kW=27074.8 seconds=0.0386747\n47: rlfode_seeded_reconstruction_pass artifact_hash=fnv1a64:8c082977549728f3 online_hash=fnv1a64:9980edc50d0c9b72 workers=1,20\n1/1 Test #47: rlfode_seeded_reconstruction .....   Passed    1.14 sec\n\nThe following tests passed:\n\trlfode_seeded_reconstruction\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   1.14 sec\n",
+      "output_sha256": "01531aeb3857aa279c210bbb58797d44cfbcda553be03a449ac6221a83c85604",
+      "return_code": 0,
+      "structured_output": [],
+      "test_name": "rlfode_seeded_reconstruction"
+    },
+    "scalar_native_evaluator_oracle": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^scalar_native_evaluator_oracle$"
+      ],
+      "measured_wall_seconds": 0.0812109230319038,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 58\n    Start 58: scalar_native_evaluator_oracle\n\n58: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/hpc/wflop_cpp/../../scripts/validate_scalar_native_evaluator.py\" \"--probe\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/wflop_cpp/scalar_evaluator_probe\"\n58: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/wflop_cpp\n58: Test timeout computed to be: 1500\n58: {\"contracts\": 10, \"maximum_absolute_error\": 3.637978807091713e-12, \"maximum_scaled_absolute_error\": 3.497401131706813e-16, \"scaled_tolerance\": 1e-10, \"status\": \"pass\"}\n1/1 Test #58: scalar_native_evaluator_oracle ...   Passed    0.07 sec\n\nThe following tests passed:\n\tscalar_native_evaluator_oracle\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   0.07 sec\n",
+      "output_sha256": "fb746c1831ac9b0263cad3ed9182286f259f8c94262c380f90ea38723556800d",
+      "return_code": 0,
+      "structured_output": [
+        {
+          "contracts": 10,
+          "maximum_absolute_error": 3.637978807091713e-12,
+          "maximum_scaled_absolute_error": 3.497401131706813e-16,
+          "scaled_tolerance": 1e-10,
+          "status": "pass"
+        }
+      ],
+      "test_name": "scalar_native_evaluator_oracle"
+    },
+    "scalar_native_transition_replay": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^scalar_native_transition_replay$"
+      ],
+      "measured_wall_seconds": 6.9221674060681835,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 70\n    Start 70: scalar_native_transition_replay\n\n70: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/hpc/wflop_cpp/../../scripts/test_scalar_native_transition_replay.py\" \"--binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/wflop_cpp/wflop_cpp_hpc\" \"--parallel-workers\" \"2\"\n70: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/wflop_cpp\n70: Test timeout computed to be: 1500\n70: scalar_native_transition_replay_pass papers=13 workers=1,2\n1/1 Test #70: scalar_native_transition_replay ...   Passed    6.91 sec\n\nThe following tests passed:\n\tscalar_native_transition_replay\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   6.92 sec\n",
+      "output_sha256": "71fd09659a93fa3ff4859c7d795fb1820f16b8557f3b01f6abd3738a315178f8",
+      "return_code": 0,
+      "structured_output": [],
+      "test_name": "scalar_native_transition_replay"
+    },
+    "tmoea_cpp_nysted_reconstruction": {
+      "command": [
+        "ctest",
+        "--test-dir",
+        "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch",
+        "-V",
+        "--output-on-failure",
+        "-R",
+        "^tmoea_cpp_nysted_reconstruction$"
+      ],
+      "measured_wall_seconds": 1.5328196920454502,
+      "output": "Internal ctest changing into directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nUpdateCTestConfiguration  from :/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nParse Config file:/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/DartConfiguration.tcl\nTest project /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\nConstructing a list of tests\nDone constructing a list of tests\nUpdating test list for fixtures\nAdded 0 tests to meet fixture requirements\nChecking test dependency graph...\nChecking test dependency graph end\ntest 39\n    Start 39: tmoea_cpp_nysted_reconstruction\n\n39: Test command: /home/sichentao/miniconda3/bin/python3 \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/test_tmoea_cpp.py\" \"--binary\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch/hpc/gga_cpp/gga_cpp_hpc\" \"--problem\" \"/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/.source-cache/generated/gga_repaired/Denmark_Nysted.wfp\"\n39: Working Directory: /home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/build/plan004-torch\n39: Test timeout computed to be: 1500\n39: tmoea_cpp_admission_pass physical_fes=150 workers=1,20 historical_v1_sha256=bf9c4eb51d95632a profile=nysted_gga_asset_reconstruction\n1/1 Test #39: tmoea_cpp_nysted_reconstruction ...   Passed    1.52 sec\n\nThe following tests passed:\n\ttmoea_cpp_nysted_reconstruction\n\n100% tests passed, 0 tests failed out of 1\n\nTotal Test time (real) =   1.53 sec\n",
+      "output_sha256": "c16090dfe9e4eda4038fa5acd1a895024dd23022eb7bcc1981135d698c9a3d9f",
+      "return_code": 0,
+      "structured_output": [],
+      "test_name": "tmoea_cpp_nysted_reconstruction"
+    }
+  }
+}
