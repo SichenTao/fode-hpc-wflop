@@ -1,4 +1,19 @@
 {
+  "schema_version": 1,
+  "corpus_id": "T12",
+  "paper": {
+    "title": "Evolutionary Computation for Wind Farm Layout Optimization",
+    "authors": "Dennis Wilson and Silvio Rodrigues and Carlos Segura and Ilya Loshchilov and Frank Hutter and Guillermo Lopez Buenfil and Ahmed Kheiri and Ed Keedwell and Mario Ocampo-Pineda and Ender Ozcan and Sergio Ivvan Valdez Pena and Brian Goldman and Salvador Botello Rionda and Arturo Hernandez-Aguirre and Kalyan Veeramachaneni and Sylvain Cussat-Blanc",
+    "year": 2018,
+    "venue": "Renewable Energy",
+    "doi": "10.1016/j.renene.2018.03.052",
+    "pdf_basename": "2018_Wilson_Evolutionary_Computation_for_Wind_Farm_Layout_Optimization.pdf",
+    "pdf_sha256": "b5ca7e653598092defe0f91c6c48d0ca8c0832f097f0b389c289287a1d53ddd5",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV1",
+    "reading_tier": "KEY40",
+    "role": "D"
+  },
   "authority_ladder": [
     "paper_and_supplement",
     "paper_linked_public_source_and_data",
@@ -6,125 +21,137 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
-  "corpus_id": "T12",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
-  "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
-  },
-  "missing_information": [
-    "full field-level audit not yet completed"
-  ],
-  "paper": {
-    "authors": "Dennis Wilson and Silvio Rodrigues and Carlos Segura and Ilya Loshchilov and Frank Hutter and Guillermo López Buenfil and Ahmed Kheiri and Ed Keedwell and Mario Ocampo-Pineda and Ender Özcan and Sergio Ivvan Valdez Peña and Brian Goldman and Salvador Botello Rionda and Arturo Hernández-Aguirre and Kalyan Veeramachaneni and Sylvain Cussat-Blanc",
-    "doi": "10.1016/j.renene.2018.03.052",
-    "pdf_basename": "2018_Wilson_Evolutionary_Computation_for_Wind_Farm_Layout_Optimization.pdf",
-    "pdf_sha256": "b5ca7e653598092defe0f91c6c48d0ca8c0832f097f0b389c289287a1d53ddd5",
-    "primary_asset_status": "local_primary_pdf_hashed",
-    "primary_review_class": "REV1",
-    "reading_tier": "KEY40",
-    "role": "D",
-    "secondary_review_classes": "NONE",
-    "title": "Evolutionary Computation for Wind Farm Layout Optimization",
-    "venue": "Renewable Energy",
-    "year": 2018
-  },
   "paper_linked_public_asset_candidates": [
     "https://github.com/d9w/WindFLO"
   ],
-  "paper_source_conflicts": [],
+  "public_source": {
+    "url": "https://github.com/d9w/WindFLO",
+    "revision": "9e85a67bb2ca019768ea51dd0b634a46c8406ba2",
+    "license": "MIT",
+    "provided": [
+      "five 2015 competition XML scenarios",
+      "multi-language WindFLO evaluators",
+      "C++ 3s-MDE entry",
+      "C++ Goldman Method entry",
+      "Java SSHH entry",
+      "MATLAB archive labelled CMA-ES"
+    ]
+  },
+  "paper_source_conflicts": [
+    "The public archive labelled CMA-ES contains a grid fill/refinement method and no identifiable covariance-matrix adaptation, whereas the paper explicitly defines active CMA-ES over a five-variable geometric decoder.",
+    "The four released entries use different RNGs, languages, caching rules, and physical-evaluation counters.",
+    "The source-level 3s-MDE interpolated surrogate and the HPC analytic lattice aggregation have different absolute boundary calibration."
+  ],
+  "missing_information": [
+    "author CMA-ES optimizer source matching the paper",
+    "cross-language author-exact random bit streams",
+    "author-exact runtime environment"
+  ],
+  "completion_decisions": [
+    "Compile the five public XML scenarios unchanged and independently reproduce the released C++ WindFLO equations.",
+    "Port 3s-MDE, SSHH, and Goldman from the paper plus released entry source while preserving physical-FES semantics.",
+    "Reconstruct CMA-ES from the paper's five-variable decoder and standard rank-mu covariance adaptation; do not relabel the conflicting MATLAB archive.",
+    "Use deterministic counter-keyed random events and ordered state commits rather than claim cross-language bit-stream identity.",
+    "Analytically aggregate 3s-MDE lattice pair-surrogate terms; decode exact layouts for physical evaluations and use a declared deterministic half-batch completion only if absolute surrogate calibration admits too few trials.",
+    "Flatten candidate-by-direction evaluation and use one persistent CPU team."
+  ],
+  "scope": {
+    "scope_status": "new_direct_ready",
+    "execution_wave": "REV1",
+    "target_contribution_type": "problem_definition_or_comparison_protocol",
+    "package_status": "paper_pair_h5_validated_h6_running",
+    "claim_boundary": "academic declared reproduction of the paper problem and four main methods; not author-exact numerical or runtime reproduction"
+  },
+  "semantic_contract": {
+    "decision_variables": {
+      "status": "frozen",
+      "authority": "paper_and_entry_sources",
+      "resolution": "method-specific low-dimensional geometric or integer layout variables decoded to continuous turbine coordinates"
+    },
+    "encoding_and_decoder": {
+      "status": "frozen",
+      "authority": "paper_and_entry_sources",
+      "resolution": "rhomboid 3s-MDE, five-variable geometric CMA-ES, X-Y-S grid SSHH, and two-vector Goldman lattice"
+    },
+    "objective_and_direction": {
+      "status": "frozen",
+      "authority": "paper_and_public_evaluator",
+      "resolution": "minimize the released 2015 cost-of-energy function"
+    },
+    "constraints_and_repair": {
+      "status": "frozen",
+      "authority": "public_evaluator_and_entries",
+      "resolution": "rectangular bounds inclusive, rectangle obstacle interiors excluded, and minimum center distance 8R=308 m"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "status": "frozen",
+      "authority": "released_cpp_evaluator",
+      "resolution": "Kusiak/Jensen conical wake, RSS deficits, piecewise 1.5 MW power, released capital/substation/O&M and annuity cost"
+    },
+    "wind_and_scenario_sampling": {
+      "status": "frozen",
+      "authority": "five_public_xml_scenarios",
+      "resolution": "24 15-degree sectors with per-sector Weibull scale, shape and directional density; 0.5 m/s integration from 3.5 to 14 m/s plus released rated tail"
+    },
+    "initialization": {
+      "status": "frozen",
+      "authority": "paper_and_entry_sources",
+      "resolution": "paper/source initialization for each of the four methods"
+    },
+    "update_order": {
+      "status": "frozen",
+      "authority": "paper_and_entry_sources_plus_declared_parallel_completion",
+      "resolution": "parallel independent candidates and directions followed by deterministic paper-order selection, learned-sequence, covariance or coordinate commits"
+    },
+    "stopping_and_physical_fes": {
+      "status": "frozen",
+      "authority": "competition_protocol",
+      "resolution": "2000 complete WindFLO evaluations per scenario and 10000 across five scenarios; cache and surrogate-only calls do not count"
+    },
+    "parameters": {
+      "status": "frozen",
+      "authority": "paper_tables_and_entry_sources",
+      "resolution": "3s-MDE Table 3, CMA-ES m0=[0.5]^5 sigma0=0.3 defaults, SSHH 1800 post-initial evaluations and released LLHs, Goldman 36 angle and 64 magnitude intervals"
+    },
+    "training_and_inference_lifecycle": {
+      "status": "not_applicable",
+      "authority": "paper",
+      "resolution": "online SSHH sequence learning is contained within each optimization; no offline trained model"
+    },
+    "paper_native_cases": {
+      "status": "frozen",
+      "authority": "paper_and_public_xml",
+      "resolution": "five released hidden-competition scenarios"
+    },
+    "metrics_and_repeats": {
+      "status": "frozen",
+      "authority": "paper_plus_platform_protocol",
+      "resolution": "energy cost, wake-free ratio, energy output, feasibility, physical FES, stage timings, scientific hash, and 25 platform seeds"
+    }
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/windflo_t12.hpp",
+    "hpc/core99_cpp/src/windflo_t12.cpp",
+    "hpc/core99_cpp/src/windflo_t12_main.cpp",
+    "shared/contracts/core99_t12_windflo_2015.json",
+    "scripts/validate_core99_t12.py",
+    "scripts/run_core99_t12_admission.py"
+  ],
+  "evidence_receipts": [],
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "running"
+  },
+  "dossier_status": "h5_admitted_h6_running",
+  "formal_status": "admission_pending",
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 28,
     "text_sha256": "82738a74813d3159330510c18916d39459531169faf440339bd7f0f6976dcf67"
-  },
-  "public_asset_candidate_evidence": {
-    "availability_mention_line_numbers": [],
-    "embedded_annotation_urls": [
-      "https://github.com/d9w/WindFLO"
-    ],
-    "status": "candidate_only_requires_revision_license_semantic_audit"
-  },
-  "schema_version": 1,
-  "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
-    "execution_wave": "REV1",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
-    "target_contribution_type": "problem_definition_or_comparison_protocol"
-  },
-  "semantic_contract": {
-    "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    }
   }
 }
