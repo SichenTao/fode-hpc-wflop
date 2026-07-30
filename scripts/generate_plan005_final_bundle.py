@@ -82,6 +82,11 @@ QUALITY_PATHS: dict[str, tuple[tuple[str, ...], ...]] = {
     "conversion_efficiency_ratio": (
         ("best", "conversion_efficiency"),
     ),
+    "minimum_inverse_power": (("minimum_inverse_power",),),
+    "minimum_land_area_grid_units": (
+        ("minimum_land_area_grid_units",),
+    ),
+    "minimum_total_cost": (("minimum_total_cost",),),
     "nondominated_count": (("nondominated_count",),),
 }
 
@@ -101,6 +106,14 @@ def quality_values(raw: dict[str, Any]) -> dict[str, float]:
 
 
 def stage_seconds(raw: dict[str, Any], name: str) -> float | None:
+    direct_key = {
+        "end_to_end": "end_to_end_seconds",
+        "evaluator": "evaluator_seconds",
+        "algorithm": "algorithm_seconds",
+    }[name]
+    direct_value = nested_number(raw, direct_key)
+    if direct_value is not None:
+        return direct_value
     timing = raw.get("timing_seconds")
     if isinstance(timing, dict):
         aliases = {
@@ -182,6 +195,18 @@ def case_summary(
             value = stage_seconds(raw, name)
             if value is not None:
                 stages[name].append(value)
+    require(
+        bool(quality),
+        f"{campaign['pair_id']} {case['case_id']}: no quality metric mapped",
+    )
+    require(
+        all(len(values) == len(observations) for values in quality.values()),
+        f"{campaign['pair_id']} {case['case_id']}: partial quality coverage",
+    )
+    require(
+        all(len(values) == len(observations) for values in stages.values()),
+        f"{campaign['pair_id']} {case['case_id']}: partial timing coverage",
+    )
     return {
         "case_id": case["case_id"],
         "case_semantic_hash": case["case_semantic_hash"],
