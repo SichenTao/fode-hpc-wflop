@@ -104,20 +104,9 @@ def main() -> int:
     if args.strict:
         if args.scope != "core":
             parser.error("--strict is supported only with --scope core")
-        from audit_plan005_h6_receipts import audit
+        from audit_plan005_production_h6 import main as audit_production_h6
 
-        audit(
-            raw_path=(
-                ROOT
-                / "evidence/performance/"
-                "plan005_h6_performance_first_raw_observations_20260730.jsonl"
-            ),
-            summary_path=(
-                ROOT
-                / "evidence/performance/"
-                "plan005_h6_performance_first_summary_20260730.json"
-            ),
-        )
+        audit_production_h6()
     print(
         "hpc_maturity_inventory_pass "
         f"scope={args.scope} "
