@@ -52,7 +52,9 @@ def main() -> int:
             "scientific_contract_frozen",
             "implementation_in_progress",
             "h5_admitted",
+            "h5_admitted_h6_running",
             "h6_admitted",
+            "h6_admitted_formal_pending",
             "formal_complete",
             "resource_deferred",
         }:

@@ -6,21 +6,33 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Primary problem is the paper-literal 10x10 grid with 200 m pitch; the incompatible continuous-coordinate prose is retained as a sensitivity problem.",
+    "The 2015 cited predecessor supplies the ten demes and parameter ranges; the 2016 target-paper population size of 20 takes precedence over the predecessor value 40.",
+    "Tournament-2 selection, one-point crossover, one elite per deme, and 20-generation ring migration are deterministic declared reconstructions because neither paper specifies them.",
+    "Ambient turbulence is set to 10 percent from the target paper's improved-model field validation because the optimization section omits it.",
+    "The inherited 40 m turbine value is interpreted as diameter because the predecessor power equation explicitly uses radius 20 m and the T62 printed free-stream powers require it.",
+    "N=38 and N=39 printed fitness cells are recorded as inconsistent; the implementation follows the printed cost and power equations."
+  ],
   "corpus_id": "T62",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "not_started_until_h6_admission",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pending"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "paper-linked author source and numeric archive",
+    "author seeds, final coordinate arrays, and repeat count",
+    "ambient turbulence used in the optimization experiment",
+    "MPGA selection, crossover form, migration topology, and migration period",
+    "explanation for the grid-centre versus continuous 2N-coordinate conflict",
+    "explanation for N=38 and N=39 Table-1 fitness inconsistencies"
   ],
   "paper": {
     "authors": "Xiaoxia Gao and Hongxing Yang and Lin Lu",
@@ -36,8 +48,20 @@
     "venue": "Applied Energy",
     "year": 2016
   },
+  "cited_predecessor": {
+    "doi": "10.1016/j.jweia.2015.01.018",
+    "local_pdf": "/home/sichentao/Desktop/projects/wflop-projects/01-wflop-first-principles-design-space/litnotes/papers/Gao2015_Wind.pdf",
+    "pdf_sha256": "13ffeac89390e507d2509a5bf0e18d7c2e4bef7e2bff8a20f74bb02829a79408",
+    "title": "Wind turbine layout optimization using multi-population genetic algorithm and a case study in Hong Kong offshore"
+  },
   "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
+  "paper_source_conflicts": [
+    "Target paper specifies both 100 grid-centre sites and continuous 2N 20-bit coordinates.",
+    "Eq. (4) uses symbol a for 0.5/log(z/z0), conflicting with axial induction a in Eqs. (1)-(3); it is interpreted as wake-decay k.",
+    "Target Fig. 6 specifies population size 20, while the cited predecessor reports 40 individuals.",
+    "Predecessor Table 1 calls 40 m a rotor radius, while its Eq. (5) uses 20 m radius.",
+    "Target Table 1 N=38 and N=39 fitness cells do not equal COST/printed-power; N=40 does."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 9,
@@ -50,77 +74,87 @@
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "academic declared reproduction of the new wake model, native Case (b), and MPGA vehicle; not author-source or author-numerical replay",
     "execution_wave": "REV2",
-    "package_status": "queued_full_text_contract",
+    "package_status": "implemented_h5_admitted_h6_pending",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "wake_power_cost_or_physical_evaluator"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper plus declared deterministic completion",
+      "resolution": "five-diameter spacing; grid duplicates snap to the nearest unused site in deterministic order",
+      "status": "registered"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper",
+      "resolution": "2N X/Y coordinates represented by 20-bit genes",
+      "status": "registered"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper plus conflict resolution",
+      "resolution": "primary coordinate decode then 200 m grid-centre snap; separate continuous sensitivity decoder",
+      "status": "registered"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target and predecessor papers",
+      "resolution": "uniform random 20-bit coordinate genes",
+      "status": "registered"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper and platform protocol",
+      "resolution": "power, COST/power fitness, efficiency; 25 platform seeds because author repeat count is absent",
+      "status": "registered"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper",
+      "resolution": "minimize nondimensional COST divided by average power; equivalent to maximizing power for fixed N",
+      "status": "registered"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper",
+      "resolution": "Case b at 12 m/s over 36 equal directions for N=38,39,40",
+      "status": "registered"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper then cited predecessor then declared reconstruction",
+      "resolution": "ten demes, 20 individuals, crossover 0.7-0.9, mutation 0.001-0.05, one elite, 20-generation ring migration",
+      "status": "registered"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target and predecessor papers",
+      "resolution": "stop after 500 unchanged generations with declared 5000-generation safety ceiling; one complete 36-direction farm evaluation is one physical FES",
+      "status": "registered"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not applicable",
+      "resolution": "no learned component",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "declared reconstruction",
+      "resolution": "parallel evaluation followed by ordered generation, elite, and migration commits",
+      "status": "registered"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target equations 17-19 and predecessor equations 3,5-7",
+      "resolution": "improved Jensen-Gaussian, RSS multiple wakes, 0.3u^3 kW, standard nondimensional cost",
+      "status": "registered"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper",
+      "resolution": "36 equally weighted directions at 10-degree intervals and constant 12 m/s",
+      "status": "registered"
     }
+  },
+  "implementation": {
+    "analysis": "hpc/core99_cpp/analysis/t62_hpc_analysis.md",
+    "contract": "shared/contracts/core99_t62_gao_2016.json",
+    "header": "hpc/core99_cpp/include/core99/gao_t62.hpp",
+    "source": "hpc/core99_cpp/src/gao_t62.cpp",
+    "cli": "hpc/core99_cpp/src/gao_t62_main.cpp",
+    "test": "hpc/core99_cpp/tests/gao_t62_test.cpp",
+    "independent_validator": "scripts/validate_core99_t62.py",
+    "h5_receipt": "evidence/core99/h5/T62_local_h5.json"
   }
 }

@@ -39,8 +39,8 @@
     },
     {
       "corpus_id": "T14",
-      "dossier_sha256": "0efa477dc5f585524f2b386857f6917dc524a5634e0c8075e06c7c727e0a3cbc",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "90315e3e63f0322e0a63c5f2ea36eea64dd8b15f56b5323d43800a7c886805c1",
+      "dossier_status": "h6_admitted_formal_pending",
       "role": "D"
     },
     {
@@ -51,14 +51,14 @@
     },
     {
       "corpus_id": "T12",
-      "dossier_sha256": "3bb73456f03e69127e7501d9fe45d13fd2fe70817104734e1fc8cb5cdc319e85",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "0146f326f19381a0685556d1e9a86a337a5be19071688667bfa94edfdc02651d",
+      "dossier_status": "h5_admitted_h6_running",
       "role": "D"
     },
     {
       "corpus_id": "T15",
-      "dossier_sha256": "7220d09b61931689bfb618783157aefcfcf1a4e5b1975199ccaac689a2096910",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "3c68b2ae211ff777b833cec104a74ac7a23491cb37b10543a48a6acf2c585cf1",
+      "dossier_status": "formal_complete",
       "role": "D"
     },
     {
@@ -75,8 +75,8 @@
     },
     {
       "corpus_id": "T20",
-      "dossier_sha256": "78ee9deb99c502353b5b7c0cf21310b8c7853641b645e6bf09689c3243a0efd1",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "59572272e84ba00efc68350e3103b39f358522323b9ecb2145db5b1a5ab3007f",
+      "dossier_status": "formal_complete",
       "role": "D"
     },
     {
@@ -93,14 +93,14 @@
     },
     {
       "corpus_id": "T48",
-      "dossier_sha256": "99ca645f6787640a02312a55bb3245f6a97aba5b90746d0adb3b75bd9a1e6f80",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "0b0ea760feac6ca2b2a172b6637d1bd39d915b1780a67d219865b06db70ae1fa",
+      "dossier_status": "formal_complete",
       "role": "D"
     },
     {
       "corpus_id": "T62",
-      "dossier_sha256": "e3d32df154ee46b339faa852863bf3ed323f23b03ec01f9c89a879ae9ef42bb0",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "69968846aced02b8804f78be80ffa74adad0b0bf21078f907d83dafdc8bf3146",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
@@ -457,6 +457,5 @@
       "dossier_status": "pre_code_fulltext_audit_ready",
       "role": "D"
     }
-  ],
-  "schema_version": 1
+  ]
 }
