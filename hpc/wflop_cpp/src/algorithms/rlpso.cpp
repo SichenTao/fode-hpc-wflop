@@ -8,6 +8,9 @@ Public author code URL: https://raw.githubusercontent.com/toyamaailab/toyamaaila
 Public author code revision or archive hash: sha256:44e89c033e90f5aaaa9b84c826c95f29d3b8ad73dd363ff68de99418cdfa93a2
 Public code/assets provide: MATLAB PSO lifecycle, Python PPO prototype and WS1-WS4 problem arrays
 Known missing information: author-result seed lifecycle and a PPO update consistent with the paper
+Known paper/source conflicts: the paper and archive differ in action step,
+random seed handling, sampled-action log probability, buffer clearing, and
+PPO lifecycle.
 Reconstruction performed here: (1) the retained seeded linear categorical
   engineering proxy and (2) a separately identified persistent, seeded
   2-256-64 actor/critic PPO reconstruction using sampled-action log
@@ -23,9 +26,14 @@ Problem evidence tier: P0_AUTHOR_ASSET
 Method semantic IDs: rlpso_compact_policy_declared_reconstruction_v1 and
   rlpso_paper_corrected_training_reconstruction_v1
 Problem semantic ID: rpso2024_source_problem_ws1_ws4_v1
+Training semantic ID: rlpso_train_from_scratch_v1
+Production backend: persistent-worker C++ CPU plus target LibTorch C++/CPU
+PPO; LibTorch C++/CUDA and CPU-CUDA hybrid profiles require end-to-end
+validation and never silently fall back to CPU
 Controlling contracts: shared/contracts/rlpso_reconstruction_execution_contract.json
-Claim boundary: both profiles are declared M3 reconstructions; neither is an
-  author checkpoint or reproduction of the paper's reported numerical results
+Claim boundary: both profiles are academically fixed train-from-scratch M3
+reconstructions; unavailable author policy state limits author-original
+attribution but does not block formal baseline execution
 Last evidence audit date: 2026-07-29
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */

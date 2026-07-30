@@ -1,11 +1,21 @@
 /*
-Plan-004 demoted LibTorch backend compatibility probe.
-
-The three registered target models and their losses are shared unchanged by
-CPU, CUDA, and hybrid execution.  The generated corpus is deterministic and
-contains no physical objective calls.  This executable produces a replayable
-training artifact.  Its generic MLPs are deliberately assigned non-target
-semantic IDs and cannot satisfy target H5, H6, or formal quality gates.
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: demoted generic LibTorch backend compatibility probe
+Papers: TAAE DOI 10.1109/JAS.2026.126233; ALGA DOI
+10.1016/j.swevo.2025.102018; RLPSO DOI 10.1016/j.energy.2024.134050
+Public source, missing information, paper/source conflicts, and reconstruction
+decisions are reused unchanged from hpc/learning_libtorch/src/models.cpp.
+Reconstruction status: not_applicable_shared_infrastructure; these generic
+multilayer perceptrons are deliberately outside the three target methods.
+Semantic IDs: non_target_backend_compatibility_taae_v1;
+non_target_backend_compatibility_alga_v1;
+non_target_backend_compatibility_rlpso_v1.
+Production backend: LibTorch C++ CPU/CUDA/hybrid compatibility probe; no
+Python production runner and no target formal experiment may invoke it.
+Controlling contract: shared/contracts/plan004_execution_backend_contract.json.
+Claim boundary: backend compatibility only; this executable cannot satisfy
+target H5 equivalence, H6 performance, or formal quality gates.
+END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 
 #include <torch/cuda.h>

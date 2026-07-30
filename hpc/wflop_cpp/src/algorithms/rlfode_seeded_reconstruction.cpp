@@ -8,16 +8,24 @@ Public author code URL: no direct FQFODE code or pretrained-table archive was fo
 Public author code revision or archive hash: unavailable; target paper sha256:0b388fb055956837876f5cfffd8320ab88c0bf4ef32d386c2143a0e7b498c9a0
 Public code/assets provide: archived FODE benchmark/source assets and the shared C++ Jensen/Park evaluator; no author FQFODE policy state
 Known missing information: author training seeds, pretrained Q-tables, exact pretraining environment/budget/reward, adjudication of additive Algorithm 3 line 23 versus multiplicative Equation 24, and adjudication of shared-Qinit pseudocode versus independent-stage-pretraining prose
+Known paper/source conflicts: Algorithm 3 line 23 and Equation 24 specify
+different action application, while shared-Qinit pseudocode and
+independent-stage-pretraining prose specify different training lifecycles.
 Reconstruction performed here: the audited FODE core is reused through a fractional-order controller; five agents and four rounds train one aggregated Qinit on declared fixed case WS2tn50; formal cases copy Qinit into four online stage tables and retain paper-described updates
 Method evidence tier: M3_DECLARED_COMPLETION
 Problem evidence tier: P0_AUTHOR_ASSET for fode_e0_common
 Method semantic ID: fqfode_seeded_training_declared_reconstruction_v1
 Problem semantic ID: fode_wflop_e0_legacy_v1
+Training semantic ID: fqfode_train_from_scratch_v1
 Step 11 sensitivity profiles are independent method semantics only. The
 baseline semantic ID and behavior remain unchanged, and results from distinct
 method semantics are never pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/fqfode_seeded_training_reconstruction_contract.json
-Claim boundary: declared seeded reconstruction only; it is not the unavailable author-pretrained FQFODE policy and must not be reported as an exact reproduction of the paper results
+Production backend: pure C++ persistent-worker CPU for Q-table training,
+FODE transitions, and wind-farm evaluation.
+Claim boundary: academically fixed seeded train-from-scratch reconstruction;
+the unavailable author Q-tables limit author-state attribution but do not
+block formal baseline execution.
 Last evidence audit date: 2026-07-29
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */

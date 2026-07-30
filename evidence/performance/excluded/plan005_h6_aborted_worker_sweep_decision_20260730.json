@@ -1,0 +1,16 @@
+{
+  "schema_version": 1,
+  "decision_id": "plan005_h6_aborted_worker_sweep_20260730",
+  "status": "excluded_development_diagnostic",
+  "reason": "The seven-worker-count by five-repetition sweep did not match the frozen objective of first completing and then formally running only the highest-performance implementation.",
+  "completed_scope": {
+    "corpus_id": "Y36",
+    "algorithm": "TAAE",
+    "observations": 11,
+    "complete_first_repetition_worker_counts": [1, 2, 4, 8, 12, 16, 20],
+    "partial_second_repetition_worker_counts": [2, 4, 8, 12]
+  },
+  "scientific_use": "May be used only to diagnose thread overhead and serial learning phases. It must not enter H6 admission, formal speedup tables, backend selection, or the 25-seed quality campaign.",
+  "replacement_policy": "docs/academic_reproduction_and_hpc_acceptance_policy.md",
+  "process_action": "The scaling driver and its active TAAE child were terminated. No formal campaign was launched."
+}

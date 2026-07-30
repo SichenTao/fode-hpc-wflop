@@ -683,8 +683,11 @@ def train_artifacts(
     require(trainer.is_file(), f"missing trainer: {trainer}")
     artifact_paths: dict[str, Path] = {}
     records: dict[str, Any] = {}
+    trainer_identity = sha256(trainer)[:12]
     for index, method in enumerate(("taae", "alga", "rlpso")):
-        artifact = ARTIFACT_DIR / f"{method}-bounded-seed-2026073000.pt"
+        artifact = ARTIFACT_DIR / (
+            f"{method}-bounded-seed-2026073000-{trainer_identity}.pt"
+        )
         sidecar = artifact.with_suffix(".receipt.json")
         if artifact.is_file() and sidecar.is_file():
             receipt = json.loads(sidecar.read_text(encoding="utf-8"))
@@ -1067,6 +1070,84 @@ def summarize_target(
                 for item in grouped[worker]
             ),
         }
+    if len(workers) == 1:
+        selected_worker = workers[0]
+        attribution_minimum = min(
+            item["timing"]["named_h0_stage_attribution"]
+            for item in observations
+        )
+        require(
+            attribution_minimum >= 0.95,
+            f"{row['pair_id']}: stage attribution below 95 percent",
+        )
+        h2 = analysis(row)["H2_dependency_and_parallel_width"]
+        h3 = analysis(row)["H3_performance_and_granularity"]
+        analysis_path = ROOT / row["analysis_path"]
+        statistics_by_worker[str(selected_worker)][
+            "production_profile_observed"
+        ] = True
+        return {
+            "pair_id": row["pair_id"],
+            "corpus_id": row["corpus_id"],
+            "algorithm_id": row["algorithm_id"],
+            "method_semantic_id": row["method_semantic_id"],
+            "problem_id": row["problem_id"],
+            "problem_semantic_id": row["problem_semantic_id"],
+            "paper_protocol_id": row["paper_protocol_id"],
+            "native_asset": row["native_asset"],
+            "representative_case": observations[0]["key"]["case_id"],
+            "fixed_physical_fes": observations[0]["key"]["physical_fes"],
+            "backend": "cpu_hpc_full_visible_v1",
+            "worker_statistics": statistics_by_worker,
+            "measured_serial_fraction": None,
+            "minimum_named_h0_stage_attribution": attribution_minimum,
+            "learning_state_cross_worker_receipt": {
+                "mode": "not_applicable_production_profile_only",
+                "status": "H5_preserved",
+            },
+            "fastest_measured_workers": selected_worker,
+            "all_visible_workers": selected_worker,
+            "all_visible_statistically_tied_with_fastest": True,
+            "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+            "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+                1.0,
+                1.0,
+            ],
+            "all_visible_tie_lower_ratio_threshold": None,
+            "selected_workers": selected_worker,
+            "selection_rule": (
+                "The approved production profile uses every affinity-visible "
+                "CPU. Full worker-count sweeps are excluded; a small one-"
+                "worker or MATLAB timing baseline is measured separately "
+                "only for paper-facing speedup."
+            ),
+            "serial_limited": False,
+            "dependency_proof": {
+                "analysis_path": row["analysis_path"],
+                "analysis_sha256": sha256(analysis_path),
+                "h2_dependency_edges": h2["dependency_edges"],
+                "h2_dependency_edges_sha256": canonical_sha256(
+                    h2["dependency_edges"]
+                ),
+                "h2_ordered_sections": h2["ordered_sections"],
+                "h3_granularity_rule": h3["granularity_rule"],
+                "h3_dispatch_crossover_source": h3[
+                    "dispatch_crossover_source"
+                ],
+                "measured_profile": {
+                    "workers": selected_worker,
+                    "mode": "all_affinity_visible_cpus",
+                    "scaling_claim": False,
+                },
+            },
+            "observation_count": len(observations),
+            "status": "accepted_h6",
+            "claim_boundary": (
+                "Five production-representative full-core observations "
+                "establish execution, stage attribution, resource use, and "
+                "throughput. They do not establish a worker-scaling curve."
+            ),
+        }
     baseline = medians[1]
     for worker in workers:
         speedup = baseline / medians[worker]
@@ -1202,6 +1283,9 @@ def update_acceptance(
             "selected_workers": target["selected_workers"],
             "all_visible_workers": target["all_visible_workers"],
             "all_visible_characterized": True,
+            "worker_scaling_characterized": (
+                len(target["worker_statistics"]) > 1
+            ),
             "measured_serial_fraction": target["measured_serial_fraction"],
             "minimum_named_h0_stage_attribution": target[
                 "minimum_named_h0_stage_attribution"
@@ -1210,8 +1294,8 @@ def update_acceptance(
             "performance_receipt_sha256": summary_hash,
             "raw_observation_receipt": relative(raw_path),
             "claim_boundary": (
-                "Measured fixed-work H6 backend selection only; failed "
-                "speedup hypotheses remain measured results and no formal "
+                "Measured fixed-work highest-performance-profile H6 only; "
+                "a full worker-scaling curve is not required and no formal "
                 "quality claim is made."
             ),
         }
@@ -1240,14 +1324,31 @@ def main() -> int:
     parser.add_argument("--dry-run", action="store_true")
     parser.add_argument("--initialize-only", action="store_true")
     parser.add_argument("--only-corpus")
+    parser.add_argument(
+        "--production-profile-only",
+        action="store_true",
+        help=(
+            "measure only the all-visible CPU production profile; small "
+            "paper-facing serial/MATLAB baselines are separate"
+        ),
+    )
     arguments = parser.parse_args()
     workers = [int(value) for value in arguments.workers.split(",")]
-    require(
-        workers == [1, 2, 4, 8, 12, 16, 20],
-        "Plan-005 H6 requires worker counts 1,2,4,8,12,16,20",
-    )
+    if arguments.production_profile_only:
+        require(
+            len(workers) == 1 and workers[0] == len(os.sched_getaffinity(0)),
+            "production H6 requires exactly all affinity-visible CPUs",
+        )
+    else:
+        require(
+            workers == [1, 2, 4, 8, 12, 16, 20],
+            "legacy scaling H6 requires worker counts 1,2,4,8,12,16,20",
+        )
     require(arguments.repetitions >= 5, "Plan-005 H6 requires five repetitions")
-    require(arguments.balanced_order, "--balanced-order is required")
+    require(
+        arguments.balanced_order or arguments.production_profile_only,
+        "--balanced-order is required for a multi-topology sweep",
+    )
     require(
         arguments.production_representative,
         "--production-representative is required",
@@ -1266,6 +1367,13 @@ def main() -> int:
     if arguments.only_corpus:
         rows = [row for row in rows if row["corpus_id"] == arguments.only_corpus]
         require(len(rows) == 1, "unknown --only-corpus")
+    elif arguments.production_profile_only:
+        rows.sort(
+            key=lambda row: (
+                row["corpus_id"] in LEARNING,
+                row["corpus_id"],
+            )
+        )
     binary_paths = binaries()
     require(
         all(path.is_file() for path in binary_paths.values()),
@@ -1363,26 +1471,42 @@ def main() -> int:
         "thread_pool_environment": ENVIRONMENT_LIMITS,
     }
     environment["sha256"] = canonical_sha256(environment)
-    imported_observations, import_receipt = compatible_observation_import(
-        rows=rows,
-        workers=workers,
-        source_commit=source_commit,
-        binary_receipts=binary_receipts,
-        environment=environment,
-        worker_affinity_sets=worker_affinity_sets,
-        artifact_paths=artifact_paths,
-    )
+    if arguments.production_profile_only:
+        imported_observations, import_receipt = [], {
+            "status": "not_applicable_new_production_profile",
+            "imported_observation_count": 0,
+            "claim_boundary": (
+                "No observation from the superseded worker sweep is reused "
+                "because source and measurement protocols changed."
+            ),
+        }
+    else:
+        imported_observations, import_receipt = compatible_observation_import(
+            rows=rows,
+            workers=workers,
+            source_commit=source_commit,
+            binary_receipts=binary_receipts,
+            environment=environment,
+            worker_affinity_sets=worker_affinity_sets,
+            artifact_paths=artifact_paths,
+        )
     header_expected = {
         "record_type": "campaign_header",
         "schema_version": 1,
         "campaign_id": (
-            "plan005_h6_core_scaling_performance_first_spark_20260730"
+            "plan005_h6_full_core_production_spark_20260730"
+            if arguments.production_profile_only
+            else "plan005_h6_core_scaling_performance_first_spark_20260730"
         ),
         "source_commit": source_commit,
         "scope": "exact 23 target-only pairs",
         "workers": workers,
         "repetitions": arguments.repetitions,
-        "measurement_order_policy": "balanced_rotation",
+        "measurement_order_policy": (
+            "production_profile_only"
+            if arguments.production_profile_only
+            else "balanced_rotation"
+        ),
         "topology_policy": "architecture_aware_performance_first",
         "backend_parallelism": 1,
         "environment": environment,
@@ -1431,9 +1555,8 @@ def main() -> int:
         },
         "claim_boundary": (
             "Production-representative fixed-work CPU H6 only; this receipt "
-            "uses a frozen heterogeneous architecture-aware performance-first "
-            "CPU mapping and does not establish formal 25-seed quality or GPU "
-            "performance."
+            "uses every affinity-visible CPU and does not establish a worker-"
+            "scaling curve, formal 25-seed quality, or GPU performance."
         ),
     }
     header, existing = load_jsonl(arguments.receipt)
@@ -1666,7 +1789,9 @@ def main() -> int:
     summary = {
         "schema_version": 1,
         "summary_id": (
-            "plan005_h6_core_scaling_performance_first_summary_spark_20260730"
+            "plan005_h6_full_core_production_summary_spark_20260730"
+            if arguments.production_profile_only
+            else "plan005_h6_core_scaling_performance_first_summary_spark_20260730"
         ),
         "source_commit": source_commit,
         "raw_observations": relative(arguments.receipt),
@@ -1675,7 +1800,7 @@ def main() -> int:
         "observation_count": len(observations),
         "workers": workers,
         "repetitions": arguments.repetitions,
-        "measurement_order_policy": "balanced_rotation",
+        "measurement_order_policy": header["measurement_order_policy"],
         "topology_policy": "architecture_aware_performance_first",
         "environment_sidecar": environment_sidecar,
         "minimum_stage_attribution": min(

@@ -1,41 +1,52 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
-Implementation unit: T-MOEA Nysted same-author-asset reconstruction in the
-shared pure-CPU GGA executable
-Paper title: A Topology-Driven Multi-Objective Evolutionary Algorithm for
-Offshore Wind Farm Layout Optimization
-DOI: 10.1109/CPEEE69412.2026.11521465
-Paper provides: Jensen wake Eqs. (2)-(3), the biobjective formulation,
-NSGA-II selection, single-point crossover, topology mutation including the
-Eq. (16) complement set, random swap, population 30, and 3000 fitness
-evaluations.
-Public author code URL: no T-MOEA source was found; same-author problem assets
-come from https://github.com/zbh0528/WFLO-GGA
-Public author code revision or archive hash:
-6ce41326e6c1d3685a01e038baf6d1d07aa46126
-Public code/assets provide: the related Nysted boundary, wind, turbine,
-substation, cable arrays, and balanced-substation radial router.
-Known missing information: original T-MOEA candidate set and seed, cable
-decision transition or router, k, variation probabilities, duplicate repair,
-parent-equality rule, tie rules, and reference front.
-Reconstruction performed here: v1 preserves the admitted historical transition;
-v2 corrects Eq. (16) to exclude every pre-mutation site and freezes all omitted
-controls, exact physical FES, schedule-independent counter randomness, and CPU
-execution receipts.
+Implementation unit: shared production C++ executable for GGA offshore
+layout/cable source replay and T-MOEA Nysted reconstruction
+Paper titles and DOIs: A Geometry-Guided Genetic Algorithm for Integrated
+Offshore Wind Farm Layout and Electrical Cable Routing Optimization,
+10.1016/j.apenergy.2026.127895; A Topology-Driven Multi-Objective Evolutionary
+Algorithm for Offshore Wind Farm Layout Optimization,
+10.1109/CPEEE69412.2026.11521465
+Public source/data and pinned revision: https://github.com/zbh0528/WFLO-GGA,
+commit 6ce41326e6c1d3685a01e038baf6d1d07aa46126; no public T-MOEA method source
+was found
+Paper/source-provided components: GGA MATLAB behavior, eight offshore problem
+snapshots, layout/cable evaluator, geometric operators, and router; the T-MOEA
+paper provides Jensen wake Eqs. (2)-(3), biobjective formulation, NSGA-II
+selection, single-point crossover, topology mutation including Eq. (16),
+random swap, population 30, and 3000 complete fitness evaluations
+Known missing information: GGA source has no standard redistribution license
+and does not freeze every runtime seed; T-MOEA omits its original candidate
+set, seed, cable transition/router identity, k, variation probabilities,
+duplicate repair, parent-equality rule, tie rules, and reference front
+Known paper/source conflicts: the related GGA assets are same-author evidence
+for T-MOEA but are not proven identical to the unavailable T-MOEA experiment;
+the historical T-MOEA transition used an Eq. (16) complement interpretation
+that required correction
+Resolution and reconstruction: pin GGA source behavior and problem snapshots
+as a non-vendored oracle; keep the historical T-MOEA identity; add a separate
+paper-Eq.16-v2 identity that excludes every pre-mutation site and freezes all
+omitted controls, exact physical FES, counter randomness, and CPU receipts
 Method evidence tier: M3_DECLARED_COMPLETION.
 Problem evidence tier: P2_CITATION_SAME_AUTHOR.
-Method semantic ID: tmoea_nysted_gga_asset_reconstruction_v1 (historical) or
-tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2 (corrected R4).
-Problem semantic ID: geojson_radians_ct_rss_repaired_v1 on the historical
-nysted_gga_asset_reconstruction problem, or
+Method semantic IDs: gga_source_replay_v1;
+tmoea_nysted_gga_asset_reconstruction_v1 (historical);
+tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2 (corrected R4)
+Problem semantic IDs: gga2026_layout_cable;
+geojson_radians_ct_rss_repaired_v1 on the historical
+nysted_gga_asset_reconstruction problem; or
 tmoea_nysted_paper_wake_gga_router_problem_v1 on the corrected
 nysted_tmoea_paper_wake_gga_router_reconstruction problem.
+Training semantic ID: not_applicable.
+Production backend: optimized pure C++ persistent-worker CPU; no Python
+execution path.
 Controlling contracts:
+shared/contracts/gga_problem_semantics.json,
 shared/contracts/tmoea_nysted_reconstruction_execution_contract.json and
 shared/contracts/tmoea_nysted_paper_eq16_r4_execution_contract.json
-Claim boundary: both profiles are Nysted reconstructions using same-author GGA
-assets; neither is the unavailable original T-MOEA experiment or reference
-front.
+Claim boundary: GGA is a pinned behavior/problem replay under its source
+license boundary; both T-MOEA profiles are academically fixed Nysted
+reconstructions using same-author GGA assets.
 Last evidence audit date: 2026-07-29
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */

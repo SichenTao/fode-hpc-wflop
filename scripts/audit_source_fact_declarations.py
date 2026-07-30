@@ -13,13 +13,15 @@ REQUIRED_MARKERS = (
     "END WFLOP IMPLEMENTATION FACT DECLARATION",
 )
 SEMANTIC_GROUPS = (
-    ("Paper title", "Paper:", "Paper DOI", "DOI:", "multipaper",
+    ("Paper title", "Paper titles", "Paper:", "Papers:", "Paper DOI", "DOI:",
+     "Paper/source", "multipaper",
      "not_applicable_shared_infrastructure"),
     ("Public asset", "Public author", "Public code", "Related public asset",
-     "project-native implementation", "source provenance"),
+     "Public source", "project-native implementation", "source provenance"),
     ("Missing", "missing", "Claim boundary"),
-    ("Reconstruction", "completion", "reused unchanged", "not applicable"),
-    ("semantic ID", "semantic IDs"),
+    ("Reconstruction", "reconstruction", "completion", "reused unchanged",
+     "not applicable"),
+    ("semantic ID", "semantic IDs", "Semantic ID", "Semantic IDs"),
     ("contract", "Contract", "paper ledger", "source dossier"),
     ("Claim boundary", "claim boundary"),
 )

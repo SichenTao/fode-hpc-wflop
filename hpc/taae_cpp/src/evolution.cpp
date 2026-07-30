@@ -4,8 +4,18 @@ Implementation unit: TAAE end-to-end declared-reconstruction evolutionary method
 Paper title: Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization
 DOI: 10.1109/JAS.2026.126233
 Public author method source/checkpoint: unavailable as recorded in docs/source-dossiers/Y36.json
-Missing choices completed here: SPEA2 density k, CDP and tournament ties, raw-latent mutation bounds, pre-repair decoded-solution filtering, Gaussian covariance regularization, post-repair guards, no-feasible front output, partial batches, checkpoint admission, exact-trajectory CPU speculation, and stage/work receipts
-Reconstruction status: bounded executable M3 engineering reconstruction on the declared P3 problem proxy
+Known missing information: author training corpus, Zhangbei arrays, checkpoint,
+complete initialization/normalization/dropout schedule, SPEA2 density k, CDP
+and tournament ties, raw-latent mutation bounds, pre-repair decoded-solution
+filtering, Gaussian covariance regularization, post-repair guards, no-feasible
+front output, partial batches, and checkpoint admission details
+Known paper/source conflicts: no author TAAE source exists for a source
+comparison; the paper-visible method leaves the listed choices underdetermined
+Resolution and reconstruction: train from scratch on the registered P3
+Zhangbei-family problem, freeze all omitted controls in the controlling
+contract, retain exact physical FES, and record stage/work receipts
+Reconstruction status: formal academically reproducible M3 baseline on the
+declared P3 problem
 Plan-004 artifact path: an explicitly supplied typed LibTorch Transformer and
 Adam state replace only the learning kernel inside this real SPEA2 population,
 fine-tuning, latent-variation, autoregressive-decode, repair, native-evaluation,
@@ -14,11 +24,18 @@ Method evidence tier: M3_DECLARED_COMPLETION
 Method semantic ID: taae_transformer_evolution_declared_reconstruction_v1
 Kernel semantic ID: taae_transformer_declared_reconstruction_v1
 Problem semantic ID: taae_zhangbei_structured_declared_proxy_v1
+Training semantic ID: taae_train_from_scratch_v1
 Step 11 loss-weight and multiplicative-wake probes are sensitivity-only
 independent method or problem semantics. Baseline semantics remain unchanged;
 distinct semantics are never pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json
-Claim boundary: distinct bounded end-to-end reconstruction only; original taae remains blocked, paper-scale state requires an immutable checkpoint, and no Zhangbei, reported-front, formal, performance, or GPU claim is made
+Production backend: C++ persistent-worker CPU plus the target LibTorch
+C++/CPU learning kernel; C++/CUDA and CPU-CUDA hybrid become production
+profiles only after end-to-end target validation
+Claim boundary: academically fixed end-to-end reconstruction; unavailable
+author assets limit author-original attribution but do not block baseline or
+paper-scale train-from-scratch execution; performance and GPU claims require
+their dedicated receipts
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 

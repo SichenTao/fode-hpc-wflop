@@ -5,6 +5,9 @@ Paper title: Advanced 3D Wind Farm Layout Optimization Framework via Power-Law P
 DOI: 10.1109/JAS.2025.125351
 Public asset/source: no author implementation or original Nantong arrays found; evidence dossier docs/source-dossiers/T43.json
 Missing information: author source, full state transitions, and original Nantong terrain, wind, and manufacturer arrays
+Known paper/source conflicts: no executable author source was found, so no
+paper/source behavioral conflict can be adjudicated; the declared completions
+below are project choices and are not attributed to the authors
 Reconstruction: ppga_nantong_structured_3d_declared_reconstruction_v2 freezes the declared M3 transitions
 Paper-preserved fields: population 30, threshold zero, crossover 0.8, mutation 0.1, power-law exponent 2.5, second-generation perturbation, elites, and complete-layout evaluations
 Declared M3 completions: elite count three, min-max normalized fitness, offspring-versus-parent stagnation carried across the selection barrier, strict probabilistic perturbation gate, uniform crossover, one-cell mutation, per-dimension finite-support inverse-CDF power law, deterministic repair, exact partial terminal batch, stable ties, and counter-keyed RNG
@@ -15,7 +18,11 @@ Step 11 multiplicative-wake probing is a sensitivity-only independent problem
 semantic. The root-sum-square baseline remains unchanged; distinct problem
 semantics are never pooled or used for cross-semantic ranking.
 Controlling contract: shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json
-Claim boundary: bounded declared reconstruction only; original PPGA transitions and Nantong paper results remain blocked
+Production backend: optimized pure C++ persistent-worker CPU for population
+transitions and the three-dimensional evaluator.
+Claim boundary: academically fixed PPGA/Nantong reconstruction; unavailable
+author transitions and arrays limit author-original attribution but do not
+block formal baseline or paper-scale execution.
 Last evidence-audit date: 2026-07-30
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */

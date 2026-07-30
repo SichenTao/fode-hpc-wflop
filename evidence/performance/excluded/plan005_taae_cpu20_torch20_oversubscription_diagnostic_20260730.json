@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "status": "excluded_development_diagnostic",
+  "corpus_id": "Y36",
+  "algorithm": "TAAE",
+  "case_id": "TAAE_Proxy_NC2_Budget600k_tn15",
+  "physical_fes": 350,
+  "thread_topology": {
+    "outer_workers": 20,
+    "torch_intraop_threads": 20,
+    "torch_interop_threads": 1,
+    "peak_observed_os_threads": 60
+  },
+  "internal_timing_seconds": {
+    "total": 138.722176478,
+    "training": 30.64731477,
+    "offspring_decode_repair_variation": 107.739604309,
+    "evaluator": 0.012868575
+  },
+  "process_receipt": {
+    "external_wall_seconds": 138.99,
+    "user_cpu_seconds": 1076.48,
+    "system_cpu_seconds": 318.91,
+    "average_cpu_percent": 1003,
+    "maximum_resident_kib": 546944
+  },
+  "decision": "Do not select this topology. Blindly combining a 20-worker persistent team with 20 LibTorch intra-op threads creates 60 OS threads and makes small decode batches synchronization-bound. Replace it with phase-specific, granularity-aware CPU threading and a target-native CUDA or hybrid path when CUDA is available.",
+  "scientific_use": "Architecture diagnosis only; excluded from formal performance and quality results."
+}

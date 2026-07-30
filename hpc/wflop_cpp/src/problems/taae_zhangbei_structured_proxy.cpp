@@ -14,6 +14,9 @@ in docs/source-dossiers/Y36.json.
 Missing original inputs: Zhangbei elevation array, eight numerical joint-wind
 arrays, monitor coordinates, blade spectra and propagation constants, land
 unit cost, and reference fronts.
+Known paper/source conflicts: no executable author problem source was found,
+so there is no source implementation against which the paper equations can be
+adjudicated; every declared completion below remains explicitly P3.
 Project completion: use the analytic terrain, frozen joint-wind distribution,
 figure-structured monitor cells, explicit three-band acoustic proxy, and cost
 scale in shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json.

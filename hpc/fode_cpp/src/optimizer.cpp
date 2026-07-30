@@ -9,6 +9,8 @@ Missing/conflicts: D=80 population crossing is disclosed and frozen
 Reconstruction: generation-snapshot, counter-random, exact-FES C++ state machine
 Method/problem semantic IDs: fode_e0_physical_fes;
 fode_wflop_e0_legacy_v1
+Production backend: pure C++ CPU with a persistent full-core executor for
+parallel population construction, variation, and complete-layout evaluation.
 Controlling contract and claim boundary:
 shared/contracts/paper_implementation_ledger.tsv; semantic reproduction without
 MATLAB random-stream identity

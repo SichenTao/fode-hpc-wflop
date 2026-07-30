@@ -279,10 +279,18 @@ def read_h6_header() -> dict[str, Any]:
 def read_h6_summary() -> dict[str, Any]:
     require(H6_SUMMARY.is_file(), "accepted H6 summary is absent")
     summary = json.loads(H6_SUMMARY.read_text())
+    workers = summary.get("workers")
+    repetitions = summary.get("repetitions")
     require(
         summary.get("status") == "accepted_h6"
         and summary.get("target_count") == 23
-        and summary.get("observation_count") == 805,
+        and isinstance(workers, list)
+        and workers
+        and all(isinstance(worker, int) and worker > 0 for worker in workers)
+        and isinstance(repetitions, int)
+        and repetitions >= 5
+        and summary.get("observation_count")
+        == 23 * len(workers) * repetitions,
         "H6 summary is not accepted and complete",
     )
     return summary

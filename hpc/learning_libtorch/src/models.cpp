@@ -1,12 +1,44 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
-Implementation unit: Plan-004 typed LibTorch TAAE, ALGA, RLPSO models, losses, artifacts, and optimization transitions
-Papers: TAAE DOI 10.1109/JAS.2026.126233; ALGA DOI 10.1016/j.swevo.2025.102018; RLPSO DOI 10.1016/j.energy.2024.134050
-Public code: RLPSO author archive sha256 44e89c033e90f5aaaa9b84c826c95f29d3b8ad73dd363ff68de99418cdfa93a2; TAAE and ALGA author implementations unavailable
-Provided components: TAAE six-layer encoder/decoder, four heads and three losses; ALGA Eqs. 19-23 and eight heads; RLPSO 2-256-64 actor/critic and PPO profile
-Missing components and completions: exact choices are frozen and cited in shared/contracts/plan004_*_architecture.json
-Semantic IDs: taae_transformer_declared_reconstruction_v1; alga_attention_declared_reconstruction_v1; rlpso_paper_corrected_training_reconstruction_v1
-Claim boundary: M3 declared reconstruction, not author code/checkpoint replay or reproduction of reported results
+Implementation unit: production C++ LibTorch models, losses, artifacts, and
+CPU/CUDA transitions for TAAE, ALGA, and RLPSO
+Paper titles and DOIs: Transformer Autoencoder-Assisted Evolutionary Framework
+for Constrained Multiobjective 3D Wind Farm Layout Optimization,
+10.1109/JAS.2026.126233; Multi-Attention-Powered Learning Genetic Algorithm
+for Real-World 3D Wind Farm Layout Optimization,
+10.1016/j.swevo.2025.102018; Reinforcement Learning-Based Particle Swarm
+Optimization for Wind Farm Layout Problems, 10.1016/j.energy.2024.134050
+Public source/data and pinned revisions: RLPSO author archive
+sha256:44e89c033e90f5aaaa9b84c826c95f29d3b8ad73dd363ff68de99418cdfa93a2;
+no public TAAE or ALGA implementation, training corpus, or checkpoint was found
+Paper/source-provided components: TAAE six-layer encoder/decoder, four heads,
+and three losses; ALGA Eqs. 19-23 and eight heads; RLPSO 2-256-64
+actor/critic, PPO prototype, and source problem arrays
+Known missing information: TAAE corpus/checkpoint and omitted architecture
+controls; ALGA targets, loss, widths, epochs, batches, optimizer details, and
+checkpoint; RLPSO author seed lifecycle and a paper-consistent trained policy
+Known paper/source conflicts: RLPSO action step, random seed handling, action
+log-probability, buffer clearing, and PPO lifecycle differ between the paper
+and author archive; no TAAE/ALGA source exists for a source comparison
+Resolution and reconstruction: freeze the paper-visible architectures and the
+deterministic completions in shared/contracts/plan004_*_architecture.json;
+retain RLPSO paper-corrected and literal-source identities separately; train
+all missing learning state from scratch under its registered training contract
+Method/training semantic IDs: taae_transformer_declared_reconstruction_v1 and
+taae_train_from_scratch_v1; alga_attention_declared_reconstruction_v1 and
+alga_train_from_scratch_v1; rlpso_paper_corrected_training_reconstruction_v1
+and rlpso_train_from_scratch_v1
+Problem semantic IDs: taae_zhangbei_structured_declared_proxy_v1;
+alga_guishan_3d_declared_proxy_v1; rpso2024_source_problem_ws1_ws4
+Production backend: LibTorch called directly from C++; optimized CPU, CUDA,
+or CPU-CUDA hybrid after target-native validation; no Python Torch production
+runner
+Controlling contracts: shared/contracts/plan004_taae_transformer_architecture.json,
+shared/contracts/plan004_alga_attention_architecture.json, and
+shared/contracts/plan004_rlpso_ppo_architecture.json
+Claim boundary: academically fixed M3 reconstructions and train-from-scratch
+baselines; target-native CUDA/H6 admission remains required before a production
+GPU performance claim
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 

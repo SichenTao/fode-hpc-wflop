@@ -1,19 +1,67 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
-Implementation unit: legacy multipaper scalar algorithm module pending
-per-method physical split
-Paper title and DOI: multipaper; exact mapping is authoritative in
-shared/contracts/paper_implementation_ledger.tsv
-Paper/source basis: target PDFs, archived MATLAB assets, and explicit
-paper-derived completions
-Public asset: per-method URLs/revisions/licenses are in docs/source-dossiers
-Missing/conflicts: CEDE, MS-SHADE, AGPSO, CGPSO, and HGPSO variants remain
-separate registered identities; no source/paper result pooling
-Reconstruction: pure C++ scalar methods over canonical evaluators
-Method/problem semantic IDs: registry_defined; registry_defined
-Controlling contract and claim boundary:
-shared/contracts/paper_implementation_ledger.tsv; each result is bounded by its
-registered provenance and semantic ID
+Implementation unit: shared production C++ state machines for the scalar
+WFLOP target papers listed below; exact per-item evidence remains machine
+readable in docs/source-dossiers and the paper implementation ledger
+Paper/source/missing/conflict/resolution reminders:
+- CEDE, 10.3390/math12233762: local CEDE sources exist without a redistribution
+  license; paper FES and the two source reduction directions conflict; retain
+  paper-first and source-replay semantic identities separately.
+- MS-SHADE, 10.3390/electronics13163196: local source exists, while the original
+  random wind arrays are unpublished and paper roulette/source blocks differ;
+  use deterministic same-lineage arrays and separate paper/source identities.
+- FODE, 10.3390/math13020282: archived FODE.m exists; the D=80 population
+  crossing and random-stream details need a fixed interpretation; use the
+  paper equations, archived control flow, counter RNG, and exact physical FES.
+- WFADDE, 10.2139/ssrn.6135326: no public target source or original arrays were
+  found; implement the preprint equations with frozen deterministic
+  same-lineage arrays and record the P3 reconstruction identity.
+- A-LSHADE, 10.1109/PIC62406.2024.10892732: no public target source was found;
+  progress-counter and best-scale history details are incomplete; use physical
+  FES progress, post-update history, and the frozen native 117-case contract.
+- AGPSO, 10.1016/j.enconman.2022.116174: archived/source behavior and paper
+  staged update semantics can differ; the paper-staged barrier implementation
+  is primary and source replay remains a separate identity.
+- CLSHADE, 10.1016/j.asoc.2023.110306: no author source was supplied; complete
+  omitted operator edge cases from the paper and cited SHADE lineage under the
+  fixed 117-case paper contract.
+- ISE, 10.1016/j.engappai.2023.106198: no author source was supplied; complete
+  omitted spherical-evolution edge cases from the paper and cited predecessor
+  under the fixed 117-case paper contract.
+- CGPSO, 10.1109/JAS.2023.123387: paper generation barriers and archived
+  immediate-update behavior conflict; retain the paper-staged and
+  literal-source variants separately on the native 16-case problem.
+- AIGA, 10.1007/s42235-024-00498-3: no public author source was found; derive
+  all exposed operators from the paper and freeze reasonable omitted controls
+  on the native 156-case contract.
+- CIGA, 10.1145/3766671.3766786: no public source or original constrained masks
+  were found; use the paper operators and a separately named deterministic
+  four-condition P3 problem with the missing-mask decision recorded.
+- LSDE, 10.1049/cit2.70150: no public source or original large-farm wind arrays
+  were found; use paper-derived operators and deterministic same-lineage
+  4-7-direction arrays under the 12-case P3 identity.
+- BDE, 10.1016/j.energy.2025.137885: the official archive covers WS1-WS4 and
+  conflicts with paper scale/FES schedules; retain source replay for WS1-WS4
+  and the paper-first implementation for the separately named WS5-WS6 proxy.
+- HGPSO, 10.26599/TST.2026.9010059: local source and paper stage/update details
+  conflict; retain paper-first and source-replay identities separately on the
+  native 156-case contract.
+Public source/data and pinned revisions: each DOI-specific URL, archive hash,
+license observation, paper hash, and local-source hash is frozen in
+docs/source-dossiers/<corpus_id>.json and docs/source_asset_registry.tsv.
+Resolution and reconstruction: all methods use the pure C++ persistent
+executor, schedule-independent counter randomness where parallel work is
+introduced, exact complete-layout FES, deterministic ordered commits, and the
+registered paper problem; no unresolved item prevents a fixed baseline.
+Method/problem/training semantic IDs: one immutable profile per row in
+docs/paper_package_completion.tsv; conflicting paper/source variants have
+different semantic IDs; training is not applicable to this scalar module.
+Production backend: optimized pure C++ CPU with a persistent worker team and
+the shared high-performance evaluator.
+Controlling contracts: shared/contracts/paper_implementation_ledger.tsv,
+docs/paper_package_completion.tsv, and the DOI-specific source dossier.
+Claim boundary: academically fixed paper/source-guided reproductions; distinct
+semantic identities and paper problems are never silently merged or pooled.
 Last evidence-audit date: 2026-07-30
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */

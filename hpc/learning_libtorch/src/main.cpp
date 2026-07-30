@@ -2,8 +2,16 @@
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: Plan-004 target LibTorch training, artifact, and optimization-bridge executable
 Papers: TAAE DOI 10.1109/JAS.2026.126233; ALGA DOI 10.1016/j.swevo.2025.102018; RLPSO DOI 10.1016/j.energy.2024.134050
+Public source and missing/conflict basis: RLPSO has a pinned author archive
+whose action step, seed, log-probability, buffer, and PPO lifecycle conflict
+with the paper; TAAE and ALGA provide no public code, corpus, or checkpoint.
+Resolution and reconstruction: use the registered paper-first identities,
+retain RLPSO source replay separately, and train all missing states from
+scratch under the controlling contracts.
 Evidence contracts: shared/contracts/plan004_taae_transformer_architecture.json; plan004_alga_attention_architecture.json; plan004_rlpso_ppo_architecture.json
-Backend rule: identical typed model and loss code on CPU, CUDA, and hybrid; hybrid uses pinned nonblocking input transfer, a bounded batch queue contract, and explicit synchronization
+Production backend rule: identical LibTorch C++ model and loss code on CPU,
+CUDA, and hybrid; hybrid uses pinned nonblocking input transfer, a bounded
+batch queue contract, and explicit synchronization; no Python production path
 Semantic IDs: taae_transformer_declared_reconstruction_v1; alga_attention_declared_reconstruction_v1; rlpso_paper_corrected_training_reconstruction_v1
 Claim boundary: bounded executable target pipeline and artifact-driven evolutionary transition, not H5 independent-reference admission or formal quality results
 END WFLOP IMPLEMENTATION FACT DECLARATION

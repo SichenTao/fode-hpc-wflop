@@ -122,6 +122,16 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_source_dossiers.py
     )
     add_test(
+        NAME target_source_fact_declarations
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_target_source_fact_declarations.py
+    )
+    add_test(
+        NAME all_cpp_source_fact_declarations
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_source_fact_declarations.py
+    )
+    add_test(
         NAME reconstruction_decisions
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_reconstruction_decisions.py

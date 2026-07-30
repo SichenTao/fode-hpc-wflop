@@ -1,7 +1,13 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: Plan-004 LibTorch model, artifact, backend, and target-transition tests
+Papers: TAAE DOI 10.1109/JAS.2026.126233; ALGA DOI
+10.1016/j.swevo.2025.102018; RLPSO DOI 10.1016/j.energy.2024.134050
+Public source, missing information, paper/source conflicts, and reconstruction
+decisions are reused unchanged from hpc/learning_libtorch/src/models.cpp.
 Evidence contracts: shared/contracts/plan004_taae_transformer_architecture.json; plan004_alga_attention_architecture.json; plan004_rlpso_ppo_architecture.json
+Production backend: direct LibTorch C++ CPU/CUDA/hybrid test path; no Python
+production runner.
 Semantic IDs: taae_transformer_declared_reconstruction_v1; alga_attention_declared_reconstruction_v1; rlpso_paper_corrected_training_reconstruction_v1
 Claim boundary: bounded architecture and backend verification only; H5 independent-reference admission is a separate Plan-004 gate
 END WFLOP IMPLEMENTATION FACT DECLARATION

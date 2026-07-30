@@ -1,0 +1,1690 @@
+{
+  "architecture": "aarch64",
+  "cache_sysfs": [
+    {
+      "coherency_line_size": "64",
+      "cpu": 0,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "0",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 0,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "0",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 0,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "1024",
+      "shared_cpu_list": "0",
+      "size": "512K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 0,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "8192",
+      "shared_cpu_list": "0-9",
+      "size": "8192K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 1,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "1",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 1,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "1",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 1,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "1024",
+      "shared_cpu_list": "1",
+      "size": "512K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 1,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "8192",
+      "shared_cpu_list": "0-9",
+      "size": "8192K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 2,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "2",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 2,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "2",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 2,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "1024",
+      "shared_cpu_list": "2",
+      "size": "512K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 2,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "8192",
+      "shared_cpu_list": "0-9",
+      "size": "8192K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 3,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "3",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 3,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "3",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 3,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "1024",
+      "shared_cpu_list": "3",
+      "size": "512K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 3,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "8192",
+      "shared_cpu_list": "0-9",
+      "size": "8192K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 4,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "4",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 4,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "4",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 4,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "1024",
+      "shared_cpu_list": "4",
+      "size": "512K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 4,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "8192",
+      "shared_cpu_list": "0-9",
+      "size": "8192K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 5,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "5",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 5,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "5",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 5,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "4096",
+      "shared_cpu_list": "5",
+      "size": "2048K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 5,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "8192",
+      "shared_cpu_list": "0-9",
+      "size": "8192K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 6,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "6",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 6,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "6",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 6,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "4096",
+      "shared_cpu_list": "6",
+      "size": "2048K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 6,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "8192",
+      "shared_cpu_list": "0-9",
+      "size": "8192K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 7,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "7",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 7,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "7",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 7,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "4096",
+      "shared_cpu_list": "7",
+      "size": "2048K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 7,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "8192",
+      "shared_cpu_list": "0-9",
+      "size": "8192K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 8,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "8",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 8,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "8",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 8,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "4096",
+      "shared_cpu_list": "8",
+      "size": "2048K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 8,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "8192",
+      "shared_cpu_list": "0-9",
+      "size": "8192K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 9,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "9",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 9,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "9",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 9,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "4096",
+      "shared_cpu_list": "9",
+      "size": "2048K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 9,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "8192",
+      "shared_cpu_list": "0-9",
+      "size": "8192K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 10,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "10",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 10,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "10",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 10,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "1024",
+      "shared_cpu_list": "10",
+      "size": "512K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 10,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "16384",
+      "shared_cpu_list": "10-19",
+      "size": "16384K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 11,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "11",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 11,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "11",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 11,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "1024",
+      "shared_cpu_list": "11",
+      "size": "512K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 11,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "16384",
+      "shared_cpu_list": "10-19",
+      "size": "16384K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 12,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "12",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 12,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "12",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 12,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "1024",
+      "shared_cpu_list": "12",
+      "size": "512K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 12,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "16384",
+      "shared_cpu_list": "10-19",
+      "size": "16384K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 13,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "13",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 13,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "13",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 13,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "1024",
+      "shared_cpu_list": "13",
+      "size": "512K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 13,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "16384",
+      "shared_cpu_list": "10-19",
+      "size": "16384K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 14,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "14",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 14,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "14",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 14,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "1024",
+      "shared_cpu_list": "14",
+      "size": "512K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 14,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "16384",
+      "shared_cpu_list": "10-19",
+      "size": "16384K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 15,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "15",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 15,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "15",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 15,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "4096",
+      "shared_cpu_list": "15",
+      "size": "2048K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 15,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "16384",
+      "shared_cpu_list": "10-19",
+      "size": "16384K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 16,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "16",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 16,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "16",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 16,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "4096",
+      "shared_cpu_list": "16",
+      "size": "2048K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 16,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "16384",
+      "shared_cpu_list": "10-19",
+      "size": "16384K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 17,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "17",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 17,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "17",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 17,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "4096",
+      "shared_cpu_list": "17",
+      "size": "2048K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 17,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "16384",
+      "shared_cpu_list": "10-19",
+      "size": "16384K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 18,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "18",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 18,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "18",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 18,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "4096",
+      "shared_cpu_list": "18",
+      "size": "2048K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 18,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "16384",
+      "shared_cpu_list": "10-19",
+      "size": "16384K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 19,
+      "index": "index0",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "19",
+      "size": "64K",
+      "type": "Data",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 19,
+      "index": "index1",
+      "level": "1",
+      "number_of_sets": "256",
+      "shared_cpu_list": "19",
+      "size": "64K",
+      "type": "Instruction",
+      "ways_of_associativity": "4"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 19,
+      "index": "index2",
+      "level": "2",
+      "number_of_sets": "4096",
+      "shared_cpu_list": "19",
+      "size": "2048K",
+      "type": "Unified",
+      "ways_of_associativity": "8"
+    },
+    {
+      "coherency_line_size": "64",
+      "cpu": 19,
+      "index": "index3",
+      "level": "3",
+      "number_of_sets": "16384",
+      "shared_cpu_list": "10-19",
+      "size": "16384K",
+      "type": "Unified",
+      "ways_of_associativity": "16"
+    }
+  ],
+  "captured_at": "2026-07-30T11:01:02.775290+09:00",
+  "claim_boundary": "This sidecar characterizes the observed host and concurrent load. It does not remove noise, establish GPU H6, or change any target observation, runner, binary, seed, work budget, or order.",
+  "cmake": "cmake version 3.28.3",
+  "compiler": "c++ (Ubuntu 11.5.0-1ubuntu1~24.04.1) 11.5.0",
+  "core_type_groups": {
+    "Cortex-A725": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      10,
+      11,
+      12,
+      13,
+      14
+    ],
+    "Cortex-X925": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      15,
+      16,
+      17,
+      18,
+      19
+    ]
+  },
+  "frequency_governor_sysfs": [
+    {
+      "cpu": 0,
+      "cpuinfo_max_freq": "2808000",
+      "cpuinfo_min_freq": "338000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "2990000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "2808000",
+      "scaling_min_freq": "338000"
+    },
+    {
+      "cpu": 1,
+      "cpuinfo_max_freq": "2808000",
+      "cpuinfo_min_freq": "338000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "3302000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "2808000",
+      "scaling_min_freq": "338000"
+    },
+    {
+      "cpu": 2,
+      "cpuinfo_max_freq": "2808000",
+      "cpuinfo_min_freq": "338000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "3744000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "2808000",
+      "scaling_min_freq": "338000"
+    },
+    {
+      "cpu": 3,
+      "cpuinfo_max_freq": "2808000",
+      "cpuinfo_min_freq": "338000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "2132000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "2808000",
+      "scaling_min_freq": "338000"
+    },
+    {
+      "cpu": 4,
+      "cpuinfo_max_freq": "2808000",
+      "cpuinfo_min_freq": "338000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "2210000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "2808000",
+      "scaling_min_freq": "338000"
+    },
+    {
+      "cpu": 5,
+      "cpuinfo_max_freq": "3900000",
+      "cpuinfo_min_freq": "1378000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "4862000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "3900000",
+      "scaling_min_freq": "1378000"
+    },
+    {
+      "cpu": 6,
+      "cpuinfo_max_freq": "3900000",
+      "cpuinfo_min_freq": "1378000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "3276000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "3900000",
+      "scaling_min_freq": "1378000"
+    },
+    {
+      "cpu": 7,
+      "cpuinfo_max_freq": "3900000",
+      "cpuinfo_min_freq": "1378000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "3224000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "3900000",
+      "scaling_min_freq": "1378000"
+    },
+    {
+      "cpu": 8,
+      "cpuinfo_max_freq": "3900000",
+      "cpuinfo_min_freq": "1378000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "3562000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "3900000",
+      "scaling_min_freq": "1378000"
+    },
+    {
+      "cpu": 9,
+      "cpuinfo_max_freq": "3900000",
+      "cpuinfo_min_freq": "1378000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "5148000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "3900000",
+      "scaling_min_freq": "1378000"
+    },
+    {
+      "cpu": 10,
+      "cpuinfo_max_freq": "2860000",
+      "cpuinfo_min_freq": "338000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "5122000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "2860000",
+      "scaling_min_freq": "338000"
+    },
+    {
+      "cpu": 11,
+      "cpuinfo_max_freq": "2860000",
+      "cpuinfo_min_freq": "338000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "2314000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "2860000",
+      "scaling_min_freq": "338000"
+    },
+    {
+      "cpu": 12,
+      "cpuinfo_max_freq": "2860000",
+      "cpuinfo_min_freq": "338000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "2236000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "2860000",
+      "scaling_min_freq": "338000"
+    },
+    {
+      "cpu": 13,
+      "cpuinfo_max_freq": "2860000",
+      "cpuinfo_min_freq": "338000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "3224000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "2860000",
+      "scaling_min_freq": "338000"
+    },
+    {
+      "cpu": 14,
+      "cpuinfo_max_freq": "2860000",
+      "cpuinfo_min_freq": "338000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "4264000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "2860000",
+      "scaling_min_freq": "338000"
+    },
+    {
+      "cpu": 15,
+      "cpuinfo_max_freq": "3978000",
+      "cpuinfo_min_freq": "1378000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "3224000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "3978000",
+      "scaling_min_freq": "1378000"
+    },
+    {
+      "cpu": 16,
+      "cpuinfo_max_freq": "3978000",
+      "cpuinfo_min_freq": "1378000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "2990000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "3978000",
+      "scaling_min_freq": "1378000"
+    },
+    {
+      "cpu": 17,
+      "cpuinfo_max_freq": "3978000",
+      "cpuinfo_min_freq": "1378000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "3744000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "3978000",
+      "scaling_min_freq": "1378000"
+    },
+    {
+      "cpu": 18,
+      "cpuinfo_max_freq": "3978000",
+      "cpuinfo_min_freq": "1378000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "3354000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "3978000",
+      "scaling_min_freq": "1378000"
+    },
+    {
+      "cpu": 19,
+      "cpuinfo_max_freq": "4004000",
+      "cpuinfo_min_freq": "1378000",
+      "energy_performance_preference": null,
+      "scaling_cur_freq": "5356000",
+      "scaling_driver": "cppc_cpufreq_epp",
+      "scaling_governor": "performance",
+      "scaling_max_freq": "4004000",
+      "scaling_min_freq": "1378000"
+    }
+  ],
+  "h6_campaign_id": "plan005_h6_core_scaling_performance_first_spark_20260730",
+  "h6_source_commit": "ad45e5a053787a8171bf1ec0c72742826324f258",
+  "host": "spark-9b6f",
+  "logical_cpu_rows": [
+    {
+      "core": 0,
+      "cpu": 0,
+      "maximum_mhz": 2808.0,
+      "minimum_mhz": 338.0,
+      "model_name": "Cortex-A725",
+      "online": true
+    },
+    {
+      "core": 1,
+      "cpu": 1,
+      "maximum_mhz": 2808.0,
+      "minimum_mhz": 338.0,
+      "model_name": "Cortex-A725",
+      "online": true
+    },
+    {
+      "core": 2,
+      "cpu": 2,
+      "maximum_mhz": 2808.0,
+      "minimum_mhz": 338.0,
+      "model_name": "Cortex-A725",
+      "online": true
+    },
+    {
+      "core": 3,
+      "cpu": 3,
+      "maximum_mhz": 2808.0,
+      "minimum_mhz": 338.0,
+      "model_name": "Cortex-A725",
+      "online": true
+    },
+    {
+      "core": 4,
+      "cpu": 4,
+      "maximum_mhz": 2808.0,
+      "minimum_mhz": 338.0,
+      "model_name": "Cortex-A725",
+      "online": true
+    },
+    {
+      "core": 0,
+      "cpu": 5,
+      "maximum_mhz": 3900.0,
+      "minimum_mhz": 1378.0,
+      "model_name": "Cortex-X925",
+      "online": true
+    },
+    {
+      "core": 1,
+      "cpu": 6,
+      "maximum_mhz": 3900.0,
+      "minimum_mhz": 1378.0,
+      "model_name": "Cortex-X925",
+      "online": true
+    },
+    {
+      "core": 2,
+      "cpu": 7,
+      "maximum_mhz": 3900.0,
+      "minimum_mhz": 1378.0,
+      "model_name": "Cortex-X925",
+      "online": true
+    },
+    {
+      "core": 3,
+      "cpu": 8,
+      "maximum_mhz": 3900.0,
+      "minimum_mhz": 1378.0,
+      "model_name": "Cortex-X925",
+      "online": true
+    },
+    {
+      "core": 4,
+      "cpu": 9,
+      "maximum_mhz": 3900.0,
+      "minimum_mhz": 1378.0,
+      "model_name": "Cortex-X925",
+      "online": true
+    },
+    {
+      "core": 5,
+      "cpu": 10,
+      "maximum_mhz": 2860.0,
+      "minimum_mhz": 338.0,
+      "model_name": "Cortex-A725",
+      "online": true
+    },
+    {
+      "core": 6,
+      "cpu": 11,
+      "maximum_mhz": 2860.0,
+      "minimum_mhz": 338.0,
+      "model_name": "Cortex-A725",
+      "online": true
+    },
+    {
+      "core": 7,
+      "cpu": 12,
+      "maximum_mhz": 2860.0,
+      "minimum_mhz": 338.0,
+      "model_name": "Cortex-A725",
+      "online": true
+    },
+    {
+      "core": 8,
+      "cpu": 13,
+      "maximum_mhz": 2860.0,
+      "minimum_mhz": 338.0,
+      "model_name": "Cortex-A725",
+      "online": true
+    },
+    {
+      "core": 9,
+      "cpu": 14,
+      "maximum_mhz": 2860.0,
+      "minimum_mhz": 338.0,
+      "model_name": "Cortex-A725",
+      "online": true
+    },
+    {
+      "core": 5,
+      "cpu": 15,
+      "maximum_mhz": 3978.0,
+      "minimum_mhz": 1378.0,
+      "model_name": "Cortex-X925",
+      "online": true
+    },
+    {
+      "core": 6,
+      "cpu": 16,
+      "maximum_mhz": 3978.0,
+      "minimum_mhz": 1378.0,
+      "model_name": "Cortex-X925",
+      "online": true
+    },
+    {
+      "core": 7,
+      "cpu": 17,
+      "maximum_mhz": 3978.0,
+      "minimum_mhz": 1378.0,
+      "model_name": "Cortex-X925",
+      "online": true
+    },
+    {
+      "core": 8,
+      "cpu": 18,
+      "maximum_mhz": 3978.0,
+      "minimum_mhz": 1378.0,
+      "model_name": "Cortex-X925",
+      "online": true
+    },
+    {
+      "core": 9,
+      "cpu": 19,
+      "maximum_mhz": 4004.0,
+      "minimum_mhz": 1378.0,
+      "model_name": "Cortex-X925",
+      "online": true
+    }
+  ],
+  "lscpu_raw": "Architecture:                            aarch64\nCPU op-mode(s):                          64-bit\nByte Order:                              Little Endian\nCPU(s):                                  20\nOn-line CPU(s) list:                     0-19\nVendor ID:                               ARM\nModel name:                              Cortex-X925\nModel:                                   1\nThread(s) per core:                      1\nCore(s) per socket:                      10\nSocket(s):                               1\nStepping:                                r0p1\nCPU(s) scaling MHz:                      94%\nCPU max MHz:                             4004.0000\nCPU min MHz:                             1378.0000\nBogoMIPS:                                2000.00\nFlags:                                   fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 sm3 sm4 asimddp sha512 sve asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp sve2 sveaes svepmull svebitperm svesha3 svesm4 flagm2 frint svei8mm svebf16 i8mm bf16 dgh bti ecv afp wfxt\nModel name:                              Cortex-A725\nModel:                                   1\nThread(s) per core:                      1\nCore(s) per socket:                      10\nSocket(s):                               1\nStepping:                                r0p1\nCPU(s) scaling MHz:                      91%\nCPU max MHz:                             2860.0000\nCPU min MHz:                             338.0000\nBogoMIPS:                                2000.00\nFlags:                                   fp asimd evtstrm aes pmull sha1 sha2 crc32 atomics fphp asimdhp cpuid asimdrdm jscvt fcma lrcpc dcpop sha3 sm3 sm4 asimddp sha512 sve asimdfhm dit uscat ilrcpc flagm sb paca pacg dcpodp sve2 sveaes svepmull svebitperm svesha3 svesm4 flagm2 frint svei8mm svebf16 i8mm bf16 dgh bti ecv afp wfxt\nL1d cache:                               1.3 MiB (20 instances)\nL1i cache:                               1.3 MiB (20 instances)\nL2 cache:                                25 MiB (20 instances)\nL3 cache:                                24 MiB (2 instances)\nNUMA node(s):                            1\nNUMA node0 CPU(s):                       0-19\nVulnerability Gather data sampling:      Not affected\nVulnerability Ghostwrite:                Not affected\nVulnerability Indirect target selection: Not affected\nVulnerability Itlb multihit:             Not affected\nVulnerability L1tf:                      Not affected\nVulnerability Mds:                       Not affected\nVulnerability Meltdown:                  Not affected\nVulnerability Mmio stale data:           Not affected\nVulnerability Reg file data sampling:    Not affected\nVulnerability Retbleed:                  Not affected\nVulnerability Spec rstack overflow:      Not affected\nVulnerability Spec store bypass:         Mitigation; Speculative Store Bypass disabled via prctl\nVulnerability Spectre v1:                Mitigation; __user pointer sanitization\nVulnerability Spectre v2:                Mitigation; CSV2, BHB\nVulnerability Srbds:                     Not affected\nVulnerability Tsa:                       Not affected\nVulnerability Tsx async abort:           Not affected\nVulnerability Vmscape:                   Not affected\n",
+  "lscpu_raw_sha256": "40eb9c4e211b84447f6a8de68ad99836ebd29742126a2bd2f5240289ee787877",
+  "measurement_noise_boundary": "The H6 target process is affinity-limited to the frozen architecture-aware performance-first W-CPU mapping, while any pre-existing Isaac Lab GPU workload is not affinity isolated. Its observed lifetime CPU use is environmental noise. Heterogeneous core composition at W=12,16,20 and concurrent CPU/GPU load must be considered before attributing nonlinear scaling solely to an algorithm.",
+  "performance_first_cpu_order": [
+    19,
+    15,
+    16,
+    17,
+    18,
+    5,
+    6,
+    7,
+    8,
+    9,
+    10,
+    11,
+    12,
+    13,
+    14,
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "performance_first_worker_composition": {
+    "1": {
+      "affinity_set": [
+        19
+      ],
+      "core_type_counts": {
+        "Cortex-X925": 1
+      },
+      "selection_order": [
+        19
+      ]
+    },
+    "12": {
+      "affinity_set": [
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "core_type_counts": {
+        "Cortex-A725": 2,
+        "Cortex-X925": 10
+      },
+      "selection_order": [
+        19,
+        15,
+        16,
+        17,
+        18,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11
+      ]
+    },
+    "16": {
+      "affinity_set": [
+        0,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "core_type_counts": {
+        "Cortex-A725": 6,
+        "Cortex-X925": 10
+      },
+      "selection_order": [
+        19,
+        15,
+        16,
+        17,
+        18,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        0
+      ]
+    },
+    "2": {
+      "affinity_set": [
+        15,
+        19
+      ],
+      "core_type_counts": {
+        "Cortex-X925": 2
+      },
+      "selection_order": [
+        19,
+        15
+      ]
+    },
+    "20": {
+      "affinity_set": [
+        0,
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "core_type_counts": {
+        "Cortex-A725": 10,
+        "Cortex-X925": 10
+      },
+      "selection_order": [
+        19,
+        15,
+        16,
+        17,
+        18,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10,
+        11,
+        12,
+        13,
+        14,
+        0,
+        1,
+        2,
+        3,
+        4
+      ]
+    },
+    "4": {
+      "affinity_set": [
+        15,
+        16,
+        17,
+        19
+      ],
+      "core_type_counts": {
+        "Cortex-X925": 4
+      },
+      "selection_order": [
+        19,
+        15,
+        16,
+        17
+      ]
+    },
+    "8": {
+      "affinity_set": [
+        5,
+        6,
+        7,
+        15,
+        16,
+        17,
+        18,
+        19
+      ],
+      "core_type_counts": {
+        "Cortex-X925": 8
+      },
+      "selection_order": [
+        19,
+        15,
+        16,
+        17,
+        18,
+        5,
+        6,
+        7
+      ]
+    }
+  },
+  "pre_existing_gpu_compute_processes": [],
+  "schema_version": 1,
+  "selected_cmake_cache_entries": [
+    "CMAKE_BUILD_TYPE:STRING=Release",
+    "CMAKE_CXX_FLAGS:STRING=",
+    "CMAKE_CXX_FLAGS_RELEASE:STRING=-O3 -DNDEBUG",
+    "WFLOP_ENABLE_TORCH:BOOL=ON"
+  ],
+  "selected_cmake_cache_entries_sha256": "03df84fa5caac37434efc86832190ad0c3e23863b61d14509f201d90c77d9d5e",
+  "sidecar_id": "plan005_h6_performance_first_environment_spark_20260730",
+  "topology_policy": "architecture_aware_performance_first",
+  "worker_affinity_sets": {
+    "1": [
+      19
+    ],
+    "12": [
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "16": [
+      0,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "2": [
+      15,
+      19
+    ],
+    "20": [
+      0,
+      1,
+      2,
+      3,
+      4,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      15,
+      16,
+      17,
+      18,
+      19
+    ],
+    "4": [
+      15,
+      16,
+      17,
+      19
+    ],
+    "8": [
+      5,
+      6,
+      7,
+      15,
+      16,
+      17,
+      18,
+      19
+    ]
+  },
+  "worker_selection_order": {
+    "1": [
+      19
+    ],
+    "12": [
+      19,
+      15,
+      16,
+      17,
+      18,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11
+    ],
+    "16": [
+      19,
+      15,
+      16,
+      17,
+      18,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      0
+    ],
+    "2": [
+      19,
+      15
+    ],
+    "20": [
+      19,
+      15,
+      16,
+      17,
+      18,
+      5,
+      6,
+      7,
+      8,
+      9,
+      10,
+      11,
+      12,
+      13,
+      14,
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "4": [
+      19,
+      15,
+      16,
+      17
+    ],
+    "8": [
+      19,
+      15,
+      16,
+      17,
+      18,
+      5,
+      6,
+      7
+    ]
+  }
+}

@@ -1,10 +1,16 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: Plan-004 independent direct-formula H5 reference tests
+Papers: TAAE DOI 10.1109/JAS.2026.126233; ALGA DOI
+10.1016/j.swevo.2025.102018; RLPSO DOI 10.1016/j.energy.2024.134050
+Public source, missing information, paper/source conflicts, and reconstruction
+decisions are reused unchanged from hpc/learning_libtorch/src/models.cpp.
 Evidence contracts: shared/contracts/plan004_taae_transformer_architecture.json; shared/contracts/plan004_alga_attention_architecture.json; shared/contracts/plan004_rlpso_ppo_architecture.json
 Reference boundary: the reference path below evaluates frozen equations directly from cloned named tensors; it never calls TaaeTransformerImpl::forward, AlgaAttentionImpl::forward, RlpsoActorCriticImpl::forward, or any optimized transition helper
 Comparison scope: complete forward tensors, component and total losses, every named gradient, one optimizer step, artifact reload, and one artifact-driven transition
 Semantic IDs: taae_transformer_declared_reconstruction_v1; alga_attention_declared_reconstruction_v1; rlpso_paper_corrected_training_reconstruction_v1
+Production backend: direct LibTorch C++ CPU reference computation; this
+correctness oracle is not a Python production runner.
 Claim boundary: bounded CPU numerical equivalence only; not author-checkpoint, formal-quality, or H6 performance evidence
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */

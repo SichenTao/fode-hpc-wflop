@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "status": "pass_compatibility_only",
+  "host": "spark-9b6f",
+  "device": "NVIDIA GB10",
+  "method": "taae",
+  "method_semantic_id": "taae_transformer_declared_reconstruction_v1",
+  "backend": "cuda",
+  "same_model_and_loss": true,
+  "artifact_driven_optimization_transition": true,
+  "explicit_synchronization": true,
+  "timing_seconds": {
+    "transfer": 0.179321047,
+    "forward": 0.431381075,
+    "loss": 0.166189785,
+    "backward": 0.077816772,
+    "gradient_aggregation": 0.012678389,
+    "optimizer": 0.022911832,
+    "serialization": 0.121230147,
+    "inference": 0.002033636,
+    "optimization_loop": 0.068321147
+  },
+  "claim_boundary": "This proves that the typed TAAE LibTorch model, loss, backward pass, optimizer, artifact replay, inference, and one optimization transition execute on CUDA. The registered end-to-end TAAE evolution runner still accepts only the CPU backend, so this is not target H5/H6 or production-backend evidence."
+}

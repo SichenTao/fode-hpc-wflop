@@ -5,6 +5,9 @@ Paper title: A Geometric Mutation-Based Genetic Algorithm for Irregular Large-Sc
 DOI: 10.1109/CBD69312.2025.00059
 Public asset/source: no author implementation or numerical Anholt data found; evidence dossier docs/source-dossiers/L0726.json
 Missing information: author source, exact operator edge cases, and original Anholt numerical inputs
+Known paper/source conflicts: no executable author source was found, so no
+paper/source behavioral conflict can be adjudicated; operator edge-case
+completions are project declarations and are not attributed to the authors
 Reconstruction: geoga_declared_reconstruction_v1 freezes the declared operator and parallel-execution completions
 Admitted method semantics reused unchanged: population 50, roulette selection proportional to nonnegative AEP, one-point crossover, unique-index repair, one geometric mutation uniformly among the five nearest free candidates, parent-plus-offspring deterministic best-50 survival, and initialization within exact physical FES
 Method evidence tier: M3_DECLARED_COMPLETION

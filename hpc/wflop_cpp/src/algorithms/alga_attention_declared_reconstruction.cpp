@@ -14,6 +14,9 @@ mutation/repair convention; it does not provide ALGA source, 3D terrain, the
 paper's four seasonal arrays, or trained attention state.
 Missing paper fields: target, loss, optimizer, batch/epoch schedule, key width,
 elite count, mask construction/cardinality, initialization, and repair.
+Known paper/source conflicts: no public ALGA source exists for a direct
+comparison; the related GGA predecessor is useful lineage evidence but does
+not define the ALGA attention model, 3D problem, or learned state.
 Reconstruction action: use the frozen completions in
 shared/contracts/alga_attention_declared_reconstruction_contract.json.
 Plan-004 artifact path: an explicitly supplied typed LibTorch artifact is
@@ -22,6 +25,7 @@ attention-ranked cell order drives the same native crossover, mutation, repair,
 evaluation, exact-FES partial-offspring, and elitist-selection loop. Without an
 artifact the independent direct-C++ learning kernel remains the selected path.
 Method semantic ID: alga_attention_declared_reconstruction_v1.
+Training semantic ID: alga_train_from_scratch_v1.
 Step 11 width-two probing is a sensitivity-only independent method semantic.
 The width-one baseline remains unchanged; distinct method semantics are never
 pooled or used for cross-semantic ranking.
@@ -30,12 +34,12 @@ Guishan-family terrain and seasonal wind completion with the paper-visible
 grid, MySE11-230 controls, and 3D Gaussian wake equations. The historical
 planar and FODE-E0 profiles remain interoperability transfers. The P3 profile
 is distinct from the unavailable original Guishan arrays.
-Backend: persistent-team deterministic CPU parallel implementation. Its
-scientific semantics are admitted; HPC throughput admission remains pending an
-uncontended formal host. Hybrid/GPU names are fail-closed compatibility
-interfaces and never silently fall back to CPU.
-Claim boundary: M3 declared engineering reconstruction; never report it as the
-original ALGA implementation or as reproduction of the paper's numerical results.
+Production backend: persistent-team C++ CPU plus the target LibTorch C++/CPU
+learning kernel; LibTorch C++/CUDA and CPU-CUDA hybrid profiles require
+end-to-end validation and never silently fall back to CPU.
+Claim boundary: academically fixed M3 train-from-scratch reconstruction;
+unavailable author assets limit author-original attribution but do not block
+its formal baseline status or paper-scale execution.
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 

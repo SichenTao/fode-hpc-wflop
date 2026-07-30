@@ -26,9 +26,6 @@ DEFAULT_OUTPUT = (
     / "evidence/performance/"
     "plan005_h6_performance_first_environment_sidecar_20260730.json"
 )
-WORKERS = [1, 2, 4, 8, 12, 16, 20]
-
-
 def command_output(command: list[str]) -> str:
     return subprocess.run(
         command,
@@ -200,6 +197,7 @@ def main() -> int:
         raise RuntimeError(f"append-only environment sidecar exists: {output}")
     first_line = RAW.read_text(encoding="utf-8").splitlines()[0]
     header = json.loads(first_line)
+    workers_profile = header["workers"]
     lscpu_raw = command_output(["lscpu"])
     cpu_rows = parse_cpu_rows()
     cpus = header["environment"]["affinity_visible_cpus"]
@@ -208,7 +206,7 @@ def main() -> int:
     for row in cpu_rows:
         core_type_groups.setdefault(row["model_name"], []).append(row["cpu"])
     performance_first_composition = {}
-    for workers in WORKERS:
+    for workers in workers_profile:
         selection_order = header["environment"]["worker_selection_order"][
             str(workers)
         ]
@@ -274,7 +272,8 @@ def main() -> int:
             "architecture-aware performance-first W-CPU mapping, while any "
             "pre-existing Isaac Lab GPU workload is not affinity isolated. Its "
             "observed lifetime CPU use is environmental noise. Heterogeneous "
-            "core composition at W=12,16,20 and concurrent CPU/GPU load must "
+            "core composition of the selected profile and concurrent CPU/GPU "
+            "load must "
             "be considered before attributing nonlinear scaling solely to an "
             "algorithm."
         ),
