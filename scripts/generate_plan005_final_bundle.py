@@ -300,11 +300,27 @@ def main() -> int:
         source = sources[corpus_id]
         fact = facts[corpus_id]
         paper = matrix[corpus_id]
+        require(
+            source["doi"].lower() == paper["doi"].lower()
+            == fact["doi"].lower(),
+            f"{corpus_id}: DOI registry drift",
+        )
+        require(
+            campaign["provenance"]["doi"].lower()
+            == paper["doi"].lower(),
+            f"{corpus_id}: manifest DOI drift",
+        )
+        require(
+            campaign["algorithm_id"] == paper["target_algorithm"].lower()
+            or campaign["method_semantic_id"]
+            == paper["method_semantic_id"],
+            f"{corpus_id}: algorithm identity drift",
+        )
         paper_rows.append(
             {
                 "corpus_id": corpus_id,
-                "doi": campaign["doi"],
-                "target_algorithm": campaign["target_algorithm"],
+                "doi": paper["doi"],
+                "target_algorithm": paper["target_algorithm"],
                 "pair_id": campaign["pair_id"],
                 "method_semantic_id": campaign["method_semantic_id"],
                 "problem_id": campaign["problem_id"],
