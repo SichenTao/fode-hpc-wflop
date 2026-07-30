@@ -48,4 +48,7 @@ cost across the full candidate batch.
 - H4: pure-C++ production implementation and source declarations.
 - H5: independent Python equation oracle, decoder tests, exact cost, and
   reconstructed Fig. 5/6 layout within 1.5% of printed powers.
-- H6: pending Waffle all-available-core paper-budget profile.
+- H6: passed on Waffle with the 17 cores available while pre-existing T12/T22
+  jobs held three cores. Every problem completed 25,000 full 36-direction
+  physical evaluations and observed all 17 requested workers. The four
+  end-to-end times were 0.2733, 0.3380, 0.2148, and 0.2647 seconds.

@@ -757,6 +757,113 @@
         "H5": "pass",
         "H6": "pass"
       }
+    },
+    "T20": {
+      "dossier_status": "formal_complete",
+      "formal_status": "complete_problem_definition_and_comparison_interface",
+      "scope": {
+        "claim_boundary": "academic declared reproduction of the four proposed WFLOP problems and comparison interface; not author-code or twelve-baseline numerical replay",
+        "package_status": "paper_pair_formal_complete"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "100 real variables in [0,1] for variable count and 39 real variables in [1,100] for fixed count"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper_prose_plus_declared_conflict_resolution",
+          "resolution": "binary rounding for Cases I-II and iterative Gc(round(x_i)) selection/removal for Cases III-IV"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "minimize Cost divided by average total power"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "2000m square boundary and at least 5D spacing; all-zero variable-count layout is infeasible"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "Jensen wake, root-sum-square deficits, cubic power, and either hub-inside-wake or exact circle-overlap fraction"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "36 directions from 10 to 360 degrees at constant 12m/s"
+        },
+        "initialization": {
+          "status": "algorithm_specific",
+          "authority": "comparison_protocol",
+          "resolution": "not owned by the benchmark; every conforming population method uses the common problem interface"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "platform",
+          "resolution": "parallel independent candidate evaluation, indexed writes, and deterministic fixed-order reduction"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "population 100, 250 iterations, 25000 complete physical evaluations and ten independent runs per comparison method"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "10x10 grid, CT=0.88, h0=0.3m, h=60m, D=40m, efficiency=0.4, density=1.225kg/m3"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "no learned target method"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "variable-count hub-only and partial-overlap cases plus fixed-39 hub-only and partial-overlap cases"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "objective statistics, histories, Wilcoxon protocol, physical FES, timings, worker receipt, and scientific hash"
+        }
+      },
+      "paper_source_conflicts": [
+        "Algorithm 2 step 5 prints Gc(i), while the prose and input-dependent intent specify Gc(round(x_i)).",
+        "The preceding k=0.086 example uses different constants; the four cases provide h and h0 for the paper roughness relation."
+      ],
+      "missing_information": [
+        "author source code and data archive",
+        "author random seeds and histories",
+        "complete result layouts and unrounded outputs"
+      ],
+      "completion_decisions": [
+        "Register T20 as a problem-definition and comparison-protocol contribution with no target optimizer.",
+        "Exclude the twelve ordinary comparison methods from T20-owned implementation scope.",
+        "Use the paper prose decoder and recompute wake decay from the paper relation.",
+        "Execute each of the four problems at the full 25000-physical-evaluation paper budget on every currently available Waffle core."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/kunakote_t20.hpp",
+        "hpc/core99_cpp/src/kunakote_t20.cpp",
+        "shared/contracts/core99_t20_kunakote_2022.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T20_waffle_full_problem_suite.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
     }
   }
 }

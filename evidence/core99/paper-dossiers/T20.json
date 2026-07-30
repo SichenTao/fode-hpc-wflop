@@ -14,8 +14,8 @@
     "Use candidate-batch parallelism with deterministic indexed writes and a fixed-order best reduction."
   ],
   "corpus_id": "T20",
-  "dossier_status": "h5_admitted",
-  "formal_status": "not_started",
+  "dossier_status": "formal_complete",
+  "formal_status": "complete_problem_definition_and_comparison_interface",
   "hpc_admission": {
     "H0": "pass",
     "H1": "pass",
@@ -23,7 +23,7 @@
     "H3": "pass",
     "H4": "pass",
     "H5": "pass",
-    "H6": "not_started"
+    "H6": "pass"
   },
   "missing_information": [
     "paper-linked author source code and data archive",
@@ -74,7 +74,7 @@
   "scope": {
     "claim_boundary": "academic declared reproduction of the four proposed WFLOP problems and comparison interface; not author-code or twelve-baseline numerical replay",
     "execution_wave": "REV1",
-    "package_status": "paper_pair_h5_validated",
+    "package_status": "paper_pair_formal_complete",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },
@@ -147,6 +147,8 @@
   },
   "validation": {
     "cpp_test": "core99_t20_cpp pass",
+    "formal_receipt": "evidence/core99/h6/T20_waffle_full_problem_suite.json",
+    "h6_scope": "all four problems, 25000 complete 36-direction physical evaluations each, 17 requested and observed workers",
     "h5_oracle": "core99_t20_h5 pass",
     "h5_scope": "independent Python-vs-C++ equation agreement, decoder semantics, exact printed cost, and reconstructed Fig.5/6 layout power within 1.5 percent",
     "paper_figure_relative_power_error": {
