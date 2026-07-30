@@ -10,10 +10,12 @@ from __future__ import annotations
 
 import argparse
 import json
+import subprocess
 from pathlib import Path
 
 from plan005_formal_common import (
     FINAL_MANIFEST,
+    H6_RAW,
     ROOT,
     require,
     sha256,
@@ -30,6 +32,9 @@ def main() -> int:
     require(path.is_file(), f"manifest absent: {path}")
     manifest = json.loads(path.read_text(encoding="utf-8"))
     validate_manifest(manifest, prepared=False)
+    h6_header = json.loads(
+        H6_RAW.read_text(encoding="utf-8").splitlines()[0]
+    )
     deferred = [
         campaign
         for campaign in manifest["campaigns"]
@@ -56,11 +61,44 @@ def main() -> int:
         )
         artifact = admission["bounded_h6_artifact"]
         artifact_path = ROOT / artifact["artifact_logical_path"]
+        artifact_commit = artifact["source_commit"]
         require(
             artifact_path.is_file()
             and sha256(artifact_path) == artifact["artifact_sha256"]
-            and artifact["source_commit"] == manifest["source_commit"],
+            and artifact["trainer_binary_sha256"]
+            == h6_header["binaries"]["trainer"]["sha256"],
             f"{campaign['pair_id']}: bounded H6 artifact drift",
+        )
+        require(
+            subprocess.run(
+                [
+                    "git",
+                    "merge-base",
+                    "--is-ancestor",
+                    artifact_commit,
+                    manifest["source_commit"],
+                ],
+                cwd=ROOT,
+                capture_output=True,
+            ).returncode
+            == 0,
+            f"{campaign['pair_id']}: artifact source is not an ancestor",
+        )
+        require(
+            subprocess.run(
+                [
+                    "git",
+                    "diff",
+                    "--quiet",
+                    f"{artifact_commit}..{manifest['source_commit']}",
+                    "--",
+                    "CMakeLists.txt",
+                    "hpc/learning_libtorch",
+                ],
+                cwd=ROOT,
+            ).returncode
+            == 0,
+            f"{campaign['pair_id']}: trainer source changed after artifact",
         )
         require(
             "paper-scale" in admission["reason"]

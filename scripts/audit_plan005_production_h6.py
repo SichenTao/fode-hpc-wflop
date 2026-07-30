@@ -105,9 +105,31 @@ def main() -> int:
         capture_output=True,
         text=True,
     ).stdout.strip()
+    source_commit = header["source_commit"]
     require(
-        header["source_commit"] == current_commit,
-        "production H6 source commit is not current",
+        subprocess.run(
+            ["git", "merge-base", "--is-ancestor", source_commit, current_commit],
+            cwd=ROOT,
+            capture_output=True,
+        ).returncode
+        == 0,
+        "production H6 source commit is not an ancestor of current HEAD",
+    )
+    require(
+        subprocess.run(
+            [
+                "git",
+                "diff",
+                "--quiet",
+                f"{source_commit}..{current_commit}",
+                "--",
+                "CMakeLists.txt",
+                "hpc",
+            ],
+            cwd=ROOT,
+        ).returncode
+        == 0,
+        "compiled HPC source changed after the production H6 source commit",
     )
     environment = header["environment"]
     affinity = environment["worker_affinity_sets"][str(EXPECTED_WORKERS)]
@@ -146,7 +168,7 @@ def main() -> int:
         require(
             key["workers"] == EXPECTED_WORKERS
             and key["affinity_cpus"] == affinity
-            and key["source_commit"] == current_commit,
+            and key["source_commit"] == source_commit,
             f"{pair_id}: production worker/source identity drift",
         )
         key_hash = canonical_sha256(key)
@@ -228,7 +250,7 @@ def main() -> int:
         summary.get("status") == "accepted_h6"
         and summary.get("summary_id")
         == "plan005_h6_full_core_production_summary_spark_20260730"
-        and summary.get("source_commit") == current_commit
+        and summary.get("source_commit") == source_commit
         and summary.get("raw_observations_sha256") == sha256(RAW)
         and summary.get("target_count") == EXPECTED_TARGETS
         and summary.get("observation_count")
