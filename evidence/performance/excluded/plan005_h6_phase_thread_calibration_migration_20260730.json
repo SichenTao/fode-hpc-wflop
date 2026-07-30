@@ -11,10 +11,11 @@
     "sha256": "1fea92afe2fce83a959d080eb15b7e6cba2ac73bd072fbc50c2b6aaaa62eae4d"
   },
   "reuse_decision": {
-    "expected_exact_compatible_import_count": 105,
-    "imported_groups": "20 non-learning targets plus ALGA, each with five repetitions",
+    "expected_exact_compatible_import_count": 100,
+    "imported_groups": "19 non-learning targets plus ALGA, each with five repetitions",
     "excluded_groups": {
       "RLPSO": "five one-thread LibTorch observations superseded by the calibrated four-thread phase profile",
+      "MOEA/D-P": "five observations use per-run temporary Pareto-front paths in the command identity and are therefore rerun rather than weakened to a non-exact import",
       "TAAE": "no complete observation existed; interrupted low-utilization run was never appended"
     },
     "compatibility_requirements": [
