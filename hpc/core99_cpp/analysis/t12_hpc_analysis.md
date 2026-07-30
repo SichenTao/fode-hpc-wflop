@@ -62,6 +62,14 @@ The production CLI records physical FES, feasibility, objective, evaluator
 time, algorithm-only time, end-to-end time, observed workers, and scientific
 hash.
 
+The released 3s-MDE has a distinct resource shape: each offspring performs a
+5,000-step stateful surrogate trajectory, and only a small subset of repaired
+trials may remain computationally expensive. Extra threads cannot split one
+accepted trajectory without changing its update sequence. Its formal
+throughput policy therefore uses two workers per optimization and fills Waffle
+with independent seed/case optimizations. This is the maximum-resource policy
+for that method, not a claim that one 3s-MDE trajectory is 20-way parallel.
+
 ## H4 — admission policy
 
 H5 requires independent Python-vs-C++ equation agreement on all five

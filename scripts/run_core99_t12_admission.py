@@ -70,19 +70,35 @@ def main() -> int:
     parser.add_argument("--scenario", type=int, default=1)
     parser.add_argument("--seed", type=int, default=20260731)
     parser.add_argument("--workers", type=int, default=20)
+    parser.add_argument(
+        "--three-stage-workers",
+        type=int,
+        default=2,
+        help=(
+            "workers for 3s-MDE; its 5000-step stateful surrogate paths "
+            "are throughput-scaled across independent formal runs"
+        ),
+    )
     parser.add_argument("--physical-fes", type=int, default=2000)
     parser.add_argument("--source-commit", required=True)
     arguments = parser.parse_args()
     arguments.output_root.mkdir(parents=True, exist_ok=True)
     records = []
     for algorithm in ALGORITHMS:
-        output = arguments.output_root / f"{algorithm}-w{arguments.workers}.json"
+        selected_workers = (
+            arguments.three_stage_workers
+            if algorithm == "t12_3s_mde"
+            else arguments.workers
+        )
+        output = arguments.output_root / (
+            f"{algorithm}-w{selected_workers}.json"
+        )
         reused = valid(
             output,
             algorithm,
             arguments.scenario,
             arguments.seed,
-            arguments.workers,
+            selected_workers,
             arguments.physical_fes,
         )
         if not reused:
@@ -98,7 +114,7 @@ def main() -> int:
                     "--physical-fes-limit",
                     str(arguments.physical_fes),
                     "--workers",
-                    str(arguments.workers),
+                    str(selected_workers),
                     "--output",
                     str(output),
                 ],
@@ -139,6 +155,27 @@ def main() -> int:
         "scenario": arguments.scenario,
         "physical_fes_limit": arguments.physical_fes,
         "workers": arguments.workers,
+        "execution_policy": {
+            "t12_goldman_lattice": {
+                "workers_per_optimization": arguments.workers,
+                "parallelism": "candidate_by_direction"
+            },
+            "t12_cmaes_geometric": {
+                "workers_per_optimization": arguments.workers,
+                "parallelism": "offspring_by_direction"
+            },
+            "t12_sshh": {
+                "workers_per_optimization": arguments.workers,
+                "parallelism": "direction"
+            },
+            "t12_3s_mde": {
+                "workers_per_optimization": arguments.three_stage_workers,
+                "parallelism": (
+                    "stateful trajectories within run; independent formal "
+                    "runs provide machine-level throughput"
+                )
+            }
+        },
         "records": records,
         "claim_boundary": (
             "all-core H6 academic declared reproduction; not author runtime"
