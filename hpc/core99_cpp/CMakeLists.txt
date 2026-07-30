@@ -170,7 +170,7 @@ if(BUILD_TESTING)
             --binary $<TARGET_FILE:core99_t14_hpc>
             --contract
                 ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/core99_t14_stanley_2019.json
-            --source-root
-                ${CMAKE_CURRENT_SOURCE_DIR}/../../.source-cache/core99-public/T14-stanley/code
+            --resource-data
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t14_wind_resources.json
     )
 endif()

@@ -29,9 +29,6 @@ from typing import Any
 
 import numpy as np
 
-from generate_core99_t14_data import load_public_module
-
-
 ROTOR_DIAMETER = 130.0
 HUB_HEIGHT = 110.0
 
@@ -139,9 +136,14 @@ def state_power(layout: np.ndarray, direction: float, speed: float) -> float:
     return sum(power(float(value)) for value in velocities)
 
 
-def oracle_aep(layout: list[list[float]], source_root: Path) -> float:
-    module = load_public_module(source_root / "windRoses.py")
-    directions, frequencies, means = module["northIslandRose"](24, nSpeeds=1)
+def oracle_aep(
+    layout: list[list[float]],
+    resource_data: dict[str, Any],
+) -> float:
+    resource = resource_data["resources"]["north_island"]
+    directions = resource["directions_24"]
+    frequencies = resource["frequencies_24"]
+    means = resource["mean_speeds_24"]
     layout_array = np.asarray(layout)
     weighted = 0.0
     width = 5.0
@@ -183,9 +185,12 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--binary", type=Path, required=True)
     parser.add_argument("--contract", type=Path, required=True)
-    parser.add_argument("--source-root", type=Path, required=True)
+    parser.add_argument("--resource-data", type=Path, required=True)
     arguments = parser.parse_args()
     contract = json.loads(arguments.contract.read_text(encoding="utf-8"))
+    resource_data = json.loads(
+        arguments.resource_data.read_text(encoding="utf-8")
+    )
     algorithms = [entry["id"] for entry in contract["algorithms"]]
     case_ids = [
         "t14_spacing4_amalia_north_island",
@@ -212,7 +217,7 @@ def main() -> None:
         "t14_spacing4_amalia_north_island",
         "t14_boundary_grid",
     )
-    oracle = oracle_aep(reference["layout"], arguments.source_root)
+    oracle = oracle_aep(reference["layout"], resource_data)
     absolute_error = abs(oracle - reference["optimization_aep_gwh"])
     tolerance = 1.0e-8
     report = {

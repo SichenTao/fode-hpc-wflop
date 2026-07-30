@@ -30,6 +30,7 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 from __future__ import annotations
 
 import argparse
+import json
 import re
 from pathlib import Path
 
@@ -81,6 +82,7 @@ def main() -> None:
     parser = argparse.ArgumentParser()
     parser.add_argument("--source-root", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--oracle-data-output", type=Path)
     arguments = parser.parse_args()
     module = load_public_module(arguments.source_root / "windRoses.py")
     parts = [
@@ -106,9 +108,20 @@ def main() -> None:
         "ukiah": module["ukiahRose"],
         "victorville": module["victorvilleRose"],
     }
+    oracle_data: dict[str, dict[str, list[float]]] = {}
     for identifier, function in functions.items():
+        oracle_data[identifier] = {}
         for bins in (24, 360):
             directions, frequencies, speeds = function(bins, nSpeeds=1)
+            oracle_data[identifier][f"directions_{bins}"] = [
+                float(value) for value in directions
+            ]
+            oracle_data[identifier][f"frequencies_{bins}"] = [
+                float(value) for value in frequencies
+            ]
+            oracle_data[identifier][f"mean_speeds_{bins}"] = [
+                float(value) for value in speeds
+            ]
             parts.append(array(
                 f"k{identifier.title().replace('_', '')}Directions{bins}",
                 np.asarray(directions),
@@ -130,6 +143,22 @@ def main() -> None:
     parts.append("\n}  // namespace core99::t14::data\n")
     arguments.output.parent.mkdir(parents=True, exist_ok=True)
     arguments.output.write_text("".join(parts), encoding="utf-8")
+    if arguments.oracle_data_output is not None:
+        arguments.oracle_data_output.parent.mkdir(parents=True, exist_ok=True)
+        arguments.oracle_data_output.write_text(
+            json.dumps(
+                {
+                    "generator": "scripts/generate_core99_t14_data.py",
+                    "paper_doi": "10.5194/wes-4-663-2019",
+                    "public_source_revision":
+                        "62b590065f9541c4296338b3f1a0ee07cfcd28bc",
+                    "resources": oracle_data,
+                },
+                indent=2,
+                sort_keys=True,
+            ) + "\n",
+            encoding="utf-8",
+        )
 
 
 if __name__ == "__main__":
