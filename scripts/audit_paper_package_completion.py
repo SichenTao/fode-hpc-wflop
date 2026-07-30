@@ -20,6 +20,11 @@ PROTOCOLS = ROOT / "docs/paper_experiment_protocols.tsv"
 GAPS = ROOT / "docs/paper_asset_gap_ledger.tsv"
 LINEAGE = ROOT / "docs/author_lineage_registry.tsv"
 SCALAR_REGISTRY = ROOT / "docs/scalar_problem_package_registry.tsv"
+PLAN005_BUNDLE = ROOT / "evidence/closure/plan005_final_bundle.json"
+PLAN005_MANIFEST = (
+    ROOT
+    / "formal/plan005/manifests/plan005_target_native_25_v2.json"
+)
 
 MATRIX_COLUMNS = {
     "corpus_id", "doi", "target_algorithm", "method_semantic_id",
@@ -240,11 +245,97 @@ def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument(
         "--phase",
-        choices=("inventory", "evidence", "admission", "formal", "closure"),
+        choices=(
+            "inventory",
+            "evidence",
+            "admission",
+            "formal",
+            "closure",
+            "plan005-final",
+        ),
         default="inventory",
     )
     parser.add_argument("--family", default="")
     args = parser.parse_args()
+
+    if args.phase == "plan005-final":
+        if not PLAN005_BUNDLE.is_file():
+            raise RuntimeError("Plan-005 final evidence bundle is absent")
+        if not PLAN005_MANIFEST.is_file():
+            raise RuntimeError("Plan-005 v2 formal manifest is absent")
+        bundle = json.loads(PLAN005_BUNDLE.read_text(encoding="utf-8"))
+        manifest = json.loads(PLAN005_MANIFEST.read_text(encoding="utf-8"))
+        papers = bundle.get("papers", [])
+        if (
+            bundle.get("suite_id") != "plan005_target_native_25_v2"
+            or bundle.get("target_count") != 23
+            or len(papers) != 23
+            or bundle.get("ready_cpu_target_count") != 20
+            or bundle.get("resource_deferred_learning_target_count") != 3
+            or bundle.get("ready_cpu_formal_run_count") != 27775
+            or bundle.get("non_target_baselines_in_readiness") != 0
+        ):
+            raise RuntimeError("Plan-005 final bundle cardinality drift")
+        if bundle.get("manifest_sha256") != hashlib.sha256(
+            PLAN005_MANIFEST.read_bytes()
+        ).hexdigest():
+            raise RuntimeError("Plan-005 manifest hash drift")
+        by_pair = {paper["pair_id"]: paper for paper in papers}
+        if set(by_pair) != {
+            campaign["pair_id"] for campaign in manifest["campaigns"]
+        }:
+            raise RuntimeError("Plan-005 paper-pair coverage drift")
+        deferred = set()
+        run_count = 0
+        for campaign in manifest["campaigns"]:
+            paper = by_pair[campaign["pair_id"]]
+            if paper["h6"]["status"] != "accepted_h6":
+                raise RuntimeError(
+                    f"{campaign['pair_id']}: accepted H6 absent"
+                )
+            if (
+                paper["h6"]["minimum_named_h0_stage_attribution"] < 0.95
+                or len(paper["source_fact_declaration"]["fact_files"]) == 0
+            ):
+                raise RuntimeError(
+                    f"{campaign['pair_id']}: H6/fact evidence incomplete"
+                )
+            if campaign["execution_admission"] == "ready_cpu":
+                expected = campaign["case_count"] * 25
+                if (
+                    paper["formal_status"] != "complete_25_seed"
+                    or paper["formal_run_count"] != expected
+                    or len(paper["case_summaries"])
+                    != campaign["case_count"]
+                    or any(
+                        row["seed_count"] != 25
+                        for row in paper["case_summaries"]
+                    )
+                ):
+                    raise RuntimeError(
+                        f"{campaign['pair_id']}: formal completion drift"
+                    )
+                run_count += expected
+            else:
+                deferred.add(campaign["corpus_id"])
+                if (
+                    paper["formal_status"]
+                    != "validated_deferred_full_training"
+                    or paper["formal_run_count"] != 0
+                    or paper["case_summaries"]
+                ):
+                    raise RuntimeError(
+                        f"{campaign['pair_id']}: deferred boundary drift"
+                    )
+        if deferred != {"Y36", "T42", "T45"} or run_count != 27775:
+            raise RuntimeError("Plan-005 deferred/run boundary drift")
+        print(
+            "paper_package_completion_audit_pass "
+            "phase=plan005-final papers=23 ready_cpu=20 "
+            "deferred_learning=3 formal_runs=27775 "
+            "non_target_baselines=0"
+        )
+        return 0
 
     lineage = index(read_tsv(LINEAGE), "lineage")
     matrix_rows = read_tsv(MATRIX)

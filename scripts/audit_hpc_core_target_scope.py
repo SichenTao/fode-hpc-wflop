@@ -130,9 +130,19 @@ def main() -> int:
         if not manifest.is_file():
             raise RuntimeError("Plan-003 formal manifest is absent")
     if args.final:
-        bundle = ROOT / "evidence/closure/plan003_final_bundle.json"
+        bundle = ROOT / "evidence/closure/plan005_final_bundle.json"
         if not bundle.is_file():
-            raise RuntimeError("Plan-003 final evidence bundle is absent")
+            raise RuntimeError("Plan-005 final evidence bundle is absent")
+        document = json.loads(bundle.read_text(encoding="utf-8"))
+        if (
+            document.get("suite_id") != "plan005_target_native_25_v2"
+            or document.get("target_count") != 23
+            or document.get("ready_cpu_target_count") != 20
+            or document.get("resource_deferred_learning_target_count") != 3
+            or document.get("ready_cpu_formal_run_count") != 27775
+            or document.get("non_target_baselines_in_readiness") != 0
+        ):
+            raise RuntimeError("Plan-005 final bundle scope drift")
 
     print(
         "hpc_core_target_scope_pass "
