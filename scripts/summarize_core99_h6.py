@@ -20,9 +20,9 @@ def load_group(root: Path, stem: str, workers: int, repeats: int) -> list[dict]:
     return observations
 
 
-def summarize(observations: list[dict]) -> dict:
+def summarize(observations: list[dict], objective_field: str) -> dict:
     hashes = sorted({item["scientific_hash"] for item in observations})
-    objectives = sorted({item["best_objective"] for item in observations})
+    objectives = sorted({item[objective_field] for item in observations})
     physical_fes = sorted({item["physical_fes"] for item in observations})
     observed_workers = sorted({item["observed_workers"] for item in observations})
     if len(hashes) != 1 or len(objectives) != 1 or len(physical_fes) != 1:
@@ -32,7 +32,8 @@ def summarize(observations: list[dict]) -> dict:
         "physical_fes": physical_fes[0],
         "observed_workers": observed_workers,
         "scientific_hash": hashes[0],
-        "best_objective": objectives[0],
+        "objective_field": objective_field,
+        "objective_value": objectives[0],
         "median_seconds": {
             "end_to_end": statistics.median(
                 item["end_to_end_seconds"] for item in observations
@@ -57,6 +58,7 @@ def main() -> int:
     parser.add_argument("--repeats", type=int, default=5)
     parser.add_argument("--host", required=True)
     parser.add_argument("--source-commit", required=True)
+    parser.add_argument("--objective-field", default="best_objective")
     parser.add_argument("--output", type=Path, required=True)
     args = parser.parse_args()
 
@@ -66,7 +68,8 @@ def main() -> int:
             args.stem,
             args.serial_workers,
             args.repeats,
-        )
+        ),
+        args.objective_field,
     )
     hpc = summarize(
         load_group(
@@ -74,11 +77,12 @@ def main() -> int:
             args.stem,
             args.hpc_workers,
             args.repeats,
-        )
+        ),
+        args.objective_field,
     )
     if serial["scientific_hash"] != hpc["scientific_hash"]:
         raise RuntimeError("serial and HPC scientific hashes differ")
-    if serial["best_objective"] != hpc["best_objective"]:
+    if serial["objective_value"] != hpc["objective_value"]:
         raise RuntimeError("serial and HPC objectives differ")
 
     speedup = {
