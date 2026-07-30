@@ -39,7 +39,7 @@ ENVIRONMENT_SIDECAR = (
     / "evidence/performance/"
     "plan005_h6_performance_first_environment_sidecar_20260730.json"
 )
-ARTIFACT_DIR = BUILD / "plan005-h6-artifacts"
+ARTIFACT_DIR = BUILD / "plan005-h6-phase-repair-artifacts"
 TMP_DIR = BUILD / "plan005-h6-tmp"
 H5_REVALIDATION = (
     ROOT
@@ -688,8 +688,10 @@ def train_artifacts(
         if artifact.is_file() and sidecar.is_file():
             receipt = json.loads(sidecar.read_text(encoding="utf-8"))
             require(
-                receipt["artifact_sha256"] == sha256(artifact),
-                f"{method}: local H6 artifact hash changed",
+                receipt["artifact_sha256"] == sha256(artifact)
+                and receipt["source_commit"] == source_commit
+                and receipt["trainer_binary_sha256"] == sha256(trainer),
+                f"{method}: local H6 artifact provenance changed",
             )
         else:
             command = [
