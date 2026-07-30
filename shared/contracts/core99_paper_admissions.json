@@ -219,11 +219,11 @@
       }
     },
     "T03": {
-      "dossier_status": "h6_admitted",
-      "formal_status": "admission_complete_formal_pending",
+      "dossier_status": "formal_complete",
+      "formal_status": "complete",
       "scope": {
         "claim_boundary": "paper-equation academic declared reproduction; no author-source or author-exact numerical claim",
-        "package_status": "paper_pair_h6_admitted"
+        "package_status": "paper_pair_formal_complete"
       },
       "semantic_contract": {
         "decision_variables": {
@@ -312,7 +312,8 @@
         "shared/contracts/core99_t03_kusiak_cases.json"
       ],
       "evidence_receipts": [
-        "evidence/core99/h6/T03_waffle_admission.json"
+        "evidence/core99/h6/T03_waffle_admission.json",
+        "evidence/core99/formal/T03_T04_formal_quality.json"
       ],
       "hpc_admission": {
         "H0": "pass",
@@ -325,11 +326,11 @@
       }
     },
     "T04": {
-      "dossier_status": "h6_admitted",
-      "formal_status": "admission_complete_formal_pending",
+      "dossier_status": "formal_complete",
+      "formal_status": "complete",
       "scope": {
         "claim_boundary": "paper-equation academic declared reproduction with original-layout magnitude validation; no author-source or author-exact optimization claim",
-        "package_status": "paper_pair_h6_admitted"
+        "package_status": "paper_pair_formal_complete"
       },
       "semantic_contract": {
         "decision_variables": {
@@ -419,7 +420,8 @@
         "shared/contracts/core99_t04_uwflo_cases.json"
       ],
       "evidence_receipts": [
-        "evidence/core99/h6/T04_waffle_admission.json"
+        "evidence/core99/h6/T04_waffle_admission.json",
+        "evidence/core99/formal/T03_T04_formal_quality.json"
       ],
       "hpc_admission": {
         "H0": "pass",

@@ -15,8 +15,8 @@
     },
     {
       "corpus_id": "T03",
-      "dossier_sha256": "61c183e3b76bd626b5d41ef56281365f2780a42eefd9fb77d0578fd6c22eb16b",
-      "dossier_status": "h6_admitted",
+      "dossier_sha256": "a9ec7e1b55d0aca202a8228afa3e00f53063d5c2be5a40c3d86e01632ca1bfaf",
+      "dossier_status": "formal_complete",
       "role": "D"
     },
     {
@@ -27,8 +27,8 @@
     },
     {
       "corpus_id": "T04",
-      "dossier_sha256": "08b0f96a7308dcc6b3df2b9642589e825296d46ca0c1df5c14ff9314a26a27a3",
-      "dossier_status": "h6_admitted",
+      "dossier_sha256": "2715ccf631d53550c3eb99c5c12edc867d7d2411ab01b2459c2faefdb3eb89ee",
+      "dossier_status": "formal_complete",
       "role": "D"
     },
     {

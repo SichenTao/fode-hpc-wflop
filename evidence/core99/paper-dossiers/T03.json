@@ -12,11 +12,12 @@
     "Keep the 20-core evaluator despite a small ordered-control slowdown because Waffle end-to-end speedup is 9.99 times and the scientific trajectory is identical."
   ],
   "corpus_id": "T03",
-  "dossier_status": "h6_admitted",
+  "dossier_status": "formal_complete",
   "evidence_receipts": [
-    "evidence/core99/h6/T03_waffle_admission.json"
+    "evidence/core99/h6/T03_waffle_admission.json",
+    "evidence/core99/formal/T03_T04_formal_quality.json"
   ],
-  "formal_status": "admission_complete_formal_pending",
+  "formal_status": "complete",
   "hpc_admission": {
     "H0": "pass",
     "H1": "pass",
@@ -69,7 +70,7 @@
   "scope": {
     "claim_boundary": "paper-equation academic declared reproduction; no author-source or author-exact numerical claim",
     "execution_wave": "REV1",
-    "package_status": "paper_pair_h6_admitted",
+    "package_status": "paper_pair_formal_complete",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },

@@ -1,0 +1,775 @@
+{
+  "campaign_id": "core99_t03_t04_paper_native_25seed_v1",
+  "cases": [
+    {
+      "algorithm_id": "t03_kusiak_spea_es",
+      "algorithm_seconds": {
+        "maximum": 0.021781672999999994,
+        "mean": 0.015016837159999998,
+        "median": 0.014074770999999996,
+        "minimum": 0.012588143
+      },
+      "corpus_id": "T03",
+      "end_to_end_seconds": {
+        "maximum": 0.042539064,
+        "mean": 0.0330271912,
+        "median": 0.031790898,
+        "minimum": 0.030052689
+      },
+      "evaluator_seconds": {
+        "maximum": 0.021820339000000005,
+        "mean": 0.01801035404,
+        "median": 0.017688886,
+        "minimum": 0.01742699299999999
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 1872.7649826313113,
+        "mean": 1872.7649826313113,
+        "median": 1872.7649826313113,
+        "minimum": 1872.7649826313113
+      },
+      "objective_field": "best_expected_power_kw",
+      "physical_fes_per_run": 12120,
+      "problem_id": "t03_kusiak_s1_n2",
+      "repeats": 25,
+      "workers_per_optimization": 20
+    },
+    {
+      "algorithm_id": "t03_kusiak_spea_es",
+      "algorithm_seconds": {
+        "maximum": 0.023748456999999994,
+        "mean": 0.01895446016,
+        "median": 0.01932183299999999,
+        "minimum": 0.013954405000000003
+      },
+      "corpus_id": "T03",
+      "end_to_end_seconds": {
+        "maximum": 0.051373533,
+        "mean": 0.045599435599999995,
+        "median": 0.046051193,
+        "minimum": 0.039964367
+      },
+      "evaluator_seconds": {
+        "maximum": 0.029768863,
+        "mean": 0.02664497544,
+        "median": 0.026550729999999995,
+        "minimum": 0.02588832999999999
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 2809.147473946963,
+        "mean": 2808.1448119388024,
+        "median": 2808.5005855185486,
+        "minimum": 2806.4610605963194
+      },
+      "objective_field": "best_expected_power_kw",
+      "physical_fes_per_run": 12120,
+      "problem_id": "t03_kusiak_s1_n3",
+      "repeats": 25,
+      "workers_per_optimization": 20
+    },
+    {
+      "algorithm_id": "t03_kusiak_spea_es",
+      "algorithm_seconds": {
+        "maximum": 0.023644372999999996,
+        "mean": 0.019268015399999998,
+        "median": 0.018958706,
+        "minimum": 0.015023308000000006
+      },
+      "corpus_id": "T03",
+      "end_to_end_seconds": {
+        "maximum": 0.05912476,
+        "mean": 0.05445271384,
+        "median": 0.054238395,
+        "minimum": 0.049427933
+      },
+      "evaluator_seconds": {
+        "maximum": 0.03642719,
+        "mean": 0.03518469844,
+        "median": 0.03515380500000001,
+        "minimum": 0.034404624999999994
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 3742.8717379093255,
+        "mean": 3740.205088407708,
+        "median": 3740.46118109944,
+        "minimum": 3736.970416744813
+      },
+      "objective_field": "best_expected_power_kw",
+      "physical_fes_per_run": 12120,
+      "problem_id": "t03_kusiak_s1_n4",
+      "repeats": 25,
+      "workers_per_optimization": 20
+    },
+    {
+      "algorithm_id": "t03_kusiak_spea_es",
+      "algorithm_seconds": {
+        "maximum": 0.024810536,
+        "mean": 0.02149751692,
+        "median": 0.021154680000000002,
+        "minimum": 0.019634972000000007
+      },
+      "corpus_id": "T03",
+      "end_to_end_seconds": {
+        "maximum": 0.074199346,
+        "mean": 0.06597261812,
+        "median": 0.065252493,
+        "minimum": 0.063649998
+      },
+      "evaluator_seconds": {
+        "maximum": 0.04938881,
+        "mean": 0.0444751012,
+        "median": 0.04423414399999998,
+        "minimum": 0.04362895000000001
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 4671.373041754344,
+        "mean": 4667.86715410613,
+        "median": 4668.30244212027,
+        "minimum": 4662.640689900303
+      },
+      "objective_field": "best_expected_power_kw",
+      "physical_fes_per_run": 12120,
+      "problem_id": "t03_kusiak_s1_n5",
+      "repeats": 25,
+      "workers_per_optimization": 20
+    },
+    {
+      "algorithm_id": "t03_kusiak_spea_es",
+      "algorithm_seconds": {
+        "maximum": 0.02803336700000001,
+        "mean": 0.02316057708,
+        "median": 0.022953882999999987,
+        "minimum": 0.020265771000000002
+      },
+      "corpus_id": "T03",
+      "end_to_end_seconds": {
+        "maximum": 0.085145397,
+        "mean": 0.07658346803999999,
+        "median": 0.076003651,
+        "minimum": 0.073127117
+      },
+      "evaluator_seconds": {
+        "maximum": 0.05711202999999999,
+        "mean": 0.05342289096,
+        "median": 0.05320856599999999,
+        "minimum": 0.052122295
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 5596.4489147097465,
+        "mean": 5592.459653379513,
+        "median": 5593.554051565148,
+        "minimum": 5581.213886096608
+      },
+      "objective_field": "best_expected_power_kw",
+      "physical_fes_per_run": 12120,
+      "problem_id": "t03_kusiak_s1_n6",
+      "repeats": 25,
+      "workers_per_optimization": 20
+    },
+    {
+      "algorithm_id": "t03_kusiak_spea_es",
+      "algorithm_seconds": {
+        "maximum": 0.021331234999999997,
+        "mean": 0.01515690892,
+        "median": 0.014716047999999985,
+        "minimum": 0.012453730999999992
+      },
+      "corpus_id": "T03",
+      "end_to_end_seconds": {
+        "maximum": 0.041618521,
+        "mean": 0.034526424,
+        "median": 0.033711039,
+        "minimum": 0.031356027
+      },
+      "evaluator_seconds": {
+        "maximum": 0.020916369999999997,
+        "mean": 0.01936951508,
+        "median": 0.019207385999999993,
+        "minimum": 0.018896629000000005
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 975.3837859579554,
+        "mean": 975.3837859579554,
+        "median": 975.3837859579554,
+        "minimum": 975.3837859579554
+      },
+      "objective_field": "best_expected_power_kw",
+      "physical_fes_per_run": 12120,
+      "problem_id": "t03_kusiak_s2_n2",
+      "repeats": 25,
+      "workers_per_optimization": 20
+    },
+    {
+      "algorithm_id": "t03_kusiak_spea_es",
+      "algorithm_seconds": {
+        "maximum": 0.025299010999999996,
+        "mean": 0.020699163519999998,
+        "median": 0.020773362,
+        "minimum": 0.016392200999999995
+      },
+      "corpus_id": "T03",
+      "end_to_end_seconds": {
+        "maximum": 0.05495693,
+        "mean": 0.04956152388000001,
+        "median": 0.049584988,
+        "minimum": 0.044642146
+      },
+      "evaluator_seconds": {
+        "maximum": 0.03049413699999999,
+        "mean": 0.028862360360000002,
+        "median": 0.028806925999999997,
+        "minimum": 0.028249945000000005
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 1461.8341841040776,
+        "mean": 1459.8797408380879,
+        "median": 1459.993982226305,
+        "minimum": 1459.0799091573729
+      },
+      "objective_field": "best_expected_power_kw",
+      "physical_fes_per_run": 12120,
+      "problem_id": "t03_kusiak_s2_n3",
+      "repeats": 25,
+      "workers_per_optimization": 20
+    },
+    {
+      "algorithm_id": "t03_kusiak_spea_es",
+      "algorithm_seconds": {
+        "maximum": 0.027686009999999997,
+        "mean": 0.020387298760000006,
+        "median": 0.020034032000000014,
+        "minimum": 0.014846248999999999
+      },
+      "corpus_id": "T03",
+      "end_to_end_seconds": {
+        "maximum": 0.067442141,
+        "mean": 0.05881281552,
+        "median": 0.058803677,
+        "minimum": 0.052122928
+      },
+      "evaluator_seconds": {
+        "maximum": 0.04090451599999999,
+        "mean": 0.03842551675999999,
+        "median": 0.038325598,
+        "minimum": 0.037276679
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 1947.1381513392753,
+        "mean": 1939.8644521967788,
+        "median": 1940.1095970935314,
+        "minimum": 1931.9653138495667
+      },
+      "objective_field": "best_expected_power_kw",
+      "physical_fes_per_run": 12120,
+      "problem_id": "t03_kusiak_s2_n4",
+      "repeats": 25,
+      "workers_per_optimization": 20
+    },
+    {
+      "algorithm_id": "t03_kusiak_spea_es",
+      "algorithm_seconds": {
+        "maximum": 0.02630329500000001,
+        "mean": 0.022561802920000002,
+        "median": 0.022628454999999985,
+        "minimum": 0.019520378000000026
+      },
+      "corpus_id": "T03",
+      "end_to_end_seconds": {
+        "maximum": 0.075041653,
+        "mean": 0.07067486916,
+        "median": 0.070430769,
+        "minimum": 0.06607841
+      },
+      "evaluator_seconds": {
+        "maximum": 0.04967854800000002,
+        "mean": 0.048113066239999995,
+        "median": 0.047833485000000016,
+        "minimum": 0.046421466999999994
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 2416.219516034375,
+        "mean": 2403.1937758464483,
+        "median": 2402.648586582364,
+        "minimum": 2389.7889258212435
+      },
+      "objective_field": "best_expected_power_kw",
+      "physical_fes_per_run": 12120,
+      "problem_id": "t03_kusiak_s2_n5",
+      "repeats": 25,
+      "workers_per_optimization": 20
+    },
+    {
+      "algorithm_id": "t03_kusiak_spea_es",
+      "algorithm_seconds": {
+        "maximum": 0.02923766000000002,
+        "mean": 0.02440463916,
+        "median": 0.024070138999999997,
+        "minimum": 0.02160034100000001
+      },
+      "corpus_id": "T03",
+      "end_to_end_seconds": {
+        "maximum": 0.090547136,
+        "mean": 0.08225721668000001,
+        "median": 0.081511985,
+        "minimum": 0.078867528
+      },
+      "evaluator_seconds": {
+        "maximum": 0.06223523700000002,
+        "mean": 0.05785257752,
+        "median": 0.05748150099999999,
+        "minimum": 0.05667365699999999
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 2880.4098013769208,
+        "mean": 2857.8801958989025,
+        "median": 2860.9055464733583,
+        "minimum": 2822.389544659976
+      },
+      "objective_field": "best_expected_power_kw",
+      "physical_fes_per_run": 12120,
+      "problem_id": "t03_kusiak_s2_n6",
+      "repeats": 25,
+      "workers_per_optimization": 20
+    },
+    {
+      "algorithm_id": "t04_uwflo_constrained_pso",
+      "algorithm_seconds": {
+        "maximum": 0.0022682659999999997,
+        "mean": 0.001976970319999999,
+        "median": 0.002208522999999997,
+        "minimum": 0.001624363999999997
+      },
+      "corpus_id": "T04",
+      "end_to_end_seconds": {
+        "maximum": 0.013827752,
+        "mean": 0.01008077984,
+        "median": 0.009900214,
+        "minimum": 0.007640057
+      },
+      "evaluator_seconds": {
+        "maximum": 0.011559486,
+        "mean": 0.00810380952,
+        "median": 0.007815147999999997,
+        "minimum": 0.005971518000000002
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 0.9521432156551101,
+        "mean": 0.9315479026918524,
+        "median": 0.942103168710656,
+        "minimum": 0.9038232634852058
+      },
+      "objective_field": "best_farm_efficiency",
+      "physical_fes_per_run": 15000,
+      "problem_id": "t04_uwflo_case1_n9",
+      "repeats": 25,
+      "workers_per_optimization": 1
+    },
+    {
+      "algorithm_id": "t04_uwflo_constrained_pso",
+      "algorithm_seconds": {
+        "maximum": 0.005091859999999998,
+        "mean": 0.004731409559999998,
+        "median": 0.005002286000000002,
+        "minimum": 0.0036690209999999963
+      },
+      "corpus_id": "T04",
+      "end_to_end_seconds": {
+        "maximum": 0.019711218,
+        "mean": 0.01665191476,
+        "median": 0.017101315,
+        "minimum": 0.013011398
+      },
+      "evaluator_seconds": {
+        "maximum": 0.014695382000000005,
+        "mean": 0.011920505200000002,
+        "median": 0.012053838000000006,
+        "minimum": 0.009320794000000004
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 1.6797373132697389,
+        "mean": 1.608356609503005,
+        "median": 1.6067411063080006,
+        "minimum": 1.588149134325782
+      },
+      "objective_field": "best_farm_efficiency",
+      "physical_fes_per_run": 25000,
+      "problem_id": "t04_uwflo_case2_n9",
+      "repeats": 25,
+      "workers_per_optimization": 1
+    },
+    {
+      "algorithm_id": "t04_uwflo_constrained_pso",
+      "algorithm_seconds": {
+        "maximum": 0.0032151959999999966,
+        "mean": 0.0027445874000000003,
+        "median": 0.0027607989999999995,
+        "minimum": 0.002254604000000002
+      },
+      "corpus_id": "T04",
+      "end_to_end_seconds": {
+        "maximum": 0.016844947,
+        "mean": 0.0136040862,
+        "median": 0.013676332,
+        "minimum": 0.010571252
+      },
+      "evaluator_seconds": {
+        "maximum": 0.013629751000000002,
+        "mean": 0.0108594988,
+        "median": 0.010901545,
+        "minimum": 0.008316647999999998
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 0.9989335802560375,
+        "mean": 0.9942177921496697,
+        "median": 0.9945298020425117,
+        "minimum": 0.9895514764170805
+      },
+      "objective_field": "best_farm_efficiency",
+      "physical_fes_per_run": 15000,
+      "problem_id": "t04_uwflo_case3_i_n12",
+      "repeats": 25,
+      "workers_per_optimization": 1
+    },
+    {
+      "algorithm_id": "t04_uwflo_constrained_pso",
+      "algorithm_seconds": {
+        "maximum": 0.003468708000000001,
+        "mean": 0.0030695785999999992,
+        "median": 0.003263543000000011,
+        "minimum": 0.0025665989999999975
+      },
+      "corpus_id": "T04",
+      "end_to_end_seconds": {
+        "maximum": 0.026122101,
+        "mean": 0.021073944,
+        "median": 0.021062779,
+        "minimum": 0.01753916
+      },
+      "evaluator_seconds": {
+        "maximum": 0.022838367,
+        "mean": 0.018004365400000003,
+        "median": 0.017791560000000005,
+        "minimum": 0.014899709999999997
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 0.9865790762226776,
+        "mean": 0.9824441274744288,
+        "median": 0.9824757726168225,
+        "minimum": 0.9789603328340417
+      },
+      "objective_field": "best_farm_efficiency",
+      "physical_fes_per_run": 15000,
+      "problem_id": "t04_uwflo_case3_i_n15",
+      "repeats": 25,
+      "workers_per_optimization": 1
+    },
+    {
+      "algorithm_id": "t04_uwflo_constrained_pso",
+      "algorithm_seconds": {
+        "maximum": 0.004160924000000003,
+        "mean": 0.003549723960000002,
+        "median": 0.0037502400000000123,
+        "minimum": 0.0028792069999999947
+      },
+      "corpus_id": "T04",
+      "end_to_end_seconds": {
+        "maximum": 0.037632645,
+        "mean": 0.030303646679999997,
+        "median": 0.031826622,
+        "minimum": 0.022545079
+      },
+      "evaluator_seconds": {
+        "maximum": 0.033822329000000005,
+        "mean": 0.02675392272,
+        "median": 0.028076381999999987,
+        "minimum": 0.019631820999999987
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 0.9718638874794728,
+        "mean": 0.9567226850613902,
+        "median": 0.957044022767375,
+        "minimum": 0.9471466613514464
+      },
+      "objective_field": "best_farm_efficiency",
+      "physical_fes_per_run": 15000,
+      "problem_id": "t04_uwflo_case3_i_n18",
+      "repeats": 25,
+      "workers_per_optimization": 1
+    },
+    {
+      "algorithm_id": "t04_uwflo_constrained_pso",
+      "algorithm_seconds": {
+        "maximum": 0.0019774980000000003,
+        "mean": 0.0015717240800000002,
+        "median": 0.0016359110000000012,
+        "minimum": 0.0012171260000000007
+      },
+      "corpus_id": "T04",
+      "end_to_end_seconds": {
+        "maximum": 0.006031401,
+        "mean": 0.0046252604,
+        "median": 0.00468426,
+        "minimum": 0.003433563
+      },
+      "evaluator_seconds": {
+        "maximum": 0.004053902999999999,
+        "mean": 0.00305353632,
+        "median": 0.0030368949999999987,
+        "minimum": 0.0022127440000000013
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 1.0001635228406276,
+        "mean": 1.0000714310757224,
+        "median": 1.0000819954056996,
+        "minimum": 0.9999392054146466
+      },
+      "objective_field": "best_farm_efficiency",
+      "physical_fes_per_run": 15000,
+      "problem_id": "t04_uwflo_case3_i_n6",
+      "repeats": 25,
+      "workers_per_optimization": 1
+    },
+    {
+      "algorithm_id": "t04_uwflo_constrained_pso",
+      "algorithm_seconds": {
+        "maximum": 0.002382874000000001,
+        "mean": 0.0022174594,
+        "median": 0.002231239999999999,
+        "minimum": 0.0020632170000000035
+      },
+      "corpus_id": "T04",
+      "end_to_end_seconds": {
+        "maximum": 0.008640858,
+        "mean": 0.007661834760000001,
+        "median": 0.007516798,
+        "minimum": 0.00698588
+      },
+      "evaluator_seconds": {
+        "maximum": 0.006536317000000002,
+        "mean": 0.00544437536,
+        "median": 0.005353011999999997,
+        "minimum": 0.0047981030000000015
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 0.9997299899579274,
+        "mean": 0.9995678580115555,
+        "median": 0.9995478468596747,
+        "minimum": 0.9994411698923548
+      },
+      "objective_field": "best_farm_efficiency",
+      "physical_fes_per_run": 15000,
+      "problem_id": "t04_uwflo_case3_i_n9",
+      "repeats": 25,
+      "workers_per_optimization": 1
+    },
+    {
+      "algorithm_id": "t04_uwflo_constrained_pso",
+      "algorithm_seconds": {
+        "maximum": 0.0038897460000000064,
+        "mean": 0.0034059332000000043,
+        "median": 0.003576419999999997,
+        "minimum": 0.0028372869999999904
+      },
+      "corpus_id": "T04",
+      "end_to_end_seconds": {
+        "maximum": 0.038529479,
+        "mean": 0.03246181824,
+        "median": 0.034662169,
+        "minimum": 0.02390871
+      },
+      "evaluator_seconds": {
+        "maximum": 0.03463973299999999,
+        "mean": 0.029055885039999996,
+        "median": 0.030927131999999982,
+        "minimum": 0.021017444000000007
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 0.6624656371563055,
+        "mean": 0.6198736187378012,
+        "median": 0.6206601597661299,
+        "minimum": 0.5506286861978853
+      },
+      "objective_field": "best_farm_efficiency",
+      "physical_fes_per_run": 15000,
+      "problem_id": "t04_uwflo_case3_ii_f1",
+      "repeats": 25,
+      "workers_per_optimization": 1
+    },
+    {
+      "algorithm_id": "t04_uwflo_constrained_pso",
+      "algorithm_seconds": {
+        "maximum": 0.003875200999999995,
+        "mean": 0.003512656519999999,
+        "median": 0.003752953,
+        "minimum": 0.0028327030000000093
+      },
+      "corpus_id": "T04",
+      "end_to_end_seconds": {
+        "maximum": 0.037186463,
+        "mean": 0.029896433,
+        "median": 0.031003304,
+        "minimum": 0.022571241
+      },
+      "evaluator_seconds": {
+        "maximum": 0.03331126200000001,
+        "mean": 0.02638377648,
+        "median": 0.02716020199999999,
+        "minimum": 0.019654921999999995
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 0.9718638874794728,
+        "mean": 0.9567226850613902,
+        "median": 0.957044022767375,
+        "minimum": 0.9471466613514464
+      },
+      "objective_field": "best_farm_efficiency",
+      "physical_fes_per_run": 15000,
+      "problem_id": "t04_uwflo_case3_ii_f2",
+      "repeats": 25,
+      "workers_per_optimization": 1
+    },
+    {
+      "algorithm_id": "t04_uwflo_constrained_pso",
+      "algorithm_seconds": {
+        "maximum": 0.004931647999999976,
+        "mean": 0.0036903867599999986,
+        "median": 0.003845968000000005,
+        "minimum": 0.0028490109999999916
+      },
+      "corpus_id": "T04",
+      "end_to_end_seconds": {
+        "maximum": 0.039672896,
+        "mean": 0.027083686880000003,
+        "median": 0.027489337,
+        "minimum": 0.019699778
+      },
+      "evaluator_seconds": {
+        "maximum": 0.03474124800000002,
+        "mean": 0.023393300120000002,
+        "median": 0.023643368999999994,
+        "minimum": 0.01680701499999999
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 0.9962168513169486,
+        "mean": 0.9937896211394335,
+        "median": 0.9940873722073642,
+        "minimum": 0.9893651517610167
+      },
+      "objective_field": "best_farm_efficiency",
+      "physical_fes_per_run": 15000,
+      "problem_id": "t04_uwflo_case3_ii_f3",
+      "repeats": 25,
+      "workers_per_optimization": 1
+    },
+    {
+      "algorithm_id": "t04_uwflo_constrained_pso",
+      "algorithm_seconds": {
+        "maximum": 0.003916423000000002,
+        "mean": 0.003852920040000001,
+        "median": 0.0038454210000000016,
+        "minimum": 0.0038132040000000075
+      },
+      "corpus_id": "T04",
+      "end_to_end_seconds": {
+        "maximum": 0.028239015,
+        "mean": 0.025486190720000003,
+        "median": 0.025164321,
+        "minimum": 0.023268201
+      },
+      "evaluator_seconds": {
+        "maximum": 0.024324018000000017,
+        "mean": 0.02163327068,
+        "median": 0.021328072999999996,
+        "minimum": 0.019429191
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 0.9998012436805962,
+        "mean": 0.9990932431140669,
+        "median": 0.9990603266312761,
+        "minimum": 0.9984322728495323
+      },
+      "objective_field": "best_farm_efficiency",
+      "physical_fes_per_run": 15000,
+      "problem_id": "t04_uwflo_case3_ii_f4",
+      "repeats": 25,
+      "workers_per_optimization": 1
+    },
+    {
+      "algorithm_id": "t04_uwflo_constrained_pso",
+      "algorithm_seconds": {
+        "maximum": 0.004265775999999995,
+        "mean": 0.003945643520000002,
+        "median": 0.003854048000000009,
+        "minimum": 0.003818018000000003
+      },
+      "corpus_id": "T04",
+      "end_to_end_seconds": {
+        "maximum": 0.027326178,
+        "mean": 0.02499795312,
+        "median": 0.024966116,
+        "minimum": 0.022455175
+      },
+      "evaluator_seconds": {
+        "maximum": 0.02322534399999999,
+        "mean": 0.021052309599999996,
+        "median": 0.021067247,
+        "minimum": 0.018515484999999998
+      },
+      "feasible_runs": 25,
+      "objective": {
+        "maximum": 1.000122899261156,
+        "mean": 0.9998997998948035,
+        "median": 0.9999041744753608,
+        "minimum": 0.9995500236633926
+      },
+      "objective_field": "best_farm_efficiency",
+      "physical_fes_per_run": 15000,
+      "problem_id": "t04_uwflo_case3_ii_f5",
+      "repeats": 25,
+      "workers_per_optimization": 1
+    }
+  ],
+  "claim_boundary": "formal project-declared reproduction results; not author-exact numerical reproduction",
+  "execution_policies": {
+    "T03": {
+      "concurrent_optimizations": 1,
+      "workers_per_optimization": 20
+    },
+    "T04": {
+      "concurrent_optimizations": 20,
+      "workers_per_optimization": 1
+    }
+  },
+  "feasible_observations": 550,
+  "manifest_sha256": "60ccffee40c554fb89537157648189ae8dba4871d2f3f678ab9de512cbb2781b",
+  "observation_count": 550,
+  "paper_case_count": 22,
+  "paper_count": 2,
+  "repeats_per_case": 25,
+  "reused_observations": 0,
+  "schema_version": 1,
+  "source_commit": "72ccefd",
+  "status": "complete",
+  "summed_optimization_wall_seconds": 20.384895615999998
+}
