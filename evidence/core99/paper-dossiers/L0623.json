@@ -6,21 +6,33 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "The official arXiv source archive is CC BY 4.0 and supplies exact wind-rose and layout figures.",
+    "The missing modified OpenFOAM solver, mesh and CFD-response arrays cannot be reconstructed as author CFD; a declared ADM/Gaussian truth proxy is used instead.",
+    "Truth calls and surrogate FEs remain separate scientific work units.",
+    "The exact paper truth-call totals are preserved for all three cases.",
+    "Twenty-five independent seeds implement the platform protocol because the paper omits a repeat count."
+  ],
   "corpus_id": "L0623",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "waffle_h6_and_formal_queued",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "pass_truth_surrogate_and_algorithm_work_units",
+    "H1": "pass_initial_truth_and_population_inference_factorization",
+    "H2": "pass_rank_one_kriging_update_analysis",
+    "H3": "pass_counter_keyed_lhs_and_ga_events",
+    "H4": "pass_pure_cpp_cpu_backend",
+    "H5": "pass_local_semantic_scale_and_replay",
+    "H6": "queued_waffle_one_vs_twenty_complete_case1"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "modified simpleFoam and actuator-disk source",
+    "OpenFOAM dictionaries, meshes and convergence tolerances",
+    "CFD truth-response arrays",
+    "exact LHS realization",
+    "MLE search bounds and optimizer",
+    "GA genetic operators and convergence threshold",
+    "random seeds and repeat count"
   ],
   "paper": {
     "authors": "Zhenfan Wang and Yu Tu and Kai Zhang and Zhaolong Han and Yong Cao and Dai Zhou",
@@ -36,7 +48,14 @@
     "venue": "Ocean Engineering",
     "year": 2024
   },
-  "paper_linked_public_asset_candidates": [],
+  "paper_linked_public_asset_candidates": [
+    {
+      "archive_sha256": "5d6fd208c4ffa5750814d6830344a1f3f7800d7002e4026457cdb52898d7b507",
+      "license": "CC BY 4.0",
+      "status": "consumed_primary_source_figures",
+      "url": "https://arxiv.org/e-print/2309.01387"
+    }
+  ],
   "paper_source_conflicts": [],
   "private_fulltext_receipt": {
     "consumed": true,
@@ -45,82 +64,85 @@
   },
   "public_asset_candidate_evidence": {
     "availability_mention_line_numbers": [],
-    "embedded_annotation_urls": [],
-    "status": "no_paper_linked_public_asset_candidate_detected"
+    "embedded_annotation_urls": [
+      "https://arxiv.org/abs/2309.01387",
+      "https://arxiv.org/e-print/2309.01387"
+    ],
+    "status": "official_cc_by_arxiv_source_consumed"
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "academic declared reproduction of the paper problem, adaptive Kriging-GA method and all three cases on a versioned ADM/Gaussian truth proxy; not OpenFOAM CFD, author code/data/meshes, exact operators, random state, AEP or numerical replay",
     "execution_wave": "REV2",
-    "package_status": "queued_full_text_contract",
+    "package_status": "implemented_h5_admitted_h6_and_formal_queued",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "wake_power_cost_or_physical_evaluator"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_then_declared_completion",
+      "resolution": "81 nodes, eight turbines, at least 2D spacing and nearest-feasible discrete repair",
+      "status": "implemented"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "eight selected nodes from a 9-by-9 candidate lattice",
+      "status": "implemented"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_then_declared_completion",
+      "resolution": "canonical sorted eight-index set and 16 normalized Kriging coordinates",
+      "status": "implemented"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_then_declared_completion",
+      "resolution": "360 discrete LHS layouts with deterministic feasible repair",
+      "status": "implemented"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_then_platform_policy",
+      "resolution": "AEP, truth calls, surrogate FEs and timing for 25 independent seeds",
+      "status": "implemented"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "maximize wind-frequency-weighted annual energy production",
+      "status": "implemented"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_table_4_and_source_figures",
+      "resolution": "three flat/single, flat/windrose and Gaussian-hill/windrose cases",
+      "status": "implemented"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_table_2_and_3_then_declared_completion",
+      "resolution": "paper population/rates/generation cap and turbine values; isolated model and convergence completions",
+      "status": "implemented"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_table_2_and_5",
+      "resolution": "1000 GA generation cap and exact 437/400/399 truth-call totals; surrogate FEs reported separately",
+      "status": "implemented"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_sections_2_2_and_2_4",
+      "resolution": "360 truth samples, Kriging fit, surrogate GA, optimum truth infill and rank-one refit",
+      "status": "implemented"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_then_declared_completion",
+      "resolution": "one optimum infill per adaptive step and fixed-order best reduction",
+      "status": "implemented"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_for_target_then_declared_proxy",
+      "resolution": "target ADM-RANS registered; executable terrain-aware ADM/Gaussian proxy is explicitly non-CFD",
+      "status": "implemented_proxy_boundary"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_text_and_cc_by_source_figure",
+      "resolution": "single west state and normalized eight-bin Figure-6 transcription",
+      "status": "implemented"
     }
   }
 }

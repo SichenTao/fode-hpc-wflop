@@ -1,0 +1,30 @@
+{
+  "baseline_relative_errors": [
+    0.015425322223275239,
+    0.015815271917662858,
+    0.03659731778033098
+  ],
+  "claim_boundary": "paper problem and adaptive Kriging-GA academic reproduction on a declared ADM/Gaussian truth proxy; not author OpenFOAM CFD, source, mesh, responses or numerical replay",
+  "corpus_id": "L0623",
+  "observed_smoke_workers": 4,
+  "paper_baseline_aep_gwh": [
+    141.324,
+    97.287,
+    135.732
+  ],
+  "paper_case_count": 3,
+  "paper_truth_calls": [
+    437,
+    400,
+    399
+  ],
+  "proxy_baseline_aep_gwh": [
+    139.14403176211786,
+    95.74837964094634,
+    130.76457286304012
+  ],
+  "scientific_hash": "8efe404c574a40d1",
+  "smoke_surrogate_fes": 4000,
+  "smoke_truth_calls": 68,
+  "status": "pass"
+}
