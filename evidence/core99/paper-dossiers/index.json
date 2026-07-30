@@ -171,8 +171,8 @@
     },
     {
       "corpus_id": "T80",
-      "dossier_sha256": "ca0bb6fd822321f0760f6239f7e003156585cdf299e60b877912e92634038234",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "5f1c4ef35869097dc446c2b2bea861f73bd0799321301a9f9fb30c8d5db2c47e",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

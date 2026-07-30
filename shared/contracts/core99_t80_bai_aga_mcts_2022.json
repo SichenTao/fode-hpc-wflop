@@ -1,0 +1,98 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T80",
+  "paper": {
+    "title": "Wind Farm Layout Optimization Using Adaptive Evolutionary Algorithm with Monte Carlo Tree Search Reinforcement Learning",
+    "doi": "10.1016/j.enconman.2021.115047",
+    "pdf_sha256": "89c73e7f261cbed357fa199f94e91d6c872b7c5227643296364b9608fa720f34"
+  },
+  "public_source": {
+    "target_author_source": "not_found",
+    "predecessor_url": "https://github.com/JuXinglong/WFLOP_Python",
+    "predecessor_commit": "b1fc0d602928ee3f1fed5f8dc0de0a4a37a06bff",
+    "predecessor_role": "T74 GA operator lineage only"
+  },
+  "paper_problem": {
+    "case1": {
+      "grid": [21, 21],
+      "turbine_count": 60,
+      "cell_widths_m": [231.0, 308.0, 385.0],
+      "wind_scenarios": 4,
+      "turbine": "GE1.5sle",
+      "rotor_diameter_m": 77.0,
+      "rated_power_kw": 629.1
+    },
+    "case2": {
+      "identity": "t80_case2_new_jersey_figure_proxy_v1",
+      "grid": [20, 30],
+      "turbine_count": 99,
+      "cell_width_m": 220.0,
+      "wind_states": "four speeds x sixteen directions transcribed/completed from Figure 12",
+      "turbine": "GE Haliade-X 12 MW",
+      "rotor_diameter_m": 220.0,
+      "rated_power_kw": 12000.0
+    },
+    "wake_model": {
+      "type": "Jensen overlap",
+      "wake_expansion": 0.1,
+      "thrust_coefficient": 0.88,
+      "multiple_wake": "quadratic superposition"
+    },
+    "objectives": [
+      "minimize cost of energy",
+      "maximize expected farm power and conversion efficiency"
+    ]
+  },
+  "method": {
+    "semantic_id": "t80_aga_spmcts_declared_completion_v1",
+    "outer_generations": 200,
+    "elite_rate": 0.2,
+    "crossover_rate": 0.6,
+    "random_rate": 0.5,
+    "mutation_rate": 0.1,
+    "completed_population": 100,
+    "completed_relocated_turbines": 3,
+    "completed_exploitation_rate": 0.5,
+    "completed_mcts_simulations": 200,
+    "completed_uct_C": 1.0,
+    "completed_uct_D": 1e-06,
+    "completed_tree_widening": "ceil(sqrt(parent visits plus one))"
+  },
+  "formal_protocol": {
+    "semantic_id": "t80_13case_10repeat_pop100_outer200_mcts200_v1",
+    "case_count": 13,
+    "repeats": 10,
+    "physical_fes": "every complete wake evaluation, including population fitness and each MCTS terminal rollout"
+  },
+  "missing_and_completions": [
+    {
+      "missing": "population size",
+      "completion": "100 from directly cited same-author T74 GA lineage"
+    },
+    {
+      "missing": "m, rI, MCTS count, C, D and tree widening",
+      "completion": "3, 0.5, 200, 1, 1e-6 and deterministic square-root progressive widening"
+    },
+    {
+      "missing": "New Jersey numerical wind array",
+      "completion": "direction totals transcribed from Figure 12; unresolved stacked speed shares normalized and explicitly marked P3"
+    },
+    {
+      "missing": "Haliade rotor in paper text",
+      "completion": "220 m from official GE specification"
+    }
+  ],
+  "hpc": {
+    "backend": "pure C++ CPU",
+    "executor": "one persistent full-core team",
+    "parallel_regions": [
+      "population wake evaluation",
+      "independent per-individual MCTS trees",
+      "external individual generation",
+      "crossover and mutation"
+    ],
+    "serial_dependency": "selection, expansion and backpropagation inside one adaptive MCTS tree",
+    "non_oversubscription": "one formal paper run owns at most twenty Waffle workers"
+  },
+  "claim_boundary": "Academic paper/predecessor reconstruction; New Jersey is a figure-derived proxy, not author wind data, code or numerical replay."
+}

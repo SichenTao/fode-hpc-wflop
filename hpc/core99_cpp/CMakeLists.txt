@@ -148,6 +148,36 @@ target_compile_options(core99_t74_core PRIVATE
 add_executable(core99_t74_hpc src/ju_t74_main.cpp)
 target_link_libraries(core99_t74_hpc PRIVATE core99_t74_core)
 
+add_library(core99_discrete_grid_wake_core src/discrete_grid_wake.cpp)
+target_include_directories(core99_discrete_grid_wake_core
+    PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
+)
+target_compile_features(core99_discrete_grid_wake_core PUBLIC cxx_std_20)
+target_compile_options(core99_discrete_grid_wake_core PRIVATE
+    -O3
+    -march=native
+    -ffp-contract=off
+)
+
+add_library(core99_t80_core src/bai_t80.cpp)
+target_include_directories(core99_t80_core
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+)
+target_link_libraries(
+    core99_t80_core
+    PUBLIC fode_core core99_discrete_grid_wake_core
+)
+target_compile_features(core99_t80_core PUBLIC cxx_std_20)
+target_compile_options(core99_t80_core PRIVATE
+    -O3
+    -march=native
+    -ffp-contract=off
+)
+add_executable(core99_t80_hpc src/bai_t80_main.cpp)
+target_link_libraries(core99_t80_hpc PRIVATE core99_t80_core)
+
 add_library(core99_t03_core src/kusiak_t03.cpp)
 target_include_directories(core99_t03_core
     PUBLIC
@@ -486,6 +516,15 @@ if(BUILD_TESTING)
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t74.py
             --binary $<TARGET_FILE:core99_t74_hpc>
+    )
+    add_executable(core99_t80_test tests/bai_t80_test.cpp)
+    target_link_libraries(core99_t80_test PRIVATE core99_t80_core)
+    add_test(NAME core99_t80_cpp COMMAND core99_t80_test)
+    add_test(
+        NAME core99_t80_h5
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t80.py
+            --binary $<TARGET_FILE:core99_t80_hpc>
     )
     add_executable(
         core99_historical_grid_test
