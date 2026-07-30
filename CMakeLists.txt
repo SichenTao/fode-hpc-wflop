@@ -25,6 +25,13 @@ endif()
 
 if(BUILD_TESTING)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/docs/core99_expansion_registry.tsv)
+        add_test(
+            NAME core99_scope
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_core99_scope.py
+        )
+    endif()
     add_test(
         NAME lineage_registry
         COMMAND ${Python3_EXECUTABLE}
