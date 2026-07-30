@@ -1,0 +1,61 @@
+{
+  "schema_version": 1,
+  "contract_id": "t03_kusiak_circular_expected_power_v1",
+  "paper": {
+    "corpus_id": "T03",
+    "doi": "10.1016/j.renene.2009.08.019",
+    "title": "Design of Wind Farm Layout for Maximum Wind Energy Capture",
+    "public_author_source": null
+  },
+  "problem": {
+    "decision_variables": "continuous x,y coordinates for each fixed-count turbine",
+    "farm_boundary": "circle centered at origin with radius 500 m",
+    "minimum_center_spacing_m": 308.0,
+    "rotor_radius_m": 38.5,
+    "hub_height_m": 80.0,
+    "thrust_coefficient": 0.8,
+    "wake_expansion": 0.075,
+    "wake_superposition": "root-sum-square center-in-cone deficits",
+    "power_curve": "140.86*v-500 kW over 3.5 to 14 m/s; 1500 kW rated tail",
+    "wind_discretization": "24 direction bins of 15 degrees and 21 speed bins of 0.5 m/s",
+    "objectives": [
+      "minimize inverse expected power",
+      "minimize summed circular-boundary and pair-spacing violations"
+    ],
+    "physical_fes": "one complete layout evaluation over all registered direction and speed bins"
+  },
+  "cases": [
+    "t03_kusiak_s1_n2",
+    "t03_kusiak_s1_n3",
+    "t03_kusiak_s1_n4",
+    "t03_kusiak_s1_n5",
+    "t03_kusiak_s1_n6",
+    "t03_kusiak_s2_n2",
+    "t03_kusiak_s2_n3",
+    "t03_kusiak_s2_n4",
+    "t03_kusiak_s2_n5",
+    "t03_kusiak_s2_n6"
+  ],
+  "method": {
+    "algorithm_id": "t03_kusiak_spea_es",
+    "method_semantic_id": "t03_kusiak_spea_es_declared_v1",
+    "parents": 20,
+    "children": 120,
+    "archive_limit": 50,
+    "tournament_size": 4,
+    "generations": 100,
+    "physical_fes": 12120,
+    "strategy_bounds_m": [
+      1.0,
+      25.0
+    ],
+    "strategy_learning_rates": "tau0=1/sqrt(4N), tau=1/sqrt(2*sqrt(2N))"
+  },
+  "declared_completions": [
+    "strength-Pareto raw score breaks unspecified SPEA fitness ties",
+    "ordered evenly spread truncation completes unspecified archive clustering edge cases",
+    "counter-keyed random events replace an unspecified generator",
+    "paper direction-bin midpoints use the flow-to coordinate convention"
+  ],
+  "claim_boundary": "academic declared reproduction; no author-source or author-exact numerical claim"
+}
