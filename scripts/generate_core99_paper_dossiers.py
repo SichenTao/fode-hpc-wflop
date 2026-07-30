@@ -56,6 +56,11 @@ def parse_args() -> argparse.Namespace:
         type=Path,
         default=ROOT / "evidence/core99/paper-dossiers",
     )
+    parser.add_argument(
+        "--admissions-manifest",
+        type=Path,
+        default=ROOT / "shared/contracts/core99_paper_admissions.json",
+    )
     return parser.parse_args()
 
 
@@ -82,6 +87,12 @@ def main() -> int:
     text_by_id = {
         record["corpus_id"]: record for record in text_index["records"]
     }
+    admission_by_id: dict[str, dict] = {}
+    if args.admissions_manifest.is_file():
+        admissions = json.loads(
+            args.admissions_manifest.read_text(encoding="utf-8")
+        )
+        admission_by_id = admissions["papers"]
     output_index: list[dict[str, str]] = []
     for row in rows:
         corpus_id = row["corpus_id"]
@@ -180,13 +191,20 @@ def main() -> int:
             "formal_status": "not_started",
             "dossier_status": dossier_status,
         }
+        if corpus_id in admission_by_id:
+            admission = admission_by_id[corpus_id]
+            for key, value in admission.items():
+                if key == "scope":
+                    dossier["scope"].update(value)
+                else:
+                    dossier[key] = value
         output_path = args.output_root / f"{corpus_id}.json"
         write_json(output_path, dossier)
         output_index.append(
             {
                 "corpus_id": corpus_id,
                 "role": row["role"],
-                "dossier_status": dossier_status,
+                "dossier_status": dossier["dossier_status"],
                 "dossier_sha256": sha256_file(output_path),
             }
         )
@@ -199,8 +217,9 @@ def main() -> int:
         },
     )
     counts = {
-        "direct_ready": sum(
-            row["dossier_status"] == "pre_code_fulltext_audit_ready"
+        "direct_ready_or_admitted": sum(
+            row["role"] != "R"
+            and row["dossier_status"] != "blocked_missing_primary_pdf"
             for row in output_index
         ),
         "direct_skipped": sum(
@@ -211,7 +230,8 @@ def main() -> int:
     }
     print(
         "core99_dossiers_generated "
-        f"records={len(output_index)} direct_ready={counts['direct_ready']} "
+        f"records={len(output_index)} "
+        f"direct_ready_or_admitted={counts['direct_ready_or_admitted']} "
         f"direct_skipped={counts['direct_skipped']} "
         f"reviews={counts['reviews']}"
     )

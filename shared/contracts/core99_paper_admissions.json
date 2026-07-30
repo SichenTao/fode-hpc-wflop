@@ -1,0 +1,220 @@
+{
+  "schema_version": 1,
+  "papers": {
+    "T01": {
+      "dossier_status": "h6_admitted",
+      "formal_status": "admission_complete_formal_pending",
+      "scope": {
+        "claim_boundary": "paper-equation academic declared reproduction; no author-source or author-exact numerical claim",
+        "package_status": "paper_pair_h6_admitted"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "100 binary occupancy variables on a 10 by 10 grid"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "two-word packed binary layout; row-major cell-center decoder"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "minimize farm cost divided by expected farm power"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "one turbine at most per grid cell; empty layouts repair to one deterministic cell"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_equations_plus_declared_partial_wake_completion",
+          "resolution": "Jensen wake, analytic rotor overlap, root-sum-square deficits, registered power and cost curves"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_figures_cross_checked_by_later_public_digitization",
+          "resolution": "paper Cases A, B, and normalized C joint direction-speed weights"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "deterministic counter-RNG Bernoulli binary population"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "roulette selection, uniform crossover, bit mutation, elitist ordered commit"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper_profile",
+          "resolution": "200 initial evaluations plus 400 populations of 200 equals 80200 physical FES"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_ranges_plus_cited_predecessor_completion",
+          "resolution": "population 200, crossover 0.7, bit mutation 0.01"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning genetic algorithm"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "Mosetti Cases A, B, and C registered as switchable problems"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "objective, power, turbine count, physical FES, stage timings, and scientific hash"
+        }
+      },
+      "paper_source_conflicts": [
+        "No author implementation was located; a later no-license repository was used only as a digitized-wind cross-check.",
+        "The paper does not fully specify partial-wake geometry or every GA control."
+      ],
+      "missing_information": [
+        "author source code",
+        "full partial-wake implementation detail",
+        "exact crossover and mutation choices inside reported ranges"
+      ],
+      "completion_decisions": [
+        "Use analytic circle overlap as the deterministic partial-wake completion.",
+        "Use the paper/cited-lineage population and registered mid-range GA controls.",
+        "Use counter-based random events and ordered commits for worker-count-independent scientific results."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/historical_grid.hpp",
+        "hpc/core99_cpp/src/historical_grid.cpp",
+        "shared/contracts/core99_mosetti_grady_cases.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T01_T02_waffle_admission.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
+    },
+    "T02": {
+      "dossier_status": "h6_admitted",
+      "formal_status": "admission_complete_formal_pending",
+      "scope": {
+        "claim_boundary": "paper-equation academic declared reproduction with explicit conflict profiles; no author-source or author-exact numerical claim",
+        "package_status": "paper_pair_h6_admitted"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "100 binary occupancy variables on a 10 by 10 grid"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "two-word packed binary layout; row-major cell-center decoder"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "minimize farm cost divided by expected farm power"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "one turbine at most per grid cell; empty layouts repair to one deterministic cell"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_equations_plus_declared_conflict_resolution",
+          "resolution": "Jensen wake with 20 m rotor radius, analytic rotor overlap, root-sum-square deficits, registered power and cost curves"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_figures_cross_checked_by_later_public_digitization",
+          "resolution": "paper Cases A, B, and normalized C joint direction-speed weights"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "deterministic counter-RNG Bernoulli binary population partitioned into 20 islands"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "within-island roulette selection, uniform crossover, bit mutation, elitist ordered commit; no invented migration"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen_with_profiles",
+          "authority": "paper_body_and_abstract_conflict",
+          "resolution": "A and B use 1800600 FES; C exposes body-primary 600600 and abstract-alternative 1500600 FES"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "population 600, 20 islands, crossover 0.7, bit mutation 0.01"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning island genetic algorithm"
+        },
+        "paper_native_cases": {
+          "status": "frozen_with_profiles",
+          "authority": "paper",
+          "resolution": "Grady Cases A, B, C-body-1000 and C-abstract-2500 registered as switchable problems"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "objective, power, turbine count, physical FES, stage timings, and scientific hash"
+        }
+      },
+      "paper_source_conflicts": [
+        "Table 1 labels a 40 m rotor radius while the stated five-diameter 200 m grid and cited model imply a 40 m diameter; the implementation registers radius 20 m.",
+        "The abstract reports 2500 generations for Case C while the experiment body reports 1000; both profiles are exposed and the body is primary.",
+        "No author implementation was located and island migration is not specified."
+      ],
+      "missing_information": [
+        "author source code",
+        "full partial-wake implementation detail",
+        "island migration policy",
+        "exact crossover and mutation controls"
+      ],
+      "completion_decisions": [
+        "Use radius 20 m and retain the conflicting paper label in the fact declaration.",
+        "Expose both Case C stopping profiles without silently choosing one.",
+        "Use independent islands without invented migration.",
+        "Use counter-based random events and ordered commits for worker-count-independent scientific results."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/historical_grid.hpp",
+        "hpc/core99_cpp/src/historical_grid.cpp",
+        "shared/contracts/core99_mosetti_grady_cases.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T01_T02_waffle_admission.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
+    }
+  }
+}

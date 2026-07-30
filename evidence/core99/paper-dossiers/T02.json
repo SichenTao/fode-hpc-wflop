@@ -6,21 +6,37 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Use radius 20 m and retain the conflicting paper label in the fact declaration.",
+    "Expose both Case C stopping profiles without silently choosing one.",
+    "Use independent islands without invented migration.",
+    "Use counter-based random events and ordered commits for worker-count-independent scientific results."
+  ],
   "corpus_id": "T02",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h6_admitted",
+  "evidence_receipts": [
+    "evidence/core99/h6/T01_T02_waffle_admission.json"
+  ],
+  "formal_status": "admission_complete_formal_pending",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pass"
   },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/historical_grid.hpp",
+    "hpc/core99_cpp/src/historical_grid.cpp",
+    "shared/contracts/core99_mosetti_grady_cases.json"
+  ],
   "missing_information": [
-    "full field-level audit not yet completed"
+    "author source code",
+    "full partial-wake implementation detail",
+    "island migration policy",
+    "exact crossover and mutation controls"
   ],
   "paper": {
     "authors": "S.A. Grady and M.Y. Hussaini and M.M. Abdullah",
@@ -37,7 +53,11 @@
     "year": 2005
   },
   "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
+  "paper_source_conflicts": [
+    "Table 1 labels a 40 m rotor radius while the stated five-diameter 200 m grid and cited model imply a 40 m diameter; the implementation registers radius 20 m.",
+    "The abstract reports 2500 generations for Case C while the experiment body reports 1000; both profiles are exposed and the body is primary.",
+    "No author implementation was located and island migration is not specified."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 12,
@@ -50,77 +70,77 @@
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "paper-equation academic declared reproduction with explicit conflict profiles; no author-source or author-exact numerical claim",
     "execution_wave": "REV1",
-    "package_status": "queued_full_text_contract",
+    "package_status": "paper_pair_h6_admitted",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_completion",
+      "resolution": "one turbine at most per grid cell; empty layouts repair to one deterministic cell",
+      "status": "frozen"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "100 binary occupancy variables on a 10 by 10 grid",
+      "status": "frozen"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_completion",
+      "resolution": "two-word packed binary layout; row-major cell-center decoder",
+      "status": "frozen"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_completion",
+      "resolution": "deterministic counter-RNG Bernoulli binary population partitioned into 20 islands",
+      "status": "frozen"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_platform_protocol",
+      "resolution": "objective, power, turbine count, physical FES, stage timings, and scientific hash",
+      "status": "frozen"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "minimize farm cost divided by expected farm power",
+      "status": "frozen"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "Grady Cases A, B, C-body-1000 and C-abstract-2500 registered as switchable problems",
+      "status": "frozen_with_profiles"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_completion",
+      "resolution": "population 600, 20 islands, crossover 0.7, bit mutation 0.01",
+      "status": "frozen"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_body_and_abstract_conflict",
+      "resolution": "A and B use 1800600 FES; C exposes body-primary 600600 and abstract-alternative 1500600 FES",
+      "status": "frozen_with_profiles"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "non-learning island genetic algorithm",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_completion",
+      "resolution": "within-island roulette selection, uniform crossover, bit mutation, elitist ordered commit; no invented migration",
+      "status": "frozen"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_equations_plus_declared_conflict_resolution",
+      "resolution": "Jensen wake with 20 m rotor radius, analytic rotor overlap, root-sum-square deficits, registered power and cost curves",
+      "status": "frozen"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_figures_cross_checked_by_later_public_digitization",
+      "resolution": "paper Cases A, B, and normalized C joint direction-speed weights",
+      "status": "frozen"
     }
   }
 }
