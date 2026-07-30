@@ -430,6 +430,114 @@
         "H5": "pass",
         "H6": "pass"
       }
+    },
+    "T22": {
+      "dossier_status": "h5_admitted",
+      "formal_status": "admission_pending",
+      "scope": {
+        "claim_boundary": "paper-equation and paper-linked-data academic declared reproduction; DEBO is independently reconstructed because executable author DEBO code is absent",
+        "package_status": "paper_pair_h5_validated"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "ordered sequence of 81 continuous turbine coordinates within five disconnected regions"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper_algorithms",
+          "resolution": "100 m admissible grid for greedy allocation followed by progressively refined discrete neighborhoods"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper_and_public_evaluator",
+          "resolution": "maximize annual energy production and report wake-loss fraction"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_and_public_boundaries",
+          "resolution": "inside any of five polygons and at least 396 m inter-turbine distance; only feasible DEBO candidates are evaluated"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_and_public_python_julia_models",
+          "resolution": "simplified Bastankhah Gaussian wake, 8/9 thrust coefficient, 0.0324555 wake expansion, RSS deficits, and IEA 10 MW piecewise power curve"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_linked_public_data",
+          "resolution": "360 one-degree direction bins crossed with 20 direction-conditioned speed bins"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_algorithm_1",
+          "resolution": "upper-right first point, boundary-first potential set, then sequential best-AEP greedy allocation with a no-border fallback"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_algorithms_2_3_plus_declared_rng_completion",
+          "resolution": "counter-keyed Fisher-Yates turbine order, parallel candidate evaluation, strict-improvement and deterministic lexicographic ordered commits"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper_algorithm_3",
+          "resolution": "greedy completion followed by local convergence at each L while L is greater than 5 m; every complete candidate AEP counts as one physical FES"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_algorithm_3",
+          "resolution": "dx=dy=100 m, dmin=396 m, dmax=990 m, L=1000 m, Lmin=5 m, ns=6, rho=0.75"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning greedy and local-search method"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper_and_public_data",
+          "resolution": "IEA Task 37 case study 4 based on Borssele III and IV, 81 turbines and five disconnected regions"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "AEP, wake loss, feasibility, physical FES, stage timings, scientific hash, paper result-layout oracle, and 25 platform seeds"
+        }
+      },
+      "paper_source_conflicts": [
+        "The paper-linked repository provides evaluator and result assets but no executable DEBO optimizer or exact shuffle implementation.",
+        "The repository has no license file, so production code independently implements paper equations and copies no author optimizer code.",
+        "The Python evaluator header says case study 3 although the loaded assets and paper are case study 4.",
+        "The DEBO YAML embeds 2861182.50569 MWh, but repository-consistent recalculation gives 2913220.60417 MWh and matches the paper's 2913.221 GWh.",
+        "Rounded baseline coordinates accumulate 1.130514 m polygon residual."
+      ],
+      "missing_information": [
+        "executable author DEBO implementation",
+        "exact author shuffle random generator",
+        "software license file in the paper-linked GitHub repository"
+      ],
+      "completion_decisions": [
+        "Reconstruct Algorithms 1-3 directly from the CC-BY paper with counter-keyed shuffle and declared deterministic tie handling.",
+        "Compile numeric paper-linked data with source revisions and hashes while implementing all equations independently.",
+        "Use repository-consistent equation recalculation rather than stale embedded DEBO AEP metadata.",
+        "Parallelize candidates at each DEBO decision and preserve ordered state commits; use direction parallelism only for standalone fixed-layout evaluation."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/debo_t22.hpp",
+        "hpc/core99_cpp/src/debo_t22.cpp",
+        "shared/contracts/core99_t22_iea37_cs4.json"
+      ],
+      "evidence_receipts": [],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pending"
+      }
     }
   }
 }
