@@ -503,6 +503,12 @@ python3 scripts/audit_plan005_campaigns.py \
 python3 scripts/audit_plan005_training_resume.py --strict
 ```
 
+Future paper, algorithm, and problem packages follow
+[`docs/benchmark_onboarding_contract.md`](docs/benchmark_onboarding_contract.md):
+source-local fact declarations, semantic registration, independent oracles,
+H0--H6 admission, an append-only formal manifest, full target execution, and
+raw-evidence-derived public closure.
+
 Run `python3 scripts/audit_execution_backends.py` for the static audit. After
 a Release build and explicit staging of trusted ignored source assets, add
 `--build-dir BUILD` to execute every bounded CPU CLI, supported auto-to-CPU
