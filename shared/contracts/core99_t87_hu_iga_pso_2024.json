@@ -1,0 +1,149 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T87",
+  "paper": {
+    "title": "Wind Farm Layout Optimization in Complex Terrain Based on CFD and IGA-PSO",
+    "doi": "10.1016/j.energy.2023.129745",
+    "year": 2024,
+    "pdf_sha256": "83182bf0fa4e7e604543e9a89a682be76ef3f4264fe1aa3c0b2de78a34a85ec6"
+  },
+  "target_contributions": [
+    "AEH-prefiltered Qianjiang complex-terrain WFLOP under four wake/cost cases",
+    "improved genetic algorithm followed by continuous particle swarm refinement"
+  ],
+  "non_target_baselines": [
+    "Greedy, IGA-only and Greedy-PSO are paper comparison methods and are not target algorithms for this package"
+  ],
+  "public_source": {
+    "paper_statement": "The authors do not have permission to share data.",
+    "code_status": "no paper-linked author implementation or data archive located",
+    "claim_boundary": "independent paper, figure and predecessor reconstruction"
+  },
+  "paper_native_problem": {
+    "site": "Qianjiang, Chongqing, China",
+    "region_rotor_diameters": [20.0, 92.0],
+    "grid_spacing_rotor_diameters": 0.5,
+    "full_grid_locations": 7585,
+    "feasible_candidate_locations": 522,
+    "feasible_candidate_fraction": 0.06882003955174687,
+    "aeh_threshold_h": 2000.0,
+    "minimum_spacing_rotor_diameters": 4.0,
+    "turbine": {
+      "model": "WD156-3300",
+      "rotor_diameter_m": 156.0,
+      "hub_height_m": 100.0,
+      "rated_power_mw": 3.3,
+      "cut_in_mps": 3.0,
+      "rated_mps": 11.5,
+      "cut_out_mps": 20.0
+    },
+    "cases": {
+      "t87_case1_jensen_aep": ["Jensen", "maximize AEP"],
+      "t87_case2_gwm_aep": ["Gaussian wake model", "maximize AEP"],
+      "t87_case3_dgwm_aep": ["double-Gaussian wake model", "maximize AEP"],
+      "t87_case4_jensen_nav": ["Jensen", "maximize NAV"]
+    }
+  },
+  "fixture_contract": {
+    "path": "shared/data/core99_t87_figure_proxy.bin",
+    "sha256": "e8fbb28bd24f97aaef4923907e03d91afd4b4e07adb4a370c2d2c9bc2f13ea8a",
+    "candidate_source": "hashed Fig. 9 red-point centers and neighboring AEH contour rank",
+    "wind_source": "hashed Fig. 5 four-bin, sixteen-direction wind rose",
+    "turbine_curve_source": "hashed Fig. 2 normalized power and thrust markers",
+    "candidate_aeh_completion": "rank-anchor to 2000-2500 h",
+    "spatial_speed_completion": "solve one multiplier per candidate so no-wake normalized power integrates to proxy AEH",
+    "claim_boundary": "image-derived Qianjiang proxy, not private CFD, terrain or measured data"
+  },
+  "model_contract": {
+    "wake_equations": "target Eqs. 16-20 with rotor-overlap averaging and RSS superposition",
+    "wake_growth": "0.5/log(100/0.037), inheriting the direct predecessor's roughness length",
+    "dgwm_rmin_over_rotor_radius": 0.55,
+    "thrust_handling": "retain Fig. 2 values and clamp only wake-equation Ct to [0,0.999]",
+    "continuous_background": "four-nearest inverse-distance interpolation of candidate speed multipliers",
+    "nav_completion": {
+      "net_energy_value_rmb_per_kwh": 0.38,
+      "aggregate_annualized_cost_rmb_per_turbine": 2000000.0,
+      "status": "declared Table-2-scale completion because every Eq. 22 numerical input is omitted"
+    }
+  },
+  "optimizer_contract": {
+    "iga": {
+      "population": 300,
+      "generations": 1000,
+      "initialization": "one uniform [0,1] Bernoulli assignment probability per individual",
+      "selection": "roulette selection using monotone feasibility-first rank weights",
+      "crossover": "single-point binary crossover with probability 0.9",
+      "mutation": "one uniformly selected bit when an individual-level event fires; probability follows the predecessor formula from 0.1 to 0.2 by half-run",
+      "survival": "one global elite, completing the target statement that the optimal layout is preserved",
+      "fitness_evaluation": "deduplicate the current population then evaluate unique layouts in parallel"
+    },
+    "pso": {
+      "population": 100,
+      "iterations": 200,
+      "coordinate_neighborhood_rotor_diameters": 1.0,
+      "inertia": "target Eq. 23 increasing linearly from 0.4 to 0.9",
+      "c1": 2.0,
+      "c2": 2.0,
+      "coefficient_status": "declared common PSO values because target omits c1 and c2",
+      "initial_state": "IGA best coordinates with independently perturbed particles; retain the exact IGA point as particle zero"
+    },
+    "proposed_fes_per_run": 320400,
+    "physical_unique_fes": "actual IGA unique-layout calls plus every continuous PSO particle call"
+  },
+  "direct_predecessors": [
+    {
+      "doi": "10.1016/j.energy.2022.123970",
+      "pdf_sha256": "1bcc30b835c9d44c36a2321838939684656c40889564504d6a7eb5a12554db2a",
+      "inherited_facts": ["0.5D grid", "4D spacing", "IGA initialization", "unique parallel evaluation", "roulette selection", "mutation schedule"]
+    },
+    {
+      "doi": "10.1016/j.renene.2021.02.078",
+      "pdf_sha256": "c4ff88b3991d0af44e2fbd7d73014cc84649f59672b2a30236fd2c3ca483f842",
+      "inherited_fact": "representative rmin/r0=0.55 from the fitted 4-14 m/s range"
+    }
+  ],
+  "missing_information": [
+    "private measured one-year mast time series and observation coordinates",
+    "private CFD fields, terrain mesh and correction arrays",
+    "author source, environment, seeds, initial populations, layouts and histories",
+    "wake diffusion coefficient and DGWM rmin",
+    "PSO c1/c2, crossover cut law and mutation granularity",
+    "grid price, operating cost, capital cost, lifetime and discount rate"
+  ],
+  "conflicts_and_resolutions": [
+    {
+      "conflict": "Fig. 2 shows Ct above one while target wake equations contain sqrt(1-Ct)",
+      "resolution": "preserve digitized data but clamp only the wake-equation input to 0.999 and declare the operation"
+    },
+    {
+      "conflict": "Table 2 and Section 4.2 report case-2 IGA-PSO as 1.3881e5 and 1.3804e5 MWh",
+      "resolution": "preserve both facts; use neither as an exact numerical admission target"
+    },
+    {
+      "conflict": "paper withholds the numerical CFD/resource field",
+      "resolution": "use the versioned Fig. 2/5/9 proxy and prohibit author-numerical claims"
+    }
+  ],
+  "hpc_contract": {
+    "backend": "pure_cpp_cpu",
+    "precomputation": [
+      "candidate AEH-to-speed multipliers",
+      "all state/source/target rotor-averaged wake deficit ratios",
+      "fixed wind-state trigonometry within precomputation"
+    ],
+    "inner_parallel_axes": [
+      "full-core candidate wake-table construction",
+      "unique IGA population fitness",
+      "PSO particle state update",
+      "PSO particle fitness"
+    ],
+    "thread_lifecycle": "one persistent worker team per optimization and one for problem precomputation",
+    "allocation_policy": "preallocate/swap genomes, populations, particle positions, velocities and evaluation buffers",
+    "randomness": "counter-keyed logical events independent of worker schedule",
+    "reduction": "fixed state, source and target order inside each independent evaluation",
+    "formal_resource_policy": "use all twenty Waffle CPU cores for a paper run; independent repeats may be scheduled sequentially to avoid nested oversubscription"
+  },
+  "problem_semantic_id": "t87_qianjiang_figure_proxy_v1",
+  "method_semantic_id": "t87_iga_pso_predecessor_completed_v1",
+  "claim_boundary": "academic declared reproduction of the published four-case problem and predecessor-completed IGA-PSO on a versioned figure-derived proxy; not author CFD/data/source/random state or exact numerical replay"
+}
