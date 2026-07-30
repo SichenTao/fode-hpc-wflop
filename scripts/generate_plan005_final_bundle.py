@@ -257,10 +257,16 @@ def main() -> int:
     for row in read_tsv(GAP_LEDGER):
         gaps_by_corpus.setdefault(row["corpus_id"], []).append(row)
 
+    manifest_corpus = {
+        campaign["corpus_id"] for campaign in manifest["campaigns"]
+    }
     require(
-        set(matrix) == set(sources) == set(facts)
-        == {campaign["corpus_id"] for campaign in manifest["campaigns"]},
-        "paper/source/fact/manifest coverage drift",
+        set(matrix) == set(facts) == manifest_corpus,
+        "paper/fact/manifest coverage drift",
+    )
+    require(
+        set(sources) <= manifest_corpus,
+        "source registry contains an unknown paper",
     )
 
     paper_rows: list[dict[str, Any]] = []
@@ -297,19 +303,24 @@ def main() -> int:
             )
             formal_status = "validated_deferred_full_training"
 
-        source = sources[corpus_id]
+        source = sources.get(corpus_id)
         fact = facts[corpus_id]
         paper = matrix[corpus_id]
         require(
-            source["doi"].lower() == paper["doi"].lower()
-            == fact["doi"].lower(),
+            paper["doi"].lower() == fact["doi"].lower(),
             f"{corpus_id}: DOI registry drift",
         )
-        require(
-            campaign["provenance"]["doi"].lower()
-            == paper["doi"].lower(),
-            f"{corpus_id}: manifest DOI drift",
-        )
+        if source is not None:
+            require(
+                source["doi"].lower() == paper["doi"].lower(),
+                f"{corpus_id}: source DOI registry drift",
+            )
+        manifest_doi = campaign["provenance"]["doi"]
+        if manifest_doi:
+            require(
+                manifest_doi.lower() == paper["doi"].lower(),
+                f"{corpus_id}: manifest DOI drift",
+            )
         require(
             campaign["algorithm_id"] == paper["target_algorithm"].lower()
             or campaign["method_semantic_id"]
@@ -348,10 +359,26 @@ def main() -> int:
                     "claim_boundary": h6_target["claim_boundary"],
                 },
                 "source_fact_declaration": {
-                    "source_authority": source["source_authority"],
-                    "source_url": source["source_url"],
-                    "revision_or_sha256": source["revision_or_sha256"],
-                    "implementation_use": source["implementation_use"],
+                    "source_authority": (
+                        source["source_authority"]
+                        if source is not None
+                        else "no_public_source_registry_record"
+                    ),
+                    "source_url": (
+                        source["source_url"]
+                        if source is not None
+                        else "unavailable"
+                    ),
+                    "revision_or_sha256": (
+                        source["revision_or_sha256"]
+                        if source is not None
+                        else "not_applicable"
+                    ),
+                    "implementation_use": (
+                        source["implementation_use"]
+                        if source is not None
+                        else "paper_and_declared_reconstruction"
+                    ),
                     "fact_files": fact["fact_files"].split(";"),
                     "missing_or_conflict_completions":
                         gaps_by_corpus.get(corpus_id, []),
