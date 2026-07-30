@@ -661,6 +661,7 @@ HistoricalRunResult run_historical_ga(
         problem.semantic_id(),
         best_layout,
         best_value,
+        request.seed,
         fes,
         completed_generations,
         request.workers,

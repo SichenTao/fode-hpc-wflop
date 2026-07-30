@@ -128,6 +128,7 @@ std::string result_json(const core99::HistoricalRunResult& result) {
         << result.best_evaluation.expected_power_kw << ",\n"
         << "  \"best_objective\": "
         << result.best_evaluation.objective << ",\n"
+        << "  \"seed\": " << result.seed << ",\n"
         << "  \"physical_fes\": " << result.physical_fes << ",\n"
         << "  \"completed_generations\": " << result.generations << ",\n"
         << "  \"requested_workers\": " << result.requested_workers << ",\n"

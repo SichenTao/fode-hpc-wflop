@@ -67,6 +67,7 @@ struct HistoricalRunResult {
     std::string problem_semantic_id;
     LayoutBits best_layout;
     HistoricalEvaluation best_evaluation;
+    std::uint64_t seed = 0;
     std::uint64_t physical_fes = 0;
     std::uint64_t generations = 0;
     int requested_workers = 0;
