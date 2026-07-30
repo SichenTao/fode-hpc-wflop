@@ -259,7 +259,8 @@ double violation(const std::vector<double>& variables) {
 
 Evaluation finish_evaluation(
     const std::vector<double>& variables,
-    const double average_power_kw
+    const double average_power_kw,
+    const double isolated_power_kw
 ) {
     Evaluation result;
     result.constraint_violation = violation(variables);
@@ -271,19 +272,8 @@ Evaluation finish_evaluation(
         * (kFixedChargeRate + kOperationMaintenanceFraction)
     ) / result.annual_energy_kwh;
 
-    double isolated_power = 0.0;
-    for (int turbine = 0; turbine < 2; ++turbine) {
-        for (int direction = 0; direction < kDirectionCount; ++direction) {
-            isolated_power += direction_turbine_power(
-                variables,
-                turbine,
-                direction,
-                true
-            );
-        }
-    }
-    result.wake_loss_fraction = isolated_power > 0.0
-        ? 1.0 - average_power_kw / isolated_power
+    result.wake_loss_fraction = isolated_power_kw > 0.0
+        ? 1.0 - average_power_kw / isolated_power_kw
         : 0.0;
     return result;
 }
@@ -343,6 +333,7 @@ Evaluation Problem::evaluate(
         throw std::invalid_argument("T48 requires four variables");
     }
     double average_power_kw = 0.0;
+    double isolated_power_kw = 0.0;
     for (int turbine = 0; turbine < 2; ++turbine) {
         for (int direction = 0; direction < kDirectionCount; ++direction) {
             average_power_kw += direction_turbine_power(
@@ -350,9 +341,19 @@ Evaluation Problem::evaluate(
                 turbine,
                 direction
             );
+            isolated_power_kw += direction_turbine_power(
+                variables,
+                turbine,
+                direction,
+                true
+            );
         }
     }
-    return finish_evaluation(variables, average_power_kw);
+    return finish_evaluation(
+        variables,
+        average_power_kw,
+        isolated_power_kw
+    );
 }
 
 std::vector<Evaluation> Problem::evaluate_population(
@@ -368,6 +369,10 @@ std::vector<Evaluation> Problem::evaluate_population(
         population.size() * 2U * static_cast<std::size_t>(kDirectionCount)
     );
     std::vector<double> partial(static_cast<std::size_t>(tasks), 0.0);
+    std::vector<double> isolated_partial(
+        static_cast<std::size_t>(tasks),
+        0.0
+    );
     executor.parallel_for(0, tasks, [&](const int raw) {
         const int direction = raw % kDirectionCount;
         const int turbine = (raw / kDirectionCount) % 2;
@@ -377,20 +382,30 @@ std::vector<Evaluation> Problem::evaluate_population(
             turbine,
             direction
         );
+        isolated_partial[static_cast<std::size_t>(raw)] =
+            direction_turbine_power(
+                population[static_cast<std::size_t>(candidate)],
+                turbine,
+                direction,
+                true
+            );
     });
     std::vector<Evaluation> result(population.size());
     for (std::size_t candidate = 0; candidate < population.size(); ++candidate) {
         double average_power_kw = 0.0;
+        double isolated_power_kw = 0.0;
         const std::size_t begin =
             candidate * 2U * static_cast<std::size_t>(kDirectionCount);
         const std::size_t end =
             begin + 2U * static_cast<std::size_t>(kDirectionCount);
         for (std::size_t index = begin; index < end; ++index) {
             average_power_kw += partial[index];
+            isolated_power_kw += isolated_partial[index];
         }
         result[candidate] = finish_evaluation(
             population[candidate],
-            average_power_kw
+            average_power_kw,
+            isolated_power_kw
         );
     }
     return result;
