@@ -100,6 +100,22 @@ target_compile_options(core99_l0590_core PRIVATE
 add_executable(core99_l0590_hpc src/sun_l0590_main.cpp)
 target_link_libraries(core99_l0590_hpc PRIVATE core99_l0590_core)
 
+add_library(core99_l0341_core src/tao_l0341.cpp)
+target_include_directories(core99_l0341_core
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+)
+target_link_libraries(core99_l0341_core PUBLIC fode_core)
+target_compile_features(core99_l0341_core PUBLIC cxx_std_20)
+target_compile_options(core99_l0341_core PRIVATE
+    -O3
+    -march=native
+    -ffp-contract=off
+)
+add_executable(core99_l0341_hpc src/tao_l0341_main.cpp)
+target_link_libraries(core99_l0341_hpc PRIVATE core99_l0341_core)
+
 add_library(core99_t03_core src/kusiak_t03.cpp)
 target_include_directories(core99_t03_core
     PUBLIC
@@ -411,6 +427,15 @@ if(BUILD_TESTING)
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_l0590.py
             --binary $<TARGET_FILE:core99_l0590_hpc>
+    )
+    add_executable(core99_l0341_test tests/tao_l0341_test.cpp)
+    target_link_libraries(core99_l0341_test PRIVATE core99_l0341_core)
+    add_test(NAME core99_l0341_cpp COMMAND core99_l0341_test)
+    add_test(
+        NAME core99_l0341_h5
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_l0341.py
+            --binary $<TARGET_FILE:core99_l0341_hpc>
     )
     add_executable(
         core99_historical_grid_test
