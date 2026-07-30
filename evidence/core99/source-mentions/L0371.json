@@ -1,0 +1,12 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [],
+  "corpus_id": "L0371",
+  "doi": "10.1016/j.jweia.2021.104548",
+  "embedded_annotation_asset_urls": [],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "227ac3844dd69fda900fc882595e39dfe08eb4483d889a31642c6b032c277e66",
+  "private_text_sha256": "17266f3689a52614cfa53e0aa1ca6aced5748169224d18c2e551f7b4818b51db",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": []
+}

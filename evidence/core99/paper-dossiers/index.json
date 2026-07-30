@@ -1,0 +1,462 @@
+{
+  "record_count": 76,
+  "records": [
+    {
+      "corpus_id": "T02",
+      "dossier_sha256": "f33ad697283baff4e7b39ed3441e2bdff1b5cb6106206090e44b53862505202c",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "R06",
+      "dossier_sha256": "0d34450f07f1806df66816192492c1088d67eec37776ed31845f94c060217cf0",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "T03",
+      "dossier_sha256": "c6b2a1a236d6b92d17d2656c308f1697e690b044a71d8d6472886ebf997d0c63",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T01",
+      "dossier_sha256": "2992c95504a19cbfefaa083d2e566ef93b8c04e10abfb402a275e6807c91e927",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T04",
+      "dossier_sha256": "c7b1b1f2a9a51efd87240fcfd7c31b4235b6ad449cdb42276e568e4b6461d482",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T22",
+      "dossier_sha256": "5ede89f837d42a2ef9b07634dd07287d645671bfa5c7e322a25ea522a0f5a6b0",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T14",
+      "dossier_sha256": "0efa477dc5f585524f2b386857f6917dc524a5634e0c8075e06c7c727e0a3cbc",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "R03",
+      "dossier_sha256": "0c76790129cb9a9b389f3935b018f600c5eeaa495607701595a031959aef54a6",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "T12",
+      "dossier_sha256": "3bb73456f03e69127e7501d9fe45d13fd2fe70817104734e1fc8cb5cdc319e85",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T15",
+      "dossier_sha256": "7220d09b61931689bfb618783157aefcfcf1a4e5b1975199ccaac689a2096910",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "R09",
+      "dossier_sha256": "e19315fe4fb6bc3739ef47ade5ec4825979af9d377de700889aaa23c2a500c55",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "R11",
+      "dossier_sha256": "a9ed7a20242b328d2e92b270c6cac96b6678fddcb383961e4591940160af8050",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "T20",
+      "dossier_sha256": "78ee9deb99c502353b5b7c0cf21310b8c7853641b645e6bf09689c3243a0efd1",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "R21",
+      "dossier_sha256": "7d1480e30fea176fa88ba7e4e38ad3ff598277e559f88ca250e52e59795ff904",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "R04",
+      "dossier_sha256": "835b83e4eda2c8a5f8f63e27e83705e56684fe5bd2f7cbceab6a395252f92bf7",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "T48",
+      "dossier_sha256": "99ca645f6787640a02312a55bb3245f6a97aba5b90746d0adb3b75bd9a1e6f80",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T62",
+      "dossier_sha256": "e3d32df154ee46b339faa852863bf3ed323f23b03ec01f9c89a879ae9ef42bb0",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "R07",
+      "dossier_sha256": "d7e128c826603bed78eba35ee69f54ee7eca82a05336cf396b53da61e9a6d987",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "T17",
+      "dossier_sha256": "25e5ec7d06c67dcb5737e996975080543b2426c1d33b25bae36bc28f132978e8",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T63",
+      "dossier_sha256": "818b49d5bc07d4a8fd488d0314b25e2db2e3ab24c8bd0c784e32cdc25d286f26",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T16",
+      "dossier_sha256": "08a8c609fe6b2ffcbefed12b5745db00ab03b99d345e4761b1fdb42b62b20497",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0124",
+      "dossier_sha256": "d70d73e8e2d5c022629f6767d6b473fb43740b2c5b0d18efb60c6f5d92c0227c",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T87",
+      "dossier_sha256": "370c482ec22e2a1b200fcc8502cc916871989928f275b5e51ae880704128b999",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0371",
+      "dossier_sha256": "39bc256ff18da798474e815a080d1a649eeed65e601d8e95511a537d363460fe",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0499",
+      "dossier_sha256": "ecbb4ba7dc7118c49240d386725ec0dc8473f32344cad3f7ed4399e3a317f17d",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0590",
+      "dossier_sha256": "39c36cd1603bef92a8a01a8e3c5be07dfc7c7c0a5daf36feb62766da414dc137",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0341",
+      "dossier_sha256": "9514fac25f372bff8543d361ac5262ad6a0954c7949484e9f89845b7c1faa63c",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0623",
+      "dossier_sha256": "929179833c6c72fa9aff3cd6ecc92768f3f75de259b5fc983ccaf921d8c13fed",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T80",
+      "dossier_sha256": "ca0bb6fd822321f0760f6239f7e003156585cdf299e60b877912e92634038234",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T74",
+      "dossier_sha256": "a4d6fa25c82f1c77efb7de1e1422fe83210c6bd5d17b4ca808bebbd87bd9a512",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T05",
+      "dossier_sha256": "3546f4b579d94cba6f00360780a51e3dbd42cd4b3b9c5b7d50a52d771c4c18a0",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T07",
+      "dossier_sha256": "c78d69effa8e6cd208cb6e51f23e8f6192a1616c7365ba886d5b05cf707eb2db",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T77",
+      "dossier_sha256": "940e5f39f9172eb8daf918e27fa548eaa72772c718b83a55c9a0ff1fc1b631b0",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T31",
+      "dossier_sha256": "717777fc766e57dee3d19289ddec4d1ec7a3bd345ae336b6d1070aa85f666692",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T27",
+      "dossier_sha256": "50172c2a51765fcba37b32bc5e3abc4cbca487fbb58e36de156ccc48baded617",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T21",
+      "dossier_sha256": "87c8f2cdb5680bdf96884f71b875d115dad199e934a920c6e1eb262a86fef64c",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T72",
+      "dossier_sha256": "3664ca18439facf692cf4042e7feb780dbfe1a96f71e3e5d6c590a4a04ba3bfd",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T60",
+      "dossier_sha256": "0d23a1aa86d9b899c308a1f27b3b2567cf593a7af5c0325cf97fdd601efbf8f8",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T11",
+      "dossier_sha256": "5a0b4818088f3a2fc24dc7637d40140e9e73779c750a80e1dc5ed4734b1d5a06",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0259",
+      "dossier_sha256": "d8c3cb886d9c2f6a033e506dbee00ba0ff761e2ee8550eac0fe244eb93ea0494",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T30",
+      "dossier_sha256": "7d590a292c946b56818e667da124fe54863b32f8ef649818e1375f25f81d0854",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T82",
+      "dossier_sha256": "36d1dd938f9512487d2d541eebb4a6529f3641b5d37bf9556ce73ac7c899babd",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T85",
+      "dossier_sha256": "09b6e7411d8a70ffcd5ea71409084d21f2325f085c5b2e7343f60623e52dd17b",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T24",
+      "dossier_sha256": "7786f37ee0259c57e364e54ef93056b6441159f52ec9948ccbefe84863aa3ae5",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T33",
+      "dossier_sha256": "1637e984984d6af4199ee13719a009a2fbcdb392c242b65e6252a7cc565d248e",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T64",
+      "dossier_sha256": "1fc6de198fd66bbefaa31c37eb7d191e52fbc4688ec51258fc963e91891e9ceb",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T67",
+      "dossier_sha256": "9f6547e654fdc0dd4a2f8a29f81adaa7d4fa05e8b14be5e61866ec02264d91a4",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T76",
+      "dossier_sha256": "c620b08c4db8780b90d2aeaae5656675c316755087442c52cf7e6f768e28aff2",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T81",
+      "dossier_sha256": "4b8e53ed7115423e69e3a59c0032a61434718bcd35fba2081a944af3c2ea1d14",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T32",
+      "dossier_sha256": "5a94b98ba65f1d5d0771af7b1df7484bfa0f5e5a99e5fbdcfb546e9bade335e5",
+      "dossier_status": "blocked_missing_primary_pdf",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T68",
+      "dossier_sha256": "8472a04849acffde5d66d823cb995d13189201738765094e45a180ccb35fa42c",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T78",
+      "dossier_sha256": "8f4d28a271f1d743d0a49c1fe91ef33c3dcacd53e570a2a91378f35fd0702cfd",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T83",
+      "dossier_sha256": "59f0989c12ad819ef3f3d766766e299a56f768a87154a1815dc40353fcbffed8",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T69",
+      "dossier_sha256": "c506964d73b51feb596ed7b57fb354c93f8b746afdd4b5e286a50b833b5e633d",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T28",
+      "dossier_sha256": "fe059537be51d5f482733504e35b57d8d3eaeafa3bb9c98612527286d6ddeb0a",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0079",
+      "dossier_sha256": "333c2461fee47fb7e66f27d479acd4373625dc7f28c6e0abfc5a9ea36eb9238f",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "Y09",
+      "dossier_sha256": "d3872bef3c4233b1e2d0aa20a45c04d96d738b3762d89e5465563b9c3ffdbe5d",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "Y14",
+      "dossier_sha256": "709ea23e38452d00efad47ad0a75fb65e02818cf8e909ad64515c15e35f016b7",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "Y16",
+      "dossier_sha256": "0b467d482db8547eb410d814851efa7d43a3e5ce9c91765e5ad8abfa3b682854",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0368",
+      "dossier_sha256": "bd7e7b5e4bd4e531457ca8940093fd3b38b5d3591de119d2e70dd22ae9ad8847",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0373",
+      "dossier_sha256": "59aeb755aab7e207e1c85a659e1f45140148c58803ca91464c10892460cdca8d",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0298",
+      "dossier_sha256": "f3710b69bd1864b14232cc64d403cda22ed296f6f11c932a3b6ea32f08d55c54",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T73",
+      "dossier_sha256": "6c95f3626800eb6d79943aeb1acbe12e76ed6de40786998eb8661e2334341ffb",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T18",
+      "dossier_sha256": "25e90e3bc316a23e9858a03ce58a2738c62798899881cb460a9a362982072b06",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T25",
+      "dossier_sha256": "8b20fcd10fa344fbf3aa9debd698dc923a9d76774b2a69afb423275addfb05cf",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T19",
+      "dossier_sha256": "ed70dfb8cb7c1858021d59495a1fff7b1d40ace7f3a60efcb72fc2e1ada8aa63",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T08",
+      "dossier_sha256": "7fc6a8cf1018252c6597dbf127b14256ea3dc1ee27a7ac99b8ba1dd4a88b3d13",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T10",
+      "dossier_sha256": "f8ab9621568ffda0e3c5256db9d0217580898021f9b4c48bcb935ff0bc04a032",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T84",
+      "dossier_sha256": "7a213ddaff93b7d129e2058074cfa15be818a18c78111cd86483313e268de0d8",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T58",
+      "dossier_sha256": "dd173ee7a4cea45f37a04c6cf17f881729621b16623fd4defadd524c8c0dd7e1",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T26",
+      "dossier_sha256": "f4119c7eacda61e67a6a4dc6b8245558f27466ee09f29a066af1c302f065eccd",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "Y13",
+      "dossier_sha256": "d37717b70832812fb9235eba85d5401e5f213f090243b070eb2e247cf84faab3",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0649",
+      "dossier_sha256": "edea4613f0ea0bfb17427655e1d2e8e264defb14904343507eb22874d99300bd",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0805",
+      "dossier_sha256": "68c5b0fc00075dd0e13bbbf27927b64956b59826436cb3695b590ee896767f63",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0581",
+      "dossier_sha256": "a75d1969f056c851961f639a28a3540de7a8bcfa2ba9189ac6e5116cb0c5f879",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0245",
+      "dossier_sha256": "5d03257ecfbe89049ebab69d5872a5eea153c39ae3eaf2a41ede0455cad809c9",
+      "dossier_status": "pre_code_fulltext_audit_ready",
+      "role": "D"
+    }
+  ],
+  "schema_version": 1
+}

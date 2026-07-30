@@ -1,0 +1,15 @@
+{
+  "availability_mention_line_numbers": [
+    931,
+    934
+  ],
+  "candidate_public_asset_urls": [],
+  "corpus_id": "T82",
+  "doi": "10.1016/j.apenergy.2022.119599",
+  "embedded_annotation_asset_urls": [],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "a510f421af5a76142d4f0bb5588a7c329f3aaa4ce777a121f9da95bc325b0a68",
+  "private_text_sha256": "d712527b5808f11c84e687903642739607c2b31b9fc0a0a3af978545657d97a0",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": []
+}

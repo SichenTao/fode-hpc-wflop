@@ -1,0 +1,126 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [],
+  "corpus_id": "R09",
+  "dossier_status": "review_evidence_audit_ready",
+  "formal_status": "not_started",
+  "hpc_admission": {
+    "H0": "not_started",
+    "H1": "not_started",
+    "H2": "not_started",
+    "H3": "not_started",
+    "H4": "not_started",
+    "H5": "not_started",
+    "H6": "not_started"
+  },
+  "missing_information": [
+    "full field-level audit not yet completed"
+  ],
+  "paper": {
+    "authors": "Siyu Tao and Qingshan Xu and Andrés Feijóo and Gang Zheng and Jiemin Zhou",
+    "doi": "10.1016/j.energy.2020.118339",
+    "pdf_basename": "2020_Tao_Nonuniform_Wind_Farm_Layout_Optimization_A_State_of_the_Art_Review.pdf",
+    "pdf_sha256": "20fd245c93998f94e7068f308c1e86681475316946a08d16682e44ec26f8aa42",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV1",
+    "reading_tier": "KEY40",
+    "role": "R",
+    "secondary_review_classes": "REV2,REV4",
+    "title": "Nonuniform Wind Farm Layout Optimization: A State-of-the-Art Review",
+    "venue": "Energy",
+    "year": 2020
+  },
+  "paper_linked_public_asset_candidates": [],
+  "paper_source_conflicts": [],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 18,
+    "text_sha256": "8b6df06cbc3c64a8e91607cd11782752192729511597045d93553834490ed421"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [],
+    "embedded_annotation_urls": [],
+    "status": "no_paper_linked_public_asset_candidate_detected"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "review evidence and taxonomy package; no invented optimizer",
+    "execution_wave": "REV1",
+    "package_status": "queued_evidence_dossier",
+    "scope_status": "review_evidence_package",
+    "target_contribution_type": "review_evidence_taxonomy_and_protocol"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "decision_variables": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "encoding_and_decoder": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "initialization": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "metrics_and_repeats": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "objective_and_direction": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "paper_native_cases": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "parameters": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "update_order": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    }
+  }
+}

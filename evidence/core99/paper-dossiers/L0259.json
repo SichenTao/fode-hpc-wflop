@@ -1,0 +1,130 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [],
+  "corpus_id": "L0259",
+  "dossier_status": "pre_code_fulltext_audit_ready",
+  "formal_status": "not_started",
+  "hpc_admission": {
+    "H0": "not_started",
+    "H1": "not_started",
+    "H2": "not_started",
+    "H3": "not_started",
+    "H4": "not_started",
+    "H5": "not_started",
+    "H6": "not_started"
+  },
+  "missing_information": [
+    "full field-level audit not yet completed"
+  ],
+  "paper": {
+    "authors": "Xinglong Ju and Feng Liu and Li Wang and Wei-Jen Lee",
+    "doi": "10.1016/j.enconman.2019.06.082",
+    "pdf_basename": "2019_Ju_Wind_farm_layout_optimization_based_on_support_vector_regression_guided_genetic_algorithm_with_consideration_of_participation_among_landowners.pdf",
+    "pdf_sha256": "5b6605a967143073a4da442c6aa50c873562e6c0f5037b822f38a1862a68782f",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV3",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D",
+    "secondary_review_classes": "NONE",
+    "title": "Wind farm layout optimization based on support vector regression guided genetic algorithm with consideration of participation among landowners",
+    "venue": "Energy Conversion and Management",
+    "year": 2019
+  },
+  "paper_linked_public_asset_candidates": [
+    "https://github.com/JuXinglong/WFLOP_SUGGA_Python"
+  ],
+  "paper_source_conflicts": [],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 15,
+    "text_sha256": "7868bbcf66ef0d3623d1b65815197ade3a424dd07cc3568441037a514d7956aa"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [],
+    "embedded_annotation_urls": [
+      "https://github.com/JuXinglong/WFLOP_SUGGA_Python"
+    ],
+    "status": "candidate_only_requires_revision_license_semantic_audit"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "execution_wave": "REV3",
+    "package_status": "queued_full_text_contract",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "optimization_search_or_learning_method"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "decision_variables": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "encoding_and_decoder": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "initialization": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "metrics_and_repeats": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "objective_and_direction": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "paper_native_cases": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "parameters": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "update_order": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    }
+  }
+}

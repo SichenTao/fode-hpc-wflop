@@ -1,0 +1,20 @@
+{
+  "availability_mention_line_numbers": [
+    724
+  ],
+  "candidate_public_asset_urls": [
+    "https://github.com/sohailrreddy/WindFLO"
+  ],
+  "corpus_id": "T18",
+  "doi": "10.1016/j.apenergy.2020.115090",
+  "embedded_annotation_asset_urls": [
+    "https://github.com/sohailrreddy/WindFLO"
+  ],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "466c24c441328fe6e5c41ef42b7c883997adc61fa755ab11f905b4f3e536384a",
+  "private_text_sha256": "52ece2affacb004876a2df5967a6d29f98421540638fc9ab34ee6c77cc1bc810",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": [
+    "https://github.com/sohailrreddy/WindFLO"
+  ]
+}

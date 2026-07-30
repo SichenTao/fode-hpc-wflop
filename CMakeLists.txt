@@ -31,6 +31,13 @@ if(BUILD_TESTING)
             COMMAND ${Python3_EXECUTABLE}
                 ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_core99_scope.py
         )
+        if(EXISTS ${CMAKE_CURRENT_SOURCE_DIR}/evidence/core99/paper-dossiers/index.json)
+            add_test(
+                NAME core99_paper_dossiers
+                COMMAND ${Python3_EXECUTABLE}
+                    ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_core99_paper_dossiers.py
+            )
+        endif()
     endif()
     add_test(
         NAME lineage_registry

@@ -1,0 +1,18 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [
+    "https://github.com/dbsxodud-11/layopt"
+  ],
+  "corpus_id": "T27",
+  "doi": "10.1145/3711896.3737181",
+  "embedded_annotation_asset_urls": [
+    "https://github.com/dbsxodud-11/layopt"
+  ],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "d4edfb7fc417909141bfcc616d2ed941af6e7c055f738d0b11e635c128a4a26c",
+  "private_text_sha256": "1036233e72bf80be6da3412ce15cab6864b0c83ed675226d5a6c9831df253431",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": [
+    "https://github.com/CMA-ES/pycma"
+  ]
+}

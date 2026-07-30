@@ -1,0 +1,33 @@
+{
+  "availability_mention_line_numbers": [
+    918,
+    1044
+  ],
+  "candidate_public_asset_urls": [
+    "https://doi.org/10.5281/zenodo.10402450",
+    "https://doi.org/10.5281/zenodo.6806136",
+    "https://github.com/HIPS/autograd",
+    "https://github.com/IEAWindTask37/iea37-wflo-casestudies/blob/master/cs1-2/iea37-wflocs-announcement.pdf",
+    "https://gitlab.windenergy.dtu.dk/TOPFARM/PyWake"
+  ],
+  "corpus_id": "T25",
+  "doi": "10.5194/wes-9-321-2024",
+  "embedded_annotation_asset_urls": [
+    "https://doi.org/10.5281/zenodo.10402450",
+    "https://doi.org/10.5281/zenodo.6806136",
+    "https://github.com/HIPS/autograd",
+    "https://github.com/IEAWindTask37/iea37-wflo-casestudies/blob/master/cs1-2/iea37-wflocs-announcement.pdf",
+    "https://gitlab.windenergy.dtu.dk/TOPFARM/PyWake"
+  ],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "e61f6caa28512681934f58e26dc04f52149498dd69c058766c145a810021789d",
+  "private_text_sha256": "0e9b388df6df9c3d9b1f87d1760b34b62ae084f72dc559dc9a11bbed4f9f7ab0",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": [
+    "https://doi.org/10.5281/zenodo.10402450",
+    "https://doi.org/10.5281/zenodo.6806136",
+    "https://github.com/HIPS/autograd",
+    "https://github.com/IEAWindTask37/iea37-wflo-casestudies",
+    "https://gitlab.windenergy.dtu"
+  ]
+}

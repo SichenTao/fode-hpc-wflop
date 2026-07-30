@@ -1,0 +1,128 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [],
+  "corpus_id": "R21",
+  "dossier_status": "review_evidence_audit_ready",
+  "formal_status": "not_started",
+  "hpc_admission": {
+    "H0": "not_started",
+    "H1": "not_started",
+    "H2": "not_started",
+    "H3": "not_started",
+    "H4": "not_started",
+    "H5": "not_started",
+    "H6": "not_started"
+  },
+  "missing_information": [
+    "full field-level audit not yet completed"
+  ],
+  "paper": {
+    "authors": "Yirui Wang and Yang Yu and Shuyang Cao and Xingyi Zhang and Shangce Gao",
+    "doi": "10.1007/s10462-019-09768-7",
+    "pdf_basename": "2020_Wang_A_review_of_applications_of_artificial_intelligent_algorithms_in_wind_farms.pdf",
+    "pdf_sha256": "14ca5b7708c20048e3961f696ccf53396b261d25779981723a7f52ec4a9b03c3",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV1",
+    "reading_tier": "AUTHOR-CONTEXT",
+    "role": "R",
+    "secondary_review_classes": "NONE",
+    "title": "A review of applications of artificial intelligent algorithms in wind farms",
+    "venue": "Artificial Intelligence Review",
+    "year": 2020
+  },
+  "paper_linked_public_asset_candidates": [],
+  "paper_source_conflicts": [],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 54,
+    "text_sha256": "df82ebb7c367331f3b56af26384a846e9ccbd28e719efd9e95c55276520b48dc"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [
+      307
+    ],
+    "embedded_annotation_urls": [],
+    "status": "no_paper_linked_public_asset_candidate_detected"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "review evidence and taxonomy package; no invented optimizer",
+    "execution_wave": "REV1",
+    "package_status": "queued_evidence_dossier",
+    "scope_status": "review_evidence_package",
+    "target_contribution_type": "review_evidence_taxonomy_and_protocol"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "decision_variables": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "encoding_and_decoder": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "initialization": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "metrics_and_repeats": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "objective_and_direction": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "paper_native_cases": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "parameters": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "update_order": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "not_applicable_review"
+    }
+  }
+}

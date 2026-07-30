@@ -1,0 +1,18 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [
+    "https://github.com/JuXinglong/WFLOP_SUGGA_Python"
+  ],
+  "corpus_id": "L0259",
+  "doi": "10.1016/j.enconman.2019.06.082",
+  "embedded_annotation_asset_urls": [
+    "https://github.com/JuXinglong/WFLOP_SUGGA_Python"
+  ],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "5b6605a967143073a4da442c6aa50c873562e6c0f5037b822f38a1862a68782f",
+  "private_text_sha256": "7868bbcf66ef0d3623d1b65815197ade3a424dd07cc3568441037a514d7956aa",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": [
+    "https://github.com/JuXinglong/WFLOP_SUGGA_Python"
+  ]
+}

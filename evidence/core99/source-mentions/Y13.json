@@ -1,0 +1,12 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [],
+  "corpus_id": "Y13",
+  "doi": "10.1109/tste.2025.3609006",
+  "embedded_annotation_asset_urls": [],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "7f3e0fefd9467db259b5a221d1e2042b244813d6bd3eaa08ccc645d4769c4a2f",
+  "private_text_sha256": "693aa8c1bec28f59f7904d55685dc40c58ec761f34ec007fa7e9436f05259bcb",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": []
+}

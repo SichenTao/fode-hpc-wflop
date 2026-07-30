@@ -1,0 +1,48 @@
+{
+  "availability_mention_line_numbers": [
+    274,
+    452,
+    799,
+    1455,
+    1457,
+    1516,
+    1586
+  ],
+  "candidate_public_asset_urls": [
+    "https://doi.org/10.5281/zenodo.2559634",
+    "https://doi.org/10.5281/zenodo.4072253",
+    "https://doi.org/10.5281/zenodo.5809681",
+    "https://doi.org/10.5281/zenodo.7125349",
+    "https://doi.org/10.5281/zenodo.7125827",
+    "https://github.com/byuflowlab/FLOWFarm.jl/tree/develop",
+    "https://github.com/byuflowlab/SNOW.jl",
+    "https://github.com/jaredthomas68/thomas2022-8-opt-algs-wflop"
+  ],
+  "corpus_id": "T22",
+  "doi": "10.5194/wes-8-865-2023",
+  "embedded_annotation_asset_urls": [
+    "https://doi.org/10.5281/zenodo.2559634",
+    "https://doi.org/10.5281/zenodo.4072253",
+    "https://doi.org/10.5281/zenodo.5809681",
+    "https://doi.org/10.5281/zenodo.7125349",
+    "https://doi.org/10.5281/zenodo.7125827",
+    "https://github.com/byuflowlab/FLOWFarm.jl/tree/develop",
+    "https://github.com/byuflowlab/SNOW.jl",
+    "https://github.com/jaredthomas68/thomas2022-8-opt-algs-wflop"
+  ],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "cd11bacbe4446a32a7d1c8bc7a2560ed2201597f6f8a894f51bbaff4f678a786",
+  "private_text_sha256": "1d37c7aa8435e141e71837ba3e6abbae698ff5dd277727b6d75e36254094e1be",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": [
+    "https://doi.org/10.5281/zenodo.2559634",
+    "https://doi.org/10.5281/zenodo.4072253",
+    "https://doi.org/10.5281/zenodo.5809681",
+    "https://doi.org/10.5281/zenodo.7125349",
+    "https://doi.org/10.5281/zenodo.7125827",
+    "https://github.com/byuflowlab",
+    "https://github.com/byuflowlab/SNOW",
+    "https://github.com/byuflowlab/SNOW.jl",
+    "https://github.com/jaredthomas68"
+  ]
+}

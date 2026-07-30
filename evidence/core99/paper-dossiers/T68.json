@@ -1,0 +1,126 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [],
+  "corpus_id": "T68",
+  "dossier_status": "pre_code_fulltext_audit_ready",
+  "formal_status": "not_started",
+  "hpc_admission": {
+    "H0": "not_started",
+    "H1": "not_started",
+    "H2": "not_started",
+    "H3": "not_started",
+    "H4": "not_started",
+    "H5": "not_started",
+    "H6": "not_started"
+  },
+  "missing_information": [
+    "full field-level audit not yet completed"
+  ],
+  "paper": {
+    "authors": "Peng Hou and Weihao Hu and Mohsen Soltani and Cong Chen and Baohua Zhang and Zhe Chen",
+    "doi": "10.1109/tste.2016.2614266",
+    "pdf_basename": "2017_Hou_Offshore_Wind_Farm_Layout_Design_Considering_Optimized_Power_Dispatch_Strategy.pdf",
+    "pdf_sha256": "945236109aaab4dd20b8362a69abffd370b4ec1079c1005fc67d92ce39baa962",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV4",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D",
+    "secondary_review_classes": "REV3",
+    "title": "Offshore Wind Farm Layout Design Considering Optimized Power Dispatch Strategy",
+    "venue": "IEEE Transactions on Sustainable Energy",
+    "year": 2017
+  },
+  "paper_linked_public_asset_candidates": [],
+  "paper_source_conflicts": [],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 10,
+    "text_sha256": "8fea6be382dc1089a8ecd39804496ec63b9ff1a84900a302799320c0b9c77023"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [],
+    "embedded_annotation_urls": [],
+    "status": "no_paper_linked_public_asset_candidate_detected"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "execution_wave": "REV4",
+    "package_status": "queued_full_text_contract",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "coupled_or_real_world_problem_and_method"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "decision_variables": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "encoding_and_decoder": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "initialization": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "metrics_and_repeats": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "objective_and_direction": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "paper_native_cases": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "parameters": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "update_order": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    }
+  }
+}

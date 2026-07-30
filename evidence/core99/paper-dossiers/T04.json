@@ -1,0 +1,128 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [],
+  "corpus_id": "T04",
+  "dossier_status": "pre_code_fulltext_audit_ready",
+  "formal_status": "not_started",
+  "hpc_admission": {
+    "H0": "not_started",
+    "H1": "not_started",
+    "H2": "not_started",
+    "H3": "not_started",
+    "H4": "not_started",
+    "H5": "not_started",
+    "H6": "not_started"
+  },
+  "missing_information": [
+    "full field-level audit not yet completed"
+  ],
+  "paper": {
+    "authors": "Souma Chowdhury and Jie Zhang and Achille Messac and Luciano Castillo",
+    "doi": "10.1016/j.renene.2011.06.033",
+    "pdf_basename": "2012_Chowdhury_Unrestricted_Wind_Farm_Layout_Optimization_Investigating_Key_Factors_Influencing_the_Maximum_Power_Generation.pdf",
+    "pdf_sha256": "978721c33e7cfa4f9d9e0d9bd83fff0a081f9eec24f50ee2b65e29dbd2d4e244",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV1",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "NONE",
+    "title": "Unrestricted Wind Farm Layout Optimization: Investigating Key Factors Influencing the Maximum Power Generation",
+    "venue": "Renewable Energy",
+    "year": 2012
+  },
+  "paper_linked_public_asset_candidates": [],
+  "paper_source_conflicts": [],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 15,
+    "text_sha256": "cd2ca4e0d28444b8b82dc57dde0cecdb5ac49c134e57c048e5b09fdfccdf3190"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [
+      1008
+    ],
+    "embedded_annotation_urls": [],
+    "status": "no_paper_linked_public_asset_candidate_detected"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "execution_wave": "REV1",
+    "package_status": "queued_full_text_contract",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "problem_definition_or_comparison_protocol"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "decision_variables": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "encoding_and_decoder": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "initialization": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "metrics_and_repeats": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "objective_and_direction": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "paper_native_cases": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "parameters": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "update_order": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    }
+  }
+}

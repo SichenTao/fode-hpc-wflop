@@ -1,0 +1,132 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [],
+  "corpus_id": "T14",
+  "dossier_status": "pre_code_fulltext_audit_ready",
+  "formal_status": "not_started",
+  "hpc_admission": {
+    "H0": "not_started",
+    "H1": "not_started",
+    "H2": "not_started",
+    "H3": "not_started",
+    "H4": "not_started",
+    "H5": "not_started",
+    "H6": "not_started"
+  },
+  "missing_information": [
+    "full field-level audit not yet completed"
+  ],
+  "paper": {
+    "authors": "Andrew P. J. Stanley and Andrew Ning",
+    "doi": "10.5194/wes-4-663-2019",
+    "pdf_basename": "2019_Stanley_Massive_Simplification_of_the_Wind_Farm_Layout_Optimization_Problem.pdf",
+    "pdf_sha256": "37f4b2804490f22bd46bb8e67fa318363f80bcfc67ddb521ee8406ebaf339c11",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV1",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D",
+    "secondary_review_classes": "REV5",
+    "title": "Massive Simplification of the Wind Farm Layout Optimization Problem",
+    "venue": "Wind Energy Science",
+    "year": 2019
+  },
+  "paper_linked_public_asset_candidates": [
+    "https://doi.org/10.5281/zenodo.3523383"
+  ],
+  "paper_source_conflicts": [],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 14,
+    "text_sha256": "c3f35361e888c49fc5c25e7b00e6b12b4a4dcfc9032dad830010d9fa68aa4232"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [
+      681
+    ],
+    "embedded_annotation_urls": [
+      "https://doi.org/10.5281/zenodo.3523383"
+    ],
+    "status": "candidate_only_requires_revision_license_semantic_audit"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "execution_wave": "REV1",
+    "package_status": "queued_full_text_contract",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "problem_definition_or_comparison_protocol"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "decision_variables": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "encoding_and_decoder": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "initialization": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "metrics_and_repeats": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "objective_and_direction": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "paper_native_cases": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "parameters": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "update_order": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    }
+  }
+}

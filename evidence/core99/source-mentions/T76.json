@@ -1,0 +1,12 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [],
+  "corpus_id": "T76",
+  "doi": "10.1016/j.energy.2018.11.073",
+  "embedded_annotation_asset_urls": [],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "dae77490f061fd063361a5f4b10aefba70773c4569b97c4a3c4a3e085860daba",
+  "private_text_sha256": "eae0b9452b1e52444e85e362718e018a6a15f8de41b7246857696bfc38177196",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": []
+}

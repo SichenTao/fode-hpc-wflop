@@ -1,0 +1,130 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [],
+  "corpus_id": "T21",
+  "dossier_status": "pre_code_fulltext_audit_ready",
+  "formal_status": "not_started",
+  "hpc_admission": {
+    "H0": "not_started",
+    "H1": "not_started",
+    "H2": "not_started",
+    "H3": "not_started",
+    "H4": "not_started",
+    "H5": "not_started",
+    "H6": "not_started"
+  },
+  "missing_information": [
+    "full field-level audit not yet completed"
+  ],
+  "paper": {
+    "authors": "Nicolò Pollini",
+    "doi": "10.1016/j.renene.2022.06.019",
+    "pdf_basename": "2022_Pollini_Topology_Optimization_of_Wind_Farm_Layouts.pdf",
+    "pdf_sha256": "7ebc7c5b628b35d013e91bf714fc660bd7e1c5638dba2f637a764065235096f2",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV3",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "NONE",
+    "title": "Topology Optimization of Wind Farm Layouts",
+    "venue": "Renewable Energy",
+    "year": 2022
+  },
+  "paper_linked_public_asset_candidates": [
+    "https://github.com/byuflowlab/iea37-wflo-casestudies/tree/master/cs1-2"
+  ],
+  "paper_source_conflicts": [],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 13,
+    "text_sha256": "9c1371d6a8250244f974620899b89232e0726f6a5d328410c2bb084d18c954ce"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [],
+    "embedded_annotation_urls": [
+      "https://github.com/byuflowlab/iea37-wflo-casestudies/tree/master/cs1-2"
+    ],
+    "status": "candidate_only_requires_revision_license_semantic_audit"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "execution_wave": "REV3",
+    "package_status": "queued_full_text_contract",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "optimization_search_or_learning_method"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "decision_variables": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "encoding_and_decoder": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "initialization": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "metrics_and_repeats": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "objective_and_direction": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "paper_native_cases": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "parameters": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "update_order": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "not_assigned",
+      "resolution": "not_assigned",
+      "status": "pending_fulltext_audit"
+    }
+  }
+}
