@@ -67,6 +67,20 @@ def audit_result(
         document.get("command") == expected_command,
         f"formal command drift: {path}",
     )
+    process = document.get("process")
+    expected_affinity = campaign["backend"]["selected_affinity_cpus"]
+    expected_workers = campaign["backend"]["selected_workers"]
+    require(
+        isinstance(process, dict)
+        and process.get("requested_workers") == expected_workers
+        and process.get("affinity_cpus") == expected_affinity
+        and process.get("affinity_cpu_union") == expected_affinity
+        and isinstance(process.get("peak_os_threads"), int)
+        and process["peak_os_threads"] >= expected_workers
+        and isinstance(process.get("full_team_affinity_samples"), int)
+        and process["full_team_affinity_samples"] > 0,
+        f"formal production worker affinity drift: {path}",
+    )
     front = document.get("front_artifact")
     if front is not None:
         artifact = ROOT / front["logical_path"]

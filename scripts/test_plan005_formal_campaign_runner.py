@@ -58,6 +58,7 @@ def main() -> int:
     expected_thread_limits = {
         "OMP_NUM_THREADS": "1",
         "OMP_MAX_ACTIVE_LEVELS": "1",
+        "OMP_PROC_BIND": "FALSE",
         "MKL_NUM_THREADS": "1",
         "OPENBLAS_NUM_THREADS": "1",
     }

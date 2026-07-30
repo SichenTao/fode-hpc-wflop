@@ -37,8 +37,12 @@ THREAD_ENVIRONMENT = {
     "OMP_NUM_THREADS": "1",
     "OMP_DYNAMIC": "FALSE",
     "OMP_MAX_ACTIVE_LEVELS": "1",
-    "OMP_PROC_BIND": "TRUE",
-    "OMP_PLACES": "cores",
+    # The optimization binaries create their production team with std::thread.
+    # libgomp may initialize before that team is constructed.  OMP_PROC_BIND=TRUE
+    # pins the main thread to the first OpenMP place and every later std::thread
+    # then inherits that one-CPU mask.  Disable OpenMP binding and let the
+    # explicit process affinity plus the persistent C++ executor own placement.
+    "OMP_PROC_BIND": "FALSE",
     "MKL_NUM_THREADS": "1",
     "MKL_DYNAMIC": "FALSE",
     "OPENBLAS_NUM_THREADS": "1",
@@ -114,6 +118,39 @@ def observed_physical_fes(result: dict[str, Any]) -> int:
     raise RuntimeError("optimizer result has no physical-FES receipt")
 
 
+def parse_cpu_list(value: str) -> set[int]:
+    result: set[int] = set()
+    for item in value.strip().split(","):
+        if not item:
+            continue
+        if "-" in item:
+            lower_text, upper_text = item.split("-", 1)
+            lower = int(lower_text)
+            upper = int(upper_text)
+            require(
+                lower >= 0 and upper >= lower,
+                f"invalid CPU range: {item}",
+            )
+            result.update(range(lower, upper + 1))
+        else:
+            cpu = int(item)
+            require(cpu >= 0, f"invalid CPU identifier: {item}")
+            result.add(cpu)
+    return result
+
+
+def task_cpu_affinity(task: Path) -> set[int]:
+    try:
+        for line in (task / "status").read_text(
+            encoding="utf-8"
+        ).splitlines():
+            if line.startswith("Cpus_allowed_list:"):
+                return parse_cpu_list(line.split(":", 1)[1])
+    except (FileNotFoundError, PermissionError, ProcessLookupError):
+        return set()
+    return set()
+
+
 def validate_existing(
     path: Path,
     expected_key: dict[str, Any],
@@ -126,6 +163,19 @@ def validate_existing(
         document = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return False
+    process = document.get("process")
+    process_affinity_valid = bool(
+        isinstance(process, dict)
+        and isinstance(process.get("requested_workers"), int)
+        and process["requested_workers"] > 0
+        and isinstance(process.get("affinity_cpus"), list)
+        and len(process["affinity_cpus"]) == process["requested_workers"]
+        and process.get("affinity_cpu_union") == process["affinity_cpus"]
+        and isinstance(process.get("peak_os_threads"), int)
+        and process["peak_os_threads"] >= process["requested_workers"]
+        and isinstance(process.get("full_team_affinity_samples"), int)
+        and process["full_team_affinity_samples"] > 0
+    )
     valid = bool(
         document.get("status") == "validated_complete"
         and document.get("result_key") == expected_key
@@ -133,6 +183,7 @@ def validate_existing(
         == expected_key["physical_fes_per_run"]
         and document.get("binary_sha256")
         == expected_key["binary_sha256"]
+        and process_affinity_valid
     )
     if not valid:
         return False
@@ -235,14 +286,34 @@ def run_one(
     environment.update(THREAD_ENVIRONMENT)
     before = resource.getrusage(resource.RUSAGE_CHILDREN)
     started = time.perf_counter()
-    completed = subprocess.run(
+    completed = subprocess.Popen(
         command,
         cwd=ROOT,
         env=environment,
-        capture_output=True,
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE,
         text=True,
         preexec_fn=lambda: os.sched_setaffinity(0, set(affinity)),
     )
+    affinity_cpu_union: set[int] = set()
+    peak_os_threads = 0
+    full_team_affinity_samples = 0
+    while completed.poll() is None:
+        task_root = Path(f"/proc/{completed.pid}/task")
+        try:
+            tasks = list(task_root.iterdir())
+        except (FileNotFoundError, PermissionError, ProcessLookupError):
+            tasks = []
+        peak_os_threads = max(peak_os_threads, len(tasks))
+        if len(tasks) >= backend["selected_workers"]:
+            sample_union: set[int] = set()
+            for task in tasks:
+                sample_union.update(task_cpu_affinity(task))
+            if sample_union:
+                affinity_cpu_union.update(sample_union)
+                full_team_affinity_samples += 1
+        time.sleep(0.001)
+    stdout, stderr = completed.communicate()
     elapsed = time.perf_counter() - started
     after = resource.getrusage(resource.RUSAGE_CHILDREN)
     require(
@@ -250,9 +321,20 @@ def run_one(
         "optimizer failed: "
         + json.dumps(command)
         + "\nstderr:\n"
-        + completed.stderr[-4000:],
+        + stderr[-4000:],
     )
-    raw = decode_json(completed.stdout)
+    require(
+        peak_os_threads >= backend["selected_workers"],
+        f"{campaign['pair_id']}: production worker team was not observed "
+        f"(peak={peak_os_threads}, required={backend['selected_workers']})",
+    )
+    require(
+        full_team_affinity_samples > 0
+        and affinity_cpu_union == set(affinity),
+        f"{campaign['pair_id']}: production worker affinity drift "
+        f"(observed={sorted(affinity_cpu_union)}, expected={affinity})",
+    )
+    raw = decode_json(stdout)
     observed_fes = observed_physical_fes(raw)
     require(
         observed_fes == case["physical_fes_per_run"],
@@ -289,14 +371,17 @@ def run_one(
             "user_cpu_seconds": after.ru_utime - before.ru_utime,
             "system_cpu_seconds": after.ru_stime - before.ru_stime,
             "affinity_cpus": affinity,
+            "affinity_cpu_union": sorted(affinity_cpu_union),
+            "peak_os_threads": peak_os_threads,
+            "full_team_affinity_samples": full_team_affinity_samples,
             "requested_workers": backend["selected_workers"],
             "stdout_sha256": sha256_bytes(
-                completed.stdout.encode("utf-8")
+                stdout.encode("utf-8")
             ),
             "stderr_sha256": sha256_bytes(
-                completed.stderr.encode("utf-8")
+                stderr.encode("utf-8")
             ),
-            "stderr_tail": completed.stderr[-4000:],
+            "stderr_tail": stderr[-4000:],
         },
     }
     atomic_write(output, document)

@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "status": "excluded_launcher_affinity_failure",
+  "suite_id": "plan005_target_native_25_v1",
+  "observed_completed_result_count": 1114,
+  "excluded_results_logical_path": "results/excluded/plan005_pre_affinity_fix_20260730",
+  "excluded_log_logical_path": "evidence/formal/excluded/plan005_pre_affinity_fix_20260730.log",
+  "failure": {
+    "environment_setting": "OMP_PROC_BIND=TRUE with OMP_PLACES=cores",
+    "mechanism": "The OpenMP runtime pinned the main process thread to CPU 0 before the persistent std::thread team was created. All C++ workers inherited the one-CPU affinity mask.",
+    "observed_process_affinity": "twenty operating-system threads, each restricted to CPU 0",
+    "impact": "The commands requested twenty workers but the formal optimization runs used approximately one CPU core. The observations are excluded from formal quality and performance evidence."
+  },
+  "repair": {
+    "environment_setting": "OMP_PROC_BIND=FALSE",
+    "required_runtime_gate": "Every formal run must observe at least the selected worker count and the union of full-team task affinities must equal the frozen selected CPU set.",
+    "restart_policy": "Regenerate the manifest after committing the launcher repair and restart every CPU-admissible run from an empty active result root."
+  },
+  "claim_boundary": "The archived files are diagnostic evidence only and must never be reused by Plan 005 formal admission or paper analysis."
+}
