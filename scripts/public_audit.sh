@@ -9,8 +9,16 @@ mapfile -d '' public_files < <(
 )
 
 public_regular_files=()
+export_ignored_files=()
 for path in "${public_files[@]}"; do
   if [[ ! -f "${path}" ]]; then
+    continue
+  fi
+  export_ignore="$(
+    git check-attr export-ignore -- "${path}" | awk -F': ' '{print $3}'
+  )"
+  if [[ "${export_ignore}" == "set" ]]; then
+    export_ignored_files+=("${path}")
     continue
   fi
   public_regular_files+=("${path}")
@@ -30,4 +38,5 @@ if ((${#public_regular_files[@]} > 0)) && grep -IInE \
   exit 1
 fi
 
-echo "Public audit passed."
+echo \
+  "Public audit passed. exportable_files=${#public_regular_files[@]} local_forensic_export_ignored=${#export_ignored_files[@]}"
