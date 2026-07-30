@@ -132,6 +132,22 @@ target_compile_options(core99_l0623_core PRIVATE
 add_executable(core99_l0623_hpc src/wang_l0623_main.cpp)
 target_link_libraries(core99_l0623_hpc PRIVATE core99_l0623_core)
 
+add_library(core99_t74_core src/ju_t74.cpp)
+target_include_directories(core99_t74_core
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+)
+target_link_libraries(core99_t74_core PUBLIC fode_core)
+target_compile_features(core99_t74_core PUBLIC cxx_std_20)
+target_compile_options(core99_t74_core PRIVATE
+    -O3
+    -march=native
+    -ffp-contract=off
+)
+add_executable(core99_t74_hpc src/ju_t74_main.cpp)
+target_link_libraries(core99_t74_hpc PRIVATE core99_t74_core)
+
 add_library(core99_t03_core src/kusiak_t03.cpp)
 target_include_directories(core99_t03_core
     PUBLIC
@@ -461,6 +477,15 @@ if(BUILD_TESTING)
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_l0623.py
             --binary $<TARGET_FILE:core99_l0623_hpc>
+    )
+    add_executable(core99_t74_test tests/ju_t74_test.cpp)
+    target_link_libraries(core99_t74_test PRIVATE core99_t74_core)
+    add_test(NAME core99_t74_cpp COMMAND core99_t74_test)
+    add_test(
+        NAME core99_t74_h5
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t74.py
+            --binary $<TARGET_FILE:core99_t74_hpc>
     )
     add_executable(
         core99_historical_grid_test

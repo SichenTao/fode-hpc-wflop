@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T74",
+  "paper": {
+    "title": "Wind Farm Layout Optimization Using Self-Informed Genetic Algorithm with Information Guided Exploitation",
+    "doi": "10.1016/j.apenergy.2019.04.084",
+    "pdf_sha256": "62f93d5942ddbc2fd7e94eebf52544de9da3147b55729fd643034362f5004c6f"
+  },
+  "public_source": {
+    "url": "https://github.com/JuXinglong/WFLOP_Python",
+    "license": "MIT",
+    "commit": "b1fc0d602928ee3f1fed5f8dc0de0a4a37a06bff",
+    "files": {
+      "MARS.py": "d642c36983a8b70a87c6cc3e0ce49e21f09cf9ec35459a6d329c3df008bf912e",
+      "WindFarmGeneticToolbox.py": "f29bf5ebc19f543a1f612ed84fe57cb35b87b4b38013d036cf1d93c87f224277",
+      "main.py": "e542126465681b71f0a81a058a73300c453fbc5449c25d2c0ca4dac6f09c468f"
+    }
+  },
+  "problem": {
+    "semantic_family": "t74_grid60_case1_case5_small_medium_large_v1",
+    "grid": [21, 21],
+    "candidate_count": 441,
+    "turbine_count": 60,
+    "turbine": {
+      "model": "GE-1.5sle",
+      "rotor_diameter_m": 77.0,
+      "hub_height_m": 80.0,
+      "surface_roughness_m": 0.00025
+    },
+    "cell_widths_m": {
+      "small": 231.0,
+      "medium": 308.0,
+      "large": 385.0
+    },
+    "wind_cases": {
+      "case1": "12 m/s, north, probability 1",
+      "case2": "12 m/s, northeast, probability 1",
+      "case3": "12 m/s, four cardinal directions, equal probability",
+      "case4": "12 m/s, six directions, probabilities 0.2,0.3,0.2,0.1,0.1,0.1",
+      "case5": "8,10,12 m/s with probabilities 0.1,0.2,0.7 and twelve equiprobable directions"
+    },
+    "objective": "maximize expected farm power; report conversion efficiency",
+    "wake_model": "paper/source Jensen wake with rotor-wake overlap and squared-deficit superposition",
+    "power_curve": "paper/source GE-1.5sle piecewise curve"
+  },
+  "method": {
+    "primary_semantic_id": "t74_siga_paper_probability_v1",
+    "source_conflict_semantic_id": "t74_siga_source_normal_threshold_v1",
+    "population": 100,
+    "generations": 200,
+    "elite_rate": 0.2,
+    "crossover_rate_reported": 0.6,
+    "random_selection_rate": 0.5,
+    "mutation_rate": 0.1,
+    "mars_candidate_locations": 5,
+    "monte_carlo_layouts": 10000,
+    "mars_maximum_bases": 100,
+    "mars_maximum_interaction_order": 4,
+    "mars_difference": 0.001
+  },
+  "formal_protocol": {
+    "semantic_id": "t74_15case_30repeat_10000mc_pop100_gen200_v1",
+    "case_count": 15,
+    "repeats": 30,
+    "physical_fes_per_case_artifact_plus_run": "10000 Monte-Carlo truth evaluations once per problem case plus 100*200 population truth evaluations per independent run",
+    "primary_variant": "paper_probability"
+  },
+  "conflicts": [
+    {
+      "field": "probability draws",
+      "paper": "rates are ordinary probabilities",
+      "source": "np.random.randn() is compared to 0.5 and 0.1",
+      "resolution": "preserve two executable method identities; paper_probability is primary"
+    },
+    {
+      "field": "random state",
+      "paper": "30 random initial populations",
+      "source": "many operators reseed from integer wall time",
+      "resolution": "counter-keyed draws preserve event laws and schedule-independent replay; no MT19937/time-bitstream claim"
+    }
+  ],
+  "missing_and_completions": [
+    {
+      "missing": "author initial populations and Monte-Carlo layouts",
+      "completion": "deterministically regenerate unique 60-of-441 layouts"
+    },
+    {
+      "missing": "trained MARS objects",
+      "completion": "train from scratch from 10000 truth-evaluated layouts using truncated-linear forward selection"
+    },
+    {
+      "missing": "crossover retry boundary",
+      "completion": "64 deterministic source-semantic retries followed by cardinality-preserving repair"
+    }
+  ],
+  "hpc": {
+    "backend": "pure C++ CPU",
+    "executor": "one persistent full-core team per optimization",
+    "parallel_regions": [
+      "Monte-Carlo layout generation and wake evaluation",
+      "population wake evaluation",
+      "worst-turbine relocation",
+      "crossover",
+      "mutation"
+    ],
+    "non_oversubscription": "formal Waffle task owns at most one full-core team"
+  },
+  "claim_boundary": "Academic paper/source reconstruction; not author numerical or random-bitstream replay."
+}
