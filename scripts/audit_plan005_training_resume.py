@@ -73,17 +73,25 @@ def main() -> int:
         if campaign["corpus_id"] == "S04"
     ]
     require(len(fqfode) == 1, "FQFODE shared offline model route absent")
-    model_root = ROOT / "shared/models/fqfode_seeded"
+    fqfode_admission = fqfode[0]["training_admission"]
+    artifact_path = ROOT / fqfode_admission["artifact_logical_path"]
     require(
-        model_root.is_dir() and any(model_root.iterdir()),
-        "FQFODE shared offline model directory is absent",
+        fqfode_admission["training_mode"]
+        == "offline_shared_once_then_frozen"
+        and fqfode_admission["offline_training_physical_fes_once"] == 39700
+        and fqfode_admission["namespaces_disjoint"] is True
+        and artifact_path.is_file()
+        and sha256(artifact_path) == fqfode_admission["artifact_sha256"],
+        "FQFODE regenerated offline-training receipt drift",
     )
     print(
         "plan005_training_resume_audit_pass "
         f"ready_cpu_targets={len(ready)} "
         f"bounded_learning_targets={len(deferred)} "
         "paper_scale_training_completed=0 "
-        "bounded_artifacts_not_promoted=1 seed_namespaces_disjoint=1"
+        "bounded_artifacts_not_promoted=1 "
+        "fqfode_offline_training_physical_fes=39700 "
+        "seed_namespaces_disjoint=1"
     )
     return 0
 

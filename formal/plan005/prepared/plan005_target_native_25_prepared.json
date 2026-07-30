@@ -121,7 +121,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -873,7 +874,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -1035,7 +1037,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -1982,7 +1985,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -2204,7 +2208,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -2956,7 +2961,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -3643,7 +3649,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -3905,7 +3912,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -4257,7 +4265,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -4265,8 +4274,18 @@
         "reuse_only_complete_validated_results": true
       },
       "training_admission": {
-        "reason": "no separate paper-scale learned artifact is required",
-        "status": "ready_cpu"
+        "artifact_logical_path": "shared/models/fqfode_seeded/fqfode_shared_ws2tn50_v1.qtable.tsv",
+        "artifact_sha256": "9d047125f775a940a4c80eff50fa622c30be20b5b3cfcd55aa74f0ff614ba126",
+        "author_artifact_status": "not released; this is the declared deterministic reconstruction",
+        "formal_training_seed_namespace": "training/S04",
+        "namespaces_disjoint": true,
+        "offline_training_physical_fes_once": 39700,
+        "optimization_seed_namespace": "optimization/S04",
+        "reason": "one declared shared offline Q-table has been regenerated from the frozen training contract and is reused by every formal run",
+        "status": "ready_cpu",
+        "training_contract_logical_path": "shared/contracts/fqfode_seeded_training_reconstruction_contract.json",
+        "training_contract_sha256": "a0cbf2cc57b6b7d178ae4ca58024c681ca4e3ab81f93656a398ee56c9754c370",
+        "training_mode": "offline_shared_once_then_frozen"
       }
     },
     {
@@ -4609,7 +4628,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -4831,7 +4851,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -5713,7 +5734,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -5835,7 +5857,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -6187,7 +6210,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -6369,7 +6393,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -6531,7 +6556,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -6693,7 +6719,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -6875,7 +6902,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -7033,7 +7061,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -7142,7 +7171,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -7249,7 +7279,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -7431,7 +7462,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -8313,7 +8345,8 @@
         "physical_fes_per_run",
         "binary_sha256",
         "environment_sha256",
-        "source_commit"
+        "source_commit",
+        "control_software_sha256"
       ],
       "resume": {
         "atomic_commit": "same-filesystem temporary file, flush, fsync, rename",
@@ -8327,6 +8360,14 @@
     }
   ],
   "case_count": 1153,
+  "control_software_sha256": {
+    "scripts/audit_plan005_campaigns.py": "15cb9c7e7ee30346a906beef868619e7629dd1d44b87c9f1b061c75a0b0e06ac",
+    "scripts/audit_plan005_formal_manifests.py": "bffdae00bee6fcbe2ce491cee37a9516dc0d147d135afc075892b4f84bc8e8dd",
+    "scripts/audit_plan005_training_resume.py": "099cba7c3e6b4e160649978f5f7a0c7b50ae49e59658b7e14efccadddbcfb45b",
+    "scripts/generate_plan005_formal_manifests.py": "8dd8209a6682a897b7ff517336a54ce1f8d8d86fa015f4b109b74518d4625633",
+    "scripts/plan005_formal_common.py": "9a6a047513d5511d2d3f47ee71d0ca4918e20139e552a2a0101ad00d472d9b62",
+    "scripts/run_plan005_formal_campaigns.py": "2e6ea1197d2158061624f61297d30165309975cbe95eb077c40d1dd355c27517"
+  },
   "deferred_learning_target_count": 3,
   "environment_sha256": "3285c82e90dfff76f86f8f551be16365155e8674ffb5a7e1f2ea3b6e74beb533",
   "h6": {

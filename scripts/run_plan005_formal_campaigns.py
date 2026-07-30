@@ -34,9 +34,12 @@ from plan005_formal_common import (
 
 
 THREAD_ENVIRONMENT = {
+    "OMP_NUM_THREADS": "1",
     "OMP_DYNAMIC": "FALSE",
+    "OMP_MAX_ACTIVE_LEVELS": "1",
     "OMP_PROC_BIND": "TRUE",
     "OMP_PLACES": "cores",
+    "MKL_NUM_THREADS": "1",
     "MKL_DYNAMIC": "FALSE",
     "OPENBLAS_NUM_THREADS": "1",
     "VECLIB_MAXIMUM_THREADS": "1",

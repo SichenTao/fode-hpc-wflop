@@ -18,6 +18,7 @@ from plan005_formal_common import (
     validate_manifest,
 )
 from run_plan005_formal_campaigns import (
+    THREAD_ENVIRONMENT,
     run_one,
     validate_existing,
 )
@@ -54,6 +55,17 @@ print(json.dumps({"physical_fes": physical_fes, "seed": seed,
 
 
 def main() -> int:
+    expected_thread_limits = {
+        "OMP_NUM_THREADS": "1",
+        "OMP_MAX_ACTIVE_LEVELS": "1",
+        "MKL_NUM_THREADS": "1",
+        "OPENBLAS_NUM_THREADS": "1",
+    }
+    if any(
+        THREAD_ENVIRONMENT.get(key) != value
+        for key, value in expected_thread_limits.items()
+    ):
+        raise RuntimeError("formal nested-thread limits drifted from H6")
     manifest = fake_h6_manifest()
     route_count = 0
     for campaign in manifest["campaigns"]:

@@ -41,6 +41,14 @@ FINAL_MANIFEST = (
     "plan005_target_native_25_v1.json"
 )
 RESULT_ROOT = ROOT / "results/plan005_target_native_25_v1"
+CONTROL_SOFTWARE = (
+    "scripts/plan005_formal_common.py",
+    "scripts/generate_plan005_formal_manifests.py",
+    "scripts/audit_plan005_formal_manifests.py",
+    "scripts/run_plan005_formal_campaigns.py",
+    "scripts/audit_plan005_campaigns.py",
+    "scripts/audit_plan005_training_resume.py",
+)
 SEEDS = list(range(2026073101, 2026073126))
 LEARNING = {
     "Y36": "taae",
@@ -292,13 +300,56 @@ def result_key_fields() -> list[str]:
         "binary_sha256",
         "environment_sha256",
         "source_commit",
+        "control_software_sha256",
     ]
+
+
+def fqfode_offline_training_receipt() -> dict[str, Any]:
+    contract_path = (
+        ROOT
+        / "shared/contracts/"
+        "fqfode_seeded_training_reconstruction_contract.json"
+    )
+    artifact_path = (
+        ROOT
+        / "shared/models/fqfode_seeded/"
+        "fqfode_shared_ws2tn50_v1.qtable.tsv"
+    )
+    contract = json.loads(contract_path.read_text(encoding="utf-8"))
+    receipt = contract["learned_method_receipt"]
+    require(
+        artifact_path.is_file()
+        and sha256(artifact_path) == receipt["artifact_sha256"]
+        and receipt["training_physical_fes"] == 39700,
+        "FQFODE offline training receipt drift",
+    )
+    return {
+        "status": "ready_cpu",
+        "reason": (
+            "one declared shared offline Q-table has been regenerated from "
+            "the frozen training contract and is reused by every formal run"
+        ),
+        "training_mode": "offline_shared_once_then_frozen",
+        "training_contract_logical_path": relative(contract_path),
+        "training_contract_sha256": sha256(contract_path),
+        "artifact_logical_path": relative(artifact_path),
+        "artifact_sha256": sha256(artifact_path),
+        "offline_training_physical_fes_once": 39700,
+        "formal_training_seed_namespace": "training/S04",
+        "optimization_seed_namespace": "optimization/S04",
+        "namespaces_disjoint": True,
+        "author_artifact_status": (
+            "not released; this is the declared deterministic reconstruction"
+        ),
+    }
 
 
 def learning_admission(
     row: dict[str, str],
     header: dict[str, Any],
 ) -> dict[str, Any]:
+    if row["corpus_id"] == "S04":
+        return fqfode_offline_training_receipt()
     method = LEARNING.get(row["corpus_id"])
     if method is None:
         return {
@@ -443,6 +494,9 @@ def build_manifest(*, prepared: bool) -> dict[str, Any]:
         )
         for row in rows
     ]
+    control_software = {
+        path: sha256(ROOT / path) for path in CONTROL_SOFTWARE
+    }
     return {
         "schema_version": 1,
         "suite_id": "plan005_target_native_25_v1",
@@ -462,6 +516,7 @@ def build_manifest(*, prepared: bool) -> dict[str, Any]:
             ),
         },
         "environment_sha256": header["environment"]["sha256"],
+        "control_software_sha256": control_software,
         "measurement_order_policy": "formal campaigns are sequential",
         "backend_parallelism": 1,
         "optimization_seeds": SEEDS,
@@ -495,6 +550,11 @@ def validate_manifest(document: dict[str, Any], *, prepared: bool) -> None:
         document["optimization_seeds"] == SEEDS
         and len(set(SEEDS)) == 25,
         "optimization seed contract drift",
+    )
+    require(
+        document["control_software_sha256"]
+        == {path: sha256(ROOT / path) for path in CONTROL_SOFTWARE},
+        "formal control software drift",
     )
     campaigns = document["campaigns"]
     require(len(campaigns) == 23, "campaign cardinality drift")
@@ -606,6 +666,9 @@ def result_key(
         "binary_sha256": campaign["backend"]["binary_sha256"],
         "environment_sha256": manifest["environment_sha256"],
         "source_commit": manifest["source_commit"],
+        "control_software_sha256": canonical_sha256(
+            manifest["control_software_sha256"]
+        ),
     }
 
 
