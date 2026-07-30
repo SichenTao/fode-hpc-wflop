@@ -401,6 +401,12 @@ def audit(
         == topology_h5["sha256"],
         "performance-first topology H5 revalidation changed",
     )
+    phase_h5 = header["learning_phase_topology_h5_revalidation"]
+    require(
+        sha256(receipt_path(phase_h5["logical_path"]))
+        == phase_h5["sha256"],
+        "learning phase-topology H5 revalidation changed",
+    )
     for method, receipt in header["learning_artifacts"].items():
         require(
             len(receipt["artifact_sha256"]) == 64

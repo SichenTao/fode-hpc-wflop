@@ -327,6 +327,10 @@ def main() -> int:
                 for item in runs
             ],
             "learned_state_hash": next(iter(state_hashes)),
+            "scientific_state": {
+                field: runs[0]["result"][field]
+                for field in stable_fields
+            },
             "status": "raw_bit_and_discrete_exact",
         }
     report = {
@@ -347,6 +351,9 @@ def main() -> int:
             ],
             "discrete_fields": list(discrete_fields),
             "discrete_status": "exact",
+            "scientific_state": {
+                field: baseline[field] for field in discrete_fields
+            },
             "raw_model_hashes": [
                 item["result"]["model_hash"] for item in taae_runs
             ],

@@ -176,6 +176,10 @@ def build_fixture(
             "logical_path": str(original_h5.relative_to(ROOT)),
             "sha256": sha256(original_h5),
         },
+        "learning_phase_topology_h5_revalidation": {
+            "logical_path": str(original_h5.relative_to(ROOT)),
+            "sha256": sha256(original_h5),
+        },
         "learning_thread_topology_contract": {
             "outer_persistent_workers": "W",
             "torch_intraop_thread_budget": "at most W",

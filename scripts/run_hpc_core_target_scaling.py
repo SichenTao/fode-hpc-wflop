@@ -51,6 +51,11 @@ H5_TOPOLOGY_REVALIDATION = (
     / "evidence/development/"
     "plan005_h5_performance_first_topology_nonsemantic_revalidation_20260730.json"
 )
+H5_PHASE_REVALIDATION = (
+    ROOT
+    / "evidence/development/"
+    "plan005_h5_post_learning_phase_topology_revalidation_20260730.json"
+)
 LEARNING = {"Y36": "taae", "T45": "alga", "T42": "rlpso"}
 SCALAR = {
     "S01", "S02", "S03", "S04", "S05", "L0608", "T37", "T38",
@@ -526,6 +531,49 @@ def scientific_payload(value: Any) -> Any:
     if isinstance(value, list):
         return [scientific_payload(item) for item in value]
     return value
+
+
+def require_immediate_cross_worker_science(
+    row: dict[str, str],
+    baseline: dict[str, Any],
+    observed: dict[str, Any],
+) -> None:
+    pair_id = row["pair_id"]
+    repetition = observed["key"]["repetition"]
+    require(
+        observed["scientific_output_sha256"]
+        == baseline["scientific_output_sha256"],
+        f"{pair_id}: fail-fast scientific output drift at repetition "
+        f"{repetition}",
+    )
+    corpus = row["corpus_id"]
+    if corpus == "Y36":
+        expected = baseline["raw_result"]["numerical_state"]
+        actual = observed["raw_result"]["numerical_state"]
+        require(
+            expected["available"] is True
+            and actual["available"] is True
+            and actual["parameter_count"] == expected["parameter_count"],
+            f"{pair_id}: fail-fast TAAE numerical state is absent or changed",
+        )
+        for field in ("l2_norm", "linf_norm", "weighted_checksum"):
+            require(
+                math.isclose(
+                    actual[field],
+                    expected[field],
+                    rel_tol=1.0e-12,
+                    abs_tol=1.0e-9,
+                ),
+                f"{pair_id}: fail-fast TAAE numerical state {field} drift "
+                f"at repetition {repetition}",
+            )
+    elif corpus in {"T42", "T45"}:
+        require(
+            observed["raw_result"]["learned_state_hash"]
+            == baseline["raw_result"]["learned_state_hash"],
+            f"{pair_id}: fail-fast learned-state hash drift at repetition "
+            f"{repetition}",
+        )
 
 
 def internal_end_to_end(raw: dict[str, Any]) -> float:
@@ -1147,6 +1195,10 @@ def main() -> int:
         H5_TOPOLOGY_REVALIDATION.is_file(),
         "Plan-005 performance-first topology H5 revalidation is absent",
     )
+    require(
+        H5_PHASE_REVALIDATION.is_file(),
+        "Plan-005 learning phase-topology H5 revalidation is absent",
+    )
     binary_receipts = {
         name: {
             "logical_path": relative(path),
@@ -1193,6 +1245,10 @@ def main() -> int:
             "logical_path": relative(H5_TOPOLOGY_REVALIDATION),
             "sha256": sha256(H5_TOPOLOGY_REVALIDATION),
         },
+        "learning_phase_topology_h5_revalidation": {
+            "logical_path": relative(H5_PHASE_REVALIDATION),
+            "sha256": sha256(H5_PHASE_REVALIDATION),
+        },
         "learning_thread_topology_contract": {
             "outer_persistent_workers": "W",
             "torch_intraop_thread_budget": "at most W",
@@ -1236,6 +1292,22 @@ def main() -> int:
     completed_keys = {
         canonical_sha256(item["key"]): item for item in existing
     }
+    row_by_pair = {row["pair_id"]: row for row in rows}
+    science_baselines: dict[tuple[str, int], dict[str, Any]] = {}
+    for item in existing:
+        group = (
+            item["key"]["pair_id"],
+            item["key"]["repetition"],
+        )
+        baseline = science_baselines.get(group)
+        if baseline is None:
+            science_baselines[group] = item
+        else:
+            require_immediate_cross_worker_science(
+                row_by_pair[group[0]],
+                baseline,
+                item,
+            )
     expected_count = len(rows) * len(workers) * arguments.repetitions
     for pair_index, row in enumerate(rows):
         case_id, physical_fes = representative(row)
@@ -1384,6 +1456,16 @@ def main() -> int:
                     ),
                     "raw_result": raw,
                 }
+                science_group = (row["pair_id"], repetition)
+                baseline = science_baselines.get(science_group)
+                if baseline is None:
+                    science_baselines[science_group] = observation
+                else:
+                    require_immediate_cross_worker_science(
+                        row,
+                        baseline,
+                        observation,
+                    )
                 append_jsonl(arguments.receipt, observation)
                 completed_keys[key_hash] = observation
                 print(

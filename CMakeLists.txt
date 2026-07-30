@@ -369,4 +369,9 @@ if(BUILD_TESTING)
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/scripts/audit_performance_receipts.py
     )
+    add_test(
+        NAME plan005_h6_fail_fast_science
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_plan005_h6_fail_fast.py
+    )
 endif()
