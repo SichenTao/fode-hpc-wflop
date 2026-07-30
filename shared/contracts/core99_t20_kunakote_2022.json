@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T20",
+  "paper": {
+    "title": "Comparative Performance of Twelve Metaheuristics for Wind Farm Layout Optimisation",
+    "doi": "10.1007/s11831-021-09586-7",
+    "year": 2022
+  },
+  "source_facts": {
+    "public_source_status": "no_paper_linked_author_code_or_data_located",
+    "paper_pdf_sha256": "7a07c4f8ac5dbc469591b7a970668455f6bc21bb912f976bae0dd41e1fc5524f",
+    "claim_boundary": "academic declared reproduction of the four proposed problems and comparison interface; not author-code or twelve-baseline numerical replay"
+  },
+  "target_contribution": {
+    "type": "problem_definition_and_comparison_protocol",
+    "target_algorithm": "none",
+    "comparison_baselines_required": false,
+    "reason": "ABC, ACOR, DE, PSO, TLBO, CMA-ES, MFO, SCA, WOA, CSA, SSA, and GOA are comparison methods rather than paper-proposed algorithms"
+  },
+  "problem_semantic_id": "t20_kunakote_four_case_benchmark_declared_v1",
+  "method_semantic_id": "t20_comparison_protocol_no_target_optimizer_v1",
+  "cases": [
+    {
+      "id": "t20_case1_variable_hub",
+      "dimension": 100,
+      "turbine_count": "1_to_100",
+      "wake_concept": "hub_inside_wake"
+    },
+    {
+      "id": "t20_case2_variable_partial",
+      "dimension": 100,
+      "turbine_count": "1_to_100",
+      "wake_concept": "partial_rotor_overlap"
+    },
+    {
+      "id": "t20_case3_fixed39_hub",
+      "dimension": 39,
+      "turbine_count": 39,
+      "wake_concept": "hub_inside_wake"
+    },
+    {
+      "id": "t20_case4_fixed39_partial",
+      "dimension": 39,
+      "turbine_count": 39,
+      "wake_concept": "partial_rotor_overlap"
+    }
+  ],
+  "physics": {
+    "farm_m": [2000.0, 2000.0],
+    "grid": [10, 10],
+    "grid_centres_m": [100.0, 300.0, 500.0, 700.0, 900.0, 1100.0, 1300.0, 1500.0, 1700.0, 1900.0],
+    "minimum_spacing_m": 200.0,
+    "thrust_coefficient": 0.88,
+    "roughness_m": 0.3,
+    "hub_height_m": 60.0,
+    "rotor_diameter_m": 40.0,
+    "efficiency": 0.4,
+    "air_density_kg_m3": 1.225,
+    "speed_m_s": 12.0,
+    "directions_degrees": "10_to_360_step_10",
+    "wake_decay_resolution": "0.5/log(h/h0)"
+  },
+  "objective": {
+    "direction": "minimize",
+    "definition": "cost_over_average_total_power",
+    "cost": "N*(2/3+exp(-0.00174*N^2)/3)",
+    "physical_fes": "one_complete_36_direction_farm_evaluation"
+  },
+  "paper_protocol": {
+    "population": 100,
+    "iterations": 250,
+    "physical_fes_per_run": 25000,
+    "independent_runs": 10,
+    "statistical_test": "Wilcoxon_rank_sum_5_percent"
+  },
+  "conflicts": [
+    {
+      "field": "fixed39_decoder",
+      "paper_prose": "select Gc(round(x_i))",
+      "paper_algorithm_2_step_5": "select Gc(i)",
+      "resolution": "paper prose controls because it preserves the declared input-dependent decoder"
+    },
+    {
+      "field": "wake_decay",
+      "paper_equation": "surface-roughness relation",
+      "preceding_example": "k=0.086 for different example constants",
+      "resolution": "recompute 0.5/log(h/h0) from Table-1 constants"
+    }
+  ],
+  "hpc_contract": {
+    "backend": "pure_cpp_cpu",
+    "parallel_axis": "independent_candidate_complete_layout_evaluations",
+    "commit": "deterministic_indexed_results_and_serial_best_reduction",
+    "full_resource_policy": "use all currently available Waffle CPU cores"
+  }
+}

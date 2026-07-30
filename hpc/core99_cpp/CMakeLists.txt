@@ -116,6 +116,22 @@ target_compile_options(core99_t15_core PRIVATE
 add_executable(core99_t15_hpc src/iea37_t15_main.cpp)
 target_link_libraries(core99_t15_hpc PRIVATE core99_t15_core)
 
+add_library(core99_t20_core src/kunakote_t20.cpp)
+target_include_directories(core99_t20_core
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+)
+target_link_libraries(core99_t20_core PUBLIC fode_core)
+target_compile_features(core99_t20_core PUBLIC cxx_std_20)
+target_compile_options(core99_t20_core PRIVATE
+    -O3
+    -march=native
+    -ffp-contract=off
+)
+add_executable(core99_t20_hpc src/kunakote_t20_main.cpp)
+target_link_libraries(core99_t20_hpc PRIVATE core99_t20_core)
+
 if(BUILD_TESTING)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
     add_executable(
@@ -201,5 +217,14 @@ if(BUILD_TESTING)
                 ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/core99_t15_iea37_2019.json
             --resource-data
                 ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t15_iea37_cs1.json
+    )
+    add_executable(core99_t20_test tests/kunakote_t20_test.cpp)
+    target_link_libraries(core99_t20_test PRIVATE core99_t20_core)
+    add_test(NAME core99_t20_cpp COMMAND core99_t20_test)
+    add_test(
+        NAME core99_t20_h5
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t20.py
+            --binary $<TARGET_FILE:core99_t20_hpc>
     )
 endif()

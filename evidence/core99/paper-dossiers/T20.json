@@ -6,21 +6,30 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Register T20 as a four-problem benchmark and comparison-protocol contribution; do not invent a target optimizer.",
+    "Do not reproduce the twelve named comparison baselines as T20-owned methods.",
+    "Use the input-dependent prose decoder Gc(round(x_i)) because Algorithm 2 step 5 prints the non-input-dependent Gc(i).",
+    "Recompute the Jensen wake-decay coefficient from the paper surface-roughness relation and Table-1 constants.",
+    "Use candidate-batch parallelism with deterministic indexed writes and a fixed-order best reduction."
+  ],
   "corpus_id": "T20",
-  "dossier_status": "pre_code_fulltext_audit_ready",
+  "dossier_status": "h5_admitted",
   "formal_status": "not_started",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
     "H6": "not_started"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "paper-linked author source code and data archive",
+    "author random seeds and run histories",
+    "complete result layouts and unrounded numeric outputs",
+    "explicit declaration of whether the preceding k=0.086 example or the Table-1 roughness relation controls the four benchmark cases"
   ],
   "paper": {
     "authors": "Tawatchai Kunakote and Numchoak Sabangban and Sumit Kumar and Ghanshyam G. Tejani and Natee Panagant and Nantiwat Pholdee and Sujin Bureerat and Ali R. Yildiz",
@@ -37,7 +46,20 @@
     "year": 2022
   },
   "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
+  "paper_source_conflicts": [
+    {
+      "field": "fixed39_decoder",
+      "paper_prose": "select Gc(round(x_i))",
+      "paper_algorithm_2_step_5": "select Gc(i)",
+      "resolution": "paper prose controls because it makes the declared decision variables operative"
+    },
+    {
+      "field": "wake_decay",
+      "paper_equation": "surface-roughness relation",
+      "preceding_example": "k=0.086 using different example constants",
+      "resolution": "recompute k=0.5/log(h/h0) using Table-1 h and h0"
+    }
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 14,
@@ -50,77 +72,86 @@
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "academic declared reproduction of the four proposed WFLOP problems and comparison interface; not author-code or twelve-baseline numerical replay",
     "execution_wave": "REV1",
-    "package_status": "queued_full_text_contract",
+    "package_status": "paper_pair_h5_validated",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "2000m square boundary and at least 5D spacing; the grid construction makes distinct cells feasible and the all-zero variable-count layout is infeasible",
+      "status": "frozen"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "100 real variables in [0,1] for variable count; 39 real variables in [1,100] for fixed count",
+      "status": "frozen"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_prose_plus_declared_conflict_resolution",
+      "resolution": "round binary variables for Cases I-II; iteratively select and remove Gc(round(x_i)), with the last remaining entry used when the rounded value exceeds the list length, for Cases III-IV",
+      "status": "frozen"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "comparison_algorithm_specific",
+      "resolution": "not owned by T20 benchmark; the problem interface accepts any conforming population algorithm",
+      "status": "frozen"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "objective statistics and histories over ten independent runs, Wilcoxon rank-sum test at 5 percent, plus platform physical FES, timing, worker receipt, and scientific hash",
+      "status": "frozen"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "minimize Cost divided by average total power",
+      "status": "frozen"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "Cases I-II vary count over 100 cells with hub-only/partial overlap; Cases III-IV place exactly 39 turbines with hub-only/partial overlap",
+      "status": "frozen"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "10x10 grid over 2000m square, CT=0.88, h0=0.3m, h=60m, D=40m, efficiency=0.4, density=1.225kg/m3, speed=12m/s",
+      "status": "frozen"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "population 100, 250 iterations, maximum 25000 complete physical evaluations per run, ten independent runs",
+      "status": "frozen"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not_applicable",
+      "resolution": "no learned target method",
+      "status": "frozen"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "algorithm_specific_plus_platform_contract",
+      "resolution": "candidate evaluations are independent; production writes indexed values in parallel and performs deterministic ordered reduction",
+      "status": "frozen"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "Jensen linear wake, root-sum-square deficits, cubic turbine power, and either hub-inside-wake or exact rotor/wake circle-overlap fraction",
+      "status": "frozen"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "36 directions from 10 to 360 degrees in 10-degree increments at constant 12m/s, averaged for total power",
+      "status": "frozen"
+    }
+  },
+  "validation": {
+    "cpp_test": "core99_t20_cpp pass",
+    "h5_oracle": "core99_t20_h5 pass",
+    "h5_scope": "independent Python-vs-C++ equation agreement, decoder semantics, exact printed cost, and reconstructed Fig.5/6 layout power within 1.5 percent",
+    "paper_figure_relative_power_error": {
+      "case1_hub_only": 0.011788334810741397,
+      "case2_partial_overlap": 0.0022815012485824793
     }
   }
 }
