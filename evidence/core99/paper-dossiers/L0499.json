@@ -6,21 +6,34 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "The target package is the Dirichlet-Multinomial uncertain-wind model, analytical normal-approximation CVaR and fixed-count binary GA on both paper cases; TO and RO are retained objective variants, not unrelated baseline algorithms.",
+    "No target-paper code or machine-readable NDAWN archive was located; all 41 station records are executable using a versioned deterministic proxy and are not presented as author data.",
+    "Legal retrieval of the customized binary-GA predecessor DOI 10.1109/CCTA41146.2020.9206378 was attempted but yielded no usable full text at the audit date.",
+    "The target omits GA budget and operator settings; the implementation isolates a declared population-64, 312-generation, count-preserving completion rather than silently guessing.",
+    "Candidate points span the square boundaries inclusively: 2000/11 m and 1550/9 m satisfy the stated 172.172 m safety distance, unlike literal 2000/12 m and 1550/10 m cell widths.",
+    "All direction/candidate wake ratios are precomputed and every 64-member generation is evaluated by one persistent full-core team without changing generational semantics.",
+    "H6 uses one versus twenty workers for the same full-budget trajectory; the formal campaign uses twenty concurrent one-worker tasks because that is the higher-throughput mapping for the 2520 independent runs."
+  ],
   "corpus_id": "L0499",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_after_L0371",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "queued"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "author source, build environment and random seeds",
+    "machine-readable 41-station, 20-year NDAWN wind-direction series",
+    "machine-readable Fig. 7 power and thrust curves",
+    "population size and stopping budget",
+    "selection, crossover, mutation and survival definitions",
+    "exact interpretation of grid cells versus boundary-spanning candidate points"
   ],
   "paper": {
     "authors": "Wen Yi and Mengxuan Song and Jun Wang",
@@ -37,7 +50,11 @@
     "year": 2022
   },
   "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
+  "paper_source_conflicts": [
+    "The target references a customized binary-GA predecessor but does not repeat its operators or settings.",
+    "The target's stated square-cell counts and farm side lengths would violate its minimum-distance statement if interpreted as literal cell widths.",
+    "Case-B measurements and target Fig. 7 curves are not supplied numerically."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 16,
@@ -50,77 +67,91 @@
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "academic declared reproduction of the paper equations, all objective variants and all 42 problem records; not author code, NDAWN arrays, exact GA settings, random state or numerical replay",
     "execution_wave": "REV2",
-    "package_status": "queued_full_text_contract",
+    "package_status": "implemented_h5_admitted_h6_and_formal_queued",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "wake_power_cost_or_physical_evaluator"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Section 5.1 and declared coordinate interpretation",
+      "resolution": "exactly 50 distinct boundary-spanning grid points; grid spacing is at least the stated 172.172 m minimum and therefore needs no repair",
+      "status": "registered"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Section 5.1",
+      "resolution": "144 or 100 binary occupancy decisions with exactly 50 occupied points",
+      "status": "registered"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Section 5.1 and direct-predecessor boundary",
+      "resolution": "fixed-count sorted candidate-index set equivalent to the target binary occupancy vector",
+      "status": "registered"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target fixed-count statement plus declared deterministic completion",
+      "resolution": "uniform sampling without replacement of 50 candidate points using counter-keyed random events",
+      "status": "registered"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Sections 5.3 and 5.4",
+      "resolution": "expected AEP, AEP standard deviation, CVaR and minimum sector power for twenty independent runs of every problem/objective record",
+      "status": "registered"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Table 1 and Eqs. 17-18",
+      "resolution": "maximize expected AEP for TO, beta=0.8 analytical lower-tail CVaR for SO, or minimum sector power for RO",
+      "status": "registered"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Section 5.2",
+      "resolution": "one five-sector simulated Case A and 41 twelve-sector station records for Case B, each with TO, SO and RO",
+      "status": "registered"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Table 2, Fig. 7 and Section 5",
+      "resolution": "V=8 m/s, hub=65 m, rotor radius=43.043 m, wake expansion=0.0707, beta=0.8, 50 turbines; declared GA completion is separately recorded",
+      "status": "registered"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target omission plus declared reproducible completion",
+      "resolution": "64 initialized layouts plus 312 complete 64-member generations equals 20032 physical layout evaluations",
+      "status": "registered"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not applicable",
+      "resolution": "no learned component; Case-B Dirichlet parameters are fitted independently from each station's ten historical proxy years",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target fixed-count customized-GA statement plus declared completion",
+      "resolution": "binary tournament, count-preserving crossover, one occupied/unoccupied swap per offspring, full offspring evaluation, then deterministic best-64 parent-plus-offspring survival",
+      "status": "registered"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Eqs. 1-2, 6-7 and Fig. 7",
+      "resolution": "Jensen wake expansion, exact circle-overlap weighting, RSS multi-wake combination, digitized turbine curve and 8760-hour AEP",
+      "status": "registered"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Sections 3-5, Appendix C and declared Case-B proxy",
+      "resolution": "Case A exact five-sector Dirichlet alpha; Case B fixed-point Dirichlet-Multinomial fit from ten historical yearly WRFVs for each of 41 versioned proxy stations",
+      "status": "registered"
     }
+  },
+  "implementation": {
+    "analysis": "hpc/core99_cpp/analysis/l0499_hpc_analysis.md",
+    "contract": "shared/contracts/core99_l0499_wen_uncertain_cvar_2022.json",
+    "header": "hpc/core99_cpp/include/core99/wen_l0499.hpp",
+    "source": "hpc/core99_cpp/src/wen_l0499.cpp",
+    "cli": "hpc/core99_cpp/src/wen_l0499_main.cpp",
+    "test": "hpc/core99_cpp/tests/wen_l0499_test.cpp",
+    "fixture_builder": "scripts/prepare_core99_l0499_proxy.py",
+    "fixture_notice": "shared/data/core99_l0499_proxy_NOTICE.md",
+    "independent_validator": "scripts/validate_core99_l0499.py",
+    "formal_runner": "scripts/run_core99_l0499_admission.py",
+    "deferred_waffle_runner": "scripts/run_core99_l0499_when_waffle_free.sh",
+    "h5_receipt": "evidence/core99/h5/L0499_local_h5.json"
   }
 }
