@@ -12,11 +12,12 @@
     "Use counter-based random events and ordered commits for worker-count-independent scientific results."
   ],
   "corpus_id": "T01",
-  "dossier_status": "h6_admitted",
+  "dossier_status": "formal_complete",
   "evidence_receipts": [
-    "evidence/core99/h6/T01_T02_waffle_admission.json"
+    "evidence/core99/h6/T01_T02_waffle_admission.json",
+    "evidence/core99/formal/T01_T02_formal_quality.json"
   ],
-  "formal_status": "admission_complete_formal_pending",
+  "formal_status": "complete",
   "hpc_admission": {
     "H0": "pass",
     "H1": "pass",

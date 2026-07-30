@@ -3,8 +3,8 @@
   "records": [
     {
       "corpus_id": "T02",
-      "dossier_sha256": "392dbc82028185b633c3ee303ef0a9d295bc37f8d2a271caa4f0f1a0773fb575",
-      "dossier_status": "h6_admitted",
+      "dossier_sha256": "90ac3cc06950462384af60db72c3fb40bb5d29399697265b95f0ee55449f564f",
+      "dossier_status": "formal_complete",
       "role": "D"
     },
     {
@@ -21,8 +21,8 @@
     },
     {
       "corpus_id": "T01",
-      "dossier_sha256": "1de11c778c29355be19e5fb32fde7ac7125d75397062570d99ae1d35c4ed10f1",
-      "dossier_status": "h6_admitted",
+      "dossier_sha256": "eefdeb3523f8fbe14671bbebd131ee29d8948772d2d9a414c30789fba8919a54",
+      "dossier_status": "formal_complete",
       "role": "D"
     },
     {

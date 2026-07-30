@@ -2,8 +2,8 @@
   "schema_version": 1,
   "papers": {
     "T01": {
-      "dossier_status": "h6_admitted",
-      "formal_status": "admission_complete_formal_pending",
+      "dossier_status": "formal_complete",
+      "formal_status": "complete",
       "scope": {
         "claim_boundary": "paper-equation academic declared reproduction; no author-source or author-exact numerical claim",
         "package_status": "paper_pair_h6_admitted"
@@ -95,7 +95,8 @@
         "shared/contracts/core99_mosetti_grady_cases.json"
       ],
       "evidence_receipts": [
-        "evidence/core99/h6/T01_T02_waffle_admission.json"
+        "evidence/core99/h6/T01_T02_waffle_admission.json",
+        "evidence/core99/formal/T01_T02_formal_quality.json"
       ],
       "hpc_admission": {
         "H0": "pass",
@@ -108,8 +109,8 @@
       }
     },
     "T02": {
-      "dossier_status": "h6_admitted",
-      "formal_status": "admission_complete_formal_pending",
+      "dossier_status": "formal_complete",
+      "formal_status": "complete",
       "scope": {
         "claim_boundary": "paper-equation academic declared reproduction with explicit conflict profiles; no author-source or author-exact numerical claim",
         "package_status": "paper_pair_h6_admitted"
@@ -204,7 +205,8 @@
         "shared/contracts/core99_mosetti_grady_cases.json"
       ],
       "evidence_receipts": [
-        "evidence/core99/h6/T01_T02_waffle_admission.json"
+        "evidence/core99/h6/T01_T02_waffle_admission.json",
+        "evidence/core99/formal/T01_T02_formal_quality.json"
       ],
       "hpc_admission": {
         "H0": "pass",

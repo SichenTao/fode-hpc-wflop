@@ -1,0 +1,214 @@
+{
+  "campaign_manifest_sha256": "cdcc973ee19317314688fe90c57cad4cab6055690e0b84680f60da78cfe6adfd",
+  "case_summaries": [
+    {
+      "best_expected_power_kw": {
+        "max": 15926.481711451332,
+        "median": 14607.73193095087,
+        "min": 13275.490042996056
+      },
+      "best_objective": {
+        "max": 0.0016380728212691106,
+        "median": 0.001604716679588223,
+        "min": 0.0015785707293319551
+      },
+      "best_turbine_count": {
+        "max": 37,
+        "median": 32,
+        "min": 29
+      },
+      "corpus_id": "T01",
+      "end_to_end_seconds": {
+        "max": 0.176244839,
+        "median": 0.156819391,
+        "min": 0.150912007
+      },
+      "physical_fes": [
+        80200
+      ],
+      "problem_id": "t01_mosetti_case_a",
+      "repeats": 25
+    },
+    {
+      "best_expected_power_kw": {
+        "max": 18401.437561262836,
+        "median": 17616.707090684013,
+        "min": 16873.15662290968
+      },
+      "best_objective": {
+        "max": 0.0015657047956817616,
+        "median": 0.001560481451598963,
+        "min": 0.0015522249080077005
+      },
+      "best_turbine_count": {
+        "max": 42,
+        "median": 40,
+        "min": 38
+      },
+      "corpus_id": "T01",
+      "end_to_end_seconds": {
+        "max": 0.302047761,
+        "median": 0.28367372,
+        "min": 0.269630185
+      },
+      "physical_fes": [
+        80200
+      ],
+      "problem_id": "t01_mosetti_case_b",
+      "repeats": 25
+    },
+    {
+      "best_expected_power_kw": {
+        "max": 13457.1795635883,
+        "median": 12985.630308272126,
+        "min": 12432.533152786591
+      },
+      "best_objective": {
+        "max": 0.0022627545607317766,
+        "median": 0.0022522084249028676,
+        "min": 0.0022478851661832137
+      },
+      "best_turbine_count": {
+        "max": 45,
+        "median": 43,
+        "min": 41
+      },
+      "corpus_id": "T01",
+      "end_to_end_seconds": {
+        "max": 0.689905632,
+        "median": 0.667658105,
+        "min": 0.645485727
+      },
+      "physical_fes": [
+        80200
+      ],
+      "problem_id": "t01_mosetti_case_c",
+      "repeats": 25
+    },
+    {
+      "best_expected_power_kw": {
+        "max": 15244.757676388088,
+        "median": 15170.458325856513,
+        "min": 14165.930663572983
+      },
+      "best_objective": {
+        "max": 0.0015602622972517729,
+        "median": 0.0015556656103557756,
+        "min": 0.0015515978472119395
+      },
+      "best_turbine_count": {
+        "max": 33,
+        "median": 33,
+        "min": 30
+      },
+      "corpus_id": "T02",
+      "end_to_end_seconds": {
+        "max": 0.251294194,
+        "median": 0.225194123,
+        "min": 0.219702329
+      },
+      "physical_fes": [
+        1800600
+      ],
+      "problem_id": "t02_grady_case_a",
+      "repeats": 25
+    },
+    {
+      "best_expected_power_kw": {
+        "max": 18246.483314019904,
+        "median": 18237.815431240168,
+        "min": 17848.859720415574
+      },
+      "best_objective": {
+        "max": 0.0015401849240722404,
+        "median": 0.001538895651973188,
+        "min": 0.0015382029683646528
+      },
+      "best_turbine_count": {
+        "max": 41,
+        "median": 41,
+        "min": 40
+      },
+      "corpus_id": "T02",
+      "end_to_end_seconds": {
+        "max": 3.298343794,
+        "median": 3.235102343,
+        "min": 3.199768512
+      },
+      "physical_fes": [
+        1800600
+      ],
+      "problem_id": "t02_grady_case_b",
+      "repeats": 25
+    },
+    {
+      "best_expected_power_kw": {
+        "max": 13129.424747072035,
+        "median": 13123.18899203474,
+        "min": 12857.929653256955
+      },
+      "best_objective": {
+        "max": 0.0022286054793713094,
+        "median": 0.002227943237540103,
+        "min": 0.002227129346366614
+      },
+      "best_turbine_count": {
+        "max": 43,
+        "median": 43,
+        "min": 42
+      },
+      "corpus_id": "T02",
+      "end_to_end_seconds": {
+        "max": 8.761511635,
+        "median": 8.602594959,
+        "min": 8.53128229
+      },
+      "physical_fes": [
+        1500600
+      ],
+      "problem_id": "t02_grady_case_c_abstract2500",
+      "repeats": 25
+    },
+    {
+      "best_expected_power_kw": {
+        "max": 13367.713103586431,
+        "median": 13091.326310361326,
+        "min": 12562.465677385986
+      },
+      "best_objective": {
+        "max": 0.002234958615938342,
+        "median": 0.002232091366794371,
+        "min": 0.0022301134394214534
+      },
+      "best_turbine_count": {
+        "max": 44,
+        "median": 43,
+        "min": 41
+      },
+      "corpus_id": "T02",
+      "end_to_end_seconds": {
+        "max": 3.49778625,
+        "median": 3.466792248,
+        "min": 3.44825607
+      },
+      "physical_fes": [
+        600600
+      ],
+      "problem_id": "t02_grady_case_c_body1000",
+      "repeats": 25
+    }
+  ],
+  "claim_boundary": "formal project-declared reproduction results; not author-exact numerical reproduction",
+  "generated_at_utc": "2026-07-30T16:17:32.443523+00:00",
+  "host": "waffle",
+  "observation_count": 175,
+  "paper_case_count": 7,
+  "paper_count": 2,
+  "receipt_sha256": "8b596a0f6ea4a771d671689d7eedf1e13797dc9d3e36265bb5b6373a52134d27",
+  "receipt_type": "core99_t01_t02_formal_quality",
+  "repeats_per_case": 25,
+  "schema_version": 1,
+  "source_commit": "ac0b82f7cb8d279d0799c9b016e973bedc038c13",
+  "summed_optimization_wall_seconds": 416.70004757399994,
+  "workers_per_optimization": 20
+}
