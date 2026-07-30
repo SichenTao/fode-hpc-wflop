@@ -1,0 +1,20 @@
+{
+  "status": "pass",
+  "generated_at": "2026-07-31T06:42:00+09:00",
+  "fixture_sha256": "e327d31b787bdabdbdb5c820e452ca9d7f970be48cd183d245d009aa3d9ae58e",
+  "paper_case_count": 29,
+  "ideal_candidate_count": 100,
+  "horns_candidate_count": 531,
+  "horns_actual_state_count": 504,
+  "paper_scale_neutral_case_a_power_kw": 13979.816508706435,
+  "paper_scale_neutral_case_a_efficiency": 0.8989079545207327,
+  "smoke_physical_fes": 500,
+  "serial_parallel_replay_scientific_parity": true,
+  "smoke_scientific_hash": "fa8eaf01ddb14c46",
+  "ctest": {
+    "tests": 2,
+    "passed": 2,
+    "failed": 0
+  },
+  "claim_boundary": "local H5 evidence for the declared source-backed reproduction; H6 and formal paper-scale results are not yet claimed"
+}

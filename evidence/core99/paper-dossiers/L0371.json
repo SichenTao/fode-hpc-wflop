@@ -6,21 +6,35 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "The target package is the IET-GWM atmospheric-stability evaluator plus DEEM on all 29 paper-native problem/stability combinations; reported comparison anchors are not separate target algorithms.",
+    "No target-paper author code or numeric archive was located; the implementation is independently reconstructed from the primary paper, its direct Gaussian-wake and DEEM predecessors, and a same-Horns-Rev data paper.",
+    "The ideal 10x10 grid follows target Figs. 4-6; the Horns Rev 200 m parallelogram grid and digitized arrays are explicitly declared proxies rather than author data.",
+    "Target Eq. 13 prints a strict greater-than-five-diameters constraint, but target Fig. 4 uses exactly five diameters; the executable contract therefore uses non-strict at-least-five-diameters spacing and records the conflict.",
+    "Target Eq. 8 prints roughness length z0 where the wake predecessor prints reference height z; the target-paper equation takes precedence.",
+    "The target omits the physical budget and repeat count; the direct DEEM predecessor supplies 150000 physical evaluations and 30 independent repeats.",
+    "The full-core C++ evaluator precomputes state/source/target deficits and DEEM's one-turbine move is updated in O(SN), while sequential active-layout acceptance remains unchanged.",
+    "Heavy 504-state Horns runs use one persistent twenty-worker team; light case/seed runs occupy the twenty Waffle cores concurrently without nested oversubscription."
+  ],
   "corpus_id": "L0371",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_after_T87",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "queued"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "target-paper author source, build environment and random seeds",
+    "machine-readable target Fig. 3 and Fig. 11 arrays",
+    "exact target-paper ideal and Horns candidate-grid declarations",
+    "target-paper Horns V80 power/thrust arrays",
+    "target-paper latitude values",
+    "target-paper DEEM stopping budget and independent-repeat count"
   ],
   "paper": {
     "authors": "Naizhi Guo and Mingming Zhang and Bo Li and Yu Cheng",
@@ -37,7 +51,13 @@
     "year": 2021
   },
   "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
+  "paper_source_conflicts": [
+    "Target Eq. 13 requires distance greater than 5D while target Fig. 4 contains turbines at exactly 5D.",
+    "Target Eq. 8 uses z0 in the Gaussian width expression while the direct wake predecessor uses reference height z.",
+    "The target calls the problems grid-based but does not numerically declare either candidate grid.",
+    "The target provides plotted probability, power and thrust quantities without machine-readable arrays.",
+    "The target omits DEEM's stopping budget and repeat count."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 12,
@@ -50,77 +70,91 @@
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "academic declared reproduction of all 29 paper-native problem/stability combinations and predecessor-completed DEEM; not author code, private arrays, exact grid, random state or exact numerical replay",
     "execution_wave": "REV2",
-    "package_status": "queued_full_text_contract",
+    "package_status": "implemented_h5_admitted_h6_and_formal_queued",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "wake_power_cost_or_physical_evaluator"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Eq. 13 and target Fig. 4 conflict resolution",
+      "resolution": "all turbine pairs must be at least five rotor diameters apart; infeasible DE trials are not counted as physical evaluations",
+      "status": "registered"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper Sections 3.1 and 3.2",
+      "resolution": "one integer candidate-grid coordinate per fixed-count turbine",
+      "status": "registered"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper DEEM description and direct predecessor",
+      "resolution": "each turbine is one DE individual and the whole DE population is one active wind-farm layout",
+      "status": "registered"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "direct DEEM predecessor",
+      "resolution": "random feasible placement with at most 200 relocation attempts before a complete restart",
+      "status": "registered"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper Tables 3 and 5 plus direct DEEM predecessor",
+      "resolution": "power, efficiency and COE across all 29 cases for 30 independent repeats",
+      "status": "registered"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper Eqs. 12-15",
+      "resolution": "minimize fixed-count Mosetti cost divided by expected farm power, equivalently maximize power for one fixed turbine count",
+      "status": "registered"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper Sections 3.1 and 3.2",
+      "resolution": "three ideal wind cases times seven stability classes, seven single-stability Horns Rev cases, and one actual Horns stability-distribution case",
+      "status": "registered"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper Tables 1, 2 and 4 plus cited data source",
+      "resolution": "ideal D=40 m, hub=60 m, Ct=0.88, p=0.3u^3; Horns V80 D=80 m, hub=70 m; gamma=0.38; target stability L/z0 tables",
+      "status": "registered"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "direct DEEM predecessor because the target omits both fields",
+      "resolution": "150000 feasible whole-layout physical evaluations per repeat, including the initialized layout",
+      "status": "registered"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not applicable",
+      "resolution": "no learned component",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Eqs. 16-18 and direct DEEM predecessor",
+      "resolution": "snapshot DE/rand/1 offspring generation with F=0.9 and CR=0.9, followed by in-order random-turbine replacement and sequential active-layout acceptance",
+      "status": "registered"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Eqs. 1-15",
+      "resolution": "IET-GWM atmospheric-stability Gaussian deficit, RSS combination, source-specific power and fixed-count COE",
+      "status": "registered"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Figs. 3, 9 and 11 plus Feng and Shen Horns table",
+      "resolution": "ideal A one westward 12 m/s state, B 36 uniform directions at 12 m/s, C digitized 36x3 joint directions and 8/12/17 m/s; Horns 12 Weibull sectors, six speed bins and seven stability classes",
+      "status": "registered"
     }
+  },
+  "implementation": {
+    "analysis": "hpc/core99_cpp/analysis/l0371_hpc_analysis.md",
+    "contract": "shared/contracts/core99_l0371_guo_stability_deem_2021.json",
+    "header": "hpc/core99_cpp/include/core99/guo_l0371.hpp",
+    "source": "hpc/core99_cpp/src/guo_l0371.cpp",
+    "cli": "hpc/core99_cpp/src/guo_l0371_main.cpp",
+    "test": "hpc/core99_cpp/tests/guo_l0371_test.cpp",
+    "fixture_builder": "scripts/prepare_core99_l0371_proxy.py",
+    "fixture_notice": "shared/data/core99_l0371_proxy_NOTICE.md",
+    "independent_validator": "scripts/validate_core99_l0371.py",
+    "formal_runner": "scripts/run_core99_l0371_admission.py",
+    "deferred_waffle_runner": "scripts/run_core99_l0371_when_waffle_free.sh",
+    "h5_receipt": "evidence/core99/h5/L0371_local_h5.json"
   }
 }

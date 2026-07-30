@@ -52,6 +52,22 @@ target_compile_options(core99_t87_core PRIVATE
 add_executable(core99_t87_hpc src/hu_t87_main.cpp)
 target_link_libraries(core99_t87_hpc PRIVATE core99_t87_core)
 
+add_library(core99_l0371_core src/guo_l0371.cpp)
+target_include_directories(core99_l0371_core
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+)
+target_link_libraries(core99_l0371_core PUBLIC fode_core)
+target_compile_features(core99_l0371_core PUBLIC cxx_std_20)
+target_compile_options(core99_l0371_core PRIVATE
+    -O3
+    -march=native
+    -ffp-contract=off
+)
+add_executable(core99_l0371_hpc src/guo_l0371_main.cpp)
+target_link_libraries(core99_l0371_hpc PRIVATE core99_l0371_core)
+
 add_library(core99_t03_core src/kusiak_t03.cpp)
 target_include_directories(core99_t03_core
     PUBLIC
@@ -324,6 +340,21 @@ if(BUILD_TESTING)
             --binary $<TARGET_FILE:core99_t87_hpc>
             --data
                 ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t87_figure_proxy.bin
+    )
+    add_executable(core99_l0371_test tests/guo_l0371_test.cpp)
+    target_link_libraries(core99_l0371_test PRIVATE core99_l0371_core)
+    add_test(
+        NAME core99_l0371_cpp
+        COMMAND core99_l0371_test
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_l0371_proxy.bin
+    )
+    add_test(
+        NAME core99_l0371_h5
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_l0371.py
+            --binary $<TARGET_FILE:core99_l0371_hpc>
+            --data
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_l0371_proxy.bin
     )
     add_executable(
         core99_historical_grid_test

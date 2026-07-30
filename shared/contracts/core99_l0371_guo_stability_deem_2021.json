@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0371",
+  "paper": {
+    "title": "Influence of atmospheric stability on wind farm layout optimization based on an improved Gaussian wake model",
+    "doi": "10.1016/j.jweia.2021.104548",
+    "year": 2021,
+    "pdf_sha256": "227ac3844dd69fda900fc882595e39dfe08eb4483d889a31642c6b032c277e66"
+  },
+  "target_contributions": [
+    "IET-GWM atmospheric-stability-aware wake, power and COE evaluator",
+    "DEEM optimization of three ideal wind farms and Horns Rev 1"
+  ],
+  "non_target_baselines": [
+    "Grady et al. is a reported comparison anchor and is not reimplemented as a target algorithm"
+  ],
+  "source_assets": {
+    "author_code": "no paper-linked public author source located",
+    "author_data": "no paper-linked public numeric archive located",
+    "wake_predecessor": {
+      "doi": "10.1016/j.apenergy.2019.01.225",
+      "pdf_sha256": "19274a59889ba7b8310cc9dca226a0304beef4af91c02114d630def7fdd500cf"
+    },
+    "deem_predecessor": {
+      "doi": "10.1109/TII.2017.2743761",
+      "pdf_sha256": "eddbd51ef085bdf1ee0c7a5a1eb523d41b2af80336a83e2af3eedcf16fa60895"
+    },
+    "horns_wind_supplement": {
+      "doi": "10.3390/en8043075",
+      "pdf_sha256": "d8f82df7d70cfbe02c3ff8ae36c9cc20ef0995b945486c46912a72a6c3d160d2"
+    }
+  },
+  "paper_native_cases": {
+    "ideal": {
+      "wind_cases": ["a", "b", "c"],
+      "stability_classes": ["vu", "u", "nu", "n", "ns", "s", "vs"],
+      "case_count": 21,
+      "domain_m": [2000.0, 2000.0],
+      "candidate_grid": "10x10 at 200 m spacing, evidenced by Figs. 4-6",
+      "turbine_counts": {"a": 30, "b": 39, "c": 39}
+    },
+    "horns_rev_1": {
+      "single_stability_case_count": 7,
+      "actual_distribution_case_count": 1,
+      "candidate_grid": "declared 200 m parallelogram proxy inferred from Figs. 9 and 12",
+      "candidate_count": 531,
+      "turbine_count": 80
+    },
+    "total_case_count": 29
+  },
+  "fixture": {
+    "path": "shared/data/core99_l0371_proxy.bin",
+    "sha256": "e327d31b787bdabdbdb5c820e452ca9d7f970be48cd183d245d009aa3d9ae58e",
+    "builder": "scripts/prepare_core99_l0371_proxy.py",
+    "contents": [
+      "target Fig. 3 case-(c) 36x3 relative probability proxy",
+      "Feng and Shen Fig. 1(b) V80 curve proxy",
+      "target Tables 2 and 4 stability parameters",
+      "target Fig. 11 four-direction normalized stability proxy",
+      "Feng and Shen Table 1 exact Horns Rev Weibull parameters"
+    ],
+    "claim_boundary": "declared source-backed proxy, not author arrays"
+  },
+  "model_contract": {
+    "wake": "target Eqs. (1)-(11), target Eq. (8) interpreted literally with z0, RSS superposition",
+    "gamma": 0.38,
+    "ideal_turbine": {
+      "rotor_diameter_m": 40.0,
+      "hub_height_m": 60.0,
+      "thrust_coefficient": 0.88,
+      "power_kw": "0.3*u^3"
+    },
+    "horns_turbine": {
+      "model": "Vestas V80-2 MW",
+      "rotor_diameter_m": 80.0,
+      "hub_height_m": 70.0,
+      "power_and_ct": "linear interpolation of declared digitized knots"
+    },
+    "minimum_spacing": "non-strict >=5D, because target Fig. 4 uses exactly 5D while Eq. (13) is typeset as strict >5D",
+    "objective": "minimize Mosetti fixed-count cost divided by expected power",
+    "ideal_latitude_completion_degrees": 47.0,
+    "horns_latitude_completion_degrees": 55.5
+  },
+  "optimizer_contract": {
+    "encoding": "one turbine coordinate is one DE individual; one population is one layout",
+    "mutation": "DE/rand/1 with F=0.9 and three mutually distinct non-target turbine indices",
+    "crossover": "target Eq. (18), CR=0.9, at least one mutant coordinate",
+    "replacement": "each offspring replaces a random layout turbine and is accepted sequentially only when whole-layout expected power improves",
+    "initialization": "direct-predecessor random feasible placement, at most 200 relocation attempts before restart",
+    "physical_fes": 150000,
+    "repeat_count": 30,
+    "budget_and_repeats_authority": "direct DEEM predecessor because the target omits both"
+  },
+  "conflicts_and_resolutions": [
+    {
+      "conflict": "target Eq. (13) is strict >5D but Fig. 4 contains ten 200 m-spaced turbines with D=40 m",
+      "resolution": "use >=5D and record the evidence"
+    },
+    {
+      "conflict": "target Eq. (8) prints z0 while direct wake predecessor Eq. (18) uses reference height z",
+      "resolution": "primary target paper takes precedence; use z0"
+    },
+    {
+      "conflict": "target calls the problem grid-based but omits both ideal and Horns grid sizes",
+      "resolution": "infer the ideal 200 m grid from Figs. 4-6 and declare a 200 m Horns proxy from Fig. 12"
+    }
+  ],
+  "hpc_contract": {
+    "backend": "pure_cpp_cpu",
+    "precomputation": "full-core state/source candidate-pair IET-GWM table",
+    "algorithm_specific_acceleration": "Wang et al. moved-turbine cache reduces a feasible trial from O(S*N^2) full evaluation to O(S*N)",
+    "active_semantics": "offspring generation uses a layout snapshot; acceptance remains sequential and in turn",
+    "inner_parallelism": "persistent full-core state parallelism when S*N is heavy",
+    "outer_parallelism": "independent light paper cases and seeds fill Waffle cores when inner parallelism would be slower",
+    "randomness": "counter-keyed events preserve schedule-independent replay",
+    "formal_resource_policy": "maximum twenty aggregate Waffle CPU workers with no nested oversubscription"
+  },
+  "problem_semantic_ids": [
+    "l0371_ideal_ietgwm_grid_v1",
+    "l0371_horns_ietgwm_grid_proxy_v1"
+  ],
+  "method_semantic_id": "l0371_deem_predecessor_completed_v1",
+  "claim_boundary": "academic declared reproduction of all 29 paper-native problem/stability combinations and predecessor-completed DEEM; not author code, private arrays, exact grid, random state or exact numerical replay"
+}
