@@ -6,21 +6,36 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "The target package contains the 3-5-6-1 ANN wake surrogate, its from-scratch training lifecycle, joint layout/hub-height GA and all eight named E/C cases; generic GA citations are not separate target baselines.",
+    "No paper-linked source, Shiren array or trained weight asset was located; the private training array is replaced by deterministic stratified samples from the paper and recovered predecessor equations on the stated 0.01D/1D lattice.",
+    "Both direct model predecessors were legally recovered through Elsevier API and supply flow conservation, wake radius, downstream velocity, expansion and RSS semantics omitted from the target summary.",
+    "The target omits Shiren calibration constants; source-supported C=5.15 and onshore expansion 0.075 are isolated completions rather than author settings.",
+    "The paper states 1e-6 as its training goal. The proxy-data implementation trains for the paper maximum 1000 epochs and reports whether that goal is reached; H5 does not manufacture author-equivalent accuracy.",
+    "The paper's cost text conflicts with its USD/kW tables; minimizing total installed cost divided by total power is the registered direction. The cited curve starts at 60 m, so the declared curve is linearly extrapolated to the allowed 45 m lower bound.",
+    "The target omits GA details and repeat count; a population-64 real-coded completion and the platform 25-repeat rule are recorded field by field.",
+    "Teacher generation, deterministic gradient chunks and GA population evaluation use persistent full-core execution without changing one/all-core scientific trajectories."
+  ],
   "corpus_id": "L0590",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_after_L0499",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "queued"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "target-paper author source, build environment and random seeds",
+    "machine-readable Shiren analytical-wake training array",
+    "author-trained ANN weights and MATLAB training options",
+    "Shiren calibration values of C, turbulence intensity and roughness",
+    "training coordinate range and exact sample count",
+    "machine-readable Fig. 22 installed-cost curve and its below-60-m rule",
+    "GA population, selection, crossover, mutation, repair and repeat count"
   ],
   "paper": {
     "authors": "Haiying Sun and Hongxing Yang",
@@ -37,7 +52,12 @@
     "year": 2023
   },
   "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
+  "paper_source_conflicts": [
+    "The target describes Cost of Power once as total power divided by total cost but minimizes and reports total cost divided by total power in USD/kW.",
+    "The cited installed-cost plot starts at 60 m while the optimization permits hub heights down to 45 m.",
+    "The target applies a three-coordinate ANN trained around a 65 m reference turbine to variable source and receiver heights without publishing the exact coordinate transformation.",
+    "The target reports 838 and 1017 convergence generations only for E4 and C4 and omits the other GA stopping rules."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 30,
@@ -48,79 +68,103 @@
     "embedded_annotation_urls": [],
     "status": "no_paper_linked_public_asset_candidate_detected"
   },
+  "recovered_predecessors": [
+    {
+      "doi": "10.1016/j.apenergy.2018.06.027",
+      "pdf_sha256": "e83ed8170d94375cd82e509aa4cc2868c47fe7c868de639bed89b6422bf2d978",
+      "retrieval": "legal Elsevier API"
+    },
+    {
+      "doi": "10.1016/j.renene.2019.08.122",
+      "pdf_sha256": "e24faf6782fb69660f75b835fd85a2beb5b7c61aa0ceb30b5e6a80a7600a1b8c",
+      "retrieval": "legal Elsevier API"
+    }
+  ],
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "academic declared reproduction of every named paper case and the paper/cited equations; not author code, private Shiren data, author-trained weights, exact GA, exact cost curve or numerical replay",
     "execution_wave": "REV2",
-    "package_status": "queued_full_text_contract",
+    "package_status": "implemented_h5_admitted_h6_and_formal_queued",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "wake_power_cost_or_physical_evaluator"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Eq. 6 and Section 4.1.2 plus declared completion",
+      "resolution": "2 km square, at least 5D horizontal spacing, [45,85] m heights; candidate mutations are accepted only when feasible and otherwise revert",
+      "status": "registered"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Fig. 17 and Eq. 6",
+      "resolution": "30 labeled turbine genes, each with real-valued x, y and hub height; each case freezes the variables stated by the paper",
+      "status": "registered"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Section 4.1.1",
+      "resolution": "real-valued 90-variable chromosome canonicalized by north-to-south then west-to-east turbine order",
+      "status": "registered"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target random-first-population statement plus declared feasible completion",
+      "resolution": "paper aligned 5x6 layout is retained as one seed individual; other layouts use feasible coordinate perturbations and independently sampled bounded heights",
+      "status": "registered"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Tables 3-5 plus missing-repeat completion",
+      "resolution": "maximum/mean/minimum and total power, height-dependent installed cost and USD/kW for 25 independent repeats of all eight named cases",
+      "status": "registered"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Sections 4.2.1-4.2.2 and USD/kW tables",
+      "resolution": "maximize total power for E cases; minimize installed cost divided by total power for C cases",
+      "status": "registered"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Sections 4.2.1-4.2.2",
+      "resolution": "E1-E4 and C1-C4 are all registered; C1 and C3 retain the target's explicit aliases of E1 and E3",
+      "status": "registered"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Sections 2.2 and 4 plus recovered direct predecessors",
+      "resolution": "D=77 m, reference hub=65 m, 12.7 m/s, rated=1513 kW, cut-in/rated/cut-out=3/11/25 m/s, C=5.15 and onshore expansion=0.075 completions",
+      "status": "registered"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target E4/C4 generation reports plus declared family completion",
+      "resolution": "838 generations and 53696 FEs for energy/E3-alias optimization; 1017 generations and 65152 FEs for cost-variable cases; one FE for fixed E1/C1",
+      "status": "registered"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Section 2.2 and recovered analytical teacher equations",
+      "resolution": "from-scratch 3-5-6-1 sigmoid-hidden ANN, deterministic 0.01D/1D teacher sampling, 70/15/15 split, maximum 1000 epochs and 1e-6 stopping target; inference uses independent point queries with physical wake-boundary masking",
+      "status": "registered"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target generic GA phases plus declared completion",
+      "resolution": "binary tournament, arithmetic/uniform crossover, bounded Gaussian mutation, feasibility accept-or-revert, full offspring evaluation, deterministic parent-plus-offspring best-64 survival",
+      "status": "registered"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Eqs. 1-5, recovered predecessor equations and Figs. 2/22",
+      "resolution": "log inflow, flux-conserving 3-D Gaussian teacher, ANN deficit, RSS multiple wakes, 13-point cube-mean rotor speed, turbine curve and declared installed-cost interpolation/extrapolation",
+      "status": "registered"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Sections 2.2 and 4.2",
+      "resolution": "one constant north-wind condition at 12.7 m/s and log-law vertical shear; no stochastic wind sampling",
+      "status": "registered"
     }
+  },
+  "implementation": {
+    "analysis": "hpc/core99_cpp/analysis/l0590_hpc_analysis.md",
+    "contract": "shared/contracts/core99_l0590_sun_ann_height_2023.json",
+    "header": "hpc/core99_cpp/include/core99/sun_l0590.hpp",
+    "source": "hpc/core99_cpp/src/sun_l0590.cpp",
+    "cli": "hpc/core99_cpp/src/sun_l0590_main.cpp",
+    "test": "hpc/core99_cpp/tests/sun_l0590_test.cpp",
+    "independent_validator": "scripts/validate_core99_l0590.py",
+    "formal_runner": "scripts/run_core99_l0590_admission.py",
+    "deferred_waffle_runner": "scripts/run_core99_l0590_when_waffle_free.sh",
+    "h5_receipt": "evidence/core99/h5/L0590_local_h5.json"
   }
 }

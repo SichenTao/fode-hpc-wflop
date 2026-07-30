@@ -1,0 +1,21 @@
+{
+  "aligned_total_power_kw": 11624.733225026015,
+  "claim_boundary": "academic declared reproduction using source-backed equations and deterministic completions; not author data, weights, exact GA, cost curve or numerical replay",
+  "corpus_id": "L0590",
+  "method_semantic_id": "l0590_real_ga_completed_v1",
+  "observed_optimization_workers": 4,
+  "observed_training_workers": 4,
+  "optimization_scientific_hash": "be42a802d311934a",
+  "paper_case_count": 8,
+  "paper_mse_target": 1e-06,
+  "paper_mse_target_reached": false,
+  "problem_semantic_id": "l0590_shiren_3d_ann_layout_height_v1",
+  "smoke_physical_fes": 256,
+  "status": "pass",
+  "training_epochs": 500,
+  "training_sample_count": 8192,
+  "training_scientific_hash": "be23ffad1ba1f995",
+  "training_semantic_id": "l0590_mlp_3_5_6_1_from_scratch_v1",
+  "training_test_mse": 0.001879160326934069,
+  "weight_sha256": "6ab496ce85edbade560836f6ead119fa9265d26ebc245634457af9153c09fd05"
+}
