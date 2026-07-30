@@ -96,6 +96,14 @@ struct ProposalWorkReceipt {
     std::uint64_t refill_rejects = 0;
 };
 
+struct NumericalStateReceipt {
+    bool available = false;
+    std::uint64_t parameter_count = 0;
+    double l2_norm = 0.0;
+    double linf_norm = 0.0;
+    double weighted_checksum = 0.0;
+};
+
 struct EvolutionResult {
     std::string method_semantic_id;
     std::string kernel_semantic_id;
@@ -124,6 +132,7 @@ struct EvolutionResult {
     StageReceipt selection_other_stage;
     ProposalWorkReceipt proposal_work;
     std::string model_hash;
+    NumericalStateReceipt numerical_state;
     bool learning_artifact_consumed = false;
     std::string learning_decision_hash;
     std::string terminal_partial_work;

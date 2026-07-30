@@ -103,6 +103,18 @@ if(BUILD_TESTING)
                 ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_plan004_learning_target_artifacts.py
                 --binary $<TARGET_FILE:plan004_learning_target_hpc>
         )
+        add_test(
+            NAME plan005_learning_phase_topology
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/test_plan005_learning_phase_topology.py
+                --trainer $<TARGET_FILE:plan004_learning_target_hpc>
+                --taae-binary $<TARGET_FILE:taae_evolution_hpc>
+                --wflop-binary $<TARGET_FILE:wflop_cpp_hpc>
+        )
+        set_tests_properties(
+            plan005_learning_phase_topology
+            PROPERTIES TIMEOUT 600
+        )
     endif()
     add_test(
         NAME source_dossiers

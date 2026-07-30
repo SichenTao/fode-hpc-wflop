@@ -71,6 +71,14 @@ PERFORMANCE_FIELDS = {
     "stage_receipts",
     "stages",
     "wall_seconds",
+    "policy_training_seconds",
+    "policy_update_seconds",
+    "model_hash",
+    "learned_state_hash",
+    "numerical_state",
+    "speculative_decode_batches",
+    "speculative_decode_tasks",
+    "speculative_decode_discards",
 }
 ENVIRONMENT_LIMITS = {
     "OMP_NUM_THREADS": "1",
@@ -750,6 +758,80 @@ def amdahl_fit(worker_medians: dict[int, float]) -> tuple[float, dict[int, float
     return best_s, prediction_error
 
 
+def learning_state_cross_worker_receipt(
+    row: dict[str, str],
+    observations: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    corpus = row["corpus_id"]
+    if corpus not in LEARNING:
+        return None
+    by_repetition: dict[int, list[dict[str, Any]]] = defaultdict(list)
+    for item in observations:
+        by_repetition[item["key"]["repetition"]].append(item)
+    if corpus == "Y36":
+        maximum_absolute = {
+            "l2_norm": 0.0,
+            "linf_norm": 0.0,
+            "weighted_checksum": 0.0,
+        }
+        parameter_count = None
+        for items in by_repetition.values():
+            baseline = next(
+                item["raw_result"]["numerical_state"]
+                for item in items
+                if item["key"]["workers"] == 1
+            )
+            require(baseline["available"] is True, "TAAE state absent")
+            if parameter_count is None:
+                parameter_count = baseline["parameter_count"]
+            for item in items:
+                observed = item["raw_result"]["numerical_state"]
+                require(
+                    observed["available"] is True
+                    and observed["parameter_count"] == parameter_count,
+                    "TAAE numerical state parameter-count drift",
+                )
+                for field in maximum_absolute:
+                    difference = abs(observed[field] - baseline[field])
+                    maximum_absolute[field] = max(
+                        maximum_absolute[field],
+                        difference,
+                    )
+                    require(
+                        math.isclose(
+                            observed[field],
+                            baseline[field],
+                            rel_tol=1.0e-12,
+                            abs_tol=1.0e-9,
+                        ),
+                        f"TAAE numerical state {field} drift",
+                    )
+        return {
+            "mode": "numerical_tolerance",
+            "raw_bit_hash_retained": True,
+            "parameter_count": parameter_count,
+            "relative_tolerance": 1.0e-12,
+            "absolute_tolerance": 1.0e-9,
+            "maximum_absolute_difference": maximum_absolute,
+            "status": "accepted",
+        }
+    hashes_by_repetition = {}
+    for repetition, items in by_repetition.items():
+        hashes = {
+            item["raw_result"]["learned_state_hash"] for item in items
+        }
+        require(
+            len(hashes) == 1,
+            f"{corpus}: learned state hash changed across workers",
+        )
+        hashes_by_repetition[str(repetition)] = next(iter(hashes))
+    return {
+        "mode": "raw_bit_hash_exact",
+        "hashes_by_repetition": hashes_by_repetition,
+        "status": "accepted",
+    }
+
+
 def summarize_target(
     row: dict[str, str],
     observations: list[dict[str, Any]],
@@ -828,6 +910,10 @@ def summarize_target(
         all(len(values) == 1 for values in science_by_repetition.values()),
         f"{row['pair_id']}: scientific result changed across worker counts",
     )
+    learning_state_receipt = learning_state_cross_worker_receipt(
+        row,
+        observations,
+    )
     attribution_minimum = min(
         item["timing"]["named_h0_stage_attribution"]
         for item in observations
@@ -858,6 +944,7 @@ def summarize_target(
         "worker_statistics": statistics_by_worker,
         "measured_serial_fraction": serial_fraction,
         "minimum_named_h0_stage_attribution": attribution_minimum,
+        "learning_state_cross_worker_receipt": learning_state_receipt,
         "fastest_measured_workers": best_worker,
         "all_visible_workers": workers[-1],
         "all_visible_statistically_tied_with_fastest": all_visible_tied,
@@ -1108,12 +1195,24 @@ def main() -> int:
         },
         "learning_thread_topology_contract": {
             "outer_persistent_workers": "W",
-            "torch_intraop_threads": "W",
+            "torch_intraop_thread_budget": "at most W",
             "torch_interop_threads": 1,
             "affinity_allocated_cpus": "exactly W",
             "phase_separation": (
-                "Torch calls execute between PersistentExecutor regions; "
-                "the two pools never perform CPU work concurrently"
+                "TAAE encode/decode and training use one batched Torch call "
+                "with intra-op W and no outer executor; ALGA uses one full-"
+                "batch Torch step with intra-op W before outer CPU work; "
+                "RLPSO sequential dependent policy inference uses intra-op 1, "
+                "batched PPO update uses intra-op W, and outer CPU stages do "
+                "not call Torch"
+            ),
+            "maximum_os_threads": "3*W+4 measured linear runtime allowance",
+            "maximum_cpu_time_to_wall": "W+1.0",
+            "os_thread_sources": (
+                "W persistent outer workers retained while idle, up to W "
+                "Torch intra-op workers in model phases, and LibTorch/runtime "
+                "helper threads; bounded probes measured W1=3,W4=12,W8=24,"
+                "W20=60"
             ),
             "source_symbols": [
                 "hpc/taae_cpp/src/evolution.cpp::LibTorchLearningModel",
@@ -1212,6 +1311,18 @@ def main() -> int:
                     == worker_affinity_sets[str(worker)],
                     f"{row['pair_id']}: affinity escaped selected topology",
                 )
+                if row["corpus_id"] in LEARNING:
+                    require(
+                        process_receipt["peak_os_threads"] <= 3 * worker + 4
+                        and process_receipt["cpu_time_to_wall"]
+                        <= worker + 1.0,
+                        f"{row['pair_id']}: nested Torch oversubscription "
+                        f"peak={process_receipt['peak_os_threads']} "
+                        f"budget={3 * worker + 4} "
+                        "cpu_time_to_wall="
+                        f"{process_receipt['cpu_time_to_wall']} "
+                        f"budget={worker + 1.0}",
+                    )
                 if row["corpus_id"] in LEARNING:
                     require(
                         raw.get("thread_topology") == {

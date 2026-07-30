@@ -242,16 +242,18 @@ def validate_environment_sidecar(
             item
             for item in document["pre_existing_gpu_compute_processes"]
             if item["task_identity"]
-            == "pre-existing Isaac Lab reinforcement-learning training"
+            == "pre-existing Isaac Lab GPU workload"
         ]
         require(
             any(
-                1.0 <= item["observed_cpu_core_equivalent"] <= 2.0
+                item["observed_cpu_core_equivalent"] > 0.0
                 and item["gpu_memory_mib"] >= 1000
                 and item["affinity_cpus"] == list(range(20))
+                and bool(item["workload_label"])
+                and len(item["command_sha256"]) == 64
                 for item in isaac
             ),
-            "captured concurrent Isaac CPU/GPU load fact is absent",
+            "captured concurrent Isaac GPU workload fact is absent",
         )
 
 
@@ -281,6 +283,80 @@ def paired_speed_ratio_ci(
         bootstrapped[249],
         bootstrapped[9749],
     ]
+
+
+def learning_state_receipt(
+    row: dict[str, str],
+    observations: list[dict[str, Any]],
+) -> dict[str, Any] | None:
+    corpus = row["corpus_id"]
+    if corpus not in LEARNING:
+        return None
+    by_repetition: dict[int, list[dict[str, Any]]] = defaultdict(list)
+    for item in observations:
+        by_repetition[item["key"]["repetition"]].append(item)
+    if corpus == "Y36":
+        maximum_absolute = {
+            "l2_norm": 0.0,
+            "linf_norm": 0.0,
+            "weighted_checksum": 0.0,
+        }
+        parameter_count = None
+        for items in by_repetition.values():
+            baseline = next(
+                item["raw_result"]["numerical_state"]
+                for item in items
+                if item["key"]["workers"] == 1
+            )
+            require(baseline["available"] is True, "TAAE state absent")
+            if parameter_count is None:
+                parameter_count = baseline["parameter_count"]
+            for item in items:
+                observed = item["raw_result"]["numerical_state"]
+                require(
+                    observed["available"] is True
+                    and observed["parameter_count"] == parameter_count,
+                    "TAAE numerical state parameter-count drift",
+                )
+                for field in maximum_absolute:
+                    difference = abs(observed[field] - baseline[field])
+                    maximum_absolute[field] = max(
+                        maximum_absolute[field],
+                        difference,
+                    )
+                    require(
+                        math.isclose(
+                            observed[field],
+                            baseline[field],
+                            rel_tol=1.0e-12,
+                            abs_tol=1.0e-9,
+                        ),
+                        f"TAAE numerical state {field} drift",
+                    )
+        return {
+            "mode": "numerical_tolerance",
+            "raw_bit_hash_retained": True,
+            "parameter_count": parameter_count,
+            "relative_tolerance": 1.0e-12,
+            "absolute_tolerance": 1.0e-9,
+            "maximum_absolute_difference": maximum_absolute,
+            "status": "accepted",
+        }
+    hashes_by_repetition = {}
+    for repetition, items in by_repetition.items():
+        hashes = {
+            item["raw_result"]["learned_state_hash"] for item in items
+        }
+        require(
+            len(hashes) == 1,
+            f"{corpus}: learned state hash changed across workers",
+        )
+        hashes_by_repetition[str(repetition)] = next(iter(hashes))
+    return {
+        "mode": "raw_bit_hash_exact",
+        "hashes_by_repetition": hashes_by_repetition,
+        "status": "accepted",
+    }
 
 
 def audit(
@@ -337,10 +413,16 @@ def audit(
     topology = header["learning_thread_topology_contract"]
     require(
         topology["outer_persistent_workers"] == "W"
-        and topology["torch_intraop_threads"] == "W"
+        and topology["torch_intraop_thread_budget"] == "at most W"
         and topology["torch_interop_threads"] == 1
         and topology["affinity_allocated_cpus"] == "exactly W"
-        and "never perform CPU work concurrently" in topology["phase_separation"],
+        and topology["maximum_os_threads"]
+        == "3*W+4 measured linear runtime allowance"
+        and topology["maximum_cpu_time_to_wall"] == "W+1.0"
+        and "W1=3,W4=12,W8=24,W20=60"
+        in topology["os_thread_sources"]
+        and "no outer executor" in topology["phase_separation"]
+        and "intra-op 1" in topology["phase_separation"],
         "learning phase-separation topology contract drift",
     )
     commit_check = subprocess.run(
@@ -493,6 +575,11 @@ def audit(
         )
         if row["corpus_id"] in LEARNING:
             require(
+                process["peak_os_threads"] <= 3 * key["workers"] + 4
+                and process["cpu_time_to_wall"] <= key["workers"] + 1.0,
+                f"{pair_id}: nested Torch oversubscription detected",
+            )
+            require(
                 raw.get("thread_topology") == {
                     "outer_workers": key["workers"],
                     "torch_intraop_threads": key["workers"],
@@ -574,6 +661,11 @@ def audit(
             and target["selected_workers"] in WORKERS
             and target["all_visible_workers"] == 20,
             f"{pair_id}: H6 selection receipt invalid",
+        )
+        require(
+            target["learning_state_cross_worker_receipt"]
+            == learning_state_receipt(row_by_pair[pair_id], items),
+            f"{pair_id}: learning-state cross-worker receipt drift",
         )
         medians: dict[int, float] = {}
         for worker in WORKERS:

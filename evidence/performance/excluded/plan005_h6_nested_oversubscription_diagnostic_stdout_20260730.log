@@ -1,0 +1,5 @@
+plan005_h6_observation pair=Y36 workers=1 repetition=1/5 order=1/7 seconds=1202.156864
+plan005_h6_observation pair=Y36 workers=2 repetition=1/5 order=2/7 seconds=1060.549765
+plan005_h6_observation pair=Y36 workers=4 repetition=1/5 order=3/7 seconds=859.230487
+plan005_h6_observation pair=Y36 workers=8 repetition=1/5 order=4/7 seconds=1205.234167
+plan005_h6_observation pair=Y36 workers=12 repetition=1/5 order=5/7 seconds=2419.721885

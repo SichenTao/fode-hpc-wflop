@@ -223,13 +223,15 @@ class LibTorchRlpsoPolicy {
 public:
     LibTorchRlpsoPolicy(
         const std::string& artifact_path,
-        std::uint64_t seed
+        std::uint64_t seed,
+        int batch_threads
     )
         : model_(seed),
           optimizer_(
               model_->parameters(),
               torch::optim::AdamOptions(1.0e-3)
-          ) {
+          ),
+          batch_threads_(batch_threads) {
         model_->to(torch::kFloat64);
         static_cast<void>(wflop_learning::load_artifact(
             *model_,
@@ -238,6 +240,9 @@ public:
             artifact_path,
             torch::Device(torch::kCPU)
         ));
+        static_cast<void>(
+            wflop_learning::set_torch_intraop_threads(1)
+        );
     }
 
     ppo::ActionSample sample_action(
@@ -278,6 +283,9 @@ public:
         if (rollout.empty()) {
             return;
         }
+        static_cast<void>(
+            wflop_learning::set_torch_intraop_threads(batch_threads_)
+        );
         const std::int64_t count =
             static_cast<std::int64_t>(rollout.size());
         std::vector<double> state;
@@ -341,6 +349,9 @@ public:
             loss.total.backward();
             optimizer_.step();
         }
+        static_cast<void>(
+            wflop_learning::set_torch_intraop_threads(1)
+        );
     }
 
     std::string parameter_hash() const {
@@ -350,6 +361,7 @@ public:
 private:
     wflop_learning::RlpsoActorCritic model_;
     torch::optim::Adam optimizer_;
+    int batch_threads_;
 };
 #endif
 
@@ -738,7 +750,8 @@ RunResult optimize_rlpso_training_reconstruction(
     if (!config.learning_artifact_path.empty()) {
         artifact_policy = std::make_unique<LibTorchRlpsoPolicy>(
             config.learning_artifact_path,
-            config.seed
+            config.seed,
+            config.torch_intraop_threads
         );
     } else {
         policy = make_policy(0);

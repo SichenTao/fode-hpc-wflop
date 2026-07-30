@@ -150,6 +150,14 @@ def background_gpu_processes() -> list[dict[str, Any]]:
         ).stdout.strip()
         tokens = ps.split(maxsplit=9)
         command = tokens[9] if len(tokens) == 10 else ""
+        if "collect_aperture_keypoints.py" in command:
+            workload_label = "Isaac Lab aperture keypoint collection"
+        elif "isaaclab" in command.lower() and "train" in command.lower():
+            workload_label = "Isaac Lab reinforcement-learning training"
+        elif "isaaclab" in command.lower():
+            workload_label = "Isaac Lab GPU workload"
+        else:
+            workload_label = "GPU compute workload"
         try:
             affinity = sorted(os.sched_getaffinity(pid))
         except (PermissionError, ProcessLookupError):
@@ -173,9 +181,10 @@ def background_gpu_processes() -> list[dict[str, Any]]:
             "state": tokens[8] if len(tokens) == 10 else None,
             "affinity_cpus": affinity,
             "command_sha256": sha256_text(command),
+            "workload_label": workload_label,
             "task_identity": (
-                "pre-existing Isaac Lab reinforcement-learning training"
-                if "Isaac" in command or "isaaclab" in command
+                "pre-existing Isaac Lab GPU workload"
+                if "isaac" in command.lower()
                 else "pre-existing GPU compute process"
             ),
         })
@@ -263,7 +272,7 @@ def main() -> int:
         "measurement_noise_boundary": (
             "The H6 target process is affinity-limited to the frozen "
             "architecture-aware performance-first W-CPU mapping, while any "
-            "pre-existing Isaac Lab process is not affinity isolated. Its "
+            "pre-existing Isaac Lab GPU workload is not affinity isolated. Its "
             "observed lifetime CPU use is environmental noise. Heterogeneous "
             "core composition at W=12,16,20 and concurrent CPU/GPU load must "
             "be considered before attributing nonlinear scaling solely to an "

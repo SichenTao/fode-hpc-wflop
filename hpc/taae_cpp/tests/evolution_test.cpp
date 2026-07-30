@@ -155,6 +155,21 @@ void check_parallel_stage(
     );
 }
 
+void check_model_batch_stage(
+    const taae::evolution::StageReceipt& stage,
+    const std::string& name
+) {
+    require(stage.wall_seconds > 0.0, name + " stage was not measured");
+    require(stage.task_items > 0, name + " batch contains no model items");
+    require(
+        stage.parallel_regions == 0 &&
+        stage.participant_activations == 0 &&
+        stage.distinct_participants == 0 &&
+        stage.peak_region_participants == 0,
+        name + " called the model from an outer executor region"
+    );
+}
+
 double accounted_stage_seconds(
     const taae::evolution::EvolutionResult& result
 ) {
@@ -295,11 +310,11 @@ int main(int argc, char** argv) {
             parallel_result.fine_tuning_stage,
             "fine_tuning"
         );
-        check_parallel_stage(
+        check_model_batch_stage(
             parallel_result.population_encoding_stage,
             "population_encoding"
         );
-        check_parallel_stage(
+        check_model_batch_stage(
             parallel_result.offspring_decode_repair_variation_stage,
             "offspring_decode_repair_variation"
         );
@@ -320,6 +335,15 @@ int main(int argc, char** argv) {
         );
         const auto& serial_work = serial_result.proposal_work;
         const auto& parallel_work = parallel_result.proposal_work;
+        require(
+            serial_result
+                    .offspring_decode_repair_variation_stage.task_items ==
+                serial_work.speculative_decode_tasks &&
+            parallel_result
+                    .offspring_decode_repair_variation_stage.task_items ==
+                parallel_work.speculative_decode_tasks,
+            "batched decode stage task receipt mismatch"
+        );
         require(
             serial_work.latent_proposal_attempts ==
                 parallel_work.latent_proposal_attempts &&
@@ -416,7 +440,7 @@ int main(int argc, char** argv) {
             << "taae_evolution_smoke_pass population=100 physical_fes=350 "
             << "partial_batch=50 fine_tune_epochs=30 "
             << "training_physical_fes=0 checkpoint_replay=pass "
-            << "workers=1,20 exact=pass actual_participation=pass "
+            << "workers=1,20 exact=pass phase_separation=pass "
             << "stage_accounting=pass proposal_work=exact "
             << "front=feasible_nondominated "
             << "no_feasible_front=least_violation_labeled "

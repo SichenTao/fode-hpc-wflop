@@ -914,6 +914,12 @@ public:
     virtual std::vector<int> decode_argmax(
         const std::vector<double>& latent
     ) = 0;
+    virtual std::vector<std::vector<double>> encode_batch(
+        const std::vector<std::vector<int>>& tokens
+    ) = 0;
+    virtual std::vector<std::vector<int>> decode_argmax_batch(
+        const std::vector<std::vector<double>>& latent
+    ) = 0;
     virtual void train_batch(
         const std::vector<std::vector<int>>& layouts,
         const std::vector<double>& relative_fitness,
@@ -922,6 +928,7 @@ public:
         fode::PersistentExecutor* executor
     ) = 0;
     virtual std::string parameter_hash() const = 0;
+    virtual NumericalStateReceipt numerical_state() const = 0;
     virtual bool artifact_backed() const noexcept = 0;
     virtual CheckpointMetadata save_checkpoint(
         const std::string& path,
@@ -952,6 +959,28 @@ public:
         return model_.decode_argmax(latent);
     }
 
+    std::vector<std::vector<double>> encode_batch(
+        const std::vector<std::vector<int>>& tokens
+    ) override {
+        std::vector<std::vector<double>> result;
+        result.reserve(tokens.size());
+        for (const auto& row : tokens) {
+            result.push_back(model_.encode(row));
+        }
+        return result;
+    }
+
+    std::vector<std::vector<int>> decode_argmax_batch(
+        const std::vector<std::vector<double>>& latent
+    ) override {
+        std::vector<std::vector<int>> result;
+        result.reserve(latent.size());
+        for (const auto& row : latent) {
+            result.push_back(model_.decode_argmax(row));
+        }
+        return result;
+    }
+
     void train_batch(
         const std::vector<std::vector<int>>& layouts,
         const std::vector<double>& relative_fitness,
@@ -974,6 +1003,10 @@ public:
 
     std::string parameter_hash() const override {
         return model_.parameter_hash();
+    }
+
+    NumericalStateReceipt numerical_state() const override {
+        return {};
     }
 
     bool artifact_backed() const noexcept override {
@@ -1006,6 +1039,7 @@ public:
         TrainingWork& work
     )
         : config_(evolution_config.model_config),
+          batch_threads_(evolution_config.torch_intraop_threads),
           model_(
               wflop_learning::TaaeConfig{
                   config_.vocabulary,
@@ -1045,36 +1079,119 @@ public:
     std::vector<double> encode(
         const std::vector<int>& tokens
     ) override {
-        torch::NoGradGuard no_grad;
-        torch::Tensor input = torch::tensor(
-            tokens,
-            torch::TensorOptions().dtype(torch::kInt64)
-        ).reshape({1, config_.sequence_length});
-        torch::Tensor latent =
-            model_->encode(input).to(torch::kCPU).contiguous();
-        return std::vector<double>(
-            latent.data_ptr<double>(),
-            latent.data_ptr<double>() + latent.numel()
-        );
+        return encode_batch({tokens}).front();
     }
 
     std::vector<int> decode_argmax(
         const std::vector<double>& latent
     ) override {
+        return decode_argmax_batch({latent}).front();
+    }
+
+    std::vector<std::vector<double>> encode_batch(
+        const std::vector<std::vector<int>>& token_rows
+    ) override {
+        if (token_rows.empty()) {
+            return {};
+        }
+        static_cast<void>(
+            wflop_learning::set_torch_intraop_threads(batch_threads_)
+        );
         torch::NoGradGuard no_grad;
+        std::vector<std::int64_t> flattened;
+        flattened.reserve(
+            token_rows.size()
+            * static_cast<std::size_t>(config_.sequence_length)
+        );
+        for (const auto& row : token_rows) {
+            if (row.size() !=
+                static_cast<std::size_t>(config_.sequence_length)) {
+                throw std::invalid_argument(
+                    "TAAE encode batch row width mismatch"
+                );
+            }
+            flattened.insert(flattened.end(), row.begin(), row.end());
+        }
+        const std::int64_t count =
+            static_cast<std::int64_t>(token_rows.size());
         torch::Tensor input = torch::from_blob(
-            const_cast<double*>(latent.data()),
-            {1, config_.latent_dimension},
+            flattened.data(),
+            {count, config_.sequence_length},
+            torch::TensorOptions().dtype(torch::kInt64)
+        ).clone();
+        torch::Tensor latent =
+            model_->encode(input).to(torch::kCPU).contiguous();
+        const double* values = latent.data_ptr<double>();
+        std::vector<std::vector<double>> result(
+            token_rows.size(),
+            std::vector<double>(
+                static_cast<std::size_t>(config_.latent_dimension)
+            )
+        );
+        for (std::size_t row = 0; row < result.size(); ++row) {
+            std::copy_n(
+                values + row * static_cast<std::size_t>(
+                    config_.latent_dimension
+                ),
+                config_.latent_dimension,
+                result[row].begin()
+            );
+        }
+        return result;
+    }
+
+    std::vector<std::vector<int>> decode_argmax_batch(
+        const std::vector<std::vector<double>>& latent_rows
+    ) override {
+        if (latent_rows.empty()) {
+            return {};
+        }
+        static_cast<void>(
+            wflop_learning::set_torch_intraop_threads(batch_threads_)
+        );
+        torch::NoGradGuard no_grad;
+        std::vector<double> flattened;
+        flattened.reserve(
+            latent_rows.size()
+            * static_cast<std::size_t>(config_.latent_dimension)
+        );
+        for (const auto& row : latent_rows) {
+            if (row.size() !=
+                static_cast<std::size_t>(config_.latent_dimension)) {
+                throw std::invalid_argument(
+                    "TAAE decode batch row width mismatch"
+                );
+            }
+            flattened.insert(flattened.end(), row.begin(), row.end());
+        }
+        const std::int64_t count =
+            static_cast<std::int64_t>(latent_rows.size());
+        torch::Tensor input = torch::from_blob(
+            flattened.data(),
+            {count, config_.latent_dimension},
             torch::TensorOptions().dtype(torch::kFloat64)
         ).clone();
         torch::Tensor decoded =
             model_->decode_argmax(input).to(torch::kCPU).contiguous();
         const std::int64_t* values = decoded.data_ptr<std::int64_t>();
-        std::vector<int> result(
-            static_cast<std::size_t>(decoded.numel())
+        std::vector<std::vector<int>> result(
+            latent_rows.size(),
+            std::vector<int>(
+                static_cast<std::size_t>(config_.sequence_length)
+            )
         );
-        for (std::size_t index = 0; index < result.size(); ++index) {
-            result[index] = static_cast<int>(values[index]);
+        for (std::size_t row = 0; row < result.size(); ++row) {
+            for (std::size_t column = 0;
+                 column < result[row].size();
+                 ++column) {
+                result[row][column] = static_cast<int>(
+                    values[
+                        row * static_cast<std::size_t>(
+                            config_.sequence_length
+                        ) + column
+                    ]
+                );
+            }
         }
         return result;
     }
@@ -1086,6 +1203,9 @@ public:
         bool freeze_decoder,
         fode::PersistentExecutor*
     ) override {
+        static_cast<void>(
+            wflop_learning::set_torch_intraop_threads(batch_threads_)
+        );
         std::vector<std::int64_t> flattened;
         flattened.reserve(
             layouts.size()
@@ -1148,6 +1268,38 @@ public:
         return wflop_learning::learned_state_hash(*model_);
     }
 
+    NumericalStateReceipt numerical_state() const override {
+        NumericalStateReceipt receipt;
+        receipt.available = true;
+        long double sum_squares = 0.0L;
+        long double weighted = 0.0L;
+        std::uint64_t global_index = 0;
+        for (const auto& named : model_->named_parameters()) {
+            const torch::Tensor values = named.value()
+                .detach().to(torch::kCPU).to(torch::kFloat64).contiguous();
+            const double* data = values.data_ptr<double>();
+            for (std::int64_t index = 0; index < values.numel(); ++index) {
+                const double value = data[index];
+                const double magnitude = std::abs(value);
+                receipt.linf_norm = std::max(
+                    receipt.linf_norm,
+                    magnitude
+                );
+                sum_squares +=
+                    static_cast<long double>(value)
+                    * static_cast<long double>(value);
+                weighted +=
+                    static_cast<long double>(value)
+                    * static_cast<long double>((global_index % 1021U) + 1U);
+                ++global_index;
+            }
+        }
+        receipt.parameter_count = global_index;
+        receipt.l2_norm = std::sqrt(static_cast<double>(sum_squares));
+        receipt.weighted_checksum = static_cast<double>(weighted);
+        return receipt;
+    }
+
     bool artifact_backed() const noexcept override {
         return true;
     }
@@ -1166,6 +1318,7 @@ public:
 
 private:
     ModelConfig config_;
+    int batch_threads_;
     wflop_learning::TaaeTransformer model_;
     torch::optim::Adam optimizer_;
 };
@@ -1363,24 +1516,39 @@ std::vector<Individual> generate_offspring(
     ProposalWorkReceipt& proposal_work,
     std::uint64_t& learning_decision_hash
 ) {
-    executor.reset_work_receipt();
+    const std::uint64_t speculative_tasks_before =
+        proposal_work.speculative_decode_tasks;
     const auto encoding_start = Clock::now();
-    executor.parallel_for(
-        0,
-        static_cast<int>(population.size()),
-        [&](int population_index) {
-        Individual& value =
-            population[static_cast<std::size_t>(population_index)];
+    std::vector<std::vector<int>> zero_based_population;
+    zero_based_population.reserve(population.size());
+    for (const Individual& value : population) {
         std::vector<int> zero_based = value.layout;
         for (int& cell : zero_based) {
             --cell;
         }
-        value.raw_latent = model.encode(zero_based);
-        }
+        zero_based_population.push_back(std::move(zero_based));
+    }
+    const auto encoded_population = model.encode_batch(
+        zero_based_population
     );
+    if (encoded_population.size() != population.size()) {
+        throw std::runtime_error("TAAE encode batch cardinality mismatch");
+    }
+    for (std::size_t index = 0; index < population.size(); ++index) {
+        population[index].raw_latent = encoded_population[index];
+    }
     accumulate_stage(
         population_encoding_stage,
-        capture_stage_receipt(encoding_start, executor)
+        StageReceipt{
+            std::chrono::duration<double>(
+                Clock::now() - encoding_start
+            ).count(),
+            0,
+            population.size(),
+            0,
+            0,
+            0,
+        }
     );
     executor.reset_work_receipt();
     const auto offspring_start = Clock::now();
@@ -1454,20 +1622,26 @@ std::vector<Individual> generate_offspring(
             proposals[offset].post_latent_rng_state =
                 speculative_rng.state;
         }
-        executor.parallel_for(
-            0,
-            static_cast<int>(batch_size),
-            [&](int proposal_index) {
-                SpeculativeProposal& proposal = proposals[
-                    static_cast<std::size_t>(proposal_index)
-                ];
-                proposal.decoded =
-                    model.decode_argmax(proposal.latent);
-                for (int& cell : proposal.decoded) {
-                    ++cell;
-                }
+        std::vector<std::vector<double>> latent_batch;
+        latent_batch.reserve(batch_size);
+        for (const auto& proposal : proposals) {
+            latent_batch.push_back(proposal.latent);
+        }
+        const auto decoded_batch = model.decode_argmax_batch(latent_batch);
+        if (decoded_batch.size() != batch_size) {
+            throw std::runtime_error(
+                "TAAE decode batch cardinality mismatch"
+            );
+        }
+        for (std::size_t proposal_index = 0;
+             proposal_index < batch_size;
+             ++proposal_index) {
+            proposals[proposal_index].decoded =
+                decoded_batch[proposal_index];
+            for (int& cell : proposals[proposal_index].decoded) {
+                ++cell;
             }
-        );
+        }
         ++proposal_work.speculative_decode_batches;
         proposal_work.speculative_decode_tasks += batch_size;
 
@@ -1554,7 +1728,17 @@ std::vector<Individual> generate_offspring(
     }
     accumulate_stage(
         offspring_stage,
-        capture_stage_receipt(offspring_start, executor)
+        StageReceipt{
+            std::chrono::duration<double>(
+                Clock::now() - offspring_start
+            ).count(),
+            0,
+            proposal_work.speculative_decode_tasks
+                - speculative_tasks_before,
+            0,
+            0,
+            0,
+        }
     );
     return offspring;
 }
@@ -1853,6 +2037,7 @@ EvolutionResult run_declared_reconstruction(
     result.evaluator_stage = evaluator_stage;
     result.proposal_work = proposal_work;
     result.model_hash = model->parameter_hash();
+    result.numerical_state = model->numerical_state();
     if (model->artifact_backed()) {
         std::ostringstream decision_stream;
         decision_stream << "fnv1a64:" << std::hex << std::setfill('0')
@@ -2417,6 +2602,15 @@ std::string result_to_json(const EvolutionResult& result) {
            << "\"refill_rejects\":"
            << result.proposal_work.refill_rejects << "},"
            << "\"model_hash\":\"" << result.model_hash << "\","
+           << "\"numerical_state\":{"
+           << "\"available\":"
+           << (result.numerical_state.available ? "true" : "false") << ','
+           << "\"parameter_count\":"
+           << result.numerical_state.parameter_count << ','
+           << "\"l2_norm\":" << result.numerical_state.l2_norm << ','
+           << "\"linf_norm\":" << result.numerical_state.linf_norm << ','
+           << "\"weighted_checksum\":"
+           << result.numerical_state.weighted_checksum << "},"
            << "\"learning_artifact_consumed\":"
            << (result.learning_artifact_consumed ? "true" : "false")
            << ','

@@ -1,0 +1,55 @@
+{
+  "campaign_id": "plan005_h6_core_scaling_performance_first_spark_20260730",
+  "completed_diagnostic_observations": 5,
+  "diagnostic": [
+    {
+      "algorithm_end_to_end_seconds": 1202.156864026,
+      "peak_os_threads": 3,
+      "workers": 1
+    },
+    {
+      "algorithm_end_to_end_seconds": 1060.549764977,
+      "peak_os_threads": 7,
+      "workers": 2
+    },
+    {
+      "algorithm_end_to_end_seconds": 859.230487091,
+      "peak_os_threads": 21,
+      "workers": 4
+    },
+    {
+      "algorithm_end_to_end_seconds": 1205.234166637,
+      "peak_os_threads": 73,
+      "workers": 8
+    },
+    {
+      "algorithm_end_to_end_seconds": 2419.721884701,
+      "peak_os_threads": 157,
+      "workers": 12
+    }
+  ],
+  "excluded_artifacts": {
+    "environment_sidecar": {
+      "logical_path": "evidence/performance/excluded/plan005_h6_nested_oversubscription_diagnostic_environment_20260730.json",
+      "sha256": "2a2b716853264323a1862d332b9b9070537cfec1d19138c2f05a061af52f76b4"
+    },
+    "raw": {
+      "line_count": 6,
+      "logical_path": "evidence/performance/excluded/plan005_h6_nested_oversubscription_diagnostic_raw_20260730.jsonl",
+      "sha256": "dc5e3b802229cd96c70996868f8b7a73c8ff61decbb7dfc10141acac1810ec70"
+    },
+    "stderr": {
+      "logical_path": "evidence/performance/excluded/plan005_h6_nested_oversubscription_diagnostic_stderr_20260730.log",
+      "sha256": "2373b9fcab950b7218e3477bdce3d7a1816099ecf1046d3dc14014cac3485558"
+    },
+    "stdout": {
+      "logical_path": "evidence/performance/excluded/plan005_h6_nested_oversubscription_diagnostic_stdout_20260730.log",
+      "sha256": "1a3127f8befc7c9cd772c10ed024e8763510afcd055c2fddd0794b43277bef81"
+    }
+  },
+  "observed_thread_growth": "peak_os_threads follows W*(W+1)+1 for W=1,2,4,8,12, proving outer-W calls into Torch intra-W rather than phase separation",
+  "reason": "TAAE population encoding and speculative decode invoked LibTorch independently from PersistentExecutor workers while Torch intra-op was also W. W8 and W12 became slower, and scientific hashes differed across worker counts. These records are diagnostic only and are excluded from H6 selection.",
+  "schema_version": 1,
+  "source_commit": "8698d7ba90e14ecfefdf2f7d1fbee625f2f65c57",
+  "status": "excluded_nested_oversubscription_diagnostic"
+}

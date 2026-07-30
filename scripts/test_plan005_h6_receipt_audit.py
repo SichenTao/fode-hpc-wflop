@@ -13,7 +13,12 @@ import tempfile
 from pathlib import Path
 from typing import Any
 
-from audit_plan005_h6_receipts import ROOT, WORKERS, audit
+from audit_plan005_h6_receipts import (
+    ROOT,
+    WORKERS,
+    audit,
+    learning_state_receipt,
+)
 
 
 REGISTRY = ROOT / "docs/hpc_core_target_pairs.tsv"
@@ -173,11 +178,18 @@ def build_fixture(
         },
         "learning_thread_topology_contract": {
             "outer_persistent_workers": "W",
-            "torch_intraop_threads": "W",
+            "torch_intraop_thread_budget": "at most W",
             "torch_interop_threads": 1,
             "affinity_allocated_cpus": "exactly W",
             "phase_separation": (
-                "fixture: pools never perform CPU work concurrently"
+                "fixture TAAE has no outer executor Torch call and RLPSO "
+                "dependent inference uses intra-op 1"
+            ),
+            "maximum_os_threads": "3*W+4 measured linear runtime allowance",
+            "maximum_cpu_time_to_wall": "W+1.0",
+            "os_thread_sources": (
+                "fixture W persistent, W Torch, helpers; "
+                "W1=3,W4=12,W8=24,W20=60"
             ),
         },
     }
@@ -208,6 +220,18 @@ def build_fixture(
                         "--torch-intraop-threads", str(workers),
                         "--torch-interop-threads", "1",
                     ])
+                    if row["corpus_id"] == "Y36":
+                        raw["numerical_state"] = {
+                            "available": True,
+                            "parameter_count": 850385,
+                            "l2_norm": 88.0,
+                            "linf_norm": 1.0,
+                            "weighted_checksum": 1258000.0,
+                        }
+                    else:
+                        raw["learned_state_hash"] = (
+                            f"state-{row['corpus_id']}-{repetition}"
+                        )
                 observations.append({
                     "record_type": "observation",
                     "schema_version": 1,
@@ -272,6 +296,11 @@ def build_fixture(
         analysis = json.loads(analysis_path.read_text(encoding="utf-8"))
         h2 = analysis["H2_dependency_and_parallel_width"]
         h3 = analysis["H3_performance_and_granularity"]
+        pair_observations = [
+            item
+            for item in observations
+            if item["key"]["pair_id"] == row["pair_id"]
+        ]
         targets.append({
             "pair_id": row["pair_id"],
             "status": "accepted_h6",
@@ -288,6 +317,9 @@ def build_fixture(
             "all_visible_tie_lower_ratio_threshold": 0.95,
             "all_visible_statistically_tied_with_fastest": True,
             "serial_limited": False,
+            "learning_state_cross_worker_receipt": (
+                learning_state_receipt(row, pair_observations)
+            ),
             "dependency_proof": {
                 "analysis_path": row["analysis_path"],
                 "analysis_sha256": sha256(analysis_path),
@@ -356,8 +388,10 @@ def build_fixture(
         "selected_cmake_cache_entries": ["CMAKE_BUILD_TYPE:STRING=Release"],
         "pre_existing_gpu_compute_processes": [{
             "task_identity": (
-                "pre-existing Isaac Lab reinforcement-learning training"
+                "pre-existing Isaac Lab GPU workload"
             ),
+            "workload_label": "Isaac Lab aperture keypoint collection",
+            "command_sha256": "c" * 64,
             "observed_cpu_core_equivalent": 1.47,
             "gpu_memory_mib": 11271,
             "affinity_cpus": visible_cpus,
@@ -496,6 +530,49 @@ def main() -> int:
             "parallel region lacks real active workers",
         )
 
+        nested = copy.deepcopy(records)
+        first_learning = next(
+            index
+            for index, item in enumerate(nested)
+            if index > 0
+            and item["key"]["pair_id"].startswith("Y36__")
+        )
+        workers = nested[first_learning]["key"]["workers"]
+        nested[first_learning]["process"]["peak_os_threads"] = (
+            workers * (workers + 1) + 1
+        )
+        if (
+            nested[first_learning]["process"]["peak_os_threads"]
+            <= 3 * workers + 4
+        ):
+            nested[first_learning]["process"]["peak_os_threads"] = (
+                3 * workers + 5
+            )
+        expect_failure(
+            nested,
+            summary,
+            directory,
+            "bad-nested-threads",
+            "nested Torch oversubscription detected",
+        )
+
+        numerical = copy.deepcopy(records)
+        y36 = [
+            item
+            for item in numerical[1:]
+            if item["key"]["pair_id"].startswith("Y36__")
+            and item["key"]["workers"] == 4
+            and item["key"]["repetition"] == 0
+        ][0]
+        y36["raw_result"]["numerical_state"]["weighted_checksum"] += 1.0
+        expect_failure(
+            numerical,
+            summary,
+            directory,
+            "bad-numerical-state",
+            "TAAE numerical state weighted_checksum drift",
+        )
+
         order = copy.deepcopy(records)
         order[1]["key"]["order_index"] = 1
         order[2]["key"]["order_index"] = 0
@@ -507,6 +584,8 @@ def main() -> int:
         "positive=1 rejected_affinity=1 rejected_topology=1 "
         "rejected_attribution=1 "
         "rejected_overlap=1 rejected_active_workers=1 rejected_order=1 "
+        "rejected_nested_threads=1 "
+        "rejected_numerical_state=1 "
         "observations=805"
     )
     return 0

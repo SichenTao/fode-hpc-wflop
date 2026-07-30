@@ -29,6 +29,8 @@ TorchThreadTopology configure_torch_thread_topology(
     int interop_threads
 );
 
+int set_torch_intraop_threads(int intraop_threads);
+
 TorchThreadTopology current_torch_thread_topology();
 
 struct TaaeConfig {

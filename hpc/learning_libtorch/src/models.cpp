@@ -41,6 +41,16 @@ TorchThreadTopology configure_torch_thread_topology(
     return current_torch_thread_topology();
 }
 
+int set_torch_intraop_threads(int intraop_threads) {
+    if (intraop_threads <= 0) {
+        throw std::invalid_argument(
+            "Torch intra-op thread count must be positive"
+        );
+    }
+    at::set_num_threads(intraop_threads);
+    return at::get_num_threads();
+}
+
 TorchThreadTopology current_torch_thread_topology() {
     return TorchThreadTopology{
         at::get_num_threads(),
