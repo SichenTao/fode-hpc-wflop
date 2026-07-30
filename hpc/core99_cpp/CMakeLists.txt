@@ -100,6 +100,22 @@ target_compile_options(core99_t14_core PRIVATE
 add_executable(core99_t14_hpc src/stanley_t14_main.cpp)
 target_link_libraries(core99_t14_hpc PRIVATE core99_t14_core)
 
+add_library(core99_t15_core src/iea37_t15.cpp)
+target_include_directories(core99_t15_core
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+)
+target_link_libraries(core99_t15_core PUBLIC fode_core)
+target_compile_features(core99_t15_core PUBLIC cxx_std_20)
+target_compile_options(core99_t15_core PRIVATE
+    -O3
+    -march=native
+    -ffp-contract=off
+)
+add_executable(core99_t15_hpc src/iea37_t15_main.cpp)
+target_link_libraries(core99_t15_hpc PRIVATE core99_t15_core)
+
 if(BUILD_TESTING)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
     add_executable(
@@ -172,5 +188,18 @@ if(BUILD_TESTING)
                 ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/core99_t14_stanley_2019.json
             --resource-data
                 ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t14_wind_resources.json
+    )
+    add_executable(core99_t15_test tests/iea37_t15_test.cpp)
+    target_link_libraries(core99_t15_test PRIVATE core99_t15_core)
+    add_test(NAME core99_t15_cpp COMMAND core99_t15_test)
+    add_test(
+        NAME core99_t15_h5
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t15.py
+            --binary $<TARGET_FILE:core99_t15_hpc>
+            --contract
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/core99_t15_iea37_2019.json
+            --resource-data
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t15_iea37_cs1.json
     )
 endif()

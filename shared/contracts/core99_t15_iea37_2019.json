@@ -1,0 +1,130 @@
+{
+  "case_study_1": {
+    "boundary_radii_m": {
+      "16": 1300.0,
+      "36": 2000.0,
+      "64": 3000.0
+    },
+    "common_model": {
+      "combination": "root sum square of Gaussian wake deficits",
+      "constant_ct": 0.8888888888888888,
+      "turbulence_intensity": 0.075,
+      "wake_expansion_k": 0.0324555,
+      "wake_model": "released simplified Bastankhah Gaussian"
+    },
+    "layouts": "paper participants 1-10 plus one released example for each farm size",
+    "minimum_spacing_m": 260.0,
+    "paper_native_layout_count": 33,
+    "turbine_counts": [
+      16,
+      36,
+      64
+    ]
+  },
+  "case_study_2": {
+    "boundary_radius_m": 900.0,
+    "common_model": null,
+    "paper_intent": "cross-compare five submitted layouts under each participant wake model",
+    "reported_aep_mwh_by_evaluator_and_layout": {
+      "participant_1_FLORISSE3D_SNOPT": [
+        260722.295,
+        240309.585,
+        237548.6622,
+        251776.7157,
+        246503.8323
+      ],
+      "participant_2_Park2_PSQP": [
+        248215.024,
+        236342.799,
+        242431.5431,
+        239612.8223,
+        239482.6767
+      ],
+      "participant_3_Bastankhah_full_pseudogradient": [
+        260640.906,
+        247812.0522,
+        245659.4124,
+        255063.8201,
+        249829.2199
+      ],
+      "participant_4_Bastankhah_SNOPT_WEC": [
+        262350.319,
+        250464.9732,
+        246942.3767,
+        257790.1924,
+        251697.7126
+      ],
+      "participant_5_simplified_Bastankhah_fmincon": [
+        262282.416,
+        250249.0259,
+        247109.5234,
+        257663.4068,
+        251771.9067
+      ]
+    },
+    "turbines": 9,
+    "unavailable_assets": "the five participant wake-model and optimizer implementations"
+  },
+  "corpus_id": "T15",
+  "method_semantic_id": "t15_iea37_comparison_protocol_v1",
+  "paper_doi": "10.2514/6.2019-0540",
+  "problem_semantic_id": "t15_iea37_cs1_three_farms_cs2_cross_model_v1",
+  "provenance": {
+    "paper_pdf_sha256": "94bf1070222d01cb8ad1875da47919fac4e0d3e6f59425a1aa25dddc7420dcfc",
+    "public_source_revision": "af88908d22795030ac2dfbe37bc38e912aee8ed6",
+    "public_source_tag": "v2.0.1",
+    "public_source_url": "https://github.com/byuflowlab/iea37-wflo-casestudies"
+  },
+  "reproduction_boundary": {
+    "case_study_1": "fully recalculated from every paper-native released layout with the released common evaluator",
+    "case_study_2": "protocol, five layouts, and paper-reported 5x5 matrix retained; unavailable participant models are not fabricated",
+    "later_repository_participants": "participants 11-12 are preserved in the source archive but excluded from the paper-native 2019 matrix"
+  },
+  "schema_version": 1,
+  "turbine": {
+    "cut_in_mps": 4.0,
+    "cut_out_mps": 25.0,
+    "diameter_m": 130.0,
+    "rated_power_w": 3350000.0,
+    "rated_speed_mps": 9.8
+  },
+  "wind": {
+    "directions_deg": [
+      0.0,
+      22.5,
+      45.0,
+      67.5,
+      90.0,
+      112.5,
+      135.0,
+      157.5,
+      180.0,
+      202.5,
+      225.0,
+      247.5,
+      270.0,
+      292.5,
+      315.0,
+      337.5
+    ],
+    "frequencies": [
+      0.025,
+      0.024,
+      0.029,
+      0.036,
+      0.063,
+      0.065,
+      0.1,
+      0.122,
+      0.063,
+      0.038,
+      0.039,
+      0.083,
+      0.213,
+      0.046,
+      0.032,
+      0.022
+    ],
+    "speed_mps": 9.8
+  }
+}
