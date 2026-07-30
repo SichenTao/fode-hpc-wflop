@@ -111,6 +111,20 @@ def main() -> None:
             "scientific_hash": receipt["scientific_hash"],
             "wall_seconds": wall,
         }
+        if (
+            receipt["best_constraint_violation_m"] > 1.0e-5
+            or receipt["observed_workers"] != arguments.workers
+            or receipt["physical_fes"] != budget
+        ):
+            manifest["status"] = "fail"
+            (arguments.output_root / "manifest.json").write_text(
+                json.dumps(manifest, indent=2, sort_keys=True) + "\n",
+                encoding="utf-8",
+            )
+            raise SystemExit(
+                f"T14 H6 admission failed for {algorithm}: "
+                "feasibility/worker/FES gate"
+            )
         print(
             "t14_admission"
             f" completed={len(manifest['runs'])}/{len(budgets)}"

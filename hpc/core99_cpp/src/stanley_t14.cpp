@@ -195,6 +195,54 @@ Point project_inside(const std::vector<Point>& polygon, Point point) {
     };
 }
 
+void repair_spacing(
+    const std::vector<Point>& polygon,
+    std::vector<Point>& layout
+) {
+    const std::vector<Point> inner = scaled_polygon(polygon, 0.995);
+    for (int iteration = 0; iteration < 600; ++iteration) {
+        std::vector<Point> displacement(layout.size());
+        double worst = 0.0;
+        for (std::size_t first = 0; first < layout.size(); ++first) {
+            for (std::size_t second = first + 1; second < layout.size(); ++second) {
+                double dx = layout[second].x - layout[first].x;
+                double dy = layout[second].y - layout[first].y;
+                double distance = std::hypot(dx, dy);
+                if (distance >= kMinimumSpacing) {
+                    continue;
+                }
+                if (distance < 1.0e-12) {
+                    const double angle = 2.0 * kPi
+                        * static_cast<double>(first + 31 * second)
+                        / static_cast<double>(layout.size() * layout.size());
+                    dx = std::cos(angle);
+                    dy = std::sin(angle);
+                    distance = 1.0;
+                }
+                const double deficit = kMinimumSpacing - distance;
+                worst = std::max(worst, deficit);
+                const double push = 0.51 * deficit / distance;
+                displacement[first].x -= push * dx;
+                displacement[first].y -= push * dy;
+                displacement[second].x += push * dx;
+                displacement[second].y += push * dy;
+            }
+        }
+        for (std::size_t index = 0; index < layout.size(); ++index) {
+            layout[index] = project_inside(
+                inner,
+                {
+                    layout[index].x + displacement[index].x,
+                    layout[index].y + displacement[index].y,
+                }
+            );
+        }
+        if (worst <= 1.0e-8) {
+            return;
+        }
+    }
+}
+
 std::vector<Point> make_boundary(const Case& paper_case) {
     const double side = 9.0 * kRotorDiameter
         * paper_case.average_spacing_diameters;
@@ -739,6 +787,7 @@ std::vector<Point> decode(const Problem& problem, const Encoding& encoding) {
                 }
             ));
         }
+        repair_spacing(problem.boundary_vertices(), result);
         return result;
     }
     std::vector<Point> grid = grid_from_topology(

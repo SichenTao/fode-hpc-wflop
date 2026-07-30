@@ -60,6 +60,13 @@ int main() {
                 std::cerr << "T14 violation is invalid\n";
                 return EXIT_FAILURE;
             }
+            if (
+                representation == core99::t14::Representation::direct
+                && problem.constraint_violation(first) > 1.0e-5
+            ) {
+                std::cerr << "T14 direct repair is infeasible\n";
+                return EXIT_FAILURE;
+            }
         }
     }
     return EXIT_SUCCESS;
