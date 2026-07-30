@@ -33,14 +33,14 @@ H6_SUMMARY = (
 PREPARED_MANIFEST = (
     ROOT
     / "formal/plan005/prepared/"
-    "plan005_target_native_25_prepared.json"
+    "plan005_target_native_25_v2_prepared.json"
 )
 FINAL_MANIFEST = (
     ROOT
     / "formal/plan005/manifests/"
-    "plan005_target_native_25_v1.json"
+    "plan005_target_native_25_v2.json"
 )
-RESULT_ROOT = ROOT / "results/plan005_target_native_25_v1"
+RESULT_ROOT = ROOT / "results/plan005_target_native_25_v2"
 CONTROL_SOFTWARE = (
     "scripts/plan005_formal_common.py",
     "scripts/generate_plan005_formal_manifests.py",
@@ -507,7 +507,7 @@ def build_manifest(*, prepared: bool) -> dict[str, Any]:
     }
     return {
         "schema_version": 1,
-        "suite_id": "plan005_target_native_25_v1",
+        "suite_id": "plan005_target_native_25_v2",
         "status": (
             "prepared_waiting_h6" if prepared else "frozen_ready"
         ),
