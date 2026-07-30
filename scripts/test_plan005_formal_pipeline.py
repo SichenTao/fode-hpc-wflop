@@ -35,7 +35,7 @@ def main() -> int:
             output = result_path(campaign, case, seed)
             front = (
                 output.with_suffix(".front.json")
-                if campaign["objective_mode"] == "multiobjective"
+                if campaign["corpus_id"] == "T46"
                 else None
             )
             command = formal_command(

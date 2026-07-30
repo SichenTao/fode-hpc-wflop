@@ -117,6 +117,8 @@ def observed_physical_fes(result: dict[str, Any]) -> int:
 def validate_existing(
     path: Path,
     expected_key: dict[str, Any],
+    *,
+    front_required: bool = False,
 ) -> bool:
     if not path.is_file():
         return False
@@ -124,7 +126,7 @@ def validate_existing(
         document = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError):
         return False
-    return bool(
+    valid = bool(
         document.get("status") == "validated_complete"
         and document.get("result_key") == expected_key
         and document.get("observed_physical_fes")
@@ -132,6 +134,22 @@ def validate_existing(
         and document.get("binary_sha256")
         == expected_key["binary_sha256"]
     )
+    if not valid:
+        return False
+    front = document.get("front_artifact")
+    if front_required and not isinstance(front, dict):
+        return False
+    if isinstance(front, dict):
+        try:
+            artifact = ROOT / front["logical_path"]
+            return bool(
+                artifact.is_file()
+                and sha256(artifact) == front["sha256"]
+                and artifact.stat().st_size == front["bytes"]
+            )
+        except (KeyError, OSError):
+            return False
+    return True
 
 
 def selected_campaigns(
@@ -204,7 +222,7 @@ def run_one(
     )
     front_path = (
         output.with_suffix(".front.json")
-        if campaign["objective_mode"] == "multiobjective"
+        if campaign["corpus_id"] == "T46"
         else None
     )
     command = formal_command(
@@ -317,7 +335,11 @@ def main() -> int:
     pending = [
         item
         for item in all_tasks
-        if not validate_existing(item[4], item[3])
+        if not validate_existing(
+            item[4],
+            item[3],
+            front_required=item[0]["corpus_id"] == "T46",
+        )
     ]
     if arguments.dry_run:
         print(
@@ -346,43 +368,66 @@ def main() -> int:
             raise RuntimeError("another formal campaign runner is active") from error
         started = time.time()
         completed_count = len(all_tasks) - len(pending)
-        for index, (campaign, case, seed, key, output) in enumerate(
-            pending,
-            start=1,
-        ):
-            atomic_write(
-                control / "status.json",
-                {
-                    "schema_version": 1,
-                    "status": "running",
-                    "suite_id": manifest["suite_id"],
-                    "pid": os.getpid(),
-                    "started_unix_seconds": started,
-                    "selected_run_count": len(all_tasks),
-                    "validated_complete_count": completed_count,
+        current: dict[str, Any] = {}
+        try:
+            for index, (campaign, case, seed, key, output) in enumerate(
+                pending,
+                start=1,
+            ):
+                current = {
                     "pending_index": index,
                     "pending_count": len(pending),
                     "pair_id": campaign["pair_id"],
                     "case_id": case["case_id"],
                     "optimization_seed": seed,
+                }
+                atomic_write(
+                    control / "status.json",
+                    {
+                        "schema_version": 1,
+                        "status": "running",
+                        "suite_id": manifest["suite_id"],
+                        "pid": os.getpid(),
+                        "started_unix_seconds": started,
+                        "selected_run_count": len(all_tasks),
+                        "validated_complete_count": completed_count,
+                        **current,
+                    },
+                )
+                run_one(
+                    manifest,
+                    campaign,
+                    case,
+                    seed,
+                    key,
+                    output,
+                )
+                completed_count += 1
+                print(
+                    "plan005_formal_run_complete "
+                    f"completed={completed_count}/{len(all_tasks)} "
+                    f"pair={campaign['pair_id']} case={case['case_id']} "
+                    f"seed={seed}",
+                    flush=True,
+                )
+        except BaseException as error:
+            atomic_write(
+                control / "status.json",
+                {
+                    "schema_version": 1,
+                    "status": "failed",
+                    "suite_id": manifest["suite_id"],
+                    "pid": os.getpid(),
+                    "started_unix_seconds": started,
+                    "failed_unix_seconds": time.time(),
+                    "selected_run_count": len(all_tasks),
+                    "validated_complete_count": completed_count,
+                    "error_type": type(error).__name__,
+                    "error_message": str(error),
+                    **current,
                 },
             )
-            run_one(
-                manifest,
-                campaign,
-                case,
-                seed,
-                key,
-                output,
-            )
-            completed_count += 1
-            print(
-                "plan005_formal_run_complete "
-                f"completed={completed_count}/{len(all_tasks)} "
-                f"pair={campaign['pair_id']} case={case['case_id']} "
-                f"seed={seed}",
-                flush=True,
-            )
+            raise
         atomic_write(
             control / "status.json",
             {

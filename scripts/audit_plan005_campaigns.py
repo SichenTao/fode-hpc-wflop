@@ -54,7 +54,7 @@ def audit_result(
     )
     front_path = (
         path.with_suffix(".front.json")
-        if campaign["objective_mode"] == "multiobjective"
+        if campaign["corpus_id"] == "T46"
         else None
     )
     expected_command = formal_command(

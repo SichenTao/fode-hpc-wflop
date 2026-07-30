@@ -51,7 +51,7 @@
       ],
       "command_contract": {
         "case_token": "{case_id}",
-        "front_token": "{front_path}",
+        "front_token": null,
         "generator": "scripts/plan005_formal_common.py::formal_command",
         "physical_fes_mapping": "--physical-fes",
         "physical_fes_token": "{physical_fes_per_run}",
@@ -7101,7 +7101,7 @@
       ],
       "command_contract": {
         "case_token": "{case_id}",
-        "front_token": "{front_path}",
+        "front_token": null,
         "generator": "scripts/plan005_formal_common.py::formal_command",
         "physical_fes_mapping": "--physical-fes",
         "physical_fes_token": "{physical_fes_per_run}",
@@ -8361,12 +8361,12 @@
   ],
   "case_count": 1153,
   "control_software_sha256": {
-    "scripts/audit_plan005_campaigns.py": "15cb9c7e7ee30346a906beef868619e7629dd1d44b87c9f1b061c75a0b0e06ac",
+    "scripts/audit_plan005_campaigns.py": "05e75f70ac0f75c5bc69def56514bbbe07a9d66bd671c8d9a7b3886b49fb90e1",
     "scripts/audit_plan005_formal_manifests.py": "bffdae00bee6fcbe2ce491cee37a9516dc0d147d135afc075892b4f84bc8e8dd",
     "scripts/audit_plan005_training_resume.py": "099cba7c3e6b4e160649978f5f7a0c7b50ae49e59658b7e14efccadddbcfb45b",
     "scripts/generate_plan005_formal_manifests.py": "8dd8209a6682a897b7ff517336a54ce1f8d8d86fa015f4b109b74518d4625633",
-    "scripts/plan005_formal_common.py": "9a6a047513d5511d2d3f47ee71d0ca4918e20139e552a2a0101ad00d472d9b62",
-    "scripts/run_plan005_formal_campaigns.py": "2e6ea1197d2158061624f61297d30165309975cbe95eb077c40d1dd355c27517"
+    "scripts/plan005_formal_common.py": "cbe945b5ea25785efaf5340bb30825cd19cf95528a6c379ef16c7c7e37fb03c9",
+    "scripts/run_plan005_formal_campaigns.py": "4e191e75af2b7480eb82d209954f8cbc420ae4d2f1a4817838137d56feb9007f"
   },
   "deferred_learning_target_count": 3,
   "environment_sha256": "3285c82e90dfff76f86f8f551be16365155e8674ffb5a7e1f2ea3b6e74beb533",

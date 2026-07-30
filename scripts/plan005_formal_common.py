@@ -683,8 +683,7 @@ def formal_command_contract(campaign: dict[str, Any]) -> dict[str, Any]:
         "case_token": "{case_id}",
         "physical_fes_token": "{physical_fes_per_run}",
         "front_token": (
-            "{front_path}" if campaign["objective_mode"] == "multiobjective"
-            else None
+            "{front_path}" if campaign["corpus_id"] == "T46" else None
         ),
     }
     if corpus == "T46":

@@ -128,6 +128,24 @@ def main() -> int:
             or not validate_existing(output, key)
         ):
             raise RuntimeError("complete formal result was not reusable")
+        if validate_existing(output, key, front_required=True):
+            raise RuntimeError("missing required front was reusable")
+        front = directory / "result.front.json"
+        front.write_text('{"solutions":[]}\n', encoding="utf-8")
+        receipt["front_artifact"] = {
+            "logical_path": str(front.relative_to(ROOT)),
+            "sha256": sha256(front),
+            "bytes": front.stat().st_size,
+        }
+        output.write_text(
+            json.dumps(receipt, indent=2, sort_keys=True) + "\n",
+            encoding="utf-8",
+        )
+        if not validate_existing(output, key, front_required=True):
+            raise RuntimeError("complete front receipt was not reusable")
+        front.write_text('{"solutions":["tampered"]}\n', encoding="utf-8")
+        if validate_existing(output, key, front_required=True):
+            raise RuntimeError("tampered required front was reusable")
         tampered = copy.deepcopy(key)
         tampered["optimization_seed"] += 1
         if validate_existing(output, tampered):
@@ -140,7 +158,8 @@ def main() -> int:
     print(
         "plan005_formal_campaign_runner_fixture_pass "
         "command_routes=23 atomic_complete=1 reusable_complete=1 "
-        "rejected_key_tamper=1 rejected_partial=1"
+        "rejected_key_tamper=1 rejected_partial=1 "
+        "rejected_missing_front=1 rejected_tampered_front=1"
     )
     return 0
 

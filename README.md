@@ -449,6 +449,51 @@ formal status. It covers the independent TAAE, PPGA, BDE, GeoGA, GGA/T-MOEA,
 PBEA, and shared WFLOP executables instead of treating the local
 `wflop_cpp_hpc` registry as global coverage.
 
+## Plan 005 target-native formal campaigns
+
+Plan 005 expands only the 23 registered target algorithm/problem pairs. It
+does not promote the comparison-only algorithms in the source papers into
+completion requirements. The prepared manifest contains 1,153 paper-native
+or explicitly declared-proxy cases and 25 independent optimization seeds per
+case, giving 28,825 optimization runs. Twenty targets are admitted to the CPU
+campaign. TAAE, RLPSO, and ALGA retain validated bounded artifacts but remain
+deferred until their separate paper-scale training receipts exist. FQFODE
+uses one frozen declared-reconstruction Q table produced by 39,700 offline
+training interactions; the same table is then reused by every optimization
+run.
+
+The accepted H6 scaling receipt selects the worker count and exact CPU
+affinity separately for every target. Formal campaigns launch one optimizer
+process at a time (`backend_parallelism=1`), preserve the selected
+within-optimizer parallelism, require exact physical FES, and commit each
+validated result through a same-filesystem temporary file plus `fsync` and
+atomic rename. A result is reusable only when its complete result key still
+matches the frozen method, problem, case, seed, budget, binary, environment,
+source commit, and control-software hashes.
+
+```bash
+# Available before H6 finishes: rebuild-independent prepared-manifest audit.
+python3 scripts/audit_plan005_formal_manifests.py \
+  --scope core --strict --prepared
+
+# Run after the 23-target H6 summary has passed and become immutable.
+python3 scripts/generate_plan005_formal_manifests.py \
+  --scope core --seeds 25
+python3 scripts/audit_plan005_formal_manifests.py \
+  --scope core --strict
+
+# Zero-optimization readiness check followed by resumable execution.
+python3 scripts/run_plan005_formal_campaigns.py \
+  --all-admissible --backend-parallelism 1 --dry-run
+python3 scripts/run_plan005_formal_campaigns.py \
+  --all-admissible --backend-parallelism 1
+
+# Completion and learned-state-boundary audits.
+python3 scripts/audit_plan005_campaigns.py \
+  --all-admissible --seeds 25 --strict
+python3 scripts/audit_plan005_training_resume.py --strict
+```
+
 Run `python3 scripts/audit_execution_backends.py` for the static audit. After
 a Release build and explicit staging of trusted ignored source assets, add
 `--build-dir BUILD` to execute every bounded CPU CLI, supported auto-to-CPU
