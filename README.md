@@ -462,14 +462,23 @@ uses one frozen declared-reconstruction Q table produced by 39,700 offline
 training interactions; the same table is then reused by every optimization
 run.
 
-The accepted H6 scaling receipt selects the worker count and exact CPU
-affinity separately for every target. Formal campaigns launch one optimizer
-process at a time (`backend_parallelism=1`), preserve the selected
-within-optimizer parallelism, require exact physical FES, and commit each
-validated result through a same-filesystem temporary file plus `fsync` and
-atomic rename. A result is reusable only when its complete result key still
-matches the frozen method, problem, case, seed, budget, binary, environment,
-source commit, and control-software hashes.
+The accepted H6 receipt uses the highest-performance production profile:
+all 20 affinity-visible Spark2 CPUs for the persistent C++ team and
+phase-calibrated LibTorch C++ threads for learning work. LibTorch is called
+directly from C++; no Python/Torch production implementation is required.
+Formal campaigns launch one optimizer process at a time
+(`backend_parallelism=1`), preserve the selected within-optimizer parallelism,
+require exact physical FES, and commit each validated result through a
+same-filesystem temporary file plus `fsync` and atomic rename.
+
+The append-only `plan005_target_native_25_v2` suite additionally samples the
+operating-system thread table during every optimization. It rejects a run
+unless at least 20 worker threads are observed and their combined affinity
+domain exactly covers CPU 0--19. The earlier `v1` launch is excluded because
+`OMP_PROC_BIND=TRUE` caused the persistent `std::thread` team to inherit a
+one-CPU mask. A result is reusable only when its complete result key and this
+runtime worker-affinity receipt still match the frozen method, problem, case,
+seed, budget, binary, environment, source commit, and control-software hashes.
 
 ```bash
 # Available before H6 finishes: rebuild-independent prepared-manifest audit.
