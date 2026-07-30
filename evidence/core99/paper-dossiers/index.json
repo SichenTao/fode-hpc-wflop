@@ -111,8 +111,8 @@
     },
     {
       "corpus_id": "T17",
-      "dossier_sha256": "25e5ec7d06c67dcb5737e996975080543b2426c1d33b25bae36bc28f132978e8",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "d1041fc55725303bb8aa9e302f23da4b85b6abac3409b457baab002fe91d66f6",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

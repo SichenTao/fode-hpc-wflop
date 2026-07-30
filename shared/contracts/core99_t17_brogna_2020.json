@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T17",
+  "paper": {
+    "title": "A New Wake Model and Comparison of Eight Algorithms for Layout Optimization of Wind Farms in Complex Terrain",
+    "doi": "10.1016/j.apenergy.2019.114189",
+    "year": 2020,
+    "pdf_sha256": "f09a0baaf12f9cd719f16ece29e4feb5bbf3c4bc27204bccaa8fb76504bc4c65"
+  },
+  "target_contributions": [
+    "complex-terrain Gaussian streamline wake evaluator",
+    "double-stage optimization lifecycle"
+  ],
+  "non_target_baselines": [
+    "GA",
+    "PSO",
+    "pattern search",
+    "simulated annealing",
+    "interior point",
+    "active set",
+    "sequential quadratic programming"
+  ],
+  "paper_native_problem": {
+    "site_m": [6000.0, 4000.0],
+    "turbines": 25,
+    "rotor_diameter_m": 93.0,
+    "hub_height_m": 67.0,
+    "minimum_spacing_rotor_diameters": 4.0,
+    "reference_speed_mps": 7.0,
+    "directions_degrees": [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330],
+    "gaussian_growth_rate": 0.042,
+    "wake_exclusion_threshold": 0.01,
+    "streamline_range_rotor_diameters": [2.0, 40.0],
+    "multiple_wakes": "root_sum_square",
+    "objective": "maximize sum over turbine and sector of local probability times effective_speed/reference_speed"
+  },
+  "public_proxy": {
+    "source_repository": "https://gitlab.windenergy.dtu.dk/TOPFARM/PyWake.git",
+    "source_revision": "5b07481ec9b3633a74844651648f266ba82a8b32",
+    "license": "MIT",
+    "source_dataset": "ParqueFicticio WAsP 30 m and 200 m grids",
+    "derived_asset": "shared/data/core99_t17_pywake_proxy.bin",
+    "derived_sha256": "7aa267bb733b32928f03903dcf4a71f0cfcfa7e5f9c65f3eb431ac0ecbf1b5cb",
+    "transformation": "interpolate to 67 m and affinely map to the paper's 6000 m by 4000 m domain",
+    "claim_boundary": "same-lineage open flow-field proxy, not the private Northwest-China site"
+  },
+  "double_stage_rs": {
+    "driver_basis": "random search in the target paper and Algorithm 1 of DOI 10.1016/j.renene.2015.01.005",
+    "stage_1": "ignore wakes for 5000 paper CPU seconds",
+    "stage_2": "include wakes for 20000 paper CPU seconds",
+    "initial_layouts": "one Figure-2 digitization plus ten random feasible layouts",
+    "fixed_work_admission": "explicit stage1_fes and stage2_fes; every complete 12-sector farm objective is one physical FES"
+  },
+  "missing_information": [
+    "private Northwest-China terrain and WAsP CFD grids",
+    "author streamline arrays",
+    "exact Figure-2 turbine coordinates",
+    "turbine power and CT arrays except CT=0.747 at 7 m/s",
+    "sector probabilities",
+    "author MATLAB and toolbox code",
+    "toolbox settings, seeds, histories, and portable stopping budget"
+  ],
+  "conflicts_and_resolutions": [
+    {
+      "conflict": "Table 2 displays speed and direction units in swapped columns",
+      "resolution": "follow the quantities and equations rather than the swapped unit labels"
+    },
+    {
+      "conflict": "paper-native terrain and flow fields are private",
+      "resolution": "preserve every published equation and constraint but register the PyWake-derived field as an open proxy semantic ID"
+    },
+    {
+      "conflict": "only CT=0.747 at 7 m/s is printed",
+      "resolution": "use a declared piecewise CT curve anchored exactly at the printed point"
+    }
+  ],
+  "hpc_contract": {
+    "backend": "pure_cpp_cpu",
+    "parallel_axis": "twelve independent wind sectors within each physical FES",
+    "thread_lifecycle": "one persistent worker team per optimization",
+    "formal_outer_axis": "independent initial layouts use remaining cores without nested oversubscription",
+    "reduction": "fixed sector order",
+    "full_resource_policy": "consume all currently available Waffle CPU resources across inner sector and outer independent-start axes"
+  },
+  "problem_semantic_id": "t17_brogna_private_site_open_flow_proxy_v1",
+  "method_semantic_id": "t17_double_stage_rs_declared_reconstruction_v1",
+  "claim_boundary": "academic declared reproduction of equations, domain, constraints, double-stage lifecycle, and open-proxy complex-terrain behavior; not the private Northwest-China benchmark or author-numerical replay"
+}
