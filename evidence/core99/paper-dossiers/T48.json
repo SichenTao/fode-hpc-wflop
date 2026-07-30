@@ -6,21 +6,31 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Digitize and register the 16 Figure-1 wind-resource markers because author numeric arrays are absent.",
+    "Use periodic monotone cubic Hermite interpolation as specified by the paper.",
+    "Use a declared piecewise-linear 1.5MW curve normalized to the paper 42 percent isolated capacity-factor anchor.",
+    "Reconstruct the unspecified gradient scheme as deterministic bounded coordinate-gradient trials for the paper's 190 iterations.",
+    "Flatten candidate, turbine, and direction work onto one persistent CPU team while keeping reductions and commits ordered."
+  ],
   "corpus_id": "T48",
-  "dossier_status": "pre_code_fulltext_audit_ready",
+  "dossier_status": "h5_admitted",
   "formal_status": "not_started",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
     "H6": "not_started"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "exact Thompson Island 16-sector arrays",
+    "manufacturer 1.5MW power-curve table",
+    "PCHIP coefficients",
+    "gradient-search update, step, and termination rules",
+    "author numerical quadrature, seed, and search history"
   ],
   "paper": {
     "authors": "Matthew A. Lackner and Christopher N. Elkinton",
@@ -50,77 +60,82 @@
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "academic declared reproduction of the analytical framework and two-turbine demonstration; not author-source or exact 190-step replay",
     "execution_wave": "REV1",
-    "package_status": "queued_full_text_contract",
+    "package_status": "paper_pair_h5_validated",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "both turbines lie in x=[1600,10000]m and y=[-5000,5000]m; coincident hubs are excluded",
+      "status": "frozen"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "continuous Cartesian [x1,y1,x2,y2] positions",
+      "status": "frozen"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "direct continuous coordinates with bound projection for reconstructed search trials",
+      "status": "frozen"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "paper initial layout [9109,-2013,3273,1614]",
+      "status": "frozen"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_platform_protocol",
+      "resolution": "LCOE, capital, AEP, capacity factor, wake loss, physical FES, timings, worker receipt, feasibility, and scientific hash",
+      "status": "frozen"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "minimize EPRI-TAG LCOE=(CC*FCR+C_OM)/AEP",
+      "status": "frozen"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "one two-turbine offshore rectangular opportunity-set example with printed initial and final layouts",
+      "status": "frozen"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_missing_data_reconstruction",
+      "resolution": "1.5MW, D=77m, CT=0.8, wake kappa=0.04, stated turbine/support/transmission/O&M/FCR costs, digitized wind resource, calibrated curve",
+      "status": "frozen"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_search_reconstruction",
+      "resolution": "190 iterations; every complete two-turbine LCOE call counts once; reconstructed search uses 1521 physical evaluations",
+      "status": "frozen"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not_applicable",
+      "resolution": "no learned method",
+      "status": "frozen"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "declared_reconstruction",
+      "resolution": "parallel eight-neighbor coordinate trials, fixed-order value reductions, deterministic best commit, and step halving without improvement",
+      "status": "frozen"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_missing_curve_reconstruction",
+      "resolution": "Jensen/RSS wakes scale directional Weibull c; 1.5MW linear curve; string cable, support, turbine, O&M, and fixed-charge cost model",
+      "status": "frozen"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_figure_digitization",
+      "resolution": "periodic PCHIP of 16 directional c, k, and frequency markers; shore-distance c scaling; 360x160 deterministic quadrature",
+      "status": "frozen"
     }
+  },
+  "validation": {
+    "cpp_test": "core99_t48_cpp pass",
+    "h5_oracle": "core99_t48_h5 pass",
+    "h5_scope": "independent cost equations and six printed LCOE, capital, capacity-factor, and wake-loss anchors"
   }
 }

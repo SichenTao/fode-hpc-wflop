@@ -132,6 +132,22 @@ target_compile_options(core99_t20_core PRIVATE
 add_executable(core99_t20_hpc src/kunakote_t20_main.cpp)
 target_link_libraries(core99_t20_hpc PRIVATE core99_t20_core)
 
+add_library(core99_t48_core src/lackner_t48.cpp)
+target_include_directories(core99_t48_core
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+)
+target_link_libraries(core99_t48_core PUBLIC fode_core)
+target_compile_features(core99_t48_core PUBLIC cxx_std_20)
+target_compile_options(core99_t48_core PRIVATE
+    -O3
+    -march=native
+    -ffp-contract=off
+)
+add_executable(core99_t48_hpc src/lackner_t48_main.cpp)
+target_link_libraries(core99_t48_hpc PRIVATE core99_t48_core)
+
 if(BUILD_TESTING)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
     add_executable(
@@ -226,5 +242,14 @@ if(BUILD_TESTING)
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t20.py
             --binary $<TARGET_FILE:core99_t20_hpc>
+    )
+    add_executable(core99_t48_test tests/lackner_t48_test.cpp)
+    target_link_libraries(core99_t48_test PRIVATE core99_t48_core)
+    add_test(NAME core99_t48_cpp COMMAND core99_t48_test)
+    add_test(
+        NAME core99_t48_h5
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t48.py
+            --binary $<TARGET_FILE:core99_t48_hpc>
     )
 endif()
