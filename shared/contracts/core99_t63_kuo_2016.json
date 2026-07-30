@@ -1,0 +1,75 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T63",
+  "paper": {
+    "title": "Wind Farm Layout Optimization on Complex Terrains - Integrating a CFD Wake Model with Mixed-Integer Programming",
+    "doi": "10.1016/j.apenergy.2016.06.085",
+    "year": 2016,
+    "pdf_sha256": "7c4f515af4da82bb235045871b132f05d66f2760a2de0f61faef38b82aed8155"
+  },
+  "target_contribution": "iterative two-way coupling between exact/near-exact discrete MIP layout selection and newly promising single-turbine CFD wake rows",
+  "paper_native_problem": {
+    "site_m": [2800.0, 2800.0],
+    "grid": [20, 20],
+    "cell_pitch_m": 140.0,
+    "turbines": 20,
+    "wind_directions": 12,
+    "thrust_coefficient": 0.8,
+    "hub_height_m": 77.0,
+    "rotor_diameter_m": 80.0,
+    "rated_power_mw": 1.5,
+    "minimum_spacing_rotor_diameters": 5.0,
+    "relaxation_values": [1.0, 0.7, 0.4, 0.2, 0.0],
+    "reported_mip_limit_seconds": 30.0,
+    "maximum_single_turbine_cfd_simulations": 4800
+  },
+  "paper_lifecycle": [
+    "generate no-turbine complex-terrain flow field",
+    "construct approximate wake rows by applying terrain speed-up to a flat-terrain row",
+    "solve the MIP for twenty cells",
+    "simulate single-turbine wakes at newly selected cells",
+    "replace those cells' approximate wake rows with simulated rows",
+    "repeat until no newly promising cell is selected"
+  ],
+  "figure_proxy": {
+    "asset": "shared/data/core99_t63_figure_proxy.bin",
+    "sha256": "643fbafaca90e0e6c9dd8a271b1abea55a7b05d6bf64b12fc7c19e4fdc8ca51e",
+    "builder": "scripts/prepare_core99_t63_figure_proxy.py",
+    "terrain": "twenty-by-twenty sampling of Figure 4 against its printed 20 m colorbar bands",
+    "wind": "normalized radial-length digitization of the twelve Figure 5 bars"
+  },
+  "mip_backend": {
+    "name": "HiGHS",
+    "version": "1.15.1",
+    "revision": "04024d701f79feb8e2f18bc3df0dffc04ef05088",
+    "repository": "https://github.com/ERGO-Code/HiGHS.git",
+    "license": "MIT",
+    "linearization": "for every nonzero pair coefficient y_ij=x_i*x_j is enforced by y<=x_i, y<=x_j, and x_i+x_j-y<=1",
+    "time_limit_seconds": 30.0,
+    "result_policy": "record model status, incumbent, dual bound, and gap; never call a time-limited incumbent globally optimal"
+  },
+  "missing_information": [
+    "author 20x20 terrain and numeric wind-rose arrays",
+    "no-turbine and 4800 possible single-turbine CFD fields",
+    "flat-terrain wake field and mesh/boundary solution arrays",
+    "Gurobi model/source, exact solver settings, and warm starts",
+    "final cell arrays and per-iteration objective histories"
+  ],
+  "reconstruction": {
+    "background": "digitized elevation plus printed power-law Eq. 5",
+    "initial_row": "declared straight Jensen wake using printed CT and geometry",
+    "replacement_row": "declared terrain-aware single-turbine surrogate with slope-driven turn, expansion, and vertical separation",
+    "important_boundary": "the replacement row exercises the CFD-to-MIP information lifecycle but is not labeled CFD or author data"
+  },
+  "hpc_contract": {
+    "backend": "pure_cpp_cpu_plus_pinned_highs_cpp",
+    "field_parallel_axis": "400 independent source-cell rows, each aggregating 400 targets and twelve sectors",
+    "mip_parallelism": "HiGHS receives every available worker for each sequential iteration",
+    "storage": "contiguous source-major approximate and terrain-aware pair arrays",
+    "formal_axis": "five relaxation cases run sequentially on all currently available Waffle cores",
+    "full_resource_policy": "use the entire Waffle CPU allocation without concurrent solver oversubscription"
+  },
+  "problem_semantic_id": "t63_carleton_figure_proxy_cfd_surrogate_v1",
+  "method_semantic_id": "t63_iterative_cfd_mip_highs_reconstruction_v1",
+  "claim_boundary": "academic declared reproduction of equations, discrete problem, relaxation study, exact MILP linearization, and iterative update lifecycle on a figure/surrogate proxy; not author CFD, Gurobi, or numerical replay"
+}

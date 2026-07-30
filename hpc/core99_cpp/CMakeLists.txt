@@ -180,6 +180,47 @@ target_compile_options(core99_t17_core PRIVATE
 add_executable(core99_t17_hpc src/brogna_t17_main.cpp)
 target_link_libraries(core99_t17_hpc PRIVATE core99_t17_core)
 
+option(
+    CORE99_ENABLE_T63
+    "Build T63 with the pinned HiGHS C++ MILP backend"
+    OFF
+)
+if(CORE99_ENABLE_T63)
+    include(FetchContent)
+    set(CORE99_SAVED_BUILD_TESTING ${BUILD_TESTING})
+    set(FAST_BUILD ON CACHE BOOL "" FORCE)
+    set(BUILD_CXX ON CACHE BOOL "" FORCE)
+    set(BUILD_CXX_EXE OFF CACHE BOOL "" FORCE)
+    set(BUILD_TESTING OFF CACHE BOOL "" FORCE)
+    set(BUILD_EXAMPLES OFF CACHE BOOL "" FORCE)
+    set(BUILD_SHARED_EXTRAS_LIB OFF CACHE BOOL "" FORCE)
+    set(ZLIB OFF CACHE BOOL "" FORCE)
+    FetchContent_Declare(
+        highs
+        GIT_REPOSITORY https://github.com/ERGO-Code/HiGHS.git
+        GIT_TAG 04024d701f79feb8e2f18bc3df0dffc04ef05088
+        GIT_SHALLOW TRUE
+    )
+    FetchContent_MakeAvailable(highs)
+    set(BUILD_TESTING ${CORE99_SAVED_BUILD_TESTING} CACHE BOOL "" FORCE)
+
+    add_library(core99_t63_core STATIC src/kuo_t63.cpp)
+    target_include_directories(core99_t63_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t63_core PUBLIC fode_core highs::highs)
+    target_compile_features(core99_t63_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t63_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t63_hpc src/kuo_t63_main.cpp)
+    target_link_libraries(core99_t63_hpc PRIVATE core99_t63_core)
+endif()
+
 if(BUILD_TESTING)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
     add_executable(
@@ -304,4 +345,21 @@ if(BUILD_TESTING)
             --proxy
                 ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t17_pywake_proxy.bin
     )
+    if(CORE99_ENABLE_T63)
+        add_executable(core99_t63_test tests/kuo_t63_test.cpp)
+        target_link_libraries(core99_t63_test PRIVATE core99_t63_core)
+        add_test(
+            NAME core99_t63_cpp
+            COMMAND core99_t63_test
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t63_figure_proxy.bin
+        )
+        add_test(
+            NAME core99_t63_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t63.py
+                --binary $<TARGET_FILE:core99_t63_hpc>
+                --proxy
+                    ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t63_figure_proxy.bin
+        )
+    endif()
 endif()

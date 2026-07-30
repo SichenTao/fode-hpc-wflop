@@ -117,8 +117,8 @@
     },
     {
       "corpus_id": "T63",
-      "dossier_sha256": "818b49d5bc07d4a8fd488d0314b25e2db2e3ab24c8bd0c784e32cdc25d286f26",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "78e7aff1230577921fe1348ed7d3358ba72d7c27d8079654c43fbd5b22c4870d",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
