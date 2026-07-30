@@ -12,6 +12,7 @@ import statistics
 from pathlib import Path
 from typing import Any
 
+from audit_plan005_campaigns import audit_result
 from plan005_formal_common import (
     FINAL_MANIFEST,
     H6_SUMMARY,
@@ -249,6 +250,7 @@ def main() -> int:
                 observations = []
                 for seed in campaign["optimization_seeds"]:
                     path = result_path(campaign, case, seed)
+                    audit_result(manifest, campaign, case, seed)
                     require(path.is_file(), f"formal result absent: {path}")
                     document = json.loads(path.read_text(encoding="utf-8"))
                     require(
