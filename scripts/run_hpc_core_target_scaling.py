@@ -1477,25 +1477,15 @@ def main() -> int:
         "thread_pool_environment": ENVIRONMENT_LIMITS,
     }
     environment["sha256"] = canonical_sha256(environment)
-    if arguments.production_profile_only:
-        imported_observations, import_receipt = [], {
-            "status": "not_applicable_new_production_profile",
-            "imported_observation_count": 0,
-            "claim_boundary": (
-                "No observation from the superseded worker sweep is reused "
-                "because source and measurement protocols changed."
-            ),
-        }
-    else:
-        imported_observations, import_receipt = compatible_observation_import(
-            rows=rows,
-            workers=workers,
-            source_commit=source_commit,
-            binary_receipts=binary_receipts,
-            environment=environment,
-            worker_affinity_sets=worker_affinity_sets,
-            artifact_paths=artifact_paths,
-        )
+    imported_observations, import_receipt = compatible_observation_import(
+        rows=rows,
+        workers=workers,
+        source_commit=source_commit,
+        binary_receipts=binary_receipts,
+        environment=environment,
+        worker_affinity_sets=worker_affinity_sets,
+        artifact_paths=artifact_paths,
+    )
     header_expected = {
         "record_type": "campaign_header",
         "schema_version": 1,
