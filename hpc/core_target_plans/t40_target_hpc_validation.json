@@ -35,8 +35,18 @@
     "status": "accepted_h5"
   },
   "H6_performance_validation": {
-    "accepted_backend": null,
-    "status": "pending_h6_measurement"
+    "accepted_backend": "cpu_hpc_full_visible_v1",
+    "all_visible_characterized": true,
+    "all_visible_workers": 20,
+    "claim_boundary": "Measured fixed-work highest-performance-profile H6 only; a full worker-scaling curve is not required and no formal quality claim is made.",
+    "measured_serial_fraction": null,
+    "minimum_named_h0_stage_attribution": 1.0,
+    "performance_receipt": "evidence/performance/plan005_h6_performance_first_summary_20260730.json",
+    "performance_receipt_sha256": "5519c51eeb300a47647c39f6ba2700681d321c74bac94fb93c443517ece4ef6d",
+    "raw_observation_receipt": "evidence/performance/plan005_h6_performance_first_raw_observations_20260730.jsonl",
+    "selected_workers": 20,
+    "status": "accepted_h6",
+    "worker_scaling_characterized": false
   },
   "analysis_path": "hpc/core_target_plans/t40_target_hpc_analysis.json",
   "analysis_sha256": "81da191304bab58c8242557307e94554fc510ec4922d9157b254efb585367830",
@@ -45,7 +55,7 @@
   "method_semantic_id": "cgpso_paper_staged_parallel_e0_physical_fes_v1",
   "native_asset": "shared/contracts/cgpso_native_16_cases.json",
   "native_asset_sha256": "684a7c75a18bbb0a8a7ac739bf047f9174be4f4039434889d8743ebd40142636",
-  "overall_status": "accepted_h5_pending_h6",
+  "overall_status": "accepted_h5_h6",
   "pair_id": "T40__cgpso__cgpso_complex_large_16_v1__target",
   "paper_protocol_id": "jas2023_cgpso_native_25_v1",
   "problem_semantic_id": "cgpso_complex_large_16_v1",

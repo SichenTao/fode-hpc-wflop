@@ -35,8 +35,18 @@
     "status": "accepted_h5"
   },
   "H6_performance_validation": {
-    "accepted_backend": null,
-    "status": "pending_h6_measurement"
+    "accepted_backend": "cpu_hpc_full_visible_v1",
+    "all_visible_characterized": true,
+    "all_visible_workers": 20,
+    "claim_boundary": "Measured fixed-work highest-performance-profile H6 only; a full worker-scaling curve is not required and no formal quality claim is made.",
+    "measured_serial_fraction": null,
+    "minimum_named_h0_stage_attribution": 1.0,
+    "performance_receipt": "evidence/performance/plan005_h6_performance_first_summary_20260730.json",
+    "performance_receipt_sha256": "5519c51eeb300a47647c39f6ba2700681d321c74bac94fb93c443517ece4ef6d",
+    "raw_observation_receipt": "evidence/performance/plan005_h6_performance_first_raw_observations_20260730.jsonl",
+    "selected_workers": 20,
+    "status": "accepted_h6",
+    "worker_scaling_characterized": false
   },
   "analysis_path": "hpc/core_target_plans/s01_target_hpc_analysis.json",
   "analysis_sha256": "eeebbf6f05cec7d0a981f2d299f8dffbeff3960665b19eaa55f7b8c2063ca688",
@@ -45,7 +55,7 @@
   "method_semantic_id": "cede_paper_equations_physical_fes_v1",
   "native_asset": "shared/contracts/benchmark_cases.json",
   "native_asset_sha256": "1b4d7b687f2608c38343ea6252ecea51fff711f8939665ca07a40110127879c5",
-  "overall_status": "accepted_h5_pending_h6",
+  "overall_status": "accepted_h5_h6",
   "pair_id": "S01__cede__fode_wflop_e0_legacy_v1__target",
   "paper_protocol_id": "math2024_cede_native_25_v1",
   "problem_semantic_id": "fode_wflop_e0_legacy_v1",

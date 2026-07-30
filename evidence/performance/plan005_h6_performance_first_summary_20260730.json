@@ -1,0 +1,2026 @@
+{
+  "claim_boundary": "Production-representative fixed-work CPU H6 only; this receipt uses every affinity-visible CPU and does not establish a worker-scaling curve, formal 25-seed quality, or GPU performance.",
+  "environment_sidecar": {
+    "logical_path": "evidence/performance/plan005_h6_performance_first_environment_sidecar_20260730.json",
+    "sha256": "047bbb5546107e96911b296b3d3c4e4ada03a36d446879159e671ad5117b048a"
+  },
+  "measurement_order_policy": "production_profile_only",
+  "minimum_stage_attribution": 0.9879803830968351,
+  "non_target_baselines_in_readiness": 0,
+  "observation_count": 115,
+  "raw_observations": "evidence/performance/plan005_h6_performance_first_raw_observations_20260730.jsonl",
+  "raw_observations_sha256": "4911499e8f3e3916da088a7d5d28e2f465c1be2149c364229599bac06a3977e5",
+  "repetitions": 5,
+  "schema_version": 1,
+  "source_commit": "b06cfc2e242e1bdcf8b5905d2f7b13710dd31526",
+  "status": "accepted_h6",
+  "summary_id": "plan005_h6_full_core_production_summary_spark_20260730",
+  "target_count": 23,
+  "targets": [
+    {
+      "algorithm_id": "alshade",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "L0608",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/l0608_target_hpc_analysis.json",
+        "analysis_sha256": "9eb2821db4c4d17219498d66f8490d69dabdac9a9c2f619d1fffbf846a62ecb6",
+        "h2_dependency_edges": [
+          [
+            "S0_alshade_initialization",
+            "S1_alshade_current_to_pbest"
+          ],
+          [
+            "S1_alshade_current_to_pbest",
+            "S2_alshade_complex_wake"
+          ],
+          [
+            "S2_alshade_complex_wake",
+            "S3_alshade_success_memory"
+          ],
+          [
+            "S3_alshade_success_memory",
+            "S4_alshade_linear_reduction"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "b588f212ad8092b98653af67b478b1d6dccc2937f689759083be69a29111eb57",
+        "h2_ordered_sections": [
+          "S3_alshade_success_memory",
+          "S4_alshade_linear_reduction"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 24000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "alshade_paper_derived_e0_physical_fes_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/alshade_native_117_cases.json",
+      "observation_count": 5,
+      "pair_id": "L0608__alshade__alshade_complex_wake_117_v1__target",
+      "paper_protocol_id": "pic2024_alshade_native_25_v1",
+      "problem_id": "alshade_complex_wake_117",
+      "problem_semantic_id": "alshade_complex_wake_117_v1",
+      "representative_case": "WC2_N20_NA6",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.385774421,
+            0.429446793
+          ],
+          "maximum_cpu_migrations": 16259,
+          "maximum_resident_set_kib": 477816,
+          "maximum_seconds": 0.429446793,
+          "median_absolute_deviation_seconds": 0.01044860999999997,
+          "median_cpu_time_to_wall": 8.4291572112609,
+          "median_seconds": 0.418998183,
+          "median_throughput_fes_per_second": 57279.48467022349,
+          "minimum_seconds": 0.385774421,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "geoga",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "L0726",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/l0726_target_hpc_analysis.json",
+        "analysis_sha256": "7a5aa0b11ef4d71da0160e9e48b5438daaeb48139ba4381a0c1edd3b8dc7a31f",
+        "h2_dependency_edges": [
+          [
+            "S0_geoga_poisson_candidates",
+            "S1_geoga_random_layout"
+          ],
+          [
+            "S1_geoga_random_layout",
+            "S2_geoga_nearest_free_mutation"
+          ],
+          [
+            "S2_geoga_nearest_free_mutation",
+            "S3_geoga_anholt_proxy_evaluation"
+          ],
+          [
+            "S3_geoga_anholt_proxy_evaluation",
+            "S4_geoga_best50_survival"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "693e591bd2ef4a9cb117317af137d65d8f2bdef023bbebcdab949f034b1adef7",
+        "h2_ordered_sections": [
+          "S0_geoga_poisson_candidates",
+          "S4_geoga_best50_survival"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 10000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "geoga_declared_reconstruction_v1",
+      "minimum_named_h0_stage_attribution": 0.9971458733636578,
+      "native_asset": "shared/contracts/geoga_anholt_structured_declared_proxy_case.json",
+      "observation_count": 5,
+      "pair_id": "L0726__geoga__geoga_anholt_structured_declared_proxy_v1__target",
+      "paper_protocol_id": "cbd2025_geoga_native_25_v1",
+      "problem_id": "geoga_anholt_structured_declared_proxy_v1",
+      "problem_semantic_id": "geoga_anholt_structured_declared_proxy_v1",
+      "representative_case": "GeoGA_AnholtStructured_P3_111",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.289025107,
+            0.306491477
+          ],
+          "maximum_cpu_migrations": 3530,
+          "maximum_resident_set_kib": 3916,
+          "maximum_seconds": 0.306491477,
+          "median_absolute_deviation_seconds": 0.006090446000000027,
+          "median_cpu_time_to_wall": 15.0576684956904,
+          "median_seconds": 0.299246324,
+          "median_throughput_fes_per_second": 33417.28602153188,
+          "minimum_seconds": 0.289025107,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "cede",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "S01",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/s01_target_hpc_analysis.json",
+        "analysis_sha256": "eeebbf6f05cec7d0a981f2d299f8dffbeff3960665b19eaa55f7b8c2063ca688",
+        "h2_dependency_edges": [
+          [
+            "S0_cede_dynamic_population",
+            "S1_cede_competitive_genetic_learning"
+          ],
+          [
+            "S1_cede_competitive_genetic_learning",
+            "S2_cede_complete_evaluation"
+          ],
+          [
+            "S2_cede_complete_evaluation",
+            "S3_cede_winner_archive"
+          ],
+          [
+            "S3_cede_winner_archive",
+            "S4_cede_success_memory_reduction"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "f6ace402a8f210e1f7d6a0bbf2ef5013b003b72e103e28906c97954c2848b4e3",
+        "h2_ordered_sections": [
+          "S3_cede_winner_archive",
+          "S4_cede_success_memory_reduction"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 24000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "cede_paper_equations_physical_fes_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/benchmark_cases.json",
+      "observation_count": 5,
+      "pair_id": "S01__cede__fode_wflop_e0_legacy_v1__target",
+      "paper_protocol_id": "math2024_cede_native_25_v1",
+      "problem_id": "fode_e0_common",
+      "problem_semantic_id": "fode_wflop_e0_legacy_v1",
+      "representative_case": "WS5tn30",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.600258767,
+            0.716997947
+          ],
+          "maximum_cpu_migrations": 25474,
+          "maximum_resident_set_kib": 473080,
+          "maximum_seconds": 0.716997947,
+          "median_absolute_deviation_seconds": 0.011619226999999954,
+          "median_cpu_time_to_wall": 9.163311881583525,
+          "median_seconds": 0.623183446,
+          "median_throughput_fes_per_second": 38511.934413610856,
+          "minimum_seconds": 0.600258767,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "msshade",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "S02",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/s02_target_hpc_analysis.json",
+        "analysis_sha256": "63b94a169fa868f813c2385f0cc11e838b2511ac683696a1aecc34c4d7d41a01",
+        "h2_dependency_edges": [
+          [
+            "S0_msshade_half_dimension_population",
+            "S1_msshade_multi_strategy_mutation"
+          ],
+          [
+            "S1_msshade_multi_strategy_mutation",
+            "S2_msshade_weibull_evaluation"
+          ],
+          [
+            "S2_msshade_weibull_evaluation",
+            "S3_msshade_archive_selection"
+          ],
+          [
+            "S3_msshade_archive_selection",
+            "S4_msshade_memory_update"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "13d31ab1432eb32ade99ddeaea0605929d0254b8a847275f1f24dddfc6d2f336",
+        "h2_ordered_sections": [
+          "S3_msshade_archive_selection",
+          "S4_msshade_memory_update"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 24000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "msshade_paper_equations_physical_fes_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/msshade_native_declared_16_cases.json",
+      "observation_count": 5,
+      "pair_id": "S02__msshade__msshade_native_declared_16_p3_v1__target",
+      "paper_protocol_id": "electronics2024_msshade_native_25_v1",
+      "problem_id": "msshade_native_declared_16",
+      "problem_semantic_id": "msshade_native_declared_16_p3_v1",
+      "representative_case": "WS2_N40",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.510038993,
+            0.595400615
+          ],
+          "maximum_cpu_migrations": 10112,
+          "maximum_resident_set_kib": 472708,
+          "maximum_seconds": 0.595400615,
+          "median_absolute_deviation_seconds": 0.023201550000000015,
+          "median_cpu_time_to_wall": 8.818078438128055,
+          "median_seconds": 0.572199065,
+          "median_throughput_fes_per_second": 41943.444979239874,
+          "minimum_seconds": 0.510038993,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "fode",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "S03",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/s03_target_hpc_analysis.json",
+        "analysis_sha256": "f8a97d5e9c8485195b19bd449c175e905178d9c12de81a976e7ac77cb32ef420",
+        "h2_dependency_edges": [
+          [
+            "S0_fode_dynamic_population",
+            "S1_fode_fractional_mutation"
+          ],
+          [
+            "S1_fode_fractional_mutation",
+            "S2_fode_complete_evaluation"
+          ],
+          [
+            "S2_fode_complete_evaluation",
+            "S3_fode_success_archive"
+          ],
+          [
+            "S3_fode_success_archive",
+            "S4_fode_linear_reduction"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "f691922d01f4a54f3ea4e50caecc94d1c70126beb46fa147a52494b62ec50d90",
+        "h2_ordered_sections": [
+          "S3_fode_success_archive",
+          "S4_fode_linear_reduction"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 24000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "fode_e0_physical_fes",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/benchmark_cases.json",
+      "observation_count": 5,
+      "pair_id": "S03__fode__fode_wflop_e0_legacy_v1__target",
+      "paper_protocol_id": "math2025_fode_native_25_v1",
+      "problem_id": "fode_e0_common",
+      "problem_semantic_id": "fode_wflop_e0_legacy_v1",
+      "representative_case": "WS5tn30",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.281619915,
+            0.303475207
+          ],
+          "maximum_cpu_migrations": 3631,
+          "maximum_resident_set_kib": 477476,
+          "maximum_seconds": 0.303475207,
+          "median_absolute_deviation_seconds": 0.0021903010000000056,
+          "median_cpu_time_to_wall": 3.2459028564369374,
+          "median_seconds": 0.294499166,
+          "median_throughput_fes_per_second": 81494.28851014133,
+          "minimum_seconds": 0.281619915,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "fqfode_seeded_training_declared_reconstruction_v1",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "S04",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/s04_target_hpc_analysis.json",
+        "analysis_sha256": "4244e518a8a9b1b6ac94407520aaae8ab627f9fab1cb16a0d61987a6f7779586",
+        "h2_dependency_edges": [
+          [
+            "T0_fqfode_shared_training",
+            "T1_fqfode_q_update"
+          ],
+          [
+            "T1_fqfode_q_update",
+            "T2_fqfode_artifact_load"
+          ],
+          [
+            "T2_fqfode_artifact_load",
+            "S0_fqfode_fractional_history"
+          ],
+          [
+            "S0_fqfode_fractional_history",
+            "S1_fqfode_complete_evaluation"
+          ],
+          [
+            "S1_fqfode_complete_evaluation",
+            "S2_fqfode_online_policy_commit"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "46d3a66e31ecda3b284c49be3d8c9ac128a9843509dc29d48355f0420f6c47cb",
+        "h2_ordered_sections": [
+          "T1_fqfode_q_update",
+          "T2_fqfode_artifact_load",
+          "S2_fqfode_online_policy_commit"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 24000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "fqfode_seeded_training_declared_reconstruction_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/benchmark_cases.json",
+      "observation_count": 5,
+      "pair_id": "S04__fqfode_seeded_training_declared_reconstruction_v1__fode_wflop_e0_legacy_v1__target",
+      "paper_protocol_id": "math2025_fqfode_native_25_v1",
+      "problem_id": "fode_e0_common",
+      "problem_semantic_id": "fode_wflop_e0_legacy_v1",
+      "representative_case": "WS5tn30",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.262994948,
+            0.296007152
+          ],
+          "maximum_cpu_migrations": 3315,
+          "maximum_resident_set_kib": 477440,
+          "maximum_seconds": 0.296007152,
+          "median_absolute_deviation_seconds": 0.008718424999999974,
+          "median_cpu_time_to_wall": 3.2875114456363566,
+          "median_seconds": 0.287288727,
+          "median_throughput_fes_per_second": 83539.65103545465,
+          "minimum_seconds": 0.262994948,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "wfadde",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "S05",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/s05_target_hpc_analysis.json",
+        "analysis_sha256": "370a23f8c0fcb66cb09ef12d7105d6f168fda319b5729e3734c6bde81d873afe",
+        "h2_dependency_edges": [
+          [
+            "S0_wfadde_initialization",
+            "S1_wfadde_adaptive_mutation"
+          ],
+          [
+            "S1_wfadde_adaptive_mutation",
+            "S2_wfadde_weibull_evaluation"
+          ],
+          [
+            "S2_wfadde_weibull_evaluation",
+            "S3_wfadde_failure_archive"
+          ],
+          [
+            "S3_wfadde_failure_archive",
+            "S4_wfadde_population_reduction"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "396bf67d2870f9d3077890d8e412f00fde30f705fe8e966ae1b84d1201dae663",
+        "h2_ordered_sections": [
+          "S3_wfadde_failure_archive",
+          "S4_wfadde_population_reduction"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 24000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "wfadde_preprint_derived_e0_physical_fes_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/wfadde_native_declared_24_cases.json",
+      "observation_count": 5,
+      "pair_id": "S05__wfadde__wfadde_native_declared_24_p3_v1__target",
+      "paper_protocol_id": "ssrn2026_wfadde_native_25_v1",
+      "problem_id": "wfadde_native_declared_24",
+      "problem_semantic_id": "wfadde_native_declared_24_p3_v1",
+      "representative_case": "WS7_N30",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.625060293,
+            0.639394618
+          ],
+          "maximum_cpu_migrations": 9621,
+          "maximum_resident_set_kib": 475524,
+          "maximum_seconds": 0.639394618,
+          "median_absolute_deviation_seconds": 0.00400864600000006,
+          "median_cpu_time_to_wall": 11.8685567744027,
+          "median_seconds": 0.629068939,
+          "median_throughput_fes_per_second": 38151.621407586295,
+          "minimum_seconds": 0.625060293,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "tmoea",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "T36",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/t36_target_hpc_analysis.json",
+        "analysis_sha256": "cfe6748e4a9ccaa01ed97ed969c862732d879ab0ee4043fb9aa12d4c2e41ee74",
+        "h2_dependency_edges": [
+          [
+            "S0_tmoea_ordered_layout",
+            "S1_tmoea_biobjective_evaluation"
+          ],
+          [
+            "S1_tmoea_biobjective_evaluation",
+            "S2_tmoea_topology_mutation"
+          ],
+          [
+            "S2_tmoea_topology_mutation",
+            "S3_tmoea_rank_crowding"
+          ],
+          [
+            "S3_tmoea_rank_crowding",
+            "S4_tmoea_replacement"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "ef4f36179b6dc86a9b9335154ee61b12faaacdcb8e1fc3de4275fa14815bed53",
+        "h2_ordered_sections": [
+          "S4_tmoea_replacement"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 3000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "tmoea_nysted_paper_eq16_v2",
+      "minimum_named_h0_stage_attribution": 0.9913754696006811,
+      "native_asset": "shared/contracts/tmoea_nysted_paper_wake_gga_router_problem.json",
+      "observation_count": 5,
+      "pair_id": "T36__tmoea__nysted_paper_eq16_cpu_r4_v2__target",
+      "paper_protocol_id": "cpeee2026_tmoea_native_25_v1",
+      "problem_id": "nysted_paper_eq16_cpu_r4_v2",
+      "problem_semantic_id": "nysted_paper_eq16_cpu_r4_v2",
+      "representative_case": "Denmark_Nysted",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.170426067,
+            0.184781434
+          ],
+          "maximum_cpu_migrations": 1555,
+          "maximum_resident_set_kib": 4380,
+          "maximum_seconds": 0.184781434,
+          "median_absolute_deviation_seconds": 0.0005119050000000069,
+          "median_cpu_time_to_wall": 10.780108237898483,
+          "median_seconds": 0.170937972,
+          "median_throughput_fes_per_second": 17550.225762594164,
+          "minimum_seconds": 0.170426067,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "agpso",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "T37",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/t37_target_hpc_analysis.json",
+        "analysis_sha256": "15e592c7295a839081fb28f6faf203e84c3642a2840af1f9e60afc7b73a50932",
+        "h2_dependency_edges": [
+          [
+            "S0_agpso_population",
+            "S1_agpso_staged_velocity"
+          ],
+          [
+            "S1_agpso_staged_velocity",
+            "S2_agpso_landuse_evaluation"
+          ],
+          [
+            "S2_agpso_landuse_evaluation",
+            "S3_agpso_tournament_mutation"
+          ],
+          [
+            "S3_agpso_tournament_mutation",
+            "S4_agpso_survival"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "aad3da8ffa444ae7ecfee09a20f22c71e3289cd9bd6fae8395f7eed061fc53c0",
+        "h2_ordered_sections": [
+          "S4_agpso_survival"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 24000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "agpso_paper_staged_parallel_e0_physical_fes_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/agpso_aiga_hgpso_native_156_cases.json",
+      "observation_count": 5,
+      "pair_id": "T37__agpso__agpso_aiga_hgpso_landuse_156_v1__target",
+      "paper_protocol_id": "enconman2022_agpso_native_25_v1",
+      "problem_id": "agpso_aiga_hgpso_landuse_156",
+      "problem_semantic_id": "agpso_aiga_hgpso_landuse_156_v1",
+      "representative_case": "WS2_N25_NA0",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.298502187,
+            0.3484389
+          ],
+          "maximum_cpu_migrations": 4312,
+          "maximum_resident_set_kib": 474628,
+          "maximum_seconds": 0.3484389,
+          "median_absolute_deviation_seconds": 0.0075060550000000115,
+          "median_cpu_time_to_wall": 8.218941896753918,
+          "median_seconds": 0.33223249,
+          "median_throughput_fes_per_second": 72238.57004472983,
+          "minimum_seconds": 0.298502187,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "clshade",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "T38",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/t38_target_hpc_analysis.json",
+        "analysis_sha256": "d388d7fefe1d599c5c46d068802e3dd6fccc491cb3e42b6d8435950c821f0a91",
+        "h2_dependency_edges": [
+          [
+            "S0_clshade_initialization",
+            "S1_clshade_chaotic_map_choice"
+          ],
+          [
+            "S1_clshade_chaotic_map_choice",
+            "S2_clshade_landuse_evaluation"
+          ],
+          [
+            "S2_clshade_landuse_evaluation",
+            "S3_clshade_success_memory"
+          ],
+          [
+            "S3_clshade_success_memory",
+            "S4_clshade_population_reduction"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "0b03c1125a5e9db3f897fa24845beda10c3c225a16f28e3968b63db1f69da043",
+        "h2_ordered_sections": [
+          "S3_clshade_success_memory",
+          "S4_clshade_population_reduction"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 20000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "clshade_paper_derived_e0_physical_fes_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/clshade_native_117_cases.json",
+      "observation_count": 5,
+      "pair_id": "T38__clshade__clshade_landuse_117_v1__target",
+      "paper_protocol_id": "asoc2023_clshade_native_25_v1",
+      "problem_id": "clshade_landuse_117",
+      "problem_semantic_id": "clshade_landuse_117_v1",
+      "representative_case": "WS2_N20_NA6",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.224692089,
+            0.269853492
+          ],
+          "maximum_cpu_migrations": 11894,
+          "maximum_resident_set_kib": 473628,
+          "maximum_seconds": 0.269853492,
+          "median_absolute_deviation_seconds": 0.0062570419999999904,
+          "median_cpu_time_to_wall": 7.213928548396978,
+          "median_seconds": 0.230949131,
+          "median_throughput_fes_per_second": 86599.15676409278,
+          "minimum_seconds": 0.224692089,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "ise",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "T39",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/t39_target_hpc_analysis.json",
+        "analysis_sha256": "bce40851b651ec4157021fd9f82705bd832abe623dfc3369f006e4a764c234f4",
+        "h2_dependency_edges": [
+          [
+            "S0_ise_five_solutions",
+            "S1_ise_spherical_subspace"
+          ],
+          [
+            "S1_ise_spherical_subspace",
+            "S2_ise_landuse_evaluation"
+          ],
+          [
+            "S2_ise_landuse_evaluation",
+            "S3_ise_greedy_replacement"
+          ],
+          [
+            "S3_ise_greedy_replacement",
+            "S4_ise_terminal_prefix"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "c75c4d9b1920d74f37752b05390c1a76bf94e75f2ee8acfae18a3c874d2e91ff",
+        "h2_ordered_sections": [
+          "S3_ise_greedy_replacement",
+          "S4_ise_terminal_prefix"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 20000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "ise_paper_derived_e0_physical_fes_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/ise_native_117_cases.json",
+      "observation_count": 5,
+      "pair_id": "T39__ise__ise_landuse_117_v1__target",
+      "paper_protocol_id": "engappai2023_ise_native_25_v1",
+      "problem_id": "ise_landuse_117",
+      "problem_semantic_id": "ise_landuse_117_v1",
+      "representative_case": "WS2_N20_NA6",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.33643528,
+            0.825806948
+          ],
+          "maximum_cpu_migrations": 37443,
+          "maximum_resident_set_kib": 477424,
+          "maximum_seconds": 0.825806948,
+          "median_absolute_deviation_seconds": 0.059495551000000035,
+          "median_cpu_time_to_wall": 7.887742561718531,
+          "median_seconds": 0.766311397,
+          "median_throughput_fes_per_second": 26099.05069701058,
+          "minimum_seconds": 0.33643528,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "cgpso",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "T40",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/t40_target_hpc_analysis.json",
+        "analysis_sha256": "81da191304bab58c8242557307e94554fc510ec4922d9157b254efb585367830",
+        "h2_dependency_edges": [
+          [
+            "S0_cgpso_population",
+            "S1_cgpso_cls_m_search"
+          ],
+          [
+            "S1_cgpso_cls_m_search",
+            "S2_cgpso_large_complex_evaluation"
+          ],
+          [
+            "S2_cgpso_large_complex_evaluation",
+            "S3_cgpso_particle_update"
+          ],
+          [
+            "S3_cgpso_particle_update",
+            "S4_cgpso_success_failure_memory"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "0e1415b3dcd9804673502d04a07cbf19f932ed12670c6676c8d3d468bb10fd15",
+        "h2_ordered_sections": [
+          "S4_cgpso_success_failure_memory"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 24000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "cgpso_paper_staged_parallel_e0_physical_fes_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/cgpso_native_16_cases.json",
+      "observation_count": 5,
+      "pair_id": "T40__cgpso__cgpso_complex_large_16_v1__target",
+      "paper_protocol_id": "jas2023_cgpso_native_25_v1",
+      "problem_id": "cgpso_complex_large_16",
+      "problem_semantic_id": "cgpso_complex_large_16_v1",
+      "representative_case": "WS4_N40",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            1.12831873,
+            1.153631017
+          ],
+          "maximum_cpu_migrations": 12449,
+          "maximum_resident_set_kib": 478656,
+          "maximum_seconds": 1.153631017,
+          "median_absolute_deviation_seconds": 0.0015565119999998434,
+          "median_cpu_time_to_wall": 13.380402813890923,
+          "median_seconds": 1.130398763,
+          "median_throughput_fes_per_second": 21231.445738940532,
+          "minimum_seconds": 1.12831873,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "aiga",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "T41",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/t41_target_hpc_analysis.json",
+        "analysis_sha256": "28ba6eba17881d26ffc40b58cf38e6099a32470fa9e31ce096bc9778cc7247ca",
+        "h2_dependency_edges": [
+          [
+            "S0_aiga_sixty_population",
+            "S1_aiga_turbine_order"
+          ],
+          [
+            "S1_aiga_turbine_order",
+            "S2_aiga_island_crossover"
+          ],
+          [
+            "S2_aiga_island_crossover",
+            "S3_aiga_landuse_evaluation"
+          ],
+          [
+            "S3_aiga_landuse_evaluation",
+            "S4_aiga_elitist_survival"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "275f02374b63284943a79c4faa5146abb1fd410a05bddc5c203bbd74ee0fe060",
+        "h2_ordered_sections": [
+          "S4_aiga_elitist_survival"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 24000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "aiga_paper_derived_e0_physical_fes_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/agpso_aiga_hgpso_native_156_cases.json",
+      "observation_count": 5,
+      "pair_id": "T41__aiga__agpso_aiga_hgpso_landuse_156_v1__target",
+      "paper_protocol_id": "jbe2024_aiga_native_25_v1",
+      "problem_id": "agpso_aiga_hgpso_landuse_156",
+      "problem_semantic_id": "agpso_aiga_hgpso_landuse_156_v1",
+      "representative_case": "WS2_N25_NA0",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.311646785,
+            0.329806675
+          ],
+          "maximum_cpu_migrations": 5821,
+          "maximum_resident_set_kib": 473132,
+          "maximum_seconds": 0.329806675,
+          "median_absolute_deviation_seconds": 0.006240038000000003,
+          "median_cpu_time_to_wall": 8.443586247281496,
+          "median_seconds": 0.317886823,
+          "median_throughput_fes_per_second": 75498.56824357895,
+          "minimum_seconds": 0.311646785,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "ppga",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "T43",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/t43_target_hpc_analysis.json",
+        "analysis_sha256": "77a22d7eaf7c666fcb674fc4a981735442d1dfbee87173ed5c8dd29b0f966da1",
+        "h2_dependency_edges": [
+          [
+            "S0_ppga_thirty_population",
+            "S1_ppga_stagnation_diversity"
+          ],
+          [
+            "S1_ppga_stagnation_diversity",
+            "S2_ppga_power_law_perturbation"
+          ],
+          [
+            "S2_ppga_power_law_perturbation",
+            "S3_ppga_3d_complete_evaluation"
+          ],
+          [
+            "S3_ppga_3d_complete_evaluation",
+            "S4_ppga_parent_offspring_survival"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "5f0c51443ce7239c19d6568915c13fa8dcfe5ed149a650eaa7cea28cd24dae15",
+        "h2_ordered_sections": [
+          "S4_ppga_parent_offspring_survival"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 1500,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
+      "minimum_named_h0_stage_attribution": 0.9879803830968351,
+      "native_asset": "shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json",
+      "observation_count": 5,
+      "pair_id": "T43__ppga__ppga_nantong_structured_3d_declared_proxy_v1__target",
+      "paper_protocol_id": "jas2025_ppga_native_25_v1",
+      "problem_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+      "problem_semantic_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+      "representative_case": "PPGA_NantongStructured_WS1_tn40",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.109502044,
+            0.112068206
+          ],
+          "maximum_cpu_migrations": 455,
+          "maximum_resident_set_kib": 3856,
+          "maximum_seconds": 0.112068206,
+          "median_absolute_deviation_seconds": 0.0006999999999999923,
+          "median_cpu_time_to_wall": 13.24224816467228,
+          "median_seconds": 0.111123758,
+          "median_throughput_fes_per_second": 13498.463577878638,
+          "minimum_seconds": 0.109502044,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "bde",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "T44",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/t44_target_hpc_analysis.json",
+        "analysis_sha256": "746ef7c38248bfd0dbad76fd8bb468ba160bac023e1471ff64ed47417eb3accc",
+        "h2_dependency_edges": [
+          [
+            "S0_bde_bip_population",
+            "S1_bde_dual_mutation"
+          ],
+          [
+            "S1_bde_dual_mutation",
+            "S2_bde_standard_terrain_evaluation"
+          ],
+          [
+            "S2_bde_standard_terrain_evaluation",
+            "S3_bde_fusion_exchange"
+          ],
+          [
+            "S3_bde_fusion_exchange",
+            "S4_bde_elitist_commit"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "aea57a3fbe3e6710f45ac7b23ea7a7dee221c1c6b74f9175a79bd994966c15a0",
+        "h2_ordered_sections": [
+          "S4_bde_elitist_commit"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 10000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "bde_paper_source_completed_v1",
+      "minimum_named_h0_stage_attribution": 0.99818336307857,
+      "native_asset": "shared/contracts/bde_ws56_declared_proxy_cases.json",
+      "observation_count": 5,
+      "pair_id": "T44__bde__bde2025_standard_daegwallyeong__target",
+      "paper_protocol_id": "energy2025_bde_native_25_v1",
+      "problem_id": "bde2025_standard_daegwallyeong",
+      "problem_semantic_id": "bde2025_standard_daegwallyeong",
+      "representative_case": "BDEWS6P3STDtn30",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.166276484,
+            0.185466451
+          ],
+          "maximum_cpu_migrations": 1096,
+          "maximum_resident_set_kib": 4200,
+          "maximum_seconds": 0.185466451,
+          "median_absolute_deviation_seconds": 0.0017080329999999977,
+          "median_cpu_time_to_wall": 6.331047169962512,
+          "median_seconds": 0.179237406,
+          "median_throughput_fes_per_second": 55791.925486803804,
+          "minimum_seconds": 0.166276484,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "moead_p",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "T46",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/t46_target_hpc_analysis.json",
+        "analysis_sha256": "ebb15a9206602f6386e4e9de20ca6f4e890fe77b2e3a082d0ae3e048fcabd8c2",
+        "h2_dependency_edges": [
+          [
+            "S0_moead_weight_lattice",
+            "S1_moead_probability_layout"
+          ],
+          [
+            "S1_moead_probability_layout",
+            "S2_moead_three_objective_evaluation"
+          ],
+          [
+            "S2_moead_three_objective_evaluation",
+            "S3_moead_de_offspring"
+          ],
+          [
+            "S3_moead_de_offspring",
+            "S4_moead_neighborhood_replace"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "7e4bd935739811b6cd9b25cb5bea85d425bf0b2209b421a086126bd6820cdb15",
+        "h2_ordered_sections": [
+          "S0_moead_weight_lattice",
+          "S4_moead_neighborhood_replace"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 10100,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "moead_p_repaired_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/pbea_execution_contract.json",
+      "observation_count": 5,
+      "pair_id": "T46__moead_p__zhang2025_three_objective__target",
+      "paper_protocol_id": "swevo2025_moeadp_native_25_v1",
+      "problem_id": "zhang2025_three_objective",
+      "problem_semantic_id": "zhang2025_three_objective",
+      "representative_case": "ws1_tn23",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.24854176899999997,
+            0.26614084499999996
+          ],
+          "maximum_cpu_migrations": 1368,
+          "maximum_resident_set_kib": 4188,
+          "maximum_seconds": 0.26614084499999996,
+          "median_absolute_deviation_seconds": 0.0004363369999999811,
+          "median_cpu_time_to_wall": 2.475704596058014,
+          "median_seconds": 0.24897810599999995,
+          "median_throughput_fes_per_second": 40565.8158553106,
+          "minimum_seconds": 0.24854176899999997,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "ciga",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "T47",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/t47_target_hpc_analysis.json",
+        "analysis_sha256": "a3fff4dade601859b0791ae5e72a43a34f8f03aadcefe2bcbcb007bd17c01f9a",
+        "h2_dependency_edges": [
+          [
+            "S0_ciga_sixty_population",
+            "S1_ciga_compact_probability"
+          ],
+          [
+            "S1_ciga_compact_probability",
+            "S2_ciga_chaotic_sampling"
+          ],
+          [
+            "S2_ciga_chaotic_sampling",
+            "S3_ciga_complete_evaluation"
+          ],
+          [
+            "S3_ciga_complete_evaluation",
+            "S4_ciga_probability_commit"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "0bb40dfab2a62a552780eb4e3609d272cca3e1b2ef80ab3744897a452eb6ce59",
+        "h2_ordered_sections": [
+          "S1_ciga_compact_probability",
+          "S4_ciga_probability_commit"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 24000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "ciga_paper_derived_e0_physical_fes_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/ciga_native_declared_4_cases.json",
+      "observation_count": 5,
+      "pair_id": "T47__ciga__ciga_native_declared_4_p3_v1__target",
+      "paper_protocol_id": "eitce2025_ciga_native_25_v1",
+      "problem_id": "ciga_native_declared_4",
+      "problem_semantic_id": "ciga_native_declared_4_p3_v1",
+      "representative_case": "WS3_N15_NA0",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.252962922,
+            0.296807064
+          ],
+          "maximum_cpu_migrations": 6655,
+          "maximum_resident_set_kib": 476584,
+          "maximum_seconds": 0.296807064,
+          "median_absolute_deviation_seconds": 0.004499397000000016,
+          "median_cpu_time_to_wall": 7.840777500287606,
+          "median_seconds": 0.257462319,
+          "median_throughput_fes_per_second": 93217.52438654916,
+          "minimum_seconds": 0.252962922,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "gga",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "Y06",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/y06_target_hpc_analysis.json",
+        "analysis_sha256": "be40790b289760856b3921dbc40cfe8f5c55193829e8698dba36c0c115eb99f8",
+        "h2_dependency_edges": [
+          [
+            "S0_gga_candidate_initialization",
+            "S1_gga_geometry_mutation"
+          ],
+          [
+            "S1_gga_geometry_mutation",
+            "S2_gga_wake_cable_lcoe"
+          ],
+          [
+            "S2_gga_wake_cable_lcoe",
+            "S3_gga_group_tree_routing"
+          ],
+          [
+            "S3_gga_group_tree_routing",
+            "S4_gga_elitist_replacement"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "ed01378c858dad41a793f13598333dd70d1577aa4e7c8ff882d3c0a60a01dc09",
+        "h2_ordered_sections": [
+          "S4_gga_elitist_replacement"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 3000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "gga_source_replay_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/gga_problem_semantics.json",
+      "observation_count": 5,
+      "pair_id": "Y06__gga__gga2026_layout_cable__target",
+      "paper_protocol_id": "apenergy2026_gga_native_25_v1",
+      "problem_id": "gga2026_layout_cable",
+      "problem_semantic_id": "gga2026_layout_cable",
+      "representative_case": "Denmark_Nysted",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.106536336,
+            0.120926428
+          ],
+          "maximum_cpu_migrations": 671,
+          "maximum_resident_set_kib": 4228,
+          "maximum_seconds": 0.120926428,
+          "median_absolute_deviation_seconds": 0.004507762999999998,
+          "median_cpu_time_to_wall": 11.114765617691805,
+          "median_seconds": 0.114301957,
+          "median_throughput_fes_per_second": 26246.269781715113,
+          "minimum_seconds": 0.106536336,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "lsde",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "Y34",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/y34_target_hpc_analysis.json",
+        "analysis_sha256": "b68adf86ac2ebc352586bf86772646e1b5c2ee3b783768d4a3fe6ca6cb3c4132",
+        "h2_dependency_edges": [
+          [
+            "S0_lsde_fixed_population",
+            "S1_lsde_large_scale_partition"
+          ],
+          [
+            "S1_lsde_large_scale_partition",
+            "S2_lsde_multispeed_evaluation"
+          ],
+          [
+            "S2_lsde_multispeed_evaluation",
+            "S3_lsde_success_archive"
+          ],
+          [
+            "S3_lsde_success_archive",
+            "S4_lsde_dimension_floor_reduction"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "399778ab0e403e5877a40383ca8f1904a92f873be9a7ec5bd1894cabdc42ad8e",
+        "h2_ordered_sections": [
+          "S3_lsde_success_archive",
+          "S4_lsde_dimension_floor_reduction"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 20000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "lsde_paper_derived_e0_physical_fes_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/lsde_native_declared_12_cases.json",
+      "observation_count": 5,
+      "pair_id": "Y34__lsde__lsde_large_declared_12_p3_v1__target",
+      "paper_protocol_id": "cit2026_lsde_native_25_v1",
+      "problem_id": "lsde_large_declared_12",
+      "problem_semantic_id": "lsde_large_declared_12_p3_v1",
+      "representative_case": "WS3_N50",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.669574077,
+            0.707720061
+          ],
+          "maximum_cpu_migrations": 22430,
+          "maximum_resident_set_kib": 473844,
+          "maximum_seconds": 0.707720061,
+          "median_absolute_deviation_seconds": 0.007156266999999938,
+          "median_cpu_time_to_wall": 11.281495986838573,
+          "median_seconds": 0.676730344,
+          "median_throughput_fes_per_second": 29553.86909619646,
+          "minimum_seconds": 0.669574077,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "hgpso",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "Y35",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/y35_target_hpc_analysis.json",
+        "analysis_sha256": "01ec639663ef6ca104198851c7bcb3e271e49686cb525d424349d8ecbab9cc60",
+        "h2_dependency_edges": [
+          [
+            "S0_hgpso_population",
+            "S1_hgpso_hierarchy_assignment"
+          ],
+          [
+            "S1_hgpso_hierarchy_assignment",
+            "S2_hgpso_group_velocity"
+          ],
+          [
+            "S2_hgpso_group_velocity",
+            "S3_hgpso_landuse_evaluation"
+          ],
+          [
+            "S3_hgpso_landuse_evaluation",
+            "S4_hgpso_pbest_hierarchy_commit"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "ecaa005ab573359290fb0d0ad03dd7d5bb5ac0dd2e93f55e619f886eaa5bd667",
+        "h2_ordered_sections": [
+          "S1_hgpso_hierarchy_assignment",
+          "S4_hgpso_pbest_hierarchy_commit"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 24000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "hgpso_paper_equations_physical_fes_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/agpso_aiga_hgpso_native_156_cases.json",
+      "observation_count": 5,
+      "pair_id": "Y35__hgpso__agpso_aiga_hgpso_landuse_156_v1__target",
+      "paper_protocol_id": "tst2026_hgpso_native_25_v1",
+      "problem_id": "agpso_aiga_hgpso_landuse_156",
+      "problem_semantic_id": "agpso_aiga_hgpso_landuse_156_v1",
+      "representative_case": "WS2_N25_NA0",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.288425994,
+            0.314662877
+          ],
+          "maximum_cpu_migrations": 4912,
+          "maximum_resident_set_kib": 478012,
+          "maximum_seconds": 0.314662877,
+          "median_absolute_deviation_seconds": 0.004778196999999984,
+          "median_cpu_time_to_wall": 9.032609640366964,
+          "median_seconds": 0.293204191,
+          "median_throughput_fes_per_second": 81854.21878911683,
+          "minimum_seconds": 0.288425994,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "rlpso_paper_corrected_training_reconstruction_v1",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "T42",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/t42_target_hpc_analysis.json",
+        "analysis_sha256": "1ed21f7c47e6042e1545db70ce07196776749f32ced828484a14798a045f5155",
+        "h2_dependency_edges": [
+          [
+            "T0_rlpso_rollout",
+            "T1_rlpso_actor_critic_forward"
+          ],
+          [
+            "T1_rlpso_actor_critic_forward",
+            "T2_rlpso_clipped_ppo_update"
+          ],
+          [
+            "T2_rlpso_clipped_ppo_update",
+            "S0_rlpso_swarm_initialize"
+          ],
+          [
+            "S0_rlpso_swarm_initialize",
+            "S1_rlpso_complete_evaluation"
+          ],
+          [
+            "S1_rlpso_complete_evaluation",
+            "S2_rlpso_action_swarm_transition"
+          ],
+          [
+            "S2_rlpso_action_swarm_transition",
+            "S3_rlpso_pbest_gbest_commit"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "34fce8bdfc8e2492e26463f41a8f145212fd00cda7102c069d8302a0f7b7a904",
+        "h2_ordered_sections": [
+          "T0_rlpso_rollout",
+          "T2_rlpso_clipped_ppo_update",
+          "S3_rlpso_pbest_gbest_commit"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 24000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "rlpso_paper_corrected_training_reconstruction_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": ".source-cache/generated/rpso_source_problem/benchmark_cases.json",
+      "observation_count": 5,
+      "pair_id": "T42__rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4__target",
+      "paper_protocol_id": "energy2024_rlpso_native_25_v1",
+      "problem_id": "rpso2024_source_problem_ws1_ws4",
+      "problem_semantic_id": "rpso2024_source_problem_ws1_ws4",
+      "representative_case": "RPSO-WS3-tn30",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            7.571381567,
+            11.150354162
+          ],
+          "maximum_cpu_migrations": 112452,
+          "maximum_resident_set_kib": 498708,
+          "maximum_seconds": 11.150354162,
+          "median_absolute_deviation_seconds": 0.016864354999999165,
+          "median_cpu_time_to_wall": 2.800345458999861,
+          "median_seconds": 11.133489807,
+          "median_throughput_fes_per_second": 2155.65832600937,
+          "minimum_seconds": 7.571381567,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "alga_attention_declared_reconstruction_v1",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "T45",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/t45_target_hpc_analysis.json",
+        "analysis_sha256": "d7f7d7f41e5d42923fb517512d60a7f77643c8b1458ec0c7c19066134acd068c",
+        "h2_dependency_edges": [
+          [
+            "S0_alga_population",
+            "T0_alga_attention_forward"
+          ],
+          [
+            "T0_alga_attention_forward",
+            "T1_alga_backward_update"
+          ],
+          [
+            "T1_alga_backward_update",
+            "S1_alga_terrain_wake_evaluation"
+          ],
+          [
+            "S1_alga_terrain_wake_evaluation",
+            "S2_alga_masked_variation"
+          ],
+          [
+            "S2_alga_masked_variation",
+            "S3_alga_elite_survival"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "8350bf7f62083f58f6cdbe53bcbabf6334bd281b2ae158ee71b839c8d2430cde",
+        "h2_ordered_sections": [
+          "T1_alga_backward_update",
+          "S3_alga_elite_survival"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 2430,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "alga_attention_declared_reconstruction_v1",
+      "minimum_named_h0_stage_attribution": 1.0,
+      "native_asset": "shared/contracts/alga_guishan_3d_declared_proxy_cases.json",
+      "observation_count": 5,
+      "pair_id": "T45__alga_attention_declared_reconstruction_v1__alga_guishan_3d_declared_proxy_v1__target",
+      "paper_protocol_id": "swevo2025_alga_native_25_v1",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1",
+      "problem_semantic_id": "alga_guishan_3d_declared_proxy_v1",
+      "representative_case": "ALGA_Guishan3D_SEASON1_tn20",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            0.070629311,
+            0.074582324
+          ],
+          "maximum_cpu_migrations": 232,
+          "maximum_resident_set_kib": 489616,
+          "maximum_seconds": 0.074582324,
+          "median_absolute_deviation_seconds": 0.0008951539999999952,
+          "median_cpu_time_to_wall": 1.3007680689433865,
+          "median_seconds": 0.071524465,
+          "median_throughput_fes_per_second": 33974.38904296593,
+          "minimum_seconds": 0.070629311,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    },
+    {
+      "algorithm_id": "taae_transformer_evolution_declared_reconstruction_v1",
+      "all_visible_relative_to_fastest_paired_bootstrap_95_ci": [
+        1.0,
+        1.0
+      ],
+      "all_visible_relative_to_fastest_paired_speed_ratio": 1.0,
+      "all_visible_statistically_tied_with_fastest": true,
+      "all_visible_tie_lower_ratio_threshold": null,
+      "all_visible_workers": 20,
+      "backend": "cpu_hpc_full_visible_v1",
+      "claim_boundary": "Five production-representative full-core observations establish execution, stage attribution, resource use, and throughput. They do not establish a worker-scaling curve.",
+      "corpus_id": "Y36",
+      "dependency_proof": {
+        "analysis_path": "hpc/core_target_plans/y36_target_hpc_analysis.json",
+        "analysis_sha256": "785706497af63397265fc74ce89123b2b8480d5604d77589617a5f2539bd0414",
+        "h2_dependency_edges": [
+          [
+            "T0_layout_corpus",
+            "T1_transformer_pretrain"
+          ],
+          [
+            "T1_transformer_pretrain",
+            "T2_checkpoint_bridge"
+          ],
+          [
+            "T2_checkpoint_bridge",
+            "S0_initial_population"
+          ],
+          [
+            "S0_initial_population",
+            "S1_complete_energy_noise_evaluation"
+          ],
+          [
+            "S1_complete_energy_noise_evaluation",
+            "S2_spea2_relative_fitness"
+          ],
+          [
+            "S2_spea2_relative_fitness",
+            "S3_latent_de_decode_repair"
+          ],
+          [
+            "S3_latent_de_decode_repair",
+            "S4_cdp_environmental_selection"
+          ]
+        ],
+        "h2_dependency_edges_sha256": "ee6190bcaed824aeee6181691a5012a6a836f83e5568b4f50c7950994c011251",
+        "h2_ordered_sections": [
+          "T2_checkpoint_bridge",
+          "S3_latent_de_decode_repair"
+        ],
+        "h3_dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+        "h3_granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+        "measured_profile": {
+          "mode": "all_affinity_visible_cpus",
+          "scaling_claim": false,
+          "workers": 20
+        }
+      },
+      "fastest_measured_workers": 20,
+      "fixed_physical_fes": 10000,
+      "learning_state_cross_worker_receipt": {
+        "mode": "not_applicable_production_profile_only",
+        "status": "H5_preserved"
+      },
+      "measured_serial_fraction": null,
+      "method_semantic_id": "taae_transformer_evolution_declared_reconstruction_v1",
+      "minimum_named_h0_stage_attribution": 0.9999999999999999,
+      "native_asset": "shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json",
+      "observation_count": 5,
+      "pair_id": "Y36__taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1__target",
+      "paper_protocol_id": "ma2026_native_25_v1",
+      "problem_id": "taae_zhangbei_structured_declared_proxy_v1",
+      "problem_semantic_id": "taae_zhangbei_structured_declared_proxy_v1",
+      "representative_case": "TAAE_Proxy_NC2_Budget600k_tn15",
+      "selected_workers": 20,
+      "selection_rule": "The approved production profile uses every affinity-visible CPU. Full worker-count sweeps are excluded; a small one-worker or MATLAB timing baseline is measured separately only for paper-facing speedup.",
+      "serial_limited": false,
+      "status": "accepted_h6",
+      "worker_statistics": {
+        "20": {
+          "bootstrap_median_95_ci_seconds": [
+            607.715643166,
+            762.791869529
+          ],
+          "maximum_cpu_migrations": 1033090,
+          "maximum_resident_set_kib": 549448,
+          "maximum_seconds": 762.791869529,
+          "median_absolute_deviation_seconds": 22.980733891,
+          "median_cpu_time_to_wall": 3.4810870570500523,
+          "median_seconds": 673.75530606,
+          "median_throughput_fes_per_second": 14.842183668249241,
+          "minimum_seconds": 607.715643166,
+          "production_profile_observed": true,
+          "repetitions": 5
+        }
+      }
+    }
+  ],
+  "topology_policy": "architecture_aware_performance_first",
+  "workers": [
+    20
+  ]
+}

@@ -73,8 +73,18 @@
     "status": "accepted_h5"
   },
   "H6_performance_validation": {
-    "accepted_backend": null,
-    "status": "pending_h6_measurement"
+    "accepted_backend": "cpu_hpc_full_visible_v1",
+    "all_visible_characterized": true,
+    "all_visible_workers": 20,
+    "claim_boundary": "Measured fixed-work highest-performance-profile H6 only; a full worker-scaling curve is not required and no formal quality claim is made.",
+    "measured_serial_fraction": null,
+    "minimum_named_h0_stage_attribution": 0.9999999999999999,
+    "performance_receipt": "evidence/performance/plan005_h6_performance_first_summary_20260730.json",
+    "performance_receipt_sha256": "5519c51eeb300a47647c39f6ba2700681d321c74bac94fb93c443517ece4ef6d",
+    "raw_observation_receipt": "evidence/performance/plan005_h6_performance_first_raw_observations_20260730.jsonl",
+    "selected_workers": 20,
+    "status": "accepted_h6",
+    "worker_scaling_characterized": false
   },
   "analysis_path": "hpc/core_target_plans/y36_target_hpc_analysis.json",
   "analysis_sha256": "785706497af63397265fc74ce89123b2b8480d5604d77589617a5f2539bd0414",
@@ -83,7 +93,7 @@
   "method_semantic_id": "taae_transformer_evolution_declared_reconstruction_v1",
   "native_asset": "shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json",
   "native_asset_sha256": "4cfed3c8393d6d2fada9c21bc4e38dd05e2cab8c3cdd138d0393f7e455a0f37c",
-  "overall_status": "accepted_h5_pending_h6",
+  "overall_status": "accepted_h5_h6",
   "pair_id": "Y36__taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1__target",
   "paper_protocol_id": "ma2026_native_25_v1",
   "problem_semantic_id": "taae_zhangbei_structured_declared_proxy_v1",

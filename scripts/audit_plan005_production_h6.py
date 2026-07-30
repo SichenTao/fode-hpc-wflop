@@ -124,7 +124,9 @@ def main() -> int:
                 f"{source_commit}..{current_commit}",
                 "--",
                 "CMakeLists.txt",
-                "hpc",
+                ":(glob)hpc/**/CMakeLists.txt",
+                ":(glob)hpc/**/src/**",
+                ":(glob)hpc/**/include/**",
             ],
             cwd=ROOT,
         ).returncode
