@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T16",
+  "host": "Waffle",
+  "date": "2026-07-31",
+  "workload": "baseline start, smoke WEC lifecycle, 20 maximum objective evaluations per stage",
+  "semantic_hash": "26ee718db1104ab3",
+  "observations": [
+    {
+      "requested_workers": 1,
+      "observed_workers": 1,
+      "evaluator_seconds": 1.59150936,
+      "end_to_end_seconds": 1.731934767
+    },
+    {
+      "requested_workers": 4,
+      "observed_workers": 4,
+      "evaluator_seconds": 0.582058157,
+      "end_to_end_seconds": 0.706639362
+    },
+    {
+      "requested_workers": 12,
+      "observed_workers": 12,
+      "evaluator_seconds": 0.396889847,
+      "end_to_end_seconds": 0.542251156
+    }
+  ],
+  "single_run_finding": "twelve workers are sufficient because one evaluator has exactly twelve independent wind directions",
+  "formal_throughput_decision": "run twenty independent paper-native starts concurrently with one worker each; this consumes all twenty Waffle cores and has higher projected throughput than one twelve-worker plus one eight-worker start",
+  "claim_boundary": "small fixed-work resource-mapping admission, not a formal publication speedup result"
+}

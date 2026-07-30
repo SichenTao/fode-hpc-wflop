@@ -123,8 +123,8 @@
     },
     {
       "corpus_id": "T16",
-      "dossier_sha256": "08a8c609fe6b2ffcbefed12b5745db00ab03b99d345e4761b1fdb42b62b20497",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "85dea041c8886e88363011005c815bf8776940145ac47e9d437c91933072e3a2",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

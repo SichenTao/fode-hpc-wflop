@@ -221,6 +221,52 @@ if(CORE99_ENABLE_T63)
     target_link_libraries(core99_t63_hpc PRIVATE core99_t63_core)
 endif()
 
+option(
+    CORE99_ENABLE_T16
+    "Build T16 with pinned NLopt SLSQP and autodiff reverse mode"
+    OFF
+)
+if(CORE99_ENABLE_T16)
+    include(FetchContent)
+
+    set(NLOPT_CXX ON CACHE BOOL "" FORCE)
+    set(NLOPT_FORTRAN OFF CACHE BOOL "" FORCE)
+    set(NLOPT_PYTHON OFF CACHE BOOL "" FORCE)
+    set(NLOPT_OCTAVE OFF CACHE BOOL "" FORCE)
+    set(NLOPT_MATLAB OFF CACHE BOOL "" FORCE)
+    set(NLOPT_GUILE OFF CACHE BOOL "" FORCE)
+    set(NLOPT_JAVA OFF CACHE BOOL "" FORCE)
+    set(NLOPT_SWIG OFF CACHE BOOL "" FORCE)
+    set(NLOPT_TESTS OFF CACHE BOOL "" FORCE)
+    FetchContent_Declare(
+        nlopt
+        GIT_REPOSITORY https://github.com/stevengj/nlopt.git
+        GIT_TAG 88c424d4f458412787df96fcc95218acbca224fd
+        GIT_SHALLOW TRUE
+    )
+
+    FetchContent_MakeAvailable(nlopt)
+
+    add_library(core99_t16_core STATIC src/thomas_t16.cpp)
+    target_include_directories(core99_t16_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(
+        core99_t16_core
+        PUBLIC fode_core nlopt
+    )
+    target_compile_features(core99_t16_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t16_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t16_hpc src/thomas_t16_main.cpp)
+    target_link_libraries(core99_t16_hpc PRIVATE core99_t16_core)
+endif()
+
 if(BUILD_TESTING)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
     add_executable(
@@ -360,6 +406,23 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t63_hpc>
                 --proxy
                     ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t63_figure_proxy.bin
+        )
+    endif()
+    if(CORE99_ENABLE_T16)
+        add_executable(core99_t16_test tests/thomas_t16_test.cpp)
+        target_link_libraries(core99_t16_test PRIVATE core99_t16_core)
+        add_test(
+            NAME core99_t16_cpp
+            COMMAND core99_t16_test
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t16_public_data.bin
+        )
+        add_test(
+            NAME core99_t16_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t16.py
+                --binary $<TARGET_FILE:core99_t16_hpc>
+                --data
+                    ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t16_public_data.bin
         )
     endif()
 endif()

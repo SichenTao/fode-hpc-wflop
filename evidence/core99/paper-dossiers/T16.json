@@ -6,21 +6,32 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "The target package is the modified BP/NP evaluator plus exact-gradient WEC-continuation optimizer; unavailable SOWFA is retained as validation evidence, not imitated.",
+    "The 2019 paper has no linked source release. Later same-author thomas2021-wec numeric assets and independent FLOWFarm.jl semantics are registered separately from the independent C++ implementation.",
+    "The reversed public CP/CT text header is resolved from the source pickle and its conversion script; generator efficiency 0.944 is corroborated by paper Table 2.",
+    "The proprietary SNOPT/Tapenade stack is replaced by pinned NLopt SLSQP and project-native fixed-width forward exact AD.",
+    "The paper's one baseline plus 199 random starts are reconstructed as deterministic feasible 2D layouts and run through the complete ten-stage WEC/TI lifecycle.",
+    "Twenty independent starts are the Waffle full-resource axis; this avoids fine-grained inner oversubscription while consuming all twenty cores."
+  ],
   "corpus_id": "T16",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_after_h6_predecessors",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "queued"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "original 2019 source snapshot",
+    "proprietary SNOPT and Tapenade build",
+    "exact author pseudo-random states and 199 initial coordinate arrays",
+    "author optimized coordinates and per-stage histories",
+    "SOWFA case directories, precursor fields, time histories and execution environment"
   ],
   "paper": {
     "authors": "Jared J. Thomas and Jennifer Annoni and Paul A. Fleming and Andrew Ning",
@@ -36,8 +47,28 @@
     "venue": "AIAA SciTech 2019 Forum",
     "year": 2019
   },
-  "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
+  "paper_linked_public_asset_candidates": [
+    {
+      "relationship": "later same-author-lineage source",
+      "repository": "https://github.com/byuflowlab/thomas2021-wec",
+      "revision": "8ff27d66079591f25619abeedbfc970d70e2b520",
+      "license": "no explicit repository license"
+    },
+    {
+      "relationship": "independent same-model public implementation",
+      "repository": "https://github.com/byuflowlab/FLOWFarm.jl",
+      "paper_relevant_revision": "ec5270203786d5bcf065fff8c80bd7710906a40e",
+      "license": "MIT",
+      "zenodo_doi": "10.5281/zenodo.7125827"
+    }
+  ],
+  "paper_source_conflicts": [
+    "NREL5MWCPCT_dict.txt reverses the CP/CT labels relative to its source pickle and conversion script.",
+    "Eq. 21 prints a 2000 m hub-centre radius; the same-lineage driver uses 1936.8 m so the full rotor remains inside the physical circle.",
+    "The twelve public wind probabilities sum to 0.962 and are intentionally not silently renormalized.",
+    "The paper requires feasible 2D random starts while a later generator uses one-dimensional rejection spacing.",
+    "The paper does not print generator efficiency; the same-lineage driver uses 0.944 and reproduces Table-2 scale."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 22,
@@ -50,77 +81,90 @@
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "academic declared reproduction of equations, problem, exact-gradient premise and full optimization lifecycle with open replacements; not author SNOPT/Tapenade random-state or SOWFA replay",
     "execution_wave": "REV2",
-    "package_status": "queued_full_text_contract",
+    "package_status": "implemented_h5_admitted_h6_and_formal_queued",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "wake_power_cost_or_physical_evaluator"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper Eq. 21 plus same-lineage physical-boundary interpretation",
+      "resolution": "two-diameter pairwise spacing and 1936.8 m hub-centre radius inside the 2000 m physical circle; analytic sparse Jacobian",
+      "status": "registered"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper",
+      "resolution": "76 continuous x/y coordinates for 38 turbines",
+      "status": "registered"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper",
+      "resolution": "direct metric coordinates, upstream order derived independently in every wind direction",
+      "status": "registered"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper plus declared deterministic reconstruction",
+      "resolution": "one five-diameter concentric baseline plus 199 deterministic feasible 2D pseudo-random layouts",
+      "status": "registered"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper",
+      "resolution": "AEP and percentage improvement across all 200 starts; Table-2 BP directional powers and AEP are H5 anchors",
+      "status": "registered"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper Eqs. 19-20",
+      "resolution": "maximize twelve-direction probability-weighted annual energy production",
+      "status": "registered"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper plus same-lineage numeric fixture",
+      "resolution": "38 NREL 5-MW turbines in a 2 km circular farm under the twelve-bin Nantucket 8 m/s rose",
+      "status": "registered"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper, source pickle and same-lineage driver",
+      "resolution": "D=126.4 m, hub=90 m, TI=0.108, shear=0.31, density=1.225, generator efficiency=0.944, smooth-max s=700",
+      "status": "registered"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper lifecycle plus open optimizer replacement",
+      "resolution": "full WEC 3.00 to 1.00 by 0.25 and final smooth-TI stage; 220 SLSQP evaluations per stage is the declared open-solver stopping completion",
+      "status": "registered"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not applicable",
+      "resolution": "no learned component",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper",
+      "resolution": "SLSQP updates remain sequential; twelve wind directions are concurrent and independent multistarts supply outer throughput",
+      "status": "registered"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Eqs. 1-20 and Algorithm 1",
+      "resolution": "modified BP near wake, NP upstream linear deficits, local TI, exact forward-AD objective gradient, analytic constraints, one-point optimization and 100-point hard-TI assessment",
+      "status": "registered"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper plus same-lineage Nantucket array",
+      "resolution": "directions 10 to 340 degrees by 30 degrees, all at 8 m/s; preserve probability mass 0.962",
+      "status": "registered"
     }
+  },
+  "implementation": {
+    "analysis": "hpc/core99_cpp/analysis/t16_hpc_analysis.md",
+    "contract": "shared/contracts/core99_t16_thomas_2019.json",
+    "data_notice": "shared/data/core99_t16_public_data_NOTICE.md",
+    "header": "hpc/core99_cpp/include/core99/thomas_t16.hpp",
+    "source": "hpc/core99_cpp/src/thomas_t16.cpp",
+    "cli": "hpc/core99_cpp/src/thomas_t16_main.cpp",
+    "test": "hpc/core99_cpp/tests/thomas_t16_test.cpp",
+    "independent_validator": "scripts/validate_core99_t16.py",
+    "formal_runner": "scripts/run_core99_t16_admission.py",
+    "h5_receipt": "evidence/core99/h5/T16_local_h5.json",
+    "resource_mapping_receipt": "evidence/core99/h5/T16_resource_mapping.json"
   }
 }
