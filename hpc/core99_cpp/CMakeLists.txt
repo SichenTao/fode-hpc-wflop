@@ -36,6 +36,22 @@ target_compile_options(core99_t03_core PRIVATE
 add_executable(core99_t03_hpc src/kusiak_t03_main.cpp)
 target_link_libraries(core99_t03_hpc PRIVATE core99_t03_core)
 
+add_library(core99_t04_core src/uwflo_t04.cpp)
+target_include_directories(core99_t04_core
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+)
+target_link_libraries(core99_t04_core PUBLIC fode_core)
+target_compile_features(core99_t04_core PUBLIC cxx_std_20)
+target_compile_options(core99_t04_core PRIVATE
+    -O3
+    -march=native
+    -ffp-contract=off
+)
+add_executable(core99_t04_hpc src/uwflo_t04_main.cpp)
+target_link_libraries(core99_t04_hpc PRIVATE core99_t04_core)
+
 if(BUILD_TESTING)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
     add_executable(
@@ -64,5 +80,14 @@ if(BUILD_TESTING)
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t03.py
             --binary $<TARGET_FILE:core99_t03_hpc>
+    )
+    add_executable(core99_t04_test tests/uwflo_t04_test.cpp)
+    target_link_libraries(core99_t04_test PRIVATE core99_t04_core)
+    add_test(NAME core99_t04_cpp COMMAND core99_t04_test)
+    add_test(
+        NAME core99_t04_h5
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t04.py
+            --binary $<TARGET_FILE:core99_t04_hpc>
     )
 endif()
