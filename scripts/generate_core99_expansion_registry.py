@@ -12,6 +12,7 @@ from core99_common import (
     EXPECTED_COUNTS,
     EXPECTED_EXISTING_SHA256,
     REGISTRY_COLUMNS,
+    ROOT,
     SKIPPED_PRIMARY_PDF_IDS,
     count_states,
     index_unique,
@@ -32,12 +33,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--output",
         type=Path,
-        default=Path("docs/core99_expansion_registry.tsv"),
+        default=ROOT / "docs/core99_expansion_registry.tsv",
     )
     parser.add_argument(
         "--receipt",
         type=Path,
-        default=Path("docs/core99_scope_receipt.json"),
+        default=ROOT / "docs/core99_scope_receipt.json",
     )
     return parser.parse_args()
 

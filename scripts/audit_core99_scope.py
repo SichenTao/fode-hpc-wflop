@@ -10,6 +10,7 @@ from pathlib import Path
 from core99_common import (
     EXPECTED_COUNTS,
     REGISTRY_COLUMNS,
+    ROOT,
     SKIPPED_PRIMARY_PDF_IDS,
     count_states,
     index_unique,
@@ -24,12 +25,12 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument(
         "--registry",
         type=Path,
-        default=Path("docs/core99_expansion_registry.tsv"),
+        default=ROOT / "docs/core99_expansion_registry.tsv",
     )
     parser.add_argument(
         "--receipt",
         type=Path,
-        default=Path("docs/core99_scope_receipt.json"),
+        default=ROOT / "docs/core99_scope_receipt.json",
     )
     parser.add_argument("--expect-total", type=int, default=99)
     parser.add_argument("--expect-existing-direct", type=int, default=23)
