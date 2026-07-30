@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0124",
+  "paper": {
+    "title": "Wind farm layout optimization using a Gaussian-based wake model",
+    "doi": "10.1016/j.renene.2017.02.017",
+    "year": 2017,
+    "pdf_sha256": "93f7f26addb86183c792f5178790116ad932574f7a055b95d2dbf7ede8a678e6"
+  },
+  "target_contributions": [
+    "Gaussian-wake wind-farm layout problem on six Mosetti/Grady grid cases",
+    "MI-LXPM constrained integer optimization protocol"
+  ],
+  "non_target_baselines": [
+    "the paper comparison algorithms and literature layouts are evidence anchors, not target algorithms to reimplement"
+  ],
+  "paper_native_problem": {
+    "farm_width_m": 2000.0,
+    "grid_sizes": [10, 20],
+    "rotor_diameter_m": 40.0,
+    "hub_height_m": 60.0,
+    "minimum_spacing_rotor_diameters": 5.0,
+    "wake_growth": 0.055,
+    "thrust_coefficient": 0.88,
+    "air_density_kg_per_m3": 1.225,
+    "cases": {
+      "A": {
+        "turbines": 30,
+        "wind": "12 m/s from north with probability one"
+      },
+      "B": {
+        "turbines": 39,
+        "wind": "36 directions in 10-degree increments, all at 12 m/s and equal probability"
+      },
+      "C": {
+        "turbines": 39,
+        "wind": "36 directions by speeds 8, 12 and 17 m/s using the vector-digitized Fig. 6 joint distribution"
+      }
+    },
+    "decision_variables": "two integer grid coordinates per turbine",
+    "objective": "minimize fixed-count farm cost divided by expected farm power"
+  },
+  "model_contract": {
+    "wake": "paper Eqs. 1-6 Bastankhah-Porté-Agel Gaussian deficit",
+    "wake_superposition": "root sum of squared deficits",
+    "minimum_model_downstream_distance": "3 rotor diameters",
+    "power_kw": "0.3 times wind-speed cubed",
+    "farm_cost": "N times (2/3 plus exp(-0.00174 N squared)/3)",
+    "optimizer": "MI-LXPM",
+    "population": 600,
+    "generations": 500,
+    "physical_fes_per_run": 300600,
+    "independent_repeats_per_case": 5
+  },
+  "direct_predecessor": {
+    "paper": "A real coded genetic algorithm for solving integer and mixed integer optimization problems",
+    "doi": "10.1016/j.amc.2009.02.044",
+    "pdf_sha256": "8a6754a8a8e19f7473fcb49cfd1ae5a1bdc850fa4b18236a7d7995a533b26079",
+    "inherited_facts": {
+      "tournament_size": 3,
+      "tournament_schedule": "three independent permutations so every individual participates exactly three times",
+      "crossover_probability": 0.8,
+      "mutation_probability": 0.005,
+      "laplace_location": 0.0,
+      "laplace_integer_scale": 0.35,
+      "power_mutation_integer_index": 4.0,
+      "integer_conversion": "stochastic integer truncation",
+      "constraint_selection": "Deb feasibility-first comparison",
+      "target_paper_survival_completion": "retain the best five percent as an explicitly declared OPTIMTOOL-style setting"
+    }
+  },
+  "wake_predecessor": {
+    "doi": "10.1016/j.renene.2014.01.002",
+    "pdf_sha256": "b988d99662d5c61aa750c232b5f31634394a020f6f22e13b2e2fb1c9886f9389",
+    "inherited_fact": "epsilon=0.2 sqrt(beta), beta=0.5(1+sqrt(1-Ct))/sqrt(1-Ct)"
+  },
+  "public_source": {
+    "status": "no target-paper author implementation or data archive located",
+    "claim_boundary": "independent paper-and-predecessor reconstruction"
+  },
+  "missing_information": [
+    "author source and build environment",
+    "author random seeds, initial populations, final layouts and histories",
+    "machine-readable Fig. 6 probabilities",
+    "MI-LXPM operator parameters in the target paper",
+    "strict versus non-strict interpretation at exactly five rotor diameters",
+    "wake behavior below the paper's stated three-diameter model-validity threshold"
+  ],
+  "conflicts_and_resolutions": [
+    {
+      "conflict": "Fig. 6 provides rounded vector bars but no numeric probability table",
+      "resolution": "recover all rectangle heights at the displayed 0.001 precision and retain their 1.002 total without silent renormalization"
+    },
+    {
+      "conflict": "an earlier T01 case-C asset produces only 18.3916 MW no-wake power for 39 turbines",
+      "resolution": "do not inherit it; the new Fig. 6 extraction gives 36.506188 MW and closes within 0.01% of Table 4"
+    },
+    {
+      "conflict": "target paper omits MI-LXPM operator values",
+      "resolution": "use its cited direct predecessor's recommended integer-operator values"
+    },
+    {
+      "conflict": "target paper says ranked best individuals survive, while the cited MI-LXPM predecessor specifies complete generational replacement",
+      "resolution": "follow the target paper and retain the best five percent as a declared OPTIMTOOL-style missing setting"
+    },
+    {
+      "conflict": "the five-diameter inequality and below-three-diameter wake behavior are not operationally explicit",
+      "resolution": "accept distance greater than or equal to five diameters and apply Gaussian deficit only from three diameters"
+    }
+  ],
+  "hpc_contract": {
+    "backend": "pure_cpp_cpu",
+    "precomputation": "36-direction squared Gaussian deficit table for every ordered grid-cell pair",
+    "inner_parallel_axes": [
+      "tournament selections",
+      "parent-pair crossover",
+      "per-individual mutation",
+      "population evaluation"
+    ],
+    "outer_parallel_axis": "six cases by five independent paper repeats",
+    "thread_lifecycle": "one persistent worker team per optimization",
+    "allocation_policy": "preallocate and swap population, offspring and mating buffers",
+    "randomness": "counter-keyed events independent of worker schedule",
+    "reduction": "fixed direction, state and turbine order",
+    "formal_resource_policy": "twenty concurrent one-worker paper runs consume all twenty Waffle CPU cores without nested oversubscription"
+  },
+  "problem_semantic_id": "l0124_parada_gaussian_grid_v1",
+  "method_semantic_id": "l0124_mi_lxpm_target_survival_completed_v1",
+  "claim_boundary": "academic declared reproduction of the six paper problems, equations and predecessor-completed MI-LXPM; not author-source, author-random-state or exact-layout replay"
+}

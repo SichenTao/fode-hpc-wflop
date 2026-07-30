@@ -20,6 +20,22 @@ target_link_libraries(
     PRIVATE core99_historical_grid_core
 )
 
+add_library(core99_l0124_core src/parada_l0124.cpp)
+target_include_directories(core99_l0124_core
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+)
+target_link_libraries(core99_l0124_core PUBLIC fode_core)
+target_compile_features(core99_l0124_core PUBLIC cxx_std_20)
+target_compile_options(core99_l0124_core PRIVATE
+    -O3
+    -march=native
+    -ffp-contract=off
+)
+add_executable(core99_l0124_hpc src/parada_l0124_main.cpp)
+target_link_libraries(core99_l0124_hpc PRIVATE core99_l0124_core)
+
 add_library(core99_t03_core src/kusiak_t03.cpp)
 target_include_directories(core99_t03_core
     PUBLIC
@@ -269,6 +285,15 @@ endif()
 
 if(BUILD_TESTING)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    add_executable(core99_l0124_test tests/parada_l0124_test.cpp)
+    target_link_libraries(core99_l0124_test PRIVATE core99_l0124_core)
+    add_test(NAME core99_l0124_cpp COMMAND core99_l0124_test)
+    add_test(
+        NAME core99_l0124_h5
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_l0124.py
+            --binary $<TARGET_FILE:core99_l0124_hpc>
+    )
     add_executable(
         core99_historical_grid_test
         tests/historical_grid_test.cpp

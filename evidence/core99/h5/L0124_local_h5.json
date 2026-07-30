@@ -1,0 +1,40 @@
+{
+  "case_c_figure6_no_wake_power_kw": 36506.1879,
+  "case_c_table4_implied_no_wake_power_kw": 36502.60444349952,
+  "case_c_table4_relative_error": 9.816988554950063e-05,
+  "case_efficiencies": {
+    "l0124_case_a_grid10": 0.6651854748365702,
+    "l0124_case_a_grid20": 0.6651854748365702,
+    "l0124_case_b_grid10": 0.850955276752735,
+    "l0124_case_b_grid20": 0.850955276752735,
+    "l0124_case_c_grid10": 0.8527514097402082,
+    "l0124_case_c_grid20": 0.8527514097402082
+  },
+  "full_scale_development_pilot": {
+    "problem_id": "l0124_case_c_grid20",
+    "population": 600,
+    "generations": 500,
+    "physical_fes": 300600,
+    "requested_workers": 20,
+    "observed_workers": 20,
+    "best_objective": 0.0007824236301987854,
+    "best_expected_power_kw": 34408.02159644369,
+    "best_efficiency": 0.9425257353820749,
+    "best_total_normalized_constraint_violation": 0.0,
+    "feasible": true,
+    "evaluator_seconds": 4.730685539000002,
+    "algorithm_seconds": 0.5721623739999977,
+    "end_to_end_seconds": 5.302847913,
+    "scientific_hash": "de0252d073e96046",
+    "claim_boundary": "Spark-side full-scale development admission, not Waffle H6 or a formal publication result"
+  },
+  "gaussian_centreline_absolute_error": 0.0,
+  "method_semantic_id": "l0124_mi_lxpm_target_survival_completed_v1",
+  "observed_inner_workers": 4,
+  "problem_semantic_id": "l0124_parada_gaussian_grid_v1",
+  "serial_parallel_replay_scientific_parity": true,
+  "smoke_physical_fes": 360,
+  "smoke_scientific_hash": "bb7039c7a72e074f",
+  "status": "pass",
+  "validated_paper_case_count": 6
+}

@@ -6,21 +6,34 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "The target package is the six-case Gaussian wake problem plus MI-LXPM, not the paper's comparison baselines.",
+    "No target-paper author source or numeric archive was located; the implementation is independently reconstructed from the primary paper and two direct predecessors.",
+    "The PDF vector geometry supplies the 36x3 Fig. 6 wind probabilities at its displayed 0.001 precision; their 1.002 rounded total is retained without silent renormalization.",
+    "The reconstructed Fig. 6 no-wake power closes within 0.01% of the independent Table-4 power/efficiency identity.",
+    "The target paper's best-individual-survival statement takes precedence over the predecessor's complete-replacement step; the missing survival count is completed as a declared five-percent OPTIMTOOL-style setting.",
+    "All systematic tournaments, crossover, mutation and population evaluations use the persistent C++ team; precomputed Gaussian tables remove repeated transcendental work.",
+    "Thirty paper-native case/repeat runs are the Waffle outer full-resource axis and consume twenty CPU cores without nested oversubscription."
+  ],
   "corpus_id": "L0124",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_after_h6_predecessors",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "queued"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "author source and build environment",
+    "author random seeds, initial populations, final layouts and histories",
+    "machine-readable Fig. 6 probabilities",
+    "MI-LXPM operator parameters and elite count in the target paper",
+    "strict versus non-strict interpretation at exactly five rotor diameters",
+    "wake behavior below the stated three-diameter model-validity threshold"
   ],
   "paper": {
     "authors": "Leandro Parada and Carlos Herrera and Paulo Flores and Vı́ctor Parada",
@@ -37,7 +50,13 @@
     "year": 2017
   },
   "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
+  "paper_source_conflicts": [
+    "Fig. 6 exposes rounded vector bars but no numeric array.",
+    "The earlier T01 case-C asset gives about half the no-wake power required by L0124 Table 4 and is not reused.",
+    "The target paper says ranked best individuals survive; the cited MI-LXPM predecessor specifies complete generational replacement.",
+    "The target paper omits MI-LXPM operator values and its elite count.",
+    "The proximity inequality and the below-three-diameter model behavior are not operationally complete."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 11,
@@ -50,77 +69,89 @@
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "academic declared reproduction of the six paper problems, equations and predecessor-completed MI-LXPM; not author-source, author-random-state or exact-layout replay",
     "execution_wave": "REV2",
-    "package_status": "queued_full_text_contract",
+    "package_status": "implemented_h5_admitted_h6_and_formal_queued",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "wake_power_cost_or_physical_evaluator"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper Eq. 13 plus declared boundary completion",
+      "resolution": "all turbine pairs must be at least five rotor diameters apart; no feasibility repair is inserted",
+      "status": "registered"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper",
+      "resolution": "60 or 78 integer x/y grid coordinates for 30 or 39 turbines",
+      "status": "registered"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper",
+      "resolution": "direct ordered turbine coordinates mapped to 10x10 or 20x20 candidate cells",
+      "status": "registered"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper plus deterministic reconstruction",
+      "resolution": "uniform integer coordinates in the grid bounds, counter-keyed by seed and individual",
+      "status": "registered"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper Tables 2-4",
+      "resolution": "fitness, expected power and efficiency for five independent runs on every grid/case combination",
+      "status": "registered"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper Eqs. 8-10",
+      "resolution": "minimize fixed-count farm cost divided by expected farm power",
+      "status": "registered"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper Sections 4.2-4.4",
+      "resolution": "cases A, B and C on both 10x10 and 20x20 grids in a 2 km square",
+      "status": "registered"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper plus cited MI-LXPM and Gaussian predecessors",
+      "resolution": "D=40 m, hub=60 m, Ct=0.88, k*=0.055, Pc=0.8, Pm=0.005, Laplace b_int=0.35, power p_int=4, population=600",
+      "status": "registered"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper",
+      "resolution": "500 generations, 600 individuals and 300600 counted physical evaluations including initialization",
+      "status": "registered"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not applicable",
+      "resolution": "no learned component",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper plus cited predecessor and declared survival completion",
+      "resolution": "systematic tournament, Laplace crossover, power mutation, five-percent elite survival, then complete population evaluation",
+      "status": "registered"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper Eqs. 1-10 and Gaussian predecessor",
+      "resolution": "Gaussian deficit from three diameters, RSS wake combination, cubic power and fixed-count cost",
+      "status": "registered"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target paper cases and vector Fig. 6",
+      "resolution": "case A one north 12 m/s state; case B 36 equal directions at 12 m/s; case C vector-digitized 36x3 joint distribution at 8, 12 and 17 m/s",
+      "status": "registered"
     }
+  },
+  "implementation": {
+    "analysis": "hpc/core99_cpp/analysis/l0124_hpc_analysis.md",
+    "contract": "shared/contracts/core99_l0124_parada_2017.json",
+    "header": "hpc/core99_cpp/include/core99/parada_l0124.hpp",
+    "source": "hpc/core99_cpp/src/parada_l0124.cpp",
+    "cli": "hpc/core99_cpp/src/parada_l0124_main.cpp",
+    "test": "hpc/core99_cpp/tests/parada_l0124_test.cpp",
+    "independent_validator": "scripts/validate_core99_l0124.py",
+    "formal_runner": "scripts/run_core99_l0124_admission.py",
+    "deferred_waffle_runner": "scripts/run_core99_l0124_when_waffle_free.sh",
+    "h5_receipt": "evidence/core99/h5/L0124_local_h5.json"
   }
 }
