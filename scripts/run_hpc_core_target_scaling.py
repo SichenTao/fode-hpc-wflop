@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
 import hashlib
 import json
@@ -39,6 +40,11 @@ ENVIRONMENT_SIDECAR = (
     / "evidence/performance/"
     "plan005_h6_performance_first_environment_sidecar_20260730.json"
 )
+PRIOR_COMPATIBLE_RAW = (
+    ROOT
+    / "evidence/performance/excluded/"
+    "plan005_h6_pre_deterministic_lane_raw_observations_20260730.jsonl"
+)
 ARTIFACT_DIR = BUILD / "plan005-h6-phase-repair-artifacts"
 TMP_DIR = BUILD / "plan005-h6-tmp"
 H5_REVALIDATION = (
@@ -54,7 +60,7 @@ H5_TOPOLOGY_REVALIDATION = (
 H5_PHASE_REVALIDATION = (
     ROOT
     / "evidence/development/"
-    "plan005_h5_post_learning_phase_topology_revalidation_20260730.json"
+    "plan005_h5_post_deterministic_learning_lane_revalidation_20260730.json"
 )
 LEARNING = {"Y36": "taae", "T45": "alga", "T42": "rlpso"}
 SCALAR = {
@@ -329,7 +335,7 @@ def command_for(
             command.extend([
                 "--training-artifact",
                 relative(artifact_paths[LEARNING[corpus]]),
-                "--torch-intraop-threads", str(workers),
+                "--torch-intraop-threads", "1",
                 "--torch-interop-threads", "1",
             ])
         return command
@@ -344,7 +350,7 @@ def command_for(
             "--workers", str(workers),
             "--backend", "cpu",
             "--learning-artifact", relative(artifact_paths["taae"]),
-            "--torch-intraop-threads", str(workers),
+            "--torch-intraop-threads", "1",
             "--torch-interop-threads", "1",
         ]
     if corpus == "T43":
@@ -548,25 +554,20 @@ def require_immediate_cross_worker_science(
     )
     corpus = row["corpus_id"]
     if corpus == "Y36":
+        require(
+            observed["raw_result"]["model_hash"]
+            == baseline["raw_result"]["model_hash"],
+            f"{pair_id}: fail-fast TAAE raw model hash drift at repetition "
+            f"{repetition}",
+        )
         expected = baseline["raw_result"]["numerical_state"]
         actual = observed["raw_result"]["numerical_state"]
         require(
             expected["available"] is True
             and actual["available"] is True
-            and actual["parameter_count"] == expected["parameter_count"],
+            and actual == expected,
             f"{pair_id}: fail-fast TAAE numerical state is absent or changed",
         )
-        for field in ("l2_norm", "linf_norm", "weighted_checksum"):
-            require(
-                math.isclose(
-                    actual[field],
-                    expected[field],
-                    rel_tol=1.0e-12,
-                    abs_tol=1.0e-9,
-                ),
-                f"{pair_id}: fail-fast TAAE numerical state {field} drift "
-                f"at repetition {repetition}",
-            )
     elif corpus in {"T42", "T45"}:
         require(
             observed["raw_result"]["learned_state_hash"]
@@ -689,9 +690,20 @@ def train_artifacts(
             receipt = json.loads(sidecar.read_text(encoding="utf-8"))
             require(
                 receipt["artifact_sha256"] == sha256(artifact)
-                and receipt["source_commit"] == source_commit
                 and receipt["trainer_binary_sha256"] == sha256(trainer),
                 f"{method}: local H6 artifact provenance changed",
+            )
+            require(
+                subprocess.run(
+                    [
+                        "git", "cat-file", "-e",
+                        f"{receipt['source_commit']}^{{commit}}",
+                    ],
+                    cwd=ROOT,
+                    capture_output=True,
+                ).returncode
+                == 0,
+                f"{method}: artifact source commit is unavailable",
             )
         else:
             command = [
@@ -749,6 +761,147 @@ def load_jsonl(path: Path) -> tuple[dict[str, Any] | None, list[dict[str, Any]]]
     ]
     require(records and records[0]["record_type"] == "campaign_header", "header")
     return records[0], records[1:]
+
+
+def compatible_observation_import(
+    *,
+    rows: list[dict[str, str]],
+    workers: list[int],
+    source_commit: str,
+    binary_receipts: dict[str, dict[str, str]],
+    environment: dict[str, Any],
+    worker_affinity_sets: dict[str, list[int]],
+    artifact_paths: dict[str, Path],
+) -> tuple[list[dict[str, Any]], dict[str, Any]]:
+    """Reuse bit-identical observations while preserving acquisition identity."""
+    if not PRIOR_COMPATIBLE_RAW.is_file():
+        return [], {
+            "status": "no_compatible_prior_raw",
+            "logical_path": relative(PRIOR_COMPATIBLE_RAW),
+            "imported_observation_count": 0,
+        }
+    prior_header, prior_observations = load_jsonl(PRIOR_COMPATIBLE_RAW)
+    require(prior_header is not None, "compatible prior H6 header absent")
+    row_by_pair = {row["pair_id"]: row for row in rows}
+    pair_index = {
+        row["pair_id"]: index for index, row in enumerate(rows)
+    }
+    imported: list[dict[str, Any]] = []
+    provenance = []
+    for source in prior_observations:
+        old_key = source["key"]
+        row = row_by_pair.get(old_key["pair_id"])
+        if row is None:
+            continue
+        worker = old_key["workers"]
+        repetition = old_key["repetition"]
+        if worker not in workers or repetition not in range(5):
+            continue
+        ordered = (
+            workers[repetition % len(workers):]
+            + workers[:repetition % len(workers)]
+        )
+        order_index = ordered.index(worker)
+        case_id, physical_fes = representative(row)
+        seed = 2026073000 + pair_index[row["pair_id"]] * 100 + repetition
+        command = command_for(
+            row,
+            case_id=case_id,
+            physical_fes=physical_fes,
+            workers=worker,
+            seed=seed,
+            artifact_paths=artifact_paths,
+            front_path=TMP_DIR / "front.json",
+        )
+        binary_hash = binary_receipts[
+            binary_for(row["corpus_id"])
+        ]["sha256"]
+        expected_key = {
+            "pair_id": row["pair_id"],
+            "native_asset": row["native_asset"],
+            "case_id": case_id,
+            "physical_fes": physical_fes,
+            "source_commit": source_commit,
+            "binary_sha256": binary_hash,
+            "architecture": platform.machine(),
+            "workers": worker,
+            "affinity_cpus": worker_affinity_sets[str(worker)],
+            "repetition": repetition,
+            "order_index": order_index,
+            "seed": seed,
+            "environment_sha256": environment["sha256"],
+        }
+        compatible = (
+            source["command"] == command
+            and source.get("command_sha256") == canonical_sha256(command)
+            and old_key["binary_sha256"] == binary_hash
+            and old_key["architecture"] == platform.machine()
+            and old_key["affinity_cpus"]
+            == worker_affinity_sets[str(worker)]
+            and old_key["environment_sha256"] == environment["sha256"]
+            and source["process"]["affinity_cpu_union"]
+            == worker_affinity_sets[str(worker)]
+            and source["scientific_output_sha256"]
+            == canonical_sha256(scientific_payload(source["raw_result"]))
+        )
+        if row["corpus_id"] in LEARNING:
+            compatible = compatible and (
+                source["raw_result"].get("thread_topology")
+                == {
+                    "outer_workers": worker,
+                    "torch_intraop_threads": 1,
+                    "torch_interop_threads": 1,
+                }
+            )
+        if not compatible:
+            continue
+        observation = copy.deepcopy(source)
+        observation["key"] = expected_key
+        observation["acquisition_provenance"] = {
+            "mode": "compatible_observation_import",
+            "source_logical_path": relative(PRIOR_COMPATIBLE_RAW),
+            "source_raw_sha256": sha256(PRIOR_COMPATIBLE_RAW),
+            "source_campaign_id": prior_header["campaign_id"],
+            "source_campaign_source_commit": prior_header["source_commit"],
+            "source_observation_key": old_key,
+            "source_observation_sha256": canonical_sha256(source),
+            "compatibility_proof": {
+                "binary_sha256_exact": True,
+                "command_exact": True,
+                "environment_sha256_exact": True,
+                "affinity_exact": True,
+                "scientific_payload_hash_recomputed_exact": True,
+                "deterministic_learning_lane_exact": (
+                    row["corpus_id"] not in LEARNING
+                    or source["raw_result"]["thread_topology"][
+                        "torch_intraop_threads"
+                    ]
+                    == 1
+                ),
+            },
+        }
+        imported.append(observation)
+        provenance.append({
+            "source_key_sha256": canonical_sha256(old_key),
+            "imported_key_sha256": canonical_sha256(expected_key),
+            "source_observation_sha256": canonical_sha256(source),
+        })
+    return imported, {
+        "status": "compatible_observations_imported",
+        "logical_path": relative(PRIOR_COMPATIBLE_RAW),
+        "raw_sha256": sha256(PRIOR_COMPATIBLE_RAW),
+        "source_campaign_id": prior_header["campaign_id"],
+        "source_campaign_source_commit": prior_header["source_commit"],
+        "source_observation_count": len(prior_observations),
+        "imported_observation_count": len(imported),
+        "observations": provenance,
+        "claim_boundary": (
+            "Each imported observation retains its original acquisition key "
+            "and source-observation hash. Reuse requires exact executable, "
+            "command, environment, affinity, scientific-payload hash, and "
+            "deterministic learning-lane compatibility."
+        ),
+    }
 
 
 def bootstrap_ci(values: list[float], seed: int) -> list[float]:
@@ -819,13 +972,9 @@ def learning_state_cross_worker_receipt(
     for item in observations:
         by_repetition[item["key"]["repetition"]].append(item)
     if corpus == "Y36":
-        maximum_absolute = {
-            "l2_norm": 0.0,
-            "linf_norm": 0.0,
-            "weighted_checksum": 0.0,
-        }
         parameter_count = None
-        for items in by_repetition.values():
+        hashes_by_repetition = {}
+        for repetition, items in by_repetition.items():
             baseline = next(
                 item["raw_result"]["numerical_state"]
                 for item in items
@@ -834,35 +983,25 @@ def learning_state_cross_worker_receipt(
             require(baseline["available"] is True, "TAAE state absent")
             if parameter_count is None:
                 parameter_count = baseline["parameter_count"]
+            hashes = {
+                item["raw_result"]["model_hash"] for item in items
+            }
+            require(
+                len(hashes) == 1,
+                "TAAE raw model hash changed across workers",
+            )
+            hashes_by_repetition[str(repetition)] = next(iter(hashes))
             for item in items:
                 observed = item["raw_result"]["numerical_state"]
                 require(
-                    observed["available"] is True
+                    observed == baseline
                     and observed["parameter_count"] == parameter_count,
-                    "TAAE numerical state parameter-count drift",
+                    "TAAE numerical state changed across workers",
                 )
-                for field in maximum_absolute:
-                    difference = abs(observed[field] - baseline[field])
-                    maximum_absolute[field] = max(
-                        maximum_absolute[field],
-                        difference,
-                    )
-                    require(
-                        math.isclose(
-                            observed[field],
-                            baseline[field],
-                            rel_tol=1.0e-12,
-                            abs_tol=1.0e-9,
-                        ),
-                        f"TAAE numerical state {field} drift",
-                    )
         return {
-            "mode": "numerical_tolerance",
-            "raw_bit_hash_retained": True,
+            "mode": "raw_bit_and_numerical_exact",
+            "model_hashes_by_repetition": hashes_by_repetition,
             "parameter_count": parameter_count,
-            "relative_tolerance": 1.0e-12,
-            "absolute_tolerance": 1.0e-9,
-            "maximum_absolute_difference": maximum_absolute,
             "status": "accepted",
         }
     hashes_by_repetition = {}
@@ -1099,6 +1238,7 @@ def main() -> int:
     parser.add_argument("--receipt", type=Path, default=DEFAULT_RAW)
     parser.add_argument("--summary", type=Path, default=DEFAULT_SUMMARY)
     parser.add_argument("--dry-run", action="store_true")
+    parser.add_argument("--initialize-only", action="store_true")
     parser.add_argument("--only-corpus")
     arguments = parser.parse_args()
     workers = [int(value) for value in arguments.workers.split(",")]
@@ -1170,7 +1310,7 @@ def main() -> int:
                             str(worker)
                         ]["core_type_counts"],
                         "torch_intraop_threads": (
-                            worker if row["corpus_id"] in LEARNING else 0
+                            1 if row["corpus_id"] in LEARNING else 0
                         ),
                         "torch_interop_threads": (
                             1 if row["corpus_id"] in LEARNING else 0
@@ -1223,6 +1363,15 @@ def main() -> int:
         "thread_pool_environment": ENVIRONMENT_LIMITS,
     }
     environment["sha256"] = canonical_sha256(environment)
+    imported_observations, import_receipt = compatible_observation_import(
+        rows=rows,
+        workers=workers,
+        source_commit=source_commit,
+        binary_receipts=binary_receipts,
+        environment=environment,
+        worker_affinity_sets=worker_affinity_sets,
+        artifact_paths=artifact_paths,
+    )
     header_expected = {
         "record_type": "campaign_header",
         "schema_version": 1,
@@ -1239,6 +1388,7 @@ def main() -> int:
         "environment": environment,
         "binaries": binary_receipts,
         "learning_artifacts": artifact_records,
+        "compatible_observation_import": import_receipt,
         "post_thread_control_h5_revalidation": {
             "logical_path": relative(H5_REVALIDATION),
             "sha256": sha256(H5_REVALIDATION),
@@ -1253,24 +1403,25 @@ def main() -> int:
         },
         "learning_thread_topology_contract": {
             "outer_persistent_workers": "W",
-            "torch_intraop_thread_budget": "at most W",
+            "torch_intraop_thread_budget": "1 deterministic semantic lane",
             "torch_interop_threads": 1,
             "affinity_allocated_cpus": "exactly W",
             "phase_separation": (
                 "TAAE encode/decode and training use one batched Torch call "
-                "with intra-op W and no outer executor; ALGA uses one full-"
-                "batch Torch step with intra-op W before outer CPU work; "
+                "with intra-op 1 and no outer executor; ALGA uses one full-"
+                "batch Torch step with intra-op 1 before outer CPU work; "
                 "RLPSO sequential dependent policy inference uses intra-op 1, "
-                "batched PPO update uses intra-op W, and outer CPU stages do "
+                "batched PPO update uses intra-op 1, and outer CPU stages do "
                 "not call Torch"
             ),
-            "maximum_os_threads": "3*W+4 measured linear runtime allowance",
+            "maximum_os_threads": (
+                "W+8 conservative deterministic-lane runtime allowance"
+            ),
             "maximum_cpu_time_to_wall": "W+1.0",
             "os_thread_sources": (
-                "W persistent outer workers retained while idle, up to W "
-                "Torch intra-op workers in model phases, and LibTorch/runtime "
-                "helper threads; bounded probes measured W1=3,W4=12,W8=24,"
-                "W20=60"
+                "W persistent outer workers retained while idle, one Torch "
+                "intra-op worker in model phases, and LibTorch/runtime helper "
+                "threads; H5 and H6 enforce peak OS threads at most W+8"
             ),
             "source_symbols": [
                 "hpc/taae_cpp/src/evolution.cpp::LibTorchLearningModel",
@@ -1289,8 +1440,22 @@ def main() -> int:
     if header is None:
         append_jsonl(arguments.receipt, header_expected)
         header = header_expected
+        for observation in imported_observations:
+            append_jsonl(arguments.receipt, observation)
+        existing = imported_observations
     else:
         require(header == header_expected, "existing H6 header drifted")
+    if arguments.initialize_only:
+        print(json.dumps({
+            "status": "initialized",
+            "campaign_id": header["campaign_id"],
+            "existing_observation_count": len(existing),
+            "imported_observation_count": import_receipt[
+                "imported_observation_count"
+            ],
+            "receipt": relative(arguments.receipt),
+        }, sort_keys=True))
+        return 0
     completed_keys = {
         canonical_sha256(item["key"]): item for item in existing
     }
@@ -1387,12 +1552,12 @@ def main() -> int:
                 )
                 if row["corpus_id"] in LEARNING:
                     require(
-                        process_receipt["peak_os_threads"] <= 3 * worker + 4
+                        process_receipt["peak_os_threads"] <= worker + 8
                         and process_receipt["cpu_time_to_wall"]
                         <= worker + 1.0,
                         f"{row['pair_id']}: nested Torch oversubscription "
                         f"peak={process_receipt['peak_os_threads']} "
-                        f"budget={3 * worker + 4} "
+                        f"budget={worker + 8} "
                         "cpu_time_to_wall="
                         f"{process_receipt['cpu_time_to_wall']} "
                         f"budget={worker + 1.0}",
@@ -1401,7 +1566,7 @@ def main() -> int:
                     require(
                         raw.get("thread_topology") == {
                             "outer_workers": worker,
-                            "torch_intraop_threads": worker,
+                            "torch_intraop_threads": 1,
                             "torch_interop_threads": 1,
                         },
                         f"{row['pair_id']}: learned thread topology mismatch",

@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import copy
 import csv
 import hashlib
 import json
@@ -296,13 +297,9 @@ def learning_state_receipt(
     for item in observations:
         by_repetition[item["key"]["repetition"]].append(item)
     if corpus == "Y36":
-        maximum_absolute = {
-            "l2_norm": 0.0,
-            "linf_norm": 0.0,
-            "weighted_checksum": 0.0,
-        }
         parameter_count = None
-        for items in by_repetition.values():
+        hashes_by_repetition = {}
+        for repetition, items in by_repetition.items():
             baseline = next(
                 item["raw_result"]["numerical_state"]
                 for item in items
@@ -311,35 +308,25 @@ def learning_state_receipt(
             require(baseline["available"] is True, "TAAE state absent")
             if parameter_count is None:
                 parameter_count = baseline["parameter_count"]
+            hashes = {
+                item["raw_result"]["model_hash"] for item in items
+            }
+            require(
+                len(hashes) == 1,
+                "TAAE raw model hash changed across workers",
+            )
+            hashes_by_repetition[str(repetition)] = next(iter(hashes))
             for item in items:
                 observed = item["raw_result"]["numerical_state"]
                 require(
-                    observed["available"] is True
+                    observed == baseline
                     and observed["parameter_count"] == parameter_count,
-                    "TAAE numerical state parameter-count drift",
+                    "TAAE numerical state changed across workers",
                 )
-                for field in maximum_absolute:
-                    difference = abs(observed[field] - baseline[field])
-                    maximum_absolute[field] = max(
-                        maximum_absolute[field],
-                        difference,
-                    )
-                    require(
-                        math.isclose(
-                            observed[field],
-                            baseline[field],
-                            rel_tol=1.0e-12,
-                            abs_tol=1.0e-9,
-                        ),
-                        f"TAAE numerical state {field} drift",
-                    )
         return {
-            "mode": "numerical_tolerance",
-            "raw_bit_hash_retained": True,
+            "mode": "raw_bit_and_numerical_exact",
+            "model_hashes_by_repetition": hashes_by_repetition,
             "parameter_count": parameter_count,
-            "relative_tolerance": 1.0e-12,
-            "absolute_tolerance": 1.0e-9,
-            "maximum_absolute_difference": maximum_absolute,
             "status": "accepted",
         }
     hashes_by_repetition = {}
@@ -389,6 +376,44 @@ def audit(
         set(header["learning_artifacts"]) == {"taae", "alga", "rlpso"},
         "learning artifact coverage drift",
     )
+    import_receipt = header["compatible_observation_import"]
+    import_source_by_hash: dict[str, dict[str, Any]] = {}
+    if import_receipt["status"] == "compatible_observations_imported":
+        import_path = receipt_path(import_receipt["logical_path"])
+        require(
+            import_path.is_file()
+            and sha256(import_path) == import_receipt["raw_sha256"],
+            "compatible observation source is absent or changed",
+        )
+        import_records = read_jsonl(import_path)
+        require(
+            import_records[0]["campaign_id"]
+            == import_receipt["source_campaign_id"]
+            and import_records[0]["source_commit"]
+            == import_receipt["source_campaign_source_commit"]
+            and len(import_records) - 1
+            == import_receipt["source_observation_count"],
+            "compatible observation source identity drift",
+        )
+        import_source_by_hash = {
+            canonical_sha256(item): item for item in import_records[1:]
+        }
+        require(
+            len(import_receipt["observations"])
+            == import_receipt["imported_observation_count"]
+            and {
+                item["source_observation_sha256"]
+                for item in import_receipt["observations"]
+            }
+            <= set(import_source_by_hash),
+            "compatible observation import manifest drift",
+        )
+    else:
+        require(
+            import_receipt["status"] == "no_compatible_prior_raw"
+            and import_receipt["imported_observation_count"] == 0,
+            "unknown compatible observation import status",
+        )
     h5_revalidation = header["post_thread_control_h5_revalidation"]
     require(
         sha256(receipt_path(h5_revalidation["logical_path"]))
@@ -419,13 +444,14 @@ def audit(
     topology = header["learning_thread_topology_contract"]
     require(
         topology["outer_persistent_workers"] == "W"
-        and topology["torch_intraop_thread_budget"] == "at most W"
+        and topology["torch_intraop_thread_budget"]
+        == "1 deterministic semantic lane"
         and topology["torch_interop_threads"] == 1
         and topology["affinity_allocated_cpus"] == "exactly W"
         and topology["maximum_os_threads"]
-        == "3*W+4 measured linear runtime allowance"
+        == "W+8 conservative deterministic-lane runtime allowance"
         and topology["maximum_cpu_time_to_wall"] == "W+1.0"
-        and "W1=3,W4=12,W8=24,W20=60"
+        and "at most W+8"
         in topology["os_thread_sources"]
         and "no outer executor" in topology["phase_separation"]
         and "intra-op 1" in topology["phase_separation"],
@@ -446,6 +472,7 @@ def audit(
 
     by_pair: dict[str, list[dict[str, Any]]] = defaultdict(list)
     unique_keys: set[str] = set()
+    imported_key_hashes: set[str] = set()
     minimum_attribution = 1.0
     for observation in observations:
         require(
@@ -459,6 +486,35 @@ def audit(
         encoded_key = json.dumps(key, sort_keys=True, separators=(",", ":"))
         require(encoded_key not in unique_keys, f"duplicate H6 key: {pair_id}")
         unique_keys.add(encoded_key)
+        acquisition = observation.get("acquisition_provenance")
+        if acquisition is not None:
+            require(
+                acquisition["mode"] == "compatible_observation_import"
+                and acquisition["source_raw_sha256"]
+                == import_receipt["raw_sha256"]
+                and acquisition["source_campaign_id"]
+                == import_receipt["source_campaign_id"]
+                and all(acquisition["compatibility_proof"].values()),
+                f"{pair_id}: compatible acquisition provenance drift",
+            )
+            source_hash = acquisition["source_observation_sha256"]
+            require(
+                source_hash in import_source_by_hash,
+                f"{pair_id}: compatible source observation absent",
+            )
+            source = import_source_by_hash[source_hash]
+            require(
+                acquisition["source_observation_key"] == source["key"],
+                f"{pair_id}: compatible source key drift",
+            )
+            comparable = copy.deepcopy(observation)
+            comparable.pop("acquisition_provenance")
+            comparable["key"] = source["key"]
+            require(
+                comparable == source,
+                f"{pair_id}: imported observation changed beyond identity key",
+            )
+            imported_key_hashes.add(canonical_sha256(key))
         row = row_by_pair[pair_id]
         require(
             key["native_asset"] == row["native_asset"]
@@ -581,14 +637,14 @@ def audit(
         )
         if row["corpus_id"] in LEARNING:
             require(
-                process["peak_os_threads"] <= 3 * key["workers"] + 4
+                process["peak_os_threads"] <= key["workers"] + 8
                 and process["cpu_time_to_wall"] <= key["workers"] + 1.0,
                 f"{pair_id}: nested Torch oversubscription detected",
             )
             require(
                 raw.get("thread_topology") == {
                     "outer_workers": key["workers"],
-                    "torch_intraop_threads": key["workers"],
+                    "torch_intraop_threads": 1,
                     "torch_interop_threads": 1,
                 },
                 f"{pair_id}: learned runtime topology mismatch",
@@ -596,13 +652,21 @@ def audit(
             command = observation["command"]
             require(
                 command[command.index("--torch-intraop-threads") + 1]
-                == str(key["workers"])
+                == "1"
                 and command[command.index("--torch-interop-threads") + 1]
                 == "1",
                 f"{pair_id}: learned command topology mismatch",
             )
         by_pair[pair_id].append(observation)
 
+    require(
+        imported_key_hashes
+        == {
+            item["imported_key_sha256"]
+            for item in import_receipt.get("observations", [])
+        },
+        "compatible imported observation coverage drift",
+    )
     require(set(by_pair) == set(row_by_pair), "pair coverage differs")
     for pair_id, items in by_pair.items():
         require(len(items) == 35, f"{pair_id}: expected 35 observations")

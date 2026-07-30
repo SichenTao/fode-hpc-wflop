@@ -14,7 +14,7 @@ ROOT = Path(__file__).resolve().parents[1]
 RECEIPT = (
     ROOT
     / "evidence/development/"
-    "plan005_h5_post_learning_phase_topology_revalidation_20260730.json"
+    "plan005_h5_post_deterministic_learning_lane_revalidation_20260730.json"
 )
 
 
@@ -32,8 +32,9 @@ def validate_phase_report(report: dict[str, Any]) -> None:
     taae = report["taae"]
     require(
         taae["discrete_status"] == "exact"
+        and taae["raw_model_status"] == "exact"
         and taae["scientific_state"]["physical_fes"] == 350
-        and taae["numerical_state"]["status"] == "accepted"
+        and taae["numerical_state"]["status"] == "exact"
         and taae["numerical_state"]["relative_tolerance"] == 1.0e-12
         and taae["numerical_state"]["absolute_tolerance"] == 1.0e-9,
         "TAAE exact science/FES/numerical receipt drift",
@@ -41,7 +42,7 @@ def validate_phase_report(report: dict[str, Any]) -> None:
     for item in taae["runs"]:
         workers = item["workers"]
         require(
-            item["peak_os_threads"] <= 3 * workers + 4
+            item["peak_os_threads"] <= workers + 8
             and item["cpu_time_to_wall"] <= workers + 1.0,
             "TAAE thread-bound receipt drift",
         )
@@ -55,7 +56,7 @@ def validate_phase_report(report: dict[str, Any]) -> None:
         for item in section["runs"]:
             workers = item["workers"]
             require(
-                item["peak_os_threads"] <= 3 * workers + 4
+                item["peak_os_threads"] <= workers + 8
                 and item["cpu_time_to_wall"] <= workers + 1.0,
                 f"{method}: thread-bound receipt drift",
             )
@@ -67,7 +68,7 @@ def main() -> int:
     require(
         data["schema_version"] == 1
         and data["status"]
-        == "accepted_h5_revalidated_after_learning_phase_topology_repair",
+        == "accepted_h5_revalidated_after_deterministic_learning_lane",
         "learning-phase H5 status drift",
     )
     prior = ROOT / data["prior_plan005_h5_receipt"]
@@ -115,7 +116,8 @@ def main() -> int:
         "plan005_h5_learning_phase_audit_pass "
         f"cpu_tests={data['full_cpu_test_count']} "
         f"torch_tests={data['full_torch_test_count']} "
-        "taae_numerical=accepted alga_rlpso_state=exact"
+        "taae_model=exact taae_numerical=exact "
+        "alga_rlpso_state=exact"
     )
     return 0
 

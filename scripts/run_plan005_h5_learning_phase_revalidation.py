@@ -23,7 +23,7 @@ PRIOR_H5 = (
 DEFAULT_RECEIPT = (
     ROOT
     / "evidence/development/"
-    "plan005_h5_post_learning_phase_topology_revalidation_20260730.json"
+    "plan005_h5_post_deterministic_learning_lane_revalidation_20260730.json"
 )
 
 
@@ -97,8 +97,9 @@ def validate_phase_report(report: dict[str, Any]) -> None:
     taae = report["taae"]
     require(
         taae["discrete_status"] == "exact"
+        and taae["raw_model_status"] == "exact"
         and taae["scientific_state"]["physical_fes"] == 350
-        and taae["numerical_state"]["status"] == "accepted"
+        and taae["numerical_state"]["status"] == "exact"
         and taae["numerical_state"]["relative_tolerance"] == 1.0e-12
         and taae["numerical_state"]["absolute_tolerance"] == 1.0e-9,
         "TAAE H5 exact-FES/science/numerical gate failed",
@@ -106,7 +107,7 @@ def validate_phase_report(report: dict[str, Any]) -> None:
     for item in taae["runs"]:
         workers = item["workers"]
         require(
-            item["peak_os_threads"] <= 3 * workers + 4
+            item["peak_os_threads"] <= workers + 8
             and item["cpu_time_to_wall"] <= workers + 1.0,
             "TAAE H5 thread budget failed",
         )
@@ -120,7 +121,7 @@ def validate_phase_report(report: dict[str, Any]) -> None:
         for item in section["runs"]:
             workers = item["workers"]
             require(
-                item["peak_os_threads"] <= 3 * workers + 4
+                item["peak_os_threads"] <= workers + 8
                 and item["cpu_time_to_wall"] <= workers + 1.0,
                 f"{method}: H5 thread budget failed",
             )
@@ -197,7 +198,7 @@ def main() -> int:
     document = {
         "schema_version": 1,
         "receipt_id": (
-            "plan005_h5_post_learning_phase_topology_"
+            "plan005_h5_post_deterministic_learning_lane_"
             "revalidation_spark_20260730"
         ),
         "source_commit": source_commit,
@@ -227,14 +228,15 @@ def main() -> int:
             for name, path in binaries.items()
         },
         "status": (
-            "accepted_h5_revalidated_after_learning_phase_topology_repair"
+            "accepted_h5_revalidated_after_deterministic_learning_lane"
         ),
         "claim_boundary": (
             "This H5 receipt proves fresh CPU/Torch regression success, "
-            "exact discrete science and physical FES across tested worker "
-            "counts, bounded TAAE numerical-state parity, raw-bit exact "
-            "ALGA/RLPSO learned state, and rejection of nonlinear nested "
-            "thread growth. It does not establish H6 scaling."
+            "exact discrete science, physical FES, and raw learned-model "
+            "and numerical state across tested worker counts, and rejection "
+            "of nonlinear nested thread growth under "
+            "the deterministic one-thread learning lane. It does not "
+            "establish H6 scaling."
         ),
     }
     receipt.parent.mkdir(parents=True, exist_ok=True)
@@ -243,7 +245,8 @@ def main() -> int:
     print(
         "plan005_h5_learning_phase_revalidation_pass "
         f"cpu_tests={cpu_count} torch_tests={torch_count} "
-        "taae_numerical=accepted alga_rlpso_state=exact"
+        "taae_model=exact taae_numerical=exact "
+        "alga_rlpso_state=exact"
     )
     return 0
 

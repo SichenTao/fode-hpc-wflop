@@ -69,7 +69,7 @@ def run(command: list[str], workers: int) -> dict[str, Any]:
         after.ru_utime + after.ru_stime - before.ru_utime - before.ru_stime
     ) / wall
     require(
-        peak_threads <= 3 * workers + 4,
+        peak_threads <= workers + 8,
         f"W={workers}: nonlinear OS thread growth peak={peak_threads}",
     )
     require(
@@ -201,7 +201,7 @@ def main() -> int:
     taae_runs = [
         run(
             taae_base
-            + ["--workers", str(worker), "--torch-intraop-threads", str(worker)],
+            + ["--workers", str(worker), "--torch-intraop-threads", "1"],
             worker,
         )
         for worker in (1, 4)
@@ -221,14 +221,21 @@ def main() -> int:
         ),
         "TAAE discrete science changed across workers",
     )
+    raw_model_hashes = {
+        item["result"]["model_hash"] for item in taae_runs
+    }
+    require(
+        len(raw_model_hashes) == 1,
+        "TAAE learned model raw hash changed across workers",
+    )
     numerical_fields = ("l2_norm", "linf_norm", "weighted_checksum")
     numerical_baseline = baseline["numerical_state"]
     numerical_differences = {}
     for item in taae_runs:
         observed = item["result"]["numerical_state"]
         require(
-            observed["parameter_count"] == numerical_baseline["parameter_count"],
-            "TAAE parameter count changed across workers",
+            observed == numerical_baseline,
+            "TAAE numerical state changed across workers",
         )
         for field in numerical_fields:
             difference = abs(observed[field] - numerical_baseline[field])
@@ -286,7 +293,7 @@ def main() -> int:
                 + specification
                 + [
                     "--workers", str(worker),
-                    "--torch-intraop-threads", str(worker),
+                    "--torch-intraop-threads", "1",
                 ],
                 worker,
             )
@@ -337,7 +344,7 @@ def main() -> int:
         "schema_version": 1,
         "static": static,
         "thread_bound": {
-            "peak_os_threads": "3*W+4",
+            "peak_os_threads": "W+8",
             "cpu_time_to_wall": "W+1.0",
         },
         "taae": {
@@ -354,15 +361,14 @@ def main() -> int:
             "scientific_state": {
                 field: baseline[field] for field in discrete_fields
             },
-            "raw_model_hashes": [
-                item["result"]["model_hash"] for item in taae_runs
-            ],
+            "raw_model_hashes": sorted(raw_model_hashes),
+            "raw_model_status": "exact",
             "numerical_state": {
                 "parameter_count": numerical_baseline["parameter_count"],
                 "relative_tolerance": 1.0e-12,
                 "absolute_tolerance": 1.0e-9,
                 "maximum_absolute_difference": numerical_differences,
-                "status": "accepted",
+                "status": "exact",
             },
         },
         **exact_runs,

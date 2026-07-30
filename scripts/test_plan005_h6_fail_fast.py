@@ -37,6 +37,7 @@ def observation(
         "key": {"repetition": 1, "workers": workers},
         "scientific_output_sha256": science,
         "raw_result": {
+            "model_hash": "model-exact",
             "learned_state_hash": state_hash,
             "numerical_state": {
                 "available": True,
@@ -55,9 +56,6 @@ def main() -> int:
     taae = {"pair_id": "Y36__fixture", "corpus_id": "Y36"}
     baseline = observation(workers=2)
     later_w1 = observation(workers=1)
-    later_w1["raw_result"]["numerical_state"][
-        "weighted_checksum"
-    ] += 2.0e-10
     require_immediate_cross_worker_science(taae, baseline, later_w1)
 
     scientific = copy.deepcopy(later_w1)
@@ -69,15 +67,24 @@ def main() -> int:
         "fail-fast scientific output drift",
     )
 
+    model = copy.deepcopy(later_w1)
+    model["raw_result"]["model_hash"] = "model-drift"
+    expect_failure(
+        taae,
+        baseline,
+        model,
+        "fail-fast TAAE raw model hash drift",
+    )
+
     numerical = copy.deepcopy(later_w1)
     numerical["raw_result"]["numerical_state"][
         "weighted_checksum"
-    ] += 1.0
+    ] += 2.0e-10
     expect_failure(
         taae,
         baseline,
         numerical,
-        "fail-fast TAAE numerical state weighted_checksum drift",
+        "fail-fast TAAE numerical state is absent or changed",
     )
 
     rlpso = {"pair_id": "T42__fixture", "corpus_id": "T42"}
@@ -90,7 +97,7 @@ def main() -> int:
     )
     print(
         "plan005_h6_fail_fast_pass balanced_rotation_non_w1_baseline=1 "
-        "rejected_science=1 accepted_taae_tolerance=1 "
+        "rejected_science=1 rejected_taae_model=1 "
         "rejected_taae_numerical=1 rejected_learned_state=1"
     )
     return 0

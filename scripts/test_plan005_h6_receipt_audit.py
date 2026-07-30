@@ -168,6 +168,11 @@ def build_fixture(
             }
             for index, method in enumerate(("taae", "alga", "rlpso"), 1)
         },
+        "compatible_observation_import": {
+            "status": "no_compatible_prior_raw",
+            "logical_path": "evidence/performance/excluded/fixture.jsonl",
+            "imported_observation_count": 0,
+        },
         "post_thread_control_h5_revalidation": {
             "logical_path": str(original_h5.relative_to(ROOT)),
             "sha256": sha256(original_h5),
@@ -182,18 +187,20 @@ def build_fixture(
         },
         "learning_thread_topology_contract": {
             "outer_persistent_workers": "W",
-            "torch_intraop_thread_budget": "at most W",
+            "torch_intraop_thread_budget": "1 deterministic semantic lane",
             "torch_interop_threads": 1,
             "affinity_allocated_cpus": "exactly W",
             "phase_separation": (
                 "fixture TAAE has no outer executor Torch call and RLPSO "
                 "dependent inference uses intra-op 1"
             ),
-            "maximum_os_threads": "3*W+4 measured linear runtime allowance",
+            "maximum_os_threads": (
+                "W+8 conservative deterministic-lane runtime allowance"
+            ),
             "maximum_cpu_time_to_wall": "W+1.0",
             "os_thread_sources": (
-                "fixture W persistent, W Torch, helpers; "
-                "W1=3,W4=12,W8=24,W20=60"
+                "fixture W persistent, one Torch worker, helpers; "
+                "H5 and H6 enforce peak OS threads at most W+8"
             ),
         },
     }
@@ -217,14 +224,17 @@ def build_fixture(
                 if row["corpus_id"] in LEARNING:
                     raw["thread_topology"] = {
                         "outer_workers": workers,
-                        "torch_intraop_threads": workers,
+                        "torch_intraop_threads": 1,
                         "torch_interop_threads": 1,
                     }
                     command.extend([
-                        "--torch-intraop-threads", str(workers),
+                        "--torch-intraop-threads", "1",
                         "--torch-interop-threads", "1",
                     ])
                     if row["corpus_id"] == "Y36":
+                        raw["model_hash"] = (
+                            f"model-{row['corpus_id']}-{repetition}"
+                        )
                         raw["numerical_state"] = {
                             "available": True,
                             "parameter_count": 850385,
@@ -547,10 +557,10 @@ def main() -> int:
         )
         if (
             nested[first_learning]["process"]["peak_os_threads"]
-            <= 3 * workers + 4
+            <= workers + 8
         ):
             nested[first_learning]["process"]["peak_os_threads"] = (
-                3 * workers + 5
+                workers + 9
             )
         expect_failure(
             nested,
@@ -574,7 +584,24 @@ def main() -> int:
             summary,
             directory,
             "bad-numerical-state",
-            "TAAE numerical state weighted_checksum drift",
+            "TAAE numerical state changed across workers",
+        )
+
+        model = copy.deepcopy(records)
+        y36_model = [
+            item
+            for item in model[1:]
+            if item["key"]["pair_id"].startswith("Y36__")
+            and item["key"]["workers"] == 4
+            and item["key"]["repetition"] == 0
+        ][0]
+        y36_model["raw_result"]["model_hash"] = "model-drift"
+        expect_failure(
+            model,
+            summary,
+            directory,
+            "bad-model-state",
+            "TAAE raw model hash changed across workers",
         )
 
         order = copy.deepcopy(records)
@@ -589,7 +616,7 @@ def main() -> int:
         "rejected_attribution=1 "
         "rejected_overlap=1 rejected_active_workers=1 rejected_order=1 "
         "rejected_nested_threads=1 "
-        "rejected_numerical_state=1 "
+        "rejected_numerical_state=1 rejected_model_state=1 "
         "observations=805"
     )
     return 0
