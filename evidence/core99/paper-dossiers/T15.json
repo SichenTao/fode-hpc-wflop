@@ -14,8 +14,8 @@
     "Preserve and report constraint violations in public submitted layouts rather than silently repairing published comparison assets."
   ],
   "corpus_id": "T15",
-  "dossier_status": "h5_pass_h6_pending",
-  "formal_status": "deterministic_full_matrix_pending",
+  "dossier_status": "formal_complete",
+  "formal_status": "complete_deterministic_full_matrix",
   "hpc_admission": {
     "H0": "pass",
     "H1": "pass",
@@ -23,7 +23,7 @@
     "H3": "pass",
     "H4": "pass",
     "H5": "pass",
-    "H6": "not_started"
+    "H6": "pass"
   },
   "missing_information": [
     "Participant optimizer implementations are not released.",
@@ -79,7 +79,7 @@
   "scope": {
     "claim_boundary": "academic reproduction of benchmark problems, common evaluator, released layouts, rankings, and cross-model protocol; not participant methods",
     "execution_wave": "REV1",
-    "package_status": "implemented_h5_pass_h6_pending",
+    "package_status": "paper_pair_formal_complete",
     "scope_status": "new_direct_active",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },
@@ -152,6 +152,7 @@
   },
   "validation": {
     "cpp_test": "core99_t15_cpp pass",
+    "formal_receipt": "evidence/core99/h6/T15_waffle_full_matrix.json",
     "h5_oracle": "core99_t15_h5 pass",
     "h5_scope": "all 33 case-study-1 layouts reproduce archive AEP within 1e-5 MWh; participant 4 wins all three paper sizes"
   }
