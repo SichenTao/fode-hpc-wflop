@@ -25,9 +25,15 @@ SUMMARY = (
     / "evidence" / "performance"
     / "plan005_h6_performance_first_summary_20260730.json"
 )
+CALIBRATION = (
+    ROOT
+    / "evidence" / "development"
+    / "plan005_learning_phase_thread_calibration_20260730.json"
+)
 EXPECTED_WORKERS = 20
 EXPECTED_REPETITIONS = 5
 EXPECTED_TARGETS = 23
+LEARNING_TORCH_THREADS = {"Y36": 4, "T42": 4, "T45": 1}
 
 
 def require(condition: bool, message: str) -> None:
@@ -62,6 +68,18 @@ def finite_nonnegative(value: Any) -> bool:
 def main() -> int:
     require(RAW.is_file(), "production H6 raw receipt is absent")
     require(SUMMARY.is_file(), "production H6 summary is absent")
+    require(CALIBRATION.is_file(), "learning phase-thread calibration absent")
+    calibration = json.loads(CALIBRATION.read_text(encoding="utf-8"))
+    require(
+        calibration.get("status")
+        == "accepted_phase_specific_cpu_thread_profiles"
+        and {
+            item["corpus_id"]: item["selected_torch_intraop_threads"]
+            for item in calibration["methods"].values()
+        }
+        == LEARNING_TORCH_THREADS,
+        "learning phase-thread calibration selection drift",
+    )
     records = [
         json.loads(line)
         for line in RAW.read_text(encoding="utf-8").splitlines()
@@ -149,9 +167,18 @@ def main() -> int:
             f"{pair_id}: physical FES drift",
         )
         process = observation["process"]
+        torch_threads = LEARNING_TORCH_THREADS.get(
+            next(
+                row["corpus_id"]
+                for row in rows
+                if row["pair_id"] == pair_id
+            ),
+            1,
+        )
         require(
             process["affinity_cpu_union"] == affinity
-            and process["peak_os_threads"] <= EXPECTED_WORKERS + 8
+            and process["peak_os_threads"]
+            <= 2 * EXPECTED_WORKERS + torch_threads + 4
             and finite_nonnegative(process["external_wall_seconds"]),
             f"{pair_id}: process resource receipt invalid",
         )
@@ -161,6 +188,20 @@ def main() -> int:
             and active["observed_outer_workers"] == EXPECTED_WORKERS,
             f"{pair_id}: outer-worker receipt invalid",
         )
+        corpus_id = next(
+            row["corpus_id"] for row in rows if row["pair_id"] == pair_id
+        )
+        if corpus_id in LEARNING_TORCH_THREADS:
+            require(
+                raw.get("thread_topology") == {
+                    "outer_workers": EXPECTED_WORKERS,
+                    "torch_intraop_threads": LEARNING_TORCH_THREADS[
+                        corpus_id
+                    ],
+                    "torch_interop_threads": 1,
+                },
+                f"{pair_id}: phase-specific LibTorch topology drift",
+            )
         timing = observation["timing"]
         attribution = timing["named_h0_stage_attribution"]
         require(

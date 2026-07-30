@@ -47,6 +47,9 @@ target host.
    tensor operation is allowed to use fewer threads when dispatch and
    synchronization make all-core execution slower; the saved cores must not
    be described as utilized work.
+   The frozen Spark2 CPU profile uses 20 persistent C++ workers and LibTorch
+   C++ intra-op thread counts TAAE=4, RLPSO=4, and ALGA=1, as selected by
+   `evidence/development/plan005_learning_phase_thread_calibration_20260730.json`.
 4. Development performs short performance calibration on representative
    workloads.  It does not run a full worker-count sweep for every
    algorithm.  The formal quality campaign runs only the selected

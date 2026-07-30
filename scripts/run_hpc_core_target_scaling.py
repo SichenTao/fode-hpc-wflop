@@ -43,7 +43,7 @@ ENVIRONMENT_SIDECAR = (
 PRIOR_COMPATIBLE_RAW = (
     ROOT
     / "evidence/performance/excluded/"
-    "plan005_h6_pre_deterministic_lane_raw_observations_20260730.jsonl"
+    "plan005_h6_pre_phase_thread_calibration_raw_20260730.jsonl"
 )
 ARTIFACT_DIR = BUILD / "plan005-h6-phase-repair-artifacts"
 TMP_DIR = BUILD / "plan005-h6-tmp"
@@ -63,6 +63,7 @@ H5_PHASE_REVALIDATION = (
     "plan005_h5_post_deterministic_learning_lane_revalidation_20260730.json"
 )
 LEARNING = {"Y36": "taae", "T45": "alga", "T42": "rlpso"}
+LEARNING_TORCH_THREADS = {"Y36": 4, "T42": 4, "T45": 1}
 SCALAR = {
     "S01", "S02", "S03", "S04", "S05", "L0608", "T37", "T38",
     "T39", "T40", "T41", "T47", "Y34", "Y35", "T42", "T45",
@@ -335,7 +336,8 @@ def command_for(
             command.extend([
                 "--training-artifact",
                 relative(artifact_paths[LEARNING[corpus]]),
-                "--torch-intraop-threads", "1",
+                "--torch-intraop-threads",
+                str(LEARNING_TORCH_THREADS[corpus]),
                 "--torch-interop-threads", "1",
             ])
         return command
@@ -350,7 +352,8 @@ def command_for(
             "--workers", str(workers),
             "--backend", "cpu",
             "--learning-artifact", relative(artifact_paths["taae"]),
-            "--torch-intraop-threads", "1",
+            "--torch-intraop-threads",
+            str(LEARNING_TORCH_THREADS[corpus]),
             "--torch-interop-threads", "1",
         ]
     if corpus == "T43":
@@ -852,7 +855,9 @@ def compatible_observation_import(
                 source["raw_result"].get("thread_topology")
                 == {
                     "outer_workers": worker,
-                    "torch_intraop_threads": 1,
+                    "torch_intraop_threads": LEARNING_TORCH_THREADS[
+                        row["corpus_id"]
+                    ],
                     "torch_interop_threads": 1,
                 }
             )
@@ -1418,7 +1423,8 @@ def main() -> int:
                             str(worker)
                         ]["core_type_counts"],
                         "torch_intraop_threads": (
-                            1 if row["corpus_id"] in LEARNING else 0
+                            LEARNING_TORCH_THREADS[row["corpus_id"]]
+                            if row["corpus_id"] in LEARNING else 0
                         ),
                         "torch_interop_threads": (
                             1 if row["corpus_id"] in LEARNING else 0
@@ -1527,25 +1533,24 @@ def main() -> int:
         },
         "learning_thread_topology_contract": {
             "outer_persistent_workers": "W",
-            "torch_intraop_thread_budget": "1 deterministic semantic lane",
+            "torch_intraop_thread_budget": (
+                "phase-calibrated: TAAE=4, RLPSO=4, ALGA=1"
+            ),
             "torch_interop_threads": 1,
             "affinity_allocated_cpus": "exactly W",
             "phase_separation": (
-                "TAAE encode/decode and training use one batched Torch call "
-                "with intra-op 1 and no outer executor; ALGA uses one full-"
-                "batch Torch step with intra-op 1 before outer CPU work; "
-                "RLPSO sequential dependent policy inference uses intra-op 1, "
-                "batched PPO update uses intra-op 1, and outer CPU stages do "
-                "not call Torch"
+                "TAAE encode/decode and training use calibrated intra-op 4; "
+                "ALGA's very short full-batch step remains intra-op 1; "
+                "RLPSO policy/PPO phases use calibrated intra-op 4; outer "
+                "population/evaluator stages retain W persistent workers and "
+                "never call LibTorch concurrently"
             ),
-            "maximum_os_threads": (
-                "W+8 conservative deterministic-lane runtime allowance"
-            ),
-            "maximum_cpu_time_to_wall": "W+1.0",
+            "maximum_os_threads": "2*W+torch_intraop+4",
+            "maximum_cpu_time_to_wall": "torch_intraop+1.0",
             "os_thread_sources": (
-                "W persistent outer workers retained while idle, one Torch "
-                "intra-op worker in model phases, and LibTorch/runtime helper "
-                "threads; H5 and H6 enforce peak OS threads at most W+8"
+                "W persistent outer workers retained while idle, calibrated "
+                "Torch intra-op workers in model phases, and LibTorch/runtime "
+                "helper threads"
             ),
             "source_symbols": [
                 "hpc/taae_cpp/src/evolution.cpp::LibTorchLearningModel",
@@ -1674,22 +1679,28 @@ def main() -> int:
                     f"{row['pair_id']}: affinity escaped selected topology",
                 )
                 if row["corpus_id"] in LEARNING:
+                    torch_threads = LEARNING_TORCH_THREADS[
+                        row["corpus_id"]
+                    ]
                     require(
-                        process_receipt["peak_os_threads"] <= worker + 8
+                        process_receipt["peak_os_threads"]
+                        <= 2 * worker + torch_threads + 4
                         and process_receipt["cpu_time_to_wall"]
-                        <= worker + 1.0,
+                        <= torch_threads + 1.0,
                         f"{row['pair_id']}: nested Torch oversubscription "
                         f"peak={process_receipt['peak_os_threads']} "
-                        f"budget={worker + 8} "
+                        f"budget={2 * worker + torch_threads + 4} "
                         "cpu_time_to_wall="
                         f"{process_receipt['cpu_time_to_wall']} "
-                        f"budget={worker + 1.0}",
+                        f"budget={torch_threads + 1.0}",
                     )
                 if row["corpus_id"] in LEARNING:
                     require(
                         raw.get("thread_topology") == {
                             "outer_workers": worker,
-                            "torch_intraop_threads": 1,
+                            "torch_intraop_threads": LEARNING_TORCH_THREADS[
+                                row["corpus_id"]
+                            ],
                             "torch_interop_threads": 1,
                         },
                         f"{row['pair_id']}: learned thread topology mismatch",
