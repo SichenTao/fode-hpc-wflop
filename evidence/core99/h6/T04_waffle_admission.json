@@ -1,0 +1,159 @@
+{
+  "claim_boundary": "bounded full-resource throughput admission; not formal timing",
+  "concurrent_optimizations": 20,
+  "concurrent_wall_seconds": 0.0700620860006893,
+  "generated_at_utc": "2026-07-30T16:20:08.429998+00:00",
+  "host": "waffle",
+  "observations": [
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9528779631624424,
+      "physical_fes": 15000,
+      "scientific_hash": "34e9698bdbe5c9dd",
+      "seed": 2026073101
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9528427456115672,
+      "physical_fes": 15000,
+      "scientific_hash": "c50221346a830ed",
+      "seed": 2026073102
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9642731614214227,
+      "physical_fes": 15000,
+      "scientific_hash": "9fb3c5d492ff528",
+      "seed": 2026073103
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.954355793796159,
+      "physical_fes": 15000,
+      "scientific_hash": "7e1acf6fc4f653b5",
+      "seed": 2026073104
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9479834285617647,
+      "physical_fes": 15000,
+      "scientific_hash": "2fa3cf800ccc156e",
+      "seed": 2026073105
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9471466613514464,
+      "physical_fes": 15000,
+      "scientific_hash": "a13df155e2bef93f",
+      "seed": 2026073106
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9580617415788558,
+      "physical_fes": 15000,
+      "scientific_hash": "b0226b3f173b9582",
+      "seed": 2026073107
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9597813668539491,
+      "physical_fes": 15000,
+      "scientific_hash": "638913c7c473097c",
+      "seed": 2026073108
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9517436180561052,
+      "physical_fes": 15000,
+      "scientific_hash": "d4e100932a30842",
+      "seed": 2026073109
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9503652619676171,
+      "physical_fes": 15000,
+      "scientific_hash": "ae3dd6137446abac",
+      "seed": 2026073110
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.957044022767375,
+      "physical_fes": 15000,
+      "scientific_hash": "a9fa9267e97b2aae",
+      "seed": 2026073111
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9529303252031279,
+      "physical_fes": 15000,
+      "scientific_hash": "9b3c7da4defe84db",
+      "seed": 2026073112
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9529303252908594,
+      "physical_fes": 15000,
+      "scientific_hash": "3213378d6b9d9a7e",
+      "seed": 2026073113
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9600683222875486,
+      "physical_fes": 15000,
+      "scientific_hash": "36383e63757098f8",
+      "seed": 2026073114
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9716810531435223,
+      "physical_fes": 15000,
+      "scientific_hash": "bc1c08c272ba6c50",
+      "seed": 2026073115
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9618099940897079,
+      "physical_fes": 15000,
+      "scientific_hash": "e4f85743b6b134fe",
+      "seed": 2026073116
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9610133731012828,
+      "physical_fes": 15000,
+      "scientific_hash": "73fac78c210a1c6a",
+      "seed": 2026073117
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9484231057610893,
+      "physical_fes": 15000,
+      "scientific_hash": "b616a9e9859889b",
+      "seed": 2026073118
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9718638874794728,
+      "physical_fes": 15000,
+      "scientific_hash": "a97e12ec6cd87060",
+      "seed": 2026073119
+    },
+    {
+      "best_constraint_violation": 0,
+      "best_farm_efficiency": 0.9512722110475459,
+      "physical_fes": 15000,
+      "scientific_hash": "4f10969b3c2675fd",
+      "seed": 2026073120
+    }
+  ],
+  "problem_id": "t04_uwflo_case3_i_n18",
+  "receipt_sha256": "a853900483550150a15112f517694f8cd4468a0e5b0ae73ea841cb06987d6fce",
+  "receipt_type": "core99_t04_h6_throughput_admission",
+  "schema_version": 1,
+  "scientific_equivalence": "exact_hash_and_objective",
+  "seed_count": 20,
+  "sequential_wall_seconds": 0.9013648320033099,
+  "source_commit": "83da296ac0325c341050f5d6d803b819680eb9ab",
+  "throughput_speedup": 12.865229733445872,
+  "workers_per_optimization": 1
+}

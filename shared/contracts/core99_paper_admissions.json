@@ -217,6 +217,219 @@
         "H5": "pass",
         "H6": "pass"
       }
+    },
+    "T03": {
+      "dossier_status": "h6_admitted",
+      "formal_status": "admission_complete_formal_pending",
+      "scope": {
+        "claim_boundary": "paper-equation academic declared reproduction; no author-source or author-exact numerical claim",
+        "package_status": "paper_pair_h6_admitted"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "continuous x,y coordinates for each fixed-count turbine"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "ordered continuous coordinate vector with per-coordinate ES strategy values"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "minimize inverse expected power and summed constraint violation"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "500 m circular boundary and 8R pair spacing remain the second SPEA objective"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_equations",
+          "resolution": "Kusiak wake deficits, Weibull expected power quadrature, and paper linear/rated turbine curve"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_tables",
+          "resolution": "both 24-bin direction-conditioned Weibull scenarios"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_rng_completion",
+          "resolution": "uniform coordinate and strategy initialization with counter-keyed events"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_spea_completion",
+          "resolution": "strength-Pareto archive, tournament, arithmetic recombination, log-normal strategy mutation, ordered commits"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "120 initial children plus 100 generations of 120 equals 12120 physical FES"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "20 parents, 120 children, archive 50, tournament 4, strategy bounds 1 to 25 m"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning evolutionary strategy"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "two wind scenarios crossed with fixed turbine counts 2 through 6"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "expected power, inverse power, feasibility, physical FES, stage timings, scientific hash, and 25 formal seeds"
+        }
+      },
+      "paper_source_conflicts": [
+        "No author implementation was located.",
+        "SPEA density, clustering tie cases, and random generator are not executable from the paper."
+      ],
+      "missing_information": [
+        "author source code",
+        "exact SPEA density and clustering edge cases",
+        "author random generator"
+      ],
+      "completion_decisions": [
+        "Use deterministic strength-Pareto scoring and evenly spread archive truncation.",
+        "Use counter-keyed events and fixed-order archive commits.",
+        "Keep the 20-core evaluator despite a small ordered-control slowdown because Waffle end-to-end speedup is 9.99 times and the scientific trajectory is identical."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/kusiak_t03.hpp",
+        "hpc/core99_cpp/src/kusiak_t03.cpp",
+        "shared/contracts/core99_t03_kusiak_cases.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T03_waffle_admission.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
+    },
+    "T04": {
+      "dossier_status": "h6_admitted",
+      "formal_status": "admission_complete_formal_pending",
+      "scope": {
+        "claim_boundary": "paper-equation academic declared reproduction with original-layout magnitude validation; no author-source or author-exact optimization claim",
+        "package_status": "paper_pair_h6_admitted"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "continuous x,y coordinates and Case-2 rotor diameters"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "all x, all y, then optional diameter variables"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "maximize effective farm efficiency under geometric and optional cost constraints"
+        },
+        "constraints_and_repair": {
+          "status": "frozen_with_conflict_resolution",
+          "authority": "paper_equation_and_case_geometry",
+          "resolution": "bound projection, one-diameter center spacing required by the 18-turbine 7D by 3D case, and Case-2 mean cost"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_equations",
+          "resolution": "Frandsen/Park wake, analytic overlap, Eq.9 area-weighted squared absolute deficits, Cp/induction fits, and adaptive Case-3 rated power"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "unidirectional 7.0896 m/s Cases 1/2 and 6.2 m/s Case 3"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "uniform bounded positions/diameters and zero initial velocities"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "constrained PSO particle transition, ordered personal-best and global-best commits"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "15000 physical FES for Cases 1/3 and 25000 for Case 2"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_table",
+          "resolution": "inertia 0.5, local/global 1.4, swarm size five times dimension"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning particle swarm"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "Cases 1, 2, Case-3 fixed-area count study and fixed-count area study"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "power, efficiency, feasibility, physical FES, timings, hash, five paper repeats and 25 platform seeds"
+        }
+      },
+      "paper_source_conflicts": [
+        "No author implementation or exact Fig.4 power samples were located.",
+        "Eq.29 printed diameter sums conflict with feasibility of the paper's 18-turbine 7D by 3D case."
+      ],
+      "missing_information": [
+        "author source code",
+        "exact Fig.4 samples",
+        "initial velocity and bound-response rules"
+      ],
+      "completion_decisions": [
+        "Use the paper Cp and induction fits where Fig.4 samples are unavailable.",
+        "Use one-diameter center spacing required by the paper-native dense case.",
+        "Use per-run one-core C++ plus 20 concurrent seeds for the fine-grained full-resource mode.",
+        "Retain the original 3-by-3 validation: reproduced 2.537997 W and 0.732467 versus paper 2.53 W and 0.73."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/uwflo_t04.hpp",
+        "hpc/core99_cpp/src/uwflo_t04.cpp",
+        "shared/contracts/core99_t04_uwflo_cases.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T04_waffle_admission.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
     }
   }
 }

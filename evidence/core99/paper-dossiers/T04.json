@@ -6,21 +6,36 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Use the paper Cp and induction fits where Fig.4 samples are unavailable.",
+    "Use one-diameter center spacing required by the paper-native dense case.",
+    "Use per-run one-core C++ plus 20 concurrent seeds for the fine-grained full-resource mode.",
+    "Retain the original 3-by-3 validation: reproduced 2.537997 W and 0.732467 versus paper 2.53 W and 0.73."
+  ],
   "corpus_id": "T04",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h6_admitted",
+  "evidence_receipts": [
+    "evidence/core99/h6/T04_waffle_admission.json"
+  ],
+  "formal_status": "admission_complete_formal_pending",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pass"
   },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/uwflo_t04.hpp",
+    "hpc/core99_cpp/src/uwflo_t04.cpp",
+    "shared/contracts/core99_t04_uwflo_cases.json"
+  ],
   "missing_information": [
-    "full field-level audit not yet completed"
+    "author source code",
+    "exact Fig.4 samples",
+    "initial velocity and bound-response rules"
   ],
   "paper": {
     "authors": "Souma Chowdhury and Jie Zhang and Achille Messac and Luciano Castillo",
@@ -37,7 +52,10 @@
     "year": 2012
   },
   "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
+  "paper_source_conflicts": [
+    "No author implementation or exact Fig.4 power samples were located.",
+    "Eq.29 printed diameter sums conflict with feasibility of the paper's 18-turbine 7D by 3D case."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 15,
@@ -52,77 +70,77 @@
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "paper-equation academic declared reproduction with original-layout magnitude validation; no author-source or author-exact optimization claim",
     "execution_wave": "REV1",
-    "package_status": "queued_full_text_contract",
+    "package_status": "paper_pair_h6_admitted",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_equation_and_case_geometry",
+      "resolution": "bound projection, one-diameter center spacing required by the 18-turbine 7D by 3D case, and Case-2 mean cost",
+      "status": "frozen_with_conflict_resolution"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "continuous x,y coordinates and Case-2 rotor diameters",
+      "status": "frozen"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "all x, all y, then optional diameter variables",
+      "status": "frozen"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_completion",
+      "resolution": "uniform bounded positions/diameters and zero initial velocities",
+      "status": "frozen"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_platform_protocol",
+      "resolution": "power, efficiency, feasibility, physical FES, timings, hash, five paper repeats and 25 platform seeds",
+      "status": "frozen"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "maximize effective farm efficiency under geometric and optional cost constraints",
+      "status": "frozen"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "Cases 1, 2, Case-3 fixed-area count study and fixed-count area study",
+      "status": "frozen"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_table",
+      "resolution": "inertia 0.5, local/global 1.4, swarm size five times dimension",
+      "status": "frozen"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "15000 physical FES for Cases 1/3 and 25000 for Case 2",
+      "status": "frozen"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "non-learning particle swarm",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "constrained PSO particle transition, ordered personal-best and global-best commits",
+      "status": "frozen"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_equations",
+      "resolution": "Frandsen/Park wake, analytic overlap, Eq.9 area-weighted squared absolute deficits, Cp/induction fits, and adaptive Case-3 rated power",
+      "status": "frozen"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "unidirectional 7.0896 m/s Cases 1/2 and 6.2 m/s Case 3",
+      "status": "frozen"
     }
   }
 }
