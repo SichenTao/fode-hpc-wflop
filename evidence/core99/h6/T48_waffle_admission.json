@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T48",
+  "source_commit": "5e1cd74",
+  "host": "waffle",
+  "run_date": "2026-07-31",
+  "status": "pass",
+  "scope": "complete 190-iteration paper-scale declared gradient reconstruction",
+  "resource_context": {
+    "physical_cpu_cores": 20,
+    "cores_reserved_by_preexisting_T12_T22_jobs": 3,
+    "requested_available_workers": 17,
+    "observed_workers": 17,
+    "cpu_percent": 1663,
+    "effective_average_cpu_cores": 16.63,
+    "max_rss_kb": 3996
+  },
+  "scientific_result": {
+    "initial_variables": [9109.0, -2013.0, 3273.0, 1614.0],
+    "initial_lcoe_dollars_per_kwh": 0.10703614263245279,
+    "best_variables": [1604.6875, -231.75, 1600.0, 37.828125],
+    "best_lcoe_dollars_per_kwh": 0.045548925696239168,
+    "best_capital_cost_dollars": 4079909.6640665168,
+    "best_annual_energy_kwh": 10748643.402766487,
+    "best_capacity_factor": 0.40900469569126663,
+    "best_wake_loss_fraction": 0.021531387423806336,
+    "constraint_violation": 0.0,
+    "iterations": 190,
+    "physical_fes": 1521,
+    "scientific_hash": "28ad4c56405e7395"
+  },
+  "timing": {
+    "evaluator_seconds": 0.517515912,
+    "algorithm_seconds": 0.000054256,
+    "end_to_end_seconds": 0.519957784,
+    "user_seconds": 8.74,
+    "system_seconds": 0.0
+  },
+  "performance_repair_evidence": {
+    "rejected_version_end_to_end_seconds": 3.81483541,
+    "admitted_version_end_to_end_seconds": 0.519957784,
+    "implementation_stage_speedup": 7.336817579020992,
+    "scientific_hash_unchanged": true,
+    "repair": "move isolated no-wake reference integrations from serial post-processing into the same flattened candidate-by-turbine-by-direction parallel task space",
+    "claim_boundary": "this speedup diagnoses the production implementation repair; it is not a paper baseline speedup"
+  },
+  "raw_receipts": {
+    "result_sha256": "4c44360248ce1813c6b7d1c9e8f8c622b13f2335a841b928f66d6a536fc50992",
+    "time_sha256": "32968b100497a816de7c3380ce683bf7f192f517ec047379490f0ae4003db019"
+  },
+  "admission_decision": {
+    "H6": "pass",
+    "formal_status": "complete_single_deterministic_paper_demonstration",
+    "reason": "paper provides one deterministic two-turbine gradient demonstration rather than an independent-seed stochastic protocol"
+  }
+}

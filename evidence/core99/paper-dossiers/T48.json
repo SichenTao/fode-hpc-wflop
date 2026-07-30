@@ -14,8 +14,8 @@
     "Flatten candidate, turbine, and direction work onto one persistent CPU team while keeping reductions and commits ordered."
   ],
   "corpus_id": "T48",
-  "dossier_status": "h5_admitted",
-  "formal_status": "not_started",
+  "dossier_status": "formal_complete",
+  "formal_status": "complete_single_deterministic_paper_demonstration",
   "hpc_admission": {
     "H0": "pass",
     "H1": "pass",
@@ -23,7 +23,7 @@
     "H3": "pass",
     "H4": "pass",
     "H5": "pass",
-    "H6": "not_started"
+    "H6": "pass"
   },
   "missing_information": [
     "exact Thompson Island 16-sector arrays",
@@ -62,7 +62,7 @@
   "scope": {
     "claim_boundary": "academic declared reproduction of the analytical framework and two-turbine demonstration; not author-source or exact 190-step replay",
     "execution_wave": "REV1",
-    "package_status": "paper_pair_h5_validated",
+    "package_status": "paper_pair_formal_complete",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },
@@ -135,6 +135,8 @@
   },
   "validation": {
     "cpp_test": "core99_t48_cpp pass",
+    "formal_receipt": "evidence/core99/h6/T48_waffle_admission.json",
+    "h6_scope": "complete 190-iteration, 1521-physical-evaluation search with 17 observed workers and 1663 percent CPU",
     "h5_oracle": "core99_t48_h5 pass",
     "h5_scope": "independent cost equations and six printed LCOE, capital, capacity-factor, and wake-loss anchors"
   }

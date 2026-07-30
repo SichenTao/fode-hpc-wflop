@@ -864,6 +864,112 @@
         "H5": "pass",
         "H6": "pass"
       }
+    },
+    "T48": {
+      "dossier_status": "formal_complete",
+      "formal_status": "complete_single_deterministic_paper_demonstration",
+      "scope": {
+        "claim_boundary": "academic declared reproduction of the analytical framework and two-turbine demonstration; not author-source or exact 190-step replay",
+        "package_status": "paper_pair_formal_complete"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "continuous Cartesian [x1,y1,x2,y2] turbine positions"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "direct coordinates with opportunity-set projection for reconstructed trials"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "minimize EPRI-TAG LCOE=(CC*FCR+C_OM)/AEP"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "each turbine uses x=[1600,10000]m and y=[-5000,5000]m; coincident hubs are excluded"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_missing_curve_reconstruction",
+          "resolution": "Jensen/RSS wakes scale directional Weibull c; calibrated 1.5MW curve; string-cable, support, turbine, O&M, and fixed-charge costs"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_plus_figure_digitization",
+          "resolution": "periodic PCHIP of 16 digitized c, k, and frequency markers with shore-distance scaling and 360x160 quadrature"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "paper initial layout [9109,-2013,3273,1614]"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "declared_reconstruction",
+          "resolution": "parallel eight-neighbor coordinate trials, fixed-order reductions, ordered best commit, and step halving"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_search_reconstruction",
+          "resolution": "190 iterations and 1521 complete two-turbine LCOE evaluations"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_missing_data_reconstruction",
+          "resolution": "1.5MW, D=77m, CT=0.8, wake kappa=0.04, paper costs, digitized wind resource, and calibrated curve"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "no learned method"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "one two-turbine offshore rectangular opportunity-set example"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "LCOE, capital, AEP, capacity factor, wake loss, physical FES, timings, worker receipt, feasibility, and scientific hash"
+        }
+      },
+      "paper_source_conflicts": [],
+      "missing_information": [
+        "exact Thompson Island 16-sector arrays",
+        "manufacturer 1.5MW power-curve table",
+        "PCHIP coefficients",
+        "gradient-search update and termination details",
+        "author quadrature, seed, and history"
+      ],
+      "completion_decisions": [
+        "Digitize the paper Figure-1 markers and retain them as reconstruction data rather than author numeric data.",
+        "Calibrate the declared power curve to the paper 42 percent isolated-capacity-factor anchor.",
+        "Reconstruct the unspecified method as deterministic bounded coordinate-gradient trials over 190 iterations.",
+        "Flatten candidate, turbine, direction, and no-wake reference integrations onto one persistent full-resource CPU team."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/lackner_t48.hpp",
+        "hpc/core99_cpp/src/lackner_t48.cpp",
+        "shared/contracts/core99_t48_lackner_2007.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T48_waffle_admission.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
     }
   }
 }

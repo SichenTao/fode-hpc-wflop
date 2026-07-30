@@ -41,3 +41,9 @@ H5 uses multiple independent anchors rather than one fitted endpoint:
 H6 runs the complete 190-iteration, 1,521-physical-evaluation reconstruction on
 all currently available Waffle cores and records CPU utilization, timings,
 worker participation, feasibility, and scientific hash.
+
+H6 passed with 17 requested and observed workers. A first profile exposed that
+the no-wake reference metric was still recomputed serially. Moving those
+integrals into the same flattened parallel task space preserved scientific hash
+`28ad4c56405e7395`, reduced wall time from 3.8148 to 0.5200 seconds (7.337x
+implementation-stage speedup), and raised measured CPU use to 1663%.
