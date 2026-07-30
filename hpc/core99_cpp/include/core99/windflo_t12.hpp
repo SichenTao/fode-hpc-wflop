@@ -25,6 +25,9 @@ FES counts only calls to the common WindFLO evaluator; when the analytically
 aggregated surrogate's absolute calibration admits fewer than half of a DE
 generation under the paper's 1.20 filter, the best surrogate-ranked trials
 deterministically fill half the batch so the declared physical budget advances
+Each long surrogate-only local trajectory uses a counter-keyed,
+trajectory-owned SplitMix stream, avoiding repeated full event hashing while
+preserving schedule-independent uniform draws
 Method/problem semantic IDs: t12_four_competition_methods_v1;
 t12_windflo_2015_five_scenarios_v1
 Controlling contract: shared/contracts/core99_t12_windflo_2015.json

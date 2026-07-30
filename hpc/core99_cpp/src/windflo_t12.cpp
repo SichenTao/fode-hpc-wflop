@@ -51,6 +51,33 @@ double seconds_since(const Clock::time_point start) {
     return std::chrono::duration<double>(Clock::now() - start).count();
 }
 
+class TrajectoryRng {
+public:
+    explicit TrajectoryRng(std::uint64_t seed) : state_(seed) {}
+
+    double uniform() noexcept {
+        state_ += 0x9e3779b97f4a7c15ULL;
+        std::uint64_t value = state_;
+        value = (value ^ (value >> 30))
+            * 0xbf58476d1ce4e5b9ULL;
+        value = (value ^ (value >> 27))
+            * 0x94d049bb133111ebULL;
+        value ^= value >> 31;
+        return static_cast<double>(value >> 11)
+            * (1.0 / 9007199254740992.0);
+    }
+
+    int integer(int high_exclusive) noexcept {
+        int value = static_cast<int>(
+            uniform() * static_cast<double>(high_exclusive)
+        );
+        return std::min(value, high_exclusive - 1);
+    }
+
+private:
+    std::uint64_t state_;
+};
+
 double square(double value) noexcept {
     return value * value;
 }
@@ -1311,6 +1338,17 @@ std::array<double, 4> improve_rhomboid(
         5.0 * kMinimumSpacing + 1.0
     };
     const double area = usable_area(problem);
+    const std::uint64_t stream_seed =
+        std::bit_cast<std::uint64_t>(
+            rng.uniform(
+                member,
+                519,
+                static_cast<std::uint64_t>(iterations)
+            )
+        )
+        ^ (member * 0x9e3779b97f4a7c15ULL)
+        ^ static_cast<std::uint64_t>(iterations);
+    TrajectoryRng trajectory_rng(stream_seed);
     double best = rhomboid_surrogate_score(
         problem, parameter, surrogate, area
     );
@@ -1318,9 +1356,7 @@ std::array<double, 4> improve_rhomboid(
         auto trial = parameter;
         bool changed = false;
         for (int coordinate = 0; coordinate < 4; ++coordinate) {
-            if (
-                rng.uniform(member, 520, iteration, coordinate) <= 0.25
-            ) {
+            if (trajectory_rng.uniform() <= 0.25) {
                 const double initial_step = coordinate < 2 ? 45.0 : 250.0;
                 const double step = initial_step * (
                     1.0 - static_cast<double>(iteration)
@@ -1329,12 +1365,7 @@ std::array<double, 4> improve_rhomboid(
                 trial[coordinate] = std::clamp(
                     parameter[coordinate]
                         + (
-                            rng.uniform(
-                                member,
-                                521,
-                                iteration,
-                                coordinate
-                            ) - 0.5
+                            trajectory_rng.uniform() - 0.5
                         ) * step,
                     lower[coordinate],
                     upper[coordinate]
@@ -1343,9 +1374,7 @@ std::array<double, 4> improve_rhomboid(
             }
         }
         if (!changed) {
-            const int coordinate = rng.integer(
-                0, 4, member, 522, iteration
-            );
+            const int coordinate = trajectory_rng.integer(4);
             trial[coordinate] = 0.5
                 * (lower[coordinate] + upper[coordinate]);
         }
