@@ -38,5 +38,7 @@ if ((${#public_regular_files[@]} > 0)) && grep -IInE \
   exit 1
 fi
 
+python3 scripts/audit_libtorch_cpp_production.py
+
 echo \
   "Public audit passed. exportable_files=${#public_regular_files[@]} local_forensic_export_ignored=${#export_ignored_files[@]}"
