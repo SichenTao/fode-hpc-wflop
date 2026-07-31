@@ -1,126 +1,178 @@
 {
-  "authority_ladder": [
-    "paper_and_supplement",
-    "paper_linked_public_source_and_data",
-    "cited_predecessor",
-    "same_lineage_public_source",
-    "deterministic_declared_reconstruction"
-  ],
-  "completion_decisions": [],
+  "schema_version": 1,
   "corpus_id": "Y09",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
-  "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
-  },
-  "missing_information": [
-    "full field-level audit not yet completed"
-  ],
   "paper": {
+    "title": "Wind Farm Layout Optimization with Multi-Type Wind Turbines for Minimizing Levelized Cost of Energy",
     "authors": "Tian Li and Baoshan Yang and Qingshan Yang and Mingming Zhang and Weicheng Hu and Kunpeng Guo",
     "doi": "10.1016/j.renene.2025.124386",
+    "venue": "Renewable Energy",
+    "year": 2026,
     "pdf_basename": "2026_Li_Wind_Farm_Layout_Optimization_with_Multi_Type_Wind_Turbines_for_Minimizing_Levelized_Cost_of_Energy.pdf",
     "pdf_sha256": "970def94341cb1efeaa828e19d05cf0bb2bc8e1317c19b053f3446b13d496153",
-    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_asset_status": "local_primary_pdf_hashed_rendered_and_audited",
     "primary_review_class": "REV4",
-    "reading_tier": "CORE-SUPPORT",
-    "role": "D",
     "secondary_review_classes": "REV2",
-    "title": "Wind Farm Layout Optimization with Multi-Type Wind Turbines for Minimizing Levelized Cost of Energy",
-    "venue": "Renewable Energy",
-    "year": 2026
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D"
   },
-  "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 23,
     "text_sha256": "ef6b81aeada150a70a123747ff0fcedfbbc91facd946fbc0f94bc1b5614da2ec"
   },
+  "authority_ladder": [
+    "target_journal_paper",
+    "first_party_CN117473875B_patent",
+    "pinned_cited_lineage_public_turbine_arrays",
+    "deterministic_declared_completion"
+  ],
+  "paper_linked_public_asset_candidates": [
+    "https://doi.org/10.1016/j.renene.2025.124386",
+    "https://patents.google.com/patent/CN117473875B/zh"
+  ],
   "public_asset_candidate_evidence": {
-    "availability_mention_line_numbers": [],
-    "embedded_annotation_urls": [],
-    "status": "no_paper_linked_public_asset_candidate_detected"
+    "status": "target final article and first-party method patent found; no target code or numeric archive found; pinned public NREL turbine data completion",
+    "patent_pdf_sha256": "7f388b57c53ff9f5a97b43033b8771608d18f7a245796827537aa399ef6421fa"
   },
-  "schema_version": 1,
+  "paper_source_conflicts": [
+    "The journal problem uses a 5 km square with 5 MW and 15 MW turbines, whereas the earlier patent example uses a 2 km square with 2 MW and 5 MW turbines; journal problem semantics take precedence.",
+    "The journal describes a multi-objective framework but Eq.39 defines and the GA minimizes one scalar LCOE; power and fatigue are retained as diagnostics rather than independent optimized objectives.",
+    "The journal supplies no numeric GA population, crossover, mutation, generation limit, convergence tolerance, seeds or repeat count; the first-party patent supplies the first three settings only.",
+    "The target turbine power and thrust curves are figures rather than machine-readable arrays."
+  ],
+  "missing_information": [
+    "target author source and random state",
+    "target ADMR/RSM CFD fields and fitted raw arrays",
+    "machine-readable target power and thrust curves",
+    "journal crossover operator, numeric generation limit and convergence tolerance",
+    "journal seeds, repeat count and full result archive"
+  ],
+  "completion_decisions": [
+    "Register twelve unique roles after deduplicating the shared west, fatigue-0.10 and cost-one-third multi-type role.",
+    "Use the journal's 5 km, 10 by 10, 5/15-MW problem and use the patent only for omitted GA settings.",
+    "Use patent population 100, roulette selection, crossover 0.08, total mutation 0.01 and category-balanced mutation equations.",
+    "Use declared single-point categorical crossover and a fixed 1000-generation formal budget without an invented early-stop tolerance.",
+    "Use one deterministic run per unique role because no repeat protocol is published.",
+    "Use pinned public FLORIS-v2.4 NREL-5-MW and public Cazzaro NREL/IEA-15-240 curve data.",
+    "Evaluate published corrected Qian-Ishihara equations at turbine hubs and expose the full/partial-overlap specialization as a declared completion.",
+    "Use one persistent full-core C++ team for offspring construction and population evaluation with frozen generations and counter-keyed random events."
+  ],
+  "dossier_status": "h5_admitted",
+  "formal_status": "ready_for_immutable_waffle_queue",
+  "hpc_admission": {
+    "H0": "complete_target_patent_and_public_data_audit",
+    "H1": "complete_twelve_role_wake_fatigue_cost_ga_and_fes_decomposition",
+    "H2": "complete_sparse_wake_population_parallel_and_frozen_generation_analysis",
+    "H3": "complete_pure_cpp_persistent_all_core_implementation",
+    "H4": "complete_equation_role_schedule_and_full_runner_preview",
+    "H5": "pass_cpp_python_case_equation_encoding_fes_and_schedule_validation",
+    "H6": "pass_local_twelve_case_one_twenty_fixed_work_candidate_pending_immutable_waffle_confirmation"
+  },
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "scope_status": "paper_paired_hpc_implemented",
     "execution_wave": "REV4",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
-    "target_contribution_type": "coupled_or_real_world_problem_and_method"
+    "package_status": "h6_admitted_waffle_confirmation_and_formal_ready",
+    "target_contribution_type": "coupled_or_real_world_problem_and_method",
+    "claim_boundary": "source-backed flexible academic reproduction of the complete multi-type problem, ternary GA and twelve unique native cases; not author source, unavailable CFD arrays, exact plotted curves, random state or numerical replay"
   },
   "semantic_contract": {
-    "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_Section_2.2.3_and_Section_4",
+      "resolution": "100 categorical genes: zero empty, one 5 MW, two 15 MW",
+      "status": "implemented"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_paper_plus_first_party_patent",
+      "resolution": "10 by 10 matrix maps directly to 500m cell-center positions and turbine types",
+      "status": "implemented_and_validated"
     },
-    "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+    "constraints_and_repair": {
+      "authority": "target_Section_4",
+      "resolution": "square boundary, at most one turbine per cell and composition-specific allowed categories; one occupied cell is enforced",
+      "status": "implemented_and_validated"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_Eq_39",
+      "resolution": "minimize scalar construction-plus-maintenance cost divided by total steady power",
+      "status": "implemented"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_Eqs_10_55_plus_pinned_public_curves",
+      "resolution": "corrected three-dimensional Qian-Ishihara hub-point wake/turbulence, type-specific power and thrust, fatigue, preventive/replacement maintenance and multi-type Mosetti construction cost",
+      "status": "implemented_and_equation_validated"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_Sections_4.1_4.4",
+      "resolution": "steady 12m/s at 150m with exponent0.12 and Iref0.12; literal west0 northwest45 and southwest-45 roles",
+      "status": "implemented"
+    },
+    "paper_native_cases": {
+      "authority": "target_Figs_21_24_27",
+      "resolution": "twelve unique composition, direction, additional fatigue-threshold and additional cost-ratio cases",
+      "status": "implemented_and_runner_validated"
+    },
+    "initialization": {
+      "authority": "target_paper_plus_first_party_patent",
+      "resolution": "counter-keyed random categorical matrices with composition restrictions and nonempty repair",
+      "status": "implemented_and_schedule_validated"
+    },
+    "parameters": {
+      "authority": "first_party_patent_plus_declared_completion",
+      "resolution": "population100, crossover0.08, total mutation0.01, roulette, category-balanced mutation and declared single-point crossover",
+      "status": "implemented"
+    },
+    "update_order": {
+      "authority": "target_Fig_8_plus_patent_paragraphs_151_157",
+      "resolution": "evaluate frozen population, roulette, crossover, category-balanced mutation, evaluate complete next population and ordered replacement",
+      "status": "implemented_and_schedule_validated"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "target_maximum_iteration_language_plus_declared_completion",
+      "resolution": "fixed 1000 generations; one complete layout evaluation is one physical FES",
+      "status": "implemented_and_formal_ready"
+    },
+    "metrics_and_repeats": {
+      "authority": "target_Figs_21_27_plus_declared_completion",
+      "resolution": "layout, turbine counts, power, construction/maintenance costs, LCOE, fatigue dispersion, FES, generation, timings, workers and hash; one run per unique role",
+      "status": "implemented_and_runner_validated"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "Y09 has no trained model",
+      "status": "not_applicable"
     }
-  }
+  },
+  "development_h6_20260731": {
+    "work": "all twelve roles, population 100, fixed 50 generations and 5100 complete layout evaluations per role",
+    "evaluator_speedup_range": {"minimum": 8.78833982664833, "maximum": 10.024720915595204},
+    "end_to_end_speedup_range": {"minimum": 8.184105283197175, "maximum": 9.53431901424155},
+    "all_twelve_roles_same_layout_metrics_fes_and_hash": true,
+    "comparison_boundary": "same pure-C++ implementation with one versus twenty Spark workers; not MATLAB, author-code or Waffle confirmation",
+    "status": "local_twelve_role_candidate_pending_immutable_waffle_confirmation"
+  },
+  "development_paper_parameter_preview_20260731": {
+    "paper_native_cases": 12,
+    "population": 100,
+    "fixed_generations": 1000,
+    "physical_fes_per_case": 100100,
+    "all_cases_completed": true,
+    "west_multi_lcoe_reduction_percent_versus_five_only": 5.007684004409909,
+    "west_multi_lcoe_reduction_percent_versus_fifteen_only": 0.4908373134132369,
+    "paper_reported_reductions_percent": {"versus_five_only": 4.96, "versus_fifteen_only": 3.54},
+    "claim_boundary": "local functional preview with public substitute curves and declared completions; qualitative dual-baseline benefit recovered but not author numeric replay or immutable Waffle formal evidence"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/li_y09.hpp",
+    "hpc/core99_cpp/src/li_y09.cpp",
+    "hpc/core99_cpp/src/li_y09_main.cpp",
+    "hpc/core99_cpp/tests/li_y09_test.cpp",
+    "scripts/validate_core99_y09.py",
+    "scripts/run_core99_y09_h6_formal.py",
+    "scripts/run_core99_y09_when_waffle_free.sh",
+    "shared/contracts/core99_y09_li_multitype_2026.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/Y09_H0_H4_mathematical_hpc_analysis_20260731.md",
+    "evidence/development/Y09_h5_independent_validation_20260731.json"
+  ]
 }
