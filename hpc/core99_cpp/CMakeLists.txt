@@ -492,7 +492,12 @@ option(
     "Build T07 explicit SCP with pinned NLopt convex-QP replacement"
     OFF
 )
-if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07)
+option(
+    CORE99_ENABLE_T21
+    "Build T21 density-topology WFLOP with pinned NLopt MMA"
+    OFF
+)
+if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21)
     include(FetchContent)
 
     set(NLOPT_CXX ON CACHE BOOL "" FORCE)
@@ -552,6 +557,24 @@ if(CORE99_ENABLE_T07)
     )
     add_executable(core99_t07_hpc src/park_t07_main.cpp)
     target_link_libraries(core99_t07_hpc PRIVATE core99_t07_core)
+endif()
+
+if(CORE99_ENABLE_T21)
+    add_library(core99_t21_core STATIC src/pollini_t21.cpp)
+    target_include_directories(core99_t21_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t21_core PUBLIC fode_core nlopt)
+    target_compile_features(core99_t21_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t21_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t21_hpc src/pollini_t21_main.cpp)
+    target_link_libraries(core99_t21_hpc PRIVATE core99_t21_core)
 endif()
 
 if(BUILD_TESTING)
@@ -830,6 +853,18 @@ if(BUILD_TESTING)
                 ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t07.py
                 --binary $<TARGET_FILE:core99_t07_hpc>
         )
+    endif()
+    if(CORE99_ENABLE_T21)
+        add_executable(core99_t21_test tests/pollini_t21_test.cpp)
+        target_link_libraries(core99_t21_test PRIVATE core99_t21_core)
+        add_test(NAME core99_t21_cpp COMMAND core99_t21_test)
+        add_test(
+            NAME core99_t21_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t21.py
+                --binary $<TARGET_FILE:core99_t21_hpc>
+        )
+        set_tests_properties(core99_t21_h5 PROPERTIES TIMEOUT 300)
     endif()
     add_executable(core99_t77_test tests/long_t77_test.cpp)
     target_link_libraries(core99_t77_test PRIVATE core99_t77_core)

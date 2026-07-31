@@ -213,8 +213,8 @@
     },
     {
       "corpus_id": "T21",
-      "dossier_sha256": "87c8f2cdb5680bdf96884f71b875d115dad199e934a920c6e1eb262a86fef64c",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "4cade5221f2d3af35db90e86c59739eb753e3036bce59305c96cfd0d2a405f76",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

@@ -867,6 +867,124 @@
         "H6": "pass"
       }
     },
+    "T21": {
+      "dossier_status": "h5_admitted",
+      "formal_status": "admission_pending",
+      "scope": {
+        "claim_boundary": "paper-equation and paper-linked-data academic declared reproduction of the topology method and both native problems; not author MATLAB wrapper, random-state, internal-asymptote, or exact numerical replay",
+        "package_status": "paper_pair_h5_validated"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "one continuous density rho in [0,1] for every potential turbine site; 124 and 709 variables"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_missing_tolerance_completion",
+          "resolution": "RAMP-interpolated continuous densities during optimization and rho greater than 0.5 as the declared installed-turbine postprocessing rule"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper_equations_2_to_6",
+          "resolution": "minimize negative annual energy production using density-weighted turbine power and density-weighted RSS wake losses"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_equations_10_to_16",
+          "resolution": "raw-density minimum and maximum turbine fractions plus rho_i+rho_j-1<=0 for every site pair within 260m; unordered pairs remove only mathematically redundant directed duplicates"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_first_cited_stanley_ning_completion",
+          "resolution": "paper modified 2016 Bastankhah Gaussian model, 8/9 thrust, TI=0.075, RSS deficits, 3.37MW cubic/rated power curve, and declared near-wake continuity completion"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_plus_pinned_iea37_public_source",
+          "resolution": "16 direction bins with the released frequencies and constant 9.8m/s wind speed"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "default uniform densities 0.2 and 0.1805; each random run assigns all sites one common scalar sampled in the paper interval and independently samples q_min and delta_q in [0,1]"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_nlopt_replacement",
+          "resolution": "ordered MMA trajectory with analytical gradients and ten-evaluation q stages; independent starts are hierarchically parallel and commit into fixed start-index slots"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_publisher_omission_completion",
+          "resolution": "at most 1000 complete objective-gradient evaluations, density-change tolerance 1e-8, and convergence within a stable q stage; the PDF visibly omits the numeric q-bar after its equals sign"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_first_public_source_second",
+          "resolution": "q_min=0, delta_q=0.5 every ten evaluations, q_max=10, 0.1 initial MMA step, 200m grid pitch, D=130m, and the two paper count ranges"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning density topology optimization"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper_figures_and_text",
+          "resolution": "radius-1300m 124-site grid with 16-64 turbines and radius-3000m 709-site grid with 64-256 turbines"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "relaxed/discrete AEP, turbine count, feasibility, physical objective evaluations, q path endpoints, stage timings, worker receipts, densities, science hash, and 404 target runs over RAMP/q=0"
+        }
+      },
+      "paper_source_conflicts": [
+        "The paper specifies 3.37MW while the linked IEA37 YAML specifies 3.35MW; the paper controls.",
+        "The paper uses a modified Gaussian model with x0 while the public IEA37 source has a simplified Gaussian model; the paper and its cited lineage control.",
+        "The small grid origin is not numerically printed; the centered 100m half-cell offset reproduces the 124-site Figure-3 grid.",
+        "The published PDF visibly ends the convergence-reference q-bar setting at the equals sign and reports final q values below qmax.",
+        "The official Svanberg MATLAB source is GPLv3; the production Apache-licensed platform uses pinned MIT-licensed NLopt LD_MMA and declares the wrapper/asymptote replacement boundary."
+      ],
+      "missing_information": [
+        "author wind-farm and topology wrapper",
+        "author MMA wrapper and internal asymptote states",
+        "numeric q-bar convergence reference omitted by the published PDF",
+        "author random states",
+        "machine-readable optimized densities and raw 101-run results"
+      ],
+      "completion_decisions": [
+        "Use paper equations and constants first and the pinned IEA37 wind rose second.",
+        "Use the paper-cited Stanley-Ning near-wake continuity rule where the printed Gaussian equation is undefined.",
+        "Use pinned NLopt LD_MMA as a declared same-family open production replacement and retain official Svanberg GPLv3 source only as an audited reference asset.",
+        "Set the NLopt dual tolerance to 1e-8 and dual budget to 500 after profiling proved that its default 1e-14/100000 serial dual solve dominated the high-performance evaluator.",
+        "Parallelize immutable wake precomputation and objective-gradient target blocks within one run, and distribute the paper-native independent starts across all cores for full campaign utilization.",
+        "Execute only the paper target MMA topology method; SQP and GA are non-target comparison baselines."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/pollini_t21.hpp",
+        "hpc/core99_cpp/src/pollini_t21.cpp",
+        "hpc/core99_cpp/src/pollini_t21_main.cpp",
+        "hpc/core99_cpp/tests/pollini_t21_test.cpp",
+        "scripts/validate_core99_t21.py",
+        "scripts/run_core99_t21_h6_formal.py",
+        "shared/contracts/core99_t21_pollini_2022.json"
+      ],
+      "evidence_receipts": [
+        "evidence/development/T21_h5_independent_equation_validation_20260731.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pending"
+      }
+    },
     "T48": {
       "dossier_status": "formal_complete",
       "formal_status": "complete_single_deterministic_paper_demonstration",

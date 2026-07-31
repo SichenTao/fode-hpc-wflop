@@ -1,0 +1,194 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T21",
+  "paper": {
+    "title": "Topology Optimization of Wind Farm Layouts",
+    "doi": "10.1016/j.renene.2022.06.019",
+    "pdf_sha256": "7ebc7c5b628b35d013e91bf714fc660bd7e1c5638dba2f637a764065235096f2"
+  },
+  "paper_linked_public_problem_source": {
+    "url": "https://github.com/byuflowlab/iea37-wflo-casestudies",
+    "revision": "af88908d22795030ac2dfbe37bc38e912aee8ed6",
+    "consumed_assets": [
+      "cs1-2/iea37-windrose.yaml",
+      "cs1-2/iea37-335mw.yaml"
+    ],
+    "license_status": "no_root_license_file_found"
+  },
+  "optimizer_backend": {
+    "paper": "Svanberg MATLAB MMA supplied to the paper author; official GCMMA-MMA 1.5 MATLAB source is currently available under GPLv3 from smoptit.se",
+    "production": "pinned NLopt LD_MMA revision 88c424d4f458412787df96fcc95218acbca224fd",
+    "official_matlab_source": {
+      "url": "https://www.smoptit.se/GCMMA-MMA-code-1.5.zip",
+      "archive_sha256": "df843fdbf40679383f776f4cc4118c541129249e32c209df0cb15637ea3022fc",
+      "mmasub_sha256": "7ccc0135d2189ef5736292bf292a42251acec1ff55aa88ddc0ca8cccb42fa4a9",
+      "subsolv_sha256": "41b2eccd24638b596b597e1903300e452e28cfc28edd86e162d6222f3ec08132",
+      "license": "GPLv3"
+    },
+    "resolution": "same MMA algorithm family with explicit gradients; q continuation is reconstructed as ten-evaluation stages; the 0.1 paper moving limit is supplied as the NLopt initial step because the unavailable author wrapper cannot be replayed exactly",
+    "hpc_parameters": {
+      "inner_maxeval": 10,
+      "dual_ftol_rel": 1e-08,
+      "dual_maxeval": 500,
+      "reason": "align internal dual accuracy with the paper's 1e-8 requested precision and prevent NLopt defaults 1e-14/100000 from dominating the parallel evaluator"
+    },
+    "claim_boundary": "declared open replacement, not the author MATLAB wrapper replay; restarting NLopt at each continuation stage does not preserve author wrapper/asymptote state"
+  },
+  "paper_source_conflicts": [
+    {
+      "field": "rated_power",
+      "paper": "3.37 MW",
+      "public_problem_source": "3.35 MW",
+      "resolution": "paper controls"
+    },
+    {
+      "field": "wake_model",
+      "paper": "modified 2016 Bastankhah Gaussian model with x0",
+      "public_problem_source": "simplified Gaussian model without x0",
+      "resolution": "paper controls; near-wake continuity follows the cited Stanley-Ning lineage"
+    },
+    {
+      "field": "small_grid_origin",
+      "paper": "200 m pitch and 124 sites shown in Fig. 3 but no numeric origin",
+      "resolution": "100 m half-cell offset is the unique centered square grid giving 124 points inside radius 1300 m"
+    }
+  ],
+  "missing_information": [
+    "author MATLAB wind-farm and topology-optimization source",
+    "author MMA wrapper and internal asymptote states",
+    "author random states",
+    "machine-readable optimized density fields and raw 101-run results",
+    "the numeric convergence reference q-bar is visibly omitted after the equals sign in the published PDF; the reported runs terminate at q=3.5 and q=4 despite qmax=10"
+  ],
+  "problem_semantic_id": "t21_pollini_two_circle_density_wflop_v1",
+  "method_semantic_id": "t21_ramp_mma_declared_reconstruction_v1",
+  "turbine": {
+    "diameter_m": 130.0,
+    "rated_power_w": 3370000.0,
+    "cut_in_mps": 4.0,
+    "rated_speed_mps": 9.8,
+    "cut_out_mps": 25.0,
+    "thrust_coefficient": 0.8888888888888888,
+    "turbulence_intensity": 0.075
+  },
+  "wind": {
+    "directions_deg": [
+      0.0,
+      22.5,
+      45.0,
+      67.5,
+      90.0,
+      112.5,
+      135.0,
+      157.5,
+      180.0,
+      202.5,
+      225.0,
+      247.5,
+      270.0,
+      292.5,
+      315.0,
+      337.5
+    ],
+    "frequencies": [
+      0.025,
+      0.024,
+      0.029,
+      0.036,
+      0.063,
+      0.065,
+      0.1,
+      0.122,
+      0.063,
+      0.038,
+      0.039,
+      0.083,
+      0.213,
+      0.046,
+      0.032,
+      0.022
+    ],
+    "speed_mps": 9.8
+  },
+  "cases": [
+    {
+      "id": "t21_circle_r1300_n124",
+      "radius_m": 1300.0,
+      "grid_pitch_m": 200.0,
+      "grid_offset_m": 100.0,
+      "potential_sites": 124,
+      "minimum_turbines": 16,
+      "maximum_turbines": 64,
+      "paper_initial_density": 0.2,
+      "paper_mma_aep_gwh": 580.64,
+      "paper_random_start_mma_max_aep_gwh": 583.38,
+      "paper_random_start_mma_mean_aep_gwh": 573.26
+    },
+    {
+      "id": "t21_circle_r3000_n709",
+      "radius_m": 3000.0,
+      "grid_pitch_m": 200.0,
+      "grid_offset_m": 0.0,
+      "potential_sites": 709,
+      "minimum_turbines": 64,
+      "maximum_turbines": 256,
+      "paper_initial_density": 0.1805,
+      "paper_mma_aep_gwh": 2190.58,
+      "paper_random_start_mma_max_aep_gwh": 2195.03,
+      "paper_random_start_mma_mean_aep_gwh": 2133.04
+    }
+  ],
+  "constraints": {
+    "minimum_spacing_m": 260.0,
+    "volume_constraints_use_raw_density": true,
+    "spacing_constraint": "rho_i + rho_j - 1 <= 0 for sites within 2D",
+    "implementation_reduction": "one unordered constraint per adjacent pair; the paper's directed duplicates are mathematically redundant"
+  },
+  "ramp": {
+    "formula": "rho_tilde = rho / (1 + q*(1-rho))",
+    "default_q_min": 0.0,
+    "default_q_increment": 0.5,
+    "q_update_objective_evaluations": 10,
+    "q_max": 10.0,
+    "moving_limit": 0.1,
+    "maximum_objective_evaluations": 1000,
+    "density_tolerance": 1e-08
+  },
+  "hpc_execution": {
+    "single_run": "all requested workers partition direction-target objective and analytical-gradient work",
+    "multi_start_campaign": "independent starts are distributed across all requested workers and share the immutable wake-deficit matrix; workers per run are floor(total_workers/run_parallelism)",
+    "ordered_semantics": "each MMA state trajectory remains serial; only independent wake targets or independent starts execute concurrently"
+  },
+  "paper_native_formal_protocol": {
+    "target_solver": "RAMP topology optimization with MMA",
+    "cases": 2,
+    "default_starts_per_case": 1,
+    "random_starts_per_case": 100,
+    "random_density_ranges": {
+      "t21_circle_r1300_n124": [
+        0.0,
+        0.2
+      ],
+      "t21_circle_r3000_n709": [
+        0.0,
+        0.1805
+      ]
+    },
+    "random_density_semantics": "the paper says all variables were uniformly initialized to one randomly chosen scalar in the stated interval; one common sampled density is therefore assigned to every site in a run",
+    "random_q_min_range": [
+      0.0,
+      1.0
+    ],
+    "random_q_increment_range": [
+      0.0,
+      1.0
+    ],
+    "linear_interpolation_ablation": "same default plus 100 random starts per case with q=0",
+    "required_target_runs": 404,
+    "excluded_non_target_comparators": [
+      "SQP",
+      "MATLAB genetic algorithm"
+    ],
+    "postprocessing_completion": "the paper reports near-discrete final densities but no numerical classification tolerance; rho > 0.5 is the declared installed-turbine rule"
+  }
+}

@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "corpus_id": "T21",
+  "pair_id": "T21__ramp_mma__pollini_two_circle_density__target",
+  "method_semantic_id": "t21_ramp_mma_declared_reconstruction_v1",
+  "problem_semantic_id": "t21_pollini_two_circle_density_wflop_v1",
+  "paper_protocol_id": "pollini2022_topology_native_404_v1",
+  "native_asset": "shared/contracts/core99_t21_pollini_2022.json",
+  "analysis_path": "hpc/core_target_plans/t21_target_hpc_analysis.json",
+  "H5_bounded_equivalence": {
+    "status": "accepted_h5",
+    "reference_backend": "independent_python_paper_equations_v1",
+    "candidate_backend": "pure_cpp20_cpu_hpc_nlopt_mma_replacement_v1",
+    "comparison_scope": "both paper-native grids, spacing topology, fixed-density AEP, constraints, complete analytical objective gradient, serial/all-core reduction, finite-difference gradient, and bounded MMA execution",
+    "independent_reference": {
+      "implementation": "scripts/validate_core99_t21.py",
+      "does_not_import_candidate": true,
+      "ctest_name": "core99_t21_h5"
+    },
+    "cpp_test": {
+      "implementation": "hpc/core99_cpp/tests/pollini_t21_test.cpp",
+      "ctest_name": "core99_t21_cpp"
+    },
+    "maximum_absolute_gradient_error": 3.197442310920451e-14,
+    "receipt": "evidence/development/T21_h5_independent_equation_validation_20260731.json",
+    "physical_fes_ledger": "one complete AEP objective and analytical-gradient call at one density vector is one physical FES; constraints do not add wind-farm FES",
+    "claim_boundary": "independent equation and bounded-runtime agreement, not author optimization-result identity"
+  },
+  "H6_performance_validation": {
+    "status": "pending_waffle",
+    "selected_workers": 20,
+    "required_checks": [
+      "small and large fixed-density 1-worker versus 20-worker evaluator timing with numerical identity",
+      "same 20 small-case trajectories sequentially versus all-core multi-start scheduling with exact science-hash identity",
+      "all 20 visible Waffle CPU workers observed",
+      "frozen source commit and raw machine-readable receipts"
+    ],
+    "runner": "scripts/run_core99_t21_h6_formal.py",
+    "local_pre_admission": {
+      "small_evaluator_speedup": 3.4117808740234596,
+      "large_evaluator_speedup": 6.1380297421587935,
+      "multi_start_speedup": 7.7004606774396045,
+      "maximum_numerical_error": 9.663381206337363e-13,
+      "all_core_observed_workers": 20,
+      "status": "development_only_not_waffle_admission"
+    }
+  },
+  "formal_quality": {
+    "status": "pending_h6",
+    "required_target_runs": 404,
+    "matrix": "two native problems by RAMP/q=0 interpolation by default plus 100 random starts",
+    "excluded_non_target_comparators": [
+      "SQP",
+      "MATLAB genetic algorithm"
+    ],
+    "runner": "scripts/run_core99_t21_h6_formal.py --run-formal"
+  },
+  "overall_status": "accepted_h5_h6_and_formal_pending",
+  "claim_boundary": "No H6 or formal claim is admitted before the exact frozen source is run on Waffle."
+}
