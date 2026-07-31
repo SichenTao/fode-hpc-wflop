@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T72",
+  "paper": {
+    "title": "Constrained Multi-Objective Wind Farm Layout Optimization: Novel Constraint Handling Approach Based on Constraint Programming",
+    "doi": "10.1016/j.renene.2018.03.053",
+    "pdf_sha256": "8042a970ceaf9c0e129625078e6c3e07484fe4d43689182e85214e9c3df93919"
+  },
+  "author_assets": {
+    "paper_implementation": "in-house C++ NSGA-II plus proprietary IBM ILOG CP Optimizer 12.6 C++ interface",
+    "public_source_status": "no author implementation or native map arrays located",
+    "native_map_status": "nine polygon maps, receptors, random states, and raw fronts unavailable"
+  },
+  "related_public_formula_source": {
+    "url": "https://gitlab.windenergy.dtu.dk/TOPFARM/PyWake.git",
+    "revision": "5b07481ec9b3633a74844651648f266ba82a8b32",
+    "file": "py_wake/noise_models/iso.py",
+    "file_sha256": "1986931ae0a78f04a5b7c7adf33c43336d574215ddd3f1477241241079ea24c9",
+    "license": "MIT",
+    "use": "independent ISO 9613 formula cross-check only"
+  },
+  "paper_source_conflicts": [
+    {
+      "field": "Jensen induction convention",
+      "paper": "printed Eqs. 1, 3, and 4 mix half-deficit and full-deficit induction conventions",
+      "resolution": "standard full Jensen deficit 1-sqrt(1-CT)"
+    },
+    {
+      "field": "multi-turbine CP repair",
+      "paper": "Eq. 20 compares every repaired turbine against starred current coordinates even when several infeasible turbines are repaired together",
+      "resolution": "joint repaired-variable spacing constraints; fixed feasible turbines retain current coordinates"
+    },
+    {
+      "field": "AEP penalty sign",
+      "paper": "AEP is maximized but printed Eq. 17 adds a positive violation penalty",
+      "resolution": "minimize negative AEP plus the positive dynamic penalty"
+    },
+    {
+      "field": "maximum-distance units",
+      "paper": "the CP objective is evaluated after variables are discretized to 150 bins but the unit is not explicitly restated",
+      "resolution": "squared discrete-bin coordinates; interpreting 50/100 as m2 makes the paper's reported 10-48 percent repair rates unattainable"
+    }
+  ],
+  "missing_information": [
+    "author C++ implementation and IBM CP model state",
+    "nine native random convex-polygon maps and receptor coordinates",
+    "raw 24-by-43 wind probability array",
+    "penalty coefficients in the target paper",
+    "NSGA-II SBX and polynomial-mutation distribution indices",
+    "author random states and machine-readable Pareto fronts",
+    "atmospheric, ground, and receptor-height constants for ISO 9613"
+  ],
+  "completion_decisions": [
+    "Reconstruct nine deterministic similar-area jittered-Voronoi maps with one receptor at each forbidden seed.",
+    "Use the cited Kusiak direction probabilities and Weibull scales to reconstruct 24 directions by 43 speed bins.",
+    "Use the predecessor paper's 1e4 and 4e4 penalty coefficients and 1.5 m receptor height.",
+    "Use Deb-standard distribution indices eta_c=20 and eta_m=20.",
+    "Use 20 C, 80 percent humidity, 101325 Pa, and soft ground as declared ISO 9613 completions cross-checked against pinned PyWake.",
+    "Replace proprietary IBM CP with deterministic feasibility-first joint discrete branch-and-bound over the 150-bin grid, retaining the ten-second upper bound.",
+    "Bound the open replacement to 4096 nearest legal candidates per repaired turbine and a 2000-node deterministic fallback; expose every node-limit event.",
+    "Parallelize repair, wind/noise evaluation, dominance construction, offspring creation, and independent paper runs without nested oversubscription."
+  ],
+  "problem_semantic_id": "t72_energy_noise_voronoi9_declared_reconstruction_v1",
+  "method_semantic_id": "t72_chcp_nsga2_declared_reconstruction_v1",
+  "domain": {
+    "width_m": 3000.0,
+    "height_m": 3000.0,
+    "map_generator": "15 by 15 jittered seed lattice and clipped Voronoi cells",
+    "target_land_availability_percent": [70, 80, 90],
+    "turbine_counts": [5, 10, 15],
+    "native_problem_count": 9,
+    "restricted_area_semantics": "select whole reconstructed convex cells until sampled available area is nearest the target",
+    "receptor_semantics": "one receptor at the generating seed of every forbidden cell"
+  },
+  "turbine": {
+    "hub_height_m": 80.0,
+    "rotor_radius_m": 38.5,
+    "diameter_m": 77.0,
+    "thrust_coefficient": 0.8,
+    "terrain_roughness_m": 0.1,
+    "cut_in_mps": 4.0,
+    "rated_speed_mps": 15.0,
+    "cut_out_mps": 25.0,
+    "rated_power_kw": 1500.0,
+    "linear_power_kw": "max(0,140.86*v-500) for 4<=v<15"
+  },
+  "wind": {
+    "directions": 24,
+    "direction_step_deg": 15.0,
+    "speeds": 43,
+    "speed_start_mps": 4.0,
+    "speed_step_mps": 0.5,
+    "speed_end_mps": 25.0,
+    "conditional_distribution": "Weibull shape 2 with paper-lineage direction scales; each direction is renormalized over the retained speed bins"
+  },
+  "wake": {
+    "model": "Jensen top-hat",
+    "expansion_coefficient": "0.5/log(hub_height/roughness)",
+    "superposition": "root-sum-square velocity deficits",
+    "objective": "maximize expected annual energy in GWh"
+  },
+  "noise": {
+    "model": "ISO 9613-1 atmospheric and ISO 9613-2 divergence/ground propagation",
+    "octave_bands_hz": [63, 125, 250, 500, 1000, 2000, 4000, 8000],
+    "objective": "minimize maximum expected A-weighted SPL over receptors",
+    "temperature_c": 20.0,
+    "relative_humidity_percent": 80.0,
+    "pressure_pa": 101325.0,
+    "source_height_m": 80.0,
+    "receptor_height_m": 1.5,
+    "ground_factor": 1.0
+  },
+  "constraints": {
+    "minimum_spacing_m": 385.0,
+    "regulatory": "every turbine must lie in an available reconstructed polygon",
+    "violation": "sum of spacing deficits and sampled distance to available land",
+    "fallback": "quadratic-generation dynamic penalty"
+  },
+  "chcp": {
+    "coordinate_bins_per_axis": 150,
+    "time_limit_seconds_per_call": 10.0,
+    "maximum_distance_bin2": [50, 100, 1000, 10000],
+    "objective": "minimize the sum of squared repaired-minus-current discrete coordinate indices",
+    "production_replacement": "deterministic greedy incumbents plus bounded joint branch-and-bound",
+    "candidate_limit_per_variable": 4096,
+    "fallback_node_limit": 2000,
+    "telemetry": [
+      "attempts",
+      "successes",
+      "timeouts",
+      "node_limit_hits",
+      "search_nodes",
+      "repair_seconds"
+    ]
+  },
+  "nsga2": {
+    "population_by_land_availability": {
+      "70": 200,
+      "80": 150,
+      "90": 100
+    },
+    "crossover_probability": 0.95,
+    "mutation_probability": 0.05,
+    "sbx_distribution_index": 20.0,
+    "polynomial_mutation_index": 20.0,
+    "maximum_physical_fes": 80000,
+    "convergence": "rank-one crowding-distance variance below 0.005 for the last 100 generations"
+  },
+  "physical_fes_ledger": {
+    "unit": "one complete AEP, maximum-SPL, and constraint evaluation of one physical layout",
+    "repair": "does not consume physical wind-farm FES",
+    "dominance_and_variation": "do not consume physical wind-farm FES",
+    "terminal_partial_work": "the final offspring prefix exactly fills the requested physical-FES budget"
+  },
+  "hpc_execution": {
+    "single_run": "persistent workers partition CHCP repairs, physical evaluations, offspring creation, and pairwise dominance work",
+    "multi_run": "independent paper runs are distributed over all requested workers; workers per run are floor(total_workers/run_parallelism)",
+    "ordered_semantics": "counter-keyed random events and fixed-index commits make scientific output independent of worker count",
+    "timing": "CHCP repair, physical evaluator, algorithm-only, preprocessing, and end-to-end wall time are reported separately"
+  },
+  "paper_native_formal_protocol": {
+    "cases": 9,
+    "maximum_distance_settings": 4,
+    "seeds_per_setup": 20,
+    "penalty_coefficients": [10000.0, 40000.0],
+    "runs_per_case_and_distance": 40,
+    "required_target_runs": 1440,
+    "excluded_non_target_comparators": ["dynamic-penalty-only comparator"],
+    "formal_outputs": [
+      "per-run Pareto front",
+      "merged non-dominated front",
+      "CP percentage",
+      "convergence",
+      "physical FES",
+      "stage timings",
+      "worker receipts",
+      "scientific hash"
+    ]
+  },
+  "claim_boundary": "academic declared flexible reproduction of the paper problem and target CHCP-NSGA-II method; not author code, proprietary IBM CP behavior, native maps, native random states, or exact numerical replay"
+}

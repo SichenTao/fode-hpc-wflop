@@ -1,0 +1,107 @@
+{
+  "schema_version": 2,
+  "corpus_id": "T72",
+  "paper_doi": "10.1016/j.renene.2018.03.053",
+  "H0_scientific_state_machine": {
+    "status": "pass",
+    "physical_fes_boundary": "one complete AEP, maximum receptor SPL, and constraint evaluation at one layout",
+    "stages": [
+      {
+        "id": "S0_problem_precompute",
+        "work": "22500 sampled map points plus 24*43 wind states and receptor-band source energies",
+        "semantics": "immutable once per native problem"
+      },
+      {
+        "id": "S1_chcp_repair",
+        "work": "infeasible turbines by legal CP candidates plus bounded joint search",
+        "semantics": "150-bin discrete coordinates, paper maximum-distance budget, ten-second upper boundary, deterministic open replacement"
+      },
+      {
+        "id": "S2_physical_evaluation",
+        "work": "24*43*N plus R*N*8 and N squared constraints",
+        "semantics": "Jensen/RSS AEP, ISO SPL, spacing, and regulatory feasibility; one physical FES"
+      },
+      {
+        "id": "S3_nsga2_ranking",
+        "work": "population squared pairwise dominance",
+        "semantics": "two penalized minimization objectives and deterministic crowding"
+      },
+      {
+        "id": "S4_variation",
+        "work": "population*N",
+        "semantics": "tournament, SBX, polynomial mutation, counter-keyed random events"
+      },
+      {
+        "id": "S5_selection_and_convergence",
+        "work": "population log population",
+        "semantics": "ordered environmental selection and last-100 rank-one crowding-variance test"
+      }
+    ],
+    "terminal_partial_work": "offspring count is clipped to the remaining physical layouts"
+  },
+  "H1_work_and_data_movement": {
+    "status": "pass",
+    "actual_problem_matrix": {
+      "land_availability_levels": 3,
+      "turbine_counts": 3,
+      "native_problems": 9,
+      "wind_states_per_evaluation": 1032,
+      "cp_grid_points": 22500,
+      "maximum_population": 200,
+      "paper_target_runs": 1440
+    },
+    "reuse": [
+      "map seeds, forbidden labels, sampled regulatory distances, wind probabilities, and acoustic source energies are precomputed once per case",
+      "problem state is immutable and shared by all 40 runs of one formal campaign",
+      "candidate repair, wake/noise evaluation, and dominance rows write disjoint result slots"
+    ],
+    "bottleneck_diagnosis": "CHCP repair dominates at large maximum distance; wind/noise evaluation is the second major region; algorithm control is small but offspring and dominance loops remain parallel above their useful grain size"
+  },
+  "H2_parallel_and_ordered_regions": {
+    "status": "pass",
+    "parallel": [
+      "independent CHCP repairs across population members",
+      "independent physical layout evaluations",
+      "offspring creation by fixed child index",
+      "pairwise-dominance rows",
+      "independent paper runs"
+    ],
+    "ordered": [
+      "one repair branch-and-bound trajectory",
+      "NSGA-II environmental-selection commit",
+      "generation and convergence state"
+    ],
+    "nested_policy": "one requested run receives every worker; campaigns partition the allocation over independent runs and give each run floor(total/run_parallelism) workers",
+    "oversubscription_rule": "outer parallelism multiplied by workers per run never exceeds the requested CPU allocation"
+  },
+  "H3_optimization_decisions": {
+    "status": "pass",
+    "production_backend": "pure C++20 CPU-HPC",
+    "decisions": [
+      "use structure-of-vectors-compatible contiguous probability and regulatory grids",
+      "pre-collapse expected octave-band acoustic source energy over the joint wind distribution",
+      "separate CHCP repair and physical evaluator phases for independent timing and parallel scheduling",
+      "use deterministic nearest-candidate greedy incumbents before bounded joint search",
+      "cap open-replacement candidate domains at 4096 nearest legal points and expose every 2000-node fallback truncation",
+      "use counter-keyed random events and fixed-index commits for exact one-worker/all-core scientific identity",
+      "prefer run-level all-core scheduling for the 40-run paper matrix while preserving internal full-core execution for a single run"
+    ],
+    "declared_replacement_boundary": "the open bounded CHCP reconstruction is not IBM CP Optimizer and does not claim its optimal repair objective or native state"
+  },
+  "H4_implementation": {
+    "status": "pass",
+    "implementation_units": [
+      "hpc/core99_cpp/include/core99/sorkhabi_t72.hpp",
+      "hpc/core99_cpp/src/sorkhabi_t72.cpp",
+      "hpc/core99_cpp/src/sorkhabi_t72_main.cpp",
+      "hpc/core99_cpp/tests/sorkhabi_t72_test.cpp",
+      "scripts/validate_core99_t72.py",
+      "scripts/run_core99_t72_h6_formal.py",
+      "shared/contracts/core99_t72_sorkhabi_2018.json"
+    ],
+    "method_semantic_id": "t72_chcp_nsga2_declared_reconstruction_v1",
+    "problem_semantic_id": "t72_energy_noise_voronoi9_declared_reconstruction_v1",
+    "h5_tests": ["core99_t72_cpp", "core99_t72_h5"],
+    "claim_boundary": "HPC academic declared reproduction of the target method, nine native problem definitions, and 1440-run protocol; no author-code, proprietary-solver, native-map, or numerical identity claim"
+  }
+}

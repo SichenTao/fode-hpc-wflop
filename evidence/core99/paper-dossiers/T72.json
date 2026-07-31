@@ -1,26 +1,12 @@
 {
+  "schema_version": 1,
+  "corpus_id": "T72",
   "authority_ladder": [
     "paper_and_supplement",
     "paper_linked_public_source_and_data",
     "cited_predecessor",
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
-  ],
-  "completion_decisions": [],
-  "corpus_id": "T72",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
-  "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
-  },
-  "missing_information": [
-    "full field-level audit not yet completed"
   ],
   "paper": {
     "authors": "Sami Yamani Douzi Sorkhabi and David A. Romero and J. Christopher Beck and Cristina H. Amon",
@@ -36,8 +22,6 @@
     "venue": "Renewable Energy",
     "year": 2018
   },
-  "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 36,
@@ -46,81 +30,136 @@
   "public_asset_candidate_evidence": {
     "availability_mention_line_numbers": [],
     "embedded_annotation_urls": [],
-    "status": "no_paper_linked_public_asset_candidate_detected"
+    "status": "no_author_public_asset_located"
   },
-  "schema_version": 1,
-  "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
-    "execution_wave": "REV3",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
-    "target_contribution_type": "optimization_search_or_learning_method"
-  },
+  "paper_linked_public_asset_candidates": [],
+  "same_lineage_public_assets": [
+    {
+      "url": "https://gitlab.windenergy.dtu.dk/TOPFARM/PyWake.git",
+      "revision": "5b07481ec9b3633a74844651648f266ba82a8b32",
+      "role": "independent ISO 9613 formula cross-check",
+      "license": "MIT"
+    }
+  ],
+  "paper_source_conflicts": [
+    "Printed Jensen Eqs. 1, 3, and 4 mix induction-factor conventions; the standard full deficit 1-sqrt(1-CT) controls.",
+    "Printed CP Eq. 20 compares repaired turbines against starred current coordinates even when several turbines are repaired; the reconstruction enforces pairwise spacing among all repaired variables.",
+    "Printed Eq. 17 adds a positive penalty to an AEP objective described as maximized; the implementation minimizes negative AEP plus penalty.",
+    "The maximum-distance unit is not restated after discretization; squared 150-bin coordinates are required for the paper's reported repair percentages, while an m2 interpretation makes MD=50/100 effectively unusable."
+  ],
+  "missing_information": [
+    "author C++ NSGA-II and IBM CP interface source",
+    "nine native random polygon maps and receptor arrays",
+    "raw 24-by-43 wind probability matrix",
+    "target-paper penalty coefficients and NSGA-II distribution indices",
+    "author random states and raw Pareto fronts",
+    "complete ISO atmospheric, ground, and receptor constants"
+  ],
+  "completion_decisions": [
+    "Use deterministic similar-area jittered-Voronoi maps and one receptor per forbidden seed.",
+    "Reconstruct the 24 by 43 wind matrix from the cited Kusiak direction probabilities and Weibull scales.",
+    "Use standard full Jensen deficit, root-sum-square superposition, and the paper turbine curve.",
+    "Use the predecessor's 1e4/4e4 penalties and 1.5 m receptor height, Deb-standard eta_c=eta_m=20, and declared PyWake-cross-checked ISO constants.",
+    "Interpret maximum distance in squared discrete-bin coordinates.",
+    "Replace proprietary CP with a fully declared feasibility-first open joint repair retaining 150 bins, ten-second upper bound, nearest-candidate cap, fixed search-node bound, and complete truncation telemetry.",
+    "Parallelize every safe repair, evaluator, offspring, dominance, and independent-run region while keeping ordered NSGA-II state semantics.",
+    "Execute only the paper target CHCP-NSGA-II method; the dynamic-penalty-only comparator is not a target asset."
+  ],
   "semantic_contract": {
-    "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "paper",
+      "resolution": "2N continuous turbine coordinates in a 3 km by 3 km square"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "paper_plus_declared_cp_completion",
+      "resolution": "continuous NSGA-II coordinates; only CHCP repair discretizes each coordinate to 150 bins"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "paper_equations_11_to_17_plus_sign_resolution",
+      "resolution": "maximize AEP and minimize maximum expected receptor SPL, implemented as minimize negative AEP and SPL with positive dynamic penalties"
     },
-    "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+    "constraints_and_repair": {
+      "status": "frozen",
+      "authority": "paper_equations_8_9_19_20_plus_declared_open_replacement",
+      "resolution": "minimum spacing 5D and no turbine in forbidden polygons; infeasible layouts enter bounded joint 150-bin CHCP repair before dynamic-penalty fallback"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "paper_plus_consistency_resolution",
+      "resolution": "Jensen top-hat wake, full deficit 1-sqrt(1-CT), RSS deficits, paper linear/rated 1.5MW power curve, and ISO 9613 expected SPL"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "paper_figures_and_cited_kusiak_lineage",
+      "resolution": "24 direction bins, 43 speeds from 4 to 25 m/s in 0.5 m/s increments, direction-conditioned truncated Weibull reconstruction"
+    },
+    "initialization": {
+      "status": "frozen",
+      "authority": "paper_plus_declared_random_state_completion",
+      "resolution": "uniform continuous layouts using counter-keyed random events; native author seeds unavailable"
+    },
+    "update_order": {
+      "status": "frozen",
+      "authority": "paper_deb_nsga2_plus_declared_distribution_indices",
+      "resolution": "tournament, SBX, polynomial mutation, CHCP-or-penalty evaluation, dominance/crowding environmental selection, ordered generation commit"
+    },
+    "stopping_and_physical_fes": {
+      "status": "frozen",
+      "authority": "paper",
+      "resolution": "at most 80000 complete layout evaluations or last-100 rank-one crowding variance below 0.005; each complete AEP/SPL/constraint evaluation is one physical FES"
+    },
+    "parameters": {
+      "status": "frozen",
+      "authority": "paper_first_predecessor_and_deb_completion_second",
+      "resolution": "population 200/150/100 for land availability 70/80/90, crossover 0.95, mutation 0.05, eta_c=eta_m=20, penalties 1e4/4e4, CP MD=50/100/1000/10000 bin2"
+    },
+    "training_and_inference_lifecycle": {
+      "status": "not_applicable",
+      "authority": "paper",
+      "resolution": "non-learning multi-objective evolutionary optimization"
+    },
+    "paper_native_cases": {
+      "status": "frozen_reconstruction",
+      "authority": "paper_plus_declared_missing_map_completion",
+      "resolution": "nine switchable reconstructed maps: land availability 70/80/90 percent crossed with 5/10/15 turbines"
+    },
+    "metrics_and_repeats": {
+      "status": "frozen",
+      "authority": "paper_plus_platform_protocol",
+      "resolution": "40 runs per case and maximum distance from 20 seeds and two penalties; Pareto fronts, CP percentage, convergence, physical FES, repair/evaluator/algorithm/end-to-end timings, worker receipts, and science hashes"
     }
-  }
+  },
+  "scope": {
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "optimization_search_or_learning_method",
+    "execution_wave": "REV3",
+    "package_status": "paper_pair_h5_validated",
+    "claim_boundary": "paper-equation and declared-map academic flexible reproduction of CHCP-NSGA-II and all nine native problem definitions; not author code, IBM CP behavior, native maps, native random states, or exact numerical replay"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/sorkhabi_t72.hpp",
+    "hpc/core99_cpp/src/sorkhabi_t72.cpp",
+    "hpc/core99_cpp/src/sorkhabi_t72_main.cpp",
+    "hpc/core99_cpp/tests/sorkhabi_t72_test.cpp",
+    "scripts/validate_core99_t72.py",
+    "scripts/run_core99_t72_h6_formal.py",
+    "shared/contracts/core99_t72_sorkhabi_2018.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/T72_h5_independent_equation_validation_20260731.json"
+  ],
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pending"
+  },
+  "dossier_status": "h5_admitted",
+  "formal_status": "admission_pending"
 }

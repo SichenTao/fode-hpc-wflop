@@ -497,6 +497,11 @@ option(
     "Build T21 density-topology WFLOP with pinned NLopt MMA"
     OFF
 )
+option(
+    CORE99_ENABLE_T72
+    "Build T72 CHCP-NSGA-II energy-noise WFLOP reconstruction"
+    OFF
+)
 if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21)
     include(FetchContent)
 
@@ -575,6 +580,24 @@ if(CORE99_ENABLE_T21)
     )
     add_executable(core99_t21_hpc src/pollini_t21_main.cpp)
     target_link_libraries(core99_t21_hpc PRIVATE core99_t21_core)
+endif()
+
+if(CORE99_ENABLE_T72)
+    add_library(core99_t72_core STATIC src/sorkhabi_t72.cpp)
+    target_include_directories(core99_t72_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t72_core PUBLIC fode_core)
+    target_compile_features(core99_t72_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t72_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t72_hpc src/sorkhabi_t72_main.cpp)
+    target_link_libraries(core99_t72_hpc PRIVATE core99_t72_core)
 endif()
 
 if(BUILD_TESTING)
@@ -865,6 +888,18 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t21_hpc>
         )
         set_tests_properties(core99_t21_h5 PROPERTIES TIMEOUT 300)
+    endif()
+    if(CORE99_ENABLE_T72)
+        add_executable(core99_t72_test tests/sorkhabi_t72_test.cpp)
+        target_link_libraries(core99_t72_test PRIVATE core99_t72_core)
+        add_test(NAME core99_t72_cpp COMMAND core99_t72_test)
+        add_test(
+            NAME core99_t72_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t72.py
+                --binary $<TARGET_FILE:core99_t72_hpc>
+        )
+        set_tests_properties(core99_t72_h5 PROPERTIES TIMEOUT 300)
     endif()
     add_executable(core99_t77_test tests/long_t77_test.cpp)
     target_link_libraries(core99_t77_test PRIVATE core99_t77_core)
