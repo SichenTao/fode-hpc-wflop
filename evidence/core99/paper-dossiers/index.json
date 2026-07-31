@@ -249,8 +249,8 @@
     },
     {
       "corpus_id": "T82",
-      "dossier_sha256": "36d1dd938f9512487d2d541eebb4a6529f3641b5d37bf9556ce73ac7c899babd",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "17b52ea51a93364d02c0bb76bc6917737a0539ef91c5192988f82172c94917f1",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

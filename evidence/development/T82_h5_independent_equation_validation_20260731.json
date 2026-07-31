@@ -1,0 +1,35 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T82",
+  "status": "pass",
+  "validator": "scripts/validate_core99_t82.py",
+  "validator_sha256": "465924d65646509428499277cd747e021dc677bd161e1f446285d9de5138c5ab",
+  "independence": "Python re-derivation of wind states, rotor quadrature, Eqs. (1)-(18), constraints, and three reference-layout objectives without production-code import or linking",
+  "cases": {
+    "ideal_i": {
+      "expected_power_kw": 10704.13234250503,
+      "maximum_comprehensive_turbulence": 0.19720564548571817,
+      "feasible": true
+    },
+    "ideal_ii": {
+      "expected_power_kw": 31885.253562520687,
+      "maximum_comprehensive_turbulence": 0.1450009411766439,
+      "feasible": true
+    },
+    "zhuanghe": {
+      "expected_power_kw": 56802.6095007155,
+      "maximum_comprehensive_turbulence": 0.20209242722080145,
+      "feasible": true
+    }
+  },
+  "relative_tolerance": 2e-12,
+  "bounded_optimizer_smoke": {
+    "case": "ideal_i",
+    "population": 8,
+    "generations": 1,
+    "physical_fes": 16,
+    "workers": 4,
+    "result": "nonempty feasible front and at least two observed workers"
+  },
+  "claim_boundary": "H5 equation and bounded protocol equivalence only; Waffle H6 and formal 25-seed quality remain queued"
+}
