@@ -1,7 +1,12 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: bounded T48 semantic tests
-Authority/claim: include/core99/lackner_t48.hpp; anchors are flexible academic
+Paper title and DOI: An Analytical Framework for Offshore Wind Farm Layout
+Optimization, 10.1260/030952407780811401.
+Public source: no paper-linked author code or numeric archive was located.
+Missing fields and Reconstruction: include/core99/lackner_t48.hpp.
+Semantic IDs and Contract: shared/contracts/core99_t48_lackner_2007.json.
+Authority and Claim boundary: anchors are flexible academic
 reproduction checks, not claims of author-exact hidden data or search history
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION

@@ -1,8 +1,14 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: T04 pure-C++ paper-profile CLI and result receipt
-Paper/DOI/evidence/missing/resolution/semantics/claim:
+Paper title and DOI: Unrestricted Wind Farm Layout Optimization,
+10.1016/j.renene.2011.06.033.
+Public source: no author implementation was located.
+Missing fields and Reconstruction:
 include/core99/uwflo_t04.hpp
+Semantic IDs and Contract: shared/contracts/core99_t04_uwflo_cases.json.
+Claim boundary: academic declared reconstruction, not author-source or
+author-exact numerical reproduction.
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */

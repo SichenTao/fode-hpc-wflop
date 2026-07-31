@@ -15,7 +15,7 @@
     },
     {
       "corpus_id": "T03",
-      "dossier_sha256": "a9ec7e1b55d0aca202a8228afa3e00f53063d5c2be5a40c3d86e01632ca1bfaf",
+      "dossier_sha256": "0404de3c6f9f24b2d27f41c3ba43bbcebbb03dbf4b7fb0ebe475058da72874f3",
       "dossier_status": "formal_complete",
       "role": "D"
     },
@@ -27,7 +27,7 @@
     },
     {
       "corpus_id": "T04",
-      "dossier_sha256": "2715ccf631d53550c3eb99c5c12edc867d7d2411ab01b2459c2faefdb3eb89ee",
+      "dossier_sha256": "56ea903e80b34da63d102dba87b937e148c4776ee2730eb72de4d373a155bd2a",
       "dossier_status": "formal_complete",
       "role": "D"
     },
@@ -57,7 +57,7 @@
     },
     {
       "corpus_id": "T15",
-      "dossier_sha256": "3c68b2ae211ff777b833cec104a74ac7a23491cb37b10543a48a6acf2c585cf1",
+      "dossier_sha256": "c77a12acdfac17ed2ccfe5a8ddb07ebe4a152f7b814e3e875d523b4ae7b0f611",
       "dossier_status": "formal_complete",
       "role": "D"
     },
@@ -75,7 +75,7 @@
     },
     {
       "corpus_id": "T20",
-      "dossier_sha256": "59572272e84ba00efc68350e3103b39f358522323b9ecb2145db5b1a5ab3007f",
+      "dossier_sha256": "24e4616b8891f19e98ac519529cb692e4f8cfc7dc80a454ca9e5fc2401ed2eb2",
       "dossier_status": "formal_complete",
       "role": "D"
     },
@@ -93,7 +93,7 @@
     },
     {
       "corpus_id": "T48",
-      "dossier_sha256": "0b0ea760feac6ca2b2a172b6637d1bd39d915b1780a67d219865b06db70ae1fa",
+      "dossier_sha256": "d913987096c23e5056b63498cd9d685296737d8d2e1ac588c98a78af7679f1c9",
       "dossier_status": "formal_complete",
       "role": "D"
     },

@@ -2,7 +2,7 @@
 """H6 throughput probe for the fine-grained T04 pure-C++ reproduction.
 
 FACT DECLARATION
-Paper/DOI: T04 UWFLO, 10.1016/j.renene.2011.09.017.
+Paper/DOI: T04 UWFLO, 10.1016/j.renene.2011.06.033.
 Reason for seed-level concurrency: one paper-scale pure-C++ PSO run contains
 too little work per population evaluation to amortize a 20-way internal
 barrier. This probe compares the same 20 deterministic seeds sequentially and

@@ -11,8 +11,9 @@ Paper-preserved method: (20,120)-ES, log-normal strategy mutation, two-parent
 arithmetic recombination, tournament size 4, archive size 50, 100 generations
 Missing/conflicts: SPEA tie/density/clustering edge cases and random generator
 are not executable in the paper
-Resolution: deterministic strength-Pareto scoring, farthest-spread archive
+Reconstruction and resolution: deterministic strength-Pareto scoring, farthest-spread archive
 truncation, counter-keyed random events, and ordered commits
+Contract: shared/contracts/core99_t03_kusiak_cases.json
 Method/problem semantic IDs: t03_kusiak_spea_es_declared_v1;
 t03_kusiak_circular_expected_power_v1
 Production backend: pure C++ persistent CPU team; independent layouts and

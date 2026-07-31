@@ -1,7 +1,12 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: bounded T03 semantic tests
-Authority/claim: include/core99/kusiak_t03.hpp; tests preserve the declared
+Paper title and DOI: Design of Wind Farm Layout for Maximum Wind Energy
+Capture, 10.1016/j.renene.2009.08.019.
+Public source: no author implementation was located.
+Missing fields and Reconstruction: include/core99/kusiak_t03.hpp.
+Semantic IDs and Contract: shared/contracts/core99_t03_kusiak_cases.json.
+Authority and Claim boundary: tests preserve the declared
 reconstruction boundary and do not claim author-exact values
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION

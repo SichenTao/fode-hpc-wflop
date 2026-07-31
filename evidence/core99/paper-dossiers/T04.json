@@ -73,7 +73,7 @@
   "scope": {
     "claim_boundary": "paper-equation academic declared reproduction with original-layout magnitude validation; no author-source or author-exact optimization claim",
     "execution_wave": "REV1",
-    "package_status": "paper_pair_formal_complete",
+    "package_status": "formal_complete",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },

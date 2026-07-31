@@ -1,11 +1,16 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: T20 evaluator, decoders, and HPC batch execution
-Full source facts, missing fields, conflict resolutions, semantic IDs, and
-claim boundary: include/core99/kunakote_t20.hpp
+Paper title and DOI: Comparative Performance of Twelve Metaheuristics for
+Wind Farm Layout Optimisation, 10.1007/s11831-021-09586-7.
+Public source: no paper-linked author code or data archive was located.
+Missing fields and Reconstruction: include/core99/kunakote_t20.hpp.
+Semantic IDs and Contract: shared/contracts/core99_t20_kunakote_2022.json.
 Independent equation oracle: scripts/validate_core99_t20.py
 HPC design: persistent workers evaluate independent complete layouts; writes
 are indexed and deterministic; no algorithm semantics are changed
+Claim boundary: problem and comparison-interface reproduction, not author
+code or twelve-baseline numerical replay.
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */

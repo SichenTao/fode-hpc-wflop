@@ -1,8 +1,14 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: T03 pure-C++ paper-profile CLI and result receipt
-Paper/DOI/evidence/missing/resolution/semantics/claim:
+Paper title and DOI: Design of Wind Farm Layout for Maximum Wind Energy
+Capture, 10.1016/j.renene.2009.08.019.
+Public source: no author implementation was located.
+Missing fields and Reconstruction:
 include/core99/kusiak_t03.hpp
+Semantic IDs and Contract: shared/contracts/core99_t03_kusiak_cases.json.
+Claim boundary: academic declared reconstruction, not author-source or
+author-exact numerical reproduction.
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */

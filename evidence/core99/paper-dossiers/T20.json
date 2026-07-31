@@ -14,6 +14,14 @@
     "Use candidate-batch parallelism with deterministic indexed writes and a fixed-order best reduction."
   ],
   "corpus_id": "T20",
+  "evidence_receipts": [
+    "evidence/core99/h6/T20_waffle_full_problem_suite.json"
+  ],
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/kunakote_t20.hpp",
+    "hpc/core99_cpp/src/kunakote_t20.cpp",
+    "shared/contracts/core99_t20_kunakote_2022.json"
+  ],
   "dossier_status": "formal_complete",
   "formal_status": "complete_problem_definition_and_comparison_interface",
   "hpc_admission": {
@@ -74,7 +82,7 @@
   "scope": {
     "claim_boundary": "academic declared reproduction of the four proposed WFLOP problems and comparison interface; not author-code or twelve-baseline numerical replay",
     "execution_wave": "REV1",
-    "package_status": "paper_pair_formal_complete",
+    "package_status": "formal_complete",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },

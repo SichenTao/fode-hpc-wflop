@@ -1,6 +1,6 @@
 # T04 H0-H3 HPC analysis
 
-Authority: Chowdhury et al., DOI `10.1016/j.renene.2011.09.017`, plus
+Authority: Chowdhury et al., DOI `10.1016/j.renene.2011.06.033`, plus
 the declared completions in `shared/contracts/core99_t04_uwflo_cases.json`.
 
 - H0: one physical FES evaluates every turbine's partial overlap and combined

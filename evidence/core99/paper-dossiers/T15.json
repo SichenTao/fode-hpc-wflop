@@ -14,6 +14,14 @@
     "Preserve and report constraint violations in public submitted layouts rather than silently repairing published comparison assets."
   ],
   "corpus_id": "T15",
+  "evidence_receipts": [
+    "evidence/core99/h6/T15_waffle_full_matrix.json"
+  ],
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/iea37_t15.hpp",
+    "hpc/core99_cpp/src/iea37_t15.cpp",
+    "shared/contracts/core99_t15_iea37_2019.json"
+  ],
   "dossier_status": "formal_complete",
   "formal_status": "complete_deterministic_full_matrix",
   "hpc_admission": {
@@ -79,8 +87,8 @@
   "scope": {
     "claim_boundary": "academic reproduction of benchmark problems, common evaluator, released layouts, rankings, and cross-model protocol; not participant methods",
     "execution_wave": "REV1",
-    "package_status": "paper_pair_formal_complete",
-    "scope_status": "new_direct_active",
+    "package_status": "formal_complete",
+    "scope_status": "new_direct_ready",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },
   "semantic_contract": {

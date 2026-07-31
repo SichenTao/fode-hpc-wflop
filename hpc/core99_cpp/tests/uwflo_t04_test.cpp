@@ -1,7 +1,12 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: bounded T04 semantic tests
-Authority/claim: include/core99/uwflo_t04.hpp; tests preserve the declared
+Paper title and DOI: Unrestricted Wind Farm Layout Optimization,
+10.1016/j.renene.2011.06.033.
+Public source: no author implementation was located.
+Missing fields and Reconstruction: include/core99/uwflo_t04.hpp.
+Semantic IDs and Contract: shared/contracts/core99_t04_uwflo_cases.json.
+Authority and Claim boundary: tests preserve the declared
 reproduction boundary and do not claim author-exact values
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION

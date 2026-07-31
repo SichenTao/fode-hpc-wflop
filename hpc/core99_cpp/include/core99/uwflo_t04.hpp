@@ -3,7 +3,7 @@ WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: T04 UWFLO continuous layout/rotor cases and constrained PSO
 Paper/DOI: Unrestricted Wind Farm Layout Optimization: Investigating Key
 Factors Influencing the Maximum Power Generation;
-10.1016/j.renene.2011.09.017
+10.1016/j.renene.2011.06.033
 Public source: no author implementation was located
 Paper-preserved problem: Frandsen/Park analytical wakes with partial overlap,
 experimental 1.68 by 0.72 m farm, 0.12 m rotor, 7.0896 or 6.2 m/s inflow,
@@ -13,10 +13,11 @@ swarm size 5 times dimension, Deb constrained domination, paper FES budgets
 Missing/conflicts: author source, exact Fig.4 power-curve samples, initial
 velocity law, boundary response, and Eq.29 printing diameter sums although
 the paper's 18-turbine 7D by 3D case is infeasible under a 2D center spacing
-Resolution: paper Cp/induction fits, zero initial velocity, bound projection,
+Reconstruction and resolution: paper Cp/induction fits, zero initial velocity, bound projection,
 one-diameter center spacing required by the paper-native cases, equivalent
 commercial-diameter scaling
 for Eq.19, counter-keyed random events, and ordered best commits
+Contract: shared/contracts/core99_t04_uwflo_cases.json
 Method/problem semantic IDs: t04_uwflo_constrained_pso_declared_v1;
 t04_uwflo_cases_declared_v1
 Production backend: pure C++ persistent CPU team; particle update and complete

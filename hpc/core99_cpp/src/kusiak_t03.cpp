@@ -1,11 +1,17 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: T03 evaluator, strength-Pareto ES, and HPC execution
-Full evidence, missing fields, resolutions, semantic IDs, and claim boundary:
+Paper title and DOI: Design of Wind Farm Layout for Maximum Wind Energy
+Capture, 10.1016/j.renene.2009.08.019.
+Public source: no author implementation was located.
+Missing fields and Reconstruction:
 include/core99/kusiak_t03.hpp
+Semantic IDs and Contract: shared/contracts/core99_t03_kusiak_cases.json.
 Independent equation oracle: scripts/validate_core99_t03.py
 HPC design: schedule-independent parallel initialization/mutation/evaluation,
 persistent workers, stack-local wake reductions, fixed-order Pareto commits
+Claim boundary: academic declared reconstruction, not author-source or
+author-exact numerical reproduction.
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */

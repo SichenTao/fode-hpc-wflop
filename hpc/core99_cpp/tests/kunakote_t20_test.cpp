@@ -1,7 +1,12 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: bounded T20 semantic tests
-Authority/claim: include/core99/kunakote_t20.hpp; tests enforce paper problem
+Paper title and DOI: Comparative Performance of Twelve Metaheuristics for
+Wind Farm Layout Optimisation, 10.1007/s11831-021-09586-7.
+Public source: no paper-linked author code or data archive was located.
+Missing fields and Reconstruction: include/core99/kunakote_t20.hpp.
+Semantic IDs and Contract: shared/contracts/core99_t20_kunakote_2022.json.
+Authority and Claim boundary: tests enforce paper problem
 semantics and do not claim author-exact optimizer results
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION

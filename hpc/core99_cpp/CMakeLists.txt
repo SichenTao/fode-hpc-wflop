@@ -20,7 +20,7 @@ target_link_libraries(
     PRIVATE core99_historical_grid_core
 )
 
-add_library(core99_l0124_core src/parada_l0124.cpp)
+add_library(core99_l0124_core STATIC src/parada_l0124.cpp)
 target_include_directories(core99_l0124_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -36,7 +36,7 @@ target_compile_options(core99_l0124_core PRIVATE
 add_executable(core99_l0124_hpc src/parada_l0124_main.cpp)
 target_link_libraries(core99_l0124_hpc PRIVATE core99_l0124_core)
 
-add_library(core99_t87_core src/hu_t87.cpp)
+add_library(core99_t87_core STATIC src/hu_t87.cpp)
 target_include_directories(core99_t87_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -52,7 +52,7 @@ target_compile_options(core99_t87_core PRIVATE
 add_executable(core99_t87_hpc src/hu_t87_main.cpp)
 target_link_libraries(core99_t87_hpc PRIVATE core99_t87_core)
 
-add_library(core99_l0371_core src/guo_l0371.cpp)
+add_library(core99_l0371_core STATIC src/guo_l0371.cpp)
 target_include_directories(core99_l0371_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -68,7 +68,7 @@ target_compile_options(core99_l0371_core PRIVATE
 add_executable(core99_l0371_hpc src/guo_l0371_main.cpp)
 target_link_libraries(core99_l0371_hpc PRIVATE core99_l0371_core)
 
-add_library(core99_l0499_core src/wen_l0499.cpp)
+add_library(core99_l0499_core STATIC src/wen_l0499.cpp)
 target_include_directories(core99_l0499_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -84,7 +84,7 @@ target_compile_options(core99_l0499_core PRIVATE
 add_executable(core99_l0499_hpc src/wen_l0499_main.cpp)
 target_link_libraries(core99_l0499_hpc PRIVATE core99_l0499_core)
 
-add_library(core99_l0590_core src/sun_l0590.cpp)
+add_library(core99_l0590_core STATIC src/sun_l0590.cpp)
 target_include_directories(core99_l0590_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -100,7 +100,7 @@ target_compile_options(core99_l0590_core PRIVATE
 add_executable(core99_l0590_hpc src/sun_l0590_main.cpp)
 target_link_libraries(core99_l0590_hpc PRIVATE core99_l0590_core)
 
-add_library(core99_l0341_core src/tao_l0341.cpp)
+add_library(core99_l0341_core STATIC src/tao_l0341.cpp)
 target_include_directories(core99_l0341_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -116,7 +116,7 @@ target_compile_options(core99_l0341_core PRIVATE
 add_executable(core99_l0341_hpc src/tao_l0341_main.cpp)
 target_link_libraries(core99_l0341_hpc PRIVATE core99_l0341_core)
 
-add_library(core99_l0623_core src/wang_l0623.cpp)
+add_library(core99_l0623_core STATIC src/wang_l0623.cpp)
 target_include_directories(core99_l0623_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -132,7 +132,7 @@ target_compile_options(core99_l0623_core PRIVATE
 add_executable(core99_l0623_hpc src/wang_l0623_main.cpp)
 target_link_libraries(core99_l0623_hpc PRIVATE core99_l0623_core)
 
-add_library(core99_t74_core src/ju_t74.cpp)
+add_library(core99_t74_core STATIC src/ju_t74.cpp)
 target_include_directories(core99_t74_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -148,7 +148,7 @@ target_compile_options(core99_t74_core PRIVATE
 add_executable(core99_t74_hpc src/ju_t74_main.cpp)
 target_link_libraries(core99_t74_hpc PRIVATE core99_t74_core)
 
-add_library(core99_discrete_grid_wake_core src/discrete_grid_wake.cpp)
+add_library(core99_discrete_grid_wake_core STATIC src/discrete_grid_wake.cpp)
 target_include_directories(core99_discrete_grid_wake_core
     PUBLIC ${CMAKE_CURRENT_SOURCE_DIR}/include
 )
@@ -159,7 +159,7 @@ target_compile_options(core99_discrete_grid_wake_core PRIVATE
     -ffp-contract=off
 )
 
-add_library(core99_t80_core src/bai_t80.cpp)
+add_library(core99_t80_core STATIC src/bai_t80.cpp)
 target_include_directories(core99_t80_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -178,7 +178,7 @@ target_compile_options(core99_t80_core PRIVATE
 add_executable(core99_t80_hpc src/bai_t80_main.cpp)
 target_link_libraries(core99_t80_hpc PRIVATE core99_t80_core)
 
-add_library(core99_t05_core src/turner_t05.cpp)
+add_library(core99_t05_core STATIC src/turner_t05.cpp)
 target_include_directories(core99_t05_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -194,7 +194,7 @@ target_compile_options(core99_t05_core PRIVATE
 add_executable(core99_t05_hpc src/turner_t05_main.cpp)
 target_link_libraries(core99_t05_hpc PRIVATE core99_t05_core)
 
-add_library(core99_t03_core src/kusiak_t03.cpp)
+add_library(core99_t03_core STATIC src/kusiak_t03.cpp)
 target_include_directories(core99_t03_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -210,7 +210,7 @@ target_compile_options(core99_t03_core PRIVATE
 add_executable(core99_t03_hpc src/kusiak_t03_main.cpp)
 target_link_libraries(core99_t03_hpc PRIVATE core99_t03_core)
 
-add_library(core99_t04_core src/uwflo_t04.cpp)
+add_library(core99_t04_core STATIC src/uwflo_t04.cpp)
 target_include_directories(core99_t04_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -226,7 +226,7 @@ target_compile_options(core99_t04_core PRIVATE
 add_executable(core99_t04_hpc src/uwflo_t04_main.cpp)
 target_link_libraries(core99_t04_hpc PRIVATE core99_t04_core)
 
-add_library(core99_t22_core src/debo_t22.cpp)
+add_library(core99_t22_core STATIC src/debo_t22.cpp)
 target_include_directories(core99_t22_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -242,7 +242,7 @@ target_compile_options(core99_t22_core PRIVATE
 add_executable(core99_t22_hpc src/debo_t22_main.cpp)
 target_link_libraries(core99_t22_hpc PRIVATE core99_t22_core)
 
-add_library(core99_t12_core src/windflo_t12.cpp)
+add_library(core99_t12_core STATIC src/windflo_t12.cpp)
 target_include_directories(core99_t12_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -258,7 +258,7 @@ target_compile_options(core99_t12_core PRIVATE
 add_executable(core99_t12_hpc src/windflo_t12_main.cpp)
 target_link_libraries(core99_t12_hpc PRIVATE core99_t12_core)
 
-add_library(core99_t14_core src/stanley_t14.cpp)
+add_library(core99_t14_core STATIC src/stanley_t14.cpp)
 target_include_directories(core99_t14_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -274,7 +274,7 @@ target_compile_options(core99_t14_core PRIVATE
 add_executable(core99_t14_hpc src/stanley_t14_main.cpp)
 target_link_libraries(core99_t14_hpc PRIVATE core99_t14_core)
 
-add_library(core99_t15_core src/iea37_t15.cpp)
+add_library(core99_t15_core STATIC src/iea37_t15.cpp)
 target_include_directories(core99_t15_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -290,7 +290,7 @@ target_compile_options(core99_t15_core PRIVATE
 add_executable(core99_t15_hpc src/iea37_t15_main.cpp)
 target_link_libraries(core99_t15_hpc PRIVATE core99_t15_core)
 
-add_library(core99_t20_core src/kunakote_t20.cpp)
+add_library(core99_t20_core STATIC src/kunakote_t20.cpp)
 target_include_directories(core99_t20_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -306,7 +306,7 @@ target_compile_options(core99_t20_core PRIVATE
 add_executable(core99_t20_hpc src/kunakote_t20_main.cpp)
 target_link_libraries(core99_t20_hpc PRIVATE core99_t20_core)
 
-add_library(core99_t48_core src/lackner_t48.cpp)
+add_library(core99_t48_core STATIC src/lackner_t48.cpp)
 target_include_directories(core99_t48_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -322,7 +322,7 @@ target_compile_options(core99_t48_core PRIVATE
 add_executable(core99_t48_hpc src/lackner_t48_main.cpp)
 target_link_libraries(core99_t48_hpc PRIVATE core99_t48_core)
 
-add_library(core99_t62_core src/gao_t62.cpp)
+add_library(core99_t62_core STATIC src/gao_t62.cpp)
 target_include_directories(core99_t62_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -338,7 +338,7 @@ target_compile_options(core99_t62_core PRIVATE
 add_executable(core99_t62_hpc src/gao_t62_main.cpp)
 target_link_libraries(core99_t62_hpc PRIVATE core99_t62_core)
 
-add_library(core99_t17_core src/brogna_t17.cpp)
+add_library(core99_t17_core STATIC src/brogna_t17.cpp)
 target_include_directories(core99_t17_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -354,7 +354,7 @@ target_compile_options(core99_t17_core PRIVATE
 add_executable(core99_t17_hpc src/brogna_t17_main.cpp)
 target_link_libraries(core99_t17_hpc PRIVATE core99_t17_core)
 
-add_library(core99_t77_core src/long_t77.cpp)
+add_library(core99_t77_core STATIC src/long_t77.cpp)
 target_include_directories(core99_t77_core
     PUBLIC
         ${CMAKE_CURRENT_SOURCE_DIR}/include
@@ -393,7 +393,7 @@ if(CORE99_ENABLE_T31)
             DESTINATION ${CORE99_T31_EXTRACT_BASE}
         )
     endif()
-    add_library(core99_t31_core src/cazzaro_t31.cpp)
+    add_library(core99_t31_core STATIC src/cazzaro_t31.cpp)
     target_include_directories(core99_t31_core
         PUBLIC
             ${CMAKE_CURRENT_SOURCE_DIR}/include

@@ -16,6 +16,7 @@ use a declared piecewise-linear 1.5MW curve normalized to the paper's 42%
 isolated capacity-factor anchor; use periodic monotone cubic Hermite wind
 interpolation, deterministic bounded coordinate-gradient trials, 1-degree
 direction quadrature, and 0.25m/s midpoint speed quadrature
+Contract: shared/contracts/core99_t48_lackner_2007.json
 Problem semantic ID: t48_lackner_two_turbine_lcoe_declared_v1
 Method semantic ID: t48_lackner_gradient_coordinate_reconstruction_v1
 Production backend: pure C++ persistent CPU team; all candidate-turbine-

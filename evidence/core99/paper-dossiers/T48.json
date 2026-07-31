@@ -14,6 +14,14 @@
     "Flatten candidate, turbine, and direction work onto one persistent CPU team while keeping reductions and commits ordered."
   ],
   "corpus_id": "T48",
+  "evidence_receipts": [
+    "evidence/core99/h6/T48_waffle_admission.json"
+  ],
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/lackner_t48.hpp",
+    "hpc/core99_cpp/src/lackner_t48.cpp",
+    "shared/contracts/core99_t48_lackner_2007.json"
+  ],
   "dossier_status": "formal_complete",
   "formal_status": "complete_single_deterministic_paper_demonstration",
   "hpc_admission": {
@@ -62,7 +70,7 @@
   "scope": {
     "claim_boundary": "academic declared reproduction of the analytical framework and two-turbine demonstration; not author-source or exact 190-step replay",
     "execution_wave": "REV1",
-    "package_status": "paper_pair_formal_complete",
+    "package_status": "formal_complete",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },

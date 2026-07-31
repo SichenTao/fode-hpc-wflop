@@ -4,7 +4,7 @@
 FACT DECLARATION
 T03 DOI 10.1016/j.renene.2009.08.019 uses one 20-worker optimization
 at a time because its direction/Weibull evaluator has sufficient internal
-parallel grain. T04 DOI 10.1016/j.renene.2011.09.017 uses 20 concurrent
+parallel grain. T04 DOI 10.1016/j.renene.2011.06.033 uses 20 concurrent
 one-worker optimizations because its tiny per-layout kernel is throughput
 limited. Both modes occupy all Waffle logical CPUs without changing a
 scientific trajectory. Formal results are project-declared academic

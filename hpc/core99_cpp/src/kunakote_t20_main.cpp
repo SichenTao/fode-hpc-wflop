@@ -1,8 +1,13 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: T20 pure-C++ benchmark and H6 CLI
-Paper/DOI/evidence/missing/resolution/semantics/claim:
-include/core99/kunakote_t20.hpp
+Paper title and DOI: Comparative Performance of Twelve Metaheuristics for
+Wind Farm Layout Optimisation, 10.1007/s11831-021-09586-7.
+Public source: no paper-linked author code or data archive was located.
+Missing fields and Reconstruction: include/core99/kunakote_t20.hpp.
+Semantic IDs and Contract: shared/contracts/core99_t20_kunakote_2022.json.
+Claim boundary: problem and comparison-interface reproduction, not author
+code or twelve-baseline numerical replay.
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */

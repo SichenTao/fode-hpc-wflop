@@ -16,10 +16,11 @@ complete result layouts; Algorithm 2 step 5 prints Gc(i), while its prose and
 input-dependent intent specify Gc(round(x_i)); the paper does not explicitly
 state whether the wake-decay value is recomputed or fixed to the preceding
 0.086 example
-Resolution: follow the prose decoder Gc(round(x_i)); use the stated
+Reconstruction and resolution: follow the prose decoder Gc(round(x_i)); use the stated
 k=0.5/log(h/h0) surface-roughness relation with Table-1 h and h0; count every
 complete 36-direction farm evaluation as one physical FES; preserve all
 conflicts in the semantic contract
+Contract: shared/contracts/core99_t20_kunakote_2022.json
 Problem semantic ID: t20_kunakote_four_case_benchmark_declared_v1
 Method semantic ID: t20_comparison_protocol_no_target_optimizer_v1
 Production backend: pure C++ CPU; candidate-batch evaluation uses a persistent

@@ -1,11 +1,16 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: T48 equations, quadrature, and full-resource search
-Full source facts, missing fields, reconstruction, semantic IDs, and claim:
-include/core99/lackner_t48.hpp
+Paper title and DOI: An Analytical Framework for Offshore Wind Farm Layout
+Optimization, 10.1260/030952407780811401.
+Public source: no paper-linked author code or numeric archive was located.
+Missing fields and Reconstruction: include/core99/lackner_t48.hpp.
+Semantic IDs and Contract: shared/contracts/core99_t48_lackner_2007.json.
 Independent oracle: scripts/validate_core99_t48.py
 HPC design: flatten candidate x turbine x direction work onto one persistent
 CPU team; fixed-order double reductions and candidate commits preserve output
+Claim boundary: academic declared reconstruction, not author source or exact
+190-step replay.
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
