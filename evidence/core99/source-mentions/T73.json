@@ -1,12 +1,16 @@
 {
-  "availability_mention_line_numbers": [],
-  "candidate_public_asset_urls": [],
+  "schema_version": 1,
   "corpus_id": "T73",
   "doi": "10.1016/j.cie.2018.04.051",
-  "embedded_annotation_asset_urls": [],
-  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
   "paper_pdf_sha256": "d4ff6a796b03a3d187921addb2c661b035755d5385081ef9b24c8afff554e2c5",
   "private_text_sha256": "f23b0b4cf00b8067e459de98e989ed295dbb1a6e213b1f9cd4e30d66cc7027ca",
-  "schema_version": 1,
-  "single_line_text_asset_url_candidates": []
+  "availability_mention_line_numbers": [],
+  "embedded_annotation_asset_urls": [],
+  "single_line_text_asset_url_candidates": [],
+  "candidate_public_asset_urls": [
+    "https://doi.org/10.1016/j.cie.2018.04.051",
+    "https://doi.org/10.1109/WSC.2016.7822324",
+    "https://www.informs-sim.org/wsc16papers/254.pdf"
+  ],
+  "interpretation": "No target source is disclosed. The official WSC PDF is a target-cited predecessor for algorithm budgets and model lineage, not target code or target problem data."
 }

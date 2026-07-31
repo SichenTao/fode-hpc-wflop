@@ -375,8 +375,8 @@
     },
     {
       "corpus_id": "T73",
-      "dossier_sha256": "6c95f3626800eb6d79943aeb1acbe12e76ed6de40786998eb8661e2334341ffb",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "ddfc040d5c4beb9fb3c8078f38069c89d1bad40590283c76456e6bf398433a5c",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
