@@ -537,6 +537,11 @@ option(
     OFF
 )
 option(
+    CORE99_ENABLE_T76
+    "Build T76 directional heterogeneous-turbine MPGA reproduction"
+    OFF
+)
+option(
     CORE99_ENABLE_T60
     "Build T60 improved random-search incremental WFLOP reproduction"
     OFF
@@ -700,6 +705,24 @@ if(CORE99_ENABLE_T67)
     )
     add_executable(core99_t67_hpc src/abdulrahman_t67_main.cpp)
     target_link_libraries(core99_t67_hpc PRIVATE core99_t67_core)
+endif()
+
+if(CORE99_ENABLE_T76)
+    add_library(core99_t76_core STATIC src/sun_t76.cpp)
+    target_include_directories(core99_t76_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t76_core PUBLIC fode_core)
+    target_compile_features(core99_t76_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t76_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t76_hpc src/sun_t76_main.cpp)
+    target_link_libraries(core99_t76_hpc PRIVATE core99_t76_core)
 endif()
 
 if(CORE99_ENABLE_T60)
@@ -1147,6 +1170,18 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t67_hpc>
         )
         set_tests_properties(core99_t67_h5 PROPERTIES TIMEOUT 300)
+    endif()
+    if(CORE99_ENABLE_T76)
+        add_executable(core99_t76_test tests/sun_t76_test.cpp)
+        target_link_libraries(core99_t76_test PRIVATE core99_t76_core)
+        add_test(NAME core99_t76_cpp COMMAND core99_t76_test)
+        add_test(
+            NAME core99_t76_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t76.py
+                --binary $<TARGET_FILE:core99_t76_hpc>
+        )
+        set_tests_properties(core99_t76_h5 PROPERTIES TIMEOUT 300)
     endif()
     if(CORE99_ENABLE_T60)
         add_executable(core99_t60_test tests/feng_t60_test.cpp)

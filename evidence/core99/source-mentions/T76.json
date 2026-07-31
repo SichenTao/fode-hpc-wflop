@@ -4,7 +4,7 @@
   "corpus_id": "T76",
   "doi": "10.1016/j.energy.2018.11.073",
   "embedded_annotation_asset_urls": [],
-  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "interpretation": "No target source or paper-linked native data were located by exact-title, DOI, author, GitHub, laboratory, and paper-link searches. T76 is therefore a declared academic flexible reconstruction based on the paper, its cited T62 MPGA lineage, and explicitly recorded deterministic completions.",
   "paper_pdf_sha256": "dae77490f061fd063361a5f4b10aefba70773c4569b97c4a3c4a3e085860daba",
   "private_text_sha256": "eae0b9452b1e52444e85e362718e018a6a15f8de41b7246857696bfc38177196",
   "schema_version": 1,
