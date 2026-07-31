@@ -243,8 +243,8 @@
     },
     {
       "corpus_id": "T30",
-      "dossier_sha256": "7d590a292c946b56818e667da124fe54863b32f8ef649818e1375f25f81d0854",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "bc45d6cef6a14800e5457f1fccbeb22689ebccd50a791e9245ce94366d53a19f",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

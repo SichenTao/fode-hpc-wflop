@@ -148,6 +148,15 @@ if(BUILD_TESTING)
             PROPERTIES TIMEOUT 600
         )
     endif()
+    if(CORE99_ENABLE_T30)
+        add_test(
+            NAME core99_t30_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/validate_core99_t30.py
+                --binary $<TARGET_FILE:core99_t30_hpc>
+        )
+        set_tests_properties(core99_t30_h5 PROPERTIES TIMEOUT 300)
+    endif()
     add_test(
         NAME source_dossiers
         COMMAND ${Python3_EXECUTABLE}

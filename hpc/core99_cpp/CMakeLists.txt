@@ -415,7 +415,12 @@ option(
     "Build T63 with the pinned HiGHS C++ MILP backend"
     OFF
 )
-if(CORE99_ENABLE_T63)
+option(
+    CORE99_ENABLE_T30
+    "Build T30 proximity search with the pinned HiGHS C++ MILP backend"
+    OFF
+)
+if(CORE99_ENABLE_T63 OR CORE99_ENABLE_T30)
     include(FetchContent)
     set(CORE99_SAVED_BUILD_TESTING ${BUILD_TESTING})
     set(FAST_BUILD ON CACHE BOOL "" FORCE)
@@ -433,7 +438,9 @@ if(CORE99_ENABLE_T63)
     )
     FetchContent_MakeAvailable(highs)
     set(BUILD_TESTING ${CORE99_SAVED_BUILD_TESTING} CACHE BOOL "" FORCE)
+endif()
 
+if(CORE99_ENABLE_T63)
     add_library(core99_t63_core STATIC src/kuo_t63.cpp)
     target_include_directories(core99_t63_core
         PUBLIC
@@ -449,6 +456,30 @@ if(CORE99_ENABLE_T63)
     )
     add_executable(core99_t63_hpc src/kuo_t63_main.cpp)
     target_link_libraries(core99_t63_hpc PRIVATE core99_t63_core)
+endif()
+
+if(CORE99_ENABLE_T30)
+    add_library(core99_t30_core STATIC src/fischetti_t30.cpp)
+    target_include_directories(core99_t30_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t30_core PUBLIC fode_core highs::highs)
+    target_compile_features(core99_t30_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t30_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t30_hpc src/fischetti_t30_main.cpp)
+    target_link_libraries(core99_t30_hpc PRIVATE core99_t30_core)
+    if(BUILD_TESTING)
+        add_executable(core99_t30_test tests/fischetti_t30_test.cpp)
+        target_link_libraries(core99_t30_test PRIVATE core99_t30_core)
+        add_test(NAME core99_t30_cpp_highs COMMAND core99_t30_test)
+        set_tests_properties(core99_t30_cpp_highs PROPERTIES TIMEOUT 300)
+    endif()
 endif()
 
 option(
