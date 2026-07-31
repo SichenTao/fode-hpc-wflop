@@ -285,14 +285,14 @@
     },
     {
       "corpus_id": "T76",
-      "dossier_sha256": "c620b08c4db8780b90d2aeaae5656675c316755087442c52cf7e6f768e28aff2",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "8e5ce77021f304ace9362f36e9bf93333539736501f0bb058bb40fd12989958e",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
       "corpus_id": "T81",
-      "dossier_sha256": "4b8e53ed7115423e69e3a59c0032a61434718bcd35fba2081a944af3c2ea1d14",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "c64db81ff3952d7a7a9b4ab9a06be65c754ebc69b1c4de40a95f0c797dd84ef7",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

@@ -542,6 +542,11 @@ option(
     OFF
 )
 option(
+    CORE99_ENABLE_T81
+    "Build T81 inhomogeneous-wave Multistart-SLSQP reproduction"
+    OFF
+)
+option(
     CORE99_ENABLE_T60
     "Build T60 improved random-search incremental WFLOP reproduction"
     OFF
@@ -571,7 +576,8 @@ option(
     "Build T24 Markov-intermittency NSGA-III CPU-HPC reproduction"
     OFF
 )
-if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21)
+if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21
+   OR CORE99_ENABLE_T81)
     include(FetchContent)
 
     set(NLOPT_CXX ON CACHE BOOL "" FORCE)
@@ -649,6 +655,24 @@ if(CORE99_ENABLE_T21)
     )
     add_executable(core99_t21_hpc src/pollini_t21_main.cpp)
     target_link_libraries(core99_t21_hpc PRIVATE core99_t21_core)
+endif()
+
+if(CORE99_ENABLE_T81)
+    add_library(core99_t81_core STATIC src/ti_t81.cpp)
+    target_include_directories(core99_t81_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t81_core PUBLIC fode_core nlopt)
+    target_compile_features(core99_t81_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t81_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t81_hpc src/ti_t81_main.cpp)
+    target_link_libraries(core99_t81_hpc PRIVATE core99_t81_core)
 endif()
 
 if(CORE99_ENABLE_T72 OR CORE99_ENABLE_T64)
@@ -1182,6 +1206,18 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t76_hpc>
         )
         set_tests_properties(core99_t76_h5 PROPERTIES TIMEOUT 300)
+    endif()
+    if(CORE99_ENABLE_T81)
+        add_executable(core99_t81_test tests/ti_t81_test.cpp)
+        target_link_libraries(core99_t81_test PRIVATE core99_t81_core)
+        add_test(NAME core99_t81_cpp COMMAND core99_t81_test)
+        add_test(
+            NAME core99_t81_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t81.py
+                --binary $<TARGET_FILE:core99_t81_hpc>
+        )
+        set_tests_properties(core99_t81_h5 PROPERTIES TIMEOUT 300)
     endif()
     if(CORE99_ENABLE_T60)
         add_executable(core99_t60_test tests/feng_t60_test.cpp)

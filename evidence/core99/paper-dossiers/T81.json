@@ -6,21 +6,33 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Retain both paper problem roles, continuous coordinates, 2D spacing, 24 wind sectors, Gaussian wake/RSS, two-stage formulation, and four published alpha0 values.",
+    "Use cited FLORIS-v2.4 NREL 5 MW CP/CT and legacy-Gauss lineage data.",
+    "Reconstruct Case 1 from the paper equations and figures and Case 2 from deterministic figure-informed polygon, wind, and load topology because native arrays are unavailable.",
+    "Use a pinned pure-C++ NLopt Kraft SLSQP replacement, bound-aware central 0.5 m differences with one-sided completion at active bounds, 15 starts, 1e-7 relative x tolerance, and 300 solver evaluations per start.",
+    "Precompute and interpolate immutable Case-1 and Case-2 wave-load charts, parallelize independent SLSQP starts with a persistent team, and preserve ordered best-start reduction.",
+    "Use 25 platform-standard seeds per paper role and pair two half-core formal processes to fill Waffle's 20 CPU cores."
+  ],
   "corpus_id": "T81",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_waffle_after_t76",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "complete_paper_source_and_missing_data_audit",
+    "H1": "complete_two_stage_wake_wave_and_constraint_decomposition",
+    "H2": "complete_wave_chart_complexity_fes_and_parallel_start_analysis",
+    "H3": "complete_persistent_cpp_slsqp_and_precomputed_chart_implementation",
+    "H4": "complete_spark_fixed_work_one_fifteen_worker_profile",
+    "H5": "pass_independent_twochart_constraint_and_schedule_validation",
+    "H6": "pass_spark_provisional_queued_waffle_after_t76"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "target Python source and exact SciPy/FLORIS environment",
+    "SLSQP finite-difference step, tolerances, maximum evaluations, and random states",
+    "native Case-2 NCEP wind-frequency and speed arrays",
+    "native Case-2 polygon coordinates, bathymetry, 75737-element mesh, and MIKE21/SWAN setup",
+    "native Case-1 and Case-2 wave-load chart samples",
+    "optimized coordinates, per-start histories, and repeat protocol"
   ],
   "paper": {
     "authors": "Ti Zilong and Deng Xiao Wei",
@@ -52,77 +64,77 @@
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "academic flexible reconstruction of both paper cases and Multistart-SLSQP; not author source, native environmental arrays, SciPy trajectory, or exact numerical replay",
     "execution_wave": "REV4",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
+    "package_status": "h5_admitted_waffle_formal_queued",
+    "scope_status": "paper_paired_hpc_implemented",
     "target_contribution_type": "coupled_or_real_world_problem_and_method"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "2D spacing, rectangular or polygon boundary, and alpha0 AEP inequality are explicit SLSQP constraints",
+      "status": "implemented_and_validated"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "continuous x/y coordinates for 16 or 20 NREL 5 MW turbines",
+      "status": "implemented"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "direct double-precision coordinate vector; no discrete decoder",
+      "status": "implemented"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_completion",
+      "resolution": "15 deterministic feasible pseudo-random starts plus one reference/incumbent start",
+      "status": "implemented"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_platform_completion",
+      "resolution": "AEP, alpha1, beta, feasibility, physical FES, timings, worker receipt, and hash for 25 seeds per paper role",
+      "status": "implemented_and_queued_formal"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "Stage 1 maximizes raw AEP; Stage 2 minimizes raw total extreme-wave load under alpha0",
+      "status": "implemented"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_data_completion",
+      "resolution": "Case 1 mild slope and Case 2 polygonal complex terrain are both registered",
+      "status": "implemented"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_completion",
+      "resolution": "15 starts, four paper alpha0 values, bound-aware 0.5 m finite differences, x tolerance 1e-7, and 300 solver evaluations per start",
+      "status": "implemented"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "declared_completion",
+      "resolution": "SLSQP convergence or 300 solver evaluations; every complete base or finite-difference layout physics call is one FES",
+      "status": "implemented_and_audited"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not_applicable",
+      "resolution": "T81 has no trained model",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_deterministic_hpc_completion",
+      "resolution": "independent starts execute concurrently, write fixed slots, and reduce in start-index order; coupled incumbent propagates across relaxed alpha0 stages",
+      "status": "implemented_and_schedule_validated"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_cited_FLORIS_and_declared_wave_data_completion",
+      "resolution": "FLORIS-v2.4-lineage Gaussian/RSS AEP and independently validated precomputed wave-load charts",
+      "status": "implemented_and_independently_validated"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_figure_informed_completion",
+      "resolution": "Case 1 uses 24 equal 8 m/s sectors; Case 2 uses a deterministic digitization of the published 24-sector wind rose",
+      "status": "implemented"
     }
   }
 }
