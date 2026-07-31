@@ -90,7 +90,12 @@ def aep(layout: list[list[float]], contract: dict[str, Any]) -> float:
     return total_expected_power * 365.0 * 24.0 / 1.0e6
 
 
-def cpp(binary: Path, label: str, workers: int) -> dict[str, Any]:
+def cpp(
+    binary: Path,
+    label: str,
+    workers: int,
+    repeats: int = 1,
+) -> dict[str, Any]:
     output = subprocess.check_output(
         [
             str(binary),
@@ -98,6 +103,8 @@ def cpp(binary: Path, label: str, workers: int) -> dict[str, Any]:
             label,
             "--workers",
             str(workers),
+            "--evaluation-repeats",
+            str(repeats),
         ],
         text=True,
     )
@@ -120,11 +127,20 @@ def main() -> None:
         receipt = contract["author_receipts"][label]
         oracle = aep(receipt["positions_m"], contract)
         serial = cpp(args.binary, label, 1)
-        parallel = cpp(args.binary, label, 4)
+        parallel = cpp(args.binary, label, 4, 3)
         absolute_error = abs(serial["aep_mwh"] - oracle)
         parallel_error = abs(parallel["aep_mwh"] - serial["aep_mwh"])
         tolerance = max(1.0e-6, 1.0e-11 * abs(oracle))
         if absolute_error > tolerance or parallel_error > tolerance:
+            report["status"] = "fail"
+        if (
+            serial["evaluation_repeats"] != 1
+            or serial["observed_workers"] != 1
+            or parallel["evaluation_repeats"] != 3
+            or parallel["observed_workers"] != 4
+            or serial["seconds_per_evaluation"] <= 0.0
+            or parallel["seconds_per_evaluation"] <= 0.0
+        ):
             report["status"] = "fail"
         # The published baseline coordinates are rounded to four decimals and
         # sit 1.1306 m outside the detailed polygons in aggregate.  They are an

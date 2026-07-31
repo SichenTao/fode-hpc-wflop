@@ -503,8 +503,8 @@
         },
         "metrics_and_repeats": {
           "status": "frozen",
-          "authority": "paper_plus_platform_protocol",
-          "resolution": "AEP, wake loss, feasibility, physical FES, stage timings, scientific hash, paper result-layout oracle, and 25 platform seeds"
+          "authority": "paper",
+          "resolution": "AEP, wake loss, feasibility, physical FES, stage timings, scientific hash, paper result-layout oracle, and one full DEBO run because the paper states little randomness"
         }
       },
       "paper_source_conflicts": [
@@ -528,6 +528,7 @@
       "implementation_units": [
         "hpc/core99_cpp/include/core99/debo_t22.hpp",
         "hpc/core99_cpp/src/debo_t22.cpp",
+        "scripts/run_core99_t22_h6_formal.py",
         "shared/contracts/core99_t22_iea37_cs4.json"
       ],
       "evidence_receipts": [],

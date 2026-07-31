@@ -14,6 +14,7 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 #include "core99/debo_t22.hpp"
 
+#include <chrono>
 #include <cstdlib>
 #include <fstream>
 #include <iomanip>
@@ -31,6 +32,7 @@ struct Arguments {
     std::string author_layout;
     std::uint64_t seed = 20260731;
     std::uint64_t physical_fes_limit = 0;
+    int evaluation_repeats = 1;
     int workers = 20;
 };
 
@@ -54,6 +56,8 @@ Arguments parse(int argc, char** argv) {
             args.seed = std::stoull(value());
         } else if (flag == "--physical-fes-limit") {
             args.physical_fes_limit = std::stoull(value());
+        } else if (flag == "--evaluation-repeats") {
+            args.evaluation_repeats = std::stoi(value());
         } else if (flag == "--workers") {
             args.workers = std::stoi(value());
         } else {
@@ -98,12 +102,51 @@ std::string layout_json(const std::vector<core99::t22::Point>& layout) {
     return out.str();
 }
 
+struct FixedEvaluationReceipt {
+    core99::t22::Evaluation value;
+    int requested_workers = 0;
+    int observed_workers = 0;
+    int repeats = 0;
+    double total_seconds = 0.0;
+};
+
+FixedEvaluationReceipt evaluate_fixed(
+    const core99::t22::Problem& problem,
+    const std::vector<core99::t22::Point>& layout,
+    int workers,
+    int repeats
+) {
+    if (workers <= 0 || repeats <= 0) {
+        throw std::invalid_argument(
+            "T22 fixed evaluation needs positive workers and repeats"
+        );
+    }
+    fode::PersistentExecutor executor(workers);
+    executor.reset_work_receipt();
+    core99::t22::Evaluation value;
+    const auto start = std::chrono::steady_clock::now();
+    for (int repeat = 0; repeat < repeats; ++repeat) {
+        value = problem.evaluate(layout, executor);
+    }
+    const double seconds = std::chrono::duration<double>(
+        std::chrono::steady_clock::now() - start
+    ).count();
+    return {
+        value,
+        workers,
+        executor.work_receipt().distinct_participants,
+        repeats,
+        seconds
+    };
+}
+
 std::string evaluation_json(
     const std::string& label,
     const std::vector<core99::t22::Point>& layout,
-    const core99::t22::Evaluation& value,
+    const FixedEvaluationReceipt& receipt,
     double ideal_aep
 ) {
+    const auto& value = receipt.value;
     std::ostringstream out;
     out << std::setprecision(17)
         << "{\n"
@@ -118,7 +161,16 @@ std::string evaluation_json(
         << "  \"wake_loss_fraction\": "
         << value.wake_loss_fraction << ",\n"
         << "  \"constraint_violation_m\": "
-        << value.constraint_violation_m << "\n"
+        << value.constraint_violation_m << ",\n"
+        << "  \"requested_workers\": "
+        << receipt.requested_workers << ",\n"
+        << "  \"observed_workers\": "
+        << receipt.observed_workers << ",\n"
+        << "  \"evaluation_repeats\": " << receipt.repeats << ",\n"
+        << "  \"evaluator_seconds\": "
+        << receipt.total_seconds << ",\n"
+        << "  \"seconds_per_evaluation\": "
+        << receipt.total_seconds / receipt.repeats << "\n"
         << "}\n";
     return out.str();
 }
@@ -184,12 +236,16 @@ int main(int argc, char** argv) {
                     : throw std::invalid_argument(
                         "author layout must be base or debo"
                     );
-            fode::PersistentExecutor executor(args.workers);
             emit(
                 evaluation_json(
                     args.author_layout,
                     layout,
-                    problem.evaluate(layout, executor),
+                    evaluate_fixed(
+                        problem,
+                        layout,
+                        args.workers,
+                        args.evaluation_repeats
+                    ),
                     problem.ideal_aep_mwh()
                 ),
                 args.output
@@ -198,12 +254,16 @@ int main(int argc, char** argv) {
         }
         if (!args.evaluate_layout.empty()) {
             const auto layout = parse_layout(args.evaluate_layout);
-            fode::PersistentExecutor executor(args.workers);
             emit(
                 evaluation_json(
                     "provided",
                     layout,
-                    problem.evaluate(layout, executor),
+                    evaluate_fixed(
+                        problem,
+                        layout,
+                        args.workers,
+                        args.evaluation_repeats
+                    ),
                     problem.ideal_aep_mwh()
                 ),
                 args.output
