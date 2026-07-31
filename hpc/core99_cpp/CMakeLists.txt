@@ -512,6 +512,11 @@ option(
     "Build T11 BlockCopy four-method/four-problem HPC reproduction"
     OFF
 )
+option(
+    CORE99_ENABLE_L0259
+    "Build L0259 SUGGA 117-problem CPU-HPC reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21)
     include(FetchContent)
 
@@ -644,6 +649,37 @@ if(CORE99_ENABLE_T11)
     )
     add_executable(core99_t11_hpc src/blockcopy_t11_main.cpp)
     target_link_libraries(core99_t11_hpc PRIVATE core99_t11_core)
+endif()
+
+if(CORE99_ENABLE_L0259)
+    add_library(core99_l0259_libsvm STATIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../third_party/libsvm-l0259/svm.cpp
+    )
+    target_include_directories(core99_l0259_libsvm
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../third_party/libsvm-l0259
+    )
+    target_compile_features(core99_l0259_libsvm PUBLIC cxx_std_20)
+    target_compile_options(core99_l0259_libsvm PRIVATE -O3 -w)
+    add_library(core99_l0259_core STATIC src/ju_l0259.cpp)
+    target_include_directories(core99_l0259_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_l0259_core
+        PUBLIC
+            fode_core
+            core99_l0259_libsvm
+    )
+    target_compile_features(core99_l0259_core PUBLIC cxx_std_20)
+    target_compile_options(core99_l0259_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_l0259_hpc src/ju_l0259_main.cpp)
+    target_link_libraries(core99_l0259_hpc PRIVATE core99_l0259_core)
 endif()
 
 if(BUILD_TESTING)
@@ -970,6 +1006,18 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t11_hpc>
         )
         set_tests_properties(core99_t11_h5 PROPERTIES TIMEOUT 300)
+    endif()
+    if(CORE99_ENABLE_L0259)
+        add_executable(core99_l0259_test tests/ju_l0259_test.cpp)
+        target_link_libraries(core99_l0259_test PRIVATE core99_l0259_core)
+        add_test(NAME core99_l0259_cpp COMMAND core99_l0259_test)
+        add_test(
+            NAME core99_l0259_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_l0259.py
+                --binary $<TARGET_FILE:core99_l0259_hpc>
+        )
+        set_tests_properties(core99_l0259_h5 PROPERTIES TIMEOUT 600)
     endif()
     add_executable(core99_t77_test tests/long_t77_test.cpp)
     target_link_libraries(core99_t77_test PRIVATE core99_t77_core)
