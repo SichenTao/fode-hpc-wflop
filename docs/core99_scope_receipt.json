@@ -12,7 +12,7 @@
   "existing_registry_basename": "paper_package_completion.tsv",
   "existing_registry_sha256": "6a29eb43a8280158462205efccf48a6a1a8985d8e3b1cae33f808a5ac442e123",
   "expansion_registry_basename": "core99_expansion_registry.tsv",
-  "expansion_registry_sha256": "bcd811a0409abcf0a2516972cec11a6001216b5ac09c6b28ac33b060856a91c0",
+  "expansion_registry_sha256": "4c2d9d5f470d4bce7d4cdcad5fce323d627bb48f0e4990ccd637a3044458924c",
   "explicit_skip_ids": [
     "T32"
   ],

@@ -6,21 +6,35 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Use paper Eqs. (1)-(6) and (11)-(17) for the yawed three-dimensional Gaussian wake, local-inlet deficit superposition, AEP, and joint layout-yaw problem.",
+    "Use the cited AGLDPSO Eqs. (3)-(9) and Algorithm 1 for random granularity, LSH learning, and worst-particle subpopulation updates.",
+    "Retain the cited predecessor controls N=500, c1=1.0, c2=0.1, granularity interval [10,floor(sqrt(N))], 0.1N LSH buckets, and coordinate-wise random inertia.",
+    "Digitize V80 and V112 power and thrust curves from paper Fig. 5 and use eight deterministic equal-area rotor samples.",
+    "Complete absent yaw bounds as [-30,30] degrees, normalize mixed position-yaw coordinates before LSH, and use deterministic boundary and pair-spacing repair.",
+    "Use 10,000 complete-layout evaluations and 25 platform seeds because the wind paper omits stopping and repeat counts.",
+    "Implement all six paper problems; comparison methods are excluded."
+  ],
   "corpus_id": "T85",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_waffle",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pending_waffle"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "author in-house source, case arrays, random states, and optimizer traces",
+    "wind-paper population, termination, and repeat count",
+    "yaw-angle bounds and constraint handling",
+    "rotor integration grid",
+    "machine-readable V80 and V112 power and thrust curves",
+    "V112 hub height and rotor-to-hub-center distance",
+    "heterogeneous position-yaw scaling used by LSH"
   ],
   "paper": {
     "authors": "Jeonghwan Song and Taewan Kim and Donghyun You",
@@ -36,7 +50,13 @@
     "venue": "Renewable Energy",
     "year": 2023
   },
-  "paper_linked_public_asset_candidates": [],
+  "paper_linked_public_asset_candidates": [
+    {
+      "asset_type": "complete_public_manuscript_source",
+      "url": "https://arxiv.org/abs/2210.02084",
+      "use": "paper-equation and algorithm audit; no executable source"
+    }
+  ],
   "paper_source_conflicts": [],
   "private_fulltext_receipt": {
     "consumed": true,
@@ -45,82 +65,104 @@
   },
   "public_asset_candidate_evidence": {
     "availability_mention_line_numbers": [],
-    "embedded_annotation_urls": [],
-    "status": "no_paper_linked_public_asset_candidate_detected"
+    "embedded_annotation_urls": [
+      "https://arxiv.org/abs/2210.02084"
+    ],
+    "status": "public_manuscript_source_found_no_executable_or_data_source"
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "academic flexible declared reconstruction of AGLDPSO and all six paper problems; not author source, private data, random states or numerical replay",
     "execution_wave": "REV4",
-    "package_status": "queued_full_text_contract",
+    "package_status": "paper_pair_h5_validated",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "coupled_or_real_world_problem_and_method"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_Eqs_16_17_plus_declared_completion",
+      "resolution": "square boundary, pair spacing greater than one rotor diameter, yaw clamp, and deterministic iterative pair-spacing repair",
+      "status": "frozen"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_Eqs_14_17",
+      "resolution": "continuous x-y position and one yaw angle per turbine and wind state",
+      "status": "frozen"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_mixed_variable_completion",
+      "resolution": "flat turbine-major real vector; positions and yaw coordinates normalized separately to [0,1] for LSH",
+      "status": "frozen"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "declared_missing_field_completion",
+      "resolution": "counter-keyed feasible initialization followed by deterministic repair and complete-layout evaluation",
+      "status": "frozen"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_objective_plus_platform_protocol",
+      "resolution": "best AEP, timings, physical FES, scientific hashes, and 25 independent seeds per each of six cases",
+      "status": "frozen"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_Eq_14",
+      "resolution": "maximize probability-weighted annual energy production, implemented as the equivalent reciprocal-AEP minimization ordering",
+      "status": "frozen"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_text_figures_and_tables",
+      "resolution": "WF1 at two speeds and two turbine types, WF2 larger domain, WF3 36 turbines, and WF4 uneven speed-direction probabilities",
+      "status": "frozen"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "cited_AGLDPSO_plus_declared_wind_completion",
+      "resolution": "population 500, c1=1.0, c2=0.1, M in [10,floor(sqrt(N))], 0.1N buckets, yaw [-30,30] degrees, and complete-layout FES limit 10000",
+      "status": "frozen"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "declared_missing_field_completion",
+      "resolution": "exactly 10000 complete-layout evaluations per run, including the initial 500 particles",
+      "status": "frozen"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "not applicable; AGLDPSO updates its LSH learning rate online but has no separately trained model",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_Eq_10_plus_cited_AGLDPSO_Algorithm_1",
+      "resolution": "random subpopulation partition, normalized LSH, update only each subpopulation worst particle, repair, evaluate, replace, and adapt granularity",
+      "status": "frozen"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_Eqs_1_6_and_11_13_plus_declared_curve_completion",
+      "resolution": "yawed three-dimensional Gaussian wake, local-inlet linear deficit superposition, power-law shear, eight-point rotor average, digitized V80/V112 curves, and cos(gamma) yaw power factor",
+      "status": "frozen"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_case_definitions",
+      "resolution": "eight direction bins with equal probabilities for WF1-WF3 and paper uneven direction-speed probabilities for WF4",
+      "status": "frozen"
     }
-  }
+  },
+  "cited_method_predecessor": {
+    "title": "Adaptive Granularity Learning Distributed Particle Swarm Optimization for Large-Scale Optimization",
+    "doi": "10.1109/TCYB.2020.2977956",
+    "public_pdf": "https://vuir.vu.edu.au/46369/1/Adaptive_Granularity_Learning_Distributed_Particle_Swarm_Optimization_for_Large-Scale_Optimization.pdf",
+    "source_status": "paper available; no executable source located"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/song_t85.hpp",
+    "hpc/core99_cpp/src/song_t85.cpp",
+    "hpc/core99_cpp/src/song_t85_main.cpp",
+    "hpc/core99_cpp/tests/song_t85_test.cpp",
+    "scripts/validate_core99_t85.py",
+    "scripts/run_core99_t85_h6_formal.py",
+    "scripts/run_core99_t85_when_waffle_free.sh",
+    "shared/contracts/core99_t85_song_2023.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/T85_H0_H4_mathematical_hpc_analysis_20260731.md",
+    "evidence/development/T85_h5_independent_equation_validation_20260731.json"
+  ]
 }

@@ -522,6 +522,11 @@ option(
     "Build T82 power-turbulence NSGA-II CPU-HPC reproduction"
     OFF
 )
+option(
+    CORE99_ENABLE_T85
+    "Build T85 joint-layout/yaw AGLDPSO CPU-HPC reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21)
     include(FetchContent)
 
@@ -703,6 +708,24 @@ if(CORE99_ENABLE_T82)
     )
     add_executable(core99_t82_hpc src/cao_t82_main.cpp)
     target_link_libraries(core99_t82_hpc PRIVATE core99_t82_core)
+endif()
+
+if(CORE99_ENABLE_T85)
+    add_library(core99_t85_core STATIC src/song_t85.cpp)
+    target_include_directories(core99_t85_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t85_core PUBLIC fode_core)
+    target_compile_features(core99_t85_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t85_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t85_hpc src/song_t85_main.cpp)
+    target_link_libraries(core99_t85_hpc PRIVATE core99_t85_core)
 endif()
 
 if(BUILD_TESTING)
@@ -1053,6 +1076,18 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t82_hpc>
         )
         set_tests_properties(core99_t82_h5 PROPERTIES TIMEOUT 600)
+    endif()
+    if(CORE99_ENABLE_T85)
+        add_executable(core99_t85_test tests/song_t85_test.cpp)
+        target_link_libraries(core99_t85_test PRIVATE core99_t85_core)
+        add_test(NAME core99_t85_cpp COMMAND core99_t85_test)
+        add_test(
+            NAME core99_t85_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t85.py
+                --binary $<TARGET_FILE:core99_t85_hpc>
+        )
+        set_tests_properties(core99_t85_h5 PROPERTIES TIMEOUT 900)
     endif()
     add_executable(core99_t77_test tests/long_t77_test.cpp)
     target_link_libraries(core99_t77_test PRIVATE core99_t77_core)
