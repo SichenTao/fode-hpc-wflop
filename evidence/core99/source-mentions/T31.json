@@ -2,11 +2,13 @@
   "availability_mention_line_numbers": [
     835
   ],
-  "candidate_public_asset_urls": [],
+  "candidate_public_asset_urls": [
+    "https://data.dtu.dk/articles/dataset/Synthetic_Instances_for_Large_Offshore_Wind_Farm_Layout/13134731"
+  ],
   "corpus_id": "T31",
   "doi": "10.1016/j.cor.2021.105588",
   "embedded_annotation_asset_urls": [],
-  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "interpretation": "paper-linked official DTU dataset identity, revision, checksum, license and semantic role audited; no linked VNS source implementation found",
   "paper_pdf_sha256": "dda02e13ea82f47898fffb1bf791128800c042b2db7859daff1d35122c40f851",
   "private_text_sha256": "960c4a9bebac961256d52f3d037836055f8f26fc8d62c9aad1326a79b5ae7a34",
   "schema_version": 1,

@@ -371,6 +371,46 @@ add_executable(core99_t77_hpc src/long_t77_main.cpp)
 target_link_libraries(core99_t77_hpc PRIVATE core99_t77_core)
 
 option(
+    CORE99_ENABLE_T31
+    "Build T31 with the official DTU large-offshore dataset"
+    OFF
+)
+if(CORE99_ENABLE_T31)
+    set(
+        CORE99_T31_ARCHIVE
+        ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t31/VNSforLargeOffshoreWindFarmLayoutOptimization_SyntheticInstances.zip
+    )
+    set(CORE99_T31_EXTRACT_BASE ${CMAKE_BINARY_DIR}/core99_t31_data)
+    set(
+        CORE99_T31_DATA_ROOT
+        ${CORE99_T31_EXTRACT_BASE}/VNSforLargeOffshoreWindFarmLayoutOptimization_SyntheticInstances
+    )
+    if(NOT EXISTS ${CORE99_T31_DATA_ROOT}/README.md)
+        file(MAKE_DIRECTORY ${CORE99_T31_EXTRACT_BASE})
+        file(
+            ARCHIVE_EXTRACT
+            INPUT ${CORE99_T31_ARCHIVE}
+            DESTINATION ${CORE99_T31_EXTRACT_BASE}
+        )
+    endif()
+    add_library(core99_t31_core src/cazzaro_t31.cpp)
+    target_include_directories(core99_t31_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t31_core PUBLIC fode_core)
+    target_compile_features(core99_t31_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t31_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t31_hpc src/cazzaro_t31_main.cpp)
+    target_link_libraries(core99_t31_hpc PRIVATE core99_t31_core)
+endif()
+
+option(
     CORE99_ENABLE_T63
     "Build T63 with the pinned HiGHS C++ MILP backend"
     OFF
@@ -769,4 +809,18 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t77.py
             --binary $<TARGET_FILE:core99_t77_hpc>
     )
+    if(CORE99_ENABLE_T31)
+        add_executable(core99_t31_test tests/cazzaro_t31_test.cpp)
+        target_link_libraries(core99_t31_test PRIVATE core99_t31_core)
+        add_test(
+            NAME core99_t31_cpp
+            COMMAND core99_t31_test ${CORE99_T31_DATA_ROOT}
+        )
+        add_test(
+            NAME core99_t31_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t31.py
+                --binary $<TARGET_FILE:core99_t31_hpc>
+        )
+    endif()
 endif()

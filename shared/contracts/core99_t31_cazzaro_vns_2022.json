@@ -1,0 +1,143 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T31",
+  "paper": {
+    "title": "Variable Neighborhood Search for Large Offshore Wind Farm Layout Optimization",
+    "doi": "10.1016/j.cor.2021.105588",
+    "pdf_sha256": "dda02e13ea82f47898fffb1bf791128800c042b2db7859daff1d35122c40f851"
+  },
+  "public_source": {
+    "target_author_source": "not_found",
+    "paper_linked_dataset_doi": "10.11583/DTU.13134731",
+    "official_file_id": 25210169,
+    "archive_md5": "994c1c65356e48749ec57a25bd523c45",
+    "archive_sha256": "17b1147b805f679ed4b25384b74f841681a1e7c6e73798533555cab4c16b80af",
+    "license": "CC BY-NC-SA 4.0",
+    "claim": "paper-and-official-data academic reconstruction"
+  },
+  "paper_problem": {
+    "decision_variables": "binary selection of exact zone-wise turbine cardinalities from legal candidate positions",
+    "objective": "maximize free-wind AEP minus foundation cost divided by energy price plus symmetric pairwise wake losses",
+    "constraints": "fixed cardinality by zone and pairwise minimum spacing",
+    "wake_model": "Jensen top-hat with partial overlap; fixed-neighbor wakes use quadratic superposition and movable pair losses use the paper linear matrix approximation",
+    "official_sites": {
+      "count": 10,
+      "ids": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+      "candidate_position_range": [3196, 21634],
+      "new_turbine": "NREL 15 MW, 240 m rotor",
+      "fixed_turbine": "NREL 10 MW, 179 m rotor",
+      "wind": "official RVO_TNW states",
+      "minimum_spacing_m": 1200.0
+    },
+    "mosetti_cases": [
+      "D and I, 26 turbines",
+      "D+ and I, 19 turbines",
+      "D+ and I+, 15 turbines"
+    ]
+  },
+  "method": {
+    "semantic_id": "t31_pdsp_random_conic_vns_declared_v1",
+    "initialization": "all-active PDSP-inspired progressive worst-contribution removal with exact zone cardinalities and deterministic feasibility completion",
+    "optimizer": "Basic VNS",
+    "primary_shake": "random-conic mixture",
+    "implemented_shake_study": [
+      "circular",
+      "conic",
+      "directional",
+      "displacement",
+      "random",
+      "random-directional",
+      "circular-displacement",
+      "random-conic",
+      "directional-conic",
+      "all"
+    ],
+    "local_search": "best-improvement 1-opt followed by nearby 2-opt with O(n) matrix deltas",
+    "declared_neighborhood_radii_rotor_spacings": [3.0, 5.0, 8.0],
+    "declared_one_opt_candidate_cap": 128,
+    "declared_two_opt_pair_cap": 32,
+    "declared_two_opt_candidate_cap": 16
+  },
+  "formal_protocol": {
+    "semantic_id": "t31_3x30s_10x3x1h_10x10h_v1",
+    "mosetti": "three cases, 30 seconds each",
+    "shake_ablation": "ten shake strategies on official B, D and E, one hour each",
+    "foundation_study": "ten sites by low, high and no foundation-cost mode, one hour each",
+    "long_run": "ten no-foundation sites, one ten-hour run each with 1, 2, 5 and 10 hour checkpoints",
+    "paper_native_run_count": 73,
+    "repeat_count": "the paper does not report independent repeats; one deterministic declared seed is registered per paper-native run"
+  },
+  "missing_and_declared_completions": [
+    {
+      "field": "VNS source implementation",
+      "completion": "reconstruct Algorithms and Sections 3.1-3.4 from the paper"
+    },
+    {
+      "field": "energy price EP",
+      "completion": "200 and 40 EUR/MWh respectively represent low and high foundation-cost influence"
+    },
+    {
+      "field": "minimum-distance penalty W",
+      "completion": "use a lexicographically dominating 1e8 MWh-equivalent per violated metre and validate final feasibility independently"
+    },
+    {
+      "field": "Jensen expansion and minimum spacing",
+      "completion": "use k=0.04 and 5 new-turbine rotor diameters for official sites"
+    },
+    {
+      "field": "PDSP batch schedule",
+      "completion": "remove five percent of each current zone excess, decreasing naturally to one"
+    },
+    {
+      "field": "PDSP infeasibility completion",
+      "completion": "try single-position repairs, then deterministic greedy maximal spacing sets over the PDSP priority and 31 counter-keyed alternative orders"
+    },
+    {
+      "field": "VNS radii, neighborhood count, candidate caps and conic angle",
+      "completion": "three radii of 3D, 5D and 8D; published shake families; 128 one-opt candidates; 32 two-opt turbine pairs by 16 candidates; 60 degree conic wedge"
+    },
+    {
+      "field": "random seeds and lifecycle",
+      "completion": "publish deterministic counter-keyed events and explicit seeds"
+    }
+  ],
+  "paper_data_conflicts": [
+    {
+      "field": "site A zone cardinalities",
+      "paper_dataset_fact": "README says 26 and 8, while info.json and its printed 8 MW/km2 zone-area rule imply 26 and 14",
+      "resolution": "use 26 and 14 from the data/formula-consistent info.json path and preserve the conflict in code and contract"
+    },
+    {
+      "field": "power matrix notation",
+      "paper_fact": "the paper describes a directed k-by-k matrix while the binary objective uses both Iij and Iji",
+      "resolution": "store one packed symmetric value Iij+Iji; this is algebraically identical for the stated objective"
+    }
+  ],
+  "hpc": {
+    "backend": "pure C++ CPU",
+    "executor": "one persistent all-core team per optimization",
+    "parallel_regions": [
+      "fixed-neighbor preprocessing over all candidate positions",
+      "packed pairwise wake-matrix construction over all candidate rows",
+      "PDSP contribution construction and batch updates",
+      "sufficiently large 1-opt, 2-opt and deterministic shake candidate-delta sets"
+    ],
+    "adaptive_granularity": "short candidate-delta domains stay in the calling thread to avoid synchronization slowdown; large domains use all workers",
+    "data_layout": "contiguous fixed-wake states and memory-mapped packed symmetric float matrix",
+    "ordered_dependencies": [
+      "PDSP removal batches",
+      "best-improvement move commit",
+      "VNS neighborhood update and incumbent retention"
+    ],
+    "determinism": "counter-keyed random events, fixed-index parallel writes, stable reductions and ordered state commits",
+    "local_h6_evidence": {
+      "official_A_uncached_matrix_speedup_20_vs_1": 13.240785828625175,
+      "official_A_end_to_end_speedup_20_vs_1": 12.370954832381736,
+      "official_I_cached_initialization_speedup_20_vs_1_single_observation": 2.165949750547066,
+      "official_I_cached_local_search_speedup_20_vs_1_single_observation": 1.5618817429353222,
+      "official_I_cached_end_to_end_speedup_20_vs_1_single_observation": 1.9960135425286085,
+      "status": "local_candidate; five-observation Waffle H6 queued"
+    }
+  },
+  "claim_boundary": "Academic paper/data reconstruction; not author VNS source, unpublished parameter replay, original random bitstream, or numerical replay."
+}

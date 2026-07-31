@@ -201,8 +201,8 @@
     },
     {
       "corpus_id": "T31",
-      "dossier_sha256": "717777fc766e57dee3d19289ddec4d1ec7a3bd345ae336b6d1070aa85f666692",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "a826087e87c7d871a938476e8cbc6cca9ae102e88276db48c22ccc08a4a4b205",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
