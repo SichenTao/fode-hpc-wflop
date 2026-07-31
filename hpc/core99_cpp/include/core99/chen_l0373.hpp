@@ -4,7 +4,7 @@ Implementation unit: L0373 joint layout-control problem and DBHM API
 Paper title: Joint optimization of wind farm layout considering optimal control
 Paper DOI: 10.1016/j.renene.2021.10.032. Target PDF SHA-256:
 a0e5b3c2fe2a24e870e7b17c0220d71a644e96e6fd87b4087f3fb9d0c6555f50.
-Paper source: arXiv 2107.11620 source archive, SHA-256
+Public source: arXiv 2107.11620 source archive, SHA-256
 6c5dd1b686f0501051974d4d464a44ca5283847b34a459d6e4daf5535bcbef9c,
 contains the complete TeX and original figure files but no executable DBHM.
 Cited public dependency: TUDelft-DataDrivenControl/FLORISSE_M, MIT,

@@ -2,7 +2,7 @@
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: L0373 pure-C++ CPU-HPC command line
 Paper DOI: 10.1016/j.renene.2021.10.032
-Public paper source: arXiv 2107.11620 source archive.
+Public source: arXiv 2107.11620 source archive.
 Cited public dependency: FLORISSE_M, MIT, commit
 36cb0a0295d2a1e05640fdbbcb9bb361ac8d592e.
 Public-source search, missing information, conflicts, corrections, declared

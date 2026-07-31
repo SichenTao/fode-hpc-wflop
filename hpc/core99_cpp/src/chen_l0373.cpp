@@ -2,7 +2,7 @@
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: L0373 pure-C++ FLORIS-lineage evaluator, PSO and DBHM
 Paper/DOI: Chen et al.; 10.1016/j.renene.2021.10.032
-Public paper source: arXiv 2107.11620, archive SHA-256
+Public source: arXiv 2107.11620, archive SHA-256
 6c5dd1b686f0501051974d4d464a44ca5283847b34a459d6e4daf5535bcbef9c.
 Cited dependency: FLORISSE_M, MIT, commit 36cb0a0295d2a1e05640fdbbcb9bb361ac8d592e,
 repository archive SHA-256 451150ba62b242353f9bdaa5e5bef10cad5d63e0e3841d625838572d9f0c1f75.

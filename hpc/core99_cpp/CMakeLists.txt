@@ -486,6 +486,11 @@ option(
     "Build L0373 joint layout-control DBHM CPU-HPC reproduction"
     OFF
 )
+option(
+    CORE99_ENABLE_L0298
+    "Build L0298 joint micrositing-cabling NSGA-III/BPSO/QP CPU-HPC reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T63 OR CORE99_ENABLE_T30 OR CORE99_ENABLE_Y16)
     include(FetchContent)
     set(CORE99_SAVED_BUILD_TESTING ${BUILD_TESTING})
@@ -1009,6 +1014,26 @@ if(CORE99_ENABLE_L0373)
     add_executable(core99_l0373_hpc src/chen_l0373_main.cpp)
     target_link_libraries(core99_l0373_hpc PRIVATE core99_l0373_core)
     target_compile_options(core99_l0373_hpc PRIVATE
+        -Wall -Wextra -Wpedantic -Werror
+    )
+endif()
+
+if(CORE99_ENABLE_L0298)
+    add_library(core99_l0298_core STATIC src/tao_l0298.cpp)
+    target_include_directories(core99_l0298_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_l0298_core PUBLIC fode_core)
+    target_compile_features(core99_l0298_core PUBLIC cxx_std_20)
+    target_compile_options(core99_l0298_core PRIVATE
+        -O3 -march=native -ffp-contract=off
+        -Wall -Wextra -Wpedantic -Werror
+    )
+    add_executable(core99_l0298_hpc src/tao_l0298_main.cpp)
+    target_link_libraries(core99_l0298_hpc PRIVATE core99_l0298_core)
+    target_compile_options(core99_l0298_hpc PRIVATE
         -Wall -Wextra -Wpedantic -Werror
     )
 endif()
@@ -1622,6 +1647,23 @@ if(BUILD_TESTING)
         )
         set_tests_properties(
             core99_l0373_cpp core99_l0373_h5 PROPERTIES TIMEOUT 1800
+        )
+    endif()
+    if(CORE99_ENABLE_L0298)
+        add_executable(core99_l0298_test tests/tao_l0298_test.cpp)
+        target_link_libraries(core99_l0298_test PRIVATE core99_l0298_core)
+        target_compile_options(core99_l0298_test PRIVATE
+            -Wall -Wextra -Wpedantic -Werror
+        )
+        add_test(NAME core99_l0298_cpp COMMAND core99_l0298_test)
+        add_test(
+            NAME core99_l0298_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_l0298.py
+                --binary $<TARGET_FILE:core99_l0298_hpc>
+        )
+        set_tests_properties(
+            core99_l0298_cpp core99_l0298_h5 PROPERTIES TIMEOUT 1800
         )
     endif()
     if(CORE99_ENABLE_T11)
