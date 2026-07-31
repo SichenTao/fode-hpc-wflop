@@ -267,8 +267,8 @@
     },
     {
       "corpus_id": "T33",
-      "dossier_sha256": "1637e984984d6af4199ee13719a009a2fbcdb392c242b65e6252a7cc565d248e",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "5d76f4820b24aadcd7ac2dfcff47ce33ff3ceb620a6fa948b07015cb118bdecc",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

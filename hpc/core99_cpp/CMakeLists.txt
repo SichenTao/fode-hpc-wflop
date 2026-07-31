@@ -375,7 +375,12 @@ option(
     "Build T31 with the official DTU large-offshore dataset"
     OFF
 )
-if(CORE99_ENABLE_T31)
+option(
+    CORE99_ENABLE_T33
+    "Build T33 combined layout/cable VNS with the official DTU dataset"
+    OFF
+)
+if(CORE99_ENABLE_T31 OR CORE99_ENABLE_T33)
     set(
         CORE99_T31_ARCHIVE
         ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t31/VNSforLargeOffshoreWindFarmLayoutOptimization_SyntheticInstances.zip
@@ -406,8 +411,27 @@ if(CORE99_ENABLE_T31)
         -march=native
         -ffp-contract=off
     )
+endif()
+if(CORE99_ENABLE_T31)
     add_executable(core99_t31_hpc src/cazzaro_t31_main.cpp)
     target_link_libraries(core99_t31_hpc PRIVATE core99_t31_core)
+endif()
+if(CORE99_ENABLE_T33)
+    add_library(core99_t33_core STATIC src/cazzaro_t33.cpp)
+    target_include_directories(core99_t33_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t33_core PUBLIC core99_t31_core fode_core)
+    target_compile_features(core99_t33_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t33_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t33_hpc src/cazzaro_t33_main.cpp)
+    target_link_libraries(core99_t33_hpc PRIVATE core99_t33_core)
 endif()
 
 option(
@@ -1146,5 +1170,21 @@ if(BUILD_TESTING)
                 ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t31.py
                 --binary $<TARGET_FILE:core99_t31_hpc>
         )
+    endif()
+    if(CORE99_ENABLE_T33)
+        add_executable(core99_t33_test tests/cazzaro_t33_test.cpp)
+        target_link_libraries(core99_t33_test PRIVATE core99_t33_core)
+        add_test(
+            NAME core99_t33_cpp
+            COMMAND core99_t33_test ${CORE99_T31_DATA_ROOT}
+        )
+        add_test(
+            NAME core99_t33_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t33.py
+                --binary $<TARGET_FILE:core99_t33_hpc>
+                --data-root ${CORE99_T31_DATA_ROOT}
+        )
+        set_tests_properties(core99_t33_h5 PROPERTIES TIMEOUT 1800)
     endif()
 endif()
