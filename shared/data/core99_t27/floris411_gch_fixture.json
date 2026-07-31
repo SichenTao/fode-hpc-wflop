@@ -1,0 +1,68 @@
+{
+  "schema_version": 1,
+  "generator": "official FLORIS 4.1.1 Python API",
+  "floris_revision": "2c3be8fd91fdb2ce519e2f3139444a7045f50473",
+  "configuration": "examples/inputs/gch.yaml",
+  "configuration_sha256": "f4dfad4293838747296339a9c16d003fbc83a74468d0de1978bb70bbc432a1da",
+  "turbine": "nrel_5MW",
+  "cases": [
+    {
+      "name": "single",
+      "layout_x_m": [0.0],
+      "layout_y_m": [0.0],
+      "wind_speed_mps": 8.0,
+      "wind_direction_degrees": 60.0,
+      "farm_power_w": 1753954.4591791716,
+      "annual_energy_mwh": 15364.641062409544,
+      "turbine_power_w": [1753954.4591791716]
+    },
+    {
+      "name": "aligned3",
+      "layout_x_m": [0.0, 630.0, 1260.0],
+      "layout_y_m": [0.0, 0.0, 0.0],
+      "wind_speed_mps": 8.0,
+      "wind_direction_degrees": 270.0,
+      "farm_power_w": 2697065.3144641384,
+      "annual_energy_mwh": 23626.292154705854,
+      "turbine_power_w": [
+        1753954.4591791716,
+        436442.7005013881,
+        506668.15478357853
+      ]
+    },
+    {
+      "name": "cross5",
+      "layout_x_m": [0.0, 750.0, 1500.0, 750.0, 750.0],
+      "layout_y_m": [750.0, 750.0, 750.0, 0.0, 1500.0],
+      "wind_speed_mps": 8.0,
+      "wind_direction_degrees": 60.0,
+      "farm_power_w": 8769683.895797528,
+      "annual_energy_mwh": 76822.43092718636,
+      "turbine_power_w": [
+        1753910.393571682,
+        1753954.4591784058,
+        1753954.4591791716,
+        1753910.1246890977,
+        1753954.4591791716
+      ]
+    },
+    {
+      "name": "stagger6",
+      "layout_x_m": [0.0, 600.0, 1200.0, 300.0, 900.0, 1500.0],
+      "layout_y_m": [0.0, 0.0, 0.0, 600.0, 600.0, 600.0],
+      "wind_speed_mps": 10.0,
+      "wind_direction_degrees": 120.0,
+      "farm_power_w": 19447766.52755273,
+      "annual_energy_mwh": 170362.43478136192,
+      "turbine_power_w": [
+        3417796.994347836,
+        3417796.993724105,
+        3417797.0050915736,
+        2358781.5353635824,
+        3417796.9939340586,
+        3417797.0050915736
+      ]
+    }
+  ],
+  "claim_boundary": "Pinned independent numerical fixture only; not an author result table."
+}

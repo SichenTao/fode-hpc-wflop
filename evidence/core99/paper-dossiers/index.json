@@ -207,8 +207,8 @@
     },
     {
       "corpus_id": "T27",
-      "dossier_sha256": "50172c2a51765fcba37b32bc5e3abc4cbca487fbb58e36de156ccc48baded617",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "81fcdffe96bab679cf636a94ef46f1ff0efbff8a167a596d0041a285be026443",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
