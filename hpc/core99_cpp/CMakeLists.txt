@@ -400,7 +400,12 @@ option(
     "Build T16 with pinned NLopt SLSQP and autodiff reverse mode"
     OFF
 )
-if(CORE99_ENABLE_T16)
+option(
+    CORE99_ENABLE_T07
+    "Build T07 explicit SCP with pinned NLopt convex-QP replacement"
+    OFF
+)
+if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07)
     include(FetchContent)
 
     set(NLOPT_CXX ON CACHE BOOL "" FORCE)
@@ -421,6 +426,9 @@ if(CORE99_ENABLE_T16)
 
     FetchContent_MakeAvailable(nlopt)
 
+endif()
+
+if(CORE99_ENABLE_T16)
     add_library(core99_t16_core STATIC src/thomas_t16.cpp)
     target_include_directories(core99_t16_core
         PUBLIC
@@ -439,6 +447,24 @@ if(CORE99_ENABLE_T16)
     )
     add_executable(core99_t16_hpc src/thomas_t16_main.cpp)
     target_link_libraries(core99_t16_hpc PRIVATE core99_t16_core)
+endif()
+
+if(CORE99_ENABLE_T07)
+    add_library(core99_t07_core STATIC src/park_t07.cpp)
+    target_include_directories(core99_t07_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t07_core PUBLIC fode_core nlopt)
+    target_compile_features(core99_t07_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t07_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t07_hpc src/park_t07_main.cpp)
+    target_link_libraries(core99_t07_hpc PRIVATE core99_t07_core)
 endif()
 
 if(BUILD_TESTING)
@@ -705,6 +731,17 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t16_hpc>
                 --data
                     ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t16_public_data.bin
+        )
+    endif()
+    if(CORE99_ENABLE_T07)
+        add_executable(core99_t07_test tests/park_t07_test.cpp)
+        target_link_libraries(core99_t07_test PRIVATE core99_t07_core)
+        add_test(NAME core99_t07_cpp COMMAND core99_t07_test)
+        add_test(
+            NAME core99_t07_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t07.py
+                --binary $<TARGET_FILE:core99_t07_hpc>
         )
     endif()
 endif()
