@@ -547,6 +547,11 @@ option(
     OFF
 )
 option(
+    CORE99_ENABLE_T68
+    "Build T68 FINO3 layout/power-dispatch APSO reproduction"
+    OFF
+)
+option(
     CORE99_ENABLE_T60
     "Build T60 improved random-search incremental WFLOP reproduction"
     OFF
@@ -673,6 +678,24 @@ if(CORE99_ENABLE_T81)
     )
     add_executable(core99_t81_hpc src/ti_t81_main.cpp)
     target_link_libraries(core99_t81_hpc PRIVATE core99_t81_core)
+endif()
+
+if(CORE99_ENABLE_T68)
+    add_library(core99_t68_core STATIC src/hou_t68.cpp)
+    target_include_directories(core99_t68_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t68_core PUBLIC fode_core)
+    target_compile_features(core99_t68_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t68_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t68_hpc src/hou_t68_main.cpp)
+    target_link_libraries(core99_t68_hpc PRIVATE core99_t68_core)
 endif()
 
 if(CORE99_ENABLE_T72 OR CORE99_ENABLE_T64)
@@ -1218,6 +1241,18 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t81_hpc>
         )
         set_tests_properties(core99_t81_h5 PROPERTIES TIMEOUT 300)
+    endif()
+    if(CORE99_ENABLE_T68)
+        add_executable(core99_t68_test tests/hou_t68_test.cpp)
+        target_link_libraries(core99_t68_test PRIVATE core99_t68_core)
+        add_test(NAME core99_t68_cpp COMMAND core99_t68_test)
+        add_test(
+            NAME core99_t68_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t68.py
+                --binary $<TARGET_FILE:core99_t68_hpc>
+        )
+        set_tests_properties(core99_t68_h5 PROPERTIES TIMEOUT 300)
     endif()
     if(CORE99_ENABLE_T60)
         add_executable(core99_t60_test tests/feng_t60_test.cpp)

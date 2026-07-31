@@ -6,21 +6,36 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Retain direction-only and Scenarios I-IV as five distinct paper-native problem roles.",
+    "Use the full published Zhan APSO mechanism, not a generic PSO label.",
+    "Digitize the published 12 by 5 wind rose and map missing time-indexed Opt4 to 80 turbines by 60 states.",
+    "Retain partial-overlap Jensen/RSS wakes, NREL 5 MW physics, hierarchical cable losses, LPC, pitch penalty and all published bounds.",
+    "Use a rotor-feasible MPPT controller plus declared extra-pitch control and Table-II calibrated missing engineering coefficients.",
+    "Parallelize particle evaluation/update and the exact symmetric APSO distance matrix with counter-keyed events and ordered reductions.",
+    "Run the paper-native 10 plus four times 20 repeat protocol on Waffle after H6."
+  ],
   "corpus_id": "T68",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_waffle_after_t81",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "complete_target_and_three_predecessor_source_audit",
+    "H1": "complete_five_role_wake_power_cable_lpc_apso_decomposition",
+    "H2": "complete_physical_fes_distance_matrix_and_full_resource_analysis",
+    "H3": "complete_pure_cpp_persistent_team_apso_and_evaluator",
+    "H4": "complete_spark_allcore_five_role_paper_scale_profile",
+    "H5": "pass_cpp_and_independent_python_anchor_semantic_schedule_validation",
+    "H6": "full_4800variable_one_all_worker_waffle_run_queued"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "target code and random states",
+    "machine-readable FINO3 60-state array",
+    "cable coefficients, current limits, OAM, rate and lifetime",
+    "target CP(beta,lambda), CT and optimized dispatch arrays",
+    "beta maximum, TE, Num_c and optimized row/column intervals",
+    "direction-only maximum iterations and velocity bound",
+    "10-versus-20 scenario repeat conflict",
+    "full texts doi:10.1049/iet-rpg.2015.0176 and doi:10.1049/iet-rpg:20070112"
   ],
   "paper": {
     "authors": "Peng Hou and Weihao Hu and Mohsen Soltani and Cong Chen and Baohua Zhang and Zhe Chen",
@@ -37,7 +52,10 @@
     "year": 2017
   },
   "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
+  "paper_source_conflicts": [
+    "Opt4 is time-indexed but the paper publishes only an aggregated 60-state wind rose.",
+    "Table III says 10-trial averages while the scenario text says the program is run 20 times."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 10,
@@ -46,81 +64,81 @@
   "public_asset_candidate_evidence": {
     "availability_mention_line_numbers": [],
     "embedded_annotation_urls": [],
-    "status": "no_paper_linked_public_asset_candidate_detected"
+    "status": "no_target_public_source; three cited institutional predecessor assets audited"
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "academic flexible reconstruction of APSO and all five paper-native problem roles; not author code, native FINO3/cable/control arrays, random stream, or numerical replay",
     "execution_wave": "REV4",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
+    "package_status": "h5_admitted_waffle_h6_and_formal_queued",
+    "scope_status": "paper_paired_hpc_implemented",
     "target_contribution_type": "coupled_or_real_world_problem_and_method"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_control_completion",
+      "resolution": "504--2520 m gaps, -90--90 degree rotation, bounded additional pitch, NREL rotor speed, right-branch CP condition and published penalty",
+      "status": "implemented_and_validated"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_wind_state_completion",
+      "resolution": "1, 16, 17, 4800 and 4817 dimensions across the five paper roles",
+      "status": "implemented"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_completion",
+      "resolution": "direct row/column gaps and theta; Opt4 is decoded as per-turbine/per-published-wind-state pitch beyond MPPT",
+      "status": "implemented"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_completion",
+      "resolution": "paper bounds and populations, zero-dispatch incumbent, sparse extra-pitch perturbations and deterministic counter RNG",
+      "status": "implemented"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_text_authoritative_over_conflicting_table_header",
+      "resolution": "gross/loss/net energy, cable and annual costs, LPC, penalty, timings, FES, worker receipt and hash; 10 direction plus 20 per scenario",
+      "status": "implemented_and_queued_formal"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "minimize levelized production cost including energy, hierarchical losses, cable capital and OAM",
+      "status": "implemented"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "direction-only and Scenarios I, II, III and IV are separately registered",
+      "status": "implemented"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_cited_apso_plus_declared_missing_values",
+      "resolution": "paper populations/iterations, 50-unchanged stop, exact Zhan APSO adaptation and ELS, 20-percent velocity limit",
+      "status": "implemented"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "role maximum or 50 unchanged iterations; every complete 80-turbine 60-state evaluation is one FES",
+      "status": "implemented_and_audited"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not_applicable",
+      "resolution": "T68 APSO has no learned model",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "cited_apso_plus_deterministic_hpc_completion",
+      "resolution": "ESE, parameter adaptation, convergence-state ELS, simultaneous velocity/position update, parallel evaluation and ordered personal/global-best commit",
+      "status": "implemented_and_schedule_validated"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_predecessors_and_declared_missing_curve_completion",
+      "resolution": "partial Jensen/RSS, NREL 5 MW CP/CT completion, hierarchical collection/export loss and Table-II anchored LPC",
+      "status": "implemented_and_anchor_validated"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_figure_informed_completion",
+      "resolution": "normalized digitization of 12 directional sectors and five 5-m/s bins",
+      "status": "implemented_and_probability_validated"
     }
   }
 }
