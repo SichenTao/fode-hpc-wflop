@@ -105,11 +105,20 @@ double clamp_coordinate(double value) {
     return std::clamp(value, 0.0, kDomainM);
 }
 
-double power_kw(double speed_mps) {
+double power_kw(
+    double speed_mps,
+    const PhysicsProfile physics_profile
+) {
     if (speed_mps < 4.0 || speed_mps > 25.0) {
         return 0.0;
     }
     if (speed_mps < 15.0) {
+        if (
+            physics_profile
+            == PhysicsProfile::sorkhabi_2016_cubic_100db
+        ) {
+            return 0.3 * speed_mps * speed_mps * speed_mps;
+        }
         return std::max(0.0, 140.86 * speed_mps - 500.0);
     }
     return 1500.0;
@@ -611,15 +620,26 @@ std::vector<FrontPoint> extract_front(
 
 }  // namespace
 
-Problem::Problem(int land_availability_percent, int turbine_count)
+Problem::Problem(
+    int land_availability_percent,
+    int turbine_count,
+    int map_variant,
+    PhysicsProfile physics_profile
+)
     : id_(
           "t72_phi"
           + std::to_string(land_availability_percent)
           + "_n"
           + std::to_string(turbine_count)
+          + (
+              map_variant == 0
+                  ? "" : "_map" + std::to_string(map_variant)
+          )
       ),
       land_availability_percent_(land_availability_percent),
       turbine_count_(turbine_count),
+      map_variant_(map_variant),
+      physics_profile_(physics_profile),
       population_size_(
           land_availability_percent == 70
               ? 200
@@ -632,6 +652,8 @@ Problem::Problem(int land_availability_percent, int turbine_count)
         || (turbine_count_ != 5
             && turbine_count_ != 10
             && turbine_count_ != 15)
+        || map_variant_ < 0
+        || map_variant_ > 3
     ) {
         throw std::invalid_argument("T72 case outside paper matrix");
     }
@@ -645,6 +667,10 @@ int Problem::land_availability_percent() const noexcept {
     return land_availability_percent_;
 }
 int Problem::turbine_count() const noexcept { return turbine_count_; }
+int Problem::map_variant() const noexcept { return map_variant_; }
+PhysicsProfile Problem::physics_profile() const noexcept {
+    return physics_profile_;
+}
 int Problem::population_size() const noexcept { return population_size_; }
 double Problem::measured_land_availability() const noexcept {
     return measured_land_availability_;
@@ -732,7 +758,8 @@ void Problem::build_map() {
     const std::uint64_t map_key =
         720000ULL
         + static_cast<std::uint64_t>(land_availability_percent_) * 100ULL
-        + static_cast<std::uint64_t>(turbine_count_);
+        + static_cast<std::uint64_t>(turbine_count_)
+        + static_cast<std::uint64_t>(map_variant_) * 100000ULL;
     const fode::CounterRng rng(map_key);
     const double macro = kDomainM / static_cast<double>(kMapAxis);
     map_seeds_.reserve(kMapCells);
@@ -933,6 +960,16 @@ void Problem::build_wind() {
 
 void Problem::build_noise() {
     expected_acoustic_source_energy_.assign(8, 0.0);
+    if (
+        physics_profile_
+        == PhysicsProfile::sorkhabi_2016_cubic_100db
+    ) {
+        for (std::size_t band = 0; band < 8; ++band) {
+            expected_acoustic_source_energy_[band] =
+                std::pow(10.0, 0.1 * (100.0 + kAWeightingDb[band]));
+        }
+        return;
+    }
     for (std::size_t direction = 0; direction < 24; ++direction) {
         for (std::size_t speed_index = 0; speed_index < 43; ++speed_index) {
             const double probability = joint_probabilities_[
@@ -1025,7 +1062,8 @@ Evaluation Problem::evaluate(const std::vector<Point>& layout) const {
             const double free_speed = wind_speeds_mps_[speed_index];
             for (int turbine = 0; turbine < turbine_count_; ++turbine) {
                 expected_power_kw += probability * power_kw(
-                    free_speed * factor[static_cast<std::size_t>(turbine)]
+                    free_speed * factor[static_cast<std::size_t>(turbine)],
+                    physics_profile_
                 );
             }
         }
@@ -1495,6 +1533,7 @@ RunResult run(const Problem& problem, const RunConfig& config) {
         )
         || config.maximum_repair_distance_bin2 < 0.0
         || config.penalty_coefficient <= 0.0
+        || config.dynamic_penalty_multiplier <= 0.0
     ) {
         throw std::invalid_argument("T72 run configuration invalid");
     }
@@ -1511,15 +1550,87 @@ RunResult run(const Problem& problem, const RunConfig& config) {
     std::vector<Individual> population(
         static_cast<std::size_t>(population_size)
     );
-    for (int individual = 0; individual < population_size; ++individual) {
-        auto& layout =
-            population[static_cast<std::size_t>(individual)].layout;
+    auto initialize_layout = [&](
+        std::vector<Point>& layout,
+        const int individual,
+        const std::uint64_t event
+    ) {
         layout.resize(static_cast<std::size_t>(turbines));
         for (int turbine = 0; turbine < turbines; ++turbine) {
-            layout[static_cast<std::size_t>(turbine)] = {
-                kDomainM * rng.uniform(0, 7203, individual, turbine, 0),
-                kDomainM * rng.uniform(0, 7203, individual, turbine, 1),
-            };
+            if (!config.feasible_initialization) {
+                layout[static_cast<std::size_t>(turbine)] = {
+                    kDomainM * rng.uniform(
+                        event, 7203, individual, turbine, 0
+                    ),
+                    kDomainM * rng.uniform(
+                        event, 7203, individual, turbine, 1
+                    ),
+                };
+                continue;
+            }
+            bool accepted = false;
+            for (int attempt = 0; attempt < 100000; ++attempt) {
+                const Point candidate{
+                    kDomainM * rng.uniform(
+                        event, 7203,
+                        static_cast<std::uint64_t>(individual),
+                        static_cast<std::uint64_t>(turbine),
+                        static_cast<std::uint64_t>(2 * attempt)
+                    ),
+                    kDomainM * rng.uniform(
+                        event, 7203,
+                        static_cast<std::uint64_t>(individual),
+                        static_cast<std::uint64_t>(turbine),
+                        static_cast<std::uint64_t>(2 * attempt + 1)
+                    ),
+                };
+                if (problem.regulatory_forbidden(candidate)) {
+                    continue;
+                }
+                bool spacing = true;
+                for (int existing = 0;
+                     existing < turbine;
+                     ++existing) {
+                    if (
+                        squared_distance(
+                            candidate,
+                            layout[static_cast<std::size_t>(existing)]
+                        ) < kMinimumSpacingM * kMinimumSpacingM
+                    ) {
+                        spacing = false;
+                        break;
+                    }
+                }
+                if (!spacing) continue;
+                layout[static_cast<std::size_t>(turbine)] = candidate;
+                accepted = true;
+                break;
+            }
+            if (!accepted) {
+                throw std::runtime_error(
+                    "T72 deterministic feasible initialization exhausted"
+                );
+            }
+        }
+    };
+    if (config.feasible_initialization) {
+        executor.parallel_for(0, population_size, [&](const int individual) {
+            initialize_layout(
+                population[static_cast<std::size_t>(individual)].layout,
+                individual,
+                0
+            );
+        });
+    } else {
+        // Preserve the original T72 event order and default trajectory.
+        for (int individual = 0;
+             individual < population_size;
+             ++individual) {
+            initialize_layout(
+                population[static_cast<std::size_t>(individual)].layout,
+                individual,
+                0
+            );
         }
     }
 
@@ -1537,17 +1648,24 @@ RunResult run(const Problem& problem, const RunConfig& config) {
     ) {
         std::vector<RepairReceipt> repairs(batch.size());
         const auto repair_started = Clock::now();
-        executor.parallel_for(
-            0,
-            static_cast<int>(batch.size()),
-            [&](int index) {
-                auto& individual = batch[static_cast<std::size_t>(index)];
-                repairs[static_cast<std::size_t>(index)] = problem.repair(
-                    individual.layout,
-                    config.maximum_repair_distance_bin2
-                );
-            }
-        );
+        if (
+            config.constraint_mode
+            == ConstraintHandlingMode::chcp_dynamic_penalty
+        ) {
+            executor.parallel_for(
+                0,
+                static_cast<int>(batch.size()),
+                [&](int index) {
+                    auto& individual =
+                        batch[static_cast<std::size_t>(index)];
+                    repairs[static_cast<std::size_t>(index)] =
+                        problem.repair(
+                            individual.layout,
+                            config.maximum_repair_distance_bin2
+                        );
+                }
+            );
+        }
         repair_seconds += elapsed_seconds(repair_started);
         const auto evaluator_started = Clock::now();
         executor.parallel_for(
@@ -1558,15 +1676,71 @@ RunResult run(const Problem& problem, const RunConfig& config) {
                 individual.evaluation = problem.evaluate(individual.layout);
             }
         );
+        std::uint64_t death_evaluations = 0;
+        if (
+            config.constraint_mode
+            == ConstraintHandlingMode::death_penalty
+        ) {
+            const std::uint64_t base =
+                physical_fes + static_cast<std::uint64_t>(batch.size());
+            const std::uint64_t available =
+                config.physical_fes > base
+                    ? config.physical_fes - base : 0;
+            std::vector<int> regenerate;
+            for (int index = 0;
+                 index < static_cast<int>(batch.size())
+                 && regenerate.size() < available;
+                 ++index) {
+                if (!batch[static_cast<std::size_t>(index)]
+                         .evaluation.feasible) {
+                    regenerate.push_back(index);
+                }
+            }
+            executor.parallel_for(
+                0,
+                static_cast<int>(regenerate.size()),
+                [&](int slot) {
+                    const int index =
+                        regenerate[static_cast<std::size_t>(slot)];
+                    auto& individual =
+                        batch[static_cast<std::size_t>(index)];
+                    initialize_layout(
+                        individual.layout,
+                        index,
+                        static_cast<std::uint64_t>(generation + 1000)
+                    );
+                    individual.evaluation =
+                        problem.evaluate(individual.layout);
+                }
+            );
+            death_evaluations = regenerate.size();
+        }
         evaluator_seconds += elapsed_seconds(evaluator_started);
-        physical_fes += batch.size();
+        physical_fes +=
+            static_cast<std::uint64_t>(batch.size()) + death_evaluations;
         const double progress = std::min(
             1.0,
             static_cast<double>(generation + 1)
                 / static_cast<double>(maximum_generations + 1)
         );
-        const double penalty_scale =
-            config.penalty_coefficient * progress * progress;
+        double penalty_scale = 0.0;
+        if (
+            config.constraint_mode
+            == ConstraintHandlingMode::static_penalty
+        ) {
+            penalty_scale = config.penalty_coefficient;
+        } else if (
+            config.constraint_mode
+                == ConstraintHandlingMode::dynamic_penalty
+            || config.constraint_mode
+                == ConstraintHandlingMode::chcp_dynamic_penalty
+        ) {
+            const double scaled_progress =
+                config.dynamic_penalty_multiplier * progress;
+            penalty_scale =
+                config.penalty_coefficient
+                * scaled_progress * scaled_progress;
+        }
         for (std::size_t index = 0; index < batch.size(); ++index) {
             const auto& repair = repairs[index];
             repair_attempts += repair.attempted ? 1U : 0U;
@@ -1575,6 +1749,19 @@ RunResult run(const Problem& problem, const RunConfig& config) {
             repair_node_limit_hits += repair.node_limit_hit ? 1U : 0U;
             repair_nodes += repair.search_nodes;
             auto& individual = batch[index];
+            if (
+                config.constraint_mode
+                    == ConstraintHandlingMode::death_penalty
+                && !individual.evaluation.feasible
+            ) {
+                // A final-budget child may be physically evaluated when no
+                // replacement FES remains. Keep the paper's death semantics:
+                // it is discarded and cannot enter environmental selection.
+                constexpr double discarded = 1.0e300;
+                individual.objective_one = discarded;
+                individual.objective_two = discarded;
+                continue;
+            }
             const double violation =
                 individual.evaluation.proximity_violation_m
                 * individual.evaluation.proximity_violation_m
@@ -1595,7 +1782,10 @@ RunResult run(const Problem& problem, const RunConfig& config) {
     std::vector<double> convergence_history;
     int generations = 0;
     bool converged = false;
-    while (physical_fes < config.physical_fes && !converged) {
+    while (
+        physical_fes < config.physical_fes
+        && (!config.enable_convergence || !converged)
+    ) {
         const int offspring_count = static_cast<int>(std::min<std::uint64_t>(
             static_cast<std::uint64_t>(population_size),
             config.physical_fes - physical_fes

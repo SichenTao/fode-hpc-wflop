@@ -81,12 +81,29 @@ struct FrontPoint {
     std::vector<Point> layout;
 };
 
+enum class PhysicsProfile {
+    sorkhabi_2018_lineage,
+    sorkhabi_2016_cubic_100db,
+};
+
+enum class ConstraintHandlingMode {
+    chcp_dynamic_penalty,
+    static_penalty,
+    dynamic_penalty,
+    death_penalty,
+};
+
 struct RunConfig {
     std::uint64_t seed = 20260731;
     int workers = 20;
     std::uint64_t physical_fes = 80000;
     double maximum_repair_distance_bin2 = 1000.0;
     double penalty_coefficient = 10000.0;
+    ConstraintHandlingMode constraint_mode =
+        ConstraintHandlingMode::chcp_dynamic_penalty;
+    double dynamic_penalty_multiplier = 1.0;
+    bool feasible_initialization = false;
+    bool enable_convergence = true;
 };
 
 struct RunResult {
@@ -120,11 +137,19 @@ struct RunResult {
 
 class Problem {
 public:
-    Problem(int land_availability_percent, int turbine_count);
+    Problem(
+        int land_availability_percent,
+        int turbine_count,
+        int map_variant = 0,
+        PhysicsProfile physics_profile =
+            PhysicsProfile::sorkhabi_2018_lineage
+    );
 
     [[nodiscard]] const std::string& id() const noexcept;
     [[nodiscard]] int land_availability_percent() const noexcept;
     [[nodiscard]] int turbine_count() const noexcept;
+    [[nodiscard]] int map_variant() const noexcept;
+    [[nodiscard]] PhysicsProfile physics_profile() const noexcept;
     [[nodiscard]] int population_size() const noexcept;
     [[nodiscard]] double measured_land_availability() const noexcept;
     [[nodiscard]] const std::vector<Point>& receptors() const noexcept;
@@ -157,6 +182,9 @@ private:
     std::string id_;
     int land_availability_percent_ = 0;
     int turbine_count_ = 0;
+    int map_variant_ = 0;
+    PhysicsProfile physics_profile_ =
+        PhysicsProfile::sorkhabi_2018_lineage;
     int population_size_ = 0;
     double measured_land_availability_ = 0.0;
     std::vector<MapSeed> map_seeds_;

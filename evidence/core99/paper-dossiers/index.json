@@ -273,8 +273,8 @@
     },
     {
       "corpus_id": "T64",
-      "dossier_sha256": "1fc6de198fd66bbefaa31c37eb7d191e52fbc4688ec51258fc963e91891e9ceb",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "5841bad9f87ea3c990f4ae01b28820728978312583d9fb7e275f52fe139462b2",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

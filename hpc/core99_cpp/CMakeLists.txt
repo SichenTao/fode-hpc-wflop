@@ -527,6 +527,11 @@ option(
     OFF
 )
 option(
+    CORE99_ENABLE_T64
+    "Build T64 land-constrained energy-noise NSGA-II reproduction"
+    OFF
+)
+option(
     CORE99_ENABLE_T60
     "Build T60 improved random-search incremental WFLOP reproduction"
     OFF
@@ -636,7 +641,7 @@ if(CORE99_ENABLE_T21)
     target_link_libraries(core99_t21_hpc PRIVATE core99_t21_core)
 endif()
 
-if(CORE99_ENABLE_T72)
+if(CORE99_ENABLE_T72 OR CORE99_ENABLE_T64)
     add_library(core99_t72_core STATIC src/sorkhabi_t72.cpp)
     target_include_directories(core99_t72_core
         PUBLIC
@@ -650,8 +655,28 @@ if(CORE99_ENABLE_T72)
         -march=native
         -ffp-contract=off
     )
-    add_executable(core99_t72_hpc src/sorkhabi_t72_main.cpp)
-    target_link_libraries(core99_t72_hpc PRIVATE core99_t72_core)
+    if(CORE99_ENABLE_T72)
+        add_executable(core99_t72_hpc src/sorkhabi_t72_main.cpp)
+        target_link_libraries(core99_t72_hpc PRIVATE core99_t72_core)
+    endif()
+endif()
+
+if(CORE99_ENABLE_T64)
+    add_library(core99_t64_core STATIC src/sorkhabi_t64.cpp)
+    target_include_directories(core99_t64_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t64_core PUBLIC core99_t72_core)
+    target_compile_features(core99_t64_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t64_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t64_hpc src/sorkhabi_t64_main.cpp)
+    target_link_libraries(core99_t64_hpc PRIVATE core99_t64_core)
 endif()
 
 if(CORE99_ENABLE_T60)
@@ -1075,6 +1100,18 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t72_hpc>
         )
         set_tests_properties(core99_t72_h5 PROPERTIES TIMEOUT 300)
+    endif()
+    if(CORE99_ENABLE_T64)
+        add_executable(core99_t64_test tests/sorkhabi_t64_test.cpp)
+        target_link_libraries(core99_t64_test PRIVATE core99_t64_core)
+        add_test(NAME core99_t64_cpp COMMAND core99_t64_test)
+        add_test(
+            NAME core99_t64_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t64.py
+                --binary $<TARGET_FILE:core99_t64_hpc>
+        )
+        set_tests_properties(core99_t64_h5 PROPERTIES TIMEOUT 300)
     endif()
     if(CORE99_ENABLE_T60)
         add_executable(core99_t60_test tests/feng_t60_test.cpp)
