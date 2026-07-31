@@ -15,8 +15,8 @@
     "Use pure-C++ candidate-batch parallelism for optimization and wind-state parallelism for final evaluation."
   ],
   "corpus_id": "T14",
-  "dossier_status": "h6_admitted_formal_pending",
-  "formal_status": "not_started",
+  "dossier_status": "formal_complete",
+  "formal_status": "complete_paper_native_2100_run_matrix",
   "hpc_admission": {
     "H0": "pass",
     "H1": "pass",
@@ -81,7 +81,7 @@
   "scope": {
     "claim_boundary": "academic declared reproduction of the target parameterization and paper-native protocol; not author SNOPT, exact-gradient, RNG, or numerical replay",
     "execution_wave": "REV1",
-    "package_status": "paper_pair_h6_admitted",
+    "package_status": "paper_pair_formal_complete",
     "scope_status": "new_direct_active",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },
@@ -154,6 +154,8 @@
   },
   "validation": {
     "cpp_test": "core99_t14_cpp pass",
+    "formal_receipt": "evidence/core99/formal/T14_formal_quality.json",
+    "formal_scope": "seven paper cases by three intrinsic representations by 100 independent starts; 2100 of 2100 pass",
     "h6_receipt": "evidence/core99/h6/T14_waffle_admission.json",
     "h5_oracle": "core99_t14_h5 pass",
     "h5_scope": "all 21 case-representation reference layouts deterministic; one independent Python-vs-C++ paper-equation AEP oracle"

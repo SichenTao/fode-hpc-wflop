@@ -39,8 +39,8 @@
     },
     {
       "corpus_id": "T14",
-      "dossier_sha256": "90315e3e63f0322e0a63c5f2ea36eea64dd8b15f56b5323d43800a7c886805c1",
-      "dossier_status": "h6_admitted_formal_pending",
+      "dossier_sha256": "2368dad04a504548cfb7dbef9f8457aa90b827a8b4eafac8c172404e080b68d2",
+      "dossier_status": "formal_complete",
       "role": "D"
     },
     {
