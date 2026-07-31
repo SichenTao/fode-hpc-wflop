@@ -183,8 +183,8 @@
     },
     {
       "corpus_id": "T05",
-      "dossier_sha256": "3546f4b579d94cba6f00360780a51e3dbd42cd4b3b9c5b7d50a52d771c4c18a0",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "7125462de9242541e02378ed11e75274c480eb3912105bc7a0835448cc28736e",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

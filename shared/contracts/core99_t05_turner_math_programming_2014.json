@@ -1,0 +1,80 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T05",
+  "paper": {
+    "title": "A New Mathematical Programming Approach to Optimize Wind Farm Layouts",
+    "doi": "10.1016/j.renene.2013.10.023",
+    "pdf_sha256": "06ed7e56a21e2ad7d9480985029adb334f2f64f742b7533072f494126d553be1"
+  },
+  "public_source": {
+    "target_author_source": "not_found",
+    "publisher_pdf_source": "Elsevier API legal access; consumed privately and not redistributed"
+  },
+  "method": {
+    "semantic_id": "t05_turner_qip_milp_bounding_declared_open_solver_v1",
+    "paper_components": [
+      "fixed-cardinality QIP",
+      "equivalent MILP linearization",
+      "neighboring-K convex lower bound",
+      "one-cell local search"
+    ],
+    "solver_reconstruction": {
+      "backend": "pure C++ deterministic branch and bound",
+      "multistarts": 4096,
+      "node_limit": 200000,
+      "admissible_bound": "current interaction plus smallest selected-to-remaining increments",
+      "exact_claim_rule": "only when frontier exhausts"
+    }
+  },
+  "paper_problem": {
+    "grid": [10, 10],
+    "cell_width_m": 200.0,
+    "rotor_radius_m": 20.0,
+    "hub_height_m": 60.0,
+    "thrust_coefficient": 0.88,
+    "entrainment_constant": 0.1,
+    "power": "sum 0.3*v_i^3",
+    "cases": [
+      "A K=26 MILP",
+      "A K=30 MILP",
+      "B K=19 MILP",
+      "B K=39 QIP plus bound",
+      "C K=15 MILP",
+      "C K=39 QIP plus bound"
+    ]
+  },
+  "formal_protocol": {
+    "semantic_id": "t05_six_native_cases_one_deterministic_run_v1",
+    "repeat_count": 1,
+    "reason": "paper mathematical programs are deterministic and report no repeats"
+  },
+  "missing_and_completions": [
+    {
+      "missing": "CPLEX source, callbacks, tolerance and initial solution",
+      "completion": "declared deterministic pure-C++ solver with explicit work cap and certificate boundary"
+    },
+    {
+      "missing": "numeric Figure-5 Case-C joint probabilities",
+      "completion": "normalized visual digitization registered as a distinct problem semantic ID"
+    },
+    {
+      "missing": "repeat protocol",
+      "completion": "one deterministic run per paper-native case"
+    }
+  ],
+  "hpc": {
+    "backend": "pure C++ CPU",
+    "executor": "one persistent full-core team",
+    "parallel_regions": [
+      "interaction matrix assembly",
+      "independent multistart incumbent searches",
+      "deterministic branch-frontier batches",
+      "wind-scenario power evaluation"
+    ],
+    "serial_dependencies": [
+      "best-bound frontier merge",
+      "incumbent reduction"
+    ]
+  },
+  "claim_boundary": "Academic equation-level reconstruction; not CPLEX, author code, exact Figure-5 data, numerical replay, or an optimality claim after node-limit exhaustion."
+}

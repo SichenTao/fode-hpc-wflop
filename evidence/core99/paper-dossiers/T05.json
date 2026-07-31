@@ -6,21 +6,39 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    {
+      "authority": "paper_equations_then_declared_open_solver",
+      "field": "unpublished proprietary CPLEX implementation",
+      "resolution": "pure-C++ deterministic fixed-cardinality branch-and-bound with explicit node limit, admissible lower bound and exact-certificate rule"
+    },
+    {
+      "authority": "paper_figure_digitization",
+      "field": "Case-C numerical joint wind probabilities",
+      "resolution": "normalized Figure-5 visual digitization under a distinct problem semantic ID"
+    },
+    {
+      "authority": "paper_protocol_then_deterministic_completion",
+      "field": "repeat count",
+      "resolution": "one deterministic run for each of the six paper-native cases"
+    }
+  ],
   "corpus_id": "T05",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_after_predecessor",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
     "H6": "not_started"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "CPLEX 12.1 model files, callbacks, tolerances, initial solutions and random state were not published",
+    "Figure 5 does not publish the numerical Case-C probability array",
+    "the paper reports no repeat protocol and no finite solver-node budget apart from a 24-hour cap"
   ],
   "paper": {
     "authors": "S.D.O. Turner and D.A. Romero and P.Y. Zhang and C.H. Amon and T.C.Y. Chan",
@@ -50,77 +68,77 @@
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "academic equation-level reconstruction of the mathematical-programming framework; not CPLEX, author code, exact Figure-5 data, numerical replay, or an optimality claim after node-limit exhaustion",
     "execution_wave": "REV3",
-    "package_status": "queued_full_text_contract",
+    "package_status": "h5_admitted_h6_queued",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "optimization_search_or_learning_method"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_equations_4b_10b_10g",
+      "resolution": "exactly K occupied cells; binary y and linearized x constraints; one-cell neighboring local search remains feasible",
+      "status": "implemented_and_tested"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "100 binary grid-location variables with fixed cardinality K",
+      "status": "implemented_and_tested"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_equations_8_and_10",
+      "resolution": "sorted occupied-index set with explicitly verified x_ij=y_i*y_j MILP linearization",
+      "status": "implemented_and_tested"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_then_declared_open_solver",
+      "resolution": "4096 counter-keyed feasible multistarts followed by deterministic local improvement provide the initial incumbent",
+      "status": "implemented_and_tested"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_then_deterministic_completion",
+      "resolution": "objective, expected power, lower bound, gap, certificate, nodes and timing for one run per native case",
+      "status": "implemented_formal_queued"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_equations_4_8_10",
+      "resolution": "minimize composite kinetic-energy interaction while reporting expected power from the original nonlinear wake equation",
+      "status": "implemented_and_tested"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_tables_5_to_8",
+      "resolution": "Cases A/B/C for K=(26,30), (19,39) and (15,39), respectively",
+      "status": "implemented_and_tested"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_then_declared_solver_work",
+      "resolution": "10x10 grid, 200 m cell, r0=20 m, hub=60 m, Ct=0.88, alpha=0.1, 4096 multistarts and 200000-node cap",
+      "status": "implemented_and_tested"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_24hour_cap_then_explicit_reproducible_work",
+      "resolution": "fixed 200000 explored-node limit; exactness claimed only after frontier exhaustion; local candidate evaluations separately counted",
+      "status": "implemented_and_tested"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not_applicable",
+      "resolution": "no learned model",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_sections_4_to_5_then_declared_open_solver",
+      "resolution": "form interaction matrix, construct incumbent, expand best-bound frontier, apply one-cell local search, evaluate nonlinear power",
+      "status": "implemented_and_tested"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_equations_1_to_3_and_table_5",
+      "resolution": "Jensen center-in-wake deficit, root-sum-square multiple wakes and P=sum(0.3*v_i^3)",
+      "status": "implemented_and_independently_tested"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_text_and_figure_5",
+      "resolution": "Case A north/12 m/s; Case B 36 equal directions/12 m/s; Case C 36 directions and 8/12/17 m/s from normalized Figure-5 digitization",
+      "status": "implemented_and_tested"
     }
   }
 }

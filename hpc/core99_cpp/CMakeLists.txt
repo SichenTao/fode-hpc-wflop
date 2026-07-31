@@ -178,6 +178,22 @@ target_compile_options(core99_t80_core PRIVATE
 add_executable(core99_t80_hpc src/bai_t80_main.cpp)
 target_link_libraries(core99_t80_hpc PRIVATE core99_t80_core)
 
+add_library(core99_t05_core src/turner_t05.cpp)
+target_include_directories(core99_t05_core
+    PUBLIC
+        ${CMAKE_CURRENT_SOURCE_DIR}/include
+        ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+)
+target_link_libraries(core99_t05_core PUBLIC fode_core)
+target_compile_features(core99_t05_core PUBLIC cxx_std_20)
+target_compile_options(core99_t05_core PRIVATE
+    -O3
+    -march=native
+    -ffp-contract=off
+)
+add_executable(core99_t05_hpc src/turner_t05_main.cpp)
+target_link_libraries(core99_t05_hpc PRIVATE core99_t05_core)
+
 add_library(core99_t03_core src/kusiak_t03.cpp)
 target_include_directories(core99_t03_core
     PUBLIC
@@ -525,6 +541,15 @@ if(BUILD_TESTING)
         COMMAND ${Python3_EXECUTABLE}
             ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t80.py
             --binary $<TARGET_FILE:core99_t80_hpc>
+    )
+    add_executable(core99_t05_test tests/turner_t05_test.cpp)
+    target_link_libraries(core99_t05_test PRIVATE core99_t05_core)
+    add_test(NAME core99_t05_cpp COMMAND core99_t05_test)
+    add_test(
+        NAME core99_t05_h5
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t05.py
+            --binary $<TARGET_FILE:core99_t05_hpc>
     )
     add_executable(
         core99_historical_grid_test
