@@ -380,7 +380,12 @@ option(
     "Build T33 combined layout/cable VNS with the official DTU dataset"
     OFF
 )
-if(CORE99_ENABLE_T31 OR CORE99_ENABLE_T33)
+option(
+    CORE99_ENABLE_T83
+    "Build T83 multi-scale offshore WFASP with the official DTU proxy data"
+    OFF
+)
+if(CORE99_ENABLE_T31 OR CORE99_ENABLE_T33 OR CORE99_ENABLE_T83)
     set(
         CORE99_T31_ARCHIVE
         ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t31/VNSforLargeOffshoreWindFarmLayoutOptimization_SyntheticInstances.zip
@@ -432,6 +437,23 @@ if(CORE99_ENABLE_T33)
     )
     add_executable(core99_t33_hpc src/cazzaro_t33_main.cpp)
     target_link_libraries(core99_t33_hpc PRIVATE core99_t33_core)
+endif()
+if(CORE99_ENABLE_T83)
+    add_library(core99_t83_core STATIC src/cazzaro_t83.cpp)
+    target_include_directories(core99_t83_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t83_core PUBLIC core99_t31_core fode_core)
+    target_compile_features(core99_t83_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t83_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t83_hpc src/cazzaro_t83_main.cpp)
+    target_link_libraries(core99_t83_hpc PRIVATE core99_t83_core)
 endif()
 
 option(
@@ -1288,6 +1310,22 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t78_hpc>
         )
         set_tests_properties(core99_t78_h5 PROPERTIES TIMEOUT 600)
+    endif()
+    if(CORE99_ENABLE_T83)
+        add_executable(core99_t83_test tests/cazzaro_t83_test.cpp)
+        target_link_libraries(core99_t83_test PRIVATE core99_t83_core)
+        target_compile_definitions(
+            core99_t83_test PRIVATE CORE99_T31_DATA_ROOT="${CORE99_T31_DATA_ROOT}"
+        )
+        add_test(NAME core99_t83_cpp COMMAND core99_t83_test)
+        add_test(
+            NAME core99_t83_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t83.py
+                --binary $<TARGET_FILE:core99_t83_hpc>
+                --data-root ${CORE99_T31_DATA_ROOT}
+        )
+        set_tests_properties(core99_t83_cpp core99_t83_h5 PROPERTIES TIMEOUT 1800)
     endif()
     if(CORE99_ENABLE_T60)
         add_executable(core99_t60_test tests/feng_t60_test.cpp)

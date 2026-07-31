@@ -315,8 +315,8 @@
     },
     {
       "corpus_id": "T83",
-      "dossier_sha256": "59f0989c12ad819ef3f3d766766e299a56f768a87154a1815dc40353fcbffed8",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "97ca8c6e5266c207cde85596a6e70ec9ba602daa451a094a07c42f1b87b72911",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
