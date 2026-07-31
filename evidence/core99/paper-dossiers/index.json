@@ -231,8 +231,8 @@
     },
     {
       "corpus_id": "T11",
-      "dossier_sha256": "5a0b4818088f3a2fc24dc7637d40140e9e73779c750a80e1dc5ed4734b1d5a06",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "d0a38628d76cea6c3c34b6c4f0d1886eb9638fd884224ada646e81372869f99c",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

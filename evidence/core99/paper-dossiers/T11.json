@@ -1,26 +1,12 @@
 {
+  "schema_version": 1,
+  "corpus_id": "T11",
   "authority_ladder": [
     "paper_and_supplement",
     "paper_linked_public_source_and_data",
     "cited_predecessor",
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
-  ],
-  "completion_decisions": [],
-  "corpus_id": "T11",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
-  "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
-  },
-  "missing_information": [
-    "full field-level audit not yet completed"
   ],
   "paper": {
     "authors": "Michael Mayo and Chen Zheng",
@@ -36,8 +22,6 @@
     "venue": "IEEE Congress on Evolutionary Computation 2016",
     "year": 2016
   },
-  "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 8,
@@ -48,79 +32,141 @@
     "embedded_annotation_urls": [],
     "status": "no_paper_linked_public_asset_candidate_detected"
   },
-  "schema_version": 1,
-  "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
-    "execution_wave": "REV3",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
-    "target_contribution_type": "optimization_search_or_learning_method"
-  },
-  "semantic_contract": {
-    "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+  "paper_linked_public_asset_candidates": [],
+  "same_lineage_public_assets": [
+    {
+      "url": "https://github.com/d9w/WindFLO",
+      "revision": "9e85a67bb2ca019768ea51dd0b634a46c8406ba2",
+      "license": "MIT",
+      "role": "released Kusiak evaluator and exact 2014 Competition 1/3 XML lineage"
     },
+    {
+      "url": "https://hdl.handle.net/10289/10775",
+      "revision": "pdf_sha256:c0d81ff589347a19c8ee7816a9ec0b6829418a767ee7fa04f016898d09431c8e",
+      "license": "institutional repository research-use thesis",
+      "role": "same-author implementation description and conflict evidence; no optimizer code"
+    }
+  ],
+  "paper_source_conflicts": [
+    "The paper says an invalid copied turbine is simply not placed, while the same-author thesis says it is randomly relocated within the target block.",
+    "The two Weibull-k ranges printed for 2014 Competition 1 and 3 are opposite the ranges in the official XML files identified by dimensions and counts.",
+    "The paper wind-rose caption says 15 bins, while the equations, thesis and public evaluator use 24 sectors of 15 degrees.",
+    "The thesis prose prints interest r=0.3, while the paper equation and released evaluator use r=0.03.",
+    "The paper reports a (5,10)-ES but omits a complete executable survivor and parent-pairing lifecycle."
+  ],
+  "missing_information": [
+    "author BlockCopy optimizer source and random states",
+    "exact random feasible initialization sampler",
+    "equal-cost acceptance and tie behavior",
+    "complete (5,10)-ES survivor and parent-pairing procedure",
+    "machine-readable Kusiak scenario files"
+  ],
+  "completion_decisions": [
+    "Use the paper-authority omit-invalid-copy rule and record the thesis conflict.",
+    "Use official XML identity, arrays, dimensions, counts and obstacles for Competition 1 and 3.",
+    "Use the released 24-sector evaluator and Kusiak arrays already audited under T03.",
+    "Use r=0.03 from the target paper and source.",
+    "Use conventional (5,10) comma-ES semantics with best-five offspring survival, uniform parent sampling and distinct crossover parents.",
+    "Use continuous uniform feasible initialization, uniform fixed-count repair and deterministic stable tie resolution.",
+    "Implement only the four BlockCopy-containing target methods; exclude TDA and perturbation-only comparison baselines.",
+    "Use exact algebraic cone reformulation, lookup-integrated Weibull power, incremental changed-coordinate wake updates and persistent all-core execution."
+  ],
+  "semantic_contract": {
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "paper",
+      "resolution": "2N continuous Cartesian coordinates for fixed N=100,100,220,710"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "paper",
+      "resolution": "direct coordinates partitioned into the paper's approximately 1km BlockCopy grids"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "paper_equation_and_public_evaluator",
+      "resolution": "minimize expected energy cost per kWh with fixed count"
     },
-    "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+    "constraints_and_repair": {
+      "status": "frozen",
+      "authority": "paper_first_plus_public_scenario_data_and_declared_completion",
+      "resolution": "rectangular boundary, open rectangular obstacles, pairwise distance >=8R; invalid copy omitted; uniform purge/add restores count"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "public_evaluator_lineage",
+      "resolution": "released Kusiak/Jensen cone, RSS deficit, direction Weibull quadrature, linear/rated 1.5MW curve and target economics"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "cited_kusiak_tables_and_official_2014_xml",
+      "resolution": "24 direction sectors; two Kusiak resources and exact Competition 1/3 XML arrays"
+    },
+    "initialization": {
+      "status": "frozen",
+      "authority": "declared_missing_field_completion",
+      "resolution": "uniform continuous rejection subject to boundary, obstacle and spacing constraints"
+    },
+    "update_order": {
+      "status": "frozen",
+      "authority": "paper_plus_conventional_es_completion",
+      "resolution": "(1+1) stable non-worse acceptance; (5,10) best-five offspring comma survival; BlockCopy source/target then repair"
+    },
+    "stopping_and_physical_fes": {
+      "status": "frozen",
+      "authority": "paper",
+      "resolution": "2000 complete wind-farm evaluations including initialization"
+    },
+    "parameters": {
+      "status": "frozen",
+      "authority": "paper_first_public_source_second_declared_completion",
+      "resolution": "paper block grids and counts; equal Both operator probability; random perturbation size 10; fixed 8R spacing"
+    },
+    "training_and_inference_lifecycle": {
+      "status": "not_applicable",
+      "authority": "paper",
+      "resolution": "non-learning evolutionary strategies"
+    },
+    "paper_native_cases": {
+      "status": "frozen",
+      "authority": "paper_plus_official_xml",
+      "resolution": "Kusiak-Song 1/2 and 2014 Competition 1/3"
+    },
+    "metrics_and_repeats": {
+      "status": "frozen",
+      "authority": "paper_plus_platform_hpc_protocol",
+      "resolution": "four target methods by four problems by 30 runs, 2000 FES each; energy-cost statistics, timings, worker receipts and science hashes"
     }
-  }
+  },
+  "scope": {
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "optimization_search_or_learning_method",
+    "execution_wave": "REV3",
+    "package_status": "paper_pair_h5_validated",
+    "claim_boundary": "source-backed flexible academic reproduction of four BlockCopy methods and all four native problems; not author optimizer source, random stream or exact-number replay"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/blockcopy_t11.hpp",
+    "hpc/core99_cpp/src/blockcopy_t11.cpp",
+    "hpc/core99_cpp/src/blockcopy_t11_main.cpp",
+    "hpc/core99_cpp/tests/blockcopy_t11_test.cpp",
+    "scripts/validate_core99_t11.py",
+    "scripts/run_core99_t11_h6_formal.py",
+    "shared/contracts/core99_t11_blockcopy_2016.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/T11_H0_H4_mathematical_hpc_analysis_20260731.md",
+    "evidence/development/T11_h5_independent_equation_validation_20260731.json"
+  ],
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pending_waffle"
+  },
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_waffle"
 }

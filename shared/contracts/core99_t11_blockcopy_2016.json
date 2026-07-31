@@ -1,0 +1,159 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T11",
+  "paper": {
+    "title": "BlockCopy-Based Operators for Evolving Efficient Wind Farm Layouts",
+    "authors": [
+      "Michael Mayo",
+      "Chen Zheng"
+    ],
+    "doi": "10.1109/CEC.2016.7743909",
+    "pdf_sha256": "1dc7a1a06f9aec1f15098c8182e978e107b292a613fe4f15dfd2546a032acd2c"
+  },
+  "public_source": {
+    "url": "https://github.com/d9w/WindFLO",
+    "revision": "9e85a67bb2ca019768ea51dd0b634a46c8406ba2",
+    "license": "MIT",
+    "relationship": "paper evaluator and competition-scenario lineage, not author BlockCopy optimizer source",
+    "consumed_files": {
+      "C++/KusiakLayoutEvaluator.cpp": "085dc639e34a3855da5ad25a57bffd7457e8181e838dd3c381966e9829713ce5",
+      "C++/WindFarmLayoutEvaluator.cpp": "44c98270ea8108d1e591d75f1505c793506b21634ea44c882ec4c3a35f42db41",
+      "Wind Competition/2014/competition_1.xml": "4fa3a26df31f786949d6afabd0180c26dde11ecfe23be0742ddffd11798c42d4",
+      "Wind Competition/2014/competition_3.xml": "c5669f54904cd1d76985c0f68bfce5fcfc9e5f842c0c8cb20ec388c693d67b1b"
+    }
+  },
+  "same_author_completion_source": {
+    "title": "Surrogate-Assisted Evolutionary Algorithms for Wind Farm Layout Optimisation Problem",
+    "author": "Chen Zheng",
+    "year": 2016,
+    "permanent_url": "https://hdl.handle.net/10289/10775",
+    "pdf_sha256": "c0d81ff589347a19c8ee7816a9ec0b6829418a767ee7fa04f016898d09431c8e",
+    "relationship": "implementation description and conflict evidence, no optimizer code"
+  },
+  "method": {
+    "semantic_id": "t11_blockcopy_four_es_methods_v1",
+    "target_algorithms": [
+      "t11_1plus1_blockcopy_mutation",
+      "t11_1plus1_blockcopy_both",
+      "t11_5comma10_blockcopy_mutation",
+      "t11_5comma10_blockcopy_crossover"
+    ],
+    "excluded_non_target_baselines": [
+      "TDA",
+      "(1+1)-ES perturbation only"
+    ],
+    "blockcopy": {
+      "block_size": "approximately 1 km by 1 km through the paper block grids",
+      "mutation": "copy one source block to a distinct target block of the same layout",
+      "crossover": "copy one source block from a donor into a target block of the base parent and produce one child",
+      "copy_collision": "paper-authority invalid copied turbine is not placed",
+      "fixed_count_repair": "uniform random purge or uniform feasible continuous addition"
+    },
+    "one_plus_one": {
+      "acceptance": "replace parent when child cost is no greater; deterministic layout ordering resolves exact ties",
+      "both_variant": "choose BlockCopy mutation or random ten-turbine perturbation with equal probability"
+    },
+    "five_comma_ten": {
+      "parents": 5,
+      "offspring": 10,
+      "survivors": "best five offspring, conventional comma-ES completion",
+      "parent_sampling": "uniform with replacement; crossover parents distinct"
+    }
+  },
+  "problem": {
+    "semantic_id": "t11_kusiak_and_2014_competition_four_cases_v1",
+    "decision": "fixed-count continuous Cartesian turbine coordinates",
+    "minimum_spacing_m": 308.0,
+    "rotor_radius_m": 38.5,
+    "wake": {
+      "model": "released Kusiak/Jensen far-wake evaluator",
+      "directions": 24,
+      "direction_width_degrees": 15.0,
+      "thrust_coefficient": 0.8,
+      "wake_expansion": 0.075,
+      "multiple_wake": "root sum square"
+    },
+    "power": {
+      "cut_in_mps": 3.5,
+      "rated_speed_mps": 14.0,
+      "rated_power_kw": 1500.0,
+      "linear_slope": 140.86,
+      "linear_intercept": -500.0,
+      "quadrature": "0.5 m/s intervals and released rated-power tail from 14 m/s"
+    },
+    "economics": {
+      "turbine_cost_usd": 750000.0,
+      "substation_cost_usd": 8000000.0,
+      "turbines_per_substation": 30,
+      "interest_rate": 0.03,
+      "lifetime_years": 20,
+      "operation_maintenance_usd": 20000.0
+    },
+    "cases": [
+      {
+        "id": "t11_ks1_n100",
+        "width_m": 4000.0,
+        "height_m": 4000.0,
+        "turbines": 100,
+        "block_columns": 4,
+        "block_rows": 4,
+        "obstacles": 0,
+        "wind_authority": "cited Kusiak-Song tables already audited in T03"
+      },
+      {
+        "id": "t11_ks2_n100",
+        "width_m": 4000.0,
+        "height_m": 4000.0,
+        "turbines": 100,
+        "block_columns": 4,
+        "block_rows": 4,
+        "obstacles": 0,
+        "wind_authority": "cited Kusiak-Song tables already audited in T03"
+      },
+      {
+        "id": "t11_comp1_n220",
+        "width_m": 3500.0,
+        "height_m": 16100.0,
+        "turbines": 220,
+        "block_columns": 3,
+        "block_rows": 16,
+        "obstacles": 1,
+        "wind_authority": "official competition_1.xml"
+      },
+      {
+        "id": "t11_comp3_n710",
+        "width_m": 15800.0,
+        "height_m": 11300.0,
+        "turbines": 710,
+        "block_columns": 16,
+        "block_rows": 11,
+        "obstacles": 3,
+        "wind_authority": "official competition_3.xml"
+      }
+    ]
+  },
+  "formal_protocol": {
+    "physical_fes_per_run": 2000,
+    "independent_runs_per_algorithm_problem": 30,
+    "algorithm_problem_combinations": 16,
+    "formal_runs": 480,
+    "formal_physical_fes": 960000
+  },
+  "registered_conflicts_and_completions": [
+    "No paper-linked author BlockCopy source exists; this is not labelled author source.",
+    "Paper copy-collision rule takes precedence over the thesis relocation description.",
+    "Official XML k ranges take precedence over the two ranges transposed in the paper table.",
+    "The released 24-sector evaluator takes precedence over the paper caption's 15-bin typo.",
+    "Interest rate 0.03 from the paper equation/source takes precedence over the thesis prose typo 0.3.",
+    "Conventional comma-ES survivor semantics complete the omitted (5,10) lifecycle.",
+    "Counter-keyed draws replace unavailable author random states without changing stated distributions."
+  ],
+  "hpc": {
+    "full_evaluator_complexity": "O(S*N*N)",
+    "incremental_evaluator_complexity": "O(S*N*K), K is removed plus added coordinate count",
+    "algebraic_cone_test": "exact reformulation of the released acos test",
+    "parallelism": "persistent CPU team over direction/turbine tasks for one trajectory; independent formal trajectories over all cores",
+    "numeric_boundary": "lookup-interpolated quadrature validated against direct independent equations at relative error below 2e-7"
+  },
+  "claim_boundary": "source-backed flexible academic reproduction; no author BlockCopy source, random stream or exact-number claim"
+}

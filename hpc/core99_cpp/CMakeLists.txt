@@ -507,6 +507,11 @@ option(
     "Build T60 improved random-search incremental WFLOP reproduction"
     OFF
 )
+option(
+    CORE99_ENABLE_T11
+    "Build T11 BlockCopy four-method/four-problem HPC reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21)
     include(FetchContent)
 
@@ -621,6 +626,24 @@ if(CORE99_ENABLE_T60)
     )
     add_executable(core99_t60_hpc src/feng_t60_main.cpp)
     target_link_libraries(core99_t60_hpc PRIVATE core99_t60_core)
+endif()
+
+if(CORE99_ENABLE_T11)
+    add_library(core99_t11_core STATIC src/blockcopy_t11.cpp)
+    target_include_directories(core99_t11_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t11_core PUBLIC fode_core)
+    target_compile_features(core99_t11_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t11_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t11_hpc src/blockcopy_t11_main.cpp)
+    target_link_libraries(core99_t11_hpc PRIVATE core99_t11_core)
 endif()
 
 if(BUILD_TESTING)
@@ -935,6 +958,18 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t60_hpc>
         )
         set_tests_properties(core99_t60_h5 PROPERTIES TIMEOUT 300)
+    endif()
+    if(CORE99_ENABLE_T11)
+        add_executable(core99_t11_test tests/blockcopy_t11_test.cpp)
+        target_link_libraries(core99_t11_test PRIVATE core99_t11_core)
+        add_test(NAME core99_t11_cpp COMMAND core99_t11_test)
+        add_test(
+            NAME core99_t11_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t11.py
+                --binary $<TARGET_FILE:core99_t11_hpc>
+        )
+        set_tests_properties(core99_t11_h5 PROPERTIES TIMEOUT 300)
     endif()
     add_executable(core99_t77_test tests/long_t77_test.cpp)
     target_link_libraries(core99_t77_test PRIVATE core99_t77_core)

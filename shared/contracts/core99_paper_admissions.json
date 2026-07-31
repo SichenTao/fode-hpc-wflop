@@ -1220,6 +1220,124 @@
         "H6": "pending"
       }
     },
+    "T11": {
+      "dossier_status": "h5_admitted",
+      "formal_status": "queued_waffle",
+      "scope": {
+        "claim_boundary": "source-backed flexible academic reproduction of four BlockCopy methods and all four native problems; not author optimizer source, random stream or exact-number replay",
+        "package_status": "paper_pair_h5_validated"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "2N continuous coordinates for fixed N=100,100,220,710"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "direct coordinates partitioned by the paper BlockCopy grids"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper_equation_and_public_evaluator",
+          "resolution": "minimize expected energy cost per kWh"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_first_plus_public_xml_and_declared_completion",
+          "resolution": "rectangular sites, open obstacles, >=8R spacing, omit invalid copies and uniform fixed-count repair"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "public_evaluator_lineage",
+          "resolution": "24-sector Kusiak/Jensen RSS wake, Weibull power integration and target economics"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "cited_kusiak_tables_and_official_2014_xml",
+          "resolution": "Kusiak-Song 1/2 and official Competition 1/3 arrays"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "declared_missing_field_completion",
+          "resolution": "uniform feasible continuous rejection sampling"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_plus_conventional_es_completion",
+          "resolution": "(1+1) non-worse acceptance and (5,10) best-five offspring comma survival"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "2000 complete wind-farm evaluations including initialization"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_first_public_source_second_declared_completion",
+          "resolution": "paper block grids, equal Both probability, perturbation size 10 and 8R spacing"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning evolutionary strategies"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper_plus_official_xml",
+          "resolution": "two Kusiak-Song and two 2014 competition cases"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_hpc_protocol",
+          "resolution": "four methods by four problems by 30 runs, 2000 FES each, stage timings and worker/science receipts"
+        }
+      },
+      "paper_source_conflicts": [
+        "Paper omit-invalid-copy rule conflicts with same-author thesis relocation prose.",
+        "Paper table transposes official XML k ranges between Competition 1 and 3.",
+        "Paper caption's 15 bins conflicts with the released 24-sector evaluator.",
+        "Thesis r=0.3 prose conflicts with paper/source r=0.03.",
+        "Paper omits an executable (5,10)-ES survivor lifecycle."
+      ],
+      "missing_information": [
+        "author BlockCopy source and random states",
+        "exact random initialization and tie behavior",
+        "complete (5,10)-ES lifecycle",
+        "machine-readable Kusiak scenario files"
+      ],
+      "completion_decisions": [
+        "Apply paper-first copy handling and target equations.",
+        "Consume exact official Competition XML and audited Kusiak arrays.",
+        "Complete the population method as a conventional comma-ES.",
+        "Exclude TDA and perturbation-only comparison baselines.",
+        "Use exact algebraic cone reformulation, quadrature lookup and changed-coordinate incremental wake updates.",
+        "Parallelize full evaluations, single trajectories and independent formal runs without nested oversubscription."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/blockcopy_t11.hpp",
+        "hpc/core99_cpp/src/blockcopy_t11.cpp",
+        "hpc/core99_cpp/src/blockcopy_t11_main.cpp",
+        "hpc/core99_cpp/tests/blockcopy_t11_test.cpp",
+        "scripts/validate_core99_t11.py",
+        "scripts/run_core99_t11_h6_formal.py",
+        "shared/contracts/core99_t11_blockcopy_2016.json"
+      ],
+      "evidence_receipts": [
+        "evidence/development/T11_H0_H4_mathematical_hpc_analysis_20260731.md",
+        "evidence/development/T11_h5_independent_equation_validation_20260731.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pending_waffle"
+      }
+    },
     "T48": {
       "dossier_status": "formal_complete",
       "formal_status": "complete_single_deterministic_paper_demonstration",
