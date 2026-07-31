@@ -527,6 +527,11 @@ option(
     "Build T85 joint-layout/yaw AGLDPSO CPU-HPC reproduction"
     OFF
 )
+option(
+    CORE99_ENABLE_T24
+    "Build T24 Markov-intermittency NSGA-III CPU-HPC reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21)
     include(FetchContent)
 
@@ -726,6 +731,24 @@ if(CORE99_ENABLE_T85)
     )
     add_executable(core99_t85_hpc src/song_t85_main.cpp)
     target_link_libraries(core99_t85_hpc PRIVATE core99_t85_core)
+endif()
+
+if(CORE99_ENABLE_T24)
+    add_library(core99_t24_core STATIC src/kim_t24.cpp)
+    target_include_directories(core99_t24_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t24_core PUBLIC fode_core)
+    target_compile_features(core99_t24_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t24_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t24_hpc src/kim_t24_main.cpp)
+    target_link_libraries(core99_t24_hpc PRIVATE core99_t24_core)
 endif()
 
 if(BUILD_TESTING)
@@ -1088,6 +1111,18 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t85_hpc>
         )
         set_tests_properties(core99_t85_h5 PROPERTIES TIMEOUT 900)
+    endif()
+    if(CORE99_ENABLE_T24)
+        add_executable(core99_t24_test tests/kim_t24_test.cpp)
+        target_link_libraries(core99_t24_test PRIVATE core99_t24_core)
+        add_test(NAME core99_t24_cpp COMMAND core99_t24_test)
+        add_test(
+            NAME core99_t24_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t24.py
+                --binary $<TARGET_FILE:core99_t24_hpc>
+        )
+        set_tests_properties(core99_t24_h5 PROPERTIES TIMEOUT 1800)
     endif()
     add_executable(core99_t77_test tests/long_t77_test.cpp)
     target_link_libraries(core99_t77_test PRIVATE core99_t77_core)

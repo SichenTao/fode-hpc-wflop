@@ -261,8 +261,8 @@
     },
     {
       "corpus_id": "T24",
-      "dossier_sha256": "7786f37ee0259c57e364e54ef93056b6441159f52ec9948ccbefe84863aa3ae5",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "05325dc628d629cfe99fc0ce326831fe18a07f9f6655c0df38552ab2866ee000",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

@@ -1,0 +1,152 @@
+{
+  "cases": {
+    "real_p0": {
+      "independent": {
+        "intermittency_mw": 9.110369005924301,
+        "mean_power_mw": 35.95441516729026
+      },
+      "paper_reference_scale_anchor": {
+        "intermittency_mw": 9.42,
+        "mean_power_mw": 31.21
+      },
+      "production": {
+        "boundary_violation_m": 0,
+        "feasible": true,
+        "intermittency_mw": 9.1103690059243,
+        "mean_power_mw": 35.954415167290264,
+        "spacing_violation_m": 0
+      }
+    },
+    "real_p007": {
+      "independent": {
+        "intermittency_mw": 6.217194842567218,
+        "mean_power_mw": 35.95441516729026
+      },
+      "paper_reference_scale_anchor": {
+        "intermittency_mw": 6.93,
+        "mean_power_mw": 31.21
+      },
+      "production": {
+        "boundary_violation_m": 0,
+        "feasible": true,
+        "intermittency_mw": 6.217194842567218,
+        "mean_power_mw": 35.954415167290264,
+        "spacing_violation_m": 0
+      }
+    },
+    "real_p015": {
+      "independent": {
+        "intermittency_mw": 3.865297624665118,
+        "mean_power_mw": 35.95441516729026
+      },
+      "paper_reference_scale_anchor": {
+        "intermittency_mw": 5.0,
+        "mean_power_mw": 31.21
+      },
+      "production": {
+        "boundary_violation_m": 0,
+        "feasible": true,
+        "intermittency_mw": 3.865297624665118,
+        "mean_power_mw": 35.954415167290264,
+        "spacing_violation_m": 0
+      }
+    },
+    "uniform_p0": {
+      "independent": {
+        "intermittency_mw": 9.672649845167074,
+        "mean_power_mw": 35.5997444642665
+      },
+      "paper_reference_scale_anchor": {
+        "intermittency_mw": 9.74,
+        "mean_power_mw": 31.53
+      },
+      "production": {
+        "boundary_violation_m": 0,
+        "feasible": true,
+        "intermittency_mw": 9.672649845167072,
+        "mean_power_mw": 35.599744464266514,
+        "spacing_violation_m": 0
+      }
+    },
+    "uniform_p007": {
+      "independent": {
+        "intermittency_mw": 6.5756910423968025,
+        "mean_power_mw": 35.5997444642665
+      },
+      "paper_reference_scale_anchor": {
+        "intermittency_mw": 7.15,
+        "mean_power_mw": 31.53
+      },
+      "production": {
+        "boundary_violation_m": 0,
+        "feasible": true,
+        "intermittency_mw": 6.5756910423968025,
+        "mean_power_mw": 35.599744464266514,
+        "spacing_violation_m": 0
+      }
+    },
+    "uniform_p015": {
+      "independent": {
+        "intermittency_mw": 4.124100629880024,
+        "mean_power_mw": 35.5997444642665
+      },
+      "paper_reference_scale_anchor": {
+        "intermittency_mw": 5.14,
+        "mean_power_mw": 31.53
+      },
+      "production": {
+        "boundary_violation_m": 0,
+        "feasible": true,
+        "intermittency_mw": 4.124100629880024,
+        "mean_power_mw": 35.599744464266514,
+        "spacing_violation_m": 0
+      }
+    }
+  },
+  "claim_boundary": "H5 equation, paper-scale, and bounded-protocol equivalence only; Waffle H6 and formal 25-seed quality remain queued",
+  "corpus_id": "T24",
+  "independence": "Python paper-equation and declared-wind re-derivation without production-code import or linking",
+  "model_problem": {
+    "y2.1_direction0": {
+      "independent_power_mw": 4.947946553028189,
+      "paper_table_1_power_mw": 4.9137,
+      "production_power_mw": 4.947946553028189
+    },
+    "y2.1_direction30": {
+      "independent_power_mw": 5.036525773168503,
+      "paper_table_1_power_mw": 5.0164,
+      "production_power_mw": 5.036525773168503
+    },
+    "y3.6_direction0": {
+      "independent_power_mw": 4.914875881189781,
+      "paper_table_1_power_mw": 4.873,
+      "production_power_mw": 4.914875881189781
+    },
+    "y3.6_direction30": {
+      "independent_power_mw": 6.20512110432288,
+      "paper_table_1_power_mw": 6.2626,
+      "production_power_mw": 6.20512110432288
+    },
+    "y5_direction0": {
+      "independent_power_mw": 3.413762683988324,
+      "paper_table_1_power_mw": 3.2624,
+      "production_power_mw": 3.4137626839883244
+    },
+    "y5_direction30": {
+      "independent_power_mw": 6.228385071435003,
+      "paper_table_1_power_mw": 6.2943,
+      "production_power_mw": 6.228385071435003
+    }
+  },
+  "parallel_equivalence": {
+    "generations": 2,
+    "observed_parallel_workers": 20,
+    "one_and_twenty_worker_hash": "900c0999450c4537",
+    "physical_fes": 120,
+    "population": 40
+  },
+  "schema_version": 1,
+  "status": "pass",
+  "validator": "scripts/validate_core99_t24.py",
+  "validator_sha256": "be59aefc0a89d9d8f0dc38bd657be4019cc1afb0d5f6f4b1c757900f9fa1465e"
+}
