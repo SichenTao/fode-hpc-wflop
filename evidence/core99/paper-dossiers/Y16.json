@@ -1,126 +1,182 @@
 {
-  "authority_ladder": [
-    "paper_and_supplement",
-    "paper_linked_public_source_and_data",
-    "cited_predecessor",
-    "same_lineage_public_source",
-    "deterministic_declared_reconstruction"
-  ],
-  "completion_decisions": [],
+  "schema_version": 1,
   "corpus_id": "Y16",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
-  "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
-  },
-  "missing_information": [
-    "full field-level audit not yet completed"
-  ],
   "paper": {
+    "title": "Regular Layout Optimization for Offshore Wind Farms Considering Seabed Terrains and Turbulence Intensity",
     "authors": "Zehai Huang and Yunfei Du and Renshen Tan and Xinwei Shen",
     "doi": "10.1109/tste.2026.3686029",
+    "venue": "IEEE Transactions on Sustainable Energy",
+    "year": 2026,
     "pdf_basename": "2026_Huang_Regular_Layout_Optimization_for_Offshore_Wind_Farms_Considering_Seabed_Terrains_and_Turbulence_Intensity.pdf",
     "pdf_sha256": "4288399ae7711a6fc1acbbfba5d5c510c5f56a8cb820e6d8d91e7f419d480e3c",
-    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_asset_status": "local_primary_pdf_hashed_rendered_and_audited",
     "primary_review_class": "REV4",
-    "reading_tier": "CORE-SUPPORT",
-    "role": "D",
     "secondary_review_classes": "NONE",
-    "title": "Regular Layout Optimization for Offshore Wind Farms Considering Seabed Terrains and Turbulence Intensity",
-    "venue": "IEEE Transactions on Sustainable Energy",
-    "year": 2026
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D"
   },
-  "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 12,
     "text_sha256": "425543918496f93d3ba0244fcfbd9bc3be902d5e6172812f2a685b07cd2dfae1"
   },
+  "authority_ladder": [
+    "target_journal_paper",
+    "first_party_patent_CN121683298A_CN121683298B",
+    "target_rendered_equations_figures_and_tables",
+    "cited_model_lineage",
+    "deterministic_declared_completion"
+  ],
+  "paper_linked_public_asset_candidates": [
+    "https://doi.org/10.1109/TSTE.2026.3686029",
+    "https://patents.google.com/patent/CN121683298A/zh"
+  ],
   "public_asset_candidate_evidence": {
-    "availability_mention_line_numbers": [],
-    "embedded_annotation_urls": [],
-    "status": "no_paper_linked_public_asset_candidate_detected"
+    "status": "target paper and first-party patent found; exact-title DOI method author institution and GitHub searches found no target source, Gurobi model, private arrays, layouts, traces or result archive"
   },
-  "schema_version": 1,
+  "paper_source_conflicts": [
+    "Table I labels 155/90/263m as rotor radius, but turbine identity, 5D spacing and figures require the diameter interpretation.",
+    "Eqs.13-14 omit upstream selection x_i, and Eqs.12/51 omit target selection; the printed forms violate source-target placement semantics.",
+    "Eq.43 omits wind-scenario probabilities although probability weighting is required by the stated expected-fatigue meaning and Table IV scale.",
+    "Eq.29's discounted multi-year AEP conflicts with annualized costs and the reported LCOE scale.",
+    "Table IX prose reports 1530/7237s, whereas Table IX reports 5530/16237s; the table controls."
+  ],
+  "missing_information": [
+    "target author source, Gurobi model/settings and numerical archive",
+    "exact Zhuhai and Hainan boundaries, depth arrays and soil/rock rasters",
+    "wind direction, speed and probability arrays",
+    "the ten exact start-column and gap pattern pairs",
+    "BDA tolerance, iteration cap and original solution coordinates"
+  ],
+  "completion_decisions": [
+    "Retain all 31 unique deterministic paper-native target roles; comparison-only GA, PSO and GWO are excluded.",
+    "Interpret Table I dimensions as rotor diameters and enforce the literal 5D separation.",
+    "Restore source-target selection in wake and TI, probability-weight TI fatigue, and use annual expected energy consistently.",
+    "Use analytic site, terrain and sixteen-sector wind proxies for unavailable private arrays.",
+    "Generate the first ten safety-valid start/gap pairs separately for every grid resolution.",
+    "Use BDA tolerance1e-6, at most20 iterations and the paper's 10000-second formal per-subproblem ceiling.",
+    "Use pinned HiGHS with presolve disabled after isolated false-infeasibility evidence and independently evaluate every incumbent.",
+    "Run each HiGHS task with one thread and parallelize independent angle-pattern tasks over the persistent full-core executor."
+  ],
+  "dossier_status": "h5_admitted",
+  "formal_status": "ready_for_immutable_waffle_queue",
+  "hpc_admission": {
+    "H0": "complete_target_paper_patent_equation_figure_table_and_source_search_audit",
+    "H1": "complete_31role_math_contract_conflict_and_missing_input_reconciliation",
+    "H2": "complete_bmm_imm_bda_coefficient_task_and_memory_parallel_analysis",
+    "H3": "complete_pure_cpp_persistent_all_core_highs_implementation",
+    "H4": "complete_31role_deterministic_formal_runner_and_20task_h6_protocol",
+    "H5": "pass_strict_build_cpp_python_roles_constraints_physics_and_schedule_validation",
+    "H6": "pass_local_20task_one_twenty_candidate_pending_immutable_waffle_confirmation"
+  },
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "scope_status": "paper_paired_hpc_implemented",
     "execution_wave": "REV4",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
-    "target_contribution_type": "coupled_or_real_world_problem_and_method"
+    "package_status": "h5_admitted_waffle_h6_and_formal_ready",
+    "target_contribution_type": "coupled_or_real_world_problem_and_method",
+    "claim_boundary": "source-backed flexible academic reconstruction of BMM IMM BDA and every unique target role; not author code private arrays Gurobi replay private-case global certificate or numerical replay"
   },
   "semantic_contract": {
-    "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_Eqs21_26_46_49",
+      "resolution": "one angle-pattern choice plus optional regular-pattern rows yielding the exact turbine count",
+      "status": "implemented"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_Figs3_4_and_Eqs21_26",
+      "resolution": "rotated rectangular grid clipped to the site polygon and decoded from selected pattern rows",
+      "status": "implemented_and_validated"
     },
-    "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+    "constraints_and_repair": {
+      "authority": "target_Eqs46_50",
+      "resolution": "exact turbine cardinality and at least 5D point separation under BMM pair rows or IMM deduplicated conflicts",
+      "status": "implemented_and_independently_evaluated"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_Eqs27_30_and_SectionVC",
+      "resolution": "minimum LCOE with minimum annual cost and maximum AEP ablation roles",
+      "status": "implemented"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_Eqs1_14_27_45_and_TablesI_II",
+      "resolution": "corrected 2D cosine Jensen power, double-Gaussian TI, piecewise TI fatigue and terrain-aware life-cycle costs",
+      "status": "implemented_and_shared_evaluator_validated"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_Global_Wind_Atlas_statement_plus_declared_completion",
+      "resolution": "normalized sixteen-sector analytic proxy with explicit non-author boundary",
+      "status": "implemented_and_normalization_validated"
+    },
+    "paper_native_cases": {
+      "authority": "target_TablesIV_X_and_Figs6_11",
+      "resolution": "31 unique deterministic roles spanning seabed objective TI model scale turbine and real-site studies",
+      "status": "implemented_and_runner_validated"
+    },
+    "initialization": {
+      "authority": "not_applicable",
+      "resolution": "deterministic MILFP subproblems have no stochastic population initialization",
+      "status": "not_applicable"
+    },
+    "parameters": {
+      "authority": "target_SectionV_TableVIII_plus_declared_completion",
+      "resolution": "18 angles ten safety-valid patterns default3 TI intervals 10000s formal solve ceiling BDA tolerance1e-6 cap20",
+      "status": "implemented"
+    },
+    "update_order": {
+      "authority": "target_Eqs61_69_and_Fig5",
+      "resolution": "parallel initial bounds global Eq69 pruning then endpoint BDA solves Eq68 updates and ordered best reduction",
+      "status": "implemented_and_tested"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "target_BDA_and_TableVIII",
+      "resolution": "bound-gap or residual convergence with per-MILP time ceiling; MILP solve counts and aggregate/wall timings reported",
+      "status": "implemented_and_formal_ready"
+    },
+    "metrics_and_repeats": {
+      "authority": "target_TablesIV_X_plus_platform_contract",
+      "resolution": "LCOE annual cost AEP wake loss terrain costs fatigue spacing solver timing workers and hash; one deterministic run per role",
+      "status": "implemented_and_runner_validated"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "BMM IMM and BDA have no learned model",
+      "status": "not_applicable"
     }
-  }
+  },
+  "development_hpc_diagnostic_20260801": {
+    "work": "one min-annual-cost role with all 18 angles and ten pre-correction pattern indices",
+    "requested_workers": 20,
+    "observed_workers": 20,
+    "generated_subproblems": 180,
+    "incumbent_subproblems": 33,
+    "evaluator_rejected_subproblems": 0,
+    "summed_mip_seconds": 1722.1906931429994,
+    "end_to_end_seconds": 93.604990064999996,
+    "effective_mip_concurrency": 18.3985,
+    "status": "local_development_candidate_not_frozen_h6_and_not_formal"
+  },
+  "development_h6_20260801": {
+    "work": "same four angles times five safety-valid patterns for the Case-1 Type-3 40-WT IMM minimum-annual-cost role",
+    "one_worker_end_to_end_seconds": 56.616182047,
+    "twenty_worker_end_to_end_seconds": 6.815446808,
+    "end_to_end_speedup": 8.307038942853122,
+    "twenty_worker_observed_workers": 20,
+    "twenty_worker_effective_mip_concurrency": 10.58447180136807,
+    "same_layout_objective_physics_and_hash": true,
+    "status": "local_candidate_pending_immutable_waffle_confirmation"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/huang_y16.hpp",
+    "hpc/core99_cpp/src/huang_y16.cpp",
+    "hpc/core99_cpp/src/huang_y16_main.cpp",
+    "hpc/core99_cpp/tests/huang_y16_test.cpp",
+    "scripts/validate_core99_y16.py",
+    "scripts/run_core99_y16_h6_formal.py",
+    "scripts/run_core99_y16_when_waffle_free.sh",
+    "shared/contracts/core99_y16_huang_2026.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/Y16_H0_H4_mathematical_hpc_analysis_20260801.md",
+    "evidence/development/Y16_h5_independent_validation_20260801.json"
+  ]
 }

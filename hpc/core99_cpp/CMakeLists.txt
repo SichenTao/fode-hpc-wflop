@@ -466,7 +466,17 @@ option(
     "Build T30 proximity search with the pinned HiGHS C++ MILP backend"
     OFF
 )
-if(CORE99_ENABLE_T63 OR CORE99_ENABLE_T30)
+option(
+    CORE99_ENABLE_Y16
+    "Build Y16 regular-layout MILFP/BDA with the pinned HiGHS backend"
+    OFF
+)
+option(
+    CORE99_Y16_STRICT_WARNINGS
+    "Treat warnings in project-owned Y16 targets as errors"
+    OFF
+)
+if(CORE99_ENABLE_T63 OR CORE99_ENABLE_T30 OR CORE99_ENABLE_Y16)
     include(FetchContent)
     set(CORE99_SAVED_BUILD_TESTING ${BUILD_TESTING})
     set(FAST_BUILD ON CACHE BOOL "" FORCE)
@@ -925,6 +935,32 @@ if(CORE99_ENABLE_Y14)
     )
     add_executable(core99_y14_hpc src/zhang_y14_main.cpp)
     target_link_libraries(core99_y14_hpc PRIVATE core99_y14_core)
+endif()
+
+if(CORE99_ENABLE_Y16)
+    add_library(core99_y16_core STATIC src/huang_y16.cpp)
+    target_include_directories(core99_y16_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_y16_core PUBLIC fode_core highs::highs)
+    target_compile_features(core99_y16_core PUBLIC cxx_std_20)
+    target_compile_options(core99_y16_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_y16_hpc src/huang_y16_main.cpp)
+    target_link_libraries(core99_y16_hpc PRIVATE core99_y16_core)
+    if(CORE99_Y16_STRICT_WARNINGS)
+        target_compile_options(core99_y16_core PRIVATE
+            -Wall -Wextra -Wpedantic -Werror
+        )
+        target_compile_options(core99_y16_hpc PRIVATE
+            -Wall -Wextra -Wpedantic -Werror
+        )
+    endif()
 endif()
 
 if(CORE99_ENABLE_T11)
@@ -1483,6 +1519,25 @@ if(BUILD_TESTING)
         )
         set_tests_properties(
             core99_y14_cpp core99_y14_h5 PROPERTIES TIMEOUT 900
+        )
+    endif()
+    if(CORE99_ENABLE_Y16)
+        add_executable(core99_y16_test tests/huang_y16_test.cpp)
+        target_link_libraries(core99_y16_test PRIVATE core99_y16_core)
+        if(CORE99_Y16_STRICT_WARNINGS)
+            target_compile_options(core99_y16_test PRIVATE
+                -Wall -Wextra -Wpedantic -Werror
+            )
+        endif()
+        add_test(NAME core99_y16_cpp COMMAND core99_y16_test)
+        add_test(
+            NAME core99_y16_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_y16.py
+                --binary $<TARGET_FILE:core99_y16_hpc>
+        )
+        set_tests_properties(
+            core99_y16_cpp core99_y16_h5 PROPERTIES TIMEOUT 1800
         )
     endif()
     if(CORE99_ENABLE_T11)

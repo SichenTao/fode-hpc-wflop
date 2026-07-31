@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "corpus_id": "Y16",
+  "paper": {
+    "title": "Regular Layout Optimization for Offshore Wind Farms Considering Seabed Terrains and Turbulence Intensity",
+    "doi": "10.1109/TSTE.2026.3686029",
+    "pdf_sha256": "4288399ae7711a6fc1acbbfba5d5c510c5f56a8cb820e6d8d91e7f419d480e3c"
+  },
+  "first_party_support": {
+    "patent": "CN121683298A/CN121683298B",
+    "application": "CN202610193544.7A",
+    "inventors": ["Xinwei Shen", "Zehai Huang"],
+    "url": "https://patents.google.com/patent/CN121683298A/zh",
+    "cached_html_sha256": "661f19c7394f8272f831946b6d8faacb94b8553caf95cdb25f6d6af027aed3de"
+  },
+  "source_search": {
+    "date": "2026-08-01",
+    "result": "Exact-title, DOI, method-phrase, author/institution and GitHub searches found no target code, solver model, private arrays, layouts, traces or result archive."
+  },
+  "paper_native_protocol": {
+    "rotation_angles_degrees": "0 through 170 in 10-degree steps",
+    "layout_pattern_count": 10,
+    "minimum_spacing": "5 rotor diameters",
+    "ti_intervals_default": 3,
+    "subproblem_time_limit_seconds": 10000,
+    "deterministic_target_roles": 31,
+    "role_groups": {
+      "three_seabed_lcoe": 3,
+      "additional_objectives": 2,
+      "additional_ti_interval_counts": 3,
+      "bmm_imm_scaling_matrix": 18,
+      "one_hundred_turbine_scaling": 3,
+      "hainan_real_site": 2
+    },
+    "independent_random_runs": "not applicable; BMM, IMM and BDA are deterministic mathematical-programming methods"
+  },
+  "literal_problem_data": {
+    "turbines": ["WT-1 155m 5.5MW", "WT-2 90m 3MW", "WT-3 263m 13MW"],
+    "wake": "Eqs.1-4 two-dimensional cosine Jensen",
+    "added_turbulence": "Eqs.5-10 Ishihara double-Gaussian model",
+    "objective_and_cost": "Eqs.27-45 LCOE, terrain-aware support/installation and TI-coupled O&M",
+    "regular_layout": "Eqs.21-26 one angle, one pattern and optional row activation",
+    "models": "BMM Eqs.46-49 and IMM Eqs.50-60",
+    "solution": "angle decomposition Eqs.61-63 and bounded Dinkelbach Eqs.64-69"
+  },
+  "missing_information": [
+    "exact Zhuhai and Hainan boundaries",
+    "depth and soil/rock rasters",
+    "wind-direction, wind-speed and probability arrays",
+    "the ten start-column and gap pattern pairs",
+    "BDA tolerance and iteration cap",
+    "Gurobi model/settings and original solution coordinates"
+  ],
+  "conflicts_and_completions": [
+    "Table I's 155/90/263m rotor-radius label is treated as rotor diameter because it matches the turbine types, 5D constraints and figures.",
+    "Eqs.13-14 omit upstream selection x_i; the reconstruction restores the source-target product.",
+    "Eqs.12 and 51 omit target selection and otherwise force power on unselected points/rows; the reconstruction restores it.",
+    "Eq.43 omits scenario probabilities; probability weighting is restored to match the fatigue interpretation and Table IV scale.",
+    "Eq.29's discounted multi-year AEP conflicts with annualized cost and reported LCOE scale; annual expected energy is used consistently.",
+    "Table IX prose gives 1530/7237s while Table IX gives 5530/16237s; the table controls.",
+    "Private arrays are replaced by declared analytic figure proxies and a normalized sixteen-sector wind proxy.",
+    "The first ten safety-valid start/gap pairs are generated for each grid resolution.",
+    "Missing BDA controls are frozen at tolerance 1e-6 and at most 20 iterations.",
+    "HiGHS presolve is disabled because the reconstructed disjunctive TI MILP was empirically observed to produce false infeasibility with presolve while the unchanged model solves and passes the independent evaluator without it."
+  ],
+  "method_semantic_id": "y16_imm_bmm_bounded_dinkelbach_highs_reconstruction_v1",
+  "problem_semantic_id": "y16_regular_seabed_ti_lcoe_figure_proxy_v1",
+  "protocol_semantic_id": "y16_native_31role_deterministic_v1",
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC with pinned HiGHS v1.15.1 commit 04024d701f79feb8e2f18bc3df0dffc04ef05088",
+    "strategy": [
+      "parallel immutable coefficient generation for independent angle-pattern subproblems",
+      "parallel initial lower/upper MILP bounds and global safe pruning",
+      "parallel BMM/IMM bounded-Dinkelbach subproblem solution",
+      "one HiGHS thread per independent subproblem to avoid nested oversubscription",
+      "persistent full-core executor and deterministic ordered best-solution reduction",
+      "shared evaluator for BMM/IMM feasibility and physical-result acceptance"
+    ],
+    "required_invariant": "one-worker and all-worker selected layout, objective, physical metrics and scientific-hash identity for a fixed subproblem set"
+  },
+  "claim_boundary": "Source-backed flexible academic reconstruction of BMM, IMM, bounded Dinkelbach and every unique paper-native target role; not author code, private site/wind/terrain data, Gurobi replay, private-case global certificate or numerical replay."
+}
