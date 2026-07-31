@@ -1,0 +1,55 @@
+{
+  "schema_version": 1,
+  "corpus_id": "Y14",
+  "paper": {
+    "title": "Preference-Oriented Evolutionary Multi-Objective Energy-Noise Optimization for Fast Wind Farm Layout Design",
+    "doi": "10.1109/TSTE.2026.3661110",
+    "pdf_sha256": "1479f6921738c9485f27e181d515e21fcc6e52df67a2d1df8a6bf40e55665a08"
+  },
+  "source_search": {
+    "date": "2026-08-01",
+    "result": "No target source, measured wind/layout/receiver arrays, seeds, traces or result archive found by exact-title, DOI, method-name, author, GitHub-code and institutional searches."
+  },
+  "paper_native_protocol": {
+    "cases": [
+      "Y14_n16_original", "Y14_n24_original", "Y14_n48_original",
+      "Y14_n16_adjusted", "Y14_n24_adjusted", "Y14_n48_adjusted"
+    ],
+    "population": 50,
+    "subpopulation": 10,
+    "replacement_limit": "N/2",
+    "maximum_evaluation_slots": 150000,
+    "independent_runs": 10,
+    "original_weight": [0.5, 0.5],
+    "adjusted_weight": "noise weight increases linearly from 0.5 to 0.7"
+  },
+  "literal_problem_data": {
+    "turbine": "SL113-3000/90; radius 56.5m; hub 90m; CT0.74; cut-in/rated/cut-out 3/11.5/25mps; rated 3000kW; air density1.107; LW105dB",
+    "power_curve": "a=2959, b=12.85, c=4.934",
+    "sites": ["2500x4000 N16 receivers67", "2500x4000 N24 receivers67", "5000x4000 N48 receivers91"],
+    "original_reference_points": [[-138.229,45.0],[-207.350,50.0],[-390.158,50.0]],
+    "adjusted_reference_points": [[-144.726,43.380],[-212.741,47.500],[-403.033,47.700]]
+  },
+  "conflicts_and_completions": [
+    "Fig.5 distribution controls the conflicting Weibull symbol descriptions: scale 8.3 and shape 2.0.",
+    "The unavailable direction histogram is a normalized sixteen-sector deterministic digitization.",
+    "ISO 9613-2 is specialized to hard ground with declared standard octave atmospheric coefficients; LW=105dB is applied per printed octave-band wording.",
+    "Missing CR is 0.9; missing learning period is 50; SFM uses Laplace-smoothed rolling success/failure counts and deterministic tie rules; finite Gaussian/Cauchy scaling samples are clipped to [0.05,1.5].",
+    "The evaluation-slot stopping counter is separated from physical FES because infeasible trial vectors are explicitly not evaluated."
+  ],
+  "method_semantic_id": "y14_psdrde_declared_reconstruction_v1",
+  "problem_semantic_id": "y14_energy_noise_threefarm_declared_proxy_v1",
+  "protocol_semantic_id": "y14_threefarm_two_preference_10seed_150k_v1",
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC",
+    "strategy": [
+      "precompute Weibull-power and acoustic-distance tables",
+      "parallel frozen-generation offspring construction and independent feasible-trial evaluation",
+      "parallel pairwise dominance rows",
+      "one persistent all-core executor without nested teams",
+      "counter-keyed random events and ordered SFM/population commits"
+    ],
+    "required_invariant": "one-worker and all-worker front, FES and scientific-hash identity"
+  },
+  "claim_boundary": "Flexible academic reconstruction of the complete target method and six paper-native roles; not author source, private Gansu data, exact ISO site replay, random trajectory or numerical replay."
+}

@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "corpus_id": "Y14",
+  "paper_doi": "10.1109/TSTE.2026.3661110",
+  "method_semantic_id": "y14_psdrde_declared_reconstruction_v1",
+  "problem_semantic_id": "y14_energy_noise_threefarm_declared_proxy_v1",
+  "protocol_semantic_id": "y14_threefarm_two_preference_10seed_150k_v1",
+  "checks": {
+    "strict_warning_cpp_build": "pass",
+    "cpp_regression": "pass",
+    "python_independent_validation": "pass",
+    "paper_native_role_count": 6,
+    "population": 50,
+    "subpopulation": 10,
+    "replacement_limit": "N/2",
+    "paper_maximum_evaluation_slots": 150000,
+    "paper_independent_runs": 10,
+    "receiver_counts": [67, 67, 91],
+    "one_four_worker_front_fes_hash_identity": true,
+    "full_worker_participation_observed": 4
+  },
+  "local_h6_candidate": {
+    "roles": 6,
+    "fixed_evaluation_slots": 5000,
+    "comparison": "same pure-C++ executable with one versus twenty Spark workers",
+    "all_roles_same_front_physical_fes_and_hash": true,
+    "minimum_evaluator_speedup": 5.875078435905173,
+    "minimum_end_to_end_speedup": 2.440572673091742,
+    "maximum_evaluator_speedup": 9.790447662391598,
+    "maximum_end_to_end_speedup": 6.323915924690746,
+    "status": "local_candidate_pending_immutable_waffle_confirmation"
+  },
+  "paper_parameter_local_preview": {
+    "roles": 6,
+    "runs_per_role": 1,
+    "population": 50,
+    "maximum_evaluation_slots": 150000,
+    "completed_runs": 6,
+    "runtime_seconds_range": [1.026694924, 2.60726658],
+    "physical_fes_range": [149752, 150000],
+    "paper_maximum_aep_gwh_original": [144.644, 212.689, 402.969],
+    "local_maximum_aep_gwh_original": [139.3612300887239, 209.772539058112, 394.6009316273275],
+    "paper_maximum_aep_gwh_adjusted": [146.600, 213.886, 407.751],
+    "local_maximum_aep_gwh_adjusted": [144.6738228808111, 214.30927834174207, 406.243607947973],
+    "status": "local_functional_preview_not_author_numeric_replay"
+  },
+  "claim_boundary": "H5 validates the source-backed declared reconstruction, complete six-role interface, stopping/FES separation, schedule identity and local performance candidate; it does not claim author source, private Gansu arrays, exact ISO site replay, Waffle confirmation or numerical replay."
+}

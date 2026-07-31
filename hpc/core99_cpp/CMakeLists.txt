@@ -599,6 +599,11 @@ option(
     OFF
 )
 option(
+    CORE99_ENABLE_Y14
+    "Build Y14 preference-oriented energy-noise p-SDRDE CPU-HPC reproduction"
+    OFF
+)
+option(
     CORE99_ENABLE_T11
     "Build T11 BlockCopy four-method/four-problem HPC reproduction"
     OFF
@@ -902,6 +907,24 @@ if(CORE99_ENABLE_Y09)
     )
     add_executable(core99_y09_hpc src/li_y09_main.cpp)
     target_link_libraries(core99_y09_hpc PRIVATE core99_y09_core)
+endif()
+
+if(CORE99_ENABLE_Y14)
+    add_library(core99_y14_core STATIC src/zhang_y14.cpp)
+    target_include_directories(core99_y14_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_y14_core PUBLIC fode_core)
+    target_compile_features(core99_y14_core PUBLIC cxx_std_20)
+    target_compile_options(core99_y14_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_y14_hpc src/zhang_y14_main.cpp)
+    target_link_libraries(core99_y14_hpc PRIVATE core99_y14_core)
 endif()
 
 if(CORE99_ENABLE_T11)
@@ -1446,6 +1469,20 @@ if(BUILD_TESTING)
         )
         set_tests_properties(
             core99_y09_cpp core99_y09_h5 PROPERTIES TIMEOUT 900
+        )
+    endif()
+    if(CORE99_ENABLE_Y14)
+        add_executable(core99_y14_test tests/zhang_y14_test.cpp)
+        target_link_libraries(core99_y14_test PRIVATE core99_y14_core)
+        add_test(NAME core99_y14_cpp COMMAND core99_y14_test)
+        add_test(
+            NAME core99_y14_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_y14.py
+                --binary $<TARGET_FILE:core99_y14_hpc>
+        )
+        set_tests_properties(
+            core99_y14_cpp core99_y14_h5 PROPERTIES TIMEOUT 900
         )
     endif()
     if(CORE99_ENABLE_T11)
