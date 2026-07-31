@@ -1,0 +1,135 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T77",
+  "paper": {
+    "title": "A Data-Driven Evolutionary Algorithm for Wind Farm Layout Optimization",
+    "doi": "10.1016/j.energy.2020.118310",
+    "pdf_sha256": "72a5822e535c1a1d88b87503f5add43fe33f9eacb74dd4722724d58a17f9b9b4"
+  },
+  "public_source": {
+    "target_author_source": "not_found",
+    "paper_linked_data": "not_found",
+    "claim": "paper-first academic reconstruction"
+  },
+  "paper_problem": {
+    "decision_variables": "continuous x-y coordinates for a fixed number of identical turbines",
+    "turbine": "GE1.5-77",
+    "hub_height_m": 80.0,
+    "rotor_radius_m": 40.0,
+    "thrust_coefficient": 0.8,
+    "wake_expansion": 0.01,
+    "minimum_spacing_m": 200.0,
+    "power_curve": {
+      "cut_in_mps": 3.5,
+      "rated_mps": 14.0,
+      "cut_out_mps": 25.0,
+      "rated_power_kw": 1500.0,
+      "logistic_a": 6.0268,
+      "logistic_b": 0.0007
+    },
+    "wake_model": "Jensen top-hat, root-sum-square multiple-wake deficit, wake-reduced Weibull scale",
+    "wind_scenarios": "Tables 4 and 5: 24 fifteen-degree direction bins with direction-conditioned Weibull parameters",
+    "turbine_counts": [15, 20, 25, 30, 35, 40, 60, 80, 100],
+    "farm_side_m_by_turbines": {
+      "15": 2000.0,
+      "20": 2000.0,
+      "25": 2000.0,
+      "30": 2200.0,
+      "35": 2400.0,
+      "40": 2600.0,
+      "60": 3100.0,
+      "80": 3600.0,
+      "100": 4000.0
+    },
+    "case_count": 18
+  },
+  "method": {
+    "semantic_id": "t77_ade_grnn_paper_first_declared_v1",
+    "optimizer": "ADE-GRNN",
+    "population": 40,
+    "generations": 3750,
+    "candidate_proposals": 150000,
+    "initial_mF1": 1.0,
+    "initial_mF2": 1.0,
+    "initial_n_jrand": 5.0,
+    "normal_standard_deviations": [1.0, 1.0, 1.0],
+    "grnn_sigma": 0.01,
+    "grnn_capacity": 5000,
+    "stage1_generations": 125,
+    "stage2_exact_fraction": 0.5,
+    "physical_exact_fes_including_initial_population": 77540,
+    "surrogate_inferences": 145000
+  },
+  "formal_protocol": {
+    "semantic_id": "t77_18_cases_5_runs_pop40_gen3750_v1",
+    "case_count": 18,
+    "repeat_count_per_case": 5,
+    "formal_run_count": 90,
+    "quality_statistics": [
+      "mean expected power",
+      "sample standard deviation",
+      "minimum",
+      "median",
+      "maximum"
+    ]
+  },
+  "missing_and_declared_completions": [
+    {
+      "field": "raw Iowa wind observations",
+      "completion": "use the two complete direction-conditioned tables printed in the paper"
+    },
+    {
+      "field": "wind-speed quadrature count s",
+      "completion": "use 21 equal 0.5 m/s midpoint bins over [3.5,14), plus the analytic rated-power interval"
+    },
+    {
+      "field": "GRNN coordinate scaling",
+      "completion": "sort turbines by x then y and normalize coordinates by farm side; raw metres with sigma 0.01 numerically underflow"
+    },
+    {
+      "field": "successful-factor history capacity",
+      "completion": "use a deterministic FIFO capacity equal to the population, 40"
+    },
+    {
+      "field": "constraint retry limit",
+      "completion": "halve the difference displacement at most 40 times, then retain the parent"
+    },
+    {
+      "field": "random seeds and random lifecycle",
+      "completion": "publish deterministic counter-keyed streams and five explicit independent seeds per case"
+    }
+  ],
+  "paper_conflicts": [
+    {
+      "field": "Table 4 and Table 5 direction interval 21",
+      "fact": "the printed [330,315) interval is invalid and duplicates a later lower bound",
+      "resolution": "interpret interval 21 as [300,315)"
+    },
+    {
+      "field": "wake expansion",
+      "fact": "Equation 2 derives k from an unreported surface roughness while Table 1 explicitly gives k=0.01",
+      "resolution": "use the paper table value k=0.01"
+    }
+  ],
+  "hpc": {
+    "backend": "pure C++ CPU",
+    "executor": "one persistent all-core team per optimization",
+    "parallel_regions": [
+      "population initialization",
+      "candidate generation and constraint repair",
+      "paper-equation exact wake-power evaluation",
+      "layout sorting and feature preparation",
+      "GRNN inference over candidates"
+    ],
+    "data_layout": "contiguous GRNN feature matrix with vectorizable coordinate distance kernels",
+    "ordered_dependencies": [
+      "surrogate ranking and exact-candidate selection",
+      "parent replacement",
+      "successful-factor FIFO commits",
+      "adaptive-mean updates"
+    ],
+    "determinism": "counter-keyed random events, fixed-index parallel writes, stable ranking, ordered state commits",
+    "non_oversubscription": "one formal run owns at most all twenty Waffle CPU workers"
+  },
+  "claim_boundary": "Academic paper-equation and lifecycle reconstruction; not author code, raw-data replay, original random bitstream, or exact numerical replay."
+}

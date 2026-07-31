@@ -195,8 +195,8 @@
     },
     {
       "corpus_id": "T77",
-      "dossier_sha256": "940e5f39f9172eb8daf918e27fa548eaa72772c718b83a55c9a0ff1fc1b631b0",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "04394b9c4cd497c00fa1d7b3523853a5e2f262bea6edb14fe3388eedc5464f1f",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
