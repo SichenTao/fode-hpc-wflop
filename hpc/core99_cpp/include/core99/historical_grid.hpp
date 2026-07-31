@@ -1,9 +1,9 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: T01 Mosetti and T02 Grady historical 10x10 grid interface
-Papers and DOIs: Mosetti et al. 1994,
-10.1016/0167-6105(94)90080-9; Grady et al. 2005,
-10.1016/j.renene.2004.05.007
+Papers: Mosetti et al. 1994 and Grady et al. 2005.
+Paper DOIs:
+10.1016/0167-6105(94)90080-9 and 10.1016/j.renene.2004.05.007
 Public source evidence: no author implementation was located; the no-license
 WFLOPG repository at revision 05a3a6cd2e767f956dcc4a15256f7854e923624a
 provides an independent later interpretation and digitized-wind cross-check
@@ -11,6 +11,7 @@ Missing/conflicts: partial-wake computation, exact GA controls, island
 communication, T02 rotor-size label, and T02 case-C generation count
 Resolution: paper equations plus explicitly registered deterministic
 completions in shared/contracts/core99_mosetti_grady_cases.json
+Contract: shared/contracts/core99_mosetti_grady_cases.json
 Method/problem semantic IDs: t01_mosetti_ga_declared_v1 and
 t02_grady_island_ga_declared_v1; core99_mosetti_grady_historical_grid_v1
 Production backend: pure C++ persistent CPU team with precomputed wake geometry

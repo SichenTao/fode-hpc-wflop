@@ -1,7 +1,13 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: bounded semantic tests for T01/T02 historical grid
-Authority and claim boundary: shared/contracts/core99_mosetti_grady_cases.json;
+Papers: Mosetti 1994 and Grady 2005.
+Paper DOIs: 10.1016/0167-6105(94)90080-9 and
+10.1016/j.renene.2004.05.007.
+Public source: no author implementation; later no-license WFLOPG cross-check.
+Missing fields and Reconstruction: include/core99/historical_grid.hpp.
+Semantic IDs and Contract: shared/contracts/core99_mosetti_grady_cases.json.
+Authority and Claim boundary: shared/contracts/core99_mosetti_grady_cases.json;
 tests do not upgrade the declared reconstruction to author-original identity
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION

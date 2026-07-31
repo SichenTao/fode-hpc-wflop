@@ -1,4 +1,4 @@
-add_library(core99_historical_grid_core
+add_library(core99_historical_grid_core STATIC
     src/historical_grid.cpp
 )
 target_include_directories(core99_historical_grid_core

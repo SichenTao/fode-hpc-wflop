@@ -1,11 +1,16 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: T01/T02 paper-profile CLI and result receipt
-Papers and DOI: T01 10.1016/0167-6105(94)90080-9; T02
+Papers: Mosetti 1994 and Grady 2005.
+Paper DOIs: T01 10.1016/0167-6105(94)90080-9; T02
 10.1016/j.renene.2004.05.007
-Evidence, missing fields, resolutions, semantic IDs, backend, and claim:
+Public source: no author implementation; later no-license WFLOPG cross-check.
+Missing fields and Reconstruction:
 include/core99/historical_grid.hpp and
 shared/contracts/core99_mosetti_grady_cases.json
+Semantic IDs and Contract: shared/contracts/core99_mosetti_grady_cases.json.
+Claim boundary: academic declared reconstruction, not author-original code or
+author-exact numerical replay.
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */

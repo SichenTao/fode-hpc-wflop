@@ -1,13 +1,19 @@
 /*
 WFLOP IMPLEMENTATION FACT DECLARATION
 Implementation unit: high-performance T01/T02 historical grid evaluator and GA
-Paper/DOI/source/missing/conflict/resolution/semantic/claim details: see
+Paper titles and DOIs: Mosetti 1994, 10.1016/0167-6105(94)90080-9;
+Grady 2005, 10.1016/j.renene.2004.05.007.
+Public source: no author implementation; later no-license WFLOPG cross-check.
+Missing/conflicts and Reconstruction: see
 include/core99/historical_grid.hpp and
 shared/contracts/core99_mosetti_grady_cases.json
+Semantic IDs and Contract: shared/contracts/core99_mosetti_grady_cases.json.
 Independent H5 authority: scripts/validate_core99_historical_grid.py
 HPC design: precompute 36x100x100 wake coefficients; use stack-local selected
 cell arrays; evaluate independent layouts through one persistent worker team;
 keep roulette selection and elitist island commits deterministically ordered
+Claim boundary: academic declared reconstruction, not author-original code or
+author-exact numerical replay.
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
