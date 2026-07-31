@@ -309,8 +309,8 @@
     },
     {
       "corpus_id": "T78",
-      "dossier_sha256": "8f4d28a271f1d743d0a49c1fe91ef33c3dcacd53e570a2a91378f35fd0702cfd",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "ed8637c231dd1275c21e4c5d33dc328e3cc8b530ed101e10901236a17ecd861f",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
