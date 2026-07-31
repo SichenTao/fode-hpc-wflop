@@ -118,5 +118,21 @@
     "scenario_iv_optimized_lpc": 169.10690819486763,
     "all_development_runs_observed_20_workers": true
   },
+  "development_h6_20260731": {
+    "case": "scenario_iii_pitch",
+    "dimensions": 4800,
+    "population": 100,
+    "generations": 120,
+    "physical_fes": 12179,
+    "one_worker_seconds": 221.53675569,
+    "twenty_worker_seconds": 18.771073656,
+    "evaluator_speedup": 11.876472412139089,
+    "algorithm_speedup": 6.5692048385516735,
+    "end_to_end_speedup": 11.802029002171,
+    "same_best_decision": true,
+    "same_best_evaluation": true,
+    "same_scientific_hash": true,
+    "comparison_boundary": "same pure-C++ implementation with one versus twenty Spark workers; not a MATLAB comparison"
+  },
   "claim_boundary": "academic flexible reconstruction of APSO and all five paper-native problem roles; not author code, native FINO3/cable/control arrays, original random stream, or exact numerical optimum replay"
 }
