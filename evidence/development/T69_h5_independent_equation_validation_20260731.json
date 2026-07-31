@@ -1,0 +1,35 @@
+{
+  "status": "pass",
+  "corpus_id": "T69",
+  "paper_doi": "10.1016/j.enconman.2017.06.005",
+  "method_semantic_id": "t69_random_position_rs_v1",
+  "problem_semantic_id": "t69_horns_changing_wind_robustness_declared_v1",
+  "protocol_semantic_id": "t69_native_15case_10000fes_v1",
+  "checks": {
+    "cpp_regression": "pass",
+    "python_equation_validation": "pass",
+    "paper_native_case_matrix": 15,
+    "supplementary_conflict_cases": 5,
+    "one_four_worker_fixed_work_identity": true,
+    "full_worker_participation_observed": 4,
+    "literal_and_calendar_aep_distinct": true,
+    "equation_declared_and_table3_compatible_profiles_distinct": true,
+    "runner_smoke_formal_cases": 20
+  },
+  "paper_anchor_relative_error": {
+    "mean_power_mw": 0.0027852836668068523,
+    "variability_of_power": 0.08261699211789429,
+    "long_term_mean_mw": 0.003697665706646929,
+    "long_term_std_mw": 0.041494497661734284,
+    "table3_compatible_long_robustness": 0.018454531070387765
+  },
+  "local_h6_candidate": {
+    "fixed_physical_fes_per_study": 1000,
+    "same_layout_metrics_fes_and_hash": true,
+    "short": {"wake_speedup": 4.226396646537886, "metric_speedup": 10.947484593237979, "end_to_end_speedup": 9.909097147787923},
+    "long": {"wake_speedup": 4.418230443302896, "metric_speedup": 9.085277067212516, "end_to_end_speedup": 7.856166492607113},
+    "overall": {"wake_speedup": 4.21891644240887, "metric_speedup": 9.01739890746689, "end_to_end_speedup": 8.380153408311864},
+    "status": "local_candidate_pending_immutable_waffle_confirmation"
+  },
+  "claim_boundary": "H5 validates an independent flexible academic reconstruction and fixed-work CPU-HPC identity; it does not claim author-source, random-state, unavailable time-series or exact-number replay."
+}

@@ -1,33 +1,51 @@
 {
   "authority_ladder": [
-    "paper_and_supplement",
-    "paper_linked_public_source_and_data",
-    "cited_predecessor",
-    "same_lineage_public_source",
+    "target_paper_and_accepted_manuscript",
+    "directly_cited_T60_random_search_paper",
+    "directly_cited_three_year_joint_wind_paper",
+    "pinned_same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Register the changing-wind robustness problem and random-position single-solution search as the target paper pair, not unrelated cited baselines.",
+    "Use the exact five alpha, beta and gamma values and 10000 complete feasible layout evaluations for each paper-native case.",
+    "Use the target-cited three-year, hub-height Table-1 wind parameters from DOI 10.3390/en8043075, not the older T60 Table-3 mast-height parameters.",
+    "Select the cited piecewise joint-PDF variant because T69 does not identify piecewise, linear or spline and its 35-parameter perturbation maps exactly to the sector form.",
+    "Use the T60-audited same-lineage Horns coordinates, boundary, Jensen model and pinned PyWake V80 curves.",
+    "Use one fixed counter-keyed 1000-scenario lambda-PDF bank and sample standard deviation for every layout and study case.",
+    "Preserve the literal Eq.4 missing-Jacobian VoP quadrature because it reproduces the paper's 1e-4 VoP order and cancels in short robustness ratios.",
+    "Report both paper-literal 8770-hour and calendar-correct 8760-hour AEP.",
+    "Execute both equation-declared beta=0.95 and Table-3-compatible beta=0.5 overall profiles because the paper's text and numeric table conflict.",
+    "Do not fabricate the unavailable three-year ten-minute time series or claim its ramp-standard-deviation replay.",
+    "Use exact O(360N) moved-turbine tensor updates, sector aggregation, persistent all-core direction/scenario parallelism and ordered deterministic commits."
+  ],
   "corpus_id": "T69",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "ready_for_immutable_waffle_queue",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "complete_target_fulltext_cited_asset_and_public_source_audit",
+    "H1": "complete_power_surface_psri_vop_monte_carlo_and_random_search_decomposition",
+    "H2": "complete_incremental_wake_sector_reduction_and_parallel_axis_analysis",
+    "H3": "complete_pure_cpp_persistent_all_core_implementation",
+    "H4": "complete_local_reference_anchor_smoke_and_1000fes_profile",
+    "H5": "pass_cpp_python_equation_anchor_conflict_schedule_and_runner_validation",
+    "H6": "pass_local_one_twenty_fixed_work_candidate_pending_immutable_waffle_confirmation"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "author source, random states and optimized numeric layouts",
+    "machine-readable target Horns layout, boundary and V80 curves",
+    "which cited joint-PDF interpolation variant was used",
+    "target Monte Carlo samples and standard-deviation convention",
+    "power-surface boundary-cell treatment",
+    "independent optimization repeat count",
+    "three-year ten-minute wind time series used for ramp validation"
   ],
   "paper": {
     "authors": "Ju Feng and Wen Zhong Shen",
     "doi": "10.1016/j.enconman.2017.06.005",
     "pdf_basename": "2017_Feng_Wind_Farm_Power_Production_in_the_Changing_Wind_Robustness_Quantification_and_Layout_Optimization.pdf",
     "pdf_sha256": "4bd7222cd3b8399811bf2e9e7825ad7564a0d1f96f99972c2495093ec0f37f6e",
-    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_asset_status": "local_primary_pdf_hashed_rendered_and_audited",
     "primary_review_class": "REV4",
     "reading_tier": "KEY40",
     "role": "D",
@@ -36,8 +54,15 @@
     "venue": "Energy Conversion and Management",
     "year": 2017
   },
-  "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
+  "paper_linked_public_asset_candidates": [
+    "https://backend.orbit.dtu.dk/ws/portalfiles/portal/235761670/Accepted_preprint_2_.pdf"
+  ],
+  "paper_source_conflicts": [
+    "Eq.2 prints 8770 and calls it the total hours in a year.",
+    "Eq.4 retains the physical joint PDF after speed and direction nondimensionalization and omits the Jacobian.",
+    "Section 5 fixes beta=0.95, whereas Table 3 R_long=4.750 equals sqrt(78.54/3.482) and therefore beta=0.5.",
+    "The cited joint-wind paper defines piecewise, linear and spline PDFs, but T69 does not identify which variant produced its figures and tables."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 26,
@@ -46,81 +71,122 @@
   "public_asset_candidate_evidence": {
     "availability_mention_line_numbers": [],
     "embedded_annotation_urls": [],
-    "status": "no_paper_linked_public_asset_candidate_detected"
+    "status": "accepted_manuscript_public; no_target_code_or_numeric_archive_found"
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "source-backed flexible academic reproduction of the complete changing-wind problem, robustness metrics, native sweeps and explicit conflict profiles; not author source, random state, unavailable time series or exact numerical replay",
     "execution_wave": "REV4",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
+    "package_status": "h6_admitted_waffle_confirmation_and_formal_ready",
+    "scope_status": "paper_paired_hpc_implemented",
     "target_contribution_type": "coupled_or_real_world_problem_and_method"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_direct_T60_predecessor",
+      "resolution": "original Horns parallelogram and pairwise Euclidean spacing at least 5D=400m; infeasible random positions do not consume complete-layout FES",
+      "status": "implemented_and_validated"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "160 continuous coordinates for 80 identical V80-2MW turbines",
+      "status": "implemented"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "direct continuous x,y coordinates without a grid decoder",
+      "status": "implemented"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_same_lineage_public_source",
+      "resolution": "pinned public Horns Rev 1 10-by-8 source layout",
+      "status": "implemented_and_reference_anchored"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_explicit_conflict_protocol",
+      "resolution": "mean power, literal/calendar AEP, VoP, long mean/std, three robustness metrics, all layouts, FES, proposals, accepts, timings, workers and hash; one run per case because no independent repeat count is stated",
+      "status": "implemented_and_runner_validated"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_Eqs_6_10_11",
+      "resolution": "maximize short, long or weighted overall robustness; execute both declared and Table-3-compatible overall semantics",
+      "status": "implemented_and_conflict_validated"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_Tables_1_to_3",
+      "resolution": "five alpha, five beta and five gamma roles at 0,0.05,0.5,0.95,1 plus five separately labelled equation-declared gamma conflict roles",
+      "status": "implemented_and_formal_runner_smoke_validated"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_cited_joint_wind_paper",
+      "resolution": "lambda=1, VA=0.2, Vc=0.1, Vf=0.5, 1000 scenarios, 360 directions, integer speeds 3..25m/s, 80 turbines and 5D spacing",
+      "status": "implemented"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "10000 complete feasible robustness evaluations including the initial layout for each case",
+      "status": "implemented_and_formal_ready"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not_applicable",
+      "resolution": "T69 has no trained model",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_Section_5_plus_deterministic_HPC_completion",
+      "resolution": "select one turbine and one uniformly random affine position; reject infeasible; evaluate feasible; strict improvement commits in trajectory order",
+      "status": "implemented_and_schedule_validated"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "direct_T60_predecessor_plus_same_lineage_public_data",
+      "resolution": "Jensen partial-overlap RSS deficits and V80 speed-dependent power/Ct over the complete 360-by-23 power surface",
+      "status": "implemented_and_reference_anchored"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_cited_DOI_10.3390/en8043075_plus_declared_completion",
+      "resolution": "exact hub-height three-year Table-1 parameters, piecewise joint PDF and fixed counter-keyed 1000-scenario parameter perturbation bank",
+      "status": "implemented_and_independently_validated"
     }
-  }
+  },
+  "development_reference_anchor_20260731": {
+    "paper": {
+      "mean_power_mw": 79.61,
+      "variability_of_power": 0.000263,
+      "long_term_mean_mw": 78.54,
+      "long_term_std_mw": 3.482,
+      "table3_long_robustness": 4.750
+    },
+    "reconstruction": {
+      "mean_power_mw": 79.8317364327145,
+      "variability_of_power": 0.0002847282689270062,
+      "long_term_mean_mw": 78.83041466460006,
+      "long_term_std_mw": 3.626483840858159,
+      "table3_long_robustness": 4.662340977415658
+    },
+    "all_relative_errors_below": 0.083,
+    "status": "H5 flexible_reproduction_anchor_pass_not_exact_number_claim"
+  },
+  "development_h6_20260731": {
+    "work": "1000 physical evaluations for each short, long and overall objective",
+    "wake_update_speedup": {"short": 4.226396646537886, "long": 4.418230443302896, "overall": 4.21891644240887},
+    "robustness_metric_speedup": {"short": 10.947484593237979, "long": 9.085277067212516, "overall": 9.01739890746689},
+    "end_to_end_speedup": {"short": 9.909097147787923, "long": 7.856166492607113, "overall": 8.380153408311864},
+    "same_layout_metrics_fes_and_hash": true,
+    "comparison_boundary": "same pure-C++ implementation with one versus twenty Spark workers; not MATLAB or author-code comparison",
+    "status": "local_candidate_pending_immutable_waffle_confirmation"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/feng_t69.hpp",
+    "hpc/core99_cpp/src/feng_t69.cpp",
+    "hpc/core99_cpp/src/feng_t69_main.cpp",
+    "hpc/core99_cpp/tests/feng_t69_test.cpp",
+    "scripts/validate_core99_t69.py",
+    "scripts/run_core99_t69_h6_formal.py",
+    "scripts/run_core99_t69_when_waffle_free.sh",
+    "shared/contracts/core99_t69_feng_robustness_2017.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/T69_H0_H4_mathematical_hpc_analysis_20260731.md",
+    "evidence/development/T69_h5_independent_equation_validation_20260731.json"
+  ]
 }

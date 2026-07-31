@@ -321,8 +321,8 @@
     },
     {
       "corpus_id": "T69",
-      "dossier_sha256": "c506964d73b51feb596ed7b57fb354c93f8b746afdd4b5e286a50b833b5e633d",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "3ea6948d77afe6f868aec2329299cf2ef282ed7654061cb51deed3e3ae9377e9",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
