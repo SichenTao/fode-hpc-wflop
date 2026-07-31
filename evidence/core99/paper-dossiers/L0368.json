@@ -1,128 +1,179 @@
 {
-  "authority_ladder": [
-    "paper_and_supplement",
-    "paper_linked_public_source_and_data",
-    "cited_predecessor",
-    "same_lineage_public_source",
-    "deterministic_declared_reconstruction"
-  ],
-  "completion_decisions": [],
+  "schema_version": 1,
   "corpus_id": "L0368",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
-  "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
-  },
-  "missing_information": [
-    "full field-level audit not yet completed"
-  ],
   "paper": {
+    "title": "Genetic-algorithm-based layout optimization of an offshore wind farm under real seabed terrain encountering an engineering cost model",
     "authors": "Zhenqing Liu and Shuanglong Fan and Yize Wang and Jie Peng",
     "doi": "10.1016/j.enconman.2021.114610",
+    "venue": "Energy Conversion and Management",
+    "year": 2021,
     "pdf_basename": "2021_Liu_Genetic_algorithm_based_layout_optimization_of_an_offshore_wind_farm_under_real_seabed_terrain_encountering_an_engineering_cost_model.pdf",
     "pdf_sha256": "a81ca2a398ec6654af0755ca0f40dd64f206b0dd8a57cf244efe09cbe1701a24",
-    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_asset_status": "local_primary_pdf_hashed_rendered_and_audited",
     "primary_review_class": "REV4",
-    "reading_tier": "CORE-SUPPORT",
-    "role": "D",
     "secondary_review_classes": "REV2,REV3",
-    "title": "Genetic-algorithm-based layout optimization of an offshore wind farm under real seabed terrain encountering an engineering cost model",
-    "venue": "Energy Conversion and Management",
-    "year": 2021
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D"
   },
-  "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 13,
     "text_sha256": "13fa682093d1712f347a021ed1f91ff487d3247cae2d74d9af1df53fda926f1b"
   },
+  "authority_ladder": [
+    "target_publisher_paper",
+    "target_rendered_equations_figures_and_tables",
+    "cited_same_author_public_ga_asset",
+    "cited_qian_ishihara_wake_lineage",
+    "deterministic_declared_completion"
+  ],
+  "paper_linked_public_asset_candidates": [
+    "https://doi.org/10.1016/j.enconman.2021.114610",
+    "https://doi.org/10.17632/bvrdgykzwy.1",
+    "https://data.mendeley.com/public-files/datasets/bvrdgykzwy/files/62e1546b-ac9e-4282-b9b2-8ce014e2b0b5/file_downloaded"
+  ],
   "public_asset_candidate_evidence": {
-    "availability_mention_line_numbers": [
-      194
-    ],
-    "embedded_annotation_urls": [],
-    "status": "no_paper_linked_public_asset_candidate_detected"
+    "status": "no target source or Nanao arrays found; cited same-author CC0 archive inspected and used only to complete GA settings",
+    "same_author_archive_sha256": "0cc04a40d8d386f134af50d1a716cf708d4eb095c560181f1b626f32992866fe"
   },
-  "schema_version": 1,
+  "paper_source_conflicts": [
+    "Eq.1 is L-infinity square separation although the prose calls it physical 5D distance.",
+    "Eq.7 states per-MW transformer costs but omits the number of turbines from full-farm capacity.",
+    "Eqs.9-10 define design and infrastructure as shares of ICC, requiring an implicit solve.",
+    "Eq.11 is initial capital divided by instantaneous expected MW, not lifecycle LCOE.",
+    "The stated 0-25 count admits zero although Eq.11 is undefined without a turbine.",
+    "S1W1 and S1W3 both have 18 turbines at zero support depth, but paper COE times displayed power implies about GBP139.8m and GBP244.3m ICC. S1W2/S1W4 contradict in the same way at 23 turbines."
+  ],
+  "missing_information": [
+    "target layout source, exact MATLAB options, random state, seeds, convergence trace and result archive",
+    "exact variable-count chromosome, selection, crossover, mutation, constraint handling and initialization",
+    "rated power and ambient turbulence used in optimization",
+    "numeric S5 Nanao bathymetry and W1-W4 direction-speed-probability arrays",
+    "target code's exact Qian-Ishihara composition and original optimized coordinates"
+  ],
+  "completion_decisions": [
+    "Use the 20 unique S1-S5 by W1-W4 optimizations and sixteen Figure-11-style layout transfers.",
+    "Use population100, crossover0.3 and 500 generations from the cited same-author CC0 MATLAB scripts; one formal run per case follows the paper presentation.",
+    "Complete rank selection, five elites, scattered crossover, bounded count/coordinate mutation and count-preserving deterministic spacing repair.",
+    "Restore Euclidean 5D as the production physics while retaining literal L-infinity spacing as a named audit mode.",
+    "Restore full-farm transformer capacity and solve implicit ICC algebraically.",
+    "Use rated power2.3MW for printed capital scale and ambient TI0.08 for the offshore wake completion.",
+    "Use S1-S4 paper forms, normalized S4 moments, and a frozen irregular S5 analytic proxy with the same mean and standard deviation.",
+    "Use normalized W2-W4 analytic digitizations whose no-wake per-turbine power matches the visible Table7-10 scale.",
+    "Retain every result-table anchor and report discrepancies without wind-dependent capital calibration.",
+    "Use one persistent full-core team for frozen-generation creation and independent complete-layout evaluation with ordered commits."
+  ],
+  "dossier_status": "h5_admitted",
+  "formal_status": "ready_for_immutable_waffle_queue",
+  "hpc_admission": {
+    "H0": "complete_target_equation_table_figure_public_asset_and_internal_closure_audit",
+    "H1": "complete_wind_terrain_wake_cost_ga_and_transfer_work_decomposition",
+    "H2": "complete_population_parallelism_persistent_team_and_deterministic_schedule_analysis",
+    "H3": "complete_pure_cpp_persistent_all_core_implementation",
+    "H4": "complete_20case_16transfer_resumable_formal_runner",
+    "H5": "pass_strict_cpp_and_independent_python_semantic_receipt_validation",
+    "H6": "pass_local_s5w4_one_twenty_candidate_pending_immutable_waffle_confirmation"
+  },
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "scope_status": "paper_paired_hpc_implemented",
     "execution_wave": "REV4",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
-    "target_contribution_type": "coupled_or_real_world_problem_and_method"
+    "package_status": "h6_admitted_waffle_confirmation_and_formal_ready",
+    "target_contribution_type": "coupled_or_real_world_problem_and_method",
+    "claim_boundary": "source-backed flexible academic reconstruction of the complete target problem, GA, twenty native cases and sixteen transfers; not author code, private Nanao arrays, MATLAB trajectory or numerical replay"
   },
   "semantic_contract": {
-    "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_Sections3_4_and_Figs7_10",
+      "resolution": "one to twenty-five continuous 2D turbine coordinates",
+      "status": "implemented"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_variable_count_statement_plus_declared_completion",
+      "resolution": "variable-length count plus canonical continuous coordinate sequence",
+      "status": "implemented_and_validated"
     },
-    "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+    "constraints_and_repair": {
+      "authority": "target_Eq1_physical_5D_intent_and_explicit_correction",
+      "resolution": "Euclidean 500m production spacing, literal L-infinity sensitivity, count-preserving bounded repair",
+      "status": "implemented_and_validated"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_Eq11",
+      "resolution": "minimize initial-capital-to-expected-power GBP per MW proxy",
+      "status": "implemented_and_accurately_named"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_Eqs2_11_Qian_Ishihara_reference_and_declared_completions",
+      "resolution": "Gaussian velocity and added-turbulence propagation, cubic power, terrain support and corrected engineering capital",
+      "status": "implemented_and_scalar_validated"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target_Fig6_Tables7_10_plus_declared_digitization",
+      "resolution": "W1 literal and normalized W2-W4 analytic proxies with matching no-wake per-turbine power scales",
+      "status": "implemented_and_normalization_validated"
+    },
+    "paper_native_cases": {
+      "authority": "target_Table6_Figs7_12_Tables7_10",
+      "resolution": "twenty S1-S5 by W1-W4 optimizations and sixteen S1-layout transfers",
+      "status": "implemented_and_runner_validated"
+    },
+    "initialization": {
+      "authority": "target_GA_flowchart_plus_declared_completion",
+      "resolution": "counter-keyed count-preserving feasible lattice perturbations",
+      "status": "implemented_and_validated"
+    },
+    "parameters": {
+      "authority": "cited_same_author_Mendeley_GA_scripts_plus_declared_completion",
+      "resolution": "population100 generations500 crossover0.3 elites5 and bounded adaptive mutation",
+      "status": "implemented"
+    },
+    "update_order": {
+      "authority": "target_Fig4_plus_MATLAB_ga_lineage_completion",
+      "resolution": "rank selection, frozen offspring, full evaluation, stable ranking and elite survival",
+      "status": "implemented_and_schedule_validated"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "cited_same_author_public_GA_scripts",
+      "resolution": "500 complete generations; physical FES equals population times generations plus initial population",
+      "status": "implemented_and_formal_ready"
+    },
+    "metrics_and_repeats": {
+      "authority": "target_Tables7_10_Fig11_plus_platform_contract",
+      "resolution": "count, capital, expected power, efficiency, spacing, timing, workers, FES and hash; one run per native case",
+      "status": "implemented_and_runner_validated"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "genetic algorithm has no trained model",
+      "status": "not_applicable"
     }
-  }
+  },
+  "development_h6_20260801": {
+    "case_id": "L0368_S5W4",
+    "population": 100,
+    "generations": 100,
+    "physical_fes": 10100,
+    "one_worker_end_to_end_seconds": 7.100331144,
+    "twenty_worker_end_to_end_seconds": 0.599982503,
+    "end_to_end_speedup": 11.834230345880604,
+    "evaluator_speedup": 12.133604014625064,
+    "all_twenty_workers_observed": true,
+    "same_layout_evaluation_fes_and_hash": true,
+    "comparison_boundary": "same final pure-C++ implementation with one versus twenty Spark workers; not MATLAB, author code or Waffle confirmation",
+    "status": "local_candidate_pending_immutable_waffle_confirmation"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/liu_l0368.hpp",
+    "hpc/core99_cpp/src/liu_l0368.cpp",
+    "hpc/core99_cpp/src/liu_l0368_main.cpp",
+    "hpc/core99_cpp/tests/liu_l0368_test.cpp",
+    "scripts/validate_core99_l0368.py",
+    "scripts/run_core99_l0368_h6_formal.py",
+    "scripts/run_core99_l0368_when_waffle_free.sh",
+    "shared/contracts/core99_l0368_liu_2021.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/L0368_H0_H4_mathematical_hpc_analysis_20260801.md",
+    "evidence/development/L0368_h5_independent_validation_20260801.json"
+  ]
 }

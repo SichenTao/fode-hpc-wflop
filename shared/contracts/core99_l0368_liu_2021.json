@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0368",
+  "paper": {
+    "title": "Genetic-algorithm-based layout optimization of an offshore wind farm under real seabed terrain encountering an engineering cost model",
+    "doi": "10.1016/j.enconman.2021.114610",
+    "pdf_sha256": "a81ca2a398ec6654af0755ca0f40dd64f206b0dd8a57cf244efe09cbe1701a24",
+    "pdf_text_sha256": "13fa682093d1712f347a021ed1f91ff487d3247cae2d74d9af1df53fda926f1b",
+    "pages": 13
+  },
+  "source_search": {
+    "date": "2026-08-01",
+    "target_result": "No target layout source, Nanao seabed/wind arrays, seeds, traces or result archive found by exact-title, DOI, author, institution and GitHub searches.",
+    "cited_same_author_asset": {
+      "title": "PyGAOWT codes for Proposal of a Novel GPU-accelerated Lifetime Optimization Method for Onshore Wind Turbine Dampers under Real Wind Distribution",
+      "doi": "10.17632/bvrdgykzwy.1",
+      "license": "CC0-1.0",
+      "archive_sha256": "0cc04a40d8d386f134af50d1a716cf708d4eb095c560181f1b626f32992866fe",
+      "target_relationship": "cited same-author GA lineage completion only; not L0368 source",
+      "observed_settings": [
+        "tmd/parse_rbfnn.m line 38: population50 crossover0.3 migration0.6 generations500",
+        "ridtmd/parse_rbfnn.m line 39: population100 crossover0.3 migration0.6 generations500"
+      ]
+    }
+  },
+  "paper_native_protocol": {
+    "cases": "S1-S5 seabeds crossed with W1-W4 wind distributions",
+    "unique_optimization_cases": 20,
+    "derived_figure11_transfers": 16,
+    "formal_runs_per_case": 1,
+    "population_completion": 100,
+    "generation_completion": 500,
+    "crossover_fraction_completion": 0.3,
+    "maximum_turbines": 25,
+    "minimum_spacing_m": 500.0
+  },
+  "literal_problem_data": {
+    "farm": "2000m by 2000m; 20km from coast",
+    "turbine": "rotor100m hub80m Ct0.8888 Cp0.4 cut-in4mps cut-out20mps",
+    "engineering_cost": "paper Eqs.3-10 with WTC, SSC, ACC, TCC, TSC, PC, DC and IC",
+    "seabeds": "S1 zero; S2 16.60-40.27m slope; S3 28.44m flat; S4 printed sinusoid; S5 private Nanao figure",
+    "winds": "W1 one speed/direction; W2 one speed/multiple directions; W3 multiple speeds/directions; W4 private Nanao wind rose",
+    "paper_result_anchors": "Tables7-10 turbine count, COE, power and efficiency retained in scenario metadata"
+  },
+  "conflicts_and_completions": [
+    "Eq.1 is an L-infinity square exclusion, not Euclidean 5D distance. Production uses Euclidean 5D and exposes the literal equation as a sensitivity mode.",
+    "Eq.7 gives transformer cost per MW but omits turbine count. Production multiplies by complete-farm rated capacity.",
+    "Eqs.9-10 are implicit shares of ICC. Production solves ICC=direct/(1-0.043-0.174).",
+    "Eq.11 divides capital by instantaneous expected MW and is named capital-to-power proxy rather than lifecycle LCOE.",
+    "Zero turbines makes Eq.11 undefined; executable layouts therefore contain 1-25 turbines.",
+    "For S1W1 and S1W3, both 18 turbines on zero-depth terrain should have identical ICC, yet paper COE times displayed power implies about GBP139.8m versus GBP244.3m. S1W2/S1W4 have the same contradiction at 23 turbines. Table anchors are reported but never forced through wind-dependent capital calibration.",
+    "Rated power is absent. A 2.3MW completion preserves the paper cost scale; aerodynamic power remains the literal uncapped Eq.2 curve.",
+    "Ambient turbulence is absent and completed as0.08 for the cited offshore Qian-Ishihara model.",
+    "S4 is shifted/scaled to satisfy the paper's stated common mean and standard deviation; S5 is a frozen analytic irregular proxy with those same moments.",
+    "W2-W4 are normalized analytic digitizations. Their no-wake per-turbine powers reproduce the visible Table7-10 scales, but they are not the private arrays.",
+    "The cited same-author MATLAB scripts complete population100 generations500 and crossover0.3. Rank selection, five elites, scattered crossover and bounded count/coordinate mutation are declared executable completions."
+  ],
+  "method_semantic_id": "l0368_matlab_lineage_real_ga_declared_v1",
+  "problem_semantic_id": "l0368_seabed_engineering_capital_power_proxy_v1",
+  "protocol_semantic_id": "l0368_native_s1_s5_w1_w4_single_run_v1",
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC",
+    "strategy": [
+      "immutable normalized wind-state and terrain constants",
+      "one persistent full-core executor for count-preserving initialization, frozen-generation offspring and complete individual evaluations",
+      "parallel fixed-index population work with ordered rank and elite commits",
+      "counter-keyed schedule-independent random events",
+      "serial physics within one individual to avoid nested teams and oversubscription"
+    ],
+    "dominant_complexity": "population times wind states times turbine-count squared",
+    "required_invariant": "one-worker and all-worker layout, objective, physics, physical FES and scientific hash identity"
+  },
+  "claim_boundary": "Flexible academic reconstruction of the complete target problem, GA, twenty native cases and sixteen layout transfers; not author target code, private Nanao arrays, exact MATLAB defaults/random trajectory or numerical replay."
+}

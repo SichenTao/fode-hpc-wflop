@@ -476,6 +476,11 @@ option(
     "Treat warnings in project-owned Y16 targets as errors"
     OFF
 )
+option(
+    CORE99_ENABLE_L0368
+    "Build L0368 real-seabed engineering-cost GA reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T63 OR CORE99_ENABLE_T30 OR CORE99_ENABLE_Y16)
     include(FetchContent)
     set(CORE99_SAVED_BUILD_TESTING ${BUILD_TESTING})
@@ -961,6 +966,26 @@ if(CORE99_ENABLE_Y16)
             -Wall -Wextra -Wpedantic -Werror
         )
     endif()
+endif()
+
+if(CORE99_ENABLE_L0368)
+    add_library(core99_l0368_core STATIC src/liu_l0368.cpp)
+    target_include_directories(core99_l0368_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_l0368_core PUBLIC fode_core)
+    target_compile_features(core99_l0368_core PUBLIC cxx_std_20)
+    target_compile_options(core99_l0368_core PRIVATE
+        -O3 -march=native -ffp-contract=off
+        -Wall -Wextra -Wpedantic -Werror
+    )
+    add_executable(core99_l0368_hpc src/liu_l0368_main.cpp)
+    target_link_libraries(core99_l0368_hpc PRIVATE core99_l0368_core)
+    target_compile_options(core99_l0368_hpc PRIVATE
+        -Wall -Wextra -Wpedantic -Werror
+    )
 endif()
 
 if(CORE99_ENABLE_T11)
@@ -1538,6 +1563,23 @@ if(BUILD_TESTING)
         )
         set_tests_properties(
             core99_y16_cpp core99_y16_h5 PROPERTIES TIMEOUT 1800
+        )
+    endif()
+    if(CORE99_ENABLE_L0368)
+        add_executable(core99_l0368_test tests/liu_l0368_test.cpp)
+        target_link_libraries(core99_l0368_test PRIVATE core99_l0368_core)
+        target_compile_options(core99_l0368_test PRIVATE
+            -Wall -Wextra -Wpedantic -Werror
+        )
+        add_test(NAME core99_l0368_cpp COMMAND core99_l0368_test)
+        add_test(
+            NAME core99_l0368_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_l0368.py
+                --binary $<TARGET_FILE:core99_l0368_hpc>
+        )
+        set_tests_properties(
+            core99_l0368_cpp core99_l0368_h5 PROPERTIES TIMEOUT 1800
         )
     endif()
     if(CORE99_ENABLE_T11)
