@@ -589,6 +589,11 @@ option(
     OFF
 )
 option(
+    CORE99_ENABLE_L0079
+    "Build L0079 Middelgrunden GA/PSO CPU-HPC reproduction"
+    OFF
+)
+option(
     CORE99_ENABLE_T11
     "Build T11 BlockCopy four-method/four-problem HPC reproduction"
     OFF
@@ -856,6 +861,24 @@ if(CORE99_ENABLE_T69)
     )
     add_executable(core99_t69_hpc src/feng_t69_main.cpp)
     target_link_libraries(core99_t69_hpc PRIVATE core99_t69_core)
+endif()
+
+if(CORE99_ENABLE_L0079)
+    add_library(core99_l0079_core STATIC src/pillai_l0079.cpp)
+    target_include_directories(core99_l0079_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_l0079_core PUBLIC fode_core)
+    target_compile_features(core99_l0079_core PUBLIC cxx_std_20)
+    target_compile_options(core99_l0079_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_l0079_hpc src/pillai_l0079_main.cpp)
+    target_link_libraries(core99_l0079_hpc PRIVATE core99_l0079_core)
 endif()
 
 if(CORE99_ENABLE_T11)
@@ -1373,6 +1396,20 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t69_hpc>
         )
         set_tests_properties(core99_t69_cpp core99_t69_h5 PROPERTIES TIMEOUT 600)
+    endif()
+    if(CORE99_ENABLE_L0079)
+        add_executable(core99_l0079_test tests/pillai_l0079_test.cpp)
+        target_link_libraries(core99_l0079_test PRIVATE core99_l0079_core)
+        add_test(NAME core99_l0079_cpp COMMAND core99_l0079_test)
+        add_test(
+            NAME core99_l0079_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_l0079.py
+                --binary $<TARGET_FILE:core99_l0079_hpc>
+        )
+        set_tests_properties(
+            core99_l0079_cpp core99_l0079_h5 PROPERTIES TIMEOUT 900
+        )
     endif()
     if(CORE99_ENABLE_T11)
         add_executable(core99_t11_test tests/blockcopy_t11_test.cpp)

@@ -1,0 +1,85 @@
+{
+  "status": "pass",
+  "corpus_id": "L0079",
+  "paper_doi": "10.1016/j.oceaneng.2017.04.049",
+  "method_semantic_ids": [
+    "l0079_adaptive_ga_three_encoding_declared_v1",
+    "l0079_gbest_pso_three_encoding_declared_v1"
+  ],
+  "problem_semantic_id": "l0079_middelgrunden_lcoe_three_constraint_declared_v1",
+  "protocol_semantic_id": "l0079_native_six_role_single_run_v1",
+  "checks": {
+    "cpp_regression": "pass",
+    "python_independent_validation": "pass",
+    "paper_native_role_count": 6,
+    "journal_candidate_count": 628,
+    "separate_thesis_candidate_count": 658,
+    "as_built_turbine_count": 20,
+    "minimum_spacing_m": 175.0,
+    "wind_state_count": 276,
+    "literal_and_calendar_aep_identity": true,
+    "one_four_worker_fixed_work_identity": true,
+    "full_worker_participation_observed": 4,
+    "runner_smoke_formal_cases": 6
+  },
+  "reference_anchor": {
+    "net_aep_mwh_8766": 102591.39784946236,
+    "lifetime_cost_gbp": 91500000.0,
+    "lcoe_gbp_per_mwh": 86.63,
+    "status": "fixed as-built calibration anchor"
+  },
+  "local_h6_candidate": {
+    "fixed_population": 100,
+    "fixed_generations": 5,
+    "comparison": "same pure-C++ executable with one worker versus twenty workers",
+    "all_six_roles_same_layout_metrics_fes_and_hash": true,
+    "roles": [
+      {
+        "optimizer": "ga",
+        "constraint_mode": "array",
+        "physical_fes": 900,
+        "evaluator_speedup": 11.567802653999435,
+        "end_to_end_speedup": 11.202375198768186
+      },
+      {
+        "optimizer": "ga",
+        "constraint_mode": "binary",
+        "physical_fes": 900,
+        "evaluator_speedup": 11.767233744670765,
+        "end_to_end_speedup": 11.458708576021614
+      },
+      {
+        "optimizer": "ga",
+        "constraint_mode": "continuous",
+        "physical_fes": 900,
+        "evaluator_speedup": 11.484883953822129,
+        "end_to_end_speedup": 11.167363680107389
+      },
+      {
+        "optimizer": "pso",
+        "constraint_mode": "array",
+        "physical_fes": 600,
+        "evaluator_speedup": 11.573276227321884,
+        "end_to_end_speedup": 11.157106828491592
+      },
+      {
+        "optimizer": "pso",
+        "constraint_mode": "binary",
+        "physical_fes": 600,
+        "evaluator_speedup": 11.3585289339124,
+        "end_to_end_speedup": 10.915017612393745
+      },
+      {
+        "optimizer": "pso",
+        "constraint_mode": "continuous",
+        "physical_fes": 600,
+        "evaluator_speedup": 11.618630830384024,
+        "end_to_end_speedup": 11.249280897927324
+      }
+    ],
+    "minimum_evaluator_speedup": 11.3585289339124,
+    "minimum_end_to_end_speedup": 10.915017612393745,
+    "status": "local_six_role_candidate_pending_immutable_waffle_confirmation"
+  },
+  "claim_boundary": "H5 validates a source-backed flexible academic reconstruction and fixed-work CPU-HPC identity; it does not claim author-source, proprietary-model, unavailable-site-array or exact-number replay."
+}
