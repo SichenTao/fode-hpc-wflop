@@ -160,7 +160,7 @@
     "H6": "pending Waffle one/all-twenty-worker paper-work and formal campaign"
   },
   "dossier_status": "h5_admitted",
-  "formal_status": "queued_waffle",
+  "formal_status": "queue_wrapper_ready_waffle_authentication_pending",
   "implementation_units": [
     "hpc/core99_cpp/include/core99/cazzaro_t33.hpp",
     "hpc/core99_cpp/src/cazzaro_t33.cpp",
