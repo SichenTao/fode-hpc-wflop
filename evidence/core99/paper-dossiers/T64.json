@@ -147,10 +147,10 @@
     "H3": "pass: pure C++20 counter-keyed fixed-index implementation preserves one/all-worker scientific identity",
     "H4": "pass: complete 80000-evaluation Spark profile gives 12.733x evaluator and 10.406x end-to-end twenty-core speedup",
     "H5": "pass: 13 roles, 12 instances, five parameterizations, paper stopping and physical-work accounting, T72 regression, and one/all-worker results validated",
-    "H6": "pending immutable Waffle complete-work one/all-core admission and 1175 formal runs"
+    "H6": "queued on Waffle after T33 for complete-work one/all-core admission and 1175 formal runs"
   },
   "dossier_status": "h5_admitted",
-  "formal_status": "queue_wrapper_ready_waffle_authentication_pending",
+  "formal_status": "queued_waffle_after_t33",
   "implementation_units": [
     "hpc/core99_cpp/include/core99/sorkhabi_t64.hpp",
     "hpc/core99_cpp/src/sorkhabi_t64.cpp",

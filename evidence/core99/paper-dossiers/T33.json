@@ -157,10 +157,10 @@
     "H3": "pass: pure C++20, memory-mapped matrix, visibility APSP, persistent executor, stable events and adaptive granularity implemented",
     "H4": "pass: all twenty cases, CLI, cache, joint VNS, formal runner and resume protocol implemented",
     "H5": "pass: official counts, NPV equations, foundation sum, cable scale, constraints and one/four-worker trajectory independently validated",
-    "H6": "pending Waffle one/all-twenty-worker paper-work and formal campaign"
+    "H6": "queued on Waffle after core99-t24-deferred for one/all-twenty-worker paper-work and formal campaign"
   },
   "dossier_status": "h5_admitted",
-  "formal_status": "queue_wrapper_ready_waffle_authentication_pending",
+  "formal_status": "queued_waffle_after_t24",
   "implementation_units": [
     "hpc/core99_cpp/include/core99/cazzaro_t33.hpp",
     "hpc/core99_cpp/src/cazzaro_t33.cpp",
