@@ -3,11 +3,13 @@
     180,
     257
   ],
-  "candidate_public_asset_urls": [],
+  "candidate_public_asset_urls": [
+    "https://github.com/NatLabRockies/SAM"
+  ],
   "corpus_id": "T67",
   "doi": "10.1016/j.renene.2016.10.038",
   "embedded_annotation_asset_urls": [],
-  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "interpretation": "No target source was located. The NREL SAM URL is an independently licensed commercial-turbine range reference only and does not supply author arrays, target code, or paper results.",
   "paper_pdf_sha256": "9fc563f924ea1a882ebe8ed2cd3497cd45a7e35c8cfe8f551cac211e41115289",
   "private_text_sha256": "19dddae03cb9d0a95530ee52fa577e9904aea52530f1c0f78b47f426f9083f4f",
   "schema_version": 1,

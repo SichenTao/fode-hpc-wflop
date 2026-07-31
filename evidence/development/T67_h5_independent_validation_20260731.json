@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T67",
+  "status": "pass",
+  "validator": "scripts/validate_core99_t67.py",
+  "paper_case_roles": 162,
+  "commercial_turbines": 61,
+  "published_catalog_anchors": 6,
+  "independent_physics_cases": 3,
+  "maximum_absolute_equation_error": 3.197442310920451e-14,
+  "schedule_independent": true,
+  "scientific_hash": "7312fe11ac17d60b",
+  "validated_equations": [
+    "log-law hub-height inflow",
+    "declared fifth-degree commercial power completion",
+    "declared fifth-degree CT(CPe) completion",
+    "Frandsen-expanded Jensen wake",
+    "exact partial rotor-wake circle overlap",
+    "root-sum-square multiple-wake combination",
+    "capacity factor",
+    "total cost index per output power"
+  ],
+  "claim_boundary": "independent equation and invariant validation of the declared academic reconstruction; not unavailable author-array or optimum replay"
+}
