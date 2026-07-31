@@ -387,8 +387,8 @@
     },
     {
       "corpus_id": "T25",
-      "dossier_sha256": "8b20fcd10fa344fbf3aa9debd698dc923a9d76774b2a69afb423275addfb05cf",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "7f15787d32da9c90e9832ea73a1297352e0fb70bc79f94c5d903d39835e1fb1e",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

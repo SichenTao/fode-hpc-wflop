@@ -1,0 +1,156 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T25",
+  "paper": {
+    "title": "Speeding Up Large-Wind-Farm Layout Optimization Using Gradients, Parallelization, and a Heuristic Algorithm for the Initial Layout",
+    "doi": "10.5194/wes-9-321-2024",
+    "pdf_sha256": "e61f6caa28512681934f58e26dc04f52149498dd69c058766c145a810021789d",
+    "pdf_text_sha256": "0e9b388df6df9c3d9b1f87d1760b34b62ae084f72dc559dc9a11bbed4f9f7ab0",
+    "pages": 21,
+    "license": "CC-BY-4.0"
+  },
+  "public_dataset": {
+    "doi": "10.5281/zenodo.10402450",
+    "title": "Data Used for Article: Speeding up large wind farms layout optimization using gradients, parallelization, and a heuristic algorithm for the initial layout",
+    "license": "CC-BY-4.0",
+    "archive": "GBWFLO_dataset.zip",
+    "bytes": 10410855,
+    "md5": "da3192a1b7467ba038c611ec656536b8",
+    "embedded_git_revision": "a417a88b2e2a309961397ed0fa093370d65a0662",
+    "files": {
+      "Hornsrev1_xl.py": "93cd2cad36a2550f31d5577653ff01bc85b3fd2f311565fd26eb5f6c83b17b09",
+      "utils.py": "853e42b5cb26a12ce07c794d5334a1da7501a556d979053a12c20a414e59a5b9",
+      "Storyline3.nc": "4d03b5209da899b5576df576476fe892cd3343d33d2b26a88dedb1b4f13360cb",
+      "Storyline3_100pct.nc": "142fd68ac1e96aed643b414ba064de68e45254c26bdb87932e4acf138aa13d88",
+      "public_dataset_1.ipynb": "aada75a1ba0adf4ebb6acd16f058caf1833f3298cff644571c27bb49ba343a6b"
+    },
+    "supplied": [
+      "processed 1000-seed SMAST/random optimization result tensor",
+      "processed 10000-seed pure-random optimization result tensor",
+      "Horns Rev 1 row and column scaling function",
+      "PyWake/TOPFARM problem factories, launch helper and post-processing notebook"
+    ]
+  },
+  "pinned_model_source": {
+    "name": "PyWake",
+    "doi": "10.5281/zenodo.6806136",
+    "version": "v2.5.0",
+    "revision": "cd5ff8363ae2615a92860d409e748b4a0431f33d",
+    "url": "https://gitlab.windenergy.dtu.dk/TOPFARM/PyWake",
+    "license": "MIT",
+    "license_sha256": "7da18f39b4df83647b40276d8559a22f4a3d32b87e7d7b7f54eaff2dc69541e7",
+    "use": [
+      "Bastankhah Gaussian and IEA-37 simplified Bastankhah equations",
+      "IEA-37 wind rose, 3.35 MW turbine, circular layouts and boundaries",
+      "Horns Rev 1 coordinates, Weibull resource and V80 power/CT curves"
+    ]
+  },
+  "paper_native_problems": {
+    "horns_rev": {
+      "turbine_counts": [100, 200, 300, 400, 500],
+      "turbine": "Vestas V80 2 MW, D=80 m, hub height=70 m",
+      "wake": "Bastankhah Gaussian k=0.0324555, ceps=0.2, source CT evaluated at propagated effective speed while deficit amplitude uses ambient reference speed, squared deficit superposition",
+      "wind": "360 one-degree directions by 23 integer speed bins from 3 through 25 m/s",
+      "boundary": "paper-linked Hornsrev1_xl parallelogram with one lattice-distance padding",
+      "purpose": "time per iteration, exact/FD/CS gradient comparison, flow-case parallelization and spacing-constraint cost"
+    },
+    "iea37": {
+      "turbine_counts": [16, 36, 64, 130, 279, 566],
+      "boundary_radii_m": [1300, 2000, 3000, 4500, 6750, 9750],
+      "turbine": "IEA-37 3.35 MW, D=130 m, constant CT=8/9",
+      "wake": "IEA-37 simplified Bastankhah Gaussian, k=0.0324555, D/sqrt(8) initial width, squared deficit superposition",
+      "wind": "9.8 m/s and the 16-bin IEA-37 rose resampled to 360 one-degree directions by PyWake nearest-sector semantics",
+      "purpose": "iteration scaling, random multi-start and SMAST initialization/optimization"
+    }
+  },
+  "paper_native_method": {
+    "optimizer": "SLSQP",
+    "objective": "maximize AEP",
+    "design_variables": "continuous x and y coordinate of every turbine",
+    "optimization_constraints": "farm boundary only; two-diameter spacing is enforced during initialization and omitted during optimization",
+    "source_settings": {
+      "tolerance": 0.0001,
+      "helper_default_maximum_iterations": 1000,
+      "published_result_tensor_maximum_iterations": 5000,
+      "expected_cost_scaling": 10
+    },
+    "smast": {
+      "spacing_diameters": 2.0,
+      "grid_resolution_rotor_radii": "3 for N=16,36,64,130,279; 5 for N=566",
+      "random_percent": [0, 1, 10, 50, 100],
+      "semantics": "sequentially place a turbine among the top 100-random_percent percentile candidate cells according to its own AEP under wakes from already placed turbines; ignore reverse wake impact on prior turbines"
+    },
+    "public_result_scales": {
+      "iea16_smast0_mean_initial_aep_gwh": 371.83077383259945,
+      "iea16_random100_mean_initial_aep_gwh": 340.91360302851865,
+      "iea64_smast0_mean_initial_aep_gwh": 1372.4855133652015,
+      "iea279_smast0_mean_initial_aep_gwh": 5522.397788306196
+    }
+  },
+  "paper_protocol": {
+    "unique_registered_roles": 65,
+    "role_derivation": "35 unique Horns configurations after deduplicating repeated AD-one-core/no-spacing roles; 27 Storyline3 IEA size/randomness roles; 3 distinct 10000-start pure-random benchmark roles",
+    "platform_executed_distinct_roles": 55,
+    "platform_role_derivation": "25 Horns source-oracle and highest-performance exact-gradient/finite-difference roles plus 30 stochastic IEA roles",
+    "registered_observation_only_roles": "five complex-step and five pair-spacing-cost diagnostic roles are retained as paper observations because they are comparator/diagnostic experiments rather than the proposed production method",
+    "paper_random_optimization_counts": "1000 runs per IEA size/randomness setting where present; two 5000-run batches for N=16,64,279 at random_percent=100",
+    "formal_platform_seeds": 25,
+    "formal_budget_note": "the platform 25-seed campaign is an independent flexible-reproduction campaign; the immutable public 55,000-plus run arrays remain separate author evidence"
+  },
+  "missing_information": [
+    "complete author environment lock and exact TOPFARM revision",
+    "complete launch scripts for every paper panel and Horns Rev timing arrays",
+    "SLSQP internal trajectory, final coordinate arrays and random bitstreams",
+    "exact CPU affinity, cluster scheduler state and memory measurement method for every timing point",
+    "paper-specific finite-difference and complex-step step sizes"
+  ],
+  "conflicts_and_completions": [
+    "Use PyWake v2.5.0 physical CT=8/9 plus D/sqrt(8) simplified wake width; record the paper's approximately 0.964 equivalence statement as a textual parameterization conflict rather than changing turbine CT.",
+    "Implement the source-equivalent chain rule as fixed reverse accumulation in pure C++; validate it against bound-independent central finite differences.",
+    "Use NLopt v2.11.0 Kraft SLSQP revision 88c424d4f458412787df96fcc95218acbca224fd because the public archive does not pin SciPy/TOPFARM internals.",
+    "Treat the 5000 value stored in both public NetCDF tensors as a SciPy iteration setting, not an NLopt evaluation count; the production reconstruction separately caps NLopt at 5000 objective callbacks and reports all callback and physical-layout counts.",
+    "Use 0.05 m as the central finite-difference completion because the paper and public helper do not publish the step; this comparator is never used as the production optimizer gradient.",
+    "Treat complex-step as a non-target published comparator observation and do not fabricate a complex-valued C++ wake implementation.",
+    "Use counter-keyed random choices and declare random-stream differences; never calibrate seeds to published AEP.",
+    "Retain the published 10,000/5,000-start arrays as external validation evidence; formal platform runs start from scratch and carry their own receipts.",
+    "Use 25 platform seeds for the formal campaign while retaining paper-native run counts in the protocol metadata."
+  ],
+  "pinned_source_oracles": {
+    "generator": "PyWake v2.5.0 at the pinned revision with public source layouts and default PropagateDownwind semantics",
+    "iea37_reference_aep_gwh": {
+      "16": 373.20664505414635,
+      "36": 758.6700436686776,
+      "64": 1343.7933898976326
+    },
+    "horns_rev_100_reference_aep_gwh": 849.7766695842039,
+    "tolerance_gwh": 0.00001
+  },
+  "method_semantic_id": "t25_smast_slsqp_exact_reverse_v1",
+  "problem_semantic_ids": [
+    "t25_hornsrev_scaled_bg_v80_v1",
+    "t25_iea37_scaled_sbg_v1"
+  ],
+  "protocol_semantic_id": "t25_65role_public_data_25seed_v1",
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC",
+    "prior_parallel_boundary": "The paper explicitly evaluates flow-case parallelization on 1,4,16,32 CPUs and recommends top-level multi-start parallelization. The reproduction does not claim first parallelization.",
+    "analysis": {
+      "evaluation_work": "O(Ndirection*Nspeed*Nturbine^2)",
+      "finite_difference_work": "2*(2*Nturbine)+1 complete evaluator traversals for a central gradient",
+      "exact_gradient_work": "one forward wake-order traversal plus one reverse traversal computes AEP and all 2*Nturbine derivatives, including the effective-speed-to-CT-to-downstream-wake path",
+      "naive_smast_work": "O(Ncandidate*Ndirection*Nturbine^2) if every partial layout is recomputed",
+      "implemented_smast_work": "O(Ncandidate*Ndirection*Nturbine) incremental source updates plus fixed-order reductions",
+      "outer_parallelism": "independent starts use process-level scheduling; inner flow workers are set to one under outer saturation"
+    },
+    "strategy": [
+      "one persistent all-core executor per inner optimization",
+      "parallel flow-state objective and exact-gradient computation",
+      "speed-independent coordinate rotation reused inside each flow state",
+      "fixed-index state outputs followed by deterministic ordered reduction",
+      "incremental candidate-by-direction SMAST wake-square cache",
+      "separate outer multi-start scheduling to prevent nested oversubscription"
+    ],
+    "required_invariant": "one-worker and all-worker AEP, exact gradient and scientific hash identity"
+  },
+  "claim_boundary": "Source-backed flexible academic reproduction of both paper problem families, SMAST, exact-gradient SLSQP, flow-case and multi-start parallelization; not author Python/SciPy trajectory, random bitstream, exact numerical/timing replay, complex-step comparator implementation, or first parallelization claim."
+}

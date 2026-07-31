@@ -501,6 +501,11 @@ option(
     "Build T18 WindFLO SOHO and AWEC CPU-HPC reproduction"
     OFF
 )
+option(
+    CORE99_ENABLE_T25
+    "Build T25 large-farm exact-gradient and SMAST CPU-HPC reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T63 OR CORE99_ENABLE_T30 OR CORE99_ENABLE_Y16)
     include(FetchContent)
     set(CORE99_SAVED_BUILD_TESTING ${BUILD_TESTING})
@@ -664,7 +669,7 @@ option(
     OFF
 )
 if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21
-   OR CORE99_ENABLE_T81)
+   OR CORE99_ENABLE_T81 OR CORE99_ENABLE_T25)
     include(FetchContent)
 
     set(NLOPT_CXX ON CACHE BOOL "" FORCE)
@@ -1084,6 +1089,26 @@ if(CORE99_ENABLE_T18)
     add_executable(core99_t18_hpc src/reddy_t18_main.cpp)
     target_link_libraries(core99_t18_hpc PRIVATE core99_t18_core)
     target_compile_options(core99_t18_hpc PRIVATE
+        -Wall -Wextra -Wpedantic -Werror
+    )
+endif()
+
+if(CORE99_ENABLE_T25)
+    add_library(core99_t25_core STATIC src/rodrigues_t25.cpp)
+    target_include_directories(core99_t25_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t25_core PUBLIC fode_core nlopt)
+    target_compile_features(core99_t25_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t25_core PRIVATE
+        -O3 -march=native -ffp-contract=off
+        -Wall -Wextra -Wpedantic -Werror
+    )
+    add_executable(core99_t25_hpc src/rodrigues_t25_main.cpp)
+    target_link_libraries(core99_t25_hpc PRIVATE core99_t25_core)
+    target_compile_options(core99_t25_hpc PRIVATE
         -Wall -Wextra -Wpedantic -Werror
     )
 endif()
@@ -1748,6 +1773,23 @@ if(BUILD_TESTING)
         )
         set_tests_properties(
             core99_t18_cpp core99_t18_h5 PROPERTIES TIMEOUT 1800
+        )
+    endif()
+    if(CORE99_ENABLE_T25)
+        add_executable(core99_t25_test tests/rodrigues_t25_test.cpp)
+        target_link_libraries(core99_t25_test PRIVATE core99_t25_core)
+        target_compile_options(core99_t25_test PRIVATE
+            -Wall -Wextra -Wpedantic -Werror
+        )
+        add_test(NAME core99_t25_cpp COMMAND core99_t25_test)
+        add_test(
+            NAME core99_t25_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t25.py
+                --binary $<TARGET_FILE:core99_t25_hpc>
+        )
+        set_tests_properties(
+            core99_t25_cpp core99_t25_h5 PROPERTIES TIMEOUT 1800
         )
     endif()
     if(CORE99_ENABLE_T11)

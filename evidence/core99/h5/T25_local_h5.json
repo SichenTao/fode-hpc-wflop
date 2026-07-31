@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T25",
+  "date": "2026-08-01",
+  "status": "pass",
+  "build": {
+    "compiler_mode": "Release C++20 -O3 -march=native -ffp-contract=off -Wall -Wextra -Wpedantic -Werror",
+    "targets": [
+      "core99_t25_hpc",
+      "core99_t25_test"
+    ],
+    "asan_ubsan": "pass"
+  },
+  "tests": {
+    "core99_t25_cpp": "pass",
+    "core99_t25_h5": "pass",
+    "problem_families": [
+      "iea37",
+      "horns_rev"
+    ],
+    "registered_paper_roles": 65,
+    "platform_executable_roles": 55,
+    "observation_only_comparator_diagnostic_roles": 10,
+    "one_worker_all_worker_aep_and_gradient_identity": true,
+    "iea_exact_reverse_vs_central_fd_relative_limit": 0.00002,
+    "horns_effective_ct_reverse_vs_central_fd_relative_limit": 0.0002
+  },
+  "pinned_pywake_2_5_0_source_oracles": {
+    "tolerance_gwh": 0.00001,
+    "iea37_16": {
+      "pywake_aep_gwh": 373.20664505414635,
+      "cpp_aep_gwh": 373.20664521435594,
+      "absolute_difference_gwh": 1.6020959e-7
+    },
+    "iea37_36": {
+      "pywake_aep_gwh": 758.6700436686776,
+      "cpp_aep_gwh": 758.6700436296435,
+      "absolute_difference_gwh": 3.90341e-8
+    },
+    "iea37_64": {
+      "pywake_aep_gwh": 1343.7933898976326,
+      "cpp_aep_gwh": 1343.7933857838868,
+      "absolute_difference_gwh": 4.1137458e-6
+    },
+    "horns_rev_100": {
+      "pywake_aep_gwh": 849.7766695842039,
+      "cpp_aep_gwh": 849.7766695842033,
+      "absolute_difference_gwh": 6.0e-13
+    }
+  },
+  "development_h6_preview": {
+    "claim_status": "development admission evidence only; immutable Waffle H6 still required",
+    "fixed_horns_problem": "100 V80 turbines, 360 directions by 23 speeds",
+    "fixed_smast_problem": "IEA-37 64 turbines, 360 directions, 3R grid, random_percent=0",
+    "workers": [
+      1,
+      20
+    ],
+    "one_worker_seconds": {
+      "evaluator": 0.525731902,
+      "exact_gradient": 0.649240833,
+      "smast_end_to_end": 0.123489347
+    },
+    "twenty_worker_seconds": {
+      "evaluator": 0.045129634,
+      "exact_gradient": 0.0588465,
+      "smast_end_to_end": 0.015075676
+    },
+    "speedup": {
+      "evaluator": 11.649372161981193,
+      "exact_gradient": 11.032785858122402,
+      "smast_end_to_end": 8.191297491402707
+    },
+    "all_worker_observed_workers": {
+      "evaluator": 20,
+      "exact_gradient": 20,
+      "smast": 20
+    },
+    "same_physics_and_numerical_results": true
+  },
+  "formal_status": "ready_for_immutable_waffle_h6_then_25_seed_campaign"
+}
