@@ -11,6 +11,7 @@ if(WFLOP_ENABLE_TORCH)
     find_package(Torch CONFIG REQUIRED)
     add_subdirectory(hpc/learning_libtorch)
     add_subdirectory(hpc/t27_libtorch)
+    add_subdirectory(hpc/t28_libtorch)
 endif()
 add_subdirectory(hpc/fode_cpp)
 add_subdirectory(hpc/wflop_cpp)
@@ -108,6 +109,13 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t27_hpc>
                 --fixture
                 ${CMAKE_CURRENT_SOURCE_DIR}/shared/data/core99_t27/floris411_gch_fixture.json
+        )
+        add_test(
+            NAME core99_t28_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/scripts/validate_core99_t28.py
+                --binary $<TARGET_FILE:core99_t28_hpc>
+                --data ${CMAKE_CURRENT_SOURCE_DIR}/shared/data/core99_t28
         )
         add_test(
             NAME hpc_learning_backend_compatibility

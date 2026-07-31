@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T28",
+  "H5": {
+    "status": "pass",
+    "published_2023_base_aep_gwh": 919.78,
+    "native_2023_base_aep_gwh": 926.358666353522,
+    "relative_error": 0.007152434119725,
+    "published_2023_base_jerm_eur": 69673500,
+    "native_2023_base_jerm_eur": 71142962.354843125,
+    "jerm_relative_error": 0.021091697059038,
+    "cpu_cuda_interface": "smoke pass"
+  },
+  "H6": {
+    "status": "local_candidate_pass_waffle_formal_queued",
+    "one_worker_seconds": 3.512375929,
+    "twenty_worker_seconds": 1.518916047,
+    "speedup": 2.312409,
+    "formal_rule": "repeat limited timing observations on Waffle and run paper-scale cases with highest admitted backend"
+  }
+}

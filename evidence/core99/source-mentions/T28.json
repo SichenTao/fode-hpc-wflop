@@ -16,6 +16,13 @@
     "https://gitlab.windenergy.dtu.dk/TOPFARM/TopFarm2"
   ],
   "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "resolved_public_asset": {
+    "url": "https://github.com/Twitwi96/WINDFLOWER/tree/v1.0.0",
+    "revision": "427ee84dfdb9fb275b229e8eecf4503071d8fed4",
+    "data_doi": "10.5281/zenodo.13946931",
+    "license": "AGPL-3.0",
+    "status": "identity_revision_license_and_semantics_audited"
+  },
   "paper_pdf_sha256": "576b4149d526aab89f127431145ae70e71c852bc15e9466718f00939b067a2e6",
   "private_text_sha256": "57c84a9db652572fbc959496994c1b0c707041ee4ab0970ee98ba50cfa5d20df",
   "schema_version": 1,
