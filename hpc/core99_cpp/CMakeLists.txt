@@ -506,6 +506,47 @@ option(
     "Build T25 large-farm exact-gradient and SMAST CPU-HPC reproduction"
     OFF
 )
+option(
+    CORE99_ENABLE_T19
+    "Build GPL-3.0-or-later T19 official-SRMP TRW-S CPU-HPC reproduction"
+    OFF
+)
+if(CORE99_ENABLE_T19)
+    include(FetchContent)
+    FetchContent_Declare(
+        srmp_t19
+        URL https://pub.ist.ac.at/~vnk/software/SRMP-v1.01.zip
+        URL_HASH SHA256=e2bf3376f5d4b68c3ed9c88ef37ede187455f907ee0ee71b8572ae04f4be6848
+        DOWNLOAD_EXTRACT_TIMESTAMP TRUE
+        PATCH_COMMAND
+            ${CMAKE_COMMAND}
+            -DSRMP_SOURCE_DIR=<SOURCE_DIR>
+            -P ${CMAKE_CURRENT_SOURCE_DIR}/cmake/patch_srmp_t19.cmake
+    )
+    FetchContent_GetProperties(srmp_t19)
+    if(NOT srmp_t19_POPULATED)
+        FetchContent_Populate(srmp_t19)
+    endif()
+    add_library(core99_t19_srmp STATIC
+        ${srmp_t19_SOURCE_DIR}/Algs/AddEdges.cpp
+        ${srmp_t19_SOURCE_DIR}/Algs/CMP.cpp
+        ${srmp_t19_SOURCE_DIR}/Algs/MPLP.cpp
+        ${srmp_t19_SOURCE_DIR}/Algs/SRMP.cpp
+        ${srmp_t19_SOURCE_DIR}/Algs/debug.cpp
+        ${srmp_t19_SOURCE_DIR}/Algs/energy.cpp
+        ${srmp_t19_SOURCE_DIR}/Algs/order.cpp
+        ${srmp_t19_SOURCE_DIR}/Algs/triplets.cpp
+        ${srmp_t19_SOURCE_DIR}/FactorTypes/GeneralType.cpp
+        ${srmp_t19_SOURCE_DIR}/FactorTypes/PairwiseDualType.cpp
+        ${srmp_t19_SOURCE_DIR}/FactorTypes/PairwiseType.cpp
+        ${srmp_t19_SOURCE_DIR}/FactorTypes/PatternType.cpp
+        ${srmp_t19_SOURCE_DIR}/FactorTypes/PottsType.cpp
+        ${srmp_t19_SOURCE_DIR}/FactorTypes/SharedPairwiseType.cpp
+    )
+    target_include_directories(core99_t19_srmp SYSTEM PUBLIC ${srmp_t19_SOURCE_DIR})
+    target_compile_features(core99_t19_srmp PUBLIC cxx_std_20)
+    target_compile_options(core99_t19_srmp PRIVATE -O3 -w)
+endif()
 if(CORE99_ENABLE_T63 OR CORE99_ENABLE_T30 OR CORE99_ENABLE_Y16)
     include(FetchContent)
     set(CORE99_SAVED_BUILD_TESTING ${BUILD_TESTING})
@@ -1109,6 +1150,28 @@ if(CORE99_ENABLE_T25)
     add_executable(core99_t25_hpc src/rodrigues_t25_main.cpp)
     target_link_libraries(core99_t25_hpc PRIVATE core99_t25_core)
     target_compile_options(core99_t25_hpc PRIVATE
+        -Wall -Wextra -Wpedantic -Werror
+    )
+endif()
+
+if(CORE99_ENABLE_T19)
+    add_library(core99_t19_core STATIC src/dhoot_t19.cpp)
+    target_include_directories(core99_t19_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t19_core
+        PUBLIC fode_core core99_t19_srmp
+    )
+    target_compile_features(core99_t19_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t19_core PRIVATE
+        -O3 -march=native -ffp-contract=off
+        -Wall -Wextra -Wpedantic -Werror
+    )
+    add_executable(core99_t19_hpc src/dhoot_t19_main.cpp)
+    target_link_libraries(core99_t19_hpc PRIVATE core99_t19_core)
+    target_compile_options(core99_t19_hpc PRIVATE
         -Wall -Wextra -Wpedantic -Werror
     )
 endif()
@@ -1790,6 +1853,23 @@ if(BUILD_TESTING)
         )
         set_tests_properties(
             core99_t25_cpp core99_t25_h5 PROPERTIES TIMEOUT 1800
+        )
+    endif()
+    if(CORE99_ENABLE_T19)
+        add_executable(core99_t19_test tests/dhoot_t19_test.cpp)
+        target_link_libraries(core99_t19_test PRIVATE core99_t19_core)
+        target_compile_options(core99_t19_test PRIVATE
+            -Wall -Wextra -Wpedantic -Werror
+        )
+        add_test(NAME core99_t19_cpp COMMAND core99_t19_test)
+        add_test(
+            NAME core99_t19_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t19.py
+                --binary $<TARGET_FILE:core99_t19_hpc>
+        )
+        set_tests_properties(
+            core99_t19_cpp core99_t19_h5 PROPERTIES TIMEOUT 1800
         )
     endif()
     if(CORE99_ENABLE_T11)

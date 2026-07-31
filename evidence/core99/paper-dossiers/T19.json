@@ -1,26 +1,14 @@
 {
-  "authority_ladder": [
-    "paper_and_supplement",
-    "paper_linked_public_source_and_data",
-    "cited_predecessor",
-    "same_lineage_public_source",
-    "deterministic_declared_reconstruction"
-  ],
-  "completion_decisions": [],
+  "schema_version": 1,
   "corpus_id": "T19",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
-  "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
-  },
-  "missing_information": [
-    "full field-level audit not yet completed"
+  "dossier_status": "h5_admitted",
+  "formal_status": "ready_for_immutable_waffle_queue",
+  "authority_ladder": [
+    "paper_and_primary_pdf",
+    "paper_linked_official_srmp_source",
+    "author_manuscript_and_predecessor_thesis",
+    "same_benchmark_and_same_turbine_lineage_source",
+    "deterministic_declared_reconstruction"
   ],
   "paper": {
     "authors": "Aditya Dhoot and Enrico G.A. Antonini and David A. Romero and Cristina H. Amon",
@@ -36,91 +24,64 @@
     "venue": "Energy",
     "year": 2021
   },
-  "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 42,
     "text_sha256": "c287fedefaeaf7112e4e8c7591fa7f1b3990186cf04f042306ef7885de4774fc"
   },
-  "public_asset_candidate_evidence": {
-    "availability_mention_line_numbers": [],
-    "embedded_annotation_urls": [],
-    "status": "no_paper_linked_public_asset_candidate_detected"
+  "paper_linked_public_asset_candidates": [
+    "https://pub.ist.ac.at/~vnk/software/SRMP-v1.01.zip",
+    "http://cs.nyu.edu/~dsontag/code/mplp_ver2.tgz"
+  ],
+  "paper_source_conflicts": [
+    "GEMPLP is cited but unavailable and the authors used an unpublished modification",
+    "SRMP v1.01 needs a virtual-destructor safety patch and legacy-overload adapter on the target modern toolchain",
+    "automatic factor sorting does not terminate safely for the dense equal-structure triplet graph; fixed insertion order is used and declared"
+  ],
+  "missing_information": [
+    "beta and spacing penalty",
+    "modified cluster generator and cluster lists",
+    "numeric WR-36",
+    "exact NREL curve revision",
+    "2500-cell rounding and author wrapper/order",
+    "raw layouts and traces"
+  ],
+  "completion_decisions": [
+    "data-scaled beta=1.01 maximum interaction row sum",
+    "deterministic strongest-neighbor triplets with exact requested count",
+    "versioned T05 WR-36 and T81 FLORIS-v2.4 NREL curve lineage",
+    "exact-K 5R repair plus feasible one-swap",
+    "fixed insertion order and audited SRMP safety compatibility"
+  ],
+  "hpc_admission": {
+    "H0": "complete_primary_supporting_source_license_missing_field_and_toolchain_audit",
+    "H1": "complete_interaction_mrf_triplet_trws_repair_and_posterior_aep_work_decomposition",
+    "H2": "complete_inner_row_target_parallelism_sequential_trws_dependency_and_outer_role_parallelism_analysis",
+    "H3": "complete_pure_cpp_all_core_wrapper_official_srmp_and_memory_aware_2500_implementation",
+    "H4": "complete_resumable_H6_and_112_role_formal_runner",
+    "H5": "pass_strict_cpp_independent_equation_oracle_asan_ubsan_2500_path_and_thread_identity",
+    "H6": "pending_immutable_waffle_one_all_core_stage_speedup_and_identity"
   },
-  "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "flexible equation/source-level academic reproduction of all 112 target roles; not unpublished author cluster generator beta order wrapper exact layouts or numerical/timing replay",
     "execution_wave": "REV5",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
+    "package_status": "h5_admitted_h6_and_formal_ready",
+    "scope_status": "paper_paired_hpc_implemented",
     "target_contribution_type": "scaling_computation_or_reproducible_execution"
   },
   "semantic_contract": {
-    "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    }
+    "decision_variables": {"authority": "target Eqs. 8 and 11", "resolution": "one binary variable per candidate cell", "status": "implemented"},
+    "encoding_and_decoder": {"authority": "target MRF and stated 2500-cell rounding", "resolution": "official SRMP labels followed by declared exact-K/5R deterministic repair", "status": "implemented_and_validated"},
+    "constraints_and_repair": {"authority": "target Eq. 8b and 5R rule", "resolution": "penalized cardinality plus explicit 2500-cell conflict pairs and exact feasibility repair", "status": "implemented_and_validated"},
+    "objective_and_direction": {"authority": "target Eqs. 6-11", "resolution": "minimize probability-weighted pair kinetic-energy deficit", "status": "implemented_and_independently_validated"},
+    "wake_power_cost_or_coupled_model": {"authority": "target Eqs. 1-7 Table 1 and declared source lineage", "resolution": "Jensen/RSS posterior power with historical and NREL-5MW turbine profiles", "status": "implemented_equation_validated"},
+    "wind_and_scenario_sampling": {"authority": "target Figure 3 and same-benchmark completion", "resolution": "WR-1 exact; WR-36 versioned 36 by 3 figure profile", "status": "implemented_with_declared_numeric_completion"},
+    "paper_native_cases": {"authority": "target Tables 1-3 and Figures 6-9", "resolution": "4 historical plus 108 realistic roles", "status": "all_112_roles_registered_and_executable"},
+    "initialization": {"authority": "not_applicable", "resolution": "deterministic message initialization inside official source", "status": "source_controlled"},
+    "parameters": {"authority": "target paper official source and declared contract", "resolution": "all published parameters used; every missing value explicitly completed", "status": "implemented"},
+    "update_order": {"authority": "target appendix and SRMP source", "resolution": "official TRW-S with fixed insertion order", "status": "implemented_with_declared_order_completion"},
+    "stopping_and_physical_fes": {"authority": "target Section 2.5 and official source", "resolution": "10000 iterations epsilon 1e-8 and 3600-second cap; one posterior full-layout AEP is one physical FES", "status": "implemented_and_configurable"},
+    "metrics_and_repeats": {"authority": "target figures/tables and platform protocol", "resolution": "one deterministic run for each of 112 roles; raw/repaired cardinality, energy, AEP, feasibility, stages, workers and hash", "status": "implemented_runner_validated"},
+    "training_and_inference_lifecycle": {"authority": "target Sections 2.2-2.3", "resolution": "no learned model; graph assembly, official inference, repair and posterior verification", "status": "implemented"}
   }
 }

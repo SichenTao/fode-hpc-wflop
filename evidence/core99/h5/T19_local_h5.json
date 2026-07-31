@@ -1,0 +1,62 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T19",
+  "date": "2026-08-01",
+  "status": "pass",
+  "build": {
+    "compiler_mode": "Release C++20 -O3 -march=native -ffp-contract=off -Wall -Wextra -Wpedantic -Werror",
+    "targets": ["core99_t19_hpc", "core99_t19_test"],
+    "optional_target_license": "GPL-3.0-or-later due pinned official SRMP v1.01",
+    "asan_ubsan": "pass_after_audited_virtual_destructor_safety_patch"
+  },
+  "tests": {
+    "core99_t19_cpp": "pass",
+    "core99_t19_h5": "pass",
+    "paper_role_count": 112,
+    "one_worker_all_worker_layout_objective_aep_and_hash_identity": true,
+    "independent_eq7_and_posterior_power_oracle": "pass",
+    "exact_cardinality_and_5R_spacing": "pass",
+    "2500_cell_no_triplet_shared_factor_path": "pass"
+  },
+  "paper_scale_anchor": {
+    "case": "historical WR-1, 100 cells, K=26",
+    "paper_mp_power_kw": 12486.0,
+    "h5_declared_reconstruction_power_kw": 13000.807021914723,
+    "interpretation": "same physical scale; exact equality is neither expected nor claimed because beta, clusters, order and wrapper are unpublished"
+  },
+  "source_compatibility_audit": {
+    "archive_sha256": "e2bf3376f5d4b68c3ed9c88ef37ede187455f907ee0ee71b8572ae04f4be6848",
+    "virtual_destructor_patch": "required and sanitizer-validated; no numerical arithmetic change",
+    "shared_factor_overload_adapter": "required for modern abstract-base signature",
+    "fixed_insertion_order": "official sort_flag=-1; declared replacement for unavailable author order and unsafe equal-key quicksort"
+  },
+  "development_h6_preview": {
+    "claim_status": "development admission evidence only; immutable Waffle H6 still required",
+    "workers": [1, 20],
+    "timing_repeats": 3,
+    "fixed_matrix_aep_work": "WR-36, 2500 cells, K=100, no triplets, one official TRW-S sweep",
+    "fixed_triplet_work": "WR-36, 400 cells, K=100, 5000 triplets, one official TRW-S sweep",
+    "one_worker_median_seconds": {
+      "interaction_assembly": 5.872198713,
+      "triplet_generation": 0.015556561,
+      "nonlinear_aep": 0.010361317,
+      "matrix_case_end_to_end": 6.88194917
+    },
+    "twenty_worker_median_seconds": {
+      "interaction_assembly": 0.486655993,
+      "triplet_generation": 0.015103979,
+      "nonlinear_aep": 0.001139226,
+      "matrix_case_end_to_end": 1.569868185
+    },
+    "speedup": {
+      "interaction_assembly": 12.066426382218621,
+      "triplet_generation": 1.029964421957949,
+      "nonlinear_aep": 9.095049621409624,
+      "matrix_case_end_to_end": 4.383775170270108
+    },
+    "all_worker_observed_workers": 20,
+    "same_scientific_results": true,
+    "sequential_solver_boundary": "official ordered TRW-S remains sequential; formal independent roles use all-core outer scheduling"
+  },
+  "formal_status": "ready_for_immutable_waffle_h6_then_112_role_deterministic_campaign"
+}

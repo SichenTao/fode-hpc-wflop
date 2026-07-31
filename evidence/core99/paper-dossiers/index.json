@@ -393,8 +393,8 @@
     },
     {
       "corpus_id": "T19",
-      "dossier_sha256": "ed70dfb8cb7c1858021d59495a1fff7b1d40ace7f3a60efcb72fc2e1ada8aa63",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "12b5e599d120fb9c0dbf543defbe77ec665fdf109323563fbe0e1555a25a999b",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
