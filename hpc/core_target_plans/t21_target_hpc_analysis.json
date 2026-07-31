@@ -109,6 +109,8 @@
       "hpc/core99_cpp/src/pollini_t21_main.cpp",
       "hpc/core99_cpp/tests/pollini_t21_test.cpp",
       "scripts/validate_core99_t21.py",
+      "scripts/run_core99_t21_h6_formal.py",
+      "scripts/run_core99_t21_when_waffle_free.sh",
       "shared/contracts/core99_t21_pollini_2022.json"
     ],
     "method_semantic_id": "t21_ramp_mma_declared_reconstruction_v1",

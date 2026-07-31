@@ -36,6 +36,7 @@
     "hpc/core99_cpp/tests/pollini_t21_test.cpp",
     "scripts/validate_core99_t21.py",
     "scripts/run_core99_t21_h6_formal.py",
+    "scripts/run_core99_t21_when_waffle_free.sh",
     "shared/contracts/core99_t21_pollini_2022.json"
   ],
   "missing_information": [
