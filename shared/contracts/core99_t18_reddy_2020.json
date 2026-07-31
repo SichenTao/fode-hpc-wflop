@@ -1,0 +1,116 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T18",
+  "paper": {
+    "title": "Wind Farm Layout Optimization (WindFLO): An Advanced Framework for Fast Wind Farm Analysis and Optimization",
+    "doi": "10.1016/j.apenergy.2020.115090",
+    "pdf_sha256": "466c24c441328fe6e5c41ef42b7c883997adc61fa755ab11f905b4f3e536384a",
+    "pdf_text_sha256": "52ece2affacb004876a2df5967a6d29f98421540638fc9ab34ee6c77cc1bc810",
+    "pages": 13
+  },
+  "public_source": {
+    "url": "https://github.com/sohailreddy/WindFLO",
+    "original_redirecting_url": "https://github.com/sohailrreddy/WindFLO",
+    "revision": "97dd43784bffb1c0c8a4388d8e7929b337d496a5",
+    "license": "Apache-2.0",
+    "license_sha256": "a845ffd6cd92809f188af7b175b5d3b3417f40d3e9cffdba4de5615195c0c804",
+    "cal_validation_tag": "v1.0.0",
+    "cal_validation_blob_ids": [
+      "f0d67b0a75489dd59d4478b0c31097463389420f",
+      "40842f9e0aba762deff32865b45814fca4c8261a",
+      "c5a5315b4b91a361f00e1bfd643383aabf38fc2e",
+      "16813cb78b1609f785c38f02500e633e197a04db",
+      "83f83705f1eef7cb0b18d5d25d70aa988f71c3fa",
+      "a25c76c0b1943b98a882cc5f9d57d4914d832bfb",
+      "d7ae510a85a6380d03901def6fc5441487115796",
+      "1d0c3d18b5a9081bb2c4f2c3e2f7fea68c5837de",
+      "bbe984b4356b2e05084b735d3012860019855118",
+      "af4837364fcda0fd4d4c0623aac6c06a55c315ed",
+      "8be57ec3d6399f2dcc1cce3f6c01dbc41761a11a"
+    ],
+    "supplied": [
+      "WindFLO C++ and Fortran source with six wake and four merging models",
+      "Vestas V90-3MW Cp data, 489-point AWEC terrain and example inputs",
+      "Cal et al. wind-tunnel inputs in tag v1.0.0",
+      "generic GA and PSO examples and stored example outputs"
+    ],
+    "source_oracle": {
+      "status": "pass_after_toolchain_port",
+      "details": "The hard-coded g++-10/gfortran-10 Makefile and Linux shared-link recipe do not build unchanged on the current host. A temporary unmodified-source static build with matching g++-13/gfortran-13 reproduced the stored Example2 power, efficiency, AEP, cost and land metrics exactly.",
+      "example2_metrics": {
+        "power_w": 38651000.0,
+        "efficiency": 0.515347,
+        "annual_energy_wh": 338583000000.0,
+        "cost_usd": 62063400.0,
+        "land_area_m2": 2673430.0
+      }
+    }
+  },
+  "soho_supplement": {
+    "title": "Many-Objective Hybrid Optimization Under Uncertainty With Applications",
+    "doi": "10.25148/etd.FIDC008890",
+    "pdf_sha256": "9bd7ee57e124aa0ad6ff49953b94318ad840e7be92179c2df51aaab3913241b1",
+    "pdf_text_sha256": "87185d5edb36b2b60acfc095e78e5fbd2cf5197c85524076fc9c77674c71ebef",
+    "pages": 149,
+    "use": "supplies constitutive NSGA-III, NSDE-R and MOEA-DD operators and published parameters; the target paper supplies their three-kernel single-objective relay"
+  },
+  "paper_native_protocol": {
+    "validation": "Tables 2 and 3: two probe locations by six wake models by four merge schemes",
+    "optimization": "Table 4: reference, Case 1 and Case 2 under Frandsen and BP wakes",
+    "native_reported_roles_per_seed": 54,
+    "formal_platform_seeds": 25,
+    "case1_variables": 50,
+    "case2_variables": 100,
+    "turbines": 25,
+    "site": "2 km by 2 km scaled AWEC terrain",
+    "primary_terrain": "local multiquadric RBF",
+    "validation_disk_sampling": "1000-point public-source Sobol uniform-radius replay",
+    "primary_optimization_disk_sampling": "64 deterministic equal-area points"
+  },
+  "missing_information": [
+    "target SOHO source and target optimization random states, traces and four optimized layouts",
+    "numeric 2019 cli-MATE direction-speed table and original machine-readable wind observations",
+    "target SOHO population, generation budget, stagnation window and independent repeat count",
+    "complete executable RBF setup and the exact optimization rotor-integration sample sequence"
+  ],
+  "conflicts_and_completions": [
+    "The paper specifies local RBF terrain interpolation while public Example4 overrides terrain interpolation to IDW; paper-local-RBF is primary and source-IDW is an executable conflict profile.",
+    "The public disk sampler uses radius R times u, which is not uniform in disk area; production uses R times square-root(u), and source-uniform-radius remains an executable profile.",
+    "The public DWM implementation repeatedly scales the accumulated prior deficit by overlap; production uses the intended maximum weighted deficit and records the source expression.",
+    "The paper prints 26280 MWh as all-turbine rated annual energy although 25 times 3 MW times 8760 h is 657000 MWh and Table 4 is consistent with the farm-scale denominator; production uses 657000 MWh.",
+    "The public terrain arc approximation advances only the rotated x coordinate; production uses the three-dimensional separation induced by interpolated upstream and downstream elevations.",
+    "The public Larsen expression yields negative deficits for some validation points and reproduces the unstable published validation behavior; it remains available only for the validation matrix while production optimization uses the paper-selected Frandsen and BP models.",
+    "Digitize Figure 10(c) into sixteen direction totals and seven conditional speed-bin weights, normalize their Cartesian product and identify it as a declared wind reconstruction.",
+    "Use a 65 by 65 terrain grid built from the exact 489 public points; paper-local-RBF uses sixteen local neighbors and source-IDW uses twenty-four.",
+    "Use SOHO population 100, 200 generations and a 20-generation stagnation window; no completion is calibrated to Table 4.",
+    "Use dissertation parameters: NSGA-III and MOEA-DD simulated-binary crossover probability 1, mutation probability one over dimension, crossover index 30 and mutation index 20; MOEA-DD neighborhood 20, delta 0.9 and theta 5; NSDE-R F 0.5 and Cr 0.7.",
+    "Use 25 platform seeds because the paper gives no independent repeat count."
+  ],
+  "validation_acceptance": {
+    "published_tables": [2, 3],
+    "source_profile_roles": 48,
+    "roles_within_0_10_mps": 47,
+    "median_absolute_velocity_difference_mps": 0.0055290945818136095,
+    "maximum_absolute_velocity_difference_mps": 0.21092306504254488,
+    "maximum_role": "table3_downstream_larsen_quadratic",
+    "registered_limit_mps": 0.25
+  },
+  "method_semantic_id": "t18_soho_three_kernel_relay_declared_v1",
+  "problem_semantic_id": "t18_windflo_awec25_two_case_two_wake_v1",
+  "protocol_semantic_id": "t18_tables2_3_4_54roles_25seed_v1",
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC",
+    "prior_parallel_boundary": "The target paper explicitly declares master-slave parallel optimization and the public PSO accepts an external parallel-evaluation function. No target SOHO parallel source, schedule, deterministic identity evidence, physical-work receipt or scaling data are public; first-parallelization is outside the claim boundary.",
+    "strategy": [
+      "one persistent all-core executor per complete run",
+      "parallel fixed-index generation of complete offspring from an immutable parent population",
+      "parallel complete-layout evaluation across the population",
+      "parallel independent execution of the 48 wind-tunnel validation roles",
+      "immutable precomputed terrain grids, direction-speed scenarios and turbine curves",
+      "counter-keyed schedule-independent random events and deterministic ordered survivor commits"
+    ],
+    "dominant_complexity": "four optimization roles times population times generations times 112 wind states times 25-squared ordered wake interactions, with rotor quadrature for BP interactions",
+    "required_invariant": "one-worker and all-worker validation, layouts, kernel histories, physical-work counts and scientific hash identity"
+  },
+  "claim_boundary": "Source-backed flexible academic reconstruction of WindFLO, the target three-kernel SOHO relay, the two AWEC optimization cases and all 54 native Tables 2-4 roles; not the unavailable author SOHO implementation, original cli-MATE table, random states, layouts, numerical replay of Table 4 or first parallelization."
+}

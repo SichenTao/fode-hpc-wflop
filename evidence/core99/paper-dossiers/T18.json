@@ -1,132 +1,175 @@
 {
-  "authority_ladder": [
-    "paper_and_supplement",
-    "paper_linked_public_source_and_data",
-    "cited_predecessor",
-    "same_lineage_public_source",
-    "deterministic_declared_reconstruction"
-  ],
-  "completion_decisions": [],
+  "schema_version": 1,
   "corpus_id": "T18",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
-  "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
-  },
-  "missing_information": [
-    "full field-level audit not yet completed"
-  ],
   "paper": {
+    "title": "Wind Farm Layout Optimization (WindFLO): An Advanced Framework for Fast Wind Farm Analysis and Optimization",
     "authors": "Sohail R. Reddy",
     "doi": "10.1016/j.apenergy.2020.115090",
+    "venue": "Applied Energy",
+    "year": 2020,
     "pdf_basename": "2020_Reddy_Wind_Farm_Layout_Optimization_WindFLO_An_Advanced_Framework_for_Fast_Wind_Farm_Analysis_and_Optimization.pdf",
     "pdf_sha256": "466c24c441328fe6e5c41ef42b7c883997adc61fa755ab11f905b4f3e536384a",
-    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_asset_status": "local_primary_pdf_hashed_rendered_and_audited",
     "primary_review_class": "REV5",
-    "reading_tier": "KEY40",
-    "role": "D",
     "secondary_review_classes": "REV2,REV4",
-    "title": "Wind Farm Layout Optimization (WindFLO): An Advanced Framework for Fast Wind Farm Analysis and Optimization",
-    "venue": "Applied Energy",
-    "year": 2020
+    "reading_tier": "KEY40",
+    "role": "D"
   },
-  "paper_linked_public_asset_candidates": [
-    "https://github.com/sohailrreddy/WindFLO"
-  ],
-  "paper_source_conflicts": [],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 13,
     "text_sha256": "52ece2affacb004876a2df5967a6d29f98421540638fc9ab34ee6c77cc1bc810"
   },
+  "authority_ladder": [
+    "target_publisher_paper",
+    "paper_linked_public_WindFLO_source_and_data",
+    "author_FIU_dissertation_for_SOHO_components",
+    "paper_equations_and_visible_figures",
+    "deterministic_declared_reconstruction"
+  ],
+  "paper_linked_public_asset_candidates": [
+    "https://github.com/sohailreddy/WindFLO",
+    "https://doi.org/10.25148/etd.FIDC008890"
+  ],
   "public_asset_candidate_evidence": {
-    "availability_mention_line_numbers": [
-      724
-    ],
-    "embedded_annotation_urls": [
-      "https://github.com/sohailrreddy/WindFLO"
-    ],
-    "status": "candidate_only_requires_revision_license_semantic_audit"
+    "status": "identity revision license and semantics audited; evaluator data and validation inputs admitted as source authority",
+    "source_revision": "97dd43784bffb1c0c8a4388d8e7929b337d496a5",
+    "license": "Apache-2.0",
+    "license_sha256": "a845ffd6cd92809f188af7b175b5d3b3417f40d3e9cffdba4de5615195c0c804",
+    "source_oracle_status": "public Example2 scalar metrics reproduced exactly after temporary compiler-port build",
+    "soho_dissertation_pdf_sha256": "9bd7ee57e124aa0ad6ff49953b94318ad840e7be92179c2df51aaab3913241b1"
   },
-  "schema_version": 1,
+  "paper_source_conflicts": [
+    "The target paper specifies local RBF terrain interpolation while public Example4 selects IDW.",
+    "The public disk sampler uses radius R times u, which oversamples the rotor center relative to uniform disk area.",
+    "The public DWM source repeatedly applies overlap to accumulated deficit instead of selecting the maximum weighted deficit.",
+    "The paper prints 26280 MWh for 25 V90-3MW turbines although the dimensionally correct annual rated farm energy is 657000 MWh and Table 4 follows the farm-scale denominator.",
+    "The public terrain arc approximation changes only rotated x although terrain height varies in both horizontal coordinates.",
+    "The public Larsen expression can produce negative deficits and the paper validation table reports unstable Larsen combinations."
+  ],
+  "missing_information": [
+    "target SOHO source, random states, traces and four optimized layouts",
+    "numeric 2019 cli-MATE direction-speed table and raw observations",
+    "target population, generations, stagnation window, repeat count and exact rotor samples"
+  ],
+  "completion_decisions": [
+    "Use paper-local-RBF and corrected equal-area rotor sampling for optimization; use the source Sobol uniform-radius rule for Tables 2-3 validation and retain source-IDW as a named terrain conflict profile.",
+    "Use the intended DWM maximum weighted deficit and the physically correct 657000 MWh farm denominator.",
+    "Use true interpolated terrain elevation differences for three-dimensional wake separation.",
+    "Retain all six public wake models and four merge models for Tables 2 and 3; use only paper-selected Frandsen and BP for optimization.",
+    "Digitize Figure 10(c) into a versioned 16-direction by seven-speed wind quadrature without fitting Table 4.",
+    "Use SOHO population 100, 200 generations and stagnation 20; take kernel parameters from the author's dissertation and declare every relay completion.",
+    "Use one persistent all-core executor for complete offspring and validation roles with one/all-core scientific identity.",
+    "Run all 54 native roles and 25 platform seeds after immutable Waffle H6 admission."
+  ],
+  "validation_acceptance": {
+    "profile": "public 1000-point Sobol uniform-radius replay",
+    "published_roles": 48,
+    "roles_within_0_10_mps": 47,
+    "median_absolute_velocity_difference_mps": 0.0055290945818136095,
+    "maximum_absolute_velocity_difference_mps": 0.21092306504254488,
+    "maximum_role": "table3_downstream_larsen_quadratic",
+    "registered_limit_mps": 0.25
+  },
+  "prior_parallel_boundary": "The target explicitly reports master-slave parallel optimization and the public PSO accepts an external parallel-evaluation callback. No target SOHO source, concrete schedule, deterministic one/all-core evidence, physical-work receipt or scaling result is public. The implementation claim is audited realization and measurement, not first parallelization.",
+  "dossier_status": "h5_admitted",
+  "formal_status": "ready_for_immutable_waffle_queue",
+  "hpc_admission": {
+    "H0": "complete_target_public_source_dissertation_data_and_conflict_audit",
+    "H1": "complete_wake_terrain_rotor_SOHO_and_54_role_work_decomposition",
+    "H2": "complete_persistent_population_validation_parallelism_and_deterministic_schedule_analysis",
+    "H3": "complete_pure_cpp_persistent_all_core_implementation",
+    "H4": "complete_resumable_H6_and_25_seed_formal_runner",
+    "H5": "pass_strict_cpp_source_oracle_and_independent_python_all_54_role_validation",
+    "H6": "pending_immutable_waffle_one_all_core_identity_and_speedup"
+  },
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "scope_status": "paper_paired_hpc_implemented",
     "execution_wave": "REV5",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
-    "target_contribution_type": "scaling_computation_or_reproducible_execution"
+    "package_status": "h5_admitted_h6_and_formal_ready",
+    "target_contribution_type": "scaling_computation_or_reproducible_execution",
+    "claim_boundary": "source-backed flexible academic reconstruction of WindFLO target SOHO relay two AWEC optimization cases and all 54 native roles; not unavailable author SOHO source original cli-MATE table random states layouts numerical replay or first parallelization"
   },
   "semantic_contract": {
-    "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Section 4 and Table 4",
+      "resolution": "Case 1 has 25 x-y pairs; Case 2 has 25 x-y-diameter-height tuples",
+      "status": "implemented"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target continuous SOHO design vectors",
+      "resolution": "stable turbine-major real vector with 50 or 100 coordinates",
+      "status": "implemented_and_validated"
     },
-    "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+    "constraints_and_repair": {
+      "authority": "target Eqs. 23-26",
+      "resolution": "2 km square bounds, diameter and height 70 to 110 m, height at least radius and pair distance at least larger diameter",
+      "status": "implemented_and_validated"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Eqs. 20-22 and Section 4",
+      "resolution": "maximize joint direction-speed expected annual energy subject to feasibility; report power efficiency cost land and COE",
+      "status": "implemented"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Sections 2-3 and public source revision",
+      "resolution": "six source-backed wake models four merge rules terrain following rotor integration V90 Cp-derived thrust power cost and convex-hull land",
+      "status": "implemented_source_oracle_and_scalar_validated"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "target Figure 10(c) with missing cli-MATE array",
+      "resolution": "declared normalized 16-direction by seven-speed digitization; public 1000-point Sobol uniform-radius validation replay and deterministic 64-point equal-area optimization quadrature",
+      "status": "implemented_declared_reconstruction"
+    },
+    "paper_native_cases": {
+      "authority": "target Tables 2-4",
+      "resolution": "48 validation roles and six reference/Case-1/Case-2 optimization roles under Frandsen and BP",
+      "status": "implemented_and_runner_validated"
+    },
+    "initialization": {
+      "authority": "target reference layout plus declared completion",
+      "resolution": "include the 5 by 5 reference layout and counter-keyed uniformly bounded candidates",
+      "status": "implemented"
+    },
+    "parameters": {
+      "authority": "target paper public source author dissertation and declared contract",
+      "resolution": "all published physical/model/kernel values plus versioned population generation stagnation terrain and wind completions",
+      "status": "implemented"
+    },
+    "update_order": {
+      "authority": "target SOHO description and dissertation constitutive algorithms",
+      "resolution": "single-objective NSGA-III then NSDE-R or MOEA-DD kernel with random switch to another kernel after declared stagnation; stable survivor commit",
+      "status": "implemented_and_schedule_validated"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "declared contract because target budget is absent",
+      "resolution": "population 100 and 200 generations in each of four optimization roles, totaling 80402 complete layout evaluations including two references",
+      "status": "implemented_and_formal_ready"
+    },
+    "metrics_and_repeats": {
+      "authority": "target Tables 2-4 plus platform contract",
+      "resolution": "54 roles, layouts, validation errors, AEP, power, efficiency, land, cost, COE, work counts, timings, workers and hash; 25 seeds",
+      "status": "implemented_and_runner_validated"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "SOHO is an evolutionary relay with no learned model or pretrained state",
+      "status": "not_applicable"
     }
-  }
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/reddy_t18.hpp",
+    "hpc/core99_cpp/include/core99/t18_reddy_data.hpp",
+    "hpc/core99_cpp/include/core99/t18_reddy_terrain.inc",
+    "hpc/core99_cpp/src/reddy_t18.cpp",
+    "hpc/core99_cpp/src/reddy_t18_main.cpp",
+    "hpc/core99_cpp/tests/reddy_t18_test.cpp",
+    "scripts/validate_core99_t18.py",
+    "scripts/run_core99_t18_h6_formal.py",
+    "shared/contracts/core99_t18_reddy_2020.json"
+  ],
+  "evidence_units": [
+    "evidence/development/T18_H0_H4_mathematical_hpc_analysis_20260801.md",
+    "evidence/development/T18_h5_independent_validation_20260801.json"
+  ]
 }

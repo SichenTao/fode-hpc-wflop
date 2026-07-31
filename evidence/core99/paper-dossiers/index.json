@@ -381,8 +381,8 @@
     },
     {
       "corpus_id": "T18",
-      "dossier_sha256": "25e90e3bc316a23e9858a03ce58a2738c62798899881cb460a9a362982072b06",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "71381bf21671299575bd91d7577e8bb811d424abd199fcf8facddecd91ef19c1",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

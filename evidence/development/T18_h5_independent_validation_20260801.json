@@ -1,0 +1,76 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T18",
+  "date": "2026-08-01",
+  "status": "pass",
+  "build": {
+    "compiler_mode": "Release C++20 -O3 -march=native -ffp-contract=off -Wall -Wextra -Wpedantic -Werror",
+    "targets": [
+      "core99_t18_hpc",
+      "core99_t18_test"
+    ]
+  },
+  "source_oracle": {
+    "status": "pass",
+    "boundary": "temporary toolchain port of the public source; no source edit used as target implementation",
+    "reproduced_example": "Example2",
+    "reproduced_metrics": [
+      "power",
+      "efficiency",
+      "annual energy",
+      "cost",
+      "land area"
+    ]
+  },
+  "tests": {
+    "core99_t18_cpp": "pass",
+    "core99_t18_h5": "pass",
+    "turbines": 25,
+    "validation_roles": 48,
+    "table4_roles": 6,
+    "paper_roles": 54,
+    "terrain_profiles": [
+      "paper_local_rbf",
+      "source_example_idw"
+    ],
+    "disk_sampling_profiles": [
+      "paper_area_correct",
+      "source_uniform_radius"
+    ],
+    "published_tables_2_3_source_profile": {
+      "median_absolute_velocity_difference_mps": 0.0055290945818136095,
+      "roles_within_0_10_mps": 47,
+      "role_count": 48,
+      "maximum_absolute_velocity_difference_mps": 0.21092306504254488,
+      "maximum_role": "table3_downstream_larsen_quadratic",
+      "registered_acceptance_limit_mps": 0.25
+    },
+    "one_worker_all_worker_scientific_identity": true
+  },
+  "development_h6_preview": {
+    "claim_status": "development admission evidence only; immutable Waffle H6 still required",
+    "paper_problem": "25 turbines on the 2 km by 2 km AWEC terrain",
+    "workers": [
+      1,
+      20
+    ],
+    "fixed_work": {
+      "population": 100,
+      "generations": 2,
+      "disk_quadrature_points": 64,
+      "paper_roles": 54,
+      "objective_evaluations": 1202
+    },
+    "one_worker_end_to_end_seconds": 25.677567144,
+    "twenty_worker_end_to_end_seconds": 1.986807984,
+    "end_to_end_speedup": 12.924030581105216,
+    "algorithm_wall_speedup": 13.188628017882204,
+    "validation_wall_speedup": 8.57356261871697,
+    "scientific_hash": "d3c458bcb3b65f98",
+    "same_roles_layouts_kernel_histories_work_and_hash": true
+  },
+  "full_budget_preview": {
+    "status": "not_run_locally",
+    "reason": "formal 25-seed work is reserved for the immutable Waffle snapshot"
+  }
+}

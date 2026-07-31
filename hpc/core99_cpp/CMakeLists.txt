@@ -496,6 +496,11 @@ option(
     "Build T73 integrated layout-maintenance GA/pattern-search CPU-HPC reproduction"
     OFF
 )
+option(
+    CORE99_ENABLE_T18
+    "Build T18 WindFLO SOHO and AWEC CPU-HPC reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T63 OR CORE99_ENABLE_T30 OR CORE99_ENABLE_Y16)
     include(FetchContent)
     set(CORE99_SAVED_BUILD_TESTING ${BUILD_TESTING})
@@ -1059,6 +1064,26 @@ if(CORE99_ENABLE_T73)
     add_executable(core99_t73_hpc src/song_t73_main.cpp)
     target_link_libraries(core99_t73_hpc PRIVATE core99_t73_core)
     target_compile_options(core99_t73_hpc PRIVATE
+        -Wall -Wextra -Wpedantic -Werror
+    )
+endif()
+
+if(CORE99_ENABLE_T18)
+    add_library(core99_t18_core STATIC src/reddy_t18.cpp)
+    target_include_directories(core99_t18_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t18_core PUBLIC fode_core)
+    target_compile_features(core99_t18_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t18_core PRIVATE
+        -O3 -march=native -ffp-contract=off
+        -Wall -Wextra -Wpedantic -Werror
+    )
+    add_executable(core99_t18_hpc src/reddy_t18_main.cpp)
+    target_link_libraries(core99_t18_hpc PRIVATE core99_t18_core)
+    target_compile_options(core99_t18_hpc PRIVATE
         -Wall -Wextra -Wpedantic -Werror
     )
 endif()
@@ -1706,6 +1731,23 @@ if(BUILD_TESTING)
         )
         set_tests_properties(
             core99_t73_cpp core99_t73_h5 PROPERTIES TIMEOUT 1800
+        )
+    endif()
+    if(CORE99_ENABLE_T18)
+        add_executable(core99_t18_test tests/reddy_t18_test.cpp)
+        target_link_libraries(core99_t18_test PRIVATE core99_t18_core)
+        target_compile_options(core99_t18_test PRIVATE
+            -Wall -Wextra -Wpedantic -Werror
+        )
+        add_test(NAME core99_t18_cpp COMMAND core99_t18_test)
+        add_test(
+            NAME core99_t18_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t18.py
+                --binary $<TARGET_FILE:core99_t18_hpc>
+        )
+        set_tests_properties(
+            core99_t18_cpp core99_t18_h5 PROPERTIES TIMEOUT 1800
         )
     endif()
     if(CORE99_ENABLE_T11)
