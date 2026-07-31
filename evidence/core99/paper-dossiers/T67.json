@@ -2,7 +2,7 @@
   "schema_version": 1,
   "corpus_id": "T67",
   "dossier_status": "h5_admitted",
-  "formal_status": "ready_to_queue_waffle_after_t64",
+  "formal_status": "queued_waffle_after_t64",
   "paper": {
     "authors": "Mamdouh Abdulrahman and David Wood",
     "doi": "10.1016/j.renene.2016.10.038",
@@ -122,7 +122,7 @@
     "H3": "complete_persistent_all_core_cpp_implementation",
     "H4": "complete_spark_fixed_work_profile",
     "H5": "pass_independent_equation_and_schedule_validation",
-    "H6": "pass_spark_provisional_waffle_authoritative_queued"
+    "H6": "pass_spark_provisional_queued_waffle_after_t64"
   },
   "h5_evidence": {
     "status": "pass",
@@ -162,7 +162,7 @@
     "workers_per_run": 20,
     "execution": "one all-core optimization at a time",
     "runner": "scripts/run_core99_t67_h6_formal.py",
-    "status": "ready_to_queue"
+    "status": "queued_waffle_after_t64"
   },
   "evidence": [
     "shared/contracts/core99_t67_abdulrahman_2017.json",
