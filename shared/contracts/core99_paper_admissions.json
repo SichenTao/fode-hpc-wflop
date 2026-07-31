@@ -1104,6 +1104,122 @@
         "H6": "pending"
       }
     },
+    "T60": {
+      "dossier_status": "h5_admitted",
+      "formal_status": "admission_pending",
+      "scope": {
+        "claim_boundary": "source-backed flexible academic reproduction of Algorithm 1 and every native problem and probe family; not author Fortran, random states, unavailable arrays or exact numerical replay",
+        "package_status": "paper_pair_h5_validated"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "2N continuous coordinates for fixed N=30,39,39 or 80"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "direct continuous coordinates"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper_equations_17_to_19",
+          "resolution": "maximize expected farm power, equivalent to fixed-count target CoE minimization"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_sampler_completion",
+          "resolution": "square or affine parallelogram boundary, pairwise distance >=5D, and infeasible retries outside complete-layout FES"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_equations_plus_same_lineage_curve_completion",
+          "resolution": "Jensen expansion, analytic partial overlap, RSS deficits, ideal cubic/rated curve and pinned public V80 power/CT tables"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_tables_and_figures_plus_declared_quadrature",
+          "resolution": "three ideal cases and measured/constructed Horns Weibull cases using 360 directions and 0.5m/s bins"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_figures_plus_same_lineage_public_coordinates_plus_declared_random_completion",
+          "resolution": "digitized GA or random feasible ideal starts and original public or affine-stratified random Horns starts"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_algorithm_1_plus_declared_outward_ray_completion",
+          "resolution": "one-turbine move, remembered accepted turbine/direction, strict improvement, and random-branch reset after failure or an infeasible outward ray"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "100000 complete feasible layout evaluations including initialization"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_first_declared_missing_field_completion",
+          "resolution": "uniform turbine/direction/bounded step, minimum spacing 5D and 360 Horns sectors"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning random-search optimizer"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "three ideal and three Horns cases, both initializations, direction-preprocessing matrix and Case-1 robustness sweeps"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_hpc_protocol",
+          "resolution": "840 target runs, power statistics, exact FES, move counts, stage timings, worker receipts and science hashes"
+        }
+      },
+      "paper_source_conflicts": [
+        "Target Figure-1 uses a dimensionally doubled ideal domain/rotor/grid scale relative to common predecessor representations.",
+        "Algorithm 1 omits the permanently outward remembered-ray condition.",
+        "Horns boundary enlargement and machine-readable coordinate/curve arrays are absent."
+      ],
+      "missing_information": [
+        "author Fortran source and random states",
+        "exact random-step and random-start laws",
+        "ideal Case-3 numeric array",
+        "Figure-1 coordinate arrays",
+        "Horns coordinate, boundary, curve, quadrature, roughness and robustness increments"
+      ],
+      "completion_decisions": [
+        "Use the target paper's dimensionlessly equivalent 4000m ideal scale and digitized Figure-1 grid occupancies.",
+        "Use the audited predecessor Case-3 array and pinned same-lineage public Horns/V80 assets.",
+        "Use explicit uniform random laws and deterministic feasible samplers.",
+        "Clear an infeasible remembered ray to avoid the paper's undefined infinite loop.",
+        "Preintegrate wind profiles, precision-validate partial-overlap lookup, and update moved-turbine influence in O(S*N).",
+        "Parallelize full wind directions and independent runs without nested oversubscription."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/feng_t60.hpp",
+        "hpc/core99_cpp/src/feng_t60.cpp",
+        "hpc/core99_cpp/src/feng_t60_main.cpp",
+        "hpc/core99_cpp/tests/feng_t60_test.cpp",
+        "scripts/validate_core99_t60.py",
+        "scripts/run_core99_t60_h6_formal.py",
+        "shared/contracts/core99_t60_feng_shen_2015.json"
+      ],
+      "evidence_receipts": [
+        "evidence/development/T60_h5_independent_equation_validation_20260731.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pending"
+      }
+    },
     "T48": {
       "dossier_status": "formal_complete",
       "formal_status": "complete_single_deterministic_paper_demonstration",

@@ -1,0 +1,174 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T60",
+  "paper": {
+    "title": "Solving the Wind Farm Layout Optimization Problem Using Random Search Algorithm",
+    "authors": "Ju Feng and Wen Zhong Shen",
+    "doi": "10.1016/j.renene.2015.01.005",
+    "year": 2015,
+    "venue": "Renewable Energy",
+    "pdf_sha256": "42f1d54cefc8edd6cf8ef32b93b1a64c2c3016f66e7ea9f8e5a61039f8a99a13",
+    "consumed_text_sha256": "5892d00c9a70ad915d9cbbb77c32560dc8c7c660e34a1233ac1a09ca9db700cf"
+  },
+  "target_contributions": [
+    "Algorithm-1 improved continuous random search that reuses the turbine and direction of an accepted move",
+    "one-moved-turbine wake-influence tensor update instead of complete tensor reconstruction",
+    "three ideal and three Horns Rev fixed-count layout-optimization problems",
+    "12-versus-72-versus-360 directional preprocessing and Case-1 robustness analysis"
+  ],
+  "non_target_baselines": [
+    "published GA and old-RS results are external comparison anchors and are not T60 target methods"
+  ],
+  "source_assets": {
+    "author_source": "no paper-linked author source located; paper reports private Fortran 95",
+    "author_numeric_archive": "none located",
+    "same_lineage_public_source": {
+      "url": "https://gitlab.windenergy.dtu.dk/TOPFARM/PyWake.git",
+      "revision": "5b07481ec9b3633a74844651648f266ba82a8b32",
+      "license": "MIT",
+      "consumed_file": "py_wake/examples/data/hornsrev1.py",
+      "consumed_file_sha256": "d400c6fd2f4a930e6fccb04b2f77b88aec3ad8bc00b4fc441daba00613f0df3d",
+      "used_fields": [
+        "80 Horns Rev 1 UTM coordinates",
+        "Vestas V80 2 MW power and thrust-coefficient tables"
+      ],
+      "authority": "same-lineage public completion and independent cross-check; not target-author source"
+    },
+    "predecessor_wind_contract": "shared/contracts/core99_mosetti_grady_cases.json"
+  },
+  "paper_native_cases": {
+    "ideal": {
+      "problem_ids": [
+        "t60_ideal_case1",
+        "t60_ideal_case2",
+        "t60_ideal_case3"
+      ],
+      "turbine_counts": [30, 39, 39],
+      "wind": [
+        "north 12 m/s",
+        "36 equal directions at 12 m/s",
+        "36 directions by 8, 12 and 17 m/s Figure-derived joint weights"
+      ],
+      "initializations": [
+        "Figure-1 digitized GA layout",
+        "random feasible continuous layout"
+      ],
+      "physical_fes_per_run": 100000,
+      "independent_runs_per_case_and_initialization": 100,
+      "target_run_count": 600
+    },
+    "horns_rev": {
+      "problem_ids": [
+        "t60_horns_case1",
+        "t60_horns_case2",
+        "t60_horns_case3"
+      ],
+      "turbine_count": 80,
+      "case_definitions": [
+        "measured Table-3 wind and original parallelogram",
+        "constructed 300-degree-dominant Table-3 wind and original parallelogram",
+        "measured Table-3 wind and boundary enlarged by 7D in both affine dimensions"
+      ],
+      "initializations": [
+        "public original Horns Rev layout",
+        "deterministic feasible stratified random layout"
+      ],
+      "optimization_direction_sectors": 360,
+      "physical_fes_per_run": 100000,
+      "independent_runs_per_case_and_initialization": 40,
+      "target_run_count": 240
+    },
+    "total_target_method_runs": 840,
+    "preprocessing_probe_direction_sectors": [12, 72, 360],
+    "robustness_probe": {
+      "problem": "t60_horns_case1",
+      "direction_rotation_degrees": [-20, -10, 0, 10, 20],
+      "weibull_scale_multipliers": [0.8, 0.9, 1.0, 1.1, 1.2],
+      "weibull_shape_multipliers": [0.8, 0.9, 1.0, 1.1, 1.2]
+    }
+  },
+  "problem_contract": {
+    "decision_variables": "continuous x,y coordinates for a fixed number of identical turbines",
+    "objective": "maximize expected total wind-farm power; fixed turbine count makes this identical to minimizing the paper CoE",
+    "wake": "target Eqs. (4)-(9), Jensen/PARK expansion, analytic partial rotor overlap and RSS deficit superposition",
+    "constraints": "polygon/parallelogram boundary and pairwise distance >=5D",
+    "ideal": {
+      "domain_m": [4000, 4000],
+      "rotor_diameter_m": 80,
+      "hub_height_m": 60,
+      "surface_roughness_m": 0.3,
+      "minimum_spacing_m": 400,
+      "constant_ct": 0.88,
+      "power_kw": "min(0.3*u^3,630)"
+    },
+    "horns_rev": {
+      "rotor_diameter_m": 80,
+      "hub_height_m": 70,
+      "reference_height_m": 62,
+      "surface_roughness_completion_m": 0.0002,
+      "minimum_spacing_m": 400,
+      "original_boundary": "affine hull u in [0,9], v in [0,7] of the public 10-by-8 7D layout",
+      "enlarged_boundary": "u in [-0.5,9.5], v in [-0.5,7.5]",
+      "wind_speed_quadrature": "0.5 m/s midpoint bins over [0,30] with normalized Weibull mass",
+      "power_and_ct": "linear interpolation of pinned public V80 tables"
+    }
+  },
+  "optimizer_contract": {
+    "initial_evaluation_counts_as_physical_fes": true,
+    "when_previous_move_failed": "choose a turbine uniformly, a direction uniformly on [0,2pi), and a step uniformly on [0,long edge]",
+    "when_previous_move_improved": "reuse the accepted turbine and direction and draw a new uniform step",
+    "infeasible_move": "repeat Random Move without consuming a complete-layout physical FES; clear remembered-ray mode because the paper leaves permanently outward rays undefined",
+    "replacement": "strict expected-power improvement",
+    "randomness": "counter-keyed draws preserve schedule-independent replay",
+    "missing_sampler_completion": "ideal uses continuous rejection placement; Horns uses bounded affine stratified jitter"
+  },
+  "conflicts_and_resolutions": [
+    {
+      "field": "ideal geometric scale",
+      "paper_fact": "target Figure 1 visibly uses a 4000 m square and 400 m lattice, while the cited benchmark is frequently represented as 2000 m and 200 m",
+      "resolution": "use the target paper's 80 m rotor and 4000 m dimensionally equivalent scaling"
+    },
+    {
+      "field": "ideal Case-3 array",
+      "paper_fact": "the paper says the data were extracted from a predecessor figure but supplies no array",
+      "resolution": "use the platform-audited Mosetti/Grady Figure-derived 36-by-3 joint weights"
+    },
+    {
+      "field": "Horns machine-readable inputs",
+      "paper_fact": "Figure 2 and Table 3 do not provide coordinate or turbine arrays",
+      "resolution": "use pinned same-lineage public PyWake coordinates and V80 tables; retain Table-3 wind values from the target paper"
+    },
+    {
+      "field": "random step and random feasible start",
+      "paper_fact": "only random direction, random bounded step and random feasible layout are stated",
+      "resolution": "use uniform laws and deterministic declared feasible samplers"
+    },
+    {
+      "field": "infeasible remembered ray",
+      "paper_fact": "Algorithm 1 says to repeat Random Move but an accepted boundary move can leave the remembered positive ray with no feasible step",
+      "resolution": "clear the improve flag after an infeasible proposal and return to the random branch, matching the platform reconstruction of the cited predecessor"
+    },
+    {
+      "field": "Horns boundary enlargement",
+      "paper_fact": "the boundary is enlarged by 7D in two main parallelogram directions without numeric vertices",
+      "resolution": "add one 7D interval to each affine dimension, split equally between both sides"
+    }
+  ],
+  "hpc_contract": {
+    "backend": "pure_cpp20_cpu",
+    "H0": "derive the pairwise geometric influence, expected-power integration, feasibility and Algorithm-1 data dependencies",
+    "H1": "structure-of-arrays direction profiles and fixed affine geometry",
+    "H2": "preintegrate each wind-speed profile into a dense squared-influence-to-power lookup and approximate analytic overlap through a precision-validated table",
+    "H3": "update the moved turbine's source column and target row in O(S*N), instead of O(S*N*N), and check moved-turbine feasibility in O(N)",
+    "H4": "parallelize fixed-layout wind directions and schedule independent trajectories over one persistent worker team",
+    "H5": "independent equations, exact versus lookup precision, incremental versus full equality, complete case matrix and exact physical-FES tests",
+    "H6": "one-worker versus all-core science identity, evaluator/full-recompute speedup and full-core campaign speedup",
+    "formal_resource_policy": "use all 20 Waffle CPU cores without nested oversubscription"
+  },
+  "problem_semantic_ids": [
+    "t60_ideal_continuous_jensen_v1",
+    "t60_hornsrev_jensen_v80_v1"
+  ],
+  "method_semantic_id": "t60_improved_rs_incremental_v1",
+  "claim_boundary": "source-backed flexible academic reproduction of every target problem, target algorithm, lifecycle, repeat matrix, preprocessing probe and robustness family; not author source, native random state, unavailable arrays or exact-number replay"
+}

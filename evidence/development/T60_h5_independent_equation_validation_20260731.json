@@ -1,0 +1,38 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T60",
+  "status": "pass",
+  "tests": [
+    "core99_t60_cpp",
+    "core99_t60_h5"
+  ],
+  "paper_cases_checked": 6,
+  "independent_oracle": "scripts/validate_core99_t60.py",
+  "candidate": "pure C++20 CPU-HPC implementation",
+  "independent_equation_comparisons": {
+    "ideal_case1": {
+      "independent_exact_kw": 14793.997584397439,
+      "cpp_lookup_kw": 14793.997566453136,
+      "absolute_error_kw": 1.794430318113882e-05,
+      "relative_error": 1.2129448500156487e-09
+    },
+    "horns_case1_12_sectors": {
+      "independent_exact_kw": 79206.65811036086,
+      "cpp_lookup_kw": 79206.62914958372,
+      "absolute_error_kw": 0.028960777141037397,
+      "relative_error": 3.656356401337566e-07
+    }
+  },
+  "checked_quantities": [
+    "analytic partial circle overlap against the precision lookup",
+    "Jensen geometric wake influence and RSS deficit",
+    "ideal cubic/rated turbine power",
+    "Horns Weibull quadrature and public V80 interpolation",
+    "all six native problem and initial-layout identities",
+    "one-worker versus multi-worker science identity",
+    "moved-turbine incremental versus full-layout equality",
+    "12, 72 and 360 direction preprocessing interfaces",
+    "exact physical-FES counting and boundary feasibility"
+  ],
+  "claim_boundary": "independent equation and declared-completion validation; not author Fortran, random state, unavailable native arrays or exact numerical replay"
+}

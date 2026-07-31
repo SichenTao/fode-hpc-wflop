@@ -1,26 +1,12 @@
 {
+  "schema_version": 1,
+  "corpus_id": "T60",
   "authority_ladder": [
     "paper_and_supplement",
     "paper_linked_public_source_and_data",
     "cited_predecessor",
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
-  ],
-  "completion_decisions": [],
-  "corpus_id": "T60",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
-  "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
-  },
-  "missing_information": [
-    "full field-level audit not yet completed"
   ],
   "paper": {
     "authors": "Ju Feng and Wen Zhong Shen",
@@ -36,8 +22,6 @@
     "venue": "Renewable Energy",
     "year": 2015
   },
-  "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 19,
@@ -48,79 +32,140 @@
     "embedded_annotation_urls": [],
     "status": "no_paper_linked_public_asset_candidate_detected"
   },
-  "schema_version": 1,
-  "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
-    "execution_wave": "REV3",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
-    "target_contribution_type": "optimization_search_or_learning_method"
-  },
+  "paper_linked_public_asset_candidates": [],
+  "same_lineage_public_assets": [
+    {
+      "url": "https://gitlab.windenergy.dtu.dk/TOPFARM/PyWake.git",
+      "revision": "5b07481ec9b3633a74844651648f266ba82a8b32",
+      "consumed_file": "py_wake/examples/data/hornsrev1.py",
+      "consumed_file_sha256": "d400c6fd2f4a930e6fccb04b2f77b88aec3ad8bc00b4fc441daba00613f0df3d",
+      "license": "MIT",
+      "role": "same-lineage Horns Rev 1 coordinate and V80 curve completion"
+    }
+  ],
+  "paper_source_conflicts": [
+    "The target Figure-1 ideal domain is visibly 4000 m with an 80 m rotor and 400 m grid, whereas the cited Mosetti/Grady benchmark is frequently represented by the dimensionally equivalent 2000 m, 40 m and 200 m scaling.",
+    "Algorithm 1 does not define how to exit a remembered successful ray if every positive step subsequently leaves the feasible polygon.",
+    "The Horns boundary enlargement is stated as 7D in both main parallelogram directions without numeric vertices.",
+    "The target supplies Figure-1 GA layouts but no machine-readable coordinates; exact red-circle grid occupancies must be digitized.",
+    "The target supplies no Horns coordinate, V80 power/CT or speed-quadrature arrays."
+  ],
+  "missing_information": [
+    "author Fortran 95 source and random states",
+    "exact random-step distribution",
+    "random-feasible initialization procedure",
+    "numeric ideal Case-3 direction-speed array",
+    "machine-readable Figure-1 GA layouts",
+    "Horns coordinate, boundary and V80 arrays",
+    "wind-speed quadrature and offshore roughness",
+    "robustness-sweep increment"
+  ],
+  "completion_decisions": [
+    "Use the target paper's dimensionless 4000 m, 80 m and 400 m ideal scaling.",
+    "Digitize the Figure-1 red GA locations exactly on its 10 by 10 grid for the 30, 39 and 39 turbine starts.",
+    "Use the platform-audited Mosetti/Grady 36 by 3 Case-3 Figure reconstruction.",
+    "Use pinned same-lineage public PyWake Horns coordinates and V80 tables while retaining target Table-3 Weibull data.",
+    "Use uniform turbine, direction and bounded-step draws; clear the remembered ray after an infeasible proposal to avoid the paper's undefined outward-ray trap.",
+    "Use continuous rejection starts for ideal cases and bounded affine stratified jitter for dense Horns random starts.",
+    "Use 0.5 m/s normalized Weibull bins over 0 to 30 m/s and offshore z0=0.0002 m.",
+    "Use five symmetric robustness values at -20, -10, 0, 10 and 20 percent or degrees.",
+    "Implement the paper's one-moved-turbine wake update and moved-turbine constraint check, not a repeated full layout calculation."
+  ],
   "semantic_contract": {
-    "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "paper",
+      "resolution": "2N continuous x,y coordinates for fixed N=30,39,39 or 80"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "paper",
+      "resolution": "direct continuous coordinates; no grid decoder during search"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "paper_equations_17_to_19",
+      "resolution": "maximize expected farm power; fixed turbine count makes this identical to minimizing target CoE"
     },
-    "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+    "constraints_and_repair": {
+      "status": "frozen",
+      "authority": "paper_equations_14_to_16_plus_declared_sampler_completion",
+      "resolution": "square or affine parallelogram boundary and pairwise distance >=5D; infeasible trials consume no complete-layout FES"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "paper_equations_1_to_13_plus_same_lineage_curve_completion",
+      "resolution": "Jensen expansion, analytic partial rotor overlap, RSS deficits, ideal cubic/rated power and pinned V80 power/CT curves"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "status": "frozen",
+      "authority": "paper_tables_and_figures_plus_declared_quadrature",
+      "resolution": "three ideal cases; target Table-3 measured and constructed Horns Weibull cases; 360 optimization directions; 0.5 m/s bins"
+    },
+    "initialization": {
+      "status": "frozen",
+      "authority": "paper_figures_plus_same_lineage_coordinates_plus_declared_random_completion",
+      "resolution": "digitized Figure-1 GA starts or random feasible ideal starts; original public Horns layout or feasible affine-stratified starts"
+    },
+    "update_order": {
+      "status": "frozen",
+      "authority": "paper_algorithm_1_plus_declared_outward_ray_completion",
+      "resolution": "one turbine moves; accepted moves retain turbine and direction; failed objective or infeasible outward ray returns to the random branch; strict improvement commits"
+    },
+    "stopping_and_physical_fes": {
+      "status": "frozen",
+      "authority": "paper",
+      "resolution": "100000 complete feasible layout evaluations including the initial evaluation; infeasible retries are not FES"
+    },
+    "parameters": {
+      "status": "frozen",
+      "authority": "paper_first_declared_missing_field_completion",
+      "resolution": "uniform turbine, direction and step; step bounded by long farm edge; minimum spacing 5D; 360 Horns sectors"
+    },
+    "training_and_inference_lifecycle": {
+      "status": "not_applicable",
+      "authority": "paper",
+      "resolution": "non-learning random-search optimizer"
+    },
+    "paper_native_cases": {
+      "status": "frozen",
+      "authority": "paper",
+      "resolution": "three ideal and three Horns optimization cases, two initializations each, plus direction preprocessing and Case-1 robustness probes"
+    },
+    "metrics_and_repeats": {
+      "status": "frozen",
+      "authority": "paper_plus_platform_hpc_protocol",
+      "resolution": "100 ideal or 40 Horns runs per case and start, power/efficiency/best/mean/std, exact FES, accepted and infeasible moves, stage timings, worker receipts and science hashes"
     }
-  }
+  },
+  "scope": {
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "optimization_search_or_learning_method",
+    "execution_wave": "REV3",
+    "package_status": "paper_pair_h5_validated",
+    "claim_boundary": "source-backed flexible academic reproduction of Algorithm 1 and every native problem/probe family; not author Fortran, random states, unavailable arrays or exact numerical replay"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/feng_t60.hpp",
+    "hpc/core99_cpp/src/feng_t60.cpp",
+    "hpc/core99_cpp/src/feng_t60_main.cpp",
+    "hpc/core99_cpp/tests/feng_t60_test.cpp",
+    "scripts/validate_core99_t60.py",
+    "scripts/run_core99_t60_h6_formal.py",
+    "shared/contracts/core99_t60_feng_shen_2015.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/T60_h5_independent_equation_validation_20260731.json"
+  ],
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pending"
+  },
+  "dossier_status": "h5_admitted",
+  "formal_status": "admission_pending"
 }

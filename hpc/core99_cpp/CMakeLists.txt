@@ -502,6 +502,11 @@ option(
     "Build T72 CHCP-NSGA-II energy-noise WFLOP reconstruction"
     OFF
 )
+option(
+    CORE99_ENABLE_T60
+    "Build T60 improved random-search incremental WFLOP reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21)
     include(FetchContent)
 
@@ -598,6 +603,24 @@ if(CORE99_ENABLE_T72)
     )
     add_executable(core99_t72_hpc src/sorkhabi_t72_main.cpp)
     target_link_libraries(core99_t72_hpc PRIVATE core99_t72_core)
+endif()
+
+if(CORE99_ENABLE_T60)
+    add_library(core99_t60_core STATIC src/feng_t60.cpp)
+    target_include_directories(core99_t60_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t60_core PUBLIC fode_core)
+    target_compile_features(core99_t60_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t60_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t60_hpc src/feng_t60_main.cpp)
+    target_link_libraries(core99_t60_hpc PRIVATE core99_t60_core)
 endif()
 
 if(BUILD_TESTING)
@@ -900,6 +923,18 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t72_hpc>
         )
         set_tests_properties(core99_t72_h5 PROPERTIES TIMEOUT 300)
+    endif()
+    if(CORE99_ENABLE_T60)
+        add_executable(core99_t60_test tests/feng_t60_test.cpp)
+        target_link_libraries(core99_t60_test PRIVATE core99_t60_core)
+        add_test(NAME core99_t60_cpp COMMAND core99_t60_test)
+        add_test(
+            NAME core99_t60_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t60.py
+                --binary $<TARGET_FILE:core99_t60_hpc>
+        )
+        set_tests_properties(core99_t60_h5 PROPERTIES TIMEOUT 300)
     endif()
     add_executable(core99_t77_test tests/long_t77_test.cpp)
     target_link_libraries(core99_t77_test PRIVATE core99_t77_core)

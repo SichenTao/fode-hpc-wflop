@@ -225,8 +225,8 @@
     },
     {
       "corpus_id": "T60",
-      "dossier_sha256": "0d23a1aa86d9b899c308a1f27b3b2567cf593a7af5c0325cf97fdd601efbf8f8",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "9c7f073a0376a62b4c8721548bb6160b53942d6ea09502444897ad78148ec5e9",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
