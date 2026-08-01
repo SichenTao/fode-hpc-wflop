@@ -516,6 +516,11 @@ option(
     "Build T08 exact-gradient interior-point CPU-HPC reproduction"
     OFF
 )
+option(
+    CORE99_ENABLE_T10
+    "Build T10 multi-objective discrete MOGOMEA/NSGA-II CPU-HPC reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T19)
     include(FetchContent)
     FetchContent_Declare(
@@ -1197,6 +1202,26 @@ if(CORE99_ENABLE_T08)
     add_executable(core99_t08_hpc src/guirguis_t08_main.cpp)
     target_link_libraries(core99_t08_hpc PRIVATE core99_t08_core)
     target_compile_options(core99_t08_hpc PRIVATE
+        -Wall -Wextra -Wpedantic -Werror
+    )
+endif()
+
+if(CORE99_ENABLE_T10)
+    add_library(core99_t10_core STATIC src/rodrigues_t10.cpp)
+    target_include_directories(core99_t10_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t10_core PUBLIC fode_core)
+    target_compile_features(core99_t10_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t10_core PRIVATE
+        -O3 -march=native -ffp-contract=off
+        -Wall -Wextra -Wpedantic -Werror
+    )
+    add_executable(core99_t10_hpc src/rodrigues_t10_main.cpp)
+    target_link_libraries(core99_t10_hpc PRIVATE core99_t10_core)
+    target_compile_options(core99_t10_hpc PRIVATE
         -Wall -Wextra -Wpedantic -Werror
     )
 endif()
@@ -1912,6 +1937,23 @@ if(BUILD_TESTING)
         )
         set_tests_properties(
             core99_t08_cpp core99_t08_h5 PROPERTIES TIMEOUT 1800
+        )
+    endif()
+    if(CORE99_ENABLE_T10)
+        add_executable(core99_t10_test tests/rodrigues_t10_test.cpp)
+        target_link_libraries(core99_t10_test PRIVATE core99_t10_core)
+        target_compile_options(core99_t10_test PRIVATE
+            -Wall -Wextra -Wpedantic -Werror
+        )
+        add_test(NAME core99_t10_cpp COMMAND core99_t10_test)
+        add_test(
+            NAME core99_t10_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t10.py
+                --binary $<TARGET_FILE:core99_t10_hpc>
+        )
+        set_tests_properties(
+            core99_t10_cpp core99_t10_h5 PROPERTIES TIMEOUT 1800
         )
     endif()
     if(CORE99_ENABLE_T11)

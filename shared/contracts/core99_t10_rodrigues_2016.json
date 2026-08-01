@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T10",
+  "paper": {
+    "title": "Multi-Objective Optimization of Wind Farm Layouts—Complexity, Constraint Handling and Scalability",
+    "doi": "10.1016/j.rser.2016.07.021",
+    "pdf_sha256": "7a3144fb6fc2c584efa04859cea4906b1e05e23ee326af10c4db1b5aebead08d",
+    "pdf_text_sha256": "c52d500485989f8af4010280a560a732126f3ddedc7c1289c30b37a906af86bb",
+    "pages": 23
+  },
+  "public_source_audit": {
+    "status": "open_paper_found_no_paper_linked_author_code_or_numeric_archive",
+    "public_paper_urls": [
+      "https://www.sciencedirect.com/science/article/pii/S1364032116303458",
+      "https://ir.cwi.nl/pub/25089/Rodrigues_Renewable_and_Sustainable_Energy_Reviews_2016.pdf"
+    ],
+    "checked": [
+      "paper body, acknowledgements, references and PDF annotations",
+      "exact-title and DOI search",
+      "author and CWI/TU Delft search",
+      "GitHub exact MOGOMEA and o-MOGOMEA searches",
+      "local WFLOP source corpus"
+    ],
+    "resolution": "clean-room paper-equation reconstruction with every completion declared"
+  },
+  "paper_native_problem": {
+    "encoding": "binary occupancy of square candidate grids",
+    "farm_areas": {
+      "A": {"area_km2": 15.49, "maximum_packing": 16, "variables_8_4_2D": [16, 49, 169]},
+      "B": {"area_km2": 61.97, "maximum_packing": 49, "variables_8_4_2D": [49, 169, 625]},
+      "C": {"area_km2": 139.43, "maximum_packing": 100, "variables_8_4_2D": [100, 361, 1369]},
+      "D": {"area_km2": 247.89, "maximum_packing": 169, "variables_8_4_2D": [169, 625, 2401]}
+    },
+    "turbine": "Vestas V164-8 MW, diameter 164 m, hub height 107 m, Table-3 power and thrust values with linear interpolation",
+    "wind": "Table-4 twelve direction-specific mean speeds and annual frequencies",
+    "wake": "Katic-Jensen with offshore roughness 0.0005 m, thrust-dependent deficit, partial rotor overlap and root-sum-square combination",
+    "objectives": "maximize normalized expected wind-farm energy and installed-turbine efficiency",
+    "spacing": "minimum 8 rotor diameters"
+  },
+  "paper_native_methods": [
+    "MOGOMEA with five objective-space clusters, online mutual-information linkage trees, GOM, FI, two single-objective extreme clusters, archive and population growth",
+    "o-MOGOMEA with the same framework and one geographic-distance offline linkage tree",
+    "NSGA-II with two-point crossover 0.9, bit-flip probability 1/l, archive and evaluation-equivalent population growth",
+    "c-NSGA-II with the same NSGA-II and within-objective-cluster mating"
+  ],
+  "constraint_handlers": [
+    "8D no-constraint construction",
+    "constraint domination without evaluating infeasible offspring",
+    "one-ideal-turbine energy penalty per violating pair",
+    "randomly remove one turbine per conflict until feasible",
+    "up to 100 resampling attempts followed by parent/subset fallback"
+  ],
+  "missing_information": [
+    "author Python source and random states",
+    "wind direction convention",
+    "exact mutual-information normalization, UPGMA tie rules and cluster ties",
+    "archive capacity and duplicate handling",
+    "numeric base NIS and hypervolume history implementation",
+    "multi-resolution CHT used for Figure 17",
+    "machine-readable Pareto fronts, layouts, convergence arrays and timings"
+  ],
+  "conflicts_and_completions": [
+    "Interpret Table-4 directions as meteorological wind-from and convert to flow-to.",
+    "Use binary mutual information in nats normalized by ln(2), average-link UPGMA and stable variable-index ties online; use Euclidean site distance under identical UPGMA rules offline.",
+    "Infer tau=0.5 exactly from c=(2/k)floor(tau*n), k=5, n=20 and stated initial cluster size c=4.",
+    "Use an unbounded archive modulo identical layouts/objectives because the paper only says it was large enough for every nondominated layout.",
+    "Use the explicit FI threshold 1+floor(log10(n)) as the missing NIS window and 2*NIS as the fixed-resolution stop.",
+    "At multi-resolution stages keep the 8D mutation probability, map old sites exactly and initialize new variables to zero.",
+    "Use paper-observed best CHTs for Figure-17 roles: repair for MOGOMEA, resample for o-MOGOMEA and constraint domination for both NSGA-II variants.",
+    "Preserve all four CHT labels at 8D because Figs. 13-15 report that full matrix even though no conflicts can occur."
+  ],
+  "method_semantic_ids": [
+    "t10_mogomea_online_mi_v1",
+    "t10_omogomea_offline_geographic_v1",
+    "t10_nsgaii_archive_growth_v1",
+    "t10_clustered_nsgaii_archive_growth_v1"
+  ],
+  "problem_semantic_id": "t10_mowflop_katic_binary_grid_v1",
+  "protocol_semantic_id": "t10_196_role_1960_receipt_v1",
+  "paper_protocol": {
+    "fixed_resolution_roles": 192,
+    "fixed_role_derivation": "four algorithms times four farms times three grid steps times four active CHT labels",
+    "multi_resolution_roles": 4,
+    "multi_resolution_case": "wind farm B, 8D to 4D to 2D",
+    "independent_repeats_per_role": 10,
+    "formal_optimization_receipts": 1960,
+    "physical_fes_per_run": 1000000,
+    "physical_fes_interpretation": "one complete layout objective evaluation yields both objectives and counts once even though the paper says per objective",
+    "target_only_boundary": "the four algorithms studied and modified in Sections 3.3-3.6 are targets; algorithms only cited in Table 1 are excluded"
+  },
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC",
+    "precomputation": "coordinates, conflict pairs, wind rotations, ideal powers, power/thrust arrays and offline linkage are immutable",
+    "evaluator": "one complete layout is serial inside a population task; layouts are fixed-index parallel, while isolated-layout validation is parallel over twelve wind states",
+    "algorithm": "offspring construction, individual GOM trajectories, dominance rows and five online linkage trees are parallel over a persistent all-core team",
+    "sequential_boundaries": "one GOM trajectory, archive commit order, population growth, resolution transfer and hypervolume history",
+    "required_invariant": "one-worker and all-worker objective, physical FES, final archive and scientific hash identity"
+  },
+  "claim_boundary": "Flexible equation-level academic reproduction of all twelve fixed-resolution problems, four target algorithms, four active CHTs and multi-resolution roles; not author Python, exact absent implementation choices, random stream, numerical fronts, convergence trajectories or hardware timing replay."
+}
