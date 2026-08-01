@@ -625,6 +625,11 @@ option(
     OFF
 )
 option(
+    CORE99_ENABLE_T84
+    "Build T84 four-case WEC with open SQP and ALPSO reconstruction"
+    OFF
+)
+option(
     CORE99_ENABLE_T07
     "Build T07 explicit SCP with pinned NLopt convex-QP replacement"
     OFF
@@ -719,7 +724,7 @@ option(
     "Build T24 Markov-intermittency NSGA-III CPU-HPC reproduction"
     OFF
 )
-if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21
+if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T84 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21
    OR CORE99_ENABLE_T81 OR CORE99_ENABLE_T25)
     include(FetchContent)
 
@@ -741,6 +746,24 @@ if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21
 
     FetchContent_MakeAvailable(nlopt)
 
+endif()
+
+if(CORE99_ENABLE_T84)
+    add_library(core99_t84_core STATIC src/thomas_t84.cpp)
+    target_include_directories(core99_t84_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t84_core PUBLIC fode_core nlopt)
+    target_compile_features(core99_t84_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t84_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t84_hpc src/thomas_t84_main.cpp)
+    target_link_libraries(core99_t84_hpc PRIVATE core99_t84_core)
 endif()
 
 if(CORE99_ENABLE_T16)
@@ -1576,6 +1599,23 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t63_hpc>
                 --proxy
                     ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t63_figure_proxy.bin
+        )
+    endif()
+    if(CORE99_ENABLE_T84)
+        add_executable(core99_t84_test tests/thomas_t84_test.cpp)
+        target_link_libraries(core99_t84_test PRIVATE core99_t84_core)
+        add_test(
+            NAME core99_t84_cpp
+            COMMAND core99_t84_test
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t84_public_data.bin
+        )
+        add_test(
+            NAME core99_t84_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t84.py
+                --binary $<TARGET_FILE:core99_t84_hpc>
+                --data
+                    ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t84_public_data.bin
         )
     endif()
     if(CORE99_ENABLE_T16)

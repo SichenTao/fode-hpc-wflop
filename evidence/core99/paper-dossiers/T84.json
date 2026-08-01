@@ -6,21 +6,32 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Retain all four paper problems, both wake-model families, WEC-D stages, final local-TI treatment, and all 200 common public starts.",
+    "Encode the factual public arrays in a provenance-pinned binary fixture because the paper-linked repository has no license file.",
+    "Resolve Case-1 speed and ALPSO population conflicts paper-first as 10 m/s and 30 particles; retain model-lineage-specific shear behavior.",
+    "Use fixed-width forward AD and analytic constraint Jacobians with pinned NLopt SLSQP as an open replacement for SNOPT.",
+    "Independently reconstruct augmented-Lagrangian PSO with the paper inner/outer schedules and exact complete-layout call budgets.",
+    "Parallelize wind states for SLSQP and complete particles for ALPSO with one persistent pure-C++ worker team and fixed-order reductions.",
+    "Execute the 16 final Tables 5-9 roles for all 200 starts; retain WEC-A/WEC-H tuning and prior-literature comparisons as diagnostics."
+  ],
   "corpus_id": "T84",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_waffle_after_t10",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "complete_paper_three_source_license_and_conflict_audit",
+    "H1": "complete_four_problem_two_wake_two_optimizer_work_decomposition",
+    "H2": "complete_complexity_fes_gradient_population_and_parallel_axis_analysis",
+    "H3": "complete_persistent_cpp_evaluator_ad_slsqp_and_alpso_implementation",
+    "H4": "complete_spark_full_budget_one_twenty_worker_profile",
+    "H5": "pass_equation_gradient_source_oracle_role_schedule_and_determinism_validation",
+    "H6": "pass_spark_provisional_waffle_authoritative_runner_ready"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "SNOPT author state and license",
+    "Tapenade and pyOptSparse ALPSO environment revisions",
+    "exact random states and complete dependency environment",
+    "machine-readable optimized layouts and complete convergence histories"
   ],
   "paper": {
     "authors": "Jared J. Thomas and Spencer McOmber and Andrew Ning",
@@ -37,9 +48,16 @@
     "year": 2022
   },
   "paper_linked_public_asset_candidates": [
-    "https://github.com/byuflowlab/thomas2021-wec"
+    "https://github.com/byuflowlab/thomas2021-wec",
+    "https://github.com/byuflowlab/PlantEnergy",
+    "https://github.com/byuflowlab/jensen3d"
   ],
-  "paper_source_conflicts": [],
+  "paper_source_conflicts": [
+    "Case 1 is 10 m/s in paper Section 5.1 but 8 m/s in the public input/final source run; paper-first 10 m/s is implemented and the source Case-1 result is excluded as a numeric oracle.",
+    "Older public ALPSO drivers use population 25 while Table 3 and final drivers use 30; paper/final-driver value 30 is implemented.",
+    "Jensen3D consumes tabulated speed directly while PlantEnergy Bastankhah applies 80-to-70 m shear; model-specific source semantics are retained.",
+    "Public starts use the paper-described 1D separation while final layouts require 2D spacing; both lifecycle rules are retained."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 22,
@@ -50,81 +68,81 @@
     "embedded_annotation_urls": [
       "https://github.com/byuflowlab/thomas2021-wec"
     ],
-    "status": "candidate_only_requires_revision_license_semantic_audit"
+    "status": "three_public_source_revisions_and_license_observations_pinned"
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "source-backed flexible academic reproduction of WEC-D, all four target problems, final 16 algorithm-problem roles, and 200-start protocol; not author solver, environment, random stream, or trajectory replay",
     "execution_wave": "REV5",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
+    "package_status": "h5_admitted_h6_and_3200_run_formal_queued",
+    "scope_status": "paper_paired_hpc_implemented",
     "target_contribution_type": "scaling_computation_or_reproducible_execution"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_and_public_source",
+      "resolution": "final layouts enforce 160 m 2D spacing and square, circle, or 14-facet polygon boundaries; feasible incumbents are retained",
+      "status": "implemented_and_validated"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "continuous x/y coordinates for 16, 38, 38, or 60 Vestas V80 turbines",
+      "status": "implemented"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "direct double-precision coordinate vectors; no discrete decoder",
+      "status": "implemented"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_linked_public_source",
+      "resolution": "all 200 public square, round, and Amalia starting coordinate arrays are preserved; their paper-described 1D separation is not rewritten",
+      "status": "implemented_and_fixture_hashed"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "16 final Tables 5-9 roles times 200 common starts; AEP, wake loss, feasibility, call ledger, timings, worker receipt, hashes, and layouts",
+      "status": "implemented_runner_ready"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "maximize probability-weighted annual energy production through minimization of its negative in SLSQP or penalized negative in ALPSO",
+      "status": "implemented"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_and_public_numeric_source",
+      "resolution": "all four 16/20, 38/12, 38/36, and 60/72 turbine/wind-state cases and the reported Case-2 Jensen variant are registered",
+      "status": "implemented"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_final_source_and_declared_open_replacement",
+      "resolution": "WEC-D 3.0 to 1.0 schedule, ALPSO population 30 and paper call schedules, paper tolerances, and 220 SLSQP safety-cap evaluations per stage",
+      "status": "implemented"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_and_declared_replacement",
+      "resolution": "ALPSO executes exact paper complete-layout call budgets; SLSQP stops by declared open-solver tolerance or 220-stage safety cap and records actual objective calls",
+      "status": "implemented_and_audited"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not_applicable",
+      "resolution": "T84 has no trained model",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_deterministic_hpc_completion",
+      "resolution": "continuation, solver, PSO, multiplier, and best-state commits remain ordered; wind-state and particle outputs use fixed slots",
+      "status": "implemented_and_schedule_validated"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_pinned_plantenergy_and_jensen3d_lineages",
+      "resolution": "independent pure-C++ Bastankhah-Niayifar/local-TI and Jensen-cosine/Katic evaluators with tabulated V80 power/CT and model-specific speed-height semantics",
+      "status": "implemented_and_source_oracle_validated"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_and_public_numeric_source",
+      "resolution": "20, 12, 36, and 72 fixed published/source wind states; Case 1 uses paper-first 10 m/s and Cases 2/3 preserve mass 0.962 without renormalization",
+      "status": "implemented"
     }
   }
 }
