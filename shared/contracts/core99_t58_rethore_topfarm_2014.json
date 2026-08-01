@@ -1,0 +1,131 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T58",
+  "paper": {
+    "title": "TOPFARM: Multi-Fidelity Optimization of Wind Farms",
+    "doi": "10.1002/we.1667",
+    "venue": "Wind Energy 17 (2014) 1797-1816",
+    "pdf_sha256": "779feb21b1943d300e5752e7613b5fda60eb679df00cceb1bf6b6b2940628065"
+  },
+  "primary_predecessor_report": {
+    "title": "TOPFARM wind farm optimization tool",
+    "series": "Risoe-R-1768(EN)",
+    "year": 2011,
+    "official_url": "https://backend.orbit.dtu.dk/ws/portalfiles/portal/51814036/ris_r_1768.pdf",
+    "retrieved_sha256": "c0ef46d784f6874a6596647b13ebc194b377c9a29a3e5ad0a01eda885ca6ab0f",
+    "use": "paper-cited source for SGA/SLP settings, real-site polygons, turbines, wind-sector Weibull arrays, ambient turbulence, iteration counts and baseline energy-efficiency anchors"
+  },
+  "model_predecessor": {
+    "title": "A simple stationary semi-analytical wake model",
+    "series": "Risoe-R-1713(EN)",
+    "year": 2009,
+    "official_url": "https://backend.orbit.dtu.dk/ws/portalfiles/portal/122941920/Simple_analytical_wake_model_final_10.pdf",
+    "use": "paper-cited source for Larsen stationary wake equations"
+  },
+  "same_lineage_public_assets": {
+    "topfarm2": "https://gitlab.windenergy.dtu.dk/TOPFARM/TopFarm2",
+    "topfarm2_observation": "current public history begins after the target study; lineage reference only, not the 2014 HAWTOPT/MATLAB source",
+    "middelgrunden_coordinates": "public OpenWAKE lineage fixture already pinned and audited by the L0079 package"
+  },
+  "missing_information": [
+    "HAWTOPT source, SLP solver state and original MATLAB working-horse code",
+    "S2MW power and thrust coefficient CSV files",
+    "7500 HAWC2-DWM simulations, six Mann-seed time series and exact 4D interpolated load database",
+    "complete Middelgrunden and Stags bathymetry and baseline coordinate arrays",
+    "numeric fictitious-case wind, depth and baseline arrays",
+    "exact random state and complete convergence histories",
+    "maintenance lognormal resistance variance, allowable replacement count and penalty weight"
+  ],
+  "completion_decisions": [
+    "Implement all three paper problems and all five paper-native algorithm-problem roles.",
+    "Use report polygons and wind arrays exactly; use a declared Figure-6 digitization for Stags and the pinned OpenWAKE lineage for Middelgrunden coordinates.",
+    "Implement the paper-required linear Larsen wake-deficit combination and fixed rotor quadrature in pure C++.",
+    "Replace the unavailable HAWC2-DWM load database with a deterministic nearest-wake analytic load surrogate while retaining paper component prices, Wohler exponents, degradation and maintenance equations.",
+    "Calibrate a case-wide wake scale only to the report's baseline 83.9% and 89.4% energy efficiencies; do not use optimized outputs as calibration targets.",
+    "Reconstruct HAWTOPT SLP as a deterministic move-limited linearized refinement with paper iteration counts and report move-limit range.",
+    "Implement the report binary SGA with population 20, crossover 0.70, per-bit mutation 0.025, two elites and rank fitness scaling 2.",
+    "Retain one run per role as the unreported native repeat protocol and add an explicitly labelled 25-seed robustness extension for stochastic SGA roles."
+  ],
+  "problem_semantic_id": "t58_topfarm_three_case_financial_declared_v1",
+  "method_semantic_ids": [
+    "t58_slp_declared_v1",
+    "t58_sga_declared_v1",
+    "t58_sga_slp_multifidelity_declared_v1"
+  ],
+  "protocol_semantic_id": "t58_native_five_role_single_run_v1",
+  "paper_problem_roles": {
+    "2x3_slp": "six NREL 5 MW turbines, reconstructed offshore depth field, pure level-2 SLP, 50 report-predecessor iterations",
+    "2x3_sga": "six NREL 5 MW turbines, level-1 binary SGA, 150 report-predecessor generations",
+    "2x3_sga_slp": "six NREL 5 MW turbines, 150-generation SGA followed by 50-iteration SLP",
+    "stags_sga_slp": "17 Vestas V80 turbines, report polygon and wind resource, 1000-generation SGA followed by 30-iteration SLP",
+    "middelgrunden_sga_slp": "20 Bonus B80/B76 turbines, report polygon and wind resource, 1000-generation SGA followed by 20-iteration SLP"
+  },
+  "physics_and_cost": {
+    "wind_states": "12 directions times 12 speeds from 4 to 26 m/s in 2 m/s increments; direction probabilities and Weibull/TI tables from Risoe-R-1768",
+    "level1": "fixed 2-by-2 aggregation to 36 probability-preserving direction-speed cells",
+    "level2": "all 144 direction-speed cells",
+    "wake": "Risoe-R-1713 stationary semi-analytical Larsen kernel, paper linear deficit superposition, rotor quadrature and smooth disclosed power/CT replacement curves",
+    "financial_balance": "20-year power value at 50 EUR/MWh minus degradation and maintenance minus financed foundation and cable investment using 2.5% inflation and 6.5% interest",
+    "foundation": "20% turbine cost at 8 m plus 2% turbine cost per metre depth deviation; onshore foundation term constant and omitted",
+    "cables": "deterministic closest-group minimum spanning construction; 675 EUR/m offshore and 270 EUR/m onshore",
+    "minimum_spacing": "one rotor diameter, retained as the paper's explicit blade-contact benchmark rule"
+  },
+  "algorithm": {
+    "sga_population": 20,
+    "sga_crossover_probability": 0.70,
+    "sga_per_bit_mutation_probability": 0.025,
+    "sga_elites": 2,
+    "sga_rank_fitness_scaling": 2.0,
+    "slp_initial_move_limit_fraction": "0.00625 for Stags and 0.025 for the other cases, within the report 0.625%-2.5% range",
+    "slp_minimum_move_limit_fraction": 0.0001,
+    "physical_fes": {
+      "2x3_slp": 1401,
+      "2x3_sga": 3021,
+      "2x3_sga_slp": 4422,
+      "stags_sga_slp": 22182,
+      "middelgrunden_sga_slp": 21702
+    }
+  },
+  "formal_protocol": {
+    "paper_native_roles": 5,
+    "paper_reported_native_repeats": 1,
+    "declared_stochastic_robustness_seeds": 25,
+    "required_target_runs": 101,
+    "formal_resource_mapping": "independent single-worker seed processes scheduled across every available Waffle CPU core",
+    "reported_outputs": [
+      "initial and final financial balance and all subcomponents",
+      "AEP, energy efficiency, cable length and final layout",
+      "constraint violation and feasibility",
+      "stage iterations and physical objective-evaluation ledger",
+      "evaluator, algorithm and end-to-end time",
+      "worker receipt, scientific hash, source commit and executable hash"
+    ]
+  },
+  "hpc_execution": {
+    "backend": "pure C++20 CPU-HPC",
+    "evaluator_axis": "independent direction-speed states with fixed slots and ordered annual/load reduction",
+    "sga_axis": "all 20 complete individual layouts evaluated concurrently before ordered rank selection and frozen generation commit",
+    "slp_axis": "all plus/minus finite-difference layouts and line-search trial layouts evaluated concurrently before ordered move-limit update",
+    "determinism": "counter-keyed random events, fixed layouts and fixed reductions preserve one/all-core scientific identity",
+    "h6": "one versus every Waffle core for complete Stags and Middelgrunden 1000-generation SGA plus native SLP workflows",
+    "nested_oversubscription": "forbidden; population/trial parallelism uses serial inner wind-state evaluation, while standalone layout evaluation partitions wind states"
+  },
+  "development_evidence_20260801": {
+    "h5_status": "pass",
+    "h5_role_count": 5,
+    "baseline_efficiency_anchors_exact": true,
+    "one_twenty_worker_scientific_identity": true,
+    "stags_initial_balance_meur": 50.20594947344791,
+    "stags_final_balance_meur": 52.880265584288395,
+    "stags_one_worker_seconds": 66.209005874,
+    "stags_twenty_worker_seconds": 7.265893343,
+    "stags_development_speedup": 9.112300820901273,
+    "middelgrunden_initial_balance_meur": 26.13308398312239,
+    "middelgrunden_final_balance_meur": 36.98081037911727,
+    "middelgrunden_one_worker_seconds": 84.126316612,
+    "middelgrunden_twenty_worker_seconds": 9.744067165,
+    "middelgrunden_development_speedup": 8.633593671662668,
+    "note": "local Spark development evidence; immutable Waffle H6 remains authoritative"
+  },
+  "claim_boundary": "source-backed flexible academic reproduction of the paper's three problems, financial objective and five SGA/SLP roles; not author HAWTOPT, HAWC2-DWM database, complete site arrays, random stream, maintenance parameters or exact numerical trajectory"
+}

@@ -630,6 +630,11 @@ option(
     OFF
 )
 option(
+    CORE99_ENABLE_T58
+    "Build T58 TOPFARM multi-fidelity SGA-SLP CPU-HPC reproduction"
+    OFF
+)
+option(
     CORE99_ENABLE_T07
     "Build T07 explicit SCP with pinned NLopt convex-QP replacement"
     OFF
@@ -764,6 +769,24 @@ if(CORE99_ENABLE_T84)
     )
     add_executable(core99_t84_hpc src/thomas_t84_main.cpp)
     target_link_libraries(core99_t84_hpc PRIVATE core99_t84_core)
+endif()
+
+if(CORE99_ENABLE_T58)
+    add_library(core99_t58_core STATIC src/rethore_t58.cpp)
+    target_include_directories(core99_t58_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t58_core PUBLIC fode_core)
+    target_compile_features(core99_t58_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t58_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_t58_hpc src/rethore_t58_main.cpp)
+    target_link_libraries(core99_t58_hpc PRIVATE core99_t58_core)
 endif()
 
 if(CORE99_ENABLE_T16)
@@ -1616,6 +1639,17 @@ if(BUILD_TESTING)
                 --binary $<TARGET_FILE:core99_t84_hpc>
                 --data
                     ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_t84_public_data.bin
+        )
+    endif()
+    if(CORE99_ENABLE_T58)
+        add_executable(core99_t58_test tests/rethore_t58_test.cpp)
+        target_link_libraries(core99_t58_test PRIVATE core99_t58_core)
+        add_test(NAME core99_t58_cpp COMMAND core99_t58_test)
+        add_test(
+            NAME core99_t58_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t58.py
+                --binary $<TARGET_FILE:core99_t58_hpc>
         )
     endif()
     if(CORE99_ENABLE_T16)

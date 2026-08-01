@@ -6,21 +6,32 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Retain the fictitious 2x3, Stags Holt/Coldham and Middelgrunden problems and all five paper-native SLP, SGA and SGA-to-SLP roles.",
+    "Use the paper-cited Risoe-R-1768 report for missing SGA/SLP parameters, real-site polygons, wind resources, turbine facts and iteration counts.",
+    "Use the report's 83.9% and 89.4% baseline efficiencies as case-wide wake calibration anchors only; never calibrate to optimized results.",
+    "Use the pinned OpenWAKE lineage Middelgrunden coordinates and declared figure digitizations for Stags and the fictitious case.",
+    "Reconstruct the absent HAWC2-DWM load table analytically while retaining the paper component-cost, Wohler, degradation and maintenance structure.",
+    "Parallelize wind states, complete SGA layouts and SLP trial layouts through one deterministic persistent pure-C++ team.",
+    "Execute one native run per role plus an explicitly labelled 25-seed robustness extension for each stochastic role."
+  ],
   "corpus_id": "T58",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "runner_ready_for_waffle_after_t84",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "complete_paper_cited_report_model_report_and_lineage_audit",
+    "H1": "complete_three_problem_five_role_work_decomposition",
+    "H2": "complete_wind_population_trial_complexity_and_parallel_axis_analysis",
+    "H3": "complete_pure_cpp_larsen_financial_sga_slp_implementation",
+    "H4": "complete_local_full_budget_one_twenty_worker_profile",
+    "H5": "pass_source_anchor_cost_branch_role_fes_feasibility_and_determinism_validation",
+    "H6": "pass_local_provisional_waffle_authoritative_runner_ready"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "HAWTOPT source, SLP state and original MATLAB working-horse code",
+    "7500 HAWC2-DWM simulations, six Mann-seed time series and exact 4D load database",
+    "S2MW curve files and complete real-site bathymetry and coordinate arrays",
+    "fictitious-case numeric arrays, maintenance distribution parameters and exact random state"
   ],
   "paper": {
     "authors": "Pierre‐Elouan Réthoré and Peter Fuglsang and Gunner C. Larsen and Thomas Buhl and Torben J. Larsen and Helge A. Madsen",
@@ -36,8 +47,17 @@
     "venue": "Wind Energy",
     "year": 2014
   },
-  "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
+  "paper_linked_public_asset_candidates": [
+    "https://backend.orbit.dtu.dk/ws/portalfiles/portal/51814036/ris_r_1768.pdf",
+    "https://backend.orbit.dtu.dk/ws/portalfiles/portal/122941920/Simple_analytical_wake_model_final_10.pdf",
+    "https://gitlab.windenergy.dtu.dk/TOPFARM/TopFarm2"
+  ],
+  "paper_source_conflicts": [
+    "The paper states 1D blade-contact spacing while noting standards require more than 2D; the paper-native 1D benchmark is retained and explicitly scoped.",
+    "The report Appendix input MaxIteNr is 250 while result sections state 1000 SGA plus 20/30 SLP iterations; result-section native lifecycles control reproduction.",
+    "The report cable table contains a unit/value typographic inconsistency; the journal's explicit 675 EUR/m offshore and 270 EUR/m onshore values control reproduction.",
+    "Current TopFarm2 is later public lineage and is not represented as the unavailable 2014 HAWTOPT/MATLAB source."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 20,
@@ -46,81 +66,81 @@
   "public_asset_candidate_evidence": {
     "availability_mention_line_numbers": [],
     "embedded_annotation_urls": [],
-    "status": "no_paper_linked_public_asset_candidate_detected"
+    "status": "two_official_cited_reports_and_one_later_lineage_repository_audited"
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "source-backed flexible academic reproduction of the three problems, financial objective and five native SGA/SLP roles; not author HAWTOPT, HAWC2-DWM database, complete site arrays, random stream or exact trajectory",
     "execution_wave": "REV5",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
+    "package_status": "h5_admitted_h6_and_101_run_formal_ready",
+    "scope_status": "paper_paired_hpc_implemented",
     "target_contribution_type": "scaling_computation_or_reproducible_execution"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_and_cited_report",
+      "resolution": "paper-native polygon boundaries and one-rotor-diameter blade-contact spacing; SGA duplicate rule and deterministic SLP projection/spacing repair retained",
+      "status": "implemented_and_validated"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "one candidate index per turbine for level-1 SGA and continuous x/y coordinates for level-2 SLP",
+      "status": "implemented"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_and_cited_report",
+      "resolution": "binary candidate-index chromosome for SGA; direct continuous coordinates for SLP",
+      "status": "implemented"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_figure_cited_report_and_same_lineage_public_source",
+      "resolution": "fictitious and Stags layouts are declared figure digitizations; Middelgrunden uses pinned OpenWAKE lineage coordinates",
+      "status": "implemented_with_declared_reconstruction"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_robustness_extension",
+      "resolution": "five native roles with one unreported native run; 25 deterministic reconstruction seeds for each stochastic role; all objective parts, feasibility, FES, timing and hashes recorded",
+      "status": "implemented_runner_ready"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_equations_3_to_17",
+      "resolution": "maximize 20-year financial balance of energy value minus fatigue degradation and maintenance minus financed variable foundation and cable investment",
+      "status": "implemented"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_and_cited_report",
+      "resolution": "six-turbine fictitious offshore, 17-turbine Stags onshore and 20-turbine Middelgrunden offshore cases with five native algorithm roles",
+      "status": "implemented"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_cited_report_and_declared_completion",
+      "resolution": "population 20, crossover 0.70, mutation 0.025, two elites, scaling 2, report move-limit range and native generation/iteration counts",
+      "status": "implemented"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_cited_report_and_explicit_evaluation_ledger",
+      "resolution": "150 or 1000 SGA generations and 50, 30 or 20 SLP iterations; every complete layout evaluation counted",
+      "status": "implemented_and_audited"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not_applicable",
+      "resolution": "T58 has no trained learning model",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_deterministic_hpc_completion",
+      "resolution": "SGA generations and SLP iterations remain ordered; population and trial outputs use fixed slots before ordered commits",
+      "status": "implemented_and_schedule_validated"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_cited_model_report_and_declared_surrogate",
+      "resolution": "Larsen stationary wake with linear superposition and rotor quadrature, paper financial equations and transparent analytic replacement for missing HAWC2-DWM load table",
+      "status": "implemented_and_sensitivity_validated"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_cited_report",
+      "resolution": "144 fine direction-speed states from report arrays and a fixed 36-state probability-preserving coarse aggregation",
+      "status": "implemented"
     }
   }
 }
