@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0581",
+  "paper": {
+    "title": "Sparsity for Gradient-Based Optimization of Wind Farm Layouts",
+    "authors": "Benjamin T. Varela and Andrew Ning",
+    "doi": "10.2514/6.2023-1543",
+    "venue": "AIAA SCITECH 2023 Forum",
+    "pdf_sha256": "eeee2168b9f1aa10d99c069995c5a3c9647035e527cbd0fb05ce3f70b62dcc15",
+    "official_fulltext": "https://scholarsarchive.byu.edu/facpub/6493/"
+  },
+  "public_source": {
+    "repository": "https://github.com/byuflowlab/FLOWFarm.jl.git",
+    "audited_head": "9d427cd519fc67fd6e61d335969638939302c4e6",
+    "audited_tag": "v1.1.1",
+    "license": "MIT",
+    "license_sha256": "4f054dbe6d45c7c3b2d32f32586479c4c140dae81ed75db2fee13022a6ac1f76",
+    "target_source_status": "no paper-specific optimization repository or target-era sparsity script located",
+    "later_lineage_first_substantial_unstable_sparse_commit": "4a830bfe6bb645b7f6dce3850aa5b0fd876e02d2",
+    "later_lineage_commit_date": "2024-02-26",
+    "later_lineage_file_sha256": "63ef0c84f73a1733af3b42f42dea79070f8f587fa7c7c7c35a69b5eb76b11044",
+    "current_sparsity_file_sha256": "163927e3d934e9b516996fb8a018b4cbbb5b0672440e90877aa5462af5cc815e",
+    "wind_rose_fixture_sha256": "7f81c90d5993a73df6456a1235403dcb8a539e73eb29ccd1ac8d274ca3f77aed",
+    "round_38_layout_fixture_sha256": "39620b37d831937568e862b29b3b4b1b12f763d9a1f332fbe9da71fce2eacc12",
+    "nrel_5mw_curve_sha256": "9530fea5179098bad013e24c4c3fd0f167ba31b412ead4e26875ec7377d412f6",
+    "authority_use": "same-author equation and data lineage only; not target program"
+  },
+  "paper_problem": {
+    "wake_model": "FLOWFarm Cumulative Curl",
+    "accuracy_farm_sizes": [38, 63, 95, 133, 177, 228, 285, 349],
+    "optimization_farm_size": 95,
+    "ring_radius_rule_d": "5.1 times ring index",
+    "boundary": "circle at outer-ring radius",
+    "accuracy_wind_states": 1,
+    "optimization_wind_states": 12,
+    "wind_speed_m_per_s": 8.0,
+    "wind_directions_degrees": [10, 40, 70, 100, 130, 160, 190, 220, 250, 280, 310, 340],
+    "wind_probabilities": [0.077, 0.067, 0.044, 0.046, 0.055, 0.067, 0.091, 0.129, 0.117, 0.095, 0.092, 0.082],
+    "random_starts": 10,
+    "start_perturbation": "each x and y coordinate independently plus or minus 2 rotor diameters",
+    "paired_comparison": "dense and sparse gradients use every common start"
+  },
+  "paper_method": {
+    "jacobian_shape": "N turbine-energy outputs by 2N layout inputs for each wind state",
+    "compression": "threshold pattern, conflict graph column coloring, compressed forward automatic differentiation",
+    "initial_threshold": 1e-08,
+    "threshold_reduction_factor": 0.01,
+    "threshold_floor": 1e-16,
+    "global_threshold_trigger": "pattern updates reach five sixths of wind-state count; 10 for 12 states",
+    "state_pattern_trigger": "10 percent of retained calculated values at least two orders below current threshold",
+    "paper_result_anchors_not_acceptance_targets": {
+      "machine_precision_color_fraction_approximate": 0.15,
+      "sparse_optimization_seconds_range": [47, 48],
+      "dense_over_sparse_average_time_ratio": 4.0,
+      "dense_wake_loss_reduction_advantage_percentage_points": 0.7
+    }
+  },
+  "missing_information": [
+    "target repository, source revision, package versions and executable scripts",
+    "optimizer name and all optimizer, tolerance, line-search and stopping settings",
+    "turbine model revision, rotor quadrature and local-turbulence options",
+    "exact random seeds, starts, final layouts, convergence traces and numeric figure arrays",
+    "numerical minimum-spacing constraint described only as sufficient space",
+    "exact accuracy-sweep thresholds and every plotted coordinate"
+  ],
+  "paper_source_conflicts": [
+    "The paper states maximum ring population with at least 5.1D spacing, but its exact farm-size sequence and the public 38-turbine fixture imply floor(6.4k) ring counts and approximately 5D outer-ring chord spacing, below 5.1D.",
+    "FLOWFarm's public sparsity implementation postdates the target paper and has continued to change; it cannot be labelled the target implementation."
+  ],
+  "completion_decisions": [
+    "Preserve the paper's exact 38-to-349 turbine sequence and the public round-layout lineage, calculate and expose actual initial spacing, and retain the stated 5.1kD radii.",
+    "Implement source-lineage Cumulative Curl equations, zero yaw, no local-TI correction, hub-height evaluation and the public NREL-5MW Cp/Ct values needed at up to 8 m/s.",
+    "Use projected gradient ascent with deterministic Armijo backtracking, circular projection and a disclosed 2D spacing repair because the target optimizer and numeric spacing are absent.",
+    "Use the 2D spacing completion from FLOWFarm's documented optimization example, not as a target-paper claim.",
+    "Use target adaptive threshold and pattern-update rules and deterministic greedy column coloring.",
+    "Run accuracy at thresholds 1e-8, 1e-10, 1e-12, 1e-14 and 1e-16 for all eight paper sizes because exact plotted thresholds are unavailable.",
+    "Run all 10 common starts with dense and sparse variants; do not require target numerical or timing replay."
+  ],
+  "semantic_ids": {
+    "method": "l0581_adaptive_sparse_colored_forward_ad_v1",
+    "problems": [
+      "l0581_round_n38_n349_single_direction_v1",
+      "l0581_round_n95_nantucket12_v1"
+    ],
+    "protocol": "l0581_accuracy_8_sizes_plus_10_paired_starts_v1"
+  },
+  "hpc_contract": {
+    "backend": "pure C++20 CPU-HPC",
+    "forward_ad": "fixed-width eight-lane dual blocks",
+    "parallel_axes": [
+      "independent color blocks within each wind-state Jacobian",
+      "persistent all-core execution across every wind state and optimization iteration",
+      "deterministic indexed Jacobian writes and ordered AEP-gradient reductions"
+    ],
+    "same_evaluator_rule": "dense and sparse paths share evaluator, dual arithmetic, optimizer, starts, constraints and work accounting; only seed compression differs",
+    "h6": "one-worker versus all-Waffle-core scaling plus dense-versus-sparse repeated-kernel comparison on the 349-turbine single-direction problem",
+    "formal_resource": "all available Waffle CPU cores"
+  },
+  "formal_protocol": {
+    "accuracy_roles": 40,
+    "optimization_roles": 20,
+    "required_target_runs": 60,
+    "accuracy_sizes": 8,
+    "accuracy_thresholds": 5,
+    "paired_starts": 10,
+    "optimization_variants": ["dense", "sparse"],
+    "reconstructed_maximum_iterations": 24
+  },
+  "claim_boundary": "Flexible equation-, algorithm- and protocol-level academic reproduction of the target sparse-colored gradient method and paper-native round-farm problems using disclosed same-author FLOWFarm lineage. It is not the author target source, exact FLOWFarm revision, ForwardDiff or SparseDiffTools execution, optimizer, random stream, layout, numerical figure or timing replay."
+}

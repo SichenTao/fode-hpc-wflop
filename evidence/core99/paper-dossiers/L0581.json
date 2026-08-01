@@ -6,21 +6,34 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Implement all eight paper accuracy sizes and the 95-turbine 12-state optimization problem.",
+    "Use FLOWFarm as an equation and data lineage oracle only because its public sparsity source postdates the target paper.",
+    "Preserve the paper size sequence and public-layout ring counts while explicitly reporting the conflict with the stated 5.1D minimum spacing.",
+    "Use pure C++ fixed-width forward dual blocks, conflict-graph coloring and the target adaptive threshold and pattern-update lifecycle.",
+    "Complete the omitted optimizer as deterministic projected gradient ascent with Armijo backtracking and the omitted spacing as a disclosed 2D FLOWFarm-documentation completion.",
+    "Run five declared thresholds for all eight accuracy sizes and ten common starts with both dense and sparse gradients.",
+    "Use all available Waffle cores for target runs and one worker only for the bounded H6 scaling reference."
+  ],
   "corpus_id": "L0581",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "runner_ready_for_waffle_after_l0805",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "complete_paper_source_geometry_formula_and_protocol_audit",
+    "H1": "complete_energy_jacobian_pattern_coloring_and_optimizer_work_decomposition",
+    "H2": "complete_fixed_width_dual_persistent_team_and_deterministic_reduction_analysis",
+    "H3": "complete_pure_cpp_cumulative_curl_lineage_dense_sparse_and_projected_optimizer_implementation",
+    "H4": "complete_local_349_turbine_one_twenty_worker_profile",
+    "H5": "pass_sizes_geometry_compression_accuracy_pairing_determinism_and_participation",
+    "H6": "pass_local_provisional_waffle_authoritative_runner_ready"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "target repository source revision package versions and scripts",
+    "optimizer tolerance line search iteration limit and stopping settings",
+    "turbine revision rotor quadrature and local-turbulence options",
+    "random seeds starts final layouts convergence arrays and numeric figures",
+    "numeric minimum spacing described only as sufficient space",
+    "exact accuracy thresholds and plotted coordinates"
   ],
   "paper": {
     "authors": "Benjamin T. Varela and Andrew Ning",
@@ -37,9 +50,15 @@
     "year": 2023
   },
   "paper_linked_public_asset_candidates": [
+    "https://scholarsarchive.byu.edu/facpub/6493/",
+    "https://github.com/byuflowlab/FLOWFarm.jl",
     "https://github.com/JuliaDiff/SparseDiffTools.jl"
   ],
-  "paper_source_conflicts": [],
+  "paper_source_conflicts": [
+    "The 5.1kD radius and at-least-5.1D ring-spacing statements conflict with the exact size sequence and public 38-turbine fixture, which imply floor(6.4k) ring counts and approximately 5D chord spacing.",
+    "FLOWFarm's substantial unstable-sparsity implementation begins in February 2024, after the 2023 target paper, and cannot be represented as target source.",
+    "The paper conclusion mentions three optimized problems while the explicit optimization experiment describes ten starts of one 95-turbine problem; the reproduction follows the explicit experiment."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 12,
@@ -48,81 +67,81 @@
   "public_asset_candidate_evidence": {
     "availability_mention_line_numbers": [],
     "embedded_annotation_urls": [],
-    "status": "candidate_only_requires_revision_license_semantic_audit"
+    "status": "official_fulltext_and_same_author_flowfarm_revision_license_semantics_audited"
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "flexible equation algorithm and protocol reproduction using disclosed same-author FLOWFarm lineage; not target source ForwardDiff SparseDiffTools optimizer random stream numerical figures or timing replay",
     "execution_wave": "REV5",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
+    "package_status": "h5_admitted_h6_and_formal_ready",
+    "scope_status": "paper_paired_hpc_implemented",
     "target_contribution_type": "scaling_computation_or_reproducible_execution"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_flowfarm_documentation_completion",
+      "resolution": "circular outer-ring boundary and disclosed 2D deterministic minimum-spacing projection",
+      "status": "implemented_and_validated"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "continuous x and y coordinates in rotor-diameter units for every turbine",
+      "status": "implemented"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "first N x coordinates followed by N y coordinates; round layout decoded from paper size sequence",
+      "status": "implemented"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_deterministic_completion",
+      "resolution": "paper round layout with each coordinate independently perturbed up to plus or minus 2D using counter-keyed seeds",
+      "status": "implemented"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_accuracy_sweep",
+      "resolution": "maximum gradient error scaled by dense maximum, color fraction, wake-loss reduction, kernel and end-to-end time; eight sizes and ten paired starts",
+      "status": "implemented_runner_ready"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "maximize normalized Nantucket-weighted AEP and report wake-loss reduction",
+      "status": "implemented"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_figures_3_to_6_and_table_1",
+      "resolution": "38 63 95 133 177 228 285 349 single-direction accuracy farms and 95-turbine 12-state paired optimization",
+      "status": "implemented"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_public_source_plus_declared_completion",
+      "resolution": "5.1kD radii exact size sequence threshold 1e-8 by 0.01 to 1e-16 10-percent refresh 10-of-12 global trigger public wind rose and Cp/Ct curve reconstructed 24 iterations",
+      "status": "implemented_and_registered"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "declared_completion_because_paper_omits_optimizer",
+      "resolution": "24 projected-gradient iterations maximum with Armijo no-improvement stop; record iterations gradients patterns and timings",
+      "status": "implemented_and_audited"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "not_applicable",
+      "resolution": "no learned model; sparsity patterns are discovered and adaptively reused",
+      "status": "not_applicable"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_sparse_lifecycle_plus_declared_optimizer",
+      "resolution": "threshold update then fixed wind-state order pattern rebuild or reuse colored gradient ordered reduction Armijo step and deterministic repair",
+      "status": "implemented_and_schedule_validated"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_same_author_public_flowfarm",
+      "resolution": "equation-level Cumulative Curl lineage with public NREL-5MW Cp/Ct values hub-height zero-yaw and no-local-TI declared options",
+      "status": "implemented_with_source_lineage_boundary"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_table_1_plus_identical_public_fixture",
+      "resolution": "exact 12 directions probabilities and 8 m/s; 270-degree single-direction accuracy role",
+      "status": "implemented_and_disclosed"
     }
   }
 }

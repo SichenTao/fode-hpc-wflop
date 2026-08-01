@@ -572,6 +572,11 @@ option(
     "Build L0805 PCE-Kriging-MSP-EI-GA CPU-HPC reproduction"
     OFF
 )
+option(
+    CORE99_ENABLE_L0581
+    "Build L0581 adaptive sparse-coloured forward-AD CPU-HPC reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T63 OR CORE99_ENABLE_T30 OR CORE99_ENABLE_Y16
    OR CORE99_ENABLE_Y13)
     include(FetchContent)
@@ -857,6 +862,26 @@ if(CORE99_ENABLE_L0805)
     )
     add_executable(core99_l0805_hpc src/shao_l0805_main.cpp)
     target_link_libraries(core99_l0805_hpc PRIVATE core99_l0805_core)
+endif()
+
+if(CORE99_ENABLE_L0581)
+    add_library(core99_l0581_core STATIC src/varela_l0581.cpp)
+    target_include_directories(core99_l0581_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_l0581_core PUBLIC fode_core)
+    target_compile_features(core99_l0581_core PUBLIC cxx_std_20)
+    target_compile_options(core99_l0581_core PRIVATE
+        -O3 -march=native -ffp-contract=off
+        -Wall -Wextra -Wpedantic -Werror
+    )
+    add_executable(core99_l0581_hpc src/varela_l0581_main.cpp)
+    target_link_libraries(core99_l0581_hpc PRIVATE core99_l0581_core)
+    target_compile_options(core99_l0581_hpc PRIVATE
+        -Wall -Wextra -Wpedantic -Werror
+    )
 endif()
 
 if(CORE99_ENABLE_T16)
@@ -1771,6 +1796,23 @@ if(BUILD_TESTING)
         )
         set_tests_properties(
             core99_l0805_cpp core99_l0805_h5 PROPERTIES TIMEOUT 1800
+        )
+    endif()
+    if(CORE99_ENABLE_L0581)
+        add_executable(core99_l0581_test tests/varela_l0581_test.cpp)
+        target_link_libraries(core99_l0581_test PRIVATE core99_l0581_core)
+        target_compile_options(core99_l0581_test PRIVATE
+            -Wall -Wextra -Wpedantic -Werror
+        )
+        add_test(NAME core99_l0581_cpp COMMAND core99_l0581_test)
+        add_test(
+            NAME core99_l0581_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_l0581.py
+                --binary $<TARGET_FILE:core99_l0581_hpc>
+        )
+        set_tests_properties(
+            core99_l0581_cpp core99_l0581_h5 PROPERTIES TIMEOUT 1800
         )
     endif()
     if(CORE99_ENABLE_T16)
