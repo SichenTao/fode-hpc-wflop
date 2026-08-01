@@ -511,6 +511,11 @@ option(
     "Build GPL-3.0-or-later T19 official-SRMP TRW-S CPU-HPC reproduction"
     OFF
 )
+option(
+    CORE99_ENABLE_T08
+    "Build T08 exact-gradient interior-point CPU-HPC reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T19)
     include(FetchContent)
     FetchContent_Declare(
@@ -1172,6 +1177,26 @@ if(CORE99_ENABLE_T19)
     add_executable(core99_t19_hpc src/dhoot_t19_main.cpp)
     target_link_libraries(core99_t19_hpc PRIVATE core99_t19_core)
     target_compile_options(core99_t19_hpc PRIVATE
+        -Wall -Wextra -Wpedantic -Werror
+    )
+endif()
+
+if(CORE99_ENABLE_T08)
+    add_library(core99_t08_core STATIC src/guirguis_t08.cpp)
+    target_include_directories(core99_t08_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_t08_core PUBLIC fode_core)
+    target_compile_features(core99_t08_core PUBLIC cxx_std_20)
+    target_compile_options(core99_t08_core PRIVATE
+        -O3 -march=native -ffp-contract=off
+        -Wall -Wextra -Wpedantic -Werror
+    )
+    add_executable(core99_t08_hpc src/guirguis_t08_main.cpp)
+    target_link_libraries(core99_t08_hpc PRIVATE core99_t08_core)
+    target_compile_options(core99_t08_hpc PRIVATE
         -Wall -Wextra -Wpedantic -Werror
     )
 endif()
@@ -1870,6 +1895,23 @@ if(BUILD_TESTING)
         )
         set_tests_properties(
             core99_t19_cpp core99_t19_h5 PROPERTIES TIMEOUT 1800
+        )
+    endif()
+    if(CORE99_ENABLE_T08)
+        add_executable(core99_t08_test tests/guirguis_t08_test.cpp)
+        target_link_libraries(core99_t08_test PRIVATE core99_t08_core)
+        target_compile_options(core99_t08_test PRIVATE
+            -Wall -Wextra -Wpedantic -Werror
+        )
+        add_test(NAME core99_t08_cpp COMMAND core99_t08_test)
+        add_test(
+            NAME core99_t08_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t08.py
+                --binary $<TARGET_FILE:core99_t08_hpc>
+        )
+        set_tests_properties(
+            core99_t08_cpp core99_t08_h5 PROPERTIES TIMEOUT 1800
         )
     endif()
     if(CORE99_ENABLE_T11)

@@ -1,26 +1,14 @@
 {
+  "schema_version": 1,
+  "corpus_id": "T08",
+  "dossier_status": "h5_admitted",
+  "formal_status": "ready_for_immutable_waffle_queue",
   "authority_ladder": [
-    "paper_and_supplement",
+    "paper_and_primary_pdf",
     "paper_linked_public_source_and_data",
     "cited_predecessor",
-    "same_lineage_public_source",
+    "same_benchmark_and_same_site_versioned_data",
     "deterministic_declared_reconstruction"
-  ],
-  "completion_decisions": [],
-  "corpus_id": "T08",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
-  "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
-  },
-  "missing_information": [
-    "full field-level audit not yet completed"
   ],
   "paper": {
     "authors": "David Guirguis and David A. Romero and Cristina H. Amon",
@@ -36,93 +24,64 @@
     "venue": "Applied Energy",
     "year": 2016
   },
-  "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 14,
     "text_sha256": "586bedcc96ce0125997d263203fbe6f6caeb2d9fdf192446c3ea6306c560235c"
   },
-  "public_asset_candidate_evidence": {
-    "availability_mention_line_numbers": [
-      163
-    ],
-    "embedded_annotation_urls": [],
-    "status": "no_paper_linked_public_asset_candidate_detected"
+  "paper_linked_public_asset_candidates": [],
+  "paper_source_conflicts": [
+    "the paper gives no author source or numerical archive",
+    "the paper omits the numeric Case-3 and Horns wind arrays",
+    "the paper omits Copenhagen vertices and forbidden-region partitions",
+    "Section 4.3 says 5S-IPM while Figures 9-10 display one random layout"
+  ],
+  "missing_information": [
+    "MATLAB release, fmincon options, trust-region and BFGS state",
+    "Latin-hypercube arrays, uniform-staggered coordinates and random states",
+    "numeric wind arrays and direction convention",
+    "V80-case roughness continuation",
+    "land coordinates, dynamic partitions and exact ring radii",
+    "author layouts, traces and timing environment"
+  ],
+  "completion_decisions": [
+    "versioned T05 same-benchmark Case-3 wind digitization",
+    "T25 public Horns frequencies rotated to the target plot convention",
+    "paper-sole 0.3 m roughness retained for V80 cases because no replacement is stated",
+    "Figure-9 Copenhagen polygon calibrated to 66.2 percent and signed-distance constraints",
+    "visible 750/800 m ring radii",
+    "strictly feasible deterministic staggered-lattice completion for missing starts",
+    "pure-C++ log-barrier L-BFGS exact-gradient reconstruction for unavailable fmincon trajectory"
+  ],
+  "hpc_admission": {
+    "H0": "complete_primary_pdf_source_absence_missing_field_and_protocol_audit",
+    "H1": "complete_exact_gradient_wake_constraint_barrier_and_physical_fes_work_decomposition",
+    "H2": "complete_wind_target_parallelism_measured_constraint_boundary_and_multistart_parallelism_analysis",
+    "H3": "complete_pure_cpp_deterministic_full_core_evaluator_and_worker_group_implementation",
+    "H4": "complete_resumable_H6_and_49_role_211_receipt_formal_runner",
+    "H5": "pass_strict_cpp_independent_equations_finite_difference_asan_ubsan_all_cases_and_thread_identity",
+    "H6": "pending_immutable_waffle_one_all_core_stage_speedup_and_identity"
   },
-  "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "flexible equation-level academic reproduction of all target problems and IPM roles; not author MATLAB source, exact missing arrays, fmincon trajectory, numerical tables or timing replay",
     "execution_wave": "REV5",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
+    "package_status": "h5_admitted_h6_and_formal_ready",
+    "scope_status": "paper_paired_hpc_implemented",
     "target_contribution_type": "scaling_computation_or_reproducible_execution"
   },
   "semantic_contract": {
-    "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    },
-    "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
-    }
+    "decision_variables": {"authority": "target Sections 2-3", "resolution": "two continuous Cartesian coordinates per fixed turbine", "status": "implemented"},
+    "encoding_and_decoder": {"authority": "target continuous formulation", "resolution": "normalized C++ coordinates decoded to dimensional hub positions", "status": "implemented"},
+    "constraints_and_repair": {"authority": "target Eqs. 8-10, 13 and 31-39", "resolution": "five-diameter spacing, bounds, polygon signed distance and annulus constraints with exact derivatives", "status": "implemented_and_validated"},
+    "objective_and_direction": {"authority": "target Eqs. 11-12", "resolution": "maximize probability-weighted one-third cubic effective speed", "status": "implemented_and_independently_validated"},
+    "wake_power_cost_or_coupled_model": {"authority": "target Eqs. 1-7 and 21-30", "resolution": "Jensen Gaussian angular wake, RSS deficits and exact coordinate gradient", "status": "implemented_equation_validated"},
+    "wind_and_scenario_sampling": {"authority": "target Sections 4.1-4.3 plus declared same-lineage arrays", "resolution": "one-direction, 36-direction, 108-state Case 3 and 12-direction Horns resources", "status": "implemented_with_declared_numeric_completion"},
+    "paper_native_cases": {"authority": "target Tables 1-6 and Figures 3, 5-10", "resolution": "20 cases spanning classical, density scaling, Copenhagen and ring families", "status": "all_20_cases_registered_and_executable"},
+    "initialization": {"authority": "target USL, RSL, 5S and 20S labels", "resolution": "strict feasible uniform-staggered and deterministic Latin-hypercube-rank lattice completion", "status": "implemented_with_declared_missing_start_completion"},
+    "parameters": {"authority": "target paper plus controlling contract", "resolution": "all published parameters used and every missing field explicitly completed", "status": "implemented"},
+    "update_order": {"authority": "target interior-point/BFGS description", "resolution": "feasible log-barrier phases, limited-memory BFGS and Armijo line search", "status": "declared_optimizer_reconstruction"},
+    "stopping_and_physical_fes": {"authority": "target reported objective evaluations plus platform contract", "resolution": "one complete wind-resource objective and simultaneous exact gradient is one physical FES; explicit per-start budgets", "status": "implemented_and_configurable"},
+    "metrics_and_repeats": {"authority": "target Tables 3-6 and platform protocol", "resolution": "49 named roles and 211 receipts with raw starts, physical FES, efficiency, feasibility, stages, workers and hash", "status": "implemented_runner_validated"},
+    "training_and_inference_lifecycle": {"authority": "not_applicable", "resolution": "no learned model", "status": "not_applicable"}
   }
 }

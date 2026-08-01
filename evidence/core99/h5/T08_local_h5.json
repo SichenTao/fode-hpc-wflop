@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T08",
+  "date": "2026-08-01",
+  "status": "pass",
+  "build": {
+    "compiler_mode": "Release C++20 -O3 -march=native -ffp-contract=off -Wall -Wextra -Wpedantic -Werror",
+    "targets": ["core99_t08_hpc", "core99_t08_test"],
+    "asan_ubsan": "pass"
+  },
+  "tests": {
+    "core99_t08_cpp": "pass",
+    "core99_t08_h5": "pass",
+    "paper_problem_count": 20,
+    "paper_role_count": 49,
+    "formal_receipt_count": 211,
+    "full_role_runner_smoke": "211/211 pass at development budget scale 0.02",
+    "one_worker_all_worker_objective_gradient_and_optimizer_identity": true,
+    "independent_classical_and_horns_equation_oracle": "pass",
+    "central_finite_difference_gradient": "pass",
+    "spacing_bounds_and_both_land_families": "pass"
+  },
+  "paper_scale_anchor": {
+    "case": "Horns wind, 100 turbines, density 6 per square kilometre, USL",
+    "paper_usl_efficiency_percent": 83.87,
+    "h5_declared_reconstruction_initial_efficiency_percent": 70.7244652465143,
+    "h5_declared_reconstruction_final_efficiency_percent": 70.78686442363374,
+    "physical_objective_gradient_evaluations": 2261,
+    "maximum_constraint_violation": -1.0000043193123445e-10,
+    "interpretation": "objective improved and the largest paper case is strictly feasible; numerical equality is not claimed because the paper omits numeric wind, roughness continuation, USL coordinates, fmincon settings and trajectory"
+  },
+  "development_h6_preview": {
+    "claim_status": "development admission evidence only; immutable Waffle H6 still required",
+    "configured_workers": 20,
+    "fixed_evaluator_case": "classical Case 3, 30 turbines, exact objective plus gradient",
+    "one_worker_evaluator_median_seconds": 0.0009991355,
+    "all_core_evaluator_median_seconds": 0.0002075615,
+    "evaluator_speedup": 4.813684136990724,
+    "observed_evaluator_participants_in_reported_sample": 18,
+    "fixed_orchestration_case": "classical Case 3, 30 turbines, 20 independent starts",
+    "one_worker_orchestration_median_seconds": 1.897929894,
+    "all_core_orchestration_median_seconds": 0.190624453,
+    "orchestration_speedup": 9.956382112215161,
+    "observed_orchestration_workers": 20,
+    "same_scientific_results": true,
+    "constraint_boundary": "the paper-scale pair kernel is deliberately serial because dispatch is slower; no constraint-kernel speedup claim"
+  },
+  "formal_status": "ready_for_immutable_waffle_h6_then_49_role_211_receipt_campaign"
+}

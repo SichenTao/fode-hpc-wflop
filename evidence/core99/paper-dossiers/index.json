@@ -399,8 +399,8 @@
     },
     {
       "corpus_id": "T08",
-      "dossier_sha256": "7fc6a8cf1018252c6597dbf127b14256ea3dc1ee27a7ac99b8ba1dd4a88b3d13",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "9c3a32d91ccf6bec25b7f6b9b28fe13a6f6b995ed2dabb7db28e2fe4c7767ce1",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
