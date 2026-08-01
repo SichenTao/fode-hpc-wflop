@@ -562,6 +562,11 @@ option(
     "Build Y13 grid-WFLO consensus ADMM HiGHS CPU-HPC reproduction"
     OFF
 )
+option(
+    CORE99_ENABLE_L0649
+    "Build L0649 FLOWERS-AEP analytical-gradient CPU-HPC reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T63 OR CORE99_ENABLE_T30 OR CORE99_ENABLE_Y16
    OR CORE99_ENABLE_Y13)
     include(FetchContent)
@@ -811,6 +816,24 @@ if(CORE99_ENABLE_Y13)
     )
     add_executable(core99_y13_hpc src/du_y13_main.cpp)
     target_link_libraries(core99_y13_hpc PRIVATE core99_y13_core)
+endif()
+
+if(CORE99_ENABLE_L0649)
+    add_library(core99_l0649_core STATIC src/locascio_l0649.cpp)
+    target_include_directories(core99_l0649_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_l0649_core PUBLIC fode_core)
+    target_compile_features(core99_l0649_core PUBLIC cxx_std_20)
+    target_compile_options(core99_l0649_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_l0649_hpc src/locascio_l0649_main.cpp)
+    target_link_libraries(core99_l0649_hpc PRIVATE core99_l0649_core)
 endif()
 
 if(CORE99_ENABLE_T16)
@@ -1691,6 +1714,23 @@ if(BUILD_TESTING)
         )
         set_tests_properties(
             core99_y13_cpp core99_y13_h5 PROPERTIES TIMEOUT 1800
+        )
+    endif()
+    if(CORE99_ENABLE_L0649)
+        add_executable(core99_l0649_test tests/locascio_l0649_test.cpp)
+        target_link_libraries(core99_l0649_test PRIVATE core99_l0649_core)
+        target_compile_options(core99_l0649_test PRIVATE
+            -Wall -Wextra -Wpedantic -Werror
+        )
+        add_test(NAME core99_l0649_cpp COMMAND core99_l0649_test)
+        add_test(
+            NAME core99_l0649_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_l0649.py
+                --binary $<TARGET_FILE:core99_l0649_hpc>
+        )
+        set_tests_properties(
+            core99_l0649_cpp core99_l0649_h5 PROPERTIES TIMEOUT 1800
         )
     endif()
     if(CORE99_ENABLE_T16)

@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0649",
+  "paper": {
+    "title": "FLOWERS AEP: An Analytical Model for Wind Farm Layout Optimization",
+    "doi": "10.1002/we.2954",
+    "venue": "Wind Energy 27(12), 2024, 1563-1580",
+    "pdf_sha256": "e058017dbbaa6f21831b34097eec239b7ae410513f650eec7206d75dcb7f86fe"
+  },
+  "public_source": {
+    "url": "https://github.com/locascio-m/flowers",
+    "paper_era_revision": "dcb729f7ea4ab9307344e45c329b6f50796e861b",
+    "paper_era_revision_date": "2024-05-22",
+    "current_audit_revision": "749303c9cce6be3ae3c611da6d745fef65651a64",
+    "license_finding": "no license file or license declaration found; semantic and numerical oracle only; no redistribution",
+    "audited_on": "2026-08-01"
+  },
+  "paper_problem": {
+    "wind_resource": "public source WR7 WIND Toolkit rose reduced to average speed by one-degree direction",
+    "turbine": "NREL 5 MW reference turbine",
+    "rotor_diameter_m": 126.0,
+    "wake_expansion_rate": 0.05,
+    "turbines": 9,
+    "boundary": "square with side 14 rotor diameters",
+    "initial_layout": "3 by 3 array at x and y coordinates 3D, 7D and 11D",
+    "fourier_modes": 10,
+    "objective": "maximize FLOWERS AEP",
+    "constraints": "each turbine remains inside the square; no spacing constraint appears in Equation 45"
+  },
+  "paper_method": {
+    "model": "nondimensional closed-form FLOWERS AEP and analytical Cartesian gradient",
+    "optimizer": "SNOPT through pyOptSparse",
+    "major_optimality_tolerance": 0.001,
+    "major_feasibility_tolerance": 0.0001,
+    "reported_objective_gain_percent": 13.8,
+    "reported_major_steps": 52,
+    "reported_seconds": 1.8,
+    "native_roles": ["wr7_nine_turbine_flowers_opt"],
+    "paper_reported_repeats": 1
+  },
+  "missing_information": [
+    "licensed SNOPT binary, version, options beyond the public wrapper and solver state",
+    "optimization history, final coordinates, summary file and complete numerical trajectory",
+    "exact pyOptSparse, NumPy, FLORIS and operating-system environment",
+    "random state and saved samples for the two unseeded 200-case experiments",
+    "postprocessed Conventional-Gauss AEP arrays used to evaluate all optimized layouts"
+  ],
+  "paper_source_conflicts": [
+    "Section 3 specifies an (N+1)-by-6 random-layout node array. Paper-era tools.py uses (N+1)-by-(N+1); current revision 749303c changes the second dimension to six. The paper and corrected source control the extension."
+  ],
+  "completion_decisions": [
+    "Independently implement the printed FLOWERS AEP and analytical-gradient equations in C++20.",
+    "Recompute and retain only the ten WR7 Fourier coefficient facts required by the target problem; do not redistribute the unlicensed author source or pickle.",
+    "Replace unavailable SNOPT with deterministic projected limited-memory BFGS using the same analytical gradient, square bounds and 1e-3 projected-gradient tolerance.",
+    "Use the paper-corrected (N+1)-by-6 grid only for the separate deterministic N=500 H6 layout.",
+    "Treat the reported 13.8 percent objective gain as an external neighborhood check, not a fitted parameter.",
+    "Execute one paper-native deterministic optimization; do not invent repeated random seeds."
+  ],
+  "semantic_ids": {
+    "problem": "l0649_wr7_nine_turbine_14d_square_v1",
+    "method": "l0649_flowers_aep_analytic_gradient_projected_lbfgs_v1",
+    "protocol": "l0649_native_single_optimization_plus_n500_h6_v1"
+  },
+  "hpc_contract": {
+    "backend": "pure C++20 CPU-HPC",
+    "model_stage": "ordered O(N squared M) pair deficits and analytical derivatives",
+    "parallel_axis": "independent target-turbine rows followed by independent moved-turbine gradient slots",
+    "synchronization": "one barrier per pair stage and gradient stage with fixed index-order reductions",
+    "determinism": "same AEP, gradient, layout and scientific hash for one and all CPU workers",
+    "h6_workload": "WR7 N=500 M=10 AEP plus analytical gradient",
+    "formal_resource": "all available Waffle CPU cores"
+  },
+  "formal_protocol": {
+    "roles": 1,
+    "runs_per_role": 1,
+    "maximum_open_solver_iterations": 200,
+    "projected_gradient_tolerance": 0.001,
+    "h6_repeats_per_worker": 3,
+    "h6_worker_pair": "one CPU worker versus every available Waffle CPU core"
+  },
+  "claim_boundary": "Source-oracled flexible academic reproduction of the target FLOWERS model, analytical gradient and paper-native WFLO problem. It is not the author source distribution, SNOPT trajectory, FLORIS comparison baselines, randomized case corpus, postprocessed table identity or machine timing replay."
+}
