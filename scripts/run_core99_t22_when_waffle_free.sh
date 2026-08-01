@@ -10,6 +10,8 @@
 # END WFLOP IMPLEMENTATION FACT DECLARATION
 set -euo pipefail
 : "${CORE99_SOURCE_COMMIT:?set CORE99_SOURCE_COMMIT to the deployed commit}"
+observed_commit=$(git rev-parse HEAD)
+[[ "${observed_commit}" == "${CORE99_SOURCE_COMMIT}" ]] || exit 2
 
 # T12 owns two cores until its long 3s-MDE admission finishes. T22 then takes
 # the complete 20-core Waffle node. The already queued T16 script explicitly

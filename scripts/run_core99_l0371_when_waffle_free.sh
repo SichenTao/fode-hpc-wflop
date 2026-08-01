@@ -8,6 +8,8 @@
 # END WFLOP IMPLEMENTATION FACT DECLARATION
 set -euo pipefail
 : "${CORE99_SOURCE_COMMIT:?set CORE99_SOURCE_COMMIT to the deployed commit}"
+observed_commit=$(git rev-parse HEAD)
+[[ "${observed_commit}" == "${CORE99_SOURCE_COMMIT}" ]] || exit 2
 
 # Preserve the approved queue. T87 itself waits for every earlier session.
 while tmux has-session -t core99-t87-deferred 2>/dev/null; do

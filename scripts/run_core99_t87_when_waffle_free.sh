@@ -8,6 +8,8 @@
 # END WFLOP IMPLEMENTATION FACT DECLARATION
 set -euo pipefail
 : "${CORE99_SOURCE_COMMIT:?set CORE99_SOURCE_COMMIT to the deployed commit}"
+observed_commit=$(git rev-parse HEAD)
+[[ "${observed_commit}" == "${CORE99_SOURCE_COMMIT}" ]] || exit 2
 
 # L0124 already waits for T16 and all earlier approved work. T87 begins only
 # after L0124 exits, preserving the existing Waffle queue.

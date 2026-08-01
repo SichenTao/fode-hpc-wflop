@@ -8,6 +8,8 @@
 # END WFLOP IMPLEMENTATION FACT DECLARATION
 set -euo pipefail
 : "${CORE99_SOURCE_COMMIT:?set CORE99_SOURCE_COMMIT to the deployed commit}"
+observed_commit=$(git rev-parse HEAD)
+[[ "${observed_commit}" == "${CORE99_SOURCE_COMMIT}" ]] || exit 2
 
 # Preserve every previously approved Waffle campaign. T16 begins only after
 # all earlier paper packages and their deferred full-resource work finish.

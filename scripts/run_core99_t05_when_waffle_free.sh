@@ -14,6 +14,13 @@ project_root=${1:?project root required}
 source_commit=${2:?source commit required}
 result_root=${3:?result root required}
 
+cd "${project_root}"
+observed_commit=$(git rev-parse HEAD)
+if [[ "${observed_commit}" != "${source_commit}" ]]; then
+    echo "T05 immutable source mismatch: expected ${source_commit}, observed ${observed_commit}" >&2
+    exit 2
+fi
+
 while tmux has-session -t core99-t80-deferred 2>/dev/null; do
     sleep 20
 done

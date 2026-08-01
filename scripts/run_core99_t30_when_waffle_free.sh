@@ -5,6 +5,13 @@ project_root=${1:?project root required}
 source_commit=${2:?source commit required}
 result_root=${3:?result root required}
 
+cd "${project_root}"
+observed_commit=$(git rev-parse HEAD)
+if [[ "${observed_commit}" != "${source_commit}" ]]; then
+    echo "T30 immutable source mismatch: expected ${source_commit}, observed ${observed_commit}" >&2
+    exit 2
+fi
+
 # T30 follows T28 so every paper owns all Waffle CPU cores during H6 and formal
 # execution. Waiting is external to the T30 evidence and cannot contaminate it.
 while tmux has-session -t core99-t28-deferred 2>/dev/null; do
