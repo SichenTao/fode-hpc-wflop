@@ -1,0 +1,141 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0805",
+  "paper": {
+    "title": "Towards high-fidelity wind farm layout optimization using polynomial chaos expansion and Kriging model",
+    "doi": "10.1016/j.energy.2025.138820",
+    "venue": "Energy 328, 2025, 138820",
+    "pdf_sha256": "eed96b6f8e1264a167fa2990e2c6a0437fcd29db762bbc1c5d3d0807c1113360",
+    "public_manuscript": "arXiv:2502.11088v1"
+  },
+  "public_source": {
+    "url": "https://arxiv.org/e-print/2502.11088",
+    "archive_sha256": "35cba7a5caf514416d09d0a5ed86ea5a6f11a0c899b6512a39f57cb11c751e33",
+    "license": "CC BY-NC-SA 4.0",
+    "contents": "manuscript TeX and source figures only; no executable code, data arrays, CFD case, mesh, response table or random state",
+    "author_code_search": "no target author repository located in bounded paper, arXiv, GitHub and author-page search",
+    "audited_on": "2026-07-31"
+  },
+  "paper_cases": {
+    "case_i": {
+      "turbines": 8,
+      "grid": "9 by 9 nodes in an 8D square",
+      "initial_layout_samples": 80,
+      "target_layout_evaluations": 343,
+      "wind_states_per_layout": 50,
+      "repeats": 30,
+      "model_role": "low-fidelity PCE"
+    },
+    "case_ii": {
+      "turbines": 16,
+      "grid": "13 by 13 nodes in a 12D square",
+      "initial_layout_samples": 160,
+      "target_layout_evaluations": 567,
+      "wind_states_per_layout": 50,
+      "repeats": 30,
+      "model_role": "low-fidelity PCE"
+    },
+    "case_iii": {
+      "turbines": 32,
+      "grid": "17 by 17 nodes in a 16D square",
+      "initial_layout_samples": 320,
+      "target_layout_evaluations": 839,
+      "wind_states_per_layout": 50,
+      "repeats": 30,
+      "model_role": "low-fidelity PCE"
+    },
+    "case_iv": {
+      "turbines": 8,
+      "grid": "9 by 9 nodes in an 8D square",
+      "initial_layout_samples": 160,
+      "target_layout_evaluations": 272,
+      "wind_states_per_layout": 8,
+      "repeats": 1,
+      "model_role": "high-fidelity ADM-RANS in paper; declared ADM-Gaussian proxy in reproduction"
+    }
+  },
+  "paper_method": {
+    "turbine": "NREL 5 MW reference turbine",
+    "rotor_diameter_m": 126.0,
+    "minimum_spacing_diameters": 2.0,
+    "low_fidelity_wind_grid": "72 direction bins by 22 speed bins",
+    "pce_samples": 50,
+    "pce_order_limit_stated_by_paper": 10,
+    "kriging_trend_stated_by_paper": "second order polynomial",
+    "infill_lifecycle": "maximum surrogate prediction until repeated optimum then expected improvement",
+    "expected_improvement_stop_threshold": 0.1,
+    "ga_parameters_from_cited_predecessor": {
+      "population": 50,
+      "crossover_probability": 0.95,
+      "mutation_probability": 0.15,
+      "maximum_generations": 1000
+    }
+  },
+  "missing_information": [
+    "author FLORIS, DAKOTA and modified OpenFOAM source plus exact versions and options",
+    "machine-readable 72 by 22 wind distribution and exact NREL power curve revision",
+    "PCE LHS arrays, basis construction, selected orders and cross-validation partitions",
+    "Kriging kernel, correlation length search, nugget, regression rank handling and posterior variance configuration",
+    "GA operators, random seeds and complete layouts or convergence responses",
+    "ADM-RANS source, eight CFD cases, mesh, fields, boundary conditions and 626k-cell artifact",
+    "Case-IV high-fidelity responses and all per-run output arrays"
+  ],
+  "mathematical_conflicts": [
+    "Printed Equation 21 substitutes the prediction for the historical best used by Equation 20 and standard expected improvement; use best-observed EI.",
+    "A full quadratic trend has 153, 561 and 2145 terms for Cases I, II and III, exceeding their 80, 160 and 320 initial layouts; use identifiable additive quadratic trend with 33, 65 and 129 terms.",
+    "Fifty PCE samples cannot identify the 66-term total-degree-ten bivariate basis; cross-validation is restricted to total degree at most eight with 45 terms.",
+    "The paper omits the DAKOTA posterior-variance configuration; use a conservative nearest-observation squared-correlation variance proxy and do not claim DAKOTA variance replay."
+    ,"Case IV reports 108.51 MW for eight 5-MW turbines, above the physical 40-MW instantaneous farm limit; treat it as an unnormalized direction aggregate or unit-label inconsistency and report physically averaged proxy power."
+  ],
+  "completion_decisions": [
+    "Implement all four paper case sizes, target truth-call totals, native repeat counts and the PCE-Kriging-MSP-EI-GA lifecycle.",
+    "Reconstruct the 72-direction distribution from the licensed source figure and the 22-speed distribution as a declared truncated Weibull fit.",
+    "Use a pure equation-level Gaussian wake proxy for Cases I-III and a separately labelled asymmetric ADM-Gaussian proxy for Case IV.",
+    "Use empirical orthogonal polynomials, common-random-number 50-point LHS, five-fold cross-validation and degree at most eight.",
+    "Use additive quadratic trend, squared-exponential residual Kriging, deterministic initial-design concentrated-likelihood length selection, rank-one Cholesky append and standard best-observed EI.",
+    "Run every target role with all available Waffle CPU cores; use one-core execution only for the three-repeat H6 speed reference."
+  ],
+  "semantic_ids": {
+    "method": "l0805_pce_additive_quadratic_kriging_msp_ei_ga_v1",
+    "problems": [
+      "l0805_case_i_n8_gaussian_proxy_v1",
+      "l0805_case_ii_n16_gaussian_proxy_v1",
+      "l0805_case_iii_n32_gaussian_proxy_v1",
+      "l0805_case_iv_n8_adm_gaussian_proxy_v1"
+    ],
+    "protocol": "l0805_native_30x3_plus_single_iv_v1"
+  },
+  "hpc_contract": {
+    "backend": "pure C++20 CPU-HPC",
+    "persistent_team": "one persistent all-core team per run",
+    "parallel_axes": [
+      "independent initial-layout evaluations",
+      "independent PCE wake-state work inside each layout when exposed as a batch",
+      "independent Kriging predictions for every GA population",
+      "independent selection crossover mutation and repair for every non-elite offspring"
+    ],
+    "surrogate_acceleration": [
+      "recursive additive-quadratic normal-matrix inverse update",
+      "rank-one Cholesky extension for every Kriging infill",
+      "fixed layout slots and deterministic ordered reductions"
+    ],
+    "determinism": "same scientific hash, layouts, history and objective values for one and all CPU workers",
+    "h6_workload": "Case III batch of 320 layouts with 50 PCE wake states per layout",
+    "formal_resource": "all available Waffle CPU cores"
+  },
+  "formal_protocol": {
+    "required_target_runs": 91,
+    "cases_i_to_iii_runs_each": 30,
+    "case_iv_runs": 1,
+    "h6_repeats_per_worker": 3,
+    "h6_worker_pair": "one CPU worker versus every available Waffle CPU core"
+  },
+  "paper_result_anchors_not_acceptance_targets": {
+    "case_i_aep_gwh": 121.48,
+    "case_ii_aep_gwh": 222.47,
+    "case_iii_aep_gwh": 389.18,
+    "case_iv_paper_reported_aggregate_label_mw": 108.51,
+    "case_iv_low_fidelity_layout_paper_reported_aggregate_label_mw": 106.79
+  },
+  "claim_boundary": "Flexible equation- and lifecycle-level academic reproduction of the target PCE-Kriging-MSP-EI-GA method and four paper problems on declared Gaussian and ADM-Gaussian proxies. It is not author FLORIS, DAKOTA, OpenFOAM, ADM-CFD, random stream, layout, response array, numerical table or timing replay."
+}

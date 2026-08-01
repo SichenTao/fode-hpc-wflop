@@ -441,8 +441,8 @@
     },
     {
       "corpus_id": "L0805",
-      "dossier_sha256": "68c5b0fc00075dd0e13bbbf27927b64956b59826436cb3695b590ee896767f63",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "b19e22e820b68fbffd6276b5432bbb03c0a962d8ebc94f23219140a636c9b526",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {
