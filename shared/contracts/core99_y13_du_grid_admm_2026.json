@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "corpus_id": "Y13",
+  "paper": {
+    "title": "A Generic Acceleration Framework for Grid-Based Wind Farm Layout Optimization",
+    "doi": "10.1109/TSTE.2025.3609006",
+    "venue": "IEEE Transactions on Sustainable Energy 17(2), 2026, 1941-1944",
+    "pdf_sha256": "7f3e0fefd9467db259b5a221d1e2042b244813d6bd3eaa08ccc645d4769c4a2f"
+  },
+  "public_asset_search": {
+    "date": "2026-08-01",
+    "queries": [
+      "exact title plus code",
+      "DOI plus GitHub",
+      "authors plus wind farm layout code",
+      "target and cited DOI local-corpus search"
+    ],
+    "finding": "no paper-linked target source repository, supplement, data archive or machine-readable case arrays found"
+  },
+  "cited_model_authority": {
+    "title": "Optimal Micro-Siting of Wind Turbines in an Offshore Wind Farm Using Frandsen-Gaussian Wake Model",
+    "doi": "10.1109/TPWRS.2019.2916906",
+    "accepted_manuscript": "https://pure.royalholloway.ac.uk/ws/files/33855968/FINAL_VERSION_Siyu_I.pdf",
+    "use": "Frandsen-Gaussian equations r0=0.8R, alpha=0.56/log(zh/z0), sigma squared and Gaussian deficit amplitude"
+  },
+  "paper_problem": {
+    "grid_cases": [
+      {"side": 6, "cells": 36, "turbines": 18, "reported_m3_gwh": 346.40},
+      {"side": 10, "cells": 100, "turbines": 50, "reported_m3_gwh": 899.20},
+      {"side": 16, "cells": 256, "turbines": 128, "reported_m3_gwh": 2044.36},
+      {"side": 20, "cells": 400, "turbines": 200, "reported_m3_gwh": 2999.26}
+    ],
+    "cell_pitch": "five NREL 5 MW rotor diameters, reconstructed as 5 times 126 m equals 630 m",
+    "wind": "36 directions at 10 degree intervals",
+    "objective": "maximize annual wind-farm generation under exact turbine cardinality and precomputed linear pair power-loss constraints",
+    "table_values_use": "external paper-result anchors only; no parameter calibration or exact-number gate"
+  },
+  "paper_method": {
+    "name": "scenario-consensus l2-box ADMM with Gurobi scenario subproblems",
+    "initial_rho": 0.5,
+    "initial_duals": 0.0,
+    "binary_equivalence": "intersection of [0,1]^n and the sphere centred at 0.5 with radius sqrt(n)/2",
+    "scenario_updates": 36,
+    "paper_typical_iterations": 10,
+    "paper_rounding_deviation_upper_percent": 5.0,
+    "native_roles": ["6x6_admm", "10x10_admm", "16x16_admm", "20x20_admm"],
+    "paper_reported_repeats": 1
+  },
+  "missing_information": [
+    "target Gurobi source, version, model files, basis, parameter file and solver state",
+    "warm-start algorithm, numeric warm layouts and the reported 100 second warm-start computation",
+    "36 Danish direction probabilities and scenario speeds from cited DOI 10.1109/TII.2025.3538067",
+    "exact NREL 5 MW power and thrust curve revision",
+    "ADMM convergence threshold and adaptive-rho rule",
+    "sphere-centre projection tie handling",
+    "complete layouts, convergence histories and machine timing receipts"
+  ],
+  "modeling_corrections": [
+    "The printed maximization Lagrangian has positive squared penalties but Equation 8a uses arg-min. Use the standard equivalent minimization of negative generation plus positive augmented quadratics.",
+    "Printed Equation 1d remains active for an uninstalled target cell and may make it infeasible. Add the standard tight binary implication M(1-x_i), with M equal to the sum of all incoming pair losses for that target and scenario.",
+    "Projection onto the l2 sphere is set-valued at its centre. Continue along the deterministic exact-cardinality warm-start direction.",
+    "Count scenario subproblem solves and complete-layout evaluations separately; do not label mathematical-programming iterations as evolutionary FES."
+  ],
+  "completion_decisions": [
+    "Reconstruct a normalized smooth Danish-sector directional prior and direction-dependent rated-region speeds; do not fit optimized table values.",
+    "Use the cited Frandsen-Gaussian equations, NREL 5 MW geometry and a disclosed cubic-to-rated power curve.",
+    "Replace unavailable Gurobi by pinned HiGHS revision 04024d701f79feb8e2f18bc3df0dffc04ef05088.",
+    "Avoid the pinned HiGHS active-set QP degeneracy failure by representing each separable x-squared term with 33 uniform epigraph tangents. The x-squared underestimation is bounded by 1/(4*32^2) on [0,1].",
+    "Use residual balancing at ratio 10 and binary-feasibility-assisted rho growth by factor 1.5 while rounding deviation exceeds 5 percent.",
+    "Use an exact-cardinality boundary-priority deterministic warm start and stable top-cardinality final rounding.",
+    "Execute one deterministic paper-native run for each of the four cases."
+  ],
+  "semantic_ids": {
+    "problem": "y13_four_grid_fg36_declared_v1",
+    "method": "y13_l2box_consensus_admm_highs_declared_v1",
+    "protocol": "y13_native_four_case_single_run_v1"
+  },
+  "hpc_contract": {
+    "backend": "pure C++20 CPU-HPC plus pinned HiGHS LP kernel",
+    "matrix_stage": "36 independent immutable Frandsen-Gaussian pair matrices",
+    "optimizer_stage": "36 independent scenario subproblems in fixed slots per ADMM iteration",
+    "nested_parallelism": "disabled; each HiGHS instance uses one internal thread",
+    "synchronization": "one consensus barrier per mathematical stage with fixed scenario-order reductions",
+    "determinism": "same selected cells, AEP and scientific hash for one and all CPU workers",
+    "formal_resource": "all available Waffle CPU cores"
+  },
+  "formal_protocol": {
+    "roles": 4,
+    "runs_per_role": 1,
+    "maximum_admm_iterations": 10,
+    "complete_layout_evaluations_per_run": 2,
+    "scenario_subproblem_solves_per_full_run": 360,
+    "h6_case": "20x20",
+    "h6_worker_pair": "one CPU worker versus every available Waffle CPU core"
+  },
+  "claim_boundary": "Equation-level flexible academic reproduction of the complete target algorithm-problem pair. It is not the author Gurobi code, Danish resource, warm start, solver trajectory, table-objective identity or laptop timing replay."
+}

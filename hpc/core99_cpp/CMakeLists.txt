@@ -557,7 +557,13 @@ if(CORE99_ENABLE_T19)
     target_compile_features(core99_t19_srmp PUBLIC cxx_std_20)
     target_compile_options(core99_t19_srmp PRIVATE -O3 -w)
 endif()
-if(CORE99_ENABLE_T63 OR CORE99_ENABLE_T30 OR CORE99_ENABLE_Y16)
+option(
+    CORE99_ENABLE_Y13
+    "Build Y13 grid-WFLO consensus ADMM HiGHS CPU-HPC reproduction"
+    OFF
+)
+if(CORE99_ENABLE_T63 OR CORE99_ENABLE_T30 OR CORE99_ENABLE_Y16
+   OR CORE99_ENABLE_Y13)
     include(FetchContent)
     set(CORE99_SAVED_BUILD_TESTING ${BUILD_TESTING})
     set(FAST_BUILD ON CACHE BOOL "" FORCE)
@@ -787,6 +793,24 @@ if(CORE99_ENABLE_T58)
     )
     add_executable(core99_t58_hpc src/rethore_t58_main.cpp)
     target_link_libraries(core99_t58_hpc PRIVATE core99_t58_core)
+endif()
+
+if(CORE99_ENABLE_Y13)
+    add_library(core99_y13_core STATIC src/du_y13.cpp)
+    target_include_directories(core99_y13_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_y13_core PUBLIC fode_core highs::highs)
+    target_compile_features(core99_y13_core PUBLIC cxx_std_20)
+    target_compile_options(core99_y13_core PRIVATE
+        -O3
+        -march=native
+        -ffp-contract=off
+    )
+    add_executable(core99_y13_hpc src/du_y13_main.cpp)
+    target_link_libraries(core99_y13_hpc PRIVATE core99_y13_core)
 endif()
 
 if(CORE99_ENABLE_T16)
@@ -1650,6 +1674,23 @@ if(BUILD_TESTING)
             COMMAND ${Python3_EXECUTABLE}
                 ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_t58.py
                 --binary $<TARGET_FILE:core99_t58_hpc>
+        )
+    endif()
+    if(CORE99_ENABLE_Y13)
+        add_executable(core99_y13_test tests/du_y13_test.cpp)
+        target_link_libraries(core99_y13_test PRIVATE core99_y13_core)
+        target_compile_options(core99_y13_test PRIVATE
+            -Wall -Wextra -Wpedantic -Werror
+        )
+        add_test(NAME core99_y13_cpp COMMAND core99_y13_test)
+        add_test(
+            NAME core99_y13_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_y13.py
+                --binary $<TARGET_FILE:core99_y13_hpc>
+        )
+        set_tests_properties(
+            core99_y13_cpp core99_y13_h5 PROPERTIES TIMEOUT 1800
         )
     endif()
     if(CORE99_ENABLE_T16)
