@@ -53,13 +53,15 @@
     "Reconstruct CMA-ES from the paper's five-variable decoder and standard rank-mu covariance adaptation; do not relabel the conflicting MATLAB archive.",
     "Use deterministic counter-keyed random events and ordered state commits rather than claim cross-language bit-stream identity.",
     "Analytically aggregate 3s-MDE lattice pair-surrogate terms; decode exact layouts for physical evaluations and use a declared deterministic half-batch completion only if absolute surrogate calibration admits too few trials.",
-    "Flatten candidate-by-direction evaluation and use one persistent CPU team."
+    "Flatten candidate-by-direction evaluation and use one persistent CPU team.",
+    "Run the complete four-method by five-scenario paper matrix once because the paper reports one competition result per role and no independent statistical repeats.",
+    "Request every available Waffle CPU core for every role; retain paper-ordered stateful trajectories and use independent candidate and direction parallelism."
   ],
   "scope": {
     "scope_status": "new_direct_ready",
     "execution_wave": "REV1",
     "target_contribution_type": "problem_definition_or_comparison_protocol",
-    "package_status": "paper_pair_h5_validated_h6_running",
+    "package_status": "h5_admitted_h6_and_formal_ready",
     "claim_boundary": "academic declared reproduction of the paper problem and four main methods; not author-exact numerical or runtime reproduction"
   },
   "semantic_contract": {
@@ -126,7 +128,7 @@
     "metrics_and_repeats": {
       "status": "frozen",
       "authority": "paper_plus_platform_protocol",
-      "resolution": "energy cost, wake-free ratio, energy output, feasibility, physical FES, stage timings, scientific hash, and 25 platform seeds"
+      "resolution": "energy cost, wake-free ratio, energy output, feasibility, physical FES, stage timings and scientific hash for one paper-native competition run per method/scenario; any 25-seed platform robustness extension is separate and is not an admission blocker"
     }
   },
   "implementation_units": [
@@ -135,7 +137,8 @@
     "hpc/core99_cpp/src/windflo_t12_main.cpp",
     "shared/contracts/core99_t12_windflo_2015.json",
     "scripts/validate_core99_t12.py",
-    "scripts/run_core99_t12_admission.py"
+    "scripts/run_core99_t12_admission.py",
+    "scripts/run_core99_t12_when_waffle_free.sh"
   ],
   "evidence_receipts": [],
   "hpc_admission": {
@@ -145,10 +148,10 @@
     "H3": "pass",
     "H4": "pass",
     "H5": "pass",
-    "H6": "running"
+    "H6": "all_core_20_role_runner_ready_legacy_two_worker_partial_preserved"
   },
-  "dossier_status": "h5_admitted_h6_running",
-  "formal_status": "admission_pending",
+  "dossier_status": "h5_admitted",
+  "formal_status": "all_core_20_role_runner_ready_replacing_legacy_two_worker_partial",
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 28,

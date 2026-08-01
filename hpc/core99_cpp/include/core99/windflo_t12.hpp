@@ -28,14 +28,15 @@ deterministically fill half the batch so the declared physical budget advances
 Each long surrogate-only local trajectory uses a counter-keyed,
 trajectory-owned SplitMix stream, avoiding repeated full event hashing while
 preserving schedule-independent uniform draws
-Method/problem semantic IDs: t12_four_competition_methods_v1;
-t12_windflo_2015_five_scenarios_v1
+Method/problem/protocol semantic IDs: t12_four_competition_methods_v1;
+t12_windflo_2015_five_scenarios_v1;
+t12_five_scenarios_four_methods_single_competition_run_v1
 Controlling contract: shared/contracts/core99_t12_windflo_2015.json
 Production backend: pure C++ CPU-HPC with persistent all-core candidate-batch
 and wind-direction execution; deterministic paper-order state commits
 Claim boundary: academic declared reproduction, not author-exact bit-stream or
 author-runtime reproduction
-Last evidence-audit date: 2026-07-31
+Last evidence-audit date: 2026-08-01
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 #pragma once

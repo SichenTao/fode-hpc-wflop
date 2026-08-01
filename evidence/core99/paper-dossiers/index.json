@@ -51,8 +51,8 @@
     },
     {
       "corpus_id": "T12",
-      "dossier_sha256": "0146f326f19381a0685556d1e9a86a337a5be19071688667bfa94edfdc02651d",
-      "dossier_status": "h5_admitted_h6_running",
+      "dossier_sha256": "c0928aa142b78d0028cbee5847093ef1db8cc565e5f1f3ba1c2dbb617e286537",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

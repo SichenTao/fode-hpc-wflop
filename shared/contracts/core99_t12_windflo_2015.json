@@ -22,6 +22,17 @@
     "per_scenario": 2000
   },
   "problem_semantic_id": "t12_windflo_2015_five_scenarios_v1",
+  "protocol_semantic_id": "t12_five_scenarios_four_methods_single_competition_run_v1",
+  "formal_protocol": {
+    "paper_native_roles": 20,
+    "methods": 4,
+    "scenarios": 5,
+    "paper_reported_independent_repeats": 1,
+    "physical_fes_per_scenario": 2000,
+    "physical_fes_across_five_scenarios_per_method": 10000,
+    "execution_backend": "pure C++ persistent all-core CPU-HPC",
+    "paper_values": "external anchors rather than numeric acceptance targets"
+  },
   "public_source_license": "MIT",
   "public_source_revision": "9e85a67bb2ca019768ea51dd0b634a46c8406ba2",
   "public_source_url": "https://github.com/d9w/WindFLO",
