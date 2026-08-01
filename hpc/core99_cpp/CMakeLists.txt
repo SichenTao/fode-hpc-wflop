@@ -577,6 +577,11 @@ option(
     "Build L0581 adaptive sparse-coloured forward-AD CPU-HPC reproduction"
     OFF
 )
+option(
+    CORE99_ENABLE_L0245
+    "Build L0245 polynomial-chaos OUU CPU-HPC reproduction"
+    OFF
+)
 if(CORE99_ENABLE_T63 OR CORE99_ENABLE_T30 OR CORE99_ENABLE_Y16
    OR CORE99_ENABLE_Y13)
     include(FetchContent)
@@ -751,7 +756,7 @@ option(
     OFF
 )
 if(CORE99_ENABLE_T16 OR CORE99_ENABLE_T84 OR CORE99_ENABLE_T07 OR CORE99_ENABLE_T21
-   OR CORE99_ENABLE_T81 OR CORE99_ENABLE_T25)
+   OR CORE99_ENABLE_T81 OR CORE99_ENABLE_T25 OR CORE99_ENABLE_L0245)
     include(FetchContent)
 
     set(NLOPT_CXX ON CACHE BOOL "" FORCE)
@@ -880,6 +885,26 @@ if(CORE99_ENABLE_L0581)
     add_executable(core99_l0581_hpc src/varela_l0581_main.cpp)
     target_link_libraries(core99_l0581_hpc PRIVATE core99_l0581_core)
     target_compile_options(core99_l0581_hpc PRIVATE
+        -Wall -Wextra -Wpedantic -Werror
+    )
+endif()
+
+if(CORE99_ENABLE_L0245)
+    add_library(core99_l0245_core STATIC src/padron_l0245.cpp)
+    target_include_directories(core99_l0245_core
+        PUBLIC
+            ${CMAKE_CURRENT_SOURCE_DIR}/include
+            ${CMAKE_CURRENT_SOURCE_DIR}/../fode_cpp/include
+    )
+    target_link_libraries(core99_l0245_core PUBLIC fode_core nlopt)
+    target_compile_features(core99_l0245_core PUBLIC cxx_std_20)
+    target_compile_options(core99_l0245_core PRIVATE
+        -O3 -march=native -ffp-contract=off
+        -Wall -Wextra -Wpedantic -Werror
+    )
+    add_executable(core99_l0245_hpc src/padron_l0245_main.cpp)
+    target_link_libraries(core99_l0245_hpc PRIVATE core99_l0245_core)
+    target_compile_options(core99_l0245_hpc PRIVATE
         -Wall -Wextra -Wpedantic -Werror
     )
 endif()
@@ -1472,6 +1497,29 @@ endif()
 
 if(BUILD_TESTING)
     find_package(Python3 REQUIRED COMPONENTS Interpreter)
+    if(CORE99_ENABLE_L0245)
+        add_executable(core99_l0245_test tests/padron_l0245_test.cpp)
+        target_link_libraries(core99_l0245_test PRIVATE core99_l0245_core)
+        target_compile_options(core99_l0245_test PRIVATE
+            -Wall -Wextra -Wpedantic -Werror
+        )
+        add_test(
+            NAME core99_l0245_cpp
+            COMMAND core99_l0245_test
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_l0245_public_data.txt
+        )
+        add_test(
+            NAME core99_l0245_h5
+            COMMAND ${Python3_EXECUTABLE}
+                ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/validate_core99_l0245.py
+                --binary $<TARGET_FILE:core99_l0245_hpc>
+                --data
+                    ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/data/core99_l0245_public_data.txt
+        )
+        set_tests_properties(
+            core99_l0245_cpp core99_l0245_h5 PROPERTIES TIMEOUT 3600
+        )
+    endif()
     add_executable(core99_l0124_test tests/parada_l0124_test.cpp)
     target_link_libraries(core99_l0124_test PRIVATE core99_l0124_core)
     add_test(NAME core99_l0124_cpp COMMAND core99_l0124_test)

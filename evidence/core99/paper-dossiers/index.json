@@ -453,8 +453,8 @@
     },
     {
       "corpus_id": "L0245",
-      "dossier_sha256": "5d03257ecfbe89049ebab69d5872a5eea153c39ae3eaf2a41ede0455cad809c9",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "f00cea78678c74be79fe9e1403f4de92e5b136bd70cdbdf6f1ce7aed74512cec",
+      "dossier_status": "h5_admitted",
       "role": "D"
     }
   ]

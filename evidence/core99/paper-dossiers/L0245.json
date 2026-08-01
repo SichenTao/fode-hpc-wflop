@@ -6,21 +6,35 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Implement PC-R coarse and fine, rectangle coarse and fine, and the 200000-sample Monte-Carlo reference on all four public 60-turbine layouts.",
+    "Use the paper's two independent uncertain variables and 3-25 m/s truncated Weibull rather than the precursor source's one-variable 0-30 m/s examples.",
+    "Use deterministic seed-indexed centered Latin hypercubes, custom numerical orthogonal polynomials, ten-fold degree selection and disclosed ridge-stabilized Cholesky because exact DAKOTA arrays are absent.",
+    "Independently translate the continuous three-zone FLORIS equations from Apache-2.0 PlantEnergy lineage and reproduce the author driver's constant-Cp/Ct 5-MW turbine abstraction.",
+    "Replace proprietary SNOPT with open NLopt SLSQP while preserving the 120-variable problem, 14-edge boundary, 2D spacing and 1000-evaluation budget.",
+    "Use fixed-width forward automatic differentiation and all-core wind-state parallelism with deterministic indexed writes and ordered reductions.",
+    "Run four Monte-Carlo references, 160 fixed-layout method/set roles and all 120 paper optimization roles; assess every final layout with the same independent 200000-sample reference stream.",
+    "Treat paper numerical tables as external anchors, not bitwise acceptance targets."
+  ],
   "corpus_id": "L0245",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "runner_ready_for_waffle_after_l0581",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "complete_paper_zenodo_author_source_and_lineage_audit",
+    "H1": "complete_pcr_regression_ad_floris_constraint_and_slsqp_work_decomposition",
+    "H2": "complete_persistent_state_team_fixed_width_ad_and_deterministic_reduction_analysis",
+    "H3": "complete_pure_cpp_pcr_rectangle_monte_carlo_floris_and_slsqp_implementation",
+    "H4": "complete_local_630_state_one_twenty_worker_profile",
+    "H5": "pass_semantics_samples_four_layouts_derivative_reference_determinism_participation_and_optimization",
+    "H6": "pass_local_provisional_waffle_authoritative_runner_ready"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "exact two-variable Latin-hypercube and 200000-sample Monte-Carlo arrays",
+    "final two-variable DAKOTA files and selected polynomial orders",
+    "SNOPT version binary settings histories and complete stopping state",
+    "exact target FLORISSE revision and compiled environment",
+    "all final layouts trajectories and random states",
+    "nonzero spline-shift value if one was used"
   ],
   "paper": {
     "authors": "Andrés Santiago Padrón and Jared Thomas and Andrew P. J. Stanley and Juan J. Alonso and Andrew Ning",
@@ -37,96 +51,101 @@
     "year": 2019
   },
   "paper_linked_public_asset_candidates": [
-    "https://doi.org/10.5281/zenodo.2667424"
+    "https://doi.org/10.5281/zenodo.2667424",
+    "https://github.com/pjstanle/OUUoptimizations",
+    "https://github.com/byuflowlab/PlantEnergy"
   ],
-  "paper_source_conflicts": [],
+  "paper_source_conflicts": [
+    "The paper truncates wind speed to 3-25 m/s while the older public driver uses 0-30 m/s.",
+    "The paper reports function precision tolerance 1e-4 while the older public driver requests SNOPT major optimality tolerance 2e-6.",
+    "The older public repository implements one uncertain variable at a time and cannot be represented as the final two-variable program.",
+    "The author repository publishes no license, so it is used only as read-only semantic evidence and no code is copied."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 21,
     "text_sha256": "72629233fc2f8596ebc10b1f3401f62167b2b9062daa903e50fb78b98bb70e5e"
   },
   "public_asset_candidate_evidence": {
-    "availability_mention_line_numbers": [
-      1046
-    ],
+    "availability_mention_line_numbers": [1046],
     "embedded_annotation_urls": [
       "https://doi.org/10.5281/zenodo.2667424"
     ],
-    "status": "candidate_only_requires_revision_license_semantic_audit"
+    "status": "official_zenodo_author_precursor_and_licensed_lineage_revision_license_semantics_audited"
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "source-backed flexible PC-R problem and protocol reproduction; not author DAKOTA SNOPT target FLORISSE random stream numerical table or timing replay",
     "execution_wave": "REV5",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
+    "package_status": "h5_admitted_h6_and_formal_ready",
+    "scope_status": "paper_paired_hpc_implemented",
     "target_contribution_type": "scaling_computation_or_reproducible_execution"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_author_precursor",
+      "resolution": "14-edge Amalia convex hull and at-least-2D pair spacing supplied as analytic SLSQP constraints",
+      "status": "implemented_and_validated"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "120 continuous variables: 60 x coordinates followed by 60 y coordinates",
+      "status": "implemented"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_public_data",
+      "resolution": "four exact public layouts decoded to fixed x/y arrays and optimizer vectors",
+      "status": "implemented"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_public_data",
+      "resolution": "Amalia Grid and Random public starting layouts; ten deterministic sample-set seeds per method",
+      "status": "implemented"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "AEP in GWh, selected polynomial order, physical wake simulations, feasibility, timings and 200000-sample final reference; ten sample sets",
+      "status": "implemented_runner_ready"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_equations_3_4_and_37",
+      "resolution": "maximize 8760 times expected farm power under direction and speed uncertainty",
+      "status": "implemented"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_sections_5_6_and_table_2_plus_zenodo",
+      "resolution": "four fixed layouts; PC-R and rectangle coarse/fine; three optimization starts by four methods by ten sets",
+      "status": "implemented"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_author_source_plus_licensed_lineage",
+      "resolution": "D126.4 m, 60 NREL-5MW abstractions, Weibull 1.8/12.55 truncated 3-25, 72 direction bins, 231/630/225/625 states, 1000 SLSQP evaluations",
+      "status": "implemented_and_registered"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_author_precursor_plus_open_solver_completion",
+      "resolution": "NLopt SLSQP maximum 1000 objective-gradient calls; every call records the method-specific physical wind-state count",
+      "status": "implemented_and_audited"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_pc_regression",
+      "resolution": "construct frozen LHS plan, fit and cross-validate polynomial order at the starting layout, reuse frozen mean weights throughout one optimization",
+      "status": "implemented"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_equations_23_35_plus_open_solver_completion",
+      "resolution": "sample physical states, build and select PCE, freeze mean-gradient weights, then execute constrained SLSQP calls and independent final Monte-Carlo assessment",
+      "status": "implemented_and_schedule_validated"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_author_precursor_plus_apache_plantenergy_lineage",
+      "resolution": "continuous three-zone FLORIS with source-backed parameters, constant Cp/Ct, generator efficiency and 5 MW cap; zero unreported spline shift",
+      "status": "implemented_with_source_lineage_boundary"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_zenodo_plus_declared_completion",
+      "resolution": "cyclically linearly interpolated 72-point direction distribution represented by 50 equal-width bins for custom polynomials, independent truncated Weibull speed, deterministic centered two-dimensional LHS, midpoint rectangle products and traditional Monte Carlo",
+      "status": "implemented_and_disclosed"
     }
   }
 }
