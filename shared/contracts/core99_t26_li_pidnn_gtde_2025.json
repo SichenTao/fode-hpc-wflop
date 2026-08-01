@@ -1,0 +1,97 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T26",
+  "paper": {
+    "title": "A Data-Physics Hybrid-Driven Layout Optimization Framework for Large-Scale Wind Farms",
+    "doi": "10.1016/j.apenergy.2025.125908",
+    "venue": "Applied Energy 392 (2025) 125908",
+    "pdf_sha256": "96c3e1f7a737090d6428a68e56dc8fcfdf2e4d7169acec25e8c0657e97f8c36f"
+  },
+  "public_source_audit": {
+    "target_paper_code": "no public URL stated or found",
+    "target_paper_data": "paper states data will be made available on request",
+    "gtde_author_resource": "https://zhanapollo.github.io/zhanzhh/resources.htm",
+    "gtde_author_resource_sha256": "ea0111564300c0078ff58b7c37c811b922d987d7df8397c69774162e74040025",
+    "gtde_resource_observation": "author page says source for DOI 10.1109/TEVC.2022.3185665 is available by email application rather than public download"
+  },
+  "paper_provided": {
+    "pidnn": "velocity encoder 4-32-16-8-3 with ELU, separate Ct encoder, Adam, batch 1024, learning rate 0.005, 10000 iterations, regularization 5",
+    "training_domain": "single NREL 5MW turbine, 30D streamwise by 5D spanwise by 4D vertical, 23 inflow velocities from 3 to 25 m/s and 120000 points per velocity",
+    "problem": "7 km square, 80 NREL 5MW turbines, 3D minimum spacing and 12-direction 1989-2002 Danish west-coast wind resource",
+    "gtde": "population 300, 1000 generations, bottleneck probability N(0.01,0.01), amplification N(0.5,0.1), random targeting probability 0.01 and DE/current-to-best/1 for non-best individuals",
+    "anchors": "regular layout 1554.20 GWh, GTDE target report 1716.61 GWh, optimized PIDNN 10 m/s power 200.08 MW and RANS check 198.82 MW"
+  },
+  "missing_information": [
+    "ANSYS Fluent mesh, exact boundary conditions, pressure and all CFD fields",
+    "120000 sample coordinates per speed, training/test split and Ct observations",
+    "target code, trained weights, optimizer state and random seeds",
+    "numeric Figure-5 power curve and Figure-6 wind resource arrays",
+    "Ct encoder widths and pressure treatment in the physics residual",
+    "penalty coefficient, GTDE crossover rate, bounds handling, initialization and complete variation details",
+    "repeat count, complete layouts and convergence histories"
+  ],
+  "conflicts": [
+    {
+      "field": "decision dimension",
+      "paper": "Eq.12 defines x/y coordinates for 80 turbines while Section 6.3 calls dimension 80",
+      "resolution": "preserve 80 vector-valued turbine genes represented by 160 scalar coordinates"
+    },
+    {
+      "field": "GTDE update order",
+      "paper": "Algorithm 1 shows an inner loop and best replacement while prose describes an offspring population",
+      "resolution": "use a frozen generation best and parallel trial evaluation, then ordered selection; declare this HPC completion"
+    }
+  ],
+  "reconstruction": {
+    "training_data": "deterministic actuator-disk Gaussian single-wake proxy over the exact paper domain and 23 integer speeds",
+    "physics": "paper continuity and three momentum residuals with viscosity, actuator-disk source and zero pressure-gradient closure",
+    "wind": "Figure-6 12-direction six-speed-band digitization normalized to probability one",
+    "power": "Figure-5 NREL-5MW cut-in/rated/cut-out curve reconstruction",
+    "objective_calibration": "one case-wide wake multiplier uses only the reported regular-layout 1554.20 GWh anchor",
+    "gtde": "binomial CR 0.9, reflected square bounds, summed pairwise 3D violation with 0.001 GWh per square-metre penalty and counter-stable host random events"
+  },
+  "semantic_ids": {
+    "problem": "t26_pidnn_hornsrev80_declared_v1",
+    "training": "t26_pidnn_rans_proxy_physics_dual_libtorch_v1",
+    "method": "t26_gtde_80_vector_genes_declared_v1",
+    "protocol": "t26_native_single_plus_25_seed_robustness_v1"
+  },
+  "physical_fes": {
+    "unit": "one complete 80-turbine layout evaluation over the fixed 72 wind states",
+    "initial_population": 300,
+    "per_generation": 300,
+    "generations": 1000,
+    "per_run": 300300,
+    "offline_training_is_separate": true
+  },
+  "formal_protocol": {
+    "paper_native_runs": 1,
+    "declared_robustness_runs": 25,
+    "total_runs": 26,
+    "training": "one paper-profile 10000-step model trained from scratch before optimization",
+    "formal_backend": "fastest complete CPU or CUDA backend admitted by H6"
+  },
+  "hpc_execution": {
+    "backend": "direct C++ LibTorch CPU/CUDA",
+    "training": "batched autograd residuals and data loss on the selected tensor backend",
+    "inference": "fixed 6 by 121 by 81 PIDNN wake table with direct-network interpolation audit",
+    "optimization": "population tensor mutation, reflection, 12-direction by six-speed batched evaluator and deterministic host random-event plan",
+    "cpu": "all available LibTorch intra-op workers on paper-population work",
+    "cuda": "complete training, table construction, evaluation, variation and selection on device",
+    "python_boundary": "Python only schedules resumable runs and validates receipts; it is outside production computation and timing"
+  },
+  "development_evidence_20260801": {
+    "h5_status": "pass",
+    "regular_aep_anchor_tolerance_gwh": 0.02,
+    "pidnn_table_direct_mae": 2.123839806245087e-7,
+    "cpu_one_worker_seconds_population300_two_generations": 7.718044964,
+    "cpu_twenty_worker_seconds_population300_two_generations": 4.267532362,
+    "cpu_speedup": 1.8085498384792331,
+    "paired_warm_cpu_seconds_population300_two_generations": 2.136439161,
+    "cuda_seconds_population300_two_generations": 0.589282716,
+    "cuda_vs_paired_twenty_cpu_speedup": 3.625490962134379,
+    "objective_identity": true,
+    "note": "local development evidence; immutable Waffle H6 and formal receipts remain authoritative"
+  },
+  "claim_boundary": "flexible equation-level academic reproduction of PIDNN plus GTDE on the paper problem; not author CFD data, source, trained model, random trajectory, optimized layout or numerical replay"
+}

@@ -10,6 +10,7 @@ option(
 if(WFLOP_ENABLE_TORCH)
     find_package(Torch CONFIG REQUIRED)
     add_subdirectory(hpc/learning_libtorch)
+    add_subdirectory(hpc/t26_libtorch)
     add_subdirectory(hpc/t27_libtorch)
     add_subdirectory(hpc/t28_libtorch)
 endif()

@@ -423,8 +423,8 @@
     },
     {
       "corpus_id": "T26",
-      "dossier_sha256": "f4119c7eacda61e67a6a4dc6b8245558f27466ee09f29a066af1c302f065eccd",
-      "dossier_status": "pre_code_fulltext_audit_ready",
+      "dossier_sha256": "5ba579a5690a5e8058471dae6f10fb87042a2ed6a550ce8e4736d82cc758b1e1",
+      "dossier_status": "h5_admitted",
       "role": "D"
     },
     {

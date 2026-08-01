@@ -6,21 +6,33 @@
     "same_lineage_public_source",
     "deterministic_declared_reconstruction"
   ],
-  "completion_decisions": [],
+  "completion_decisions": [
+    "Implement the complete PIDNN training lifecycle, trained wake evaluator, 80-turbine problem and GTDE target method.",
+    "Use a deterministic actuator-disk Gaussian field over the exact paper domain when the unavailable ANSYS fields are required.",
+    "Retain paper network widths, optimizer, batch, learning rate, regularization and 10000-step training contract.",
+    "Digitize the paper wind rose and power curve and calibrate only to the reported regular-layout 1554.20 GWh anchor.",
+    "Treat each turbine coordinate pair as one vector-valued gene, resolving the paper's 80-versus-160 dimension wording without deleting a coordinate.",
+    "Use direct C++ LibTorch CPU/CUDA training plus batched PIDNN-table population evaluation.",
+    "Execute one paper-native run and a separately labelled 25-seed reconstruction robustness extension."
+  ],
   "corpus_id": "T26",
-  "dossier_status": "pre_code_fulltext_audit_ready",
-  "formal_status": "not_started",
+  "dossier_status": "h5_admitted",
+  "formal_status": "runner_ready_for_waffle_after_t58",
   "hpc_admission": {
-    "H0": "not_started",
-    "H1": "not_started",
-    "H2": "not_started",
-    "H3": "not_started",
-    "H4": "not_started",
-    "H5": "not_started",
-    "H6": "not_started"
+    "H0": "complete_training_and_300300_fes_work_model",
+    "H1": "complete_paper_gtde_resource_and_missing_asset_trace",
+    "H2": "complete_training_population_wind_and_pair_dependency_graph",
+    "H3": "complete_libtorch_cpu_cuda_and_bounded_tensor_design",
+    "H4": "complete_native_cpp_training_distillation_gtde_and_receipts",
+    "H5": "pass_anchor_fes_interpolation_worker_identity_and_lifecycle",
+    "H6": "pass_local_provisional_waffle_authoritative_runner_ready"
   },
   "missing_information": [
-    "full field-level audit not yet completed"
+    "ANSYS mesh, exact CFD boundary values, pressure, flow fields and all sample coordinates",
+    "target source, trained weights, optimizer state and random streams",
+    "numeric wind-rose, power-curve and Ct observation arrays",
+    "Ct encoder widths, pressure treatment, penalty coefficient, crossover rate and bounds handling",
+    "repeat count, complete layouts and convergence histories"
   ],
   "paper": {
     "authors": "Peiyi Li and Yanbo Che and Anran Hua and Lei Wang and Mengxiang Zheng and Xiaojiang Guo",
@@ -36,94 +48,97 @@
     "venue": "Applied Energy",
     "year": 2025
   },
-  "paper_linked_public_asset_candidates": [],
-  "paper_source_conflicts": [],
+  "paper_linked_public_asset_candidates": [
+    "https://zhanapollo.github.io/zhanzhh/resources.htm"
+  ],
+  "paper_source_conflicts": [
+    "Eq.12 defines 80 x/y coordinate pairs while Section 6.3 calls the optimization dimension 80; preserve 80 vector-valued genes and 160 scalars.",
+    "Algorithm 1 can be read as immediately updating the best while the prose describes an offspring population; freeze the generation best for legal population-parallel HPC and declare the resolution.",
+    "The target paper provides no code/data URL and states data are available on request; the cited GTDE author page also requires an email request for code."
+  ],
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 11,
     "text_sha256": "2b09d7619a77a8b25da34d7ad8258ac6d254bd4104b3dd0d721db98ac02d33d5"
   },
   "public_asset_candidate_evidence": {
-    "availability_mention_line_numbers": [
-      704,
-      706
-    ],
+    "availability_mention_line_numbers": [704, 706],
     "embedded_annotation_urls": [],
-    "status": "no_paper_linked_public_asset_candidate_detected"
+    "status": "target_no_public_source_and_cited_gtde_email_request_page_audited"
   },
   "schema_version": 1,
   "scope": {
-    "claim_boundary": "scope and primary PDF verified; scientific contract pending paper/source reconciliation",
+    "claim_boundary": "flexible equation-level academic reproduction of PIDNN plus GTDE and the paper problem; not author CFD, source, trained artifact, random trajectory, layout or numerical replay",
     "execution_wave": "REV5",
-    "package_status": "queued_full_text_contract",
-    "scope_status": "new_direct_ready",
+    "package_status": "h5_admitted_h6_and_26_run_formal_ready",
+    "scope_status": "paper_paired_hpc_implemented",
     "target_contribution_type": "scaling_computation_or_reproducible_execution"
   },
   "semantic_contract": {
     "constraints_and_repair": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_completion",
+      "resolution": "7 km square, pairwise distance at least 3D, reflection at bounds and paper penalty completed as 0.001 GWh per squared metre of summed violation",
+      "status": "implemented_and_validated"
     },
     "decision_variables": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_equation_12_and_section_6_3",
+      "resolution": "80 vector-valued turbine genes containing x/y coordinates, represented as 160 scalars",
+      "status": "implemented_conflict_resolved"
     },
     "encoding_and_decoder": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper",
+      "resolution": "direct continuous coordinate-pair genes with no hidden decoder",
+      "status": "implemented"
     },
     "initialization": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_figure_7_plus_declared_completion",
+      "resolution": "exact 8 by 10 regular layout plus bounded deterministic jitter for the remaining population",
+      "status": "implemented"
     },
     "metrics_and_repeats": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_declared_robustness_extension",
+      "resolution": "AEP, optimization ratio, feasibility, physical FES, stage timing and hashes; one native plus 25 robustness seeds",
+      "status": "implemented_runner_ready"
     },
     "objective_and_direction": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_equations_13_to_16",
+      "resolution": "maximize annual energy production minus the declared distance-violation penalty",
+      "status": "implemented"
     },
     "paper_native_cases": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_sections_6_1_and_6_3",
+      "resolution": "one 7 km by 7 km, 80-turbine, 400 MW large-scale case with PIDNN and GTDE",
+      "status": "implemented"
     },
     "parameters": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_plus_cited_gtde_semantics_plus_declared_completion",
+      "resolution": "paper PIDNN and GTDE parameters plus CR 0.9, reflection and visible penalty completion",
+      "status": "implemented"
     },
     "stopping_and_physical_fes": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_section_6_3_and_explicit_evaluation_ledger",
+      "resolution": "population 300, initial 300 evaluations and 1000 generations of 300 trials for 300300 physical FES",
+      "status": "implemented_and_audited"
     },
     "training_and_inference_lifecycle": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_sections_4_and_6_1_plus_declared_data_completion",
+      "resolution": "train from scratch for 10000 Adam steps at batch 1024, save hashed artifact, distill and audit fixed wake table, then optimize",
+      "status": "implemented_cpu_cuda_runner_ready"
     },
     "update_order": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_algorithm_1_plus_parallel_completion",
+      "resolution": "Adam steps and GTDE generations ordered; frozen-generation mutation and trial evaluation parallel; selection committed after complete population",
+      "status": "implemented_and_declared"
     },
     "wake_power_cost_or_coupled_model": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_equations_1_to_11_and_figures_5_8_to_11_plus_declared_proxy",
+      "resolution": "dual PIDNN trained by data and physical residuals, quadratic wake superposition and NREL-5MW power reconstruction",
+      "status": "implemented_with_declared_rans_proxy"
     },
     "wind_and_scenario_sampling": {
-      "authority": "not_assigned",
-      "resolution": "not_assigned",
-      "status": "pending_fulltext_audit"
+      "authority": "paper_figure_6_and_section_6_1",
+      "resolution": "12 direction by six speed-band digitization normalized to 72 annual states",
+      "status": "implemented_and_anchor_validated"
     }
   }
 }
