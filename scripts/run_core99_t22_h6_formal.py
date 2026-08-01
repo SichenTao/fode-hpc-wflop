@@ -130,6 +130,7 @@ def main() -> int:
         "paper_doi": "10.5194/wes-8-865-2023",
         "method_semantic_id": "t22_debo_paper_reconstruction_v1",
         "problem_semantic_id": "t22_iea37_cs4_gaussian_aep_v1",
+        "protocol_semantic_id": "t22_iea37_cs4_debo_single_run_v1",
         "source_commit": arguments.source_commit,
         "workers": arguments.workers,
         "timing_repeats_per_observation": arguments.timing_repeats,

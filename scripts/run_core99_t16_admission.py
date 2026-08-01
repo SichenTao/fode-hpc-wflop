@@ -141,6 +141,7 @@ def main() -> None:
             "t16_nantucket38_author_lineage_reconstructed_v1",
         "method_semantic_id":
             "t16_wec_slsqp_autodiff_reconstruction_v1",
+        "protocol_semantic_id": "t16_200start_tenstage_wec_v1",
         "workers_per_run": args.workers_per_run,
         "concurrent_runs": args.concurrent_runs,
         "maximum_requested_cpu_workers":

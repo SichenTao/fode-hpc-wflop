@@ -15,7 +15,7 @@
   "corpus_id": "T22",
   "dossier_status": "h5_admitted",
   "evidence_receipts": [],
-  "formal_status": "admission_pending",
+  "formal_status": "queued_on_waffle_after_t12",
   "hpc_admission": {
     "H0": "pass",
     "H1": "pass",
@@ -23,7 +23,7 @@
     "H3": "pass",
     "H4": "pass",
     "H5": "pass",
-    "H6": "pending"
+    "H6": "queued_on_waffle_after_t12"
   },
   "implementation_units": [
     "hpc/core99_cpp/include/core99/debo_t22.hpp",
@@ -98,7 +98,7 @@
   "scope": {
     "claim_boundary": "paper-equation and paper-linked-data academic declared reproduction; DEBO is independently reconstructed because executable author DEBO code is absent",
     "execution_wave": "REV1",
-    "package_status": "paper_pair_h5_validated",
+    "package_status": "h5_admitted_h6_and_formal_queued",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "problem_definition_or_comparison_protocol"
   },

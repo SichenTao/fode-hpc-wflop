@@ -48,6 +48,7 @@ Table-2 SOWFA observations retained as validation data, never simulated
 surrogate output.
 Problem semantic ID: t16_nantucket38_author_lineage_reconstructed_v1
 Method semantic ID: t16_wec_slsqp_autodiff_reconstruction_v1
+Protocol semantic ID: t16_200start_tenstage_wec_v1
 Production backend: pure C++ CPU. A persistent team parallelizes the twelve
 wind directions inside each objective/gradient call. The paper's 200
 independent starts are scheduled concurrently when outer throughput consumes
@@ -57,7 +58,7 @@ Claim boundary: academic declared reproduction of the published equations,
 problem and optimization lifecycle with same-lineage public numeric evidence
 and open SQP/AD replacements; not author SNOPT/Tapenade replay, original
 random-state replay, or rerun of the unavailable 25-million-cell SOWFA cases
-Last evidence-audit date: 2026-07-31
+Last evidence-audit date: 2026-08-01
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 #pragma once

@@ -113,5 +113,6 @@
   },
   "problem_semantic_id": "t16_nantucket38_author_lineage_reconstructed_v1",
   "method_semantic_id": "t16_wec_slsqp_autodiff_reconstruction_v1",
+  "protocol_semantic_id": "t16_200start_tenstage_wec_v1",
   "claim_boundary": "academic declared reproduction of the published equations, problem, exact-gradient premise and optimization lifecycle with same-lineage public numeric evidence and open optimizer replacement; not author SNOPT/Tapenade random-state replay or rerun of unavailable SOWFA cases"
 }

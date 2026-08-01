@@ -25,8 +25,9 @@ counter-keyed Fisher-Yates shuffle, deterministic lexicographic ties, exact
 paper data compiled by scripts/generate_core99_t22_data.py; no author code is
 copied; archived layouts are independently recalculated rather than trusting
 embedded derived values, and the baseline rounding residual is reported
-Method/problem semantic IDs: t22_debo_paper_reconstruction_v1;
-t22_iea37_cs4_gaussian_aep_v1
+Method/problem/protocol semantic IDs: t22_debo_paper_reconstruction_v1;
+t22_iea37_cs4_gaussian_aep_v1;
+t22_iea37_cs4_debo_single_run_v1
 Controlling contract: shared/contracts/core99_t22_iea37_cs4.json and
 shared/contracts/core99_paper_admissions.json
 Production backend: pure C++ CPU-HPC; candidate layouts are evaluated over a
@@ -34,7 +35,7 @@ persistent all-core team, while fixed-layout evaluation parallelizes wind
 directions
 Claim boundary: academic declared reproduction, not author-source or
 author-exact numerical DEBO reproduction
-Last evidence-audit date: 2026-07-31
+Last evidence-audit date: 2026-08-01
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 #pragma once
