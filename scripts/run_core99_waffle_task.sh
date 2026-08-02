@@ -20,7 +20,10 @@ if [[ ! "${unit}" =~ ^[a-z][a-z0-9]+$ ]]; then
     exit 2
 fi
 wrapper="${project_root}/scripts/run_core99_${unit}_when_waffle_free.sh"
-if [[ ! -x "${wrapper}" ]]; then
+# Wrappers are deliberately consumed by Bash below.  Some tracked wrappers
+# have mode 0644, which is valid for this execution contract and must not be
+# rejected as though direct exec(2) were required.
+if [[ ! -f "${wrapper}" ]]; then
     echo "missing Core-99 paper wrapper: ${wrapper}" >&2
     exit 2
 fi
