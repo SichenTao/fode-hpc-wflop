@@ -136,11 +136,14 @@
     "hpc/core99_cpp/src/windflo_t12.cpp",
     "hpc/core99_cpp/src/windflo_t12_main.cpp",
     "shared/contracts/core99_t12_windflo_2015.json",
-    "scripts/validate_core99_t12.py",
-    "scripts/run_core99_t12_admission.py",
-    "scripts/run_core99_t12_when_waffle_free.sh"
-  ],
-  "evidence_receipts": [],
+        "scripts/validate_core99_t12.py",
+        "scripts/run_core99_t12_admission.py",
+        "scripts/run_core99_t12_when_waffle_free.sh",
+        "scripts/test_core99_t12_mde_progress.py"
+    ],
+    "evidence_receipts": [
+        "evidence/core99/h6/T12_local_h6_final.json"
+    ],
   "hpc_admission": {
     "H0": "pass",
     "H1": "pass",
@@ -148,7 +151,7 @@
     "H3": "pass",
     "H4": "pass",
     "H5": "pass",
-    "H6": "all_core_20_role_runner_ready_legacy_two_worker_partial_preserved"
+        "H6": "local_20_core_pass_11.522817x_waffle_formal_confirmation_pending"
   },
   "dossier_status": "h5_admitted",
   "formal_status": "all_core_20_role_runner_ready_replacing_legacy_two_worker_partial",
