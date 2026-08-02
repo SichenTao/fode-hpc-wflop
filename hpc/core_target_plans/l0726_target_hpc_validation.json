@@ -1,0 +1,61 @@
+{
+  "H5_bounded_equivalence": {
+    "candidate_backends": [
+      "cpu_hpc_v1"
+    ],
+    "comparison_scope": "independent oracle/formula comparison plus bounded target optimizer execution; backend self-agreement alone is not accepted as equivalence",
+    "independent_reference": {
+      "ctest_names": [
+        "geoga_anholt_structured_problem"
+      ],
+      "description": "independently frozen declared-proxy scalar and layout oracle",
+      "does_not_call_candidate": true,
+      "implementation_or_oracle": "shared/contracts/geoga_anholt_structured_declared_proxy_oracle.json",
+      "primary_test_output_sha256": "5d72f7d56f9a6f76ea55e9c3c1bbf69a7fc7f8eba45b756854c1feb3f6cc2eb2"
+    },
+    "numerical_comparison": {
+      "maximum_absolute_error": 0,
+      "observed_result": {
+        "maximum_absolute_error": 0,
+        "status": "pass",
+        "tolerance_policy": "per-field absolute"
+      },
+      "passed": true,
+      "tolerance_policy": "per-field absolute"
+    },
+    "physical_fes_ledger": "bounded target runtime checks exact physical objective work; learning artifact training is outside that ledger",
+    "reference_backend": "independent_reference_v1",
+    "runtime_test": "geoga_anholt_structured_evolution",
+    "runtime_test_output_sha256": "f2193e753edc9e3e8e956c5baa27516c4ed852e765a56ade073aefe5dc04539f",
+    "runtime_test_receipt": "evidence/development/plan004_h5_independent_reference_receipts_20260730.json",
+    "runtime_test_receipt_sha256": "66fbcfbeec589cd69e9d2e07916a8686a538dcc7cbd322a7641b437401689219",
+    "status": "accepted_h5"
+  },
+  "H6_performance_validation": {
+    "accepted_backend": "cpu_hpc_full_visible_v1",
+    "all_visible_characterized": true,
+    "all_visible_workers": 20,
+    "claim_boundary": "Measured fixed-work highest-performance-profile H6 only; a full worker-scaling curve is not required and no formal quality claim is made.",
+    "measured_serial_fraction": null,
+    "minimum_named_h0_stage_attribution": 0.9971458733636578,
+    "performance_receipt": "evidence/performance/plan005_h6_performance_first_summary_20260730.json",
+    "performance_receipt_sha256": "5519c51eeb300a47647c39f6ba2700681d321c74bac94fb93c443517ece4ef6d",
+    "raw_observation_receipt": "evidence/performance/plan005_h6_performance_first_raw_observations_20260730.jsonl",
+    "selected_workers": 20,
+    "status": "accepted_h6",
+    "worker_scaling_characterized": false
+  },
+  "analysis_path": "hpc/core_target_plans/l0726_target_hpc_analysis.json",
+  "analysis_sha256": "7a5aa0b11ef4d71da0160e9e48b5438daaeb48139ba4381a0c1edd3b8dc7a31f",
+  "claim_boundary": "H5 accepts bounded independent-reference equivalence only. No backend is selected before exact-pair H6 and no formal-quality claim is made.",
+  "corpus_id": "L0726",
+  "method_semantic_id": "geoga_declared_reconstruction_v1",
+  "native_asset": "shared/contracts/geoga_anholt_structured_declared_proxy_case.json",
+  "native_asset_sha256": "c8cdbff6874a0e9991e093bcc50442ba425ad050c0cd312b22e54733083ab38f",
+  "overall_status": "accepted_h5_h6",
+  "pair_id": "L0726__geoga__geoga_anholt_structured_declared_proxy_v1__target",
+  "paper_protocol_id": "cbd2025_geoga_native_25_v1",
+  "problem_semantic_id": "geoga_anholt_structured_declared_proxy_v1",
+  "schema_version": 2,
+  "validation_id": "plan004_h5__L0726__geoga__geoga_anholt_structured_declared_proxy_v1__target__spark_20260730"
+}

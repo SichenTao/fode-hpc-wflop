@@ -1,0 +1,52 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T85",
+  "status": "pass",
+  "validator": "scripts/validate_core99_t85.py",
+  "validator_sha256": "762f7f688c5a774ebf70a28f5195e639cc89f6ba4944b033a72d6d42b51efb29",
+  "independence": "Python re-derivation of Eqs. (1)-(6) and (11)-(17), digitized turbine tables, all six cases, and reference-layout AEP without production-code import or linking",
+  "cases": {
+    "wf1": {
+      "reference_aep_gwh": 93.73415814737685,
+      "independent_oracle_aep_gwh": 93.73415814737685
+    },
+    "wf1_u6": {
+      "reference_aep_gwh": 46.60148687931198,
+      "independent_oracle_aep_gwh": 46.60148687931198
+    },
+    "wf1_v112": {
+      "reference_aep_gwh": 153.31400320640108,
+      "independent_oracle_aep_gwh": 153.31400320640108
+    },
+    "wf2": {
+      "reference_aep_gwh": 102.02302458928864,
+      "independent_oracle_aep_gwh": 102.02302458928864
+    },
+    "wf3": {
+      "reference_aep_gwh": 128.95001561650201,
+      "independent_oracle_aep_gwh": 128.95001561650201
+    },
+    "wf4": {
+      "reference_aep_gwh": 119.36526817270605,
+      "independent_oracle_aep_gwh": 119.36526817270605
+    }
+  },
+  "relative_tolerance": 2e-12,
+  "parallel_equivalence": {
+    "case": "wf1",
+    "population": 100,
+    "physical_fes": 400,
+    "one_and_twenty_worker_hash": "cf9907c57245ade4",
+    "observed_parallel_workers": 20
+  },
+  "declared_profile_scale_anchor": {
+    "case": "wf1",
+    "population": 500,
+    "physical_fes": 10000,
+    "seed": 20260731,
+    "best_aep_gwh": 174.70365170061288,
+    "paper_reported_joint_agld_aep_gwh": 174.74,
+    "interpretation": "scale consistency only; not author-result replay"
+  },
+  "claim_boundary": "H5 equation and bounded protocol equivalence only; Waffle H6 and formal 25-seed quality remain queued"
+}

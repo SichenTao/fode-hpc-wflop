@@ -1,0 +1,149 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "Retain traditional PSO and the strict-noise and economic-compensation problems as the target paper-paired contribution.",
+    "Omit unchanged IA-PSO because the target explicitly uses it only as a calculation-time comparison baseline.",
+    "Digitize the 80 plotted reference coordinates and the 12-direction by five-speed Figure-5 wind rose.",
+    "Retain partial Jensen/linear wakes, DTU 10 MW MPPT power, Hubbard two-mechanism noise, octave A weighting, spatial maximum L10, 4D spacing, 45 dBA and 10000 kWh/dBA.",
+    "Use declared DTU control/noise constants, a 5 by 5 observation grid, and calibrate only unavailable wind/noise constants to the published reference-layout anchors.",
+    "Complete the paper's unquantified limited slight-noise range with its stated 50 dBA recommended upper value while compensation begins at 45 dBA.",
+    "Use population 100, c1=c2=2, a 10-percent velocity bound, reference-centred initialization, 4D repair and the paper's exact 200 updates.",
+    "Parallelize particle evaluation/update with one persistent C++ worker team, SIMD evaluator reductions, counter-keyed events and ordered best commits.",
+    "Run ten repeats per paper case on Waffle after H6 admission."
+  ],
+  "corpus_id": "T78",
+  "dossier_status": "h5_admitted",
+  "formal_status": "ready_for_immutable_waffle_queue",
+  "hpc_admission": {
+    "H0": "complete_target_source_and_cited_hubbard_record_audit",
+    "H1": "complete_two_case_wake_power_noise_l10_pso_decomposition",
+    "H2": "complete_physical_fes_population_parallelism_and_evaluator_analysis",
+    "H3": "complete_pure_cpp_persistent_team_pso_and_noise_evaluator",
+    "H4": "complete_spark_allcore_two_case_paper_scale_profile",
+    "H5": "pass_cpp_and_independent_python_anchor_semantic_schedule_validation",
+    "H6": "pass_spark_full_strict_one_twenty_worker_exact_identity_waffle_confirmation_ready"
+  },
+  "missing_information": [
+    "target code and random states",
+    "machine-readable Norwegian wind time series",
+    "machine-readable 80-turbine reference and optimized coordinates",
+    "observation-zone quantization m",
+    "DTU Hubbard blade, octave and additive-noise constants",
+    "Cp, Ct, lambda-opt and rated rotor speed used in target runs",
+    "PSO population, c1/c2, velocity limits and initialization",
+    "numeric close-to-infinity penalty coefficients",
+    "explicit upper boundary for the economically accepted limited slight-noise range"
+  ],
+  "paper": {
+    "authors": "Xiawei Wu and Weihao Hu and Qi Huang and Cong Chen and Mark Z. Jacobson and Zhe Chen",
+    "doi": "10.1016/j.apenergy.2020.114896",
+    "pdf_basename": "2020_Wu_Optimizing_the_Layout_of_Onshore_Wind_Farms_to_Minimize_Noise.pdf",
+    "pdf_sha256": "dac0b3af880a68f8497dd92c205aab9418511ced826ab2964edb32dca61d9da3",
+    "primary_asset_status": "local_primary_pdf_hashed_rendered_and_audited",
+    "primary_review_class": "REV4",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D",
+    "secondary_review_classes": "REV2,REV3",
+    "title": "Optimizing the Layout of Onshore Wind Farms to Minimize Noise",
+    "venue": "Applied Energy",
+    "year": 2020
+  },
+  "paper_linked_public_asset_candidates": [
+    "https://ntrs.nasa.gov/citations/19910070917"
+  ],
+  "paper_source_conflicts": [
+    "The paper calls FINO3 the reference wind farm although FINO3 is an offshore research platform and this problem is framed as onshore.",
+    "The printed A-weighting expression uses natural-log typography although acoustic decibel accumulation requires base-10 logarithms."
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 15,
+    "text_sha256": "250eeb75c41afabd750ffede003b9a036f10d859234c496c4d7cef47eb45dd1d"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [],
+    "embedded_annotation_urls": [],
+    "status": "no_target_public_source_or_arrays; cited_NASA_record_has_no_attached_download"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "academic flexible reconstruction of traditional PSO and both paper-native noise-layout problems; not author code, native wind/layout/noise arrays, IA-PSO, random stream, or exact numerical optimum replay",
+    "execution_wave": "REV4",
+    "package_status": "h6_admitted_waffle_confirmation_and_formal_ready",
+    "scope_status": "paper_paired_hpc_implemented",
+    "target_contribution_type": "coupled_or_real_world_problem_and_method"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "paper_plus_declared_initialization_completion",
+      "resolution": "rectangular bounds, 4D spacing, 45 dBA strict threshold, 45--50 dBA compensated acceptance range, finite 1000000 hard-constraint penalty and deterministic 4D repair",
+      "status": "implemented_and_validated"
+    },
+    "decision_variables": {
+      "authority": "paper",
+      "resolution": "continuous x/y coordinates for 80 DTU 10 MW turbines, 160 dimensions",
+      "status": "implemented"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper_plus_figure_digitization",
+      "resolution": "direct double coordinate vector with Figure-4 digitized reference layout",
+      "status": "implemented"
+    },
+    "initialization": {
+      "authority": "declared_completion",
+      "resolution": "reference or strict-zone displaced incumbent, reference-centred normal particles, bounded velocities and deterministic spacing repair",
+      "status": "implemented"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper",
+      "resolution": "annual energy, maximum observation-zone L10, excess noise, spacing, objective, physical FES, timings, worker receipt and hash; ten trials per case",
+      "status": "implemented_and_pending_formal"
+    },
+    "objective_and_direction": {
+      "authority": "paper",
+      "resolution": "maximize annual energy under strict noise, or annual energy less 0.01 GWh per excess dBA under economic compensation",
+      "status": "implemented"
+    },
+    "paper_native_cases": {
+      "authority": "paper",
+      "resolution": "Case A strict noise control and Case B economically compensated noise control are separately registered",
+      "status": "implemented"
+    },
+    "parameters": {
+      "authority": "paper_plus_declared_missing_values",
+      "resolution": "200 updates, population 100, c1=c2=2, no added inertia term and 10-percent velocity bound",
+      "status": "implemented"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper_plus_explicit_ledger",
+      "resolution": "exactly 200 updates; each complete 80-turbine 60-state wake/power/noise/L10/constraint evaluation is one FES; 20100 FES per run",
+      "status": "implemented_and_audited"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "T78 traditional PSO has no trained model",
+      "status": "not_applicable"
+    },
+    "update_order": {
+      "authority": "paper_plus_deterministic_hpc_completion",
+      "resolution": "simultaneous paper-equation velocity/position update, per-particle spacing repair, parallel evaluation and ordered personal/global-best commit",
+      "status": "implemented_and_schedule_validated"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_plus_declared_missing_constant_completion",
+      "resolution": "partial-overlap Jensen/linear deficits, DTU 10 MW MPPT, two Hubbard mechanisms, octave A weighting, logarithmic source accumulation and probability-weighted spatial-maximum L10",
+      "status": "implemented_and_anchor_validated"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper_figure_informed_completion",
+      "resolution": "normalized digitization of 12 direction sectors and five speed bands into 60 weighted states",
+      "status": "implemented_and_probability_validated"
+    }
+  }
+}

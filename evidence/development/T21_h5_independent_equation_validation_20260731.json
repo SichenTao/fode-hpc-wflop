@@ -1,0 +1,47 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T21",
+  "paper_doi": "10.1016/j.renene.2022.06.019",
+  "source_state": "precommit working tree based on 0b48a2bb7bc40434f7b8c573cf75455eae73b70f",
+  "method_semantic_id": "t21_ramp_mma_declared_reconstruction_v1",
+  "problem_semantic_id": "t21_pollini_two_circle_density_wflop_v1",
+  "cpp_structural_and_finite_difference_test": {
+    "ctest_name": "core99_t21_cpp",
+    "status": "pass"
+  },
+  "independent_equation_oracle": {
+    "ctest_name": "core99_t21_h5",
+    "implementation": "scripts/validate_core99_t21.py",
+    "imports_production_code": false,
+    "status": "pass",
+    "cases": [
+      {
+        "case": "small",
+        "aep_gwh": 133.27271263023786,
+        "potential_sites": 124,
+        "spacing_pairs": 224,
+        "maximum_absolute_gradient_error": 1.2434497875801753e-14
+      },
+      {
+        "case": "large",
+        "aep_gwh": 393.508212123185,
+        "potential_sites": 709,
+        "spacing_pairs": 1356,
+        "maximum_absolute_gradient_error": 3.197442310920451e-14
+      }
+    ]
+  },
+  "bounded_optimizer_smoke": {
+    "algorithm": "NLopt LD_MMA declared replacement",
+    "maximum_objective_evaluations": 12,
+    "checks": [
+      "positive bounded physical objective count",
+      "finite relaxed and discrete AEP",
+      "worker participation",
+      "density-vector cardinality"
+    ],
+    "status": "pass"
+  },
+  "claim_boundary": "H5 verifies independent paper-equation agreement and bounded optimizer execution; it is not author-MATLAB or author-result identity.",
+  "status": "accepted_h5"
+}

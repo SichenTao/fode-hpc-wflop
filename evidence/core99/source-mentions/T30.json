@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T30",
+  "doi": "10.1007/s10732-015-9283-4",
+  "paper_pdf_sha256": "2dafae36f55cc0e4a03fa9f09a2e8018eab040ce1f27415b52a595cafbf6e498",
+  "private_text_sha256": "1a29891dbf89c41187ce1e45d2440e574cab6e0045426958e3898c26ca1913e1",
+  "availability_mention_line_numbers": [],
+  "embedded_annotation_asset_urls": [],
+  "single_line_text_asset_url_candidates": [],
+  "candidate_public_asset_urls": [
+    "https://hdl.handle.net/20.500.12608/17839"
+  ],
+  "verified_public_assets": [
+    {
+      "url": "https://hdl.handle.net/20.500.12608/17839",
+      "identity": "first-author master thesis cited by the paper",
+      "content": "method derivation and broader computational context",
+      "code_or_instance_data": false
+    }
+  ],
+  "interpretation": "No author code or original instance corpus was found. The open author thesis is a formula authority; the implementation remains a declared paper-first reconstruction."
+}

@@ -1,8 +1,27 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: universal switchable formal CLI and CPU backend router
+Paper title and DOI: not_applicable_shared_infrastructure
+Paper/source basis: paper-paired platform contracts
+Public asset: project-native implementation
+Missing/conflicts: hybrid and GPU modes have no admitted kernels and fail closed
+Reconstruction: not applicable
+Method/problem semantic IDs: registry_defined; registry_defined
+Controlling contract and claim boundary:
+docs/paper_package_completion.tsv; CLI execution does not upgrade evidence tier
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "wflop/algorithms.hpp"
+#include "wflop/rlfode_reconstruction.hpp"
 
 #include "fode/case.hpp"
 #include "fode/evaluator.hpp"
 #include "fode/executor.hpp"
+
+#ifdef WFLOP_PLAN004_LIBTORCH
+#include "wflop_learning/models.hpp"
+#endif
 
 #include <algorithm>
 #include <cmath>
@@ -16,23 +35,39 @@
 #include <string>
 #include <vector>
 
+#include <omp.h>
+
 namespace {
 
 struct Arguments {
     std::string cases_path = "shared/contracts/benchmark_cases.json";
     std::string models_path = "shared/models/sugga_cpp";
+    std::string rlfode_models_path = "shared/models/fqfode_seeded";
+    wflop::FqfodeSensitivityProfile fqfode_sensitivity_profile =
+        wflop::FqfodeSensitivityProfile::baseline;
     std::string algorithm = "fode";
     std::vector<std::string> algorithms;
     std::string problem = "fode_e0_common";
+    std::string compute_backend = "cpu";
+    std::string paper_protocol = "unregistered_cli_protocol";
+    std::string training_artifact = "not_applicable";
+    std::string explain_algorithm;
+    std::string explain_problem;
     std::string case_id = "WS5tn30";
     std::string output_path;
     std::uint64_t seed = 20260728;
     std::uint64_t physical_fes = 24000;
-    int workers = 20;
+    int workers = 0;
+    int torch_intraop_threads = 1;
+    int torch_interop_threads = 1;
+    int alga_attention_hidden_width = 1;
     bool all_cases = false;
     bool all_algorithms = false;
     bool list_algorithms = false;
     bool list_problems = false;
+    bool list_compute_backends = false;
+    bool list_training = false;
+    bool explain_compatibility = false;
     bool self_check = false;
     bool check_ise_rename = false;
 };
@@ -86,12 +121,31 @@ Arguments parse_arguments(int argc, char** argv) {
             result.cases_path = next();
         } else if (flag == "--models") {
             result.models_path = next();
+        } else if (flag == "--rlfode-models") {
+            result.rlfode_models_path = next();
+        } else if (flag == "--fqfode-sensitivity-profile") {
+            result.fqfode_sensitivity_profile =
+                wflop::rlfode_reconstruction::parse_sensitivity_profile(
+                    next()
+                );
         } else if (flag == "--algorithm") {
             result.algorithm = next();
         } else if (flag == "--algorithms") {
             result.algorithms = parse_algorithm_list(next());
         } else if (flag == "--problem") {
             result.problem = next();
+        } else if (flag == "--compute-backend") {
+            result.compute_backend = next();
+        } else if (flag == "--backend") {
+            result.compute_backend = next();
+        } else if (flag == "--paper-protocol") {
+            result.paper_protocol = next();
+        } else if (flag == "--training-artifact") {
+            result.training_artifact = next();
+        } else if (flag == "--explain-compatibility") {
+            result.explain_algorithm = next();
+            result.explain_problem = next();
+            result.explain_compatibility = true;
         } else if (flag == "--case") {
             result.case_id = next();
         } else if (flag == "--output") {
@@ -102,6 +156,15 @@ Arguments parse_arguments(int argc, char** argv) {
             result.physical_fes = parse_u64(next(), flag);
         } else if (flag == "--workers") {
             result.workers = static_cast<int>(parse_u64(next(), flag));
+        } else if (flag == "--torch-intraop-threads") {
+            result.torch_intraop_threads =
+                static_cast<int>(parse_u64(next(), flag));
+        } else if (flag == "--torch-interop-threads") {
+            result.torch_interop_threads =
+                static_cast<int>(parse_u64(next(), flag));
+        } else if (flag == "--alga-attention-width") {
+            result.alga_attention_hidden_width =
+                static_cast<int>(parse_u64(next(), flag));
         } else if (flag == "--all-cases") {
             result.all_cases = true;
         } else if (flag == "--all-algorithms") {
@@ -110,6 +173,10 @@ Arguments parse_arguments(int argc, char** argv) {
             result.list_algorithms = true;
         } else if (flag == "--list-problems") {
             result.list_problems = true;
+        } else if (flag == "--list-compute-backends") {
+            result.list_compute_backends = true;
+        } else if (flag == "--list-training") {
+            result.list_training = true;
         } else if (flag == "--self-check") {
             result.self_check = true;
         } else if (flag == "--check-ise-rename") {
@@ -120,13 +187,31 @@ Arguments parse_arguments(int argc, char** argv) {
                 << "  --algorithm ID       one registered algorithm identifier\n"
                 << "  --algorithms A,B,... run an explicit ordered algorithm set\n"
                 << "  --problem ID         registered problem family; default fode_e0_common\n"
+                << "  --backend B          cpu, auto, hybrid, or gpu\n"
+                << "  --compute-backend B  compatibility alias for --backend\n"
+                << "  --paper-protocol ID  frozen paper-native protocol identity\n"
+                << "  --training-artifact P artifact path, ID, or train\n"
+                << "  --explain-compatibility A P  explain algorithm/problem admission\n"
                 << "  --all-algorithms     run all registered algorithms sequentially\n"
+                << "  --cases PATH         selected problem manifest\n"
                 << "  --case ID            one case from the selected manifest\n"
                 << "  --all-cases          run every case in the selected manifest\n"
                 << "  --physical-fes N     complete-layout evaluation budget per run\n"
                 << "  --seed N             deterministic algorithm seed\n"
-                << "  --workers N          persistent C++ thread-team size; formal Waffle value is 20\n"
+                << "  --workers N          persistent C++ worker count; 0 means all visible CPUs\n"
+                << "  --torch-intraop-threads N"
+                   " LibTorch CPU intra-op threads; default 1\n"
+                << "  --torch-interop-threads N"
+                   " LibTorch CPU inter-op threads; default 1\n"
+                << "  --alga-attention-width N"
+                   " 1 baseline or 2 sensitivity profile\n"
                 << "  --models PATH        frozen C++ SUGGA model directory\n"
+                << "  --rlfode-models PATH frozen FQFODE Q-table directory\n"
+                << "  --fqfode-sensitivity-profile ID"
+                   " baseline, multiplicative-action,"
+                   " fes-normalized-stage,"
+                   " wrap-after-generation-200, or"
+                   " independent-stage-pretraining\n"
                 << "  --output PATH        write JSON or JSONL\n"
                 << "  --self-check         bounded registered-algorithm semantic smoke\n"
                 << "  --list-algorithms    print canonical algorithm IDs\n"
@@ -139,6 +224,21 @@ Arguments parse_arguments(int argc, char** argv) {
     if (result.all_algorithms && !result.algorithms.empty()) {
         throw std::runtime_error(
             "--all-algorithms and --algorithms are mutually exclusive"
+        );
+    }
+    static_cast<void>(wflop::backend_descriptor(result.compute_backend));
+    if (result.workers == 0) {
+        result.workers = omp_get_num_procs();
+    }
+    if (result.workers <= 0) {
+        throw std::runtime_error("no CPU workers are visible");
+    }
+    if (
+        result.torch_intraop_threads <= 0
+        || result.torch_interop_threads <= 0
+    ) {
+        throw std::runtime_error(
+            "Torch intra-op and inter-op thread counts must be positive"
         );
     }
     return result;
@@ -169,14 +269,53 @@ std::string to_json(const wflop::RunResult& result) {
     output << "\"problem_id\":\"" << escape_json(result.problem_id) << "\",";
     output << "\"problem_semantics_id\":\""
            << escape_json(result.problem_semantics_id) << "\",";
+    output << "\"paper_protocol_id\":\""
+           << escape_json(result.paper_protocol_id) << "\",";
+    output << "\"training_artifact_id\":\""
+           << escape_json(result.training_artifact_id) << "\",";
+    output << "\"backend_id\":\"" << escape_json(result.backend_id) << "\",";
     output << "\"case_id\":\"" << escape_json(result.case_id) << "\",";
     output << "\"seed\":" << result.seed << ",";
     output << "\"physical_fes\":" << result.physical_fes << ",";
+    output << "\"training_physical_fes\":"
+           << result.training_physical_fes << ",";
+    output << "\"offline_training_physical_fes\":"
+           << result.offline_training_physical_fes << ",";
+    output << "\"inference_physical_fes\":"
+           << result.inference_physical_fes << ",";
+    output << "\"policy_interactions\":" << result.policy_interactions << ",";
+    output << "\"policy_updates\":" << result.policy_updates << ",";
+    output << "\"policy_stage_interactions\":[";
+    for (std::size_t index = 0;
+         index < result.policy_stage_interactions.size(); ++index) {
+        if (index != 0) {
+            output << ",";
+        }
+        output << result.policy_stage_interactions[index];
+    }
+    output << "],";
+    output << "\"policy_stage_updates\":[";
+    for (std::size_t index = 0;
+         index < result.policy_stage_updates.size(); ++index) {
+        if (index != 0) {
+            output << ",";
+        }
+        output << result.policy_stage_updates[index];
+    }
+    output << "],";
+    output << "\"alga_attention_hidden_width\":"
+           << result.alga_attention_hidden_width << ",";
     output << "\"generations\":" << result.generations << ",";
     output << "\"initial_population\":" << result.initial_population << ",";
     output << "\"final_population\":" << result.final_population << ",";
     output << "\"requested_workers\":" << result.requested_workers << ",";
     output << "\"observed_workers\":" << result.observed_workers << ",";
+    output << "\"thread_topology\":{"
+           << "\"outer_workers\":" << result.observed_workers << ","
+           << "\"torch_intraop_threads\":"
+           << result.torch_intraop_threads << ","
+           << "\"torch_interop_threads\":"
+           << result.torch_interop_threads << "},";
     output << "\"best_expected_power_kw\":"
            << result.best_expected_power_kw << ",";
     output << "\"best_layout_1based\":[";
@@ -192,10 +331,30 @@ std::string to_json(const wflop::RunResult& result) {
     output << "\"timing_seconds\":{";
     output << "\"end_to_end\":" << result.total_seconds << ",";
     output << "\"evaluator\":" << result.evaluator_seconds << ",";
-    output << "\"algorithm\":" << result.algorithm_seconds << "}";
+    output << "\"algorithm\":" << result.algorithm_seconds << ",";
+    output << "\"policy_training\":" << result.policy_training_seconds << ",";
+    output << "\"policy_update\":" << result.policy_update_seconds << "}";
     if (!result.pso_update_semantics.empty()) {
         output << ",\"pso_update_semantics\":\""
                << escape_json(result.pso_update_semantics) << "\"";
+    }
+    if (!result.pretrained_artifact_hash.empty()) {
+        output << ",\"pretrained_artifact_hash\":\""
+               << escape_json(result.pretrained_artifact_hash) << "\"";
+    }
+    if (!result.learned_state_hash.empty()) {
+        output << ",\"learned_state_hash\":\""
+               << escape_json(result.learned_state_hash) << "\"";
+    }
+    output << ",\"learning_artifact_consumed\":"
+           << (result.learning_artifact_consumed ? "true" : "false");
+    if (!result.learning_decision_hash.empty()) {
+        output << ",\"learning_decision_hash\":\""
+               << escape_json(result.learning_decision_hash) << "\"";
+    }
+    if (!result.terminal_partial_work.empty()) {
+        output << ",\"terminal_partial_work\":\""
+               << escape_json(result.terminal_partial_work) << "\"";
     }
     output << "}";
     return output.str();
@@ -241,6 +400,12 @@ void validate_result(
     if (result.physical_fes != expected_fes) {
         throw std::runtime_error(
             result.algorithm_id + " did not stop at the exact physical FES"
+        );
+    }
+    if (result.training_physical_fes + result.inference_physical_fes
+        != result.physical_fes) {
+        throw std::runtime_error(
+            result.algorithm_id + " returned an inconsistent FES ledger"
         );
     }
     if (result.observed_workers != expected_workers) {
@@ -396,13 +561,24 @@ int run_self_check(const Arguments& arguments) {
         }
     }
     for (const std::string& algorithm : wflop::algorithm_ids()) {
+        if (!wflop::algorithm_supports_problem(
+                algorithm, arguments.problem
+            )) {
+            continue;
+        }
         wflop::RunConfig config;
         config.algorithm_id = algorithm;
         config.problem_id = arguments.problem;
+        config.compute_backend = arguments.compute_backend;
         config.seed = 20260728;
         config.physical_fes_budget = 480;
         config.workers = arguments.workers;
         config.sugga_model_root = arguments.models_path;
+        config.rlfode_model_root = arguments.rlfode_models_path;
+        config.fqfode_sensitivity_profile =
+            arguments.fqfode_sensitivity_profile;
+        config.alga_attention_hidden_width =
+            arguments.alga_attention_hidden_width;
         const auto first = wflop::optimize(data, config);
         const auto second = wflop::optimize(data, config);
         validate_result(
@@ -446,6 +622,46 @@ int main(int argc, char** argv) {
             }
             return 0;
         }
+        if (arguments.list_compute_backends) {
+            for (const auto& backend : wflop::backend_descriptors()) {
+                std::cout << backend.id << "\t"
+                          << (backend.executable ? "supported" : "fail_closed")
+                          << "\t" << backend.capability << "\n";
+            }
+            return 0;
+        }
+        if (arguments.list_training) {
+            for (const auto& training : wflop::training_descriptors()) {
+                std::cout << training.id << "\t" << training.algorithm_id
+                          << "\t" << training.lifecycle << "\n";
+            }
+            return 0;
+        }
+        if (arguments.explain_compatibility) {
+            const auto decision = wflop::explain_compatibility(
+                arguments.explain_algorithm,
+                arguments.explain_problem
+            );
+            std::cout
+                << "{\"algorithm_id\":\""
+                << escape_json(decision.algorithm_id)
+                << "\",\"problem_id\":\""
+                << escape_json(decision.problem_id)
+                << "\",\"compatible\":"
+                << (decision.compatible ? "true" : "false")
+                << ",\"reason\":\"" << escape_json(decision.reason)
+                << "\"}\n";
+            return 0;
+        }
+        const auto& backend =
+            wflop::backend_descriptor(arguments.compute_backend);
+        if (!backend.executable) {
+            throw std::runtime_error(
+                "compute backend '" + arguments.compute_backend
+                + "' is recognized but unavailable in this CPU build; "
+                  "no hidden fallback was performed"
+            );
+        }
         if (arguments.check_ise_rename) {
             const auto data = fode::load_case(arguments.cases_path, "WS1tn10");
             wflop::RunConfig config;
@@ -481,6 +697,28 @@ int main(int argc, char** argv) {
                         ? std::vector<std::string>{arguments.algorithm}
                         : arguments.algorithms
                 );
+#ifdef WFLOP_PLAN004_LIBTORCH
+        wflop_learning::TorchThreadTopology torch_topology{};
+        if (
+            arguments.training_artifact != "not_applicable"
+            && arguments.training_artifact != "train"
+        ) {
+            torch_topology =
+                wflop_learning::configure_torch_thread_topology(
+                    arguments.torch_intraop_threads,
+                    arguments.torch_interop_threads
+                );
+        }
+#else
+        if (
+            arguments.training_artifact != "not_applicable"
+            && arguments.training_artifact != "train"
+        ) {
+            throw std::runtime_error(
+                "learning artifact requires WFLOP_ENABLE_TORCH"
+            );
+        }
+#endif
         const std::vector<fode::CaseData> cases = arguments.all_cases
             ? fode::load_cases(arguments.cases_path)
             : std::vector<fode::CaseData>{
@@ -493,11 +731,46 @@ int main(int argc, char** argv) {
                 wflop::RunConfig config;
                 config.algorithm_id = algorithm;
                 config.problem_id = arguments.problem;
+                config.compute_backend = arguments.compute_backend;
+                config.paper_protocol_id = arguments.paper_protocol;
+                config.training_artifact_id = arguments.training_artifact;
+                if (
+                    arguments.training_artifact != "not_applicable"
+                    && arguments.training_artifact != "train"
+                ) {
+                    config.learning_artifact_path =
+                        arguments.training_artifact;
+                }
                 config.seed = arguments.seed;
                 config.physical_fes_budget = arguments.physical_fes;
                 config.workers = arguments.workers;
+                config.torch_intraop_threads =
+                    arguments.torch_intraop_threads;
+                config.torch_interop_threads =
+                    arguments.torch_interop_threads;
                 config.sugga_model_root = arguments.models_path;
-                const auto result = wflop::optimize(data, config);
+                config.rlfode_model_root = arguments.rlfode_models_path;
+                config.fqfode_sensitivity_profile =
+                    arguments.fqfode_sensitivity_profile;
+                config.alga_attention_hidden_width =
+                    arguments.alga_attention_hidden_width;
+                auto result = wflop::optimize(data, config);
+#ifdef WFLOP_PLAN004_LIBTORCH
+                if (
+                    arguments.training_artifact != "not_applicable"
+                    && arguments.training_artifact != "train"
+                ) {
+                    result.torch_intraop_threads =
+                        torch_topology.intraop_threads;
+                    result.torch_interop_threads =
+                        torch_topology.interop_threads;
+                }
+#endif
+                result.paper_protocol_id = config.paper_protocol_id;
+                result.training_artifact_id = config.training_artifact_id;
+                result.backend_id = wflop::backend_descriptor(
+                    config.compute_backend
+                ).id;
                 validate_result(
                     result,
                     data,

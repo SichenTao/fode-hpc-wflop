@@ -1,0 +1,42 @@
+{
+  "claim_boundary": "complete deterministic case-study-1 paper matrix and ranking; case-study-2 heterogeneous models remain reported-data assets",
+  "end_to_end_seconds": 0.005883318,
+  "evaluator_seconds": 0.005163989,
+  "host": "waffle",
+  "hpc_receipt": {
+    "observed_workers": 17,
+    "requested_workers": 17,
+    "time_process_cpu_percent": 425,
+    "time_wall_seconds": 0.01
+  },
+  "infeasible_archived_layouts_over_1m_total_violation": {
+    "t15_participant_5_opt36": 114.17836274308505,
+    "t15_participant_5_opt64": 166.4935709811096,
+    "t15_participant_7_opt36": 21.655540900201117,
+    "t15_participant_7_opt64": 229.2073378938529
+  },
+  "maximum_archive_absolute_error_mwh": 4.885019734501839e-06,
+  "method_semantic_id": "t15_iea37_comparison_protocol_v1",
+  "paper_matrix_layouts": 33,
+  "problem_semantic_id": "t15_iea37_cs1_three_farms_cs2_cross_model_v1",
+  "raw_receipt_sha256": "0ff80b46d8f5bca9ac5226a74780ad035bbc1a191a302f4d432f3a599e40b4aa",
+  "resource_receipt_sha256": "8a0bb6f2f93eb2eb6d9cc2038c3bae6c3b037514ff6fff41dbe911a0ad7b2314",
+  "schema_version": 1,
+  "scientific_hash": "b8c9325e23103e1c",
+  "source_commit": "e50c60b",
+  "status": "pass",
+  "winner_by_turbine_count": {
+    "16": {
+      "aep_mwh": 418924.406362956,
+      "participant": 4
+    },
+    "36": {
+      "aep_mwh": 863676.2993158969,
+      "participant": 4
+    },
+    "64": {
+      "aep_mwh": 1513311.1936146407,
+      "participant": 4
+    }
+  }
+}

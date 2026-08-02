@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "corpus_id": "Y06",
+  "doi": "10.1016/j.apenergy.2026.127895",
+  "title": "A Geometry-Guided Genetic Algorithm for Integrated Offshore Wind Farm Layout and Electrical Cable Routing Optimization",
+  "query_date": "2026-07-29",
+  "search_basis": [
+    "Shangce Gao homepage corpus refreshed at 2026-07-29T02:36:14Z",
+    "repository source_asset_registry and paper/problem ledgers",
+    "bounded authority ladder recorded below"
+  ],
+  "conclusion": "public_asset_found",
+  "searched_authorities": [
+    {
+      "authority": "official_author_homepage",
+      "url": "https://toyamaailab.github.io/publications.html",
+      "query": "\"10.1016/j.apenergy.2026.127895\" \"A Geometry-Guided Genetic Algorithm for Integrated Offshore Wind Farm Layout and Electrical Cable Routing Optimization\"",
+      "result": "refreshed_homepage_snapshot_checked"
+    },
+    {
+      "authority": "doi_publisher_supplement_and_data_statement",
+      "url": "https://doi.org/10.1016/j.apenergy.2026.127895",
+      "query": "10.1016/j.apenergy.2026.127895",
+      "result": "paper_and_existing_supplement_ledger_checked"
+    },
+    {
+      "authority": "paper_author_or_coauthor_linked_repository",
+      "url": "https://github.com/zbh0528/WFLO-GGA",
+      "query": "\"10.1016/j.apenergy.2026.127895\" \"A Geometry-Guided Genetic Algorithm for Integrated Offshore Wind Farm Layout and Electrical Cable Routing Optimization\"",
+      "result": "direct_asset_recorded"
+    },
+    {
+      "authority": "author_coauthor_github",
+      "url": "https://github.com/search?q=10.1016%2Fj.apenergy.2026.127895&type=repositories",
+      "query": "10.1016/j.apenergy.2026.127895",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "general_research_data_repositories",
+      "url": "https://zenodo.org/search?q=10.1016%2Fj.apenergy.2026.127895",
+      "query": "10.1016/j.apenergy.2026.127895; Figshare; OSF; institutional repository",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "cited_implementation_and_predecessor_work",
+      "url": "https://doi.org/10.1016/j.apenergy.2026.127895",
+      "query": "A Geometry-Guided Genetic Algorithm for Integrated Offshore Wind Farm Layout and Electrical Cable Routing Optimization cited implementation predecessor",
+      "result": "paper_reference_and_project_ledger_checked"
+    },
+    {
+      "authority": "same_author_problem_or_method_family",
+      "url": "https://toyamaailab.github.io/sourcedata.html",
+      "query": "Baohang Zhang; Yixin Shao; Zhenyu Lei; Chao Zhang; Yirui Wang; Shangce Gao wind farm source data",
+      "result": "refreshed_source_page_and_lineage_ledger_checked"
+    }
+  ],
+  "discovered_assets": [
+    {
+      "authority": "author_github",
+      "url": "https://github.com/zbh0528/WFLO-GGA",
+      "revision_or_sha256": "commit:6ce41326e6c1d3685a01e038baf6d1d07aa46126",
+      "license_observation": "academic_noncommercial_notice;no_standard_license_file",
+      "redistribution_policy": "do_not_vendor",
+      "relationship": "direct_target_or_project_author_asset"
+    }
+  ],
+  "available_evidence": [
+    "validated_complete",
+    "public_github_hashed_no_standard_license"
+  ],
+  "missing_method_or_problem_fields": [],
+  "negative_evidence_boundary": "Search is dated and bounded; later author releases require a new dossier."
+}

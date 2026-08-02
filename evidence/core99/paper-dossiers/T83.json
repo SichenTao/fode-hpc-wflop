@@ -1,0 +1,180 @@
+{
+  "authority_ladder": [
+    "paper_and_appendices",
+    "paper_cited_predecessor_and_official_data",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "Register WFASP and the complete macro-meso-micro framework as the target paper-paired contribution; the meso shape heuristic is the primary method novelty.",
+    "Register the eight Table-1 seeds and both optimized-shape and best-rectangle design roles, not unrelated comparison baselines.",
+    "Consume the cited T31 paper and official DOI 10.11583/DTU.13134731 offshore dataset because the target UK arrays and source are unavailable.",
+    "Map A-G to public fields D-J and give H an independently offset role on I; every proxy identity is emitted and no UK-native identity is claimed.",
+    "Use the published 100 NREL-15MW turbines, Jensen wake lineage, PtA, density, area, capacity, spacing, lifetime, discount, price and cable constraints.",
+    "Use a deterministic 800 m legal candidate grid, 15 km meso radius from the paper-tested range, six orientations, five aspect ratios and a 3 by 3 local macro screen.",
+    "Use the best feasible rectangle as a completion certificate so each greedy meso commit provably retains enough legal positions to reach 100 turbines.",
+    "Calibrate only one layout-independent missing cost offset per seed to the paper rectangle NPV; keep every energy, foundation, cable and shape change live.",
+    "Complete the cited VNS with T31 random-conic, 3D/5D/8D neighborhoods, 128 one-opt candidates, counter-keyed events and incumbent retention.",
+    "Parallelize fixed wakes, pair construction, macro designs, meso candidates and all micro turbine-slot neighborhoods with persistent C++ worker teams.",
+    "Run one/all-worker fixed-work H6, then eight formal seeds with equal 1800-second shape and rectangle micro optimization on Waffle."
+  ],
+  "corpus_id": "T83",
+  "dossier_status": "h5_admitted",
+  "formal_status": "ready_for_immutable_waffle_queue",
+  "hpc_admission": {
+    "H0": "complete_target_fulltext_source_search_and_cited_t31_data_audit",
+    "H1": "complete_wfasp_npv_macro_meso_micro_constraint_decomposition",
+    "H2": "complete_pair_delta_candidate_parallelism_and_formal_resource_analysis",
+    "H3": "complete_pure_cpp_persistent_team_three_scale_implementation",
+    "H4": "complete_spark_eight_seed_sixteen_design_role_smoke_and_profile",
+    "H5": "pass_cpp_independent_python_table_constraint_schedule_and_runner_validation",
+    "H6": "pass_spark_fixed_work_one_twenty_worker_all_stage_speedup_and_exact_identity_waffle_confirmation_ready"
+  },
+  "missing_information": [
+    "target implementation, random states and final layouts",
+    "machine-readable UK Round-4 bidding polygons and restriction masks",
+    "exact extracted ERA5, GEBCO and nearby-farm arrays",
+    "macro orientation and side-ratio sets",
+    "fine-grid resolution and selected meso radius",
+    "shape penalty coefficients",
+    "complete CAPEX, OPEX, shore, substation and cable-flow inputs",
+    "cited VNS source and time-to-work mapping"
+  ],
+  "paper": {
+    "authors": "Davide Cazzaro and Alessio Trivella and Francesco Corman and David Pisinger",
+    "doi": "10.1016/j.apenergy.2022.118830",
+    "pdf_basename": "2022_Cazzaro_Multi_Scale_Optimization_of_the_Design_of_Offshore_Wind_Farms.pdf",
+    "pdf_sha256": "dc23a662b903ea807779d654e39d4597ed74ab83473c486077d26d270b2fb58b",
+    "primary_asset_status": "local_primary_pdf_hashed_rendered_and_audited",
+    "primary_review_class": "REV4",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "NONE",
+    "title": "Multi-Scale Optimization of the Design of Offshore Wind Farms",
+    "venue": "Applied Energy",
+    "year": 2022
+  },
+  "paper_linked_public_asset_candidates": [
+    "https://doi.org/10.11583/DTU.13134731"
+  ],
+  "paper_source_conflicts": [],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 17,
+    "text_sha256": "1f21e3c9aaef16e51b71975f4c8064e5e9ead0a1fcfb72604c179411ad22f8d7"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [],
+    "embedded_annotation_urls": [],
+    "status": "no_target_public_source_or_uk_arrays; cited_predecessor_official_dataset_consumed"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "academic flexible reconstruction of the complete three-scale method and eight paper roles using explicit same-lineage offshore proxies; not author code, exact UK arrays, target layouts, random stream or numerical replay",
+    "execution_wave": "REV4",
+    "package_status": "h6_admitted_waffle_confirmation_and_formal_ready",
+    "scope_status": "paper_paired_hpc_implemented",
+    "target_contribution_type": "coupled_or_real_world_problem_and_method"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "paper_plus_declared_proxy_completion",
+      "resolution": "100 turbines, 1.2 km spacing, area at most 500 km2, density at least 3 MW/km2, PtA at most 5, legal public candidate mask and a feasible-reserve completion certificate",
+      "status": "implemented_and_eight_case_validated"
+    },
+    "decision_variables": {
+      "authority": "paper",
+      "resolution": "macro cell/orientation/ratio, meso ordered candidate placement and shape hull, and micro discrete positions for 100 turbines",
+      "status": "implemented"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper_plus_cited_public_data",
+      "resolution": "integer indices into a deterministic 800 m coarsening of official legal offshore candidates; every layout and proxy identity is emitted",
+      "status": "implemented"
+    },
+    "initialization": {
+      "authority": "paper_plus_declared_completion",
+      "resolution": "Table-1 target seed role mapped to a public field seed centre; rectangle screening supplies only a feasibility reserve for meso construction",
+      "status": "implemented"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper_plus_platform_ledger",
+      "resolution": "NPV and components, AEP, tender constraints, pair/macro/meso/micro work, phase times, worker receipt and hash; one result per paper seed because no independent repeats are reported",
+      "status": "implemented_and_pending_formal"
+    },
+    "objective_and_direction": {
+      "authority": "paper",
+      "resolution": "maximize discounted 25-year energy revenue less foundation, inter-array, export and layout-independent project costs",
+      "status": "implemented"
+    },
+    "paper_native_cases": {
+      "authority": "paper_Table_1_and_Appendix_A",
+      "resolution": "seeds A-H with target coordinates, regions, optimized shape anchors, best rectangle anchors and equal micro optimization for both design roles",
+      "status": "implemented_and_all_roles_smoke_validated"
+    },
+    "parameters": {
+      "authority": "paper_plus_cited_predecessor_plus_declared_missing_values",
+      "resolution": "0.0625-degree-equivalent local cells, six orientations, five aspect ratios, 800 m candidate cells, 15 km meso radius, 3D/5D/8D VNS radii and 128 one-opt candidates",
+      "status": "implemented"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper_plus_explicit_work_ledger",
+      "resolution": "literal 1800 seconds separately for constructed-shape and rectangle micro VNS; fixed cycles only for H5/H6; pair, macro, meso and micro candidate work reported instead of mislabelled FES",
+      "status": "implemented_and_runner_validated"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "T83 has no trained model",
+      "status": "not_applicable"
+    },
+    "update_order": {
+      "authority": "paper_plus_deterministic_hpc_completion",
+      "resolution": "parallel candidate scoring followed by one ordered macro selection, meso placement, VNS move/shake and incumbent commit; counter-keyed events preserve fixed-work identity",
+      "status": "implemented_and_schedule_validated"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_plus_cited_official_data_plus_declared_cost_completion",
+      "resolution": "official NREL-15MW and RVO/fixed-wake Jensen pair physics, official foundation costs, MST inter-array cable, published export price and one rectangle-anchored layout-independent cost offset",
+      "status": "implemented_and_anchor_validated"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "cited_same_lineage_official_data_completion",
+      "resolution": "each paper role emits its D-J or independently offset I public proxy; no ERA5-native identity is claimed",
+      "status": "implemented_and_source_fingerprinted"
+    }
+  },
+  "development_eight_case_smoke_20260731": {
+    "completed_seed_roles": 8,
+    "completed_design_roles": 16,
+    "proxy_mapping": {
+      "A": "D",
+      "B": "E",
+      "C": "F",
+      "D": "G",
+      "E": "H",
+      "F": "I",
+      "G": "J",
+      "H": "I_independently_offset"
+    },
+    "all_100_turbine_layouts_feasible": true,
+    "all_spacing_area_pta_density_constraints_pass": true,
+    "all_rectangle_anchors_pass": true,
+    "formal_1800_second_micro_runs_completed": false,
+    "status": "development_smoke_only"
+  },
+  "development_h6_20260731": {
+    "case": "A_proxy_D",
+    "fixed_micro_cycles_per_design": 50,
+    "one_worker_end_to_end_seconds": 0.715374036,
+    "twenty_worker_end_to_end_seconds": 0.085496877,
+    "source_preprocessing_speedup": 9.105401609959312,
+    "pair_matrix_speedup": 12.757130611650469,
+    "macro_speedup": 13.50184003646391,
+    "meso_speedup": 2.157761790117152,
+    "shape_micro_speedup": 6.147590530355687,
+    "rectangle_micro_speedup": 5.66992349508824,
+    "end_to_end_speedup": 8.367253414414192,
+    "same_layouts_evaluations_and_scientific_hash": true,
+    "comparison_boundary": "same pure-C++ implementation with one versus twenty Spark workers; not MATLAB or author-Python comparison"
+  }
+}

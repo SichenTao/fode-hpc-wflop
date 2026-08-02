@@ -1,0 +1,121 @@
+{
+  "schema_version": 1,
+  "contract_id": "taae_transformer_evolution_declared_reconstruction_contract_v1",
+  "corpus_id": "Y36",
+  "paper": {
+    "title": "Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization",
+    "doi": "10.1109/JAS.2026.126233",
+    "sha256": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b",
+    "local_authoritative_pdf": "private-literature/2026_Ma_Transformer_Autoencoder_Assisted_Evolutionary_Framework_for_Constrained_Multiobjective_3D_Wind_Farm_Layout_Optimization.pdf",
+    "plan004_full_text_receipt": "evidence/development/plan004_learning_pdf_consumption_20260730.json",
+    "public_author_method_source": "unavailable",
+    "public_author_checkpoint": "unavailable"
+  },
+  "method_semantic_id": "taae_transformer_evolution_declared_reconstruction_v1",
+  "kernel_semantic_id": "taae_transformer_declared_reconstruction_v1",
+  "blocked_original_algorithm_id": "taae",
+  "problem_semantic_id": "taae_zhangbei_structured_declared_proxy_v1",
+  "method_evidence_tier": "M3_DECLARED_COMPLETION",
+  "problem_evidence_tier": "P3_DECLARED_PROXY",
+  "admission_scope": "bounded deterministic end-to-end engineering reconstruction on the six declared P3 proxy cases",
+  "paper_visible_semantics": {
+    "population_size": 100,
+    "initial_physical_fes": 100,
+    "maximum_physical_fes": 10000,
+    "fine_tune_epochs_per_generation": 10,
+    "latent_differential_weight": 0.3,
+    "relative_fitness": "SPEA2 fitness assignment combined with CDP, then min-max normalized for learning",
+    "latent_mutant": "Algorithm 2 Eq. 14: Hm = Hp + 0.3 * (H1 - H2), with H1 and H2 formed by tournament selection guided by CDP and NSGA-II",
+    "latent_crossover": "exactly one randomly selected dimension from the mutant latent vector and every remaining dimension from the corresponding current raw latent h",
+    "polynomial_mutation_probability": "1 divided by latent dimension",
+    "polynomial_mutation_distribution_index": 20.0,
+    "duplicate_filter": "remove duplicate offspring and offspring identical to a current parent before physical evaluation",
+    "repair_at_most_two_conflicts": "fit full planar Gaussian mean and covariance to nonconflicting turbine coordinates, sample conflicting turbines, and project to nearest admissible unoccupied cells",
+    "repair_more_than_two_conflicts": "randomly reinitialize the complete wind farm layout",
+    "survival": "merge parent and evaluated offspring populations then CDP plus NSGA-II environmental selection to N",
+    "paper_source": "Section IV-D Algorithm 2 and Eqs. 14-16; Section V-B; embedded supplement Tables S19-S21"
+  },
+  "declared_identity_critical_completions": {
+    "relative_fitness": "SPEA2 strength plus raw fitness plus density, ordered through CDP and min-max normalized to [0,1]; zero range maps every target to 0",
+    "cdp_rule": "one feasible solution beats one infeasible solution; if both are infeasible, lower positive constraint violation wins and equal violation proceeds to deterministic NSGA-II ranking and ties; if both are feasible, compare Pareto dominance before deterministic NSGA-II ranking and ties",
+    "spea2_density_k": "floor(sqrt(population_size)), at least 1, using the kth Euclidean objective-space neighbor after per-objective min-max normalization",
+    "tournament": "binary tournament sampled with replacement; CDP first, then lower NSGA-II rank, then larger crowding distance, then smaller stable source index",
+    "latent_bounds": "per-dimension minimum and maximum raw h observed in the current parent population; zero-range dimensions remain at the current value",
+    "polynomial_mutation_bounds": "Deb bounded polynomial mutation within the current observed raw-latent bounds, followed by clamping",
+    "gaussian_covariance": "sample x and y from the nonconflicting turbines' full 2 by 2 covariance; add max(cell_width squared times 1e-6, 1e-12) to each diagonal",
+    "gaussian_sampling": "fixed-order Box-Muller draws; at most 64 projected samples per conflicting turbine",
+    "nearest_cell_tie": "minimum squared planar distance, then smaller 1-based cell index",
+    "repair_fallback": "if a Gaussian attempt cannot select an admissible unoccupied cell, choose the smallest admissible unoccupied cell; more than two conflicts reinitializes the full layout",
+    "decoded_filter_order": "after integer decoding and before Gaussian repair, canonicalize the unordered token multiset while retaining multiplicity and invalid token values; discard a repeated raw decoded solution and discard a valid decoded solution identical to a current parent without consuming repair RNG; after repair, also discard any result identical to a parent or prior accepted repaired offspring",
+    "proposal_traversal": "visit proposal attempts in ascending order with current parent row equal to attempt modulo population size; rejected proposals do not receive a source index, and each accepted repaired offspring receives population size plus its accepted order",
+    "duplicate_refill": "apply both the pre-repair decoded-solution filter and post-repair physical-layout guard; attempt latent proposals at most 10 times the requested batch, then attempt deterministic uniformly sampled feasible refill at most another 10 times the requested batch and fail closed if still incomplete",
+    "partial_generation": "request exactly min(population_size, remaining physical FES) unique offspring and evaluate no layout beyond the requested physical-FES cap",
+    "no_feasible_front": "emit the deterministic CDP rank-0 least-constraint-violation front when no feasible solution exists and label it least_violation_infeasible; do not fail solely because the final population has no feasible solution",
+    "pretraining_checkpoint": "bounded profile may construct deterministic bounded pretraining state; paper-scale profile requires an input checkpoint whose SHA-256 is supplied and whose metadata records the paper-scale profile, 100000 corpus samples, and at least 500 pretraining epochs",
+    "front_ties": "stable source order followed by lexicographic ascending layout cells",
+    "unsupported_backends": "hybrid and gpu fail closed; cpu is the only supported backend"
+  },
+  "training_profiles": {
+    "bounded_smoke": {
+      "profile_id": "taae_evolution_bounded_smoke_v1",
+      "pretraining_layouts": 64,
+      "pretraining_epochs": 2,
+      "pretraining_batch_size": 16,
+      "fine_tune_epochs_per_generation": 10,
+      "fine_tune_batch_size": 64,
+      "paper_scale_claim": false
+    },
+    "paper_scale": {
+      "profile_id": "paper_scale_declared_reconstruction_v1",
+      "pretraining_layouts": 100000,
+      "pretraining_epochs": 500,
+      "pretraining_batch_size": 64,
+      "requires_immutable_checkpoint": true,
+      "fail_closed_without_checkpoint_and_sha256": true
+    }
+  },
+  "repair_contract": {
+    "ordering": "integer decode, raw decoded multiset duplicate and valid-parent filter, conflict repair, repaired-layout duplicate and parent guard, then physical evaluation",
+    "conflicts": [
+      "duplicate turbine cell after integer decoding",
+      "overlap with one of the selected P3 case's four monitor cells"
+    ],
+    "at_most_two": "retain nonconflicting cells and repair conflicts from the declared Gaussian rule",
+    "more_than_two": "discard the complete decoded layout and generate a fresh uniform feasible sorted layout",
+    "output": "exactly 15 unique admissible 1-based cells in ascending order"
+  },
+  "physical_work": {
+    "unit": "one complete call evaluating reciprocal power, A-weighted noise, cost, and normalized constraint violation for one layout",
+    "initialization": 100,
+    "maximum": 10000,
+    "training_physical_fes": 0,
+    "fitness_target_reuse": "fine-tuning uses already evaluated current-population values and performs no evaluator call"
+  },
+  "parallel_contract": {
+    "cpu": "one persistent executor is reused for independent per-sample model forward/cache construction, population encoding, exact-trajectory speculative autoregressive decoding, and independent complete-layout evaluations",
+    "cli_default_workers": "omitting --workers requests all visible logical CPUs; requested_workers records 0 and resolved_workers records at least 1 from hardware_concurrency",
+    "ordered_state": "initialization, tournaments, latent variation RNG, raw/post-repair filters, repair RNG, fixed-order loss and gradient accumulation, Adam registry/index updates, environmental selection, hashes, and output serialization remain in deterministic fixed event/index order",
+    "speculative_decode": "generate latent proposals and their post-latent RNG states in ascending attempt order, decode one executor-width batch independently, then commit filter/repair effects in attempt order; any repair RNG consumption invalidates and discards all later speculative decodes before resuming from the exact committed RNG state",
+    "worker_equivalence": "workers 1 and 20 must match physical FES, model hash, front hash, layout hash, and all scientific output fields exactly",
+    "participation_receipt": "each measured stage records wall seconds, parallel regions, task items, participant activations once per participating thread per region, distinct participants, and peak participants; tests cover fewer tasks than threads and at least as many tasks as threads",
+    "proposal_work_receipt": "record committed latent attempts, speculative batches/tasks/discards, repair-RNG invalidations, accepted latent offspring, each duplicate-rejection class, and deterministic refill work",
+    "rejected_optimizer_parallelism": "measured parameter-task Adam parallelism preserved hashes but had no reproducible absolute 1-worker or 20-worker gain and added 20 regions plus 1600 tasks in the controlled 200-FES probe; retain fixed registry/index Adam order",
+    "gpu": "unsupported_fail_closed",
+    "hybrid": "unsupported_fail_closed"
+  },
+  "required_outputs": [
+    "method and problem semantic IDs",
+    "case ID and problem semantic hash",
+    "seed, requested and resolved workers, physical FES, generations",
+    "training-state profile ID and actual model architecture",
+    "training work ledger",
+    "per-stage timing and actual executor-participation receipts",
+    "proposal and speculative-decode work receipt",
+    "model parameter hash",
+    "population layout hash",
+    "nondominated front hash and records",
+    "front feasibility label and minimum normalized constraint violation",
+    "checkpoint metadata when written"
+  ],
+  "claim_boundary": "Executable bounded M3 declared reconstruction on a declared P3 problem proxy only. It is not the unavailable original taae method, Zhangbei numerical case, reported Pareto front, paper-scale trained state, formal evidence, performance result, or GPU implementation."
+}

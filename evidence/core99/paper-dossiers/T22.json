@@ -1,0 +1,172 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "Reconstruct Algorithms 1-3 directly from the CC-BY paper with counter-keyed shuffle and declared deterministic tie handling.",
+    "Compile numeric paper-linked data with source revisions and hashes while implementing all equations independently.",
+    "Use repository-consistent equation recalculation rather than stale embedded DEBO AEP metadata.",
+    "Parallelize candidates at each DEBO decision and preserve ordered state commits; use direction parallelism only for standalone fixed-layout evaluation."
+  ],
+  "corpus_id": "T22",
+  "dossier_status": "h5_admitted",
+  "evidence_receipts": [],
+  "formal_status": "queued_on_waffle_after_t12",
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "queued_on_waffle_after_t12"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/debo_t22.hpp",
+    "hpc/core99_cpp/src/debo_t22.cpp",
+    "scripts/run_core99_t22_h6_formal.py",
+    "shared/contracts/core99_t22_iea37_cs4.json"
+  ],
+  "missing_information": [
+    "executable author DEBO implementation",
+    "exact author shuffle random generator",
+    "software license file in the paper-linked GitHub repository"
+  ],
+  "paper": {
+    "authors": "Jared J. Thomas and Nicholas F. Baker and Paul Malisani and Erik Quaeghebeur and Sebastian Sanchez Perez-Moreno and John Jasa and Christopher Bay and Federico Tilli and David Bieniek and Nick Robinson and Andrew P. J. Stanley and Wesley Holt and Andrew Ning",
+    "doi": "10.5194/wes-8-865-2023",
+    "pdf_basename": "2023_Thomas_A_Comparison_of_Eight_Optimization_Methods_Applied_to_a_Wind_Farm_Layout_Optimization_Problem.pdf",
+    "pdf_sha256": "cd11bacbe4446a32a7d1c8bc7a2560ed2201597f6f8a894f51bbaff4f678a786",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV1",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "REV3",
+    "title": "A Comparison of Eight Optimization Methods Applied to a Wind Farm Layout Optimization Problem",
+    "venue": "Wind Energy Science",
+    "year": 2023
+  },
+  "paper_linked_public_asset_candidates": [
+    "https://doi.org/10.5281/zenodo.2559634",
+    "https://doi.org/10.5281/zenodo.4072253",
+    "https://doi.org/10.5281/zenodo.5809681",
+    "https://doi.org/10.5281/zenodo.7125349",
+    "https://doi.org/10.5281/zenodo.7125827",
+    "https://github.com/byuflowlab/FLOWFarm.jl/tree/develop",
+    "https://github.com/byuflowlab/SNOW.jl",
+    "https://github.com/jaredthomas68/thomas2022-8-opt-algs-wflop"
+  ],
+  "paper_source_conflicts": [
+    "The paper-linked repository provides evaluator and result assets but no executable DEBO optimizer or exact shuffle implementation.",
+    "The repository has no license file, so production code independently implements paper equations and copies no author optimizer code.",
+    "The Python evaluator header says case study 3 although the loaded assets and paper are case study 4.",
+    "The DEBO YAML embeds 2861182.50569 MWh, but repository-consistent recalculation gives 2913220.60417 MWh and matches the paper's 2913.221 GWh.",
+    "Rounded baseline coordinates accumulate 1.130514 m polygon residual."
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 27,
+    "text_sha256": "1d37c7aa8435e141e71837ba3e6abbae698ff5dd277727b6d75e36254094e1be"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [
+      274,
+      452,
+      799,
+      1455,
+      1457,
+      1516,
+      1586
+    ],
+    "embedded_annotation_urls": [
+      "https://doi.org/10.5281/zenodo.2559634",
+      "https://doi.org/10.5281/zenodo.4072253",
+      "https://doi.org/10.5281/zenodo.5809681",
+      "https://doi.org/10.5281/zenodo.7125349",
+      "https://doi.org/10.5281/zenodo.7125827",
+      "https://github.com/byuflowlab/FLOWFarm.jl/tree/develop",
+      "https://github.com/byuflowlab/SNOW.jl",
+      "https://github.com/jaredthomas68/thomas2022-8-opt-algs-wflop"
+    ],
+    "status": "candidate_only_requires_revision_license_semantic_audit"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "paper-equation and paper-linked-data academic declared reproduction; DEBO is independently reconstructed because executable author DEBO code is absent",
+    "execution_wave": "REV1",
+    "package_status": "h5_admitted_h6_and_formal_queued",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "problem_definition_or_comparison_protocol"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "paper_and_public_boundaries",
+      "resolution": "inside any of five polygons and at least 396 m inter-turbine distance; only feasible DEBO candidates are evaluated",
+      "status": "frozen"
+    },
+    "decision_variables": {
+      "authority": "paper",
+      "resolution": "ordered sequence of 81 continuous turbine coordinates within five disconnected regions",
+      "status": "frozen"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper_algorithms",
+      "resolution": "100 m admissible grid for greedy allocation followed by progressively refined discrete neighborhoods",
+      "status": "frozen"
+    },
+    "initialization": {
+      "authority": "paper_algorithm_1",
+      "resolution": "upper-right first point, boundary-first potential set, then sequential best-AEP greedy allocation with a no-border fallback",
+      "status": "frozen"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper",
+      "resolution": "AEP, wake loss, feasibility, physical FES, stage timings, scientific hash, paper result-layout oracle, and one full DEBO run because the paper states little randomness",
+      "status": "frozen"
+    },
+    "objective_and_direction": {
+      "authority": "paper_and_public_evaluator",
+      "resolution": "maximize annual energy production and report wake-loss fraction",
+      "status": "frozen"
+    },
+    "paper_native_cases": {
+      "authority": "paper_and_public_data",
+      "resolution": "IEA Task 37 case study 4 based on Borssele III and IV, 81 turbines and five disconnected regions",
+      "status": "frozen"
+    },
+    "parameters": {
+      "authority": "paper_algorithm_3",
+      "resolution": "dx=dy=100 m, dmin=396 m, dmax=990 m, L=1000 m, Lmin=5 m, ns=6, rho=0.75",
+      "status": "frozen"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper_algorithm_3",
+      "resolution": "greedy completion followed by local convergence at each L while L is greater than 5 m; every complete candidate AEP counts as one physical FES",
+      "status": "frozen"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "paper",
+      "resolution": "non-learning greedy and local-search method",
+      "status": "not_applicable"
+    },
+    "update_order": {
+      "authority": "paper_algorithms_2_3_plus_declared_rng_completion",
+      "resolution": "counter-keyed Fisher-Yates turbine order, parallel candidate evaluation, strict-improvement and deterministic lexicographic ordered commits",
+      "status": "frozen"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_and_public_python_julia_models",
+      "resolution": "simplified Bastankhah Gaussian wake, 8/9 thrust coefficient, 0.0324555 wake expansion, RSS deficits, and IEA 10 MW piecewise power curve",
+      "status": "frozen"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper_linked_public_data",
+      "resolution": "360 one-degree direction bins crossed with 20 direction-conditioned speed bins",
+      "status": "frozen"
+    }
+  }
+}

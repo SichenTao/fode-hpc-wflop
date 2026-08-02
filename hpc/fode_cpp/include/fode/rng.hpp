@@ -1,3 +1,20 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: schedule-independent FODE random-event interface
+Paper title and DOI: A State-of-the-Art Fractional Order-Driven Differential
+Evolution for Wind Farm Layout Optimization; 10.3390/math13020282
+Paper/source basis: paper sampling laws and archived MATLAB transition order
+Public asset: not publicly redistributed
+Missing/conflicts: MATLAB MT19937 bit-stream replay is intentionally absent
+Reconstruction: counter-keyed uniform, normal, and Cauchy draws
+Method/problem semantic IDs: fode_e0_physical_fes;
+not_applicable_shared_infrastructure
+Controlling contract and claim boundary:
+shared/contracts/deterministic_random_event_contract.json; distribution and
+event-ownership equivalence only
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #pragma once
 
 #include <cmath>

@@ -1,0 +1,193 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0373",
+  "paper": {
+    "title": "Joint optimization of wind farm layout considering optimal control",
+    "authors": "Kaixuan Chen and Jin Lin and Yiwei Qiu and Feng Liu and Yonghua Song",
+    "doi": "10.1016/j.renene.2021.10.032",
+    "venue": "Renewable Energy",
+    "year": 2021,
+    "pdf_basename": "2021_Chen_Joint_optimization_of_wind_farm_layout_considering_optimal_control.pdf",
+    "pdf_sha256": "a0e5b3c2fe2a24e870e7b17c0220d71a644e96e6fd87b4087f3fb9d0c6555f50",
+    "primary_asset_status": "local_primary_pdf_hashed_rendered_and_audited",
+    "primary_review_class": "REV4",
+    "secondary_review_classes": "REV5",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D"
+  },
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 16,
+    "text_sha256": "72122fbd2c6358182606c6cf78c793900cf6fac43e2ba3818566a594ae1a5cdd"
+  },
+  "authority_ladder": [
+    "target_publisher_paper",
+    "target_arxiv_source_and_original_figures",
+    "cited_pinned_FLORISSE_M_dependency",
+    "cited_wake_and_nonconvex_decomposition_lineage",
+    "deterministic_declared_completion"
+  ],
+  "paper_linked_public_asset_candidates": [
+    "https://doi.org/10.1016/j.renene.2021.10.032",
+    "https://arxiv.org/abs/2107.11620",
+    "https://github.com/TUDelft-DataDrivenControl/FLORISSE_M",
+    "https://doi.org/10.5281/zenodo.4458669"
+  ],
+  "public_asset_candidate_evidence": {
+    "status": "target arXiv TeX and figures plus cited FLORISSE_M inspected; no target DBHM executable or result archive found",
+    "arxiv_source_archive_sha256": "6c5dd1b686f0501051974d4d464a44ca5283847b34a459d6e4daf5535bcbef9c",
+    "florisse_m_commit": "36cb0a0295d2a1e05640fdbbcb9bb361ac8d592e",
+    "florisse_m_archive_sha256": "451150ba62b242353f9bdaa5e5bef10cad5d63e0e3841d625838572d9f0c1f75",
+    "florisse_m_license": "MIT"
+  },
+  "paper_source_conflicts": [
+    "Eq.1 prints a positive Gaussian exponent instead of the physically required negative exponent.",
+    "Eq.8 includes i=j and is infeasible for any positive minimum distance.",
+    "Eq.15 includes self-pairs and double-counts unordered pair penalties.",
+    "Eq.3 has dimensionally ambiguous empirical scaling relative to the cited FLORISSE_M formulation.",
+    "The broad nonconvex-ADMM convergence paragraph does not state all assumptions needed for an unconditional certificate.",
+    "The scenario subproblem is described as 4N-dimensional although the auxiliary epsilon variable is also written."
+  ],
+  "missing_information": [
+    "target DBHM/MATLAB source, exact FLORISSE_M adaptation, optimizer options, random states, seeds, traces and result archive",
+    "numeric 36-sector wind rose and exact 16/80-turbine coordinates",
+    "PSO population, coefficients, iteration budget and termination",
+    "interior-point implementation, rotor quadrature, x0, turbulence intensity and near-wake handling",
+    "all final layouts, controls and consensus histories"
+  ],
+  "completion_decisions": [
+    "Restore the negative Gaussian exponent and unique unordered turbine-pair constraints and penalties.",
+    "Retain the printed two-dimensional Eq.3 as an explicitly declared paper-literal adaptation because target source is absent.",
+    "Use the pinned FLORISSE_M x0 relationship and infer ambient turbulence from paper ky=0.0229 and source ka/kb.",
+    "Use nine deterministic lateral rotor samples and root-sum-square wake deficits.",
+    "Digitize and normalize the original arXiv 36-sector wind rose; aggregate or subdivide it for 12/180/360 directions.",
+    "Reconstruct the 16-turbine 1900x1700m grid and 80-turbine Horns-Rev 10x8 parallelogram from the paper text and figures; treat 7D as the Horns initial lattice side and retain 4D as the minimum feasible separation.",
+    "Retain ten PSO trials and declare population40, 30 iterations and standard Clerc coefficients for absent settings.",
+    "Use a bounded projected pattern solver for the unspecified MATLAB interior-point routine.",
+    "Preserve DBHM scenario decomposition, analytic coordination, mu10, multiplier update and consensus tolerance10 with at most12 declared iterations.",
+    "Use one persistent full-core executor for complete PSO individuals and independent wind-scenario control/DBHM subproblems; this directly realizes the paper's explicit parallelization opportunity."
+  ],
+  "dossier_status": "h5_admitted",
+  "formal_status": "ready_for_immutable_waffle_queue",
+  "hpc_admission": {
+    "H0": "complete_target_equation_figure_table_arxiv_and_dependency_audit",
+    "H1": "complete_wake_control_layout_pso_dbhm_and_profile_work_decomposition",
+    "H2": "complete_population_scenario_parallelism_persistent_team_and_deterministic_schedule_analysis",
+    "H3": "complete_pure_cpp_persistent_all_core_implementation",
+    "H4": "complete_six_profile_resumable_formal_runner",
+    "H5": "pass_strict_cpp_and_independent_python_semantic_receipt_validation",
+    "H6": "pass_local_n16w36_one_twenty_candidate_pending_immutable_waffle_confirmation"
+  },
+  "scope": {
+    "scope_status": "paper_paired_hpc_implemented",
+    "execution_wave": "REV4",
+    "package_status": "h6_admitted_waffle_confirmation_and_formal_ready",
+    "target_contribution_type": "coupled_or_real_world_problem_and_method",
+    "claim_boundary": "source-backed flexible academic reconstruction of the target joint layout-control problem, DBHM and all paper-native profiles and roles; not author code, exact MATLAB/FLORISSE-M adaptation, private arrays, trajectories or numerical replay"
+  },
+  "semantic_contract": {
+    "decision_variables": {
+      "authority": "target_Eqs12_14_16_18",
+      "resolution": "continuous two-dimensional layout plus per-turbine yaw and axial induction for each wind scenario",
+      "status": "implemented"
+    },
+    "encoding_and_decoder": {
+      "authority": "target_model_structure_and_decomposition",
+      "resolution": "canonical coordinate vectors and scenario-indexed control vectors",
+      "status": "implemented_and_validated"
+    },
+    "constraints_and_repair": {
+      "authority": "target_Eqs8_10_17_19_with_explicit_pair_correction",
+      "resolution": "rectangular bounds, corrected i<j Euclidean 4D separation and deterministic projection repair; 7D is only the Horns initial lattice side",
+      "status": "implemented_and_validated"
+    },
+    "objective_and_direction": {
+      "authority": "target_Eqs12_16_18_20_31",
+      "resolution": "maximize probability-weighted annual energy through isolated, sequential and joint-control roles",
+      "status": "implemented"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "target_Eqs1_7_plus_pinned_FLORISSE_M_completion",
+      "resolution": "corrected-sign Gaussian yaw/induction wake, fixed rotor sampling, RSS superposition and actuator-disk power",
+      "status": "implemented_and_scalar_validated"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "target_original_Fig5_plus_declared_digitization",
+      "resolution": "normalized 36-sector digitization with explicit 12-bin aggregation and 180/360-bin subdivision",
+      "status": "implemented_and_normalization_validated"
+    },
+    "paper_native_cases": {
+      "authority": "target_Sections3_4_Figs4_10_and_Tables2_4",
+      "resolution": "two three-turbine illustrations and four 16/80-turbine direction profiles with all Cases1-5",
+      "status": "implemented_and_runner_validated"
+    },
+    "initialization": {
+      "authority": "target_PSO_warm_start_plus_figure_geometry_completion",
+      "resolution": "paper-figure initial layouts and ten counter-keyed PSO trials",
+      "status": "implemented"
+    },
+    "parameters": {
+      "authority": "target_Table1_and_DBHM_text_plus_declared_optimizer_completion",
+      "resolution": "paper physical/control/DBHM parameters plus population40, PSO30, control5 and DBHM12",
+      "status": "implemented"
+    },
+    "update_order": {
+      "authority": "target_Fig8_and_Eqs20_31",
+      "resolution": "PSO warm start, scenario controls, frozen local subproblems, ordered consensus and multiplier update",
+      "status": "implemented_and_schedule_validated"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "target_consensus_tolerance_plus_declared_missing_budgets",
+      "resolution": "PSO30, control5 and DBHM convergence below10m or maximum12; complete layout and single-wind state evaluations both recorded",
+      "status": "implemented_and_formal_ready"
+    },
+    "metrics_and_repeats": {
+      "authority": "target_AEP_tables_and_ten_PSO_trials_plus_platform_contract",
+      "resolution": "all paper AEP anchors, five roles, efficiency, spacing, consensus, physical work, timing, workers and hash; one formal run per profile",
+      "status": "implemented_and_runner_validated"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "PSO and DBHM have no trained model",
+      "status": "not_applicable"
+    }
+  },
+  "development_h6_20260801": {
+    "profile": "n16-w36",
+    "pso_trials": 10,
+    "pso_population": 40,
+    "pso_iterations": 30,
+    "one_worker_end_to_end_seconds": 14.42695082,
+    "twenty_worker_end_to_end_seconds": 1.38705429,
+    "end_to_end_speedup": 10.401143577444254,
+    "isolated_layout_speedup": 10.431652461374464,
+    "control_speedup": 11.409734882515318,
+    "dbhm_speedup": 10.195709788956817,
+    "all_twenty_workers_observed": true,
+    "same_cases_controls_layouts_work_and_hash": true,
+    "comparison_boundary": "same final pure-C++ implementation with one versus twenty Spark workers; not MATLAB, author code or Waffle confirmation",
+    "status": "local_candidate_pending_immutable_waffle_confirmation"
+  },
+  "development_formal_campaign_20260801": {
+    "paper_native_profiles": 6,
+    "complete_layout_evaluations": 51988,
+    "single_wind_state_evaluations": 8977948,
+    "summed_end_to_end_seconds": 277.890332634,
+    "all_profiles_and_roles_valid": true,
+    "status": "local_candidate_pending_immutable_waffle_confirmation"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/chen_l0373.hpp",
+    "hpc/core99_cpp/src/chen_l0373.cpp",
+    "hpc/core99_cpp/src/chen_l0373_main.cpp",
+    "hpc/core99_cpp/tests/chen_l0373_test.cpp",
+    "scripts/validate_core99_l0373.py",
+    "scripts/run_core99_l0373_h6_formal.py",
+    "scripts/run_core99_l0373_when_waffle_free.sh",
+    "shared/contracts/core99_l0373_chen_2021.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/L0373_H0_H4_mathematical_hpc_analysis_20260801.md",
+    "evidence/development/L0373_h5_independent_validation_20260801.json"
+  ]
+}

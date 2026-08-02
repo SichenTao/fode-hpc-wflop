@@ -1,0 +1,110 @@
+{
+  "schema_version": 1,
+  "campaign_id": "declared_pbea_reconstructions_v1",
+  "suite_id": "declared_reconstruction_formal_suite_v1",
+  "status": "completed_result_reuse_analysis_only_no_optimization_launch",
+  "source_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
+  "capability_matrix_id": "gao_tao_wflop_global_execution_capability_matrix_step10_v1",
+  "package_id": "pbea_three_objective",
+  "semantic_group": {
+    "problem_id": "zhang2025_three_objective",
+    "problem_semantics_id": "three_objective_paper_repaired_v1",
+    "objective_signature": "minimize_inverse_expected_power_area_and_cost",
+    "pooling_rule": "MOEA/D, MORIME, and AR-MOEA are compared only within each exact wind-profile and turbine-count case; raw fronts and metrics are never pooled across cases"
+  },
+  "profile_ids": [
+    "moead__zhang2025_three_objective",
+    "morime__zhang2025_three_objective",
+    "armoea__zhang2025_three_objective"
+  ],
+  "profile_records": [
+    {
+      "profile_id": "moead__zhang2025_three_objective",
+      "method_semantics_id": "moead_three_objective_paper_repaired_physical_fes_v1",
+      "problem_semantics_id": "three_objective_paper_repaired_v1",
+      "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+      "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+      "claim_boundary": "Canonical MOEA/D reconstruction on the repaired three-objective profile."
+    },
+    {
+      "profile_id": "morime__zhang2025_three_objective",
+      "method_semantics_id": "morime_three_objective_paper_repaired_physical_fes_v1",
+      "problem_semantics_id": "three_objective_paper_repaired_v1",
+      "method_evidence_tier": "M3_DECLARED_COMPLETION",
+      "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+      "claim_boundary": "Declared MORIME state reconstruction on the repaired three-objective profile."
+    },
+    {
+      "profile_id": "armoea__zhang2025_three_objective",
+      "method_semantics_id": "armoea_three_objective_paper_repaired_physical_fes_v1",
+      "problem_semantics_id": "three_objective_paper_repaired_v1",
+      "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+      "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+      "claim_boundary": "PlatEMO-authority AR-MOEA reconstruction on the repaired profile."
+    }
+  ],
+  "case_contract": "shared/contracts/pbea_execution_contract.json",
+  "case_axes": {
+    "wind_profiles": ["WS1", "WS2"],
+    "turbine_counts": [15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30]
+  },
+  "case_count": 32,
+  "launchable": false,
+  "new_optimization_runs": 0,
+  "new_complete_layout_evaluations": 0,
+  "completed_result_reference": {
+    "evidence": "evidence/closure/spark2_completed_suite_reference.json",
+    "campaign_id": "pbea_six_algorithm_spark2_v1",
+    "completed_optimization_source_commit": "2299a13d4de6e5d8e4b324ed27ce92f2ab3e99b1",
+    "receipt_sha256": "b37915a8a908f9a35956b244b4d861475e86188c007775e10a77159b47b695fd",
+    "completed_family_algorithm_count": 6,
+    "completed_family_run_count": 4800,
+    "completed_family_result_file_count": 9600,
+    "completed_family_complete_layout_evaluations": 48480000,
+    "reused_profile_count": 3,
+    "reused_profile_run_count": 2400,
+    "physical_fes_per_run": 10100,
+    "integrity_status": "all_9600_front_and_summary_files_verified_by_size_and_sha256",
+    "portability_boundary": "The receipt stores original Spark2 absolute paths. Direct path-based verification after relocation fails on path lookup; basename relocation verifies every stored content hash and does not indicate data corruption."
+  },
+  "training_work_separation": {
+    "optimization_seed_namespace": "optimization/pbea_six_algorithm_spark2_v1",
+    "optimization_seed_set": {
+      "authority": "formal/contracts/pbea_six_algorithm_spark2_v1.json",
+      "seed_base": 202507290000,
+      "seed_formula": "202507290000 plus one-based repeat index",
+      "seed_count": 25
+    },
+    "training": "not_applicable",
+    "training_profiles": {},
+    "training_work_and_training_fes_recorded_separately": true,
+    "training_fes_included_in_optimization_fes": false
+  },
+  "multiobjective_reporting": {
+    "artifact_scope": "accepted final-budget front files only",
+    "reported_completed_algorithms": ["moead_p", "moead", "nsgaii", "mopso", "morime", "armoea"],
+    "suite_focal_reconstruction_profiles": ["moead", "morime", "armoea"],
+    "metrics": ["hypervolume", "igd_plus", "feasible_nondominated_count", "front_cardinality"],
+    "reference_front_scope": "all_six_completed_profiles",
+    "reference_front": "construct and freeze one empirical nondominated reference set per exact WS and turbine-count case from the feasible nondominated union of all six completed algorithms and all 25 seed fronts",
+    "normalization": "per exact case and per objective using frozen minima and maxima of that case's empirical reference set; zero ranges are recorded and mapped deterministically",
+    "hypervolume_reference_point": "1.1 in every normalized minimization objective",
+    "cross_case_pooling": false,
+    "convergence_trajectory": "unavailable_from_accepted_artifacts",
+    "trajectory_interpolation_prohibited": true,
+    "optimization_rerun_for_trajectory_prohibited": true,
+    "timing_source_to_canonical_mapping": {
+      "end_to_end_seconds": "end_to_end_wall_seconds",
+      "evaluator_seconds": "evaluator_wall_seconds",
+      "algorithm_seconds": "algorithm_wall_seconds"
+    },
+    "timing_is_never_quality": true
+  },
+  "analysis_only_policy": {
+    "new_optimization_launch_prohibited": true,
+    "accepted_artifacts_only": true,
+    "per_exact_case_only": true,
+    "cross_case_pooling": false,
+    "cross_problem_semantics_pooling": false
+  }
+}

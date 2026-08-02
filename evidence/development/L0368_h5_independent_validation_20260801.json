@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0368",
+  "status": "pass_local_h5_and_h6_candidate",
+  "paper_pdf_sha256": "a81ca2a398ec6654af0755ca0f40dd64f206b0dd8a57cf244efe09cbe1701a24",
+  "paper_text_sha256": "13fa682093d1712f347a021ed1f91ff487d3247cae2d74d9af1df53fda926f1b",
+  "same_author_public_asset": {
+    "doi": "10.17632/bvrdgykzwy.1",
+    "archive_sha256": "0cc04a40d8d386f134af50d1a716cf708d4eb095c560181f1b626f32992866fe",
+    "relationship": "cited lineage completion, not target source"
+  },
+  "binary_sha256": "b0cf06e9d00f9670f4fe75552cad74469452fae3128e2f6d83b6ff81337874e5",
+  "strict_build": "pass with -Wall -Wextra -Wpedantic -Werror",
+  "ctest": {
+    "core99_l0368_cpp": "pass",
+    "core99_l0368_h5": "pass"
+  },
+  "validated": [
+    "20 paper-native S1-S5 by W1-W4 role identities and all Table7-10 anchors",
+    "normalized W1-W4 probabilities and terrain slope endpoints",
+    "Euclidean 5D primary constraint and literal L-infinity audit sensitivity",
+    "capital, power, feasibility, count and physical-FES receipts",
+    "independent Python transcription of Eq.2 for all four wind models, including one-turbine no-wake power and 100-percent efficiency",
+    "independent closure of ICC=direct/(1-0.043-0.174) and the capital-to-power proxy",
+    "one-worker and multi-worker layout, evaluation, FES and hash identity",
+    "20-case plus sixteen-transfer resumable runner"
+  ],
+  "local_h6_candidate": {
+    "case_id": "L0368_S5W4",
+    "population": 100,
+    "generations": 100,
+    "physical_fes": 10100,
+    "one_worker_end_to_end_seconds": 7.100331144,
+    "all_worker_end_to_end_seconds": 0.599982503,
+    "end_to_end_speedup": 11.834230345880604,
+    "one_worker_evaluator_seconds": 7.076422635,
+    "all_worker_evaluator_seconds": 0.5832086339999998,
+    "evaluator_speedup": 12.133604014625064,
+    "algorithm_non_evaluator_speedup": 1.4253426222264067,
+    "requested_and_observed_all_workers": [20, 20],
+    "scientific_identity": true,
+    "status": "local_candidate_pending_immutable_waffle_confirmation"
+  },
+  "local_paper_native_campaign_candidate": {
+    "status": "pass_pending_immutable_waffle_confirmation",
+    "native_optimization_cases": 20,
+    "cross_terrain_layout_transfers": 16,
+    "population_per_case": 100,
+    "generations_per_case": 500,
+    "physical_fes_per_case": 50100,
+    "total_physical_fes": 1002000,
+    "requested_workers": 20,
+    "case_end_to_end_seconds_sum": 26.929610175,
+    "case_end_to_end_seconds_min": 0.052957613,
+    "case_end_to_end_seconds_max": 4.365222901,
+    "all_cases_and_transfers_valid": true
+  },
+  "paper_table_closure": {
+    "status": "internally_inconsistent_under_printed_equations",
+    "example": "S1W1 and S1W3 both use 18 turbines and zero support depth but COE times displayed power implies about GBP139.8m versus GBP244.3m ICC",
+    "handling": "retain anchors, use one physical cost model, do not force numerical replay"
+  },
+  "claim_boundary": "Flexible academic reconstruction; not author target code, private Nanao arrays, exact MATLAB defaults/random trajectory or numerical replay."
+}

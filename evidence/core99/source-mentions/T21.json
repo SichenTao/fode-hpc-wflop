@@ -1,0 +1,18 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [
+    "https://github.com/byuflowlab/iea37-wflo-casestudies/tree/master/cs1-2"
+  ],
+  "corpus_id": "T21",
+  "doi": "10.1016/j.renene.2022.06.019",
+  "embedded_annotation_asset_urls": [
+    "https://github.com/byuflowlab/iea37-wflo-casestudies/tree/master/cs1-2"
+  ],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "7ebc7c5b628b35d013e91bf714fc660bd7e1c5638dba2f637a764065235096f2",
+  "private_text_sha256": "9c1371d6a8250244f974620899b89232e0726f6a5d328410c2bb084d18c954ce",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": [
+    "https://github.com/byuﬂowlab"
+  ]
+}

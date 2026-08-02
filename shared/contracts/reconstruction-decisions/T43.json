@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T43",
+  "doi": "10.1109/jas.2025.125351",
+  "paper_sha256": "92d3eb80a5f6ba3dcf904712f19bd1f81e4432a3d13235b27b74ceda3fece016",
+  "profiles": [
+    "ppga_declared_reconstruction_fode_e0_v1",
+    "ppga_nantong_structured_3d_declared_proxy_v1",
+    "ppga_nantong_structured_3d_declared_reconstruction_v1",
+    "ppga_nantong_structured_3d_declared_reconstruction_v2"
+  ],
+  "invalidated_profiles": {
+    "ppga_nantong_structured_3d_declared_reconstruction_v1": "identity-critical Eq. 18 gate, per-dimension perturbation, finite-support sampler, and pre-selection stagnation defects"
+  },
+  "completion_status": "distinct_P3_Nantong_structured_proxy_and_bounded_M3_v2_declared_reconstruction_complete_v1_invalidated_original_Nantong_problem_method_and_results_blocked",
+  "approved_source_base_commit": "ef2d30f41111a06404375cc070b6ba34464be390",
+  "decisions": [
+    {
+      "field": "nantong_terrain_and_case_identity",
+      "completed_transition": "the paper fixes a 16 by 27 grid, 300 m spacing, a six-metre elevation range, and 20, 30, 40, and 50 turbines but does not expose the 432 elevations",
+      "selected_value_or_rule": "retain the paper-visible grid and counts and freeze the analytic 0 to 6 m gentle seabed in the distinct P3 case manifest",
+      "authority_type": "target_paper_structure_plus_declared_proxy_completion",
+      "immutable_authority": "T43 paper and shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json",
+      "rejected_alternatives": ["digitize the contour figure and claim the original elevation array", "reuse a planar FODE case under the Nantong name"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines hub elevations and vertical wake interactions and prevents an original Nantong identity claim",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "wind_and_turbine_completion",
+      "completed_transition": "the paper exposes four scenarios with 16 directions and seven speeds plus H171 surface parameters but not the numeric wind arrays or manufacturer power and thrust curves",
+      "selected_value_or_rule": "use four frozen factorized direction-by-speed distributions and a declared cut-in 3, rated 11, cut-out 25 m/s cubic-to-rated 6200 kW power curve",
+      "authority_type": "target_paper_structure_plus_declared_proxy_completion",
+      "immutable_authority": "shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json",
+      "rejected_alternatives": ["digitize plotted wind bars as author arrays", "silently import a different turbine curve"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines state weights, ideal power, wake-affected power, and objective ranking",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "three_dimensional_wake_completion",
+      "completed_transition": "the target equations expose a terrain-aware Gaussian wake structure, xi 1.98, and offshore expansion 0.05 but omit enough numeric and multiple-wake details for unique execution",
+      "selected_value_or_rule": "use axial induction one third, closed-form Gaussian pair deficits, target-point shear exponent 0.1, and fixed-order root-sum-square velocity deficits",
+      "authority_type": "target_paper_plus_cited_predecessor_and_same_author_model_family",
+      "immutable_authority": "T43 paper, Tao 2020 PDF sha256 385658381f3af634dc47ceafef8d03ece5cd6c0084eb0289da4810941b72fbd8, and shared/contracts/ppga_nantong_structured_3d_provenance.json",
+      "rejected_alternatives": ["claim Eq. 10 uniquely determines all missing wake inputs", "multiply successive wakes", "import Guishan terrain or wind data"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "changes effective wind, expected power, efficiency, and layout ranking",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "adaptation_and_stagnation",
+      "completed_transition": "the paper defines fitness times square-root diversity minus stagnant proportion with threshold zero but omits normalization, distance, and history rules",
+      "selected_value_or_rule": "use population min-max efficiency and mean occupied-site set distance; initialize S to zero, then after each complete offspring evaluation and before selection set S from offspring[i] no better than parent[i]; from generation two perturb only when theta is strictly below zero and an independent counter-keyed draw is below minus theta",
+      "authority_type": "target_paper_equations_plus_declared_method_completion",
+      "immutable_authority": "shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json",
+      "rejected_alternatives": ["select normalization after observing result quality", "compare a selected and sorted next population against the prior unsorted population", "perturb every non-positive theta deterministically"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines exactly which individuals receive heavy-tailed perturbation",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_bounded_M3_reconstruction"
+    },
+    {
+      "field": "ga_power_law_and_repair",
+      "completed_transition": "the paper fixes population 30, crossover 0.8, mutation 0.1, exponent 2.5, top-k elitism, and generation-two perturbation but omits discrete realization and k",
+      "selected_value_or_rule": "use three parent elites, binary tournaments, uniform gene crossover, one-cell mutation, and for every dimension of a gate-selected individual use the normalized finite-support inverse-CDF displacement on one through grid size minus one with independent random sign, cyclic bounds, and deterministic unique-cell refill",
+      "authority_type": "target_paper_algorithm_plus_declared_method_completion",
+      "immutable_authority": "shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json",
+      "rejected_alternatives": ["invent an unavailable learned feature mapper", "choose elite count or boundary rules after optimization", "perturb only one randomly chosen dimension", "sample an unbounded Pareto value and clamp it at the finite upper bound"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines the complete offspring distribution, repair trajectory, and survivor pressure",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_bounded_M3_reconstruction"
+    },
+    {
+      "field": "physical_fes_and_cpu_r4",
+      "completed_transition": "the paper reports 30 individuals and 50 iterations but does not define partial budgets or a parallel schedule",
+      "selected_value_or_rule": "count one complete layout evaluation over the selected case's 16 by 7 joint wind states as one physical FES, keep WS1 through WS4 as separate benchmark cases, evaluate an exact partial terminal batch, use counter-keyed RNG and a persistent CPU executor, default to all visible CPUs, and emit stage and work receipts",
+      "authority_type": "platform_physical_work_and_CPU_execution_contract",
+      "immutable_authority": "hpc/ppga_cpp/tests/evolution_test.cpp and shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json",
+      "rejected_alternatives": ["count each wind state as one FES", "overshoot the requested budget", "claim an unsupported GPU or hybrid backend", "let worker completion order change scientific output"],
+      "classification": "implementation_only",
+      "expected_downstream_effect": "gives exact comparable work, exact one-vs-all scientific equivalence, and auditable actual CPU participation",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_CPU_R4_development_only"
+    }
+  ]
+}

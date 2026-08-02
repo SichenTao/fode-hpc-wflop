@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "corpus_id": "S05",
+  "doi": "10.2139/ssrn.6135326",
+  "title": "WFADDE: Weighted Memory, Failure-Archive Sampling, and Adaptive Local Disturbance for Wind Farm Layout Optimization",
+  "query_date": "2026-07-29",
+  "search_basis": [
+    "Shangce Gao homepage corpus refreshed at 2026-07-29T02:36:14Z",
+    "repository source_asset_registry and paper/problem ledgers",
+    "bounded authority ladder recorded below"
+  ],
+  "conclusion": "bounded_no_public_asset_found",
+  "searched_authorities": [
+    {
+      "authority": "official_author_homepage",
+      "url": "https://toyamaailab.github.io/publications.html",
+      "query": "\"10.2139/ssrn.6135326\" \"WFADDE: Weighted Memory, Failure-Archive Sampling, and Adaptive Local Disturbance for Wind Farm Layout Optimization\"",
+      "result": "refreshed_homepage_snapshot_checked"
+    },
+    {
+      "authority": "doi_publisher_supplement_and_data_statement",
+      "url": "https://doi.org/10.2139/ssrn.6135326",
+      "query": "10.2139/ssrn.6135326",
+      "result": "paper_and_existing_supplement_ledger_checked"
+    },
+    {
+      "authority": "paper_author_or_coauthor_linked_repository",
+      "url": "not_available",
+      "query": "\"10.2139/ssrn.6135326\" \"WFADDE: Weighted Memory, Failure-Archive Sampling, and Adaptive Local Disturbance for Wind Farm Layout Optimization\"",
+      "result": "no_direct_public_asset_recorded"
+    },
+    {
+      "authority": "author_coauthor_github",
+      "url": "https://github.com/search?q=10.2139%2Fssrn.6135326&type=repositories",
+      "query": "10.2139/ssrn.6135326",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "general_research_data_repositories",
+      "url": "https://zenodo.org/search?q=10.2139%2Fssrn.6135326",
+      "query": "10.2139/ssrn.6135326; Figshare; OSF; institutional repository",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "cited_implementation_and_predecessor_work",
+      "url": "https://doi.org/10.2139/ssrn.6135326",
+      "query": "WFADDE: Weighted Memory, Failure-Archive Sampling, and Adaptive Local Disturbance for Wind Farm Layout Optimization cited implementation predecessor",
+      "result": "paper_reference_and_project_ledger_checked"
+    },
+    {
+      "authority": "same_author_problem_or_method_family",
+      "url": "https://toyamaailab.github.io/sourcedata.html",
+      "query": "Bingchao Shi; Chen Yang; Sichen Tao; Chennuo Jin; Yifei Yang wind farm source data",
+      "result": "refreshed_source_page_and_lineage_ledger_checked"
+    }
+  ],
+  "discovered_assets": [
+    {
+      "authority": "workspace_and_official_homepage_search",
+      "url": "not_available",
+      "revision_or_sha256": "preprint:sha256:14029c5e4db959d3702960dedb87a30e7e9119a56378a2b8f80dca8dfa6119a5",
+      "license_observation": "no_public_author_source_found",
+      "redistribution_policy": "preprint_only",
+      "relationship": "direct_target_or_project_author_asset"
+    }
+  ],
+  "available_evidence": [
+    "validated_complete",
+    "no_public_source_preprint_derived"
+  ],
+  "missing_method_or_problem_fields": [],
+  "negative_evidence_boundary": "Search is dated and bounded; later author releases require a new dossier."
+}

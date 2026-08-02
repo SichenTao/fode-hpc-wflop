@@ -1,0 +1,428 @@
+{
+  "H0_scientific_state_machine": {
+    "physical_fes_boundary": "one complete evaluation of all registered objectives and constraints for one candidate layout",
+    "random_events": "seed, generation, member, coordinate, operator, and draw own counter-keyed schedule-independent random events",
+    "stages": [
+      "S0_tmoea_ordered_layout",
+      "S1_tmoea_biobjective_evaluation",
+      "S2_tmoea_topology_mutation",
+      "S3_tmoea_rank_crowding",
+      "S4_tmoea_replacement"
+    ],
+    "terminal_partial_work": "only the remaining physical FES prefix is evaluated and committed in stable member order",
+    "training_lifecycle": "not_applicable"
+  },
+  "H1_work_and_data_movement": {
+    "actual_values": {
+      "largest": {
+        "B": 30,
+        "C": 1,
+        "D": 72,
+        "FES": 3000,
+        "M": 2,
+        "Nd": 12,
+        "Ns": 0,
+        "Nt": 72,
+        "Nv": 4
+      },
+      "representative": {
+        "B": 30,
+        "C": 1,
+        "D": 72,
+        "FES": 3000,
+        "M": 2,
+        "Nd": 12,
+        "Ns": 0,
+        "Nt": 72,
+        "Nv": 4
+      },
+      "smallest": {
+        "B": 30,
+        "C": 1,
+        "D": 72,
+        "FES": 3000,
+        "M": 2,
+        "Nd": 12,
+        "Ns": 0,
+        "Nt": 72,
+        "Nv": 4
+      }
+    },
+    "data_layout": "contiguous row-major/SoA populations, reused objective buffers, thread-local repair scratch, stable output arrays",
+    "defined_variables": {
+      "B": "population or training batch size",
+      "C": "number of explicit constraint aggregates",
+      "D": "decision-vector length",
+      "FES": "complete physical layout-evaluation budget",
+      "M": "number of objectives",
+      "Nd": "number of wind-direction states",
+      "Ns": "offline or on-policy training samples",
+      "Nt": "number of turbines in one complete layout",
+      "Nv": "number of wind-speed states per direction"
+    },
+    "native_size_provenance": {
+      "derivation": "case dimensions are parsed from the frozen native contract; population follows the target source/parameter rule",
+      "selected_native_cases": {
+        "largest": "Denmark_Nysted",
+        "representative": "Denmark_Nysted",
+        "smallest": "Denmark_Nysted"
+      },
+      "source_paths": [
+        "shared/contracts/tmoea_nysted_paper_wake_gga_router_problem.json"
+      ],
+      "source_sha256": {
+        "shared/contracts/tmoea_nysted_paper_wake_gga_router_problem.json": "2716d66b9430ddd8bcc6d903f66be687bc94ccb93d7985a5096e261e6ccff1ee"
+      }
+    },
+    "proposed_work_model": {
+      "S0_tmoea_ordered_layout": "B*D",
+      "S1_tmoea_biobjective_evaluation": "B*(Nd*Nv*Nt*Nt+D*D)",
+      "S2_tmoea_topology_mutation": "B*D*D",
+      "S3_tmoea_rank_crowding": "B*B*M",
+      "S4_tmoea_replacement": "B*B*M+B*D"
+    },
+    "reuse_proofs": [
+      "T36 coordinate, mask, terrain, and candidate lookups are layout-state functions and are reused across registered wind states.",
+      "tmoea immutable generation inputs permit member-local scratch; only stable selection and artifact commits cross member boundaries."
+    ],
+    "source_work_model": {
+      "S0_tmoea_ordered_layout": "B*D",
+      "S1_tmoea_biobjective_evaluation": "B*(Nd*Nv*Nt*Nt+D*D)",
+      "S2_tmoea_topology_mutation": "B*D*D",
+      "S3_tmoea_rank_crowding": "B*B*M",
+      "S4_tmoea_replacement": "B*B*M+B*D"
+    },
+    "stage_ledger": [
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 51840.0,
+            "critical_path_units": 72.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 30.0,
+            "work_units": 2160.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 51840.0,
+            "critical_path_units": 72.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 30.0,
+            "work_units": 2160.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 51840.0,
+            "critical_path_units": 72.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 30.0,
+            "work_units": 2160.0
+          }
+        },
+        "classification": "independent",
+        "equation_or_rule": "genotype order active; phenotype unique",
+        "id": "S0_tmoea_ordered_layout",
+        "parallel_space": "individuals",
+        "physical_fes": "0",
+        "source_symbol": "hpc/gga_cpp/src/main.cpp::random_ordered_layout",
+        "span": "D",
+        "symbol_role": "ordered 72-of-130 initialization",
+        "work": "B*D"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 110.25,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 69120.0,
+            "critical_path_units": 254016.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 360.0,
+            "work_units": 7620480.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 110.25,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 69120.0,
+            "critical_path_units": 254016.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 360.0,
+            "work_units": 7620480.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 110.25,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 69120.0,
+            "critical_path_units": 254016.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 360.0,
+            "work_units": 7620480.0
+          }
+        },
+        "classification": "independent",
+        "equation_or_rule": "paper Eq.16 wake plus same-author cable completion",
+        "id": "S1_tmoea_biobjective_evaluation",
+        "parallel_space": "layouts, winds, cable groups",
+        "physical_fes": "B complete evaluations",
+        "source_symbol": "hpc/gga_cpp/src/main.cpp::tmoea_objectives",
+        "span": "Nd*Nv*Nt*Nt+D*D",
+        "symbol_role": "negative AEP and cable cost",
+        "work": "B*(Nd*Nv*Nt*Nt+D*D)"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 3.0,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 51840.0,
+            "critical_path_units": 5184.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 30.0,
+            "work_units": 155520.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 3.0,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 51840.0,
+            "critical_path_units": 5184.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 30.0,
+            "work_units": 155520.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 3.0,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 51840.0,
+            "critical_path_units": 5184.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 30.0,
+            "work_units": 155520.0
+          }
+        },
+        "classification": "independent",
+        "equation_or_rule": "ordered swap/replacement under cable topology",
+        "id": "S2_tmoea_topology_mutation",
+        "parallel_space": "offspring positions",
+        "physical_fes": "0",
+        "source_symbol": "hpc/gga_cpp/src/main.cpp::tmoea_topology_mutation",
+        "span": "D*D",
+        "symbol_role": "topology-aware mutation",
+        "work": "B*D*D"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.034722222222222224,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 51840.0,
+            "critical_path_units": 60.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 30.0,
+            "work_units": 1800.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.034722222222222224,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 51840.0,
+            "critical_path_units": 60.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 30.0,
+            "work_units": 1800.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.034722222222222224,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 51840.0,
+            "critical_path_units": 60.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 30.0,
+            "work_units": 1800.0
+          }
+        },
+        "classification": "deterministic_reduction",
+        "equation_or_rule": "stable Pareto rank and crowding",
+        "id": "S3_tmoea_rank_crowding",
+        "parallel_space": "objective pairs",
+        "physical_fes": "0",
+        "source_symbol": "hpc/gga_cpp/src/main.cpp::bi_rank_and_crowding",
+        "span": "B*M",
+        "symbol_role": "biobjective nondomination/crowding",
+        "work": "B*B*M"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.0763888888888889,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 51840.0,
+            "critical_path_units": 132.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 30.0,
+            "work_units": 3960.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.0763888888888889,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 51840.0,
+            "critical_path_units": 132.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 30.0,
+            "work_units": 3960.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.0763888888888889,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 51840.0,
+            "critical_path_units": 132.0,
+            "peak_live_memory_bytes": 17280.0,
+            "task_count": 30.0,
+            "work_units": 3960.0
+          }
+        },
+        "classification": "ordered_commit",
+        "equation_or_rule": "paper Eq.16 profile identity retained",
+        "id": "S4_tmoea_replacement",
+        "parallel_space": "ranked combined population",
+        "physical_fes": "0",
+        "source_symbol": "hpc/gga_cpp/src/main.cpp::tmoea_replacement_candidate",
+        "span": "B*M+D",
+        "symbol_role": "topology replacement commit",
+        "work": "B*B*M+B*D"
+      }
+    ]
+  },
+  "H2_dependency_and_parallel_width": {
+    "barriers": [
+      "after complete-layout evaluation",
+      "before ordered selection/archive visibility",
+      "before artifact/result serialization"
+    ],
+    "cpu_decomposition": "one persistent team over layouts, wind states, members, coordinates, and training samples where independent",
+    "dependency_edges": [
+      [
+        "S0_tmoea_ordered_layout",
+        "S1_tmoea_biobjective_evaluation"
+      ],
+      [
+        "S1_tmoea_biobjective_evaluation",
+        "S2_tmoea_topology_mutation"
+      ],
+      [
+        "S2_tmoea_topology_mutation",
+        "S3_tmoea_rank_crowding"
+      ],
+      [
+        "S3_tmoea_rank_crowding",
+        "S4_tmoea_replacement"
+      ]
+    ],
+    "gpu_decomposition": "CPU is the H0-H4 candidate because the current work is irregular and branch-heavy; cpu_selected_after_analysis is withheld until exact-pair H6 measurements",
+    "ordered_sections": [
+      "S4_tmoea_replacement"
+    ],
+    "parallel_spaces": [
+      "individuals",
+      "layouts, winds, cable groups",
+      "offspring positions",
+      "objective pairs",
+      "ranked combined population"
+    ],
+    "random_contract": "counter-keyed and schedule independent",
+    "reductions": [
+      "fitness and objective reductions use fixed index order",
+      "selection ties use the registered stable secondary key"
+    ]
+  },
+  "H3_performance_and_granularity": {
+    "backend_decision": {
+      "acceptance_gate": "H5 bounded equivalence plus H6 exact-pair performance",
+      "accepted_backend": null,
+      "maturity": "candidate_pre_h6",
+      "proposed_backend": "cpu_hpc_v1"
+    },
+    "cache_vectorization_batching": "contiguous doubles, reused allocations, direction-major wake geometry, batched model tensors",
+    "dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+    "gpu_suitability": "CPU is the H0-H4 candidate because the current work is irregular and branch-heavy; cpu_selected_after_analysis is withheld until exact-pair H6 measurements",
+    "granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+    "measurements_required": [
+      "workers 1,2,4,8,12,16,20 with five balanced repetitions",
+      "at least 95 percent stage attribution",
+      "median, dispersion, bootstrap 95 percent CI, speedup, efficiency, active workers, barriers, and imbalance"
+    ],
+    "parallel_ceiling_model": "1/(s+(1-s)/P)",
+    "serial_fraction_model": "ordered selection visibility, optimizer commit, and serialization divided by measured end-to-end wall time",
+    "transfer_cost_model": "host pack + optional pinned H2D + kernel + D2H receipt; CPU-only targets record zero device transfers"
+  },
+  "H4_implementation_mapping": {
+    "accepted_backend_id": null,
+    "allocation_policy": "population/objective/scratch buffers allocated once per run and reused across generations",
+    "backend_candidates": [
+      "tmoea_nysted_paper_eq16_v2__cpu_hpc_v1"
+    ],
+    "deterministic_reduction": "parallel independent work writes fixed slots; one stable ordered reduction/commit consumes them",
+    "evaluator_symbol": "hpc/gga_cpp/src/main.cpp::evaluate",
+    "instrumentation": "per-stage wall time, task count, active participants, barriers, physical FES, layout/front/artifact hash",
+    "pair_specific_composition": {
+      "method_semantic_id": "tmoea_nysted_paper_eq16_v2",
+      "ordered_stage_ids": [
+        "S0_tmoea_ordered_layout",
+        "S1_tmoea_biobjective_evaluation",
+        "S2_tmoea_topology_mutation",
+        "S3_tmoea_rank_crowding",
+        "S4_tmoea_replacement"
+      ],
+      "stage_ledger_sha256": "98201c48dd59729b40f8d2aec1fc87909b53922f9fc23ad4f66155b0eb71f1ad"
+    },
+    "persistent_team_symbol": "hpc/fode_cpp/src/executor.cpp::PersistentExecutor",
+    "primary_symbol": "hpc/gga_cpp/src/main.cpp::optimize_tmoea",
+    "shared_components": {
+      "paper_native_evaluator": {
+        "path": "hpc/gga_cpp/src/main.cpp",
+        "sha256": "025a2b4d75e8ca3a11f151d7d5e7866322eb2176661e40b40854a72b4187dcfe"
+      },
+      "persistent_executor": {
+        "path": "hpc/fode_cpp/src/executor.cpp",
+        "sha256": "40973d74edf97691e19f5236216a195eaa373df5e000157749c62a35c4f2a486"
+      }
+    },
+    "stage_symbols": {
+      "S0_tmoea_ordered_layout": "hpc/gga_cpp/src/main.cpp::random_ordered_layout",
+      "S1_tmoea_biobjective_evaluation": "hpc/gga_cpp/src/main.cpp::tmoea_objectives",
+      "S2_tmoea_topology_mutation": "hpc/gga_cpp/src/main.cpp::tmoea_topology_mutation",
+      "S3_tmoea_rank_crowding": "hpc/gga_cpp/src/main.cpp::bi_rank_and_crowding",
+      "S4_tmoea_replacement": "hpc/gga_cpp/src/main.cpp::tmoea_replacement_candidate"
+    }
+  },
+  "algorithm_id": "tmoea",
+  "analysis_id": "plan003_hpc_analysis__T36__tmoea__nysted_paper_eq16_cpu_r4_v2__target__v1",
+  "architecture": {
+    "architecture_id": "spark2_cpu20_gb10_plan003_v1",
+    "compiler_flags": "-O3 -DNDEBUG -ffp-contract=off",
+    "gpu": "NVIDIA GB10 CUDA 13",
+    "hostname": "spark-9b6f",
+    "machine": "aarch64",
+    "processor_model": "Cortex-X925\nCortex-A725",
+    "visible_hardware_threads": 20
+  },
+  "corpus_id": "T36",
+  "dossier_maturity": "accepted_pair_specific_h0_h4",
+  "implementation_status": "executable_baseline",
+  "method_semantic_id": "tmoea_nysted_paper_eq16_v2",
+  "pair_id": "T36__tmoea__nysted_paper_eq16_cpu_r4_v2__target",
+  "pair_specific_boundary": "T36:tmoea_nysted_paper_eq16_v2 on nysted_paper_eq16_cpu_r4_v2; comparator assets are outside this dossier and never enter readiness",
+  "paper_protocol_id": "cpeee2026_tmoea_native_25_v1",
+  "paper_protocol_summary": {
+    "case_matrix": "Nysted reconstructed layout-cable case",
+    "objective": "maximize AEP;minimize cable cost",
+    "physical_budget": "3000 complete biobjective evaluations"
+  },
+  "problem_id": "nysted_paper_eq16_cpu_r4_v2",
+  "problem_semantic_id": "nysted_paper_eq16_cpu_r4_v2",
+  "review_status": "reviewed_plan003_target_specific",
+  "role": "target",
+  "schema_version": 3
+}

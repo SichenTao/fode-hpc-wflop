@@ -1,0 +1,343 @@
+{
+  "schema_version": 1,
+  "receipt_id": "step11_bounded_development_receipts_20260729",
+  "baseline_commit": "f4cf564e60cfc2fbba804c49d0866f3aff82de59",
+  "profile_scope_rule": "global matrix bindings whose admission_status contains reconstruction",
+  "claim_boundary": "All timings and small-seed observations are bounded development evidence on shared Spark. They are not formal, isolated, cross-host, universal-speedup, original-paper, or cross-problem ranking claims.",
+  "host": {
+    "hostname": "spark-9b6f",
+    "architecture": "aarch64",
+    "visible_logical_cpus": 20,
+    "compiler": "c++ (Ubuntu 11.5.0-1ubuntu1~24.04.1) 11.5.0",
+    "build_type": "Release",
+    "measured_execution_mode": "cpu",
+    "gpu_used": false
+  },
+  "receipt_requirements": {
+    "worker_pair": [
+      1,
+      20
+    ],
+    "repeat_at_all_visible_workers": true,
+    "scientific_equivalence": "exact unless an explicit contracted tolerance is recorded",
+    "timing_components": [
+      "evaluator",
+      "algorithm_or_training",
+      "serialization_if_exposed",
+      "end_to_end"
+    ],
+    "quality_seed_policy": "predetermined small seeds only; results may be pooled or compared only under exactly identical problem_semantics_id",
+    "unsupported_modes": "hybrid and GPU are fail-closed compatibility tests, never timing or performance evidence"
+  },
+  "bounded_run_receipts": [
+    {
+      "path": "evidence/development/step11_profile_runs_spark_20260729.json",
+      "sha256": "52523865b85c2b044c7fb48fa2def186d0cff20443fbc9852767ce933aa019e3",
+      "profile_count": 13
+    },
+    {
+      "path": "evidence/development/rlpso_bounded_step11_spark_20260729.json",
+      "sha256": "2354d5488780032c410bf43728f8e5cbd08b4eeba1bb6af453bebf57510d7ff7",
+      "profile_count": 2
+    }
+  ],
+  "execution_spec_groups": [
+    {
+      "profiles": [
+        "alga_attention_declared_reconstruction_v1__fode_e0_common",
+        "fqfode_seeded_training_declared_reconstruction_v1__fode_e0_common"
+      ],
+      "binary_target": "wflop_cpp_hpc",
+      "binary_path": "build/step10-release/hpc/wflop_cpp/wflop_cpp_hpc",
+      "binary_sha256": "c2937e74681704ed9c501255e615af4fb97a11e50a048b87d63ff843f26df1e1",
+      "command_template": "wflop_cpp_hpc --algorithm {algorithm_id} --problem fode_e0_common --cases shared/contracts/benchmark_cases.json --case WS1tn10 --physical-fes 120 --workers {1|20} --seed {2026072901|2026072902|2026072903} --compute-backend cpu",
+      "case_id": "WS1tn10",
+      "asset_path": "shared/contracts/benchmark_cases.json",
+      "asset_sha256": "1b4d7b687f2608c38343ea6252ecea51fff711f8939665ca07a40110127879c5",
+      "initial_population_by_profile": {
+        "alga_attention_declared_reconstruction_v1__fode_e0_common": 30,
+        "fqfode_seeded_training_declared_reconstruction_v1__fode_e0_common": 67
+      },
+      "budget": 120,
+      "fes_denominator": "one complete FODE-E0-L layout evaluation"
+    },
+    {
+      "profiles": [
+        "alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer"
+      ],
+      "binary_target": "wflop_cpp_hpc",
+      "binary_path": "build/step10-release/hpc/wflop_cpp/wflop_cpp_hpc",
+      "binary_sha256": "c2937e74681704ed9c501255e615af4fb97a11e50a048b87d63ff843f26df1e1",
+      "command_template": "wflop_cpp_hpc --algorithm alga_attention_declared_reconstruction_v1 --problem alga_guishan_planar_transfer --cases shared/contracts/alga_guishan_planar_transfer_cases.json --case ALGA_GuishanPlanarTransfer_tn40 --physical-fes 120 --workers {1|20} --seed {seed} --compute-backend cpu",
+      "case_id": "ALGA_GuishanPlanarTransfer_tn40",
+      "asset_path": "shared/contracts/alga_guishan_planar_transfer_cases.json",
+      "asset_sha256": "9b4bc82b424da330c70822387b7aab73aebdff0156bac0939e397cfba8034cf1",
+      "population_or_initial_population": 30,
+      "budget": 120,
+      "fes_denominator": "one complete transfer-problem layout evaluation"
+    },
+    {
+      "profiles": [
+        "rlpso_compact_policy_declared_reconstruction_v1__rpso2024_source_problem_ws1_ws4",
+        "rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4"
+      ],
+      "binary_target": "wflop_cpp_hpc",
+      "binary_path": "build/step10-release/hpc/wflop_cpp/wflop_cpp_hpc",
+      "binary_sha256": "c2937e74681704ed9c501255e615af4fb97a11e50a048b87d63ff843f26df1e1",
+      "command_template": "wflop_cpp_hpc --algorithm {algorithm_id} --problem rpso2024_source_problem_ws1_ws4 --cases .source-cache/generated/rpso_source_problem/benchmark_cases.json --case RPSO-WS1-tn30 --physical-fes 480 --workers {1|20} --seed {seed} --compute-backend cpu",
+      "case_id": "RPSO-WS1-tn30",
+      "asset_path": ".source-cache/generated/rpso_source_problem/benchmark_cases.json",
+      "asset_sha256": "d060c6bed80bc5a0654701f9b5a8dc7e45430ce5712c481099b9e23cee261663",
+      "population_or_initial_population": 50,
+      "budget": 480,
+      "fes_denominator": "one complete official-source RPSO WS1 layout evaluation including every training candidate"
+    },
+    {
+      "profiles": [
+        "taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1"
+      ],
+      "binary_target": "taae_evolution_hpc",
+      "binary_path": "build/step10-release/hpc/taae_cpp/taae_evolution_hpc",
+      "binary_sha256": "9f00b9b920f5c35a171d9d8e508e88c180d45d5ac690296f9d38b89f41e9d8b1",
+      "command_template": "taae_evolution_hpc --cases shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json --case TAAE_Proxy_NC1_Budget800k_tn15 --profile bounded --physical-fes {100_repeatability|200_quality} --workers {1|20} --seed {seed} --backend cpu",
+      "case_id": "TAAE_Proxy_NC1_Budget800k_tn15",
+      "asset_path": "shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json",
+      "asset_sha256": "4cfed3c8393d6d2fada9c21bc4e38dd05e2cab8c3cdd138d0393f7e455a0f37c",
+      "population_or_initial_population": 100,
+      "repeatability_budget": 100,
+      "quality_budget": 200,
+      "budget": "100 repeatability; 200 quality with one completed generation",
+      "fes_denominator": "one joint energy-noise-cost evaluation of one complete 15-turbine layout"
+    },
+    {
+      "profiles": [
+        "ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1"
+      ],
+      "binary_target": "ppga_nantong_hpc",
+      "binary_path": "build/step10-release/hpc/ppga_cpp/ppga_nantong_hpc",
+      "binary_sha256": "ddfea1d872fd40528c18b3fd275eec3cd34fece6864ebe4e9a44f0497cef3725",
+      "command_template": "ppga_nantong_hpc --cases shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json --case PPGA_NantongStructured_WS1_tn20 --physical-fes 60 --workers {1|20} --seed {seed} --backend cpu",
+      "case_id": "PPGA_NantongStructured_WS1_tn20",
+      "asset_path": "shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json",
+      "asset_sha256": "601b9258bc99f763cb66e7a4022b4a6a2e2dcddee691a578a80e5b90dba52283",
+      "population_or_initial_population": 30,
+      "budget": 60,
+      "fes_denominator": "one complete layout over the selected 16 by 7 wind-state case"
+    },
+    {
+      "profiles": [
+        "bde__bde2025_ws5_paper250_declared_proxy_v1",
+        "bde__bde2025_ws6_paper250_declared_proxy_v1"
+      ],
+      "binary_target": "bde_ws56_hpc",
+      "binary_path": "build/step10-release/hpc/bde_ws56_cpp/bde_ws56_hpc",
+      "binary_sha256": "341b8703e66abf066ce1347cf24e9aa75c2967a1664bb4610872a2f1f9292b5d",
+      "command_template": "bde_ws56_hpc --cases shared/contracts/bde_ws56_declared_proxy_cases.json --case {BDEWS5P3STDtn30|BDEWS6P3STDtn30} --physical-fes 100 --workers {1|20} --seed {seed} --execution-mode cpu",
+      "case_id": "profile-specific WS5 or WS6 STD tn30",
+      "asset_path": "shared/contracts/bde_ws56_declared_proxy_cases.json",
+      "asset_sha256": "4a48939117a6dd900842e0aaa948cefd6ec9b5e1d0d02892ffdad2d6d940d2e8",
+      "population_or_initial_population": 50,
+      "budget": 100,
+      "fes_denominator": "one complete selected-case layout evaluation; WS5 and WS6 remain separate problem semantics"
+    },
+    {
+      "profiles": [
+        "geoga__admitted_gga_problem_asset_proxy"
+      ],
+      "binary_target": "gga_cpp_hpc",
+      "binary_path": "build/step10-release/hpc/gga_cpp/gga_cpp_hpc",
+      "binary_sha256": "777b3eeed59cde509af827d0e6a5462e57deae75e2d7c6b2da1db035bfdd214d",
+      "command_template": "gga_cpp_hpc --problem .source-cache/generated/gga_repaired/UK_London_Array.wfp --algorithm geoga --physical-fes 100 --workers {1|20} --seed {seed} --execution-mode cpu",
+      "case_id": "UK_London_Array",
+      "asset_path": ".source-cache/generated/gga_repaired/UK_London_Array.wfp",
+      "asset_sha256": "5f84e224d7c5fe6b1a11ca07ef55a773283dc9ed570c0029332e24932153ab84",
+      "population_or_initial_population": 50,
+      "budget": 100,
+      "fes_denominator": "one complete AEP layout evaluation on the admitted GGA asset proxy"
+    },
+    {
+      "profiles": [
+        "geoga__geoga_anholt_structured_declared_proxy_v1"
+      ],
+      "binary_target": "geoga_anholt_hpc",
+      "binary_path": "build/step10-release/hpc/geoga_cpp/geoga_anholt_hpc",
+      "binary_sha256": "584d3940283194dca648d621365e7c7a93e2598e3bd9c704fae8c3143cb85a8e",
+      "command_template": "geoga_anholt_hpc --case shared/contracts/geoga_anholt_structured_declared_proxy_case.json --physical-fes 100 --workers {1|20} --seed {seed} --backend cpu",
+      "case_id": "GeoGA_AnholtStructured_P3_111",
+      "asset_path": "shared/contracts/geoga_anholt_structured_declared_proxy_case.json",
+      "asset_sha256": "c8cdbff6874a0e9991e093bcc50442ba425ad050c0cd312b22e54733083ab38f",
+      "population_or_initial_population": 50,
+      "budget": 100,
+      "fes_denominator": "one complete 111-turbine structured-proxy layout evaluation"
+    },
+    {
+      "profiles": [
+        "tmoea__nysted_paper_eq16_cpu_r4_v2"
+      ],
+      "binary_target": "gga_cpp_hpc",
+      "binary_path": "build/step10-release/hpc/gga_cpp/gga_cpp_hpc",
+      "binary_sha256": "777b3eeed59cde509af827d0e6a5462e57deae75e2d7c6b2da1db035bfdd214d",
+      "command_template": "gga_cpp_hpc --problem .source-cache/generated/gga_repaired/Denmark_Nysted.wfp --algorithm tmoea --tmoea-profile paper-eq16-v2 --execution-mode cpu --physical-fes 60 --workers {1|20} --seed {seed}",
+      "case_id": "Denmark_Nysted",
+      "asset_path": ".source-cache/generated/gga_repaired/Denmark_Nysted.wfp",
+      "asset_sha256": "920cb61b0dc1415af4b6908252799d703c884f2eeaec9ba7b9590c42d40791c4",
+      "population_or_initial_population": 30,
+      "budget": 60,
+      "fes_denominator": "one complete AEP plus deterministic cable-routing evaluation"
+    },
+    {
+      "profiles": [
+        "moead__zhang2025_three_objective",
+        "morime__zhang2025_three_objective",
+        "armoea__zhang2025_three_objective"
+      ],
+      "binary_target": "pbea_cpp_hpc",
+      "binary_path": "build/step10-release/hpc/pbea_cpp/pbea_cpp_hpc",
+      "binary_sha256": "90107179528faaa34a30bc2225c5aa56502f54f8ce161d15a5d904e489f43390",
+      "command_template": "pbea_cpp_hpc --algorithm {algorithm_id} --scenario ws1 --turbines 15 --population 10 --generations 1 --workers {1|20} --seed {seed} --execution-mode cpu",
+      "case_id": "ws1_tn15",
+      "asset_path": "shared/contracts/pbea_execution_contract.json",
+      "asset_sha256": "900374d0e7be636defed88b5f4a83ec627fc33f021f2407ff8d96591ca426f89",
+      "population_or_initial_population": 10,
+      "budget": 20,
+      "fes_denominator": "population times generations plus initialization complete three-objective layout evaluations"
+    }
+  ],
+  "coverage_groups": [
+    {
+      "profiles": [
+        "alga_attention_declared_reconstruction_v1__fode_e0_common",
+        "alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer"
+      ],
+      "evidence_path": "evidence/development/alga_attention_declared_reconstruction_admission_spark_20260729.json",
+      "evidence_sha256": "0ea2d1a0a47a39bb45f962492b337e613c5bf913a9096fdb8c2391e4473bc367",
+      "oracle_path": "scripts/test_alga_attention_reconstruction.py",
+      "oracle_sha256": "dde30b40b72fafd1b5fc243fb322c84c93401c85448a1aa5adabdd9a314694ac",
+      "workload_and_hash_locator": "admission.primary_transfer_smoke and bounded_timing",
+      "repeatability_status": "accepted_existing_evidence",
+      "timing_status": "accepted_existing_evidence",
+      "quality_status": "bounded_same_problem_only_no_cross_problem_ranking"
+    },
+    {
+      "profiles": [
+        "fqfode_seeded_training_declared_reconstruction_v1__fode_e0_common"
+      ],
+      "evidence_path": "evidence/development/fqfode_declared_reconstruction_admission_spark_20260729.json",
+      "evidence_sha256": "bd12d2880cad46594c74a49a48d73138fc13530551ef5f083ee724afb2e1b169",
+      "oracle_path": "scripts/test_rlfode_seeded_reconstruction.py",
+      "oracle_sha256": "09ea5d4e2308fbf24462855d787edb306c9a485afcde37aa79b4a81f84c0dee1",
+      "workload_and_hash_locator": "offline_artifact, formal_semantic_smoke, and bounded_timing_probe",
+      "repeatability_status": "accepted_existing_evidence",
+      "timing_status": "accepted_existing_evidence",
+      "quality_status": "STOP_distinct_sensitivity_variants_not_yet_executed"
+    },
+    {
+      "profiles": [
+        "rlpso_compact_policy_declared_reconstruction_v1__rpso2024_source_problem_ws1_ws4",
+        "rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4"
+      ],
+      "evidence_path": "evidence/development/rlpso_bounded_step11_spark_20260729.json",
+      "evidence_sha256": "2354d5488780032c410bf43728f8e5cbd08b4eeba1bb6af453bebf57510d7ff7",
+      "oracle_path": "scripts/test_rlpso_reconstruction.py",
+      "oracle_sha256": "53db4ed7a6bb4dc5028aa36b69dbc89da867e2db7e70a42ca0d6a2cd2facdebd",
+      "workload_and_hash_locator": "scope and profiles.*.repeatability/quality_results/bounded_timing_seconds",
+      "repeatability_status": "executed",
+      "timing_status": "executed",
+      "quality_status": "executed_same_problem_three_predetermined_seeds_without_retroactive_selection"
+    },
+    {
+      "profiles": [
+        "taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1"
+      ],
+      "evidence_path": "evidence/development/taae_cpu_r4_spark_20260729.json",
+      "evidence_sha256": "ec0258276168958a230996aae79b25c2f70322a2f4431d8e33c831a2d713c4b0",
+      "oracle_path": "hpc/taae_cpp/tests/evolution_test.cpp",
+      "oracle_sha256": "82d21bec67bd3a8e1ebcf19fee3f3187e1a5f3a80f55510f526cf91f82762003",
+      "workload_and_hash_locator": "approved_semantic_300_fes_denominator and canonical_seed1_default_workers_300_fes",
+      "repeatability_status": "accepted_existing_evidence",
+      "timing_status": "accepted_existing_evidence",
+      "quality_status": "bounded_proxy_only_original_and_paper_scale_blocked"
+    },
+    {
+      "profiles": [
+        "ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1"
+      ],
+      "evidence_path": "evidence/development/ppga_nantong_cpu_r4_spark_20260729.json",
+      "evidence_sha256": "c14c5f7284327837c3bcc6bd124ad06c26d2cc5b22badb3b47eb7ff5b9d896fd",
+      "oracle_path": "hpc/ppga_cpp/tests/evolution_test.cpp",
+      "oracle_sha256": "7b1f96dd3852dc2f1e0af0649dc21b4d6e4145003848f419da011490f0f2d8fe",
+      "workload_and_hash_locator": "scope, scientific_equivalence_workers_1_vs_default_all_visible, and bounded_timing",
+      "repeatability_status": "accepted_existing_evidence",
+      "timing_status": "accepted_existing_evidence",
+      "quality_status": "bounded_P3_only_original_v1_and_Nantong_blocked"
+    },
+    {
+      "profiles": [
+        "bde__bde2025_ws5_paper250_declared_proxy_v1",
+        "bde__bde2025_ws6_paper250_declared_proxy_v1"
+      ],
+      "evidence_path": "evidence/development/bde_ws56_declared_proxy_cpu_r4_spark_20260729.json",
+      "evidence_sha256": "b3f67797de98410b776bdf15c06574a6b8f4cb3c1388345f78ae7efab7c1ad2b",
+      "oracle_path": "scripts/validate_bde_ws56_declared_proxy.py",
+      "oracle_sha256": "0dad5c5a7a98c35ab66b389c889f2b130cc9552d2fc3d625d8ec86a23583b3d6",
+      "workload_and_hash_locator": "full_budget_science, work_receipt, and performance_protocol",
+      "repeatability_status": "accepted_existing_evidence",
+      "timing_status": "accepted_existing_evidence",
+      "quality_status": "STOP_cross_profile_problem_semantics_differ"
+    },
+    {
+      "profiles": [
+        "geoga__admitted_gga_problem_asset_proxy"
+      ],
+      "evidence_path": "evidence/development/geoga_cpp_reconstruction_admission_spark_20260729.json",
+      "evidence_sha256": "7c42327099b5ef5bcb0272651359beda7cf4129fd2402161061f345ccd097c00",
+      "oracle_path": "scripts/test_geoga_cpp.py",
+      "oracle_sha256": "f4c2717ad2f03286a7d3360450438b7187123c0dae22bc6613c97ff643c74846",
+      "workload_and_hash_locator": "validation and development_performance_diagnostic",
+      "repeatability_status": "accepted_existing_evidence",
+      "timing_status": "accepted_existing_evidence",
+      "quality_status": "proxy_only_no_Anholt_ranking"
+    },
+    {
+      "profiles": [
+        "geoga__geoga_anholt_structured_declared_proxy_v1"
+      ],
+      "evidence_path": "evidence/development/geoga_anholt_structured_cpu_r4_spark_20260729.json",
+      "evidence_sha256": "c4c96969bd7449aaa54b8931ac13f8c9e32a5ac7869d1c7ffd90906faf6c953c",
+      "oracle_path": "hpc/geoga_cpp/tests/evolution_test.cpp",
+      "oracle_sha256": "061014cb63e805084a5d82184ad946d1af1d4d8d2fe9455b912da68f19252b84",
+      "workload_and_hash_locator": "scientific_equivalence_workers_1_vs_default_all_visible and bounded_timing",
+      "repeatability_status": "accepted_existing_evidence",
+      "timing_status": "accepted_existing_evidence",
+      "quality_status": "bounded_P3_only_original_Anholt_blocked"
+    },
+    {
+      "profiles": [
+        "tmoea__nysted_paper_eq16_cpu_r4_v2"
+      ],
+      "evidence_path": "evidence/development/tmoea_nysted_paper_eq16_cpu_r4_spark_20260729.json",
+      "evidence_sha256": "038ab1e317776aa5dfa0d68486289fe9949f9cba305934ee72255563b0497245",
+      "oracle_path": "scripts/validate_tmoea_nysted_r4.py",
+      "oracle_sha256": "47ebc233895bedbc19d15588f65cee28b2596c5c55332dbadc76fc9b317bbf3f",
+      "workload_and_hash_locator": "science, stage_receipt_summary, timing_protocol, and work_receipt",
+      "repeatability_status": "accepted_existing_evidence",
+      "timing_status": "accepted_existing_evidence",
+      "quality_status": "corrected_reconstruction_only_original_TMOEA_blocked"
+    },
+    {
+      "profiles": [
+        "moead__zhang2025_three_objective",
+        "morime__zhang2025_three_objective",
+        "armoea__zhang2025_three_objective"
+      ],
+      "evidence_path": "evidence/development/pbea_six_algorithm_cpp_admission_spark_20260729.json",
+      "evidence_sha256": "e32c71459395e200036d5a5e1b620f0373de198c542b6900f79daba8fe18d743",
+      "oracle_path": "scripts/test_pbea_cpp_determinism.py",
+      "oracle_sha256": "c7d5eec83b0c8c62987b223e436f9a7d5957d97003b2996999c85a89aa6e733a",
+      "workload_and_hash_locator": "validation and development_performance_diagnostic",
+      "repeatability_status": "accepted_existing_evidence",
+      "timing_status": "accepted_existing_evidence",
+      "quality_status": "same_problem_only_no_cross_problem_ranking"
+    }
+  ]
+}

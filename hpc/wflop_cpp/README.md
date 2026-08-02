@@ -1,11 +1,15 @@
 # Native C++ WFLOP HPC platform
 
 This platform provides one pure C++ executable for the frozen FODE-E0-L
-benchmark and eighteen registered algorithm state machines:
+benchmark and the registered algorithm state machines:
 
 ```text
 fode aga sugga ise agpso cgpso lshade clshade cede msshade bde hgpso
 aiga ciga lsde wfadde alshade ppga
+rlpso_compact_policy_declared_reconstruction_v1
+rlpso_paper_corrected_training_reconstruction_v1
+fqfode_seeded_training_declared_reconstruction_v1
+alga_attention_declared_reconstruction_v1
 ```
 
 Every optimization owns one persistent thread team.  The same team performs
@@ -49,3 +53,17 @@ problem, not a reproduction of the unavailable Nantong 3D data. Its exact
 fitness normalization, diversity, stagnation, power-law sampler, elitism, and
 parallel barriers are frozen in
 `shared/contracts/ppga_fode_e0_transfer_execution_contract.json`.
+
+The exact `alga` identifier remains blocked because the author network state
+and original 3D Guishan assets are unavailable. The distinct
+`alga_attention_declared_reconstruction_v1` identifier is an M3 engineering
+reconstruction with every missing training and mask field frozen in
+`shared/contracts/alga_attention_declared_reconstruction_contract.json`.
+Its primary problem is the separately identified composite planar transfer in
+`shared/contracts/alga_guishan_planar_transfer_cases.json`; the FODE-E0 common
+profile is only an additional platform-stress transfer. `--compute-backend
+cpu` is executable. `cpu+gpu` and `gpu` are recognized, fail-closed
+compatibility interfaces in the current CPU build and never silently fall back.
+The CPU path has worker-count semantic admission. Its HPC throughput admission
+is still pending an uncontended formal host; local Spark timing is recorded
+without a speedup claim.

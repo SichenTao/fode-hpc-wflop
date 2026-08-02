@@ -1,0 +1,188 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T33",
+  "paper": {
+    "title": "Combined Layout and Cable Optimization of Offshore Wind Farms",
+    "doi": "10.1016/j.ejor.2023.04.046",
+    "pdf_sha256": "1f3cc6f15e2348fad94fa8b33020c11ae01a7de4143d431a0d0d8f7f88924b8d"
+  },
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "public_source_search": {
+    "date": "2026-07-31",
+    "queries": [
+      "exact title plus code and data",
+      "DOI plus GitHub",
+      "Davide Cazzaro combined layout cable source",
+      "site data.dtu.dk Cazzaro cable optimization"
+    ],
+    "result": "publisher and DTU article records found; no paper-linked target implementation or result-replay package located"
+  },
+  "public_data": {
+    "paper_statement": "the ten synthetic instances introduced by Cazzaro and Pisinger 2022b are reused",
+    "dataset_doi": "10.11583/DTU.13134731",
+    "official_file_id": 25210169,
+    "archive_sha256": "17b1147b805f679ed4b25384b74f841681a1e7c6e73798533555cab4c16b80af",
+    "license": "CC BY-NC-SA 4.0",
+    "status": "official dataset consumed byte-for-byte"
+  },
+  "delegated_predecessor": {
+    "title": "Balanced Cable Routing for Offshore Wind Farms with Obstacles",
+    "doi": "10.1002/net.22100",
+    "pdf_sha256": "1559d98a1a5999f553b70bf5e1a771a17636510d1ebf10bd0a440d1f2e437c8a",
+    "role": "paper-cited authority for visibility routing, balanced radial Sweep, string construction, Swap and cable set",
+    "source_status": "publisher PDF legally retrieved and consumed; no author implementation found"
+  },
+  "paper_problem": {
+    "decision_variables": "binary selection of turbine positions and balanced radial cable arcs/types",
+    "objective": "maximize lifetime energy revenue minus foundation cost minus inter-array cable cost",
+    "constraints": [
+      "paper-required turbine cardinality",
+      "minimum turbine spacing",
+      "one outgoing connection per selected turbine",
+      "radial strings ending at the fixed substation",
+      "cable flow no greater than cable capacity",
+      "balanced string cardinalities",
+      "no cable crossings",
+      "cables remain outside obstacles and inside boundaries"
+    ],
+    "wake": "Jensen and Katic wake physics compressed to the cited Cazzaro-Pisinger pairwise power matrix",
+    "energy_price_factor_eur_per_mwh": 450.0,
+    "energy_price_factor_paper_units": 0.45,
+    "wind_farm_lifetime_years": 25,
+    "cables": [
+      {
+        "cross_section_mm2": 400,
+        "cost_eur_per_m": 240,
+        "capacity_15mw_turbines": 4
+      },
+      {
+        "cross_section_mm2": 630,
+        "cost_eur_per_m": 336,
+        "capacity_15mw_turbines": 6
+      }
+    ]
+  },
+  "paper_native_cases": {
+    "sites": ["A", "B", "C", "D", "E", "F", "G", "H", "I", "J"],
+    "available_position_counts": [3196, 6974, 7090, 10398, 11478, 11536, 14602, 19458, 20211, 21634],
+    "fixed_turbine_counts": [42, 15, 8, 45, 40, 12, 35, 40, 36, 75],
+    "low_density_turbine_counts": [20, 49, 40, 85, 68, 79, 70, 94, 156, 117],
+    "high_density_turbine_counts": [40, 99, 90, 170, 137, 158, 140, 188, 313, 235],
+    "wind": "official RVO_TNW positive-probability direction-speed states",
+    "turbine": "NREL IEA 15 MW, 240 m rotor",
+    "case_count": 20
+  },
+  "target_method": {
+    "semantic_id": "t33_combined_layout_cable_vns_declared_v1",
+    "initialization": "PDSP-inspired progressive removal followed by deterministic exact-cardinality spacing repair",
+    "initial_cable_routing": "ten obstacle-aware balanced Sweep rotations with exact dynamic-programming enumeration for every at-most-six-turbine radial string",
+    "combined_local_search": "selected-turbine 1-opt with local wake, foundation and incident-cable deltas; nearby 2-opt fallback including the shared-cable corner case",
+    "shake": "move one to three nearby turbines using power-weighted counter-keyed candidate order while preserving feasibility",
+    "cable_recomputation": "recompute balanced Sweep routing after each combined local-search or shake cycle",
+    "incumbent_rule": "retain only feasible strictly higher-NPV solutions"
+  },
+  "paper_and_data_conflicts": [
+    {
+      "field": "available position count",
+      "facts": "paper Table 1 reports info.json total Points, which includes fixed turbines, while availablePositions.txt contains only legal decision positions",
+      "resolution": "use availablePositions.txt as the decision set and preserve both counts"
+    },
+    {
+      "field": "site A high-density zone quotas",
+      "facts": "official README says 26 and 8, while info.json areas and paper total 40 imply 26 and 14",
+      "resolution": "use 26 and 14, the formula- and paper-total-consistent values"
+    }
+  ],
+  "missing_information_and_declared_completions": [
+    {
+      "field": "target source and random states",
+      "completion": "reconstruct paper Algorithms 1-2 and cited predecessor details with counter-keyed events"
+    },
+    {
+      "field": "manually placed substation coordinates",
+      "completion": "one fixed substation at each official available-zone candidate centroid, projected to the nearest legal candidate if needed"
+    },
+    {
+      "field": "lateral cable lanes in mandatory obstacle visibility corridors",
+      "completion": "preserve obstacle-feasible shortest-path length and assign separable parallel lanes to each planar rooted-path forest; the data define no lane width or offset cost"
+    },
+    {
+      "field": "low-density per-zone counts",
+      "completion": "allocate each published site total proportionally to the published high-density zone quotas by largest remainder"
+    },
+    {
+      "field": "root-string count",
+      "completion": "minimum capacity-feasible string count with cardinalities differing by at most one"
+    },
+    {
+      "field": "Sweep multistarts and string randomization",
+      "completion": "ten deterministic angular rotations and exact string dynamic programming"
+    },
+    {
+      "field": "candidate radii and caps",
+      "completion": "directly cited same-lineage 3D, 5D and 8D radii, 128 one-opt candidates and 16 candidates per side for 2-opt"
+    },
+    {
+      "field": "Gurobi two-string matheuristic implementation",
+      "completion": "exact enumeration within every capacity-six radial string plus deterministic adjacent-string routing; no proprietary-solver identity is claimed"
+    },
+    {
+      "field": "25-seed feasible formal workload",
+      "completion": "860 low-density cycles from the only published combined iteration count and 2064 high-density cycles from the paper 24/10 wall-time ratio"
+    }
+  ],
+  "formal_protocol": {
+    "problem_semantic_id": "t33_official_synthetic10_low_high_joint_npv_v1",
+    "fixed_protocol_semantic_id": "t33_fixed_860_2064_cycles_25seed_v1",
+    "literal_protocol_semantic_id": "t33_literal_10h_24h_v1",
+    "case_count": 20,
+    "repeats_per_case": 25,
+    "formal_run_count": 500,
+    "low_density_complete_vns_cycles_per_run": 860,
+    "high_density_complete_vns_cycles_per_run": 2064,
+    "literal_low_density_seconds": 36000,
+    "literal_high_density_seconds": 86400,
+    "metrics": [
+      "NPV",
+      "AEP and lifetime energy revenue",
+      "foundation cost",
+      "cable cost",
+      "spacing violation",
+      "cable crossings",
+      "complete VNS cycles",
+      "candidate and route evaluations",
+      "component runtimes",
+      "scientific hash"
+    ],
+    "target_only": true
+  },
+  "hpc": {
+    "backend": "pure C++20 CPU",
+    "executor": "one persistent all-core team per optimization",
+    "parallel_regions": [
+      "official fixed-wake preprocessing inherited from the verified T31 evaluator",
+      "packed pairwise wake-matrix rows",
+      "PDSP contribution construction and removal updates",
+      "independent obstacle-aware Sweep rotations",
+      "independent one-opt and two-opt candidate deltas"
+    ],
+    "mathematical_reformulations": [
+      "memory-mapped packed symmetric pair matrix avoids duplicate directed storage",
+      "Jensen wind work is paid once per site and reused by both densities and all seeds",
+      "visibility graph and all-pairs polygon-vertex paths are immutable preprocessing",
+      "shared visibility corridors use a declared zero-offset parallel-lane planar embedding",
+      "capacity-six radial strings use exact subset dynamic programming",
+      "local combined moves update only incident cables before ordered commit",
+      "adaptive candidate granularity avoids short parallel regions",
+      "counter-keyed random events and stable reductions preserve one/all-core scientific identity"
+    ],
+    "resource_rule": "one formal process owns all twenty Waffle cores; sites, densities and 25 seeds execute sequentially; each site's matrix cache is reused"
+  },
+  "claim_boundary": "Academic flexible paper/data reconstruction of the target combined heuristic and all twenty paper cases; not author code, unpublished manual substations, Gurobi bitstream, original random stream or numerical replay."
+}

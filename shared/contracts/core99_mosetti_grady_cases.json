@@ -1,0 +1,208 @@
+{
+  "schema_version": 1,
+  "contract_id": "core99_mosetti_grady_historical_grid_v1",
+  "papers": [
+    {
+      "corpus_id": "T01",
+      "doi": "10.1016/0167-6105(94)90080-9",
+      "title": "Optimization of Wind Turbine Positioning in Large Windfarms by Means of a Genetic Algorithm"
+    },
+    {
+      "corpus_id": "T02",
+      "doi": "10.1016/j.renene.2004.05.007",
+      "title": "Placement of Wind Turbines Using Genetic Algorithms"
+    }
+  ],
+  "problem": {
+    "rows": 10,
+    "cols": 10,
+    "cell_width_m": 200.0,
+    "coordinate_convention": "cell centers; row-major cells; direction 0 degrees flows along positive y",
+    "hub_height_m": 60.0,
+    "rotor_radius_m": 20.0,
+    "thrust_coefficient": 0.88,
+    "surface_roughness_m": 0.3,
+    "power_model": "min(0.3*u^3, 630) kW",
+    "cost_model": "N*(2/3 + exp(-0.00174*N^2)/3)",
+    "objective": "minimize cost divided by expected farm power",
+    "multiple_wake_superposition": "root-sum-square velocity deficits",
+    "partial_wake_completion": "analytic rotor-plane circle overlap",
+    "physical_fes": "one complete binary-layout evaluation over every case wind state"
+  },
+  "cases": [
+    {
+      "problem_id": "t01_mosetti_case_a",
+      "paper": "T01",
+      "wind_directions_deg": [0.0],
+      "wind_speeds_mps": [12.0],
+      "raw_joint_weights": [[1.0]],
+      "paper_profile": {
+        "algorithm_id": "t01_mosetti_ga",
+        "population": 200,
+        "islands": 1,
+        "generations": 400,
+        "crossover_probability": 0.7,
+        "bit_mutation_probability": 0.01,
+        "physical_fes": 80200
+      }
+    },
+    {
+      "problem_id": "t01_mosetti_case_b",
+      "paper": "T01",
+      "wind_directions_deg": [
+        0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0,
+        90.0, 100.0, 110.0, 120.0, 130.0, 140.0, 150.0, 160.0,
+        170.0, 180.0, 190.0, 200.0, 210.0, 220.0, 230.0, 240.0,
+        250.0, 260.0, 270.0, 280.0, 290.0, 300.0, 310.0, 320.0,
+        330.0, 340.0, 350.0
+      ],
+      "wind_speeds_mps": [12.0],
+      "raw_joint_weights": [
+        [1.0], [1.0], [1.0], [1.0], [1.0], [1.0], [1.0], [1.0],
+        [1.0], [1.0], [1.0], [1.0], [1.0], [1.0], [1.0], [1.0],
+        [1.0], [1.0], [1.0], [1.0], [1.0], [1.0], [1.0], [1.0],
+        [1.0], [1.0], [1.0], [1.0], [1.0], [1.0], [1.0], [1.0],
+        [1.0], [1.0], [1.0], [1.0]
+      ],
+      "paper_profile": {
+        "algorithm_id": "t01_mosetti_ga",
+        "population": 200,
+        "islands": 1,
+        "generations": 400,
+        "crossover_probability": 0.7,
+        "bit_mutation_probability": 0.01,
+        "physical_fes": 80200
+      }
+    },
+    {
+      "problem_id": "t01_mosetti_case_c",
+      "paper": "T01",
+      "wind_directions_deg": [
+        0.0, 10.0, 20.0, 30.0, 40.0, 50.0, 60.0, 70.0, 80.0,
+        90.0, 100.0, 110.0, 120.0, 130.0, 140.0, 150.0, 160.0,
+        170.0, 180.0, 190.0, 200.0, 210.0, 220.0, 230.0, 240.0,
+        250.0, 260.0, 270.0, 280.0, 290.0, 300.0, 310.0, 320.0,
+        330.0, 340.0, 350.0
+      ],
+      "wind_speeds_mps": [8.0, 12.0, 17.0],
+      "raw_joint_weights": [
+        [0.836, 0.292, 0.135], [0.836, 0.292, 0.135],
+        [0.836, 0.292, 0.135], [0.836, 0.292, 0.135],
+        [0.836, 0.292, 0.135], [0.836, 0.292, 0.135],
+        [0.836, 0.292, 0.135], [0.836, 0.292, 0.135],
+        [0.836, 0.292, 0.135], [0.836, 0.292, 0.135],
+        [0.836, 0.292, 0.135], [0.836, 0.292, 0.135],
+        [0.836, 0.292, 0.135], [0.836, 0.292, 0.135],
+        [0.836, 0.292, 0.135], [0.836, 0.292, 0.135],
+        [0.836, 0.292, 0.135], [0.836, 0.292, 0.135],
+        [0.836, 0.292, 0.135], [0.836, 0.292, 0.135],
+        [0.836, 0.292, 0.135], [0.836, 0.292, 0.135],
+        [0.836, 0.292, 0.135], [0.836, 0.292, 0.135],
+        [0.836, 0.292, 0.135], [0.836, 0.292, 0.135],
+        [0.836, 0.292, 0.135], [0.836, 0.578, 0.135],
+        [0.836, 0.870, 0.135], [0.836, 1.161, 0.135],
+        [0.836, 1.128, 1.431], [0.836, 1.762, 1.431],
+        [0.836, 1.128, 1.431], [0.836, 1.161, 0.135],
+        [0.836, 0.870, 0.135], [0.836, 0.578, 0.135]
+      ],
+      "paper_profile": {
+        "algorithm_id": "t01_mosetti_ga",
+        "population": 200,
+        "islands": 1,
+        "generations": 400,
+        "crossover_probability": 0.7,
+        "bit_mutation_probability": 0.01,
+        "physical_fes": 80200
+      }
+    },
+    {
+      "problem_id": "t02_grady_case_a",
+      "inherits_wind_from": "t01_mosetti_case_a",
+      "paper": "T02",
+      "paper_profile": {
+        "algorithm_id": "t02_grady_island_ga",
+        "population": 600,
+        "islands": 20,
+        "generations": 3000,
+        "crossover_probability": 0.7,
+        "bit_mutation_probability": 0.01,
+        "physical_fes": 1800600
+      }
+    },
+    {
+      "problem_id": "t02_grady_case_b",
+      "inherits_wind_from": "t01_mosetti_case_b",
+      "paper": "T02",
+      "paper_profile": {
+        "algorithm_id": "t02_grady_island_ga",
+        "population": 600,
+        "islands": 20,
+        "generations": 3000,
+        "crossover_probability": 0.7,
+        "bit_mutation_probability": 0.01,
+        "physical_fes": 1800600
+      }
+    },
+    {
+      "problem_id": "t02_grady_case_c_body1000",
+      "inherits_wind_from": "t01_mosetti_case_c",
+      "paper": "T02",
+      "paper_profile": {
+        "algorithm_id": "t02_grady_island_ga",
+        "population": 600,
+        "islands": 20,
+        "generations": 1000,
+        "crossover_probability": 0.7,
+        "bit_mutation_probability": 0.01,
+        "physical_fes": 600600
+      }
+    },
+    {
+      "problem_id": "t02_grady_case_c_abstract2500",
+      "inherits_wind_from": "t01_mosetti_case_c",
+      "paper": "T02",
+      "paper_profile": {
+        "algorithm_id": "t02_grady_island_ga",
+        "population": 600,
+        "islands": 20,
+        "generations": 2500,
+        "crossover_probability": 0.7,
+        "bit_mutation_probability": 0.01,
+        "physical_fes": 1500600
+      }
+    }
+  ],
+  "registered_conflicts_and_completions": [
+    {
+      "paper": "T01",
+      "field": "genetic controls",
+      "paper_fact": "crossover and mutation are reported only as ranges",
+      "resolution": "freeze Pc=0.7 and Pm=0.01 within the reported ranges; expose sensitivity profiles"
+    },
+    {
+      "paper": "T01",
+      "field": "partial wake",
+      "paper_fact": "the geometric partial-wake computation is not fully specified",
+      "resolution": "use analytic rotor-plane overlap under a declared reconstruction identity"
+    },
+    {
+      "paper": "T02",
+      "field": "rotor size",
+      "paper_fact": "Table 1 labels rotor radius as 40 m, while 5D=200 m and the predecessor turbine imply diameter 40 m",
+      "resolution": "use radius 20 m and retain the table/text conflict"
+    },
+    {
+      "paper": "T02",
+      "field": "case C generations",
+      "paper_fact": "abstract reports 2500 generations; Section 5.3 reports 1000",
+      "resolution": "register body1000 as primary result profile and abstract2500 as a separate protocol"
+    },
+    {
+      "paper": "T02",
+      "field": "subpopulation communication",
+      "paper_fact": "20 subpopulations are reported without migration rules",
+      "resolution": "use 20 independent 30-member islands with no migration"
+    }
+  ],
+  "claim_boundary": "paper-equation and predecessor-guided declared reproductions; no author-original source or exact-number claim"
+}

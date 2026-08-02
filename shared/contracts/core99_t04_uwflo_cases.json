@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "contract_id": "t04_uwflo_cases_declared_v1",
+  "paper": {
+    "corpus_id": "T04",
+    "doi": "10.1016/j.renene.2011.06.033",
+    "title": "Unrestricted Wind Farm Layout Optimization: Investigating Key Factors Influencing the Maximum Power Generation",
+    "public_author_source": null
+  },
+  "problem": {
+    "coordinate_variables": "all turbine x coordinates followed by all y coordinates; Case 2 appends diameters",
+    "reference_farm_m": [
+      1.68,
+      0.72
+    ],
+    "reference_rotor_diameter_m": 0.12,
+    "hub_height_m": 0.12,
+    "surface_roughness_m": 0.001,
+    "air_density_kg_m3": 1.2,
+    "inflow_case12_mps": 7.0896,
+    "inflow_case3_mps": 6.2,
+    "rated_speed_mps": 6.17,
+    "rated_power_w": 0.385,
+    "wake_model": "Frandsen/Park expansion, analytic partial rotor overlap, root-sum-square deficits",
+    "objective": "maximize effective farm efficiency",
+    "physical_fes": "one complete farm evaluation"
+  },
+  "cases": {
+    "case1": [
+      "t04_uwflo_case1_n9"
+    ],
+    "case2": [
+      "t04_uwflo_case2_n9"
+    ],
+    "case3_study_i": [
+      "t04_uwflo_case3_i_n6",
+      "t04_uwflo_case3_i_n9",
+      "t04_uwflo_case3_i_n12",
+      "t04_uwflo_case3_i_n15",
+      "t04_uwflo_case3_i_n18"
+    ],
+    "case3_study_ii": [
+      "t04_uwflo_case3_ii_f1",
+      "t04_uwflo_case3_ii_f2",
+      "t04_uwflo_case3_ii_f3",
+      "t04_uwflo_case3_ii_f4",
+      "t04_uwflo_case3_ii_f5"
+    ]
+  },
+  "method": {
+    "algorithm_id": "t04_uwflo_constrained_pso",
+    "method_semantic_id": "t04_uwflo_constrained_pso_declared_v1",
+    "inertia": 0.5,
+    "cognitive": 1.4,
+    "social": 1.4,
+    "swarm_size": "5 times decision dimension",
+    "constraint_handling": "Deb constrained domination",
+    "case1_and_case3_physical_fes": 15000,
+    "case2_physical_fes": 25000,
+    "paper_repeats": 5
+  },
+  "declared_completions": [
+    "paper Cp and induction fits replace unavailable digitized Fig.4 samples",
+    "initial particle velocities are zero",
+    "positions and diameters are projected to paper bounds",
+    "Eq.29 prints a diameter sum, but one-diameter center spacing is required for the paper's feasible 18-turbine 7D by 3D case and is registered as the conflict resolution",
+    "model rotor diameters are scaled to the paper's 75 m commercial reference before applying Eq.19",
+    "counter-keyed random events and ordered best commits make worker scheduling scientifically inert"
+  ],
+  "claim_boundary": "academic declared reproduction; no author-source or author-exact numerical claim"
+}

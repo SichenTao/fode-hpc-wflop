@@ -332,6 +332,8 @@ def main() -> int:
     parser.add_argument("--receipt", type=Path)
     arguments = parser.parse_args()
     records = []
+    maximum_absolute_error = 0.0
+    maximum_scaled_absolute_error = 0.0
     with tempfile.TemporaryDirectory(prefix="gga-evaluator-oracle-") as temp:
         for problem_path in sorted(arguments.assets.glob("*.wfp")):
             problem = load_problem(problem_path)
@@ -358,6 +360,12 @@ def main() -> int:
                 cpp_value = observed[key]
                 absolute_error = abs(cpp_value - oracle_value)
                 relative_error = absolute_error / max(1.0, abs(oracle_value))
+                maximum_absolute_error = max(
+                    maximum_absolute_error, absolute_error
+                )
+                maximum_scaled_absolute_error = max(
+                    maximum_scaled_absolute_error, relative_error
+                )
                 errors[key] = {
                     "cpp": cpp_value,
                     "oracle": oracle_value,
@@ -380,6 +388,9 @@ def main() -> int:
         "status": "pass",
         "oracle": "independent_python_scipy_not_a_knot_bsr",
         "case_count": len(records),
+        "maximum_absolute_error": maximum_absolute_error,
+        "maximum_scaled_absolute_error": maximum_scaled_absolute_error,
+        "scaled_tolerance": 2.0e-12,
         "cases": records,
     }
     if arguments.receipt:
@@ -388,7 +399,13 @@ def main() -> int:
             json.dumps(receipt, indent=2) + "\n",
             encoding="utf-8",
         )
-    print(f"gga_cpp_evaluator_oracle_pass cases={len(records)}")
+    print(json.dumps({
+        "status": "pass",
+        "cases": len(records),
+        "maximum_absolute_error": maximum_absolute_error,
+        "maximum_scaled_absolute_error": maximum_scaled_absolute_error,
+        "scaled_tolerance": 2.0e-12,
+    }, sort_keys=True))
     return 0
 
 

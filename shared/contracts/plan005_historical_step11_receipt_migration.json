@@ -1,0 +1,88 @@
+{
+  "schema_version": 1,
+  "migration_id": "plan005_historical_step11_receipt_migration_v1",
+  "historical_source_commit": "f4cf564e60cfc2fbba804c49d0866f3aff82de59",
+  "legacy_build_root": "build/step10-release",
+  "disposition": "retired_build_artifact_unavailable",
+  "policy": "Historical Step 11 raw observations, assets, semantic IDs, and recorded binary hashes remain immutable. A missing disposable build artifact is admitted only by an exact target/path/hash entry here; no current binary is substituted and no current-code replay claim is made.",
+  "raw_evidence_policy": "Every historical raw result remains independently path- and SHA-256-audited by its owning receipt audit.",
+  "binaries": [
+    {
+      "binary_target": "bde_ws56_hpc",
+      "binary_path": "build/step10-release/hpc/bde_ws56_cpp/bde_ws56_hpc",
+      "binary_sha256": "341b8703e66abf066ce1347cf24e9aa75c2967a1664bb4610872a2f1f9292b5d"
+    },
+    {
+      "binary_target": "geoga_anholt_hpc",
+      "binary_path": "build/step10-release/hpc/geoga_cpp/geoga_anholt_hpc",
+      "binary_sha256": "584d3940283194dca648d621365e7c7a93e2598e3bd9c704fae8c3143cb85a8e"
+    },
+    {
+      "binary_target": "gga_cpp_hpc",
+      "binary_path": "build/step10-release/hpc/gga_cpp/gga_cpp_hpc",
+      "binary_sha256": "777b3eeed59cde509af827d0e6a5462e57deae75e2d7c6b2da1db035bfdd214d"
+    },
+    {
+      "binary_target": "pbea_cpp_hpc",
+      "binary_path": "build/step10-release/hpc/pbea_cpp/pbea_cpp_hpc",
+      "binary_sha256": "90107179528faaa34a30bc2225c5aa56502f54f8ce161d15a5d904e489f43390"
+    },
+    {
+      "binary_target": "ppga_nantong_hpc",
+      "binary_path": "build/step10-release/hpc/ppga_cpp/ppga_nantong_hpc",
+      "binary_sha256": "ddfea1d872fd40528c18b3fd275eec3cd34fece6864ebe4e9a44f0497cef3725"
+    },
+    {
+      "binary_target": "taae_evolution_hpc",
+      "binary_path": "build/step10-release/hpc/taae_cpp/taae_evolution_hpc",
+      "binary_sha256": "9f00b9b920f5c35a171d9d8e508e88c180d45d5ac690296f9d38b89f41e9d8b1"
+    },
+    {
+      "binary_target": "wflop_cpp_hpc",
+      "binary_path": "build/step10-release/hpc/wflop_cpp/wflop_cpp_hpc",
+      "binary_sha256": "c2937e74681704ed9c501255e615af4fb97a11e50a048b87d63ff843f26df1e1"
+    }
+  ],
+  "historical_oracle_sources": [
+    {
+      "path": "hpc/geoga_cpp/tests/evolution_test.cpp",
+      "sha256": "061014cb63e805084a5d82184ad946d1af1d4d8d2fe9455b912da68f19252b84"
+    },
+    {
+      "path": "hpc/ppga_cpp/tests/evolution_test.cpp",
+      "sha256": "7b1f96dd3852dc2f1e0af0649dc21b4d6e4145003848f419da011490f0f2d8fe"
+    },
+    {
+      "path": "hpc/taae_cpp/tests/evolution_test.cpp",
+      "sha256": "82d21bec67bd3a8e1ebcf19fee3f3187e1a5f3a80f55510f526cf91f82762003"
+    },
+    {
+      "path": "scripts/test_alga_attention_reconstruction.py",
+      "sha256": "dde30b40b72fafd1b5fc243fb322c84c93401c85448a1aa5adabdd9a314694ac"
+    },
+    {
+      "path": "scripts/test_geoga_cpp.py",
+      "sha256": "f4c2717ad2f03286a7d3360450438b7187123c0dae22bc6613c97ff643c74846"
+    },
+    {
+      "path": "scripts/test_pbea_cpp_determinism.py",
+      "sha256": "c7d5eec83b0c8c62987b223e436f9a7d5957d97003b2996999c85a89aa6e733a"
+    },
+    {
+      "path": "scripts/test_rlfode_seeded_reconstruction.py",
+      "sha256": "09ea5d4e2308fbf24462855d787edb306c9a485afcde37aa79b4a81f84c0dee1"
+    },
+    {
+      "path": "scripts/test_rlpso_reconstruction.py",
+      "sha256": "53db4ed7a6bb4dc5028aa36b69dbc89da867e2db7e70a42ca0d6a2cd2facdebd"
+    },
+    {
+      "path": "scripts/validate_bde_ws56_declared_proxy.py",
+      "sha256": "0dad5c5a7a98c35ab66b389c889f2b130cc9552d2fc3d625d8ec86a23583b3d6"
+    },
+    {
+      "path": "scripts/validate_tmoea_nysted_r4.py",
+      "sha256": "47ebc233895bedbc19d15588f65cee28b2596c5c55332dbadc76fc9b317bbf3f"
+    }
+  ]
+}

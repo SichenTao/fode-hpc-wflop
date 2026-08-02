@@ -1,0 +1,151 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0259",
+  "paper": {
+    "title": "Wind farm layout optimization based on support vector regression guided genetic algorithm with consideration of participation among landowners",
+    "doi": "10.1016/j.enconman.2019.06.082",
+    "pdf_sha256": "5b6605a967143073a4da442c6aa50c873562e6c0f5037b822f38a1862a68782f"
+  },
+  "public_source": {
+    "url": "https://github.com/JuXinglong/WFLOP_SUGGA_Python",
+    "license": "MIT",
+    "commit": "27ae25a40be7fe2258894a741013aa46e9d1e4b3",
+    "files": {
+      "main.py": "7dfa2014199ac6622d73d59c100f16095efb2dc27716b9a71eff165a72a0e4c6",
+      "WindFarmGenetic.py": "cb79c40ef0c5071a8600508e793be6190a855be01c31e60d0f1c97d943438d11",
+      "README.md": "5d30a08b3d5d765e8c6c0052f6ac1410157e4b6b8ff33e2ea9498c5c0b3aebd6",
+      "LICENSE": "8b013481f2b5bd8a712e413c0dfb56aaedcb5dea689fa4e9951a5c9c0ae7abf6"
+    }
+  },
+  "svr_backend": {
+    "upstream": "https://github.com/cjlin1/libsvm",
+    "commit": "6b907139084abf2da4d6d3cb10dc3b7eaffa2fbb",
+    "license": "BSD-3-Clause",
+    "svm_cpp_sha256": "bfe02a7c001151ab703c206ff6a9136c75eb704b4427536e3f65d3ac90bd0eb6",
+    "svm_h_sha256": "597aff50cfb9a04922736472bd125862439c87408a83cb57fb04980744dffd51",
+    "relationship": "official C++ solver used by sklearn.svm.SVR in the paper source"
+  },
+  "problem": {
+    "semantic_family": "l0259_landowner12x12_d1d3_n15n25_v1",
+    "grid": [12, 12],
+    "candidate_count": 144,
+    "landscapes": "L0 plus exact L1-L12 unavailable-cell sets from paper Figure 5 and public main.py",
+    "available_cell_counts": {
+      "L0": 144,
+      "L1-L6": 120,
+      "L7-L12": 132
+    },
+    "turbine_counts": [15, 20, 25],
+    "paper_primary_turbine": {
+      "model": "GE-1.5sle",
+      "rotor_diameter_m": 77.0,
+      "hub_height_m": 88.0,
+      "surface_roughness_m": 0.00025
+    },
+    "paper_primary_cell_width_m": 154.0,
+    "wind_profiles": {
+      "D1": "13 m/s at direction 0 with probability 1",
+      "D2": "13 m/s at four cardinal directions with equal probability",
+      "D3": "13 m/s at six 60-degree directions with probabilities 0.2,0.3,0.2,0.1,0.1,0.1"
+    },
+    "objective": "maximize expected farm power and report conversion efficiency",
+    "wake_model": "paper/source Jensen expansion, exact rotor-wake overlap and squared-deficit superposition",
+    "power_curve": "paper/source GE-1.5sle piecewise curve"
+  },
+  "method": {
+    "primary_semantic_id": "l0259_sugga_paper_probability_v1",
+    "source_conflict_semantic_id": "l0259_sugga_source_normal_threshold_v1",
+    "population": 120,
+    "generations": 200,
+    "elite_rate": 0.2,
+    "crossover_rate_declared_but_source_unused": 0.6,
+    "random_selection_rate": 0.5,
+    "mutation_rate": 0.1,
+    "informed_rate": 0.5,
+    "svr_candidate_locations": 5,
+    "monte_carlo_layouts": 10000,
+    "svr": {
+      "type": "epsilon-SVR",
+      "kernel": "RBF",
+      "C": 2000.0,
+      "gamma": 0.3,
+      "epsilon": 0.1
+    },
+    "update_order": "evaluate, rank, retain external best, relocate each worst turbine, select, all-offspring source crossover, mutate"
+  },
+  "formal_protocol": {
+    "semantic_id": "l0259_117case_100repeat_10000mc_pop120_gen200_v1",
+    "case_count": 117,
+    "repeats_per_case": 100,
+    "formal_run_count": 11700,
+    "physical_fes_per_case_artifact_plus_run": "10000 Monte-Carlo truth evaluations once per paper problem plus 120*200 population truth evaluations per independent run",
+    "primary_variant": "paper_probability"
+  },
+  "conflicts": [
+    {
+      "field": "cell width",
+      "paper": "154 m",
+      "source": "77*3 = 231 m",
+      "resolution": "paper primary 154 m; source variant 231 m"
+    },
+    {
+      "field": "hub height",
+      "paper": "88 m",
+      "source": "80 m",
+      "resolution": "paper primary 88 m; source variant 80 m"
+    },
+    {
+      "field": "probability draws",
+      "paper": "ordinary probability thresholds",
+      "source": "standard-normal draws compared against 0.5 and 0.1",
+      "resolution": "two executable identities; paper_probability is formal primary"
+    },
+    {
+      "field": "crossover rate and lifecycle",
+      "paper": "declares crossover rate and elite retention but omits an executable filling rule",
+      "source": "declared 0.6 rate is unused and crossover fills the entire next population",
+      "resolution": "retain the complete public-source lifecycle and declare this boundary"
+    },
+    {
+      "field": "random state",
+      "paper": "100 repeated experiments",
+      "source": "operators repeatedly reseed from integer wall time",
+      "resolution": "counter-keyed events preserve stated laws and schedule-independent replay; no Python MT19937/time-bitstream claim"
+    }
+  ],
+  "missing_and_completions": [
+    {
+      "missing": "author initial populations and Monte-Carlo layouts",
+      "completion": "deterministically regenerate uniform unique layouts over each available-cell set"
+    },
+    {
+      "missing": "trained SVR objects",
+      "completion": "train official LIBSVM epsilon-SVR from scratch for each of the 117 paper problems"
+    },
+    {
+      "missing": "author random states and tie behavior",
+      "completion": "counter-keyed events and stable descending fitness order"
+    },
+    {
+      "missing": "finite crossover retry boundary",
+      "completion": "64 source-semantic attempts followed by the first parent as a cardinality-preserving fallback"
+    }
+  ],
+  "hpc": {
+    "backend": "pure C++20 CPU",
+    "executor": "one persistent full-core team per optimization",
+    "mathematical_reformulations": [
+      "precompute every direction-node-node squared wake deficit",
+      "evaluate a layout by indexed accumulation instead of repeated geometry and trigonometry",
+      "train the native C++ LIBSVM object once per paper problem and reuse it across 100 repeats"
+    ],
+    "parallel_regions": [
+      "Monte-Carlo layout generation and truth evaluation",
+      "population truth evaluation",
+      "worst-turbine relocation",
+      "crossover and mutation"
+    ],
+    "non_oversubscription": "formal Waffle task owns at most one all-20-core team"
+  },
+  "claim_boundary": "Academic paper/source flexible reproduction; not author numerical, trained-model or random-bitstream replay."
+}

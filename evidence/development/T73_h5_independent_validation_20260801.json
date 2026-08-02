@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T73",
+  "date": "2026-08-01",
+  "status": "pass",
+  "build": {
+    "compiler_mode": "Release C++20 -O3 -march=native -ffp-contract=off -Wall -Wextra -Wpedantic -Werror",
+    "targets": ["core99_t73_hpc", "core99_t73_test"]
+  },
+  "tests": {
+    "core99_t73_cpp": "pass",
+    "core99_t73_h5": "pass",
+    "candidate_count": 342,
+    "wind_samples": 40,
+    "paper_roles": 12,
+    "cluster_profiles": ["equation_text_four", "figure_caption_two"],
+    "one_worker_all_worker_scientific_identity": true
+  },
+  "development_h6_preview": {
+    "claim_status": "development admission evidence only; immutable Waffle H6 still required",
+    "workers": [1, 20],
+    "fixed_work": {
+      "ga_population": 100,
+      "ga_generations": 10,
+      "pattern_iterations": 40,
+      "maintenance_replications": 100
+    },
+    "one_worker_end_to_end_seconds": 2.395356464,
+    "twenty_worker_end_to_end_seconds": 0.272521764,
+    "end_to_end_speedup": 8.789596943897662,
+    "layout_algorithm_speedup": 8.708390426186984,
+    "maintenance_speedup": 12.449767700315794,
+    "same_layouts_clusters_roles_work_and_hash": true
+  },
+  "full_budget_one_seed_preview": {
+    "claim_status": "development feasibility preview only",
+    "workers": 20,
+    "ga_population": 100,
+    "ga_generations": 50,
+    "pattern_iterations": 200,
+    "maintenance_replications": 1000,
+    "layout_evaluations": 9100,
+    "wind_scenario_turbine_evaluations": 55209640,
+    "component_life_events": 10986294,
+    "paper_roles": 12,
+    "end_to_end_seconds": 1.162903614
+  }
+}

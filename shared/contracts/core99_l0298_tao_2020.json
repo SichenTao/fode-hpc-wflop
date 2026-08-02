@@ -1,0 +1,109 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0298",
+  "paper": {
+    "title": "Joint Optimization of Wind Turbine Micrositing and Cabling in an Offshore Wind Farm",
+    "doi": "10.1109/TSG.2020.3022378",
+    "pdf_sha256": "99057161f4efdb2cf0c8a72b82890bba6c7a4ff67fc3c2d71509129e5b8609e6",
+    "pdf_text_sha256": "816a360b954adcbc792d0841f3050e3cbcd3d7f029e334da4cbb2bb81c3fd0cb",
+    "pages": 11
+  },
+  "source_search": {
+    "date": "2026-08-01",
+    "target_result": "Exact-title, DOI, author, repository and GitHub searches found no target MATLAB project, raw result archive or paper-specific implementation.",
+    "paper_designated_optimizer_source": {
+      "repository": "https://github.com/smkalami/ypea126-nsga3",
+      "project_page": "https://yarpiz.com/456/ypea126-nsga3",
+      "license": "BSD-2-Clause",
+      "commit": "a6e206086cdf1e29c0ae29c2699bef85df728181",
+      "relationship": "paper-designated generic NSGA-III source; not target problem code"
+    },
+    "bpso_result": "The paper cites Yarpiz generally for BPSO, but no paper-matching Yarpiz BPSO package was found. YPEA102 is continuous PSO and is not represented as the missing binary cable code.",
+    "problem_data_completion": {
+      "repository": "https://github.com/MATPOWER/matpower",
+      "file": "data/case24_ieee_rts.m",
+      "commit": "5f1b70611a573f5455de7a2e5786aed12adfbaf8",
+      "relationship": "auditable public transcription of cited IEEE RTS-24 generator and load lineage; not target author source"
+    }
+  },
+  "paper_native_protocol": {
+    "profiles": [
+      "Models 1, 2 and 3 with winter, E-82 and bus 3",
+      "Model 1 with E-115",
+      "Model 1 with LTW101",
+      "Model 1 with summer wind/load",
+      "Model 1 connected to bus 5",
+      "Model 1 connected to bus 7",
+      "Model 1 connected to bus 16",
+      "Model 1 connected to bus 21",
+      "Model 1 connected to bus 23"
+    ],
+    "reported_roles_per_seed": 29,
+    "formal_platform_seeds": 25,
+    "nsga3": {
+      "crossover_fraction": 0.5,
+      "mutation_fraction": 0.5,
+      "mutation_rate": 0.02,
+      "population": 120,
+      "maximum_iterations": 250,
+      "reference_divisions_completion": 14,
+      "reference_directions": 120
+    },
+    "bpso": {
+      "inertia": 0.7298,
+      "cognitive": 1.4961,
+      "social": 1.4961,
+      "population": 100,
+      "maximum_iterations": 250
+    },
+    "formal_complete_outer_evaluations_per_seed": 331349,
+    "formal_cable_particle_evaluations_per_seed": 8316859900,
+    "formal_hourly_wake_evaluations_per_seed": 7952376
+  },
+  "literal_problem_data": {
+    "site": "6 km by 6 km, 12 by 12 cells of 500 m, central offshore substation",
+    "capacity": "180 to 240 MVA in three-MW turbine increments",
+    "turbines": "E-82, E-115 and LTW101 parameters from Table III",
+    "cables": "five 33 kV cable types from Table IV",
+    "wind": "Greater Gabbard 2005-2012 wind rose and plotted 1 December/1 July 2006 daily curves",
+    "grid": "IEEE RTS-24, plotted winter-weekday and summer-weekend load profiles, candidate buses 3/5/7/16/21/23",
+    "objectives": "maximize daily profit rate and mean capacity factor; minimize normalized daily variability",
+    "models": "joint bilevel Model 1, separated fixed-210-MW Model 2 and profit-only Model 3"
+  },
+  "missing_information": [
+    "target MATLAB project, exact target BPSO code/encoding, random states, raw fronts, layouts and repeat count",
+    "raw Greater-Gabbard observations and machine-readable wind rose, daily wind and load arrays",
+    "target IEEE RTS modifications, AC-network to QP transition and exact quadprog options",
+    "generator emission coefficients and penalty prices, price-correlation data and several cable installation, loss and O&M constants",
+    "thrust curve and Gaussian entrainment constant"
+  ],
+  "conflicts_and_completions": [
+    "Equation 37 prints square-root of ten times rotor radius for spacing, but the native experiment explicitly uses the 500 m cell length; production uses 500 m.",
+    "Model 2 fixes 210 MW and Table VI reports 210 MW, while Fig. 7 labels its best-profit layout with 75 turbines; production uses 70 three-MW turbines.",
+    "Equation 37 includes AC-network constraints, but the stated inner QP in Eqs. 42-43 keeps active-power balance, reserve and generator bounds only; production implements the reproducible convex dispatch and does not claim AC-OPF.",
+    "Equation 43 names reserve Rs without a value; production declares a fixed 50 MW reserve, consistent with feasibility of all reported connection-bus cases.",
+    "The paper cites Yarpiz but does not identify a BPSO asset; production reconstructs standard sigmoid BPSO with the exact Table V coefficients over a seven-bit parent-edge encoding.",
+    "Parent choices are restricted to nodes closer to the substation, guaranteeing a radial connected tree; the decoder chooses the lowest daily-cost feasible cable type for each subtree flow.",
+    "The grid model is described while Eq. 33 uses capacity and coordinate variables; production uses one real key per grid cell plus a capacity key and stable top-N decoding.",
+    "YPEA126 does not fix the target reference division count; 14 divisions generate exactly the paper population of 120 directions for three objectives.",
+    "Winter/summer wind and load curves are digitized as deterministic 24-hour arrays. Missing economics, thrust and entrainment constants are versioned source-level completions and are not calibrated to match Tables VI-IX.",
+    "The paper gives no repeat count; the platform formal protocol uses 25 independent seeds."
+  ],
+  "method_semantic_id": "l0298_yarpiz_nsga3_bpso_qp_declared_v1",
+  "problem_semantic_id": "l0298_offshore_grid_cable_rts24_declared_v1",
+  "protocol_semantic_id": "l0298_models_turbines_seasons_buses_29roles_v1",
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC",
+    "strategy": [
+      "one persistent all-core executor per optimization",
+      "parallel complete outer candidates with fixed-index result and work receipts",
+      "parallel dominance rows and reference-direction association",
+      "serial inner BPSO, wake and dispatch inside each candidate to prevent nested oversubscription",
+      "immutable problem tables, wind trigonometry inputs and reference directions",
+      "counter-keyed schedule-independent random events and ordered survivor commits"
+    ],
+    "dominant_complexity": "outer contexts times outer population-generations times inner BPSO population-iterations times turbine-count, plus 24 times turbine-count squared wake work",
+    "required_invariant": "one-worker and all-worker roles, layouts, cable trees, objectives, work counts and scientific hash identity"
+  },
+  "claim_boundary": "Source-backed flexible academic reconstruction of the target joint micrositing/cabling/grid problem, target NSGA-III/BPSO/QP method and every native paper role; not author source, original wind/grid/economic arrays, MATLAB trajectory or numerical replay."
+}

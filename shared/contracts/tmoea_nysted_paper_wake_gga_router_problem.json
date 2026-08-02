@@ -1,0 +1,44 @@
+{
+  "schema_version": 1,
+  "problem_id": "nysted_tmoea_paper_wake_gga_router_reconstruction",
+  "problem_semantic_id": "tmoea_nysted_paper_wake_gga_router_problem_v1",
+  "problem_semantics_sha256": "ce7753d2aec63b3e54dbeaf818211dc2888fc6d33bd2b0504748e86ad848432b",
+  "canonical_semantics_string": "tmoea_nysted_paper_wake_gga_router_problem_v1|asset=920cb61b0dc1415af4b6908252799d703c884f2eeaec9ba7b9590c42d40791c4|decision=ordered-72-unique-of-130|objective0=-AEP[Jensen-alpha=0.5/ln(H/0.0002),deficit=2/3,RSS,not-a-knot,48-joint-wind-states]|objective1=GGA-balanced-substation-radial-cable-cost",
+  "evidence_tier": "P2_CITATION_SAME_AUTHOR",
+  "asset_lineage": {
+    "relationship": "same_author_related_WFLO_GGA_problem_asset",
+    "upstream_url": "https://github.com/zbh0528/WFLO-GGA",
+    "upstream_commit": "6ce41326e6c1d3685a01e038baf6d1d07aa46126",
+    "local_asset": ".source-cache/generated/gga_repaired/Denmark_Nysted.wfp",
+    "local_asset_sha256": "920cb61b0dc1415af4b6908252799d703c884f2eeaec9ba7b9590c42d40791c4",
+    "redistribution": "ignored_local_asset_not_vendored"
+  },
+  "feasible_decision_space": {
+    "representation": "ordered vector of 72 distinct zero-based indices",
+    "candidate_count": 130,
+    "candidate_snapshot": "deterministic same-author GGA-derived Poisson candidate set",
+    "phenotype": "unordered set of 72 selected Nysted candidate coordinates",
+    "genotype_order_effect": "order remains active for crossover and random swap",
+    "complete_layout_physical_fes": "one evaluation of both objectives over the full selected layout"
+  },
+  "objective_vector": {
+    "sense": [
+      "minimize",
+      "minimize"
+    ],
+    "objective_0": {
+      "quantity": "negative annual energy production in kWh",
+      "wake_expansion": "alpha=0.5/ln(H/0.0002)",
+      "single_wake_deficit": "(2/3)*(r/(r+alpha*d))^2",
+      "multiple_wake_superposition": "root-sum-square",
+      "power_curve": "not-a-knot cubic spline from the related GGA turbine asset",
+      "wind_distribution": "12 directions by 4 speeds, direction-major joint probabilities"
+    },
+    "objective_1": {
+      "quantity": "inner-array cable cost",
+      "completion": "same-author GGA balanced-substation radial routing and subtree-load cable pricing",
+      "paper_gap": "the T-MOEA paper does not supply an executable topology encoding, router, or installation-allowance semantics"
+    }
+  },
+  "identity_boundary": "This semantic ID combines T-MOEA paper wake equations with the declared same-author GGA Nysted feasible set and cable completion. It is distinct from the GGA LCOE problem semantics and from the unavailable original T-MOEA experiment."
+}

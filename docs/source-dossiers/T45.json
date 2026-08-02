@@ -1,0 +1,95 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T45",
+  "doi": "10.1016/j.swevo.2025.102018",
+  "title": "Multi-Attention-Powered Learning Genetic Algorithm for Real-World 3D Wind Farm Layout Optimization",
+  "query_date": "2026-07-29",
+  "search_basis": [
+    "Shangce Gao homepage corpus refreshed at 2026-07-29T02:36:14Z",
+    "repository source_asset_registry and paper/problem ledgers",
+    "bounded authority ladder recorded below"
+  ],
+  "conclusion": "bounded_no_public_asset_found",
+  "searched_authorities": [
+    {
+      "authority": "official_author_homepage",
+      "url": "https://toyamaailab.github.io/publications.html",
+      "query": "\"10.1016/j.swevo.2025.102018\" \"Multi-Attention-Powered Learning Genetic Algorithm for Real-World 3D Wind Farm Layout Optimization\"",
+      "result": "refreshed_homepage_snapshot_checked"
+    },
+    {
+      "authority": "doi_publisher_supplement_and_data_statement",
+      "url": "https://doi.org/10.1016/j.swevo.2025.102018",
+      "query": "10.1016/j.swevo.2025.102018",
+      "result": "paper_and_existing_supplement_ledger_checked"
+    },
+    {
+      "authority": "paper_author_or_coauthor_linked_repository",
+      "url": "not_available",
+      "query": "\"10.1016/j.swevo.2025.102018\" \"Multi-Attention-Powered Learning Genetic Algorithm for Real-World 3D Wind Farm Layout Optimization\"",
+      "result": "no_direct_public_asset_recorded"
+    },
+    {
+      "authority": "author_coauthor_github",
+      "url": "https://github.com/search?q=10.1016%2Fj.swevo.2025.102018&type=repositories",
+      "query": "10.1016/j.swevo.2025.102018",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "general_research_data_repositories",
+      "url": "https://zenodo.org/search?q=10.1016%2Fj.swevo.2025.102018",
+      "query": "10.1016/j.swevo.2025.102018; Figshare; OSF; institutional repository",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "cited_implementation_and_predecessor_work",
+      "url": "https://doi.org/10.1016/j.swevo.2025.102018",
+      "query": "Multi-Attention-Powered Learning Genetic Algorithm for Real-World 3D Wind Farm Layout Optimization cited implementation predecessor",
+      "result": "paper_reference_and_project_ledger_checked"
+    },
+    {
+      "authority": "same_author_problem_or_method_family",
+      "url": "https://toyamaailab.github.io/sourcedata.html",
+      "query": "Jiaru Yang; Yaotong Song; Weiping Ding; Jun Tang; Zhenyu Lei; Shangce Gao wind farm source data",
+      "result": "refreshed_source_page_and_lineage_ledger_checked"
+    }
+  ],
+  "discovered_assets": [
+    {
+      "authority": "paper_homepage_crossref_and_github_bounded_search",
+      "url": "not_available",
+      "revision_or_sha256": "paper:sha256:770b56c0dccbd7683e3c33652d7062c385eb2f00c126d2e9f2a3b7129fdc5872",
+      "license_observation": "no_public_case_source_or_learning_state_found;data_available_on_request",
+      "redistribution_policy": "paper_only",
+      "relationship": "direct_target_or_project_author_asset"
+    },
+    {
+      "authority": "same_research_lineage_public_repository",
+      "url": "https://github.com/zbh0528/WFLO-GGA",
+      "revision_or_sha256": "commit:6ce41326e6c1d3685a01e038baf6d1d07aa46126;guishan_wind_sha256:ba42d364a0c3623cbdd0271aa47a2f13a4e43b08d9ced000a1d4d72a7eae9718;aga_sha256:3a12fdf7acd9b168739e9379a67aa3a17506611bac50f9b9334e01d001c676d8",
+      "license_observation": "repository public; redistribution remains governed by its academic-use notice",
+      "redistribution_policy": "record hashes and derived normalized transfer manifest; do not vendor the repository",
+      "relationship": "citation_predecessor_and_distinct_planar_guishan_proxy_not_author_ALGA_source"
+    }
+  ],
+  "available_evidence": [
+    "validated_complete",
+    "bounded_search_no_public_case_or_training_assets",
+    "public_WFLO_GGA_predecessor_and_distinct_planar_Guishan_asset"
+  ],
+  "missing_method_or_problem_fields": [
+    "four ideal joint wind arrays shown only as wind-rose figures",
+    "Guishan terrain elevation array",
+    "four seasonal Guishan joint wind arrays",
+    "exact site candidate coordinates and height interpolation",
+    "MySE11-230 power and thrust curves",
+    "network training target and loss",
+    "optimizer and training-epoch schedule",
+    "key/query dimension and shallow-network layer widths",
+    "elite count E",
+    "attention-to-mask construction and replacement cardinality",
+    "model initialization, batching, and random seed contract",
+    "exact crossover arithmetic and integer repair semantics"
+  ],
+  "negative_evidence_boundary": "Search is dated and bounded; later author releases require a new dossier."
+}

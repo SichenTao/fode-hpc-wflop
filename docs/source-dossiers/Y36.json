@@ -1,0 +1,94 @@
+{
+  "schema_version": 1,
+  "corpus_id": "Y36",
+  "doi": "10.1109/jas.2026.126233",
+  "title": "Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization",
+  "query_date": "2026-07-29",
+  "search_basis": [
+    "Shangce Gao homepage corpus refreshed at 2026-07-29T02:36:14Z",
+    "repository source_asset_registry and paper/problem ledgers",
+    "bounded authority ladder recorded below"
+  ],
+  "conclusion": "bounded_no_public_asset_found",
+  "searched_authorities": [
+    {
+      "authority": "official_author_homepage",
+      "url": "https://toyamaailab.github.io/publications.html",
+      "query": "\"10.1109/jas.2026.126233\" \"Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization\"",
+      "result": "refreshed_homepage_snapshot_checked"
+    },
+    {
+      "authority": "doi_publisher_supplement_and_data_statement",
+      "url": "https://doi.org/10.1109/jas.2026.126233",
+      "query": "10.1109/jas.2026.126233",
+      "result": "paper_and_existing_supplement_ledger_checked"
+    },
+    {
+      "authority": "paper_author_or_coauthor_linked_repository",
+      "url": "not_available",
+      "query": "\"10.1109/jas.2026.126233\" \"Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization\"",
+      "result": "no_direct_public_asset_recorded"
+    },
+    {
+      "authority": "author_coauthor_github",
+      "url": "https://github.com/search?q=10.1109%2Fjas.2026.126233&type=repositories",
+      "query": "10.1109/jas.2026.126233",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "general_research_data_repositories",
+      "url": "https://zenodo.org/search?q=10.1109%2Fjas.2026.126233",
+      "query": "10.1109/jas.2026.126233; Figshare; OSF; institutional repository",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "cited_implementation_and_predecessor_work",
+      "url": "https://doi.org/10.1109/jas.2026.126233",
+      "query": "Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization cited implementation predecessor",
+      "result": "paper_reference_and_project_ledger_checked"
+    },
+    {
+      "authority": "same_author_problem_or_method_family",
+      "url": "https://toyamaailab.github.io/sourcedata.html",
+      "query": "Yuhang Ma; Shangce Gao; Anqi Pan; Bo Shen wind farm source data",
+      "result": "refreshed_source_page_and_lineage_ledger_checked"
+    }
+  ],
+  "discovered_assets": [
+    {
+      "authority": "paper_homepage_crossref_and_github_bounded_search",
+      "url": "not_available",
+      "revision_or_sha256": "paper:sha256:243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b",
+      "license_observation": "no_public_case_source_or_pretrained_model_found",
+      "redistribution_policy": "paper_only",
+      "relationship": "direct_target_or_project_author_asset"
+    }
+  ],
+  "available_evidence": [
+    "validated_complete",
+    "bounded_search_no_public_case_or_model_assets",
+    "embedded supplementary Eqs. 1-20",
+    "encoder and decoder each have six layers",
+    "encoder uses four attention heads",
+    "token and latent dimensions are 64",
+    "pretraining uses 100000 layouts Adam learning rate 1e-3 500 epochs and batch size 64",
+    "decoder is frozen during fine tuning",
+    "lambda_reg is 30 and lambda_smooth is 1",
+    "latent DE uses F 0.3 polynomial mutation probability 1/64 and eta 20",
+    "population 100 maximum 10000 complete objective evaluations and 16 runs"
+  ],
+  "missing_method_or_problem_fields": [
+    "400-cell Zhangbei elevation array",
+    "eight joint wind speed-direction probability arrays",
+    "machine-readable coordinates of both noise-monitor configurations",
+    "all numeric acoustics constants, spectra, attenuation inputs, and A-weight corrections",
+    "land unit-cost coefficient and any omitted physical constants",
+    "case-level reference fronts",
+    "pretraining layout corpus or its deterministic generator seed",
+    "pretrained checkpoint",
+    "complete Transformer feed-forward dimensions, normalization, dropout, and initialization settings",
+    "fine-tuning batch construction and random seed contract",
+    "decoder token tie-breaking and complete duplicate-refill policy"
+  ],
+  "negative_evidence_boundary": "Search is dated and bounded; later author releases require a new dossier."
+}

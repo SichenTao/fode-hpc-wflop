@@ -1,0 +1,118 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T16",
+  "paper": {
+    "title": "Comparison of Wind Farm Layout Optimization Results Using a Simple Wake Model and Gradient-Based Optimization to Large Eddy Simulations",
+    "doi": "10.2514/6.2019-0538",
+    "year": 2019,
+    "pdf_sha256": "fa92fb9deeadf669d8d2ea3e7eb3b351bf1067b8012161c57c4caca23b04614e"
+  },
+  "target_contributions": [
+    "continuous differentiable near-wake completion of the 2016 Bastankhah-Porté-Agel model",
+    "exact-gradient WEC-continuation layout optimization lifecycle",
+    "BP-versus-SOWFA validation of the optimized layout"
+  ],
+  "non_target_baselines": [
+    "SOWFA is validation evidence, not a comparison algorithm to reimplement"
+  ],
+  "paper_native_problem": {
+    "turbines": 38,
+    "turbine": "NREL 5-MW",
+    "rotor_diameter_m": 126.4,
+    "hub_height_m": 90.0,
+    "physical_farm_radius_m": 2000.0,
+    "implemented_hub_centre_radius_m": 1936.8,
+    "minimum_spacing_rotor_diameters": 2.0,
+    "baseline_spacing_rotor_diameters": 5.0,
+    "directions_degrees": [10, 40, 70, 100, 130, 160, 190, 220, 250, 280, 310, 340],
+    "wind_speed_mps": 8.0,
+    "wind_probability_mass": 0.962,
+    "decision_variables": "76 direct metric turbine coordinates",
+    "objective": "maximize annual energy production",
+    "baseline_and_repeats": "one concentric baseline plus 199 feasible pseudo-random starts"
+  },
+  "model_contract": {
+    "wake": "paper Eqs. 1-10 modified 2016 Bastankhah-Porté-Agel Gaussian wake",
+    "superposition": "paper Eq. 11 upstream-sorted linear velocity-deficit superposition",
+    "local_turbulence": "paper Algorithm 1 and Eqs. 12-18",
+    "smooth_max_parameter": 700.0,
+    "optimization_rotor_points": 1,
+    "assessment_rotor_points": 100,
+    "wec_factors": [3.0, 2.75, 2.5, 2.25, 2.0, 1.75, 1.5, 1.25, 1.0],
+    "final_optimization_turbulence": "smooth local",
+    "final_assessment_turbulence": "hard local",
+    "paper_optimizer": "OpenMDAO plus Tapenade exact derivatives plus SNOPT",
+    "open_replacement": "pure C++ fixed-width exact forward AD plus analytic constraint Jacobians plus NLopt SLSQP"
+  },
+  "public_same_lineage_source": {
+    "repository": "https://github.com/byuflowlab/thomas2021-wec",
+    "revision": "8ff27d66079591f25619abeedbfc970d70e2b520",
+    "license": "no explicit repository license",
+    "used_factual_assets": [
+      "archive/project-code/input_files/nantucket_wind_rose_for_LES.txt",
+      "archive/project-code/input_files/NREL5MWCPCT_dict.txt",
+      "archive/project-code/input_files/NREL5MWCPCT_dict.p",
+      "archive/project-code/input_files/RoundFarm38Turb5DSpacing.txt",
+      "archive/project-code/optimizations/BPA_wec_opt/opt_snopt_relax.py"
+    ],
+    "derived_asset": "shared/data/core99_t16_public_data.bin",
+    "derived_sha256": "b169391622f3ad7d2e9d6fe2a06b63cb17500372f7e6a68123d280e4808df662",
+    "claim_boundary": "later same-author-lineage numeric evidence, not an author-2019 source release"
+  },
+  "independent_public_semantic_confirmation": {
+    "repository": "https://github.com/byuflowlab/FLOWFarm.jl",
+    "paper_relevant_revision": "ec5270203786d5bcf065fff8c80bd7710906a40e",
+    "license": "MIT",
+    "zenodo_doi": "10.5281/zenodo.7125827"
+  },
+  "open_optimizer_dependency": {
+    "repository": "https://github.com/stevengj/nlopt",
+    "revision": "88c424d4f458412787df96fcc95218acbca224fd",
+    "release": "v2.11.0",
+    "license": "LGPL",
+    "algorithm": "SLSQP"
+  },
+  "missing_information": [
+    "original 2019 source snapshot",
+    "proprietary SNOPT and Tapenade build",
+    "exact author pseudo-random states and all 199 initial coordinate arrays",
+    "author optimized coordinate arrays and per-stage histories",
+    "SOWFA case directories, precursor fields, time histories and execution environment"
+  ],
+  "conflicts_and_resolutions": [
+    {
+      "conflict": "NREL5MWCPCT_dict.txt labels columns two and three CP and CT, but its source pickle and conversion script show CT and CP",
+      "resolution": "follow the source pickle and conversion script; encode CP then CT in the versioned fixture"
+    },
+    {
+      "conflict": "paper Eq. 21 prints a 2000 m hub-centre radius while the same-lineage driver uses 1936.8 m to retain the rotor inside the 2000 m physical boundary",
+      "resolution": "use 1936.8 m and declare the physical-edge-aware interpretation"
+    },
+    {
+      "conflict": "same-lineage wind probabilities sum to 0.962",
+      "resolution": "preserve the published numeric array without silent renormalization"
+    },
+    {
+      "conflict": "paper requires feasible 2D random starts while a later generator uses one-dimensional rejection spacing",
+      "resolution": "follow the paper and reconstruct deterministic feasible 2D starts"
+    },
+    {
+      "conflict": "paper Eq. 20 does not print generator efficiency while the same-lineage driver uses 0.944",
+      "resolution": "retain 0.944; the resulting baseline independently matches paper Table 2"
+    }
+  ],
+  "hpc_contract": {
+    "backend": "pure_cpp_cpu",
+    "objective_gradient": "all 76 exact derivatives in one fixed-width forward-AD traversal",
+    "constraint_gradient": "analytic sparse Jacobian",
+    "inner_parallel_axis": "twelve independent wind directions in each objective and gradient call",
+    "outer_parallel_axis": "200 independent paper-native starts",
+    "thread_lifecycle": "one persistent worker team per optimization",
+    "reduction": "fixed wind-direction order",
+    "formal_resource_policy": "use the empirically highest-throughput non-oversubscribed mapping across all twenty Waffle CPU cores"
+  },
+  "problem_semantic_id": "t16_nantucket38_author_lineage_reconstructed_v1",
+  "method_semantic_id": "t16_wec_slsqp_autodiff_reconstruction_v1",
+  "protocol_semantic_id": "t16_200start_tenstage_wec_v1",
+  "claim_boundary": "academic declared reproduction of the published equations, problem, exact-gradient premise and optimization lifecycle with same-lineage public numeric evidence and open optimizer replacement; not author SNOPT/Tapenade random-state replay or rerun of unavailable SOWFA cases"
+}

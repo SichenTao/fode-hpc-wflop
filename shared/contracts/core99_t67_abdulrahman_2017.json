@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T67",
+  "paper": {
+    "title": "Investigating the Power-COE Trade-Off for Wind Farm Layout Optimization Considering Commercial Turbine Selection and Hub Height Variation",
+    "doi": "10.1016/j.renene.2016.10.038",
+    "pdf_sha256": "9fc563f924ea1a882ebe8ed2cd3497cd45a7e35c8cfe8f551cac211e41115289"
+  },
+  "author_assets": {
+    "paper_implementation": "MATLAB ga",
+    "public_source_status": "exact-title, DOI, author, GitHub, and laboratory searches located no target source",
+    "native_data_status": "complete 61-turbine table, manufacturer power curves, fitted power and CT coefficients, random states, and machine-readable optima unavailable"
+  },
+  "related_public_range_source": {
+    "url": "https://github.com/NatLabRockies/SAM",
+    "license": "BSD-3-Clause",
+    "use": "independent commercial-turbine range reference only; no author arrays or paper results are imported"
+  },
+  "paper_source_conflicts": [
+    {
+      "field": "reported dimensionality",
+      "paper": "calls the problem very high-dimensional while explicitly defining 18 TIL and 36 SWF scalar variables",
+      "resolution": "retain the explicit 18-variable and 36-variable encodings"
+    },
+    {
+      "field": "SWF row and column prose",
+      "paper": "row and column terminology is reversed relative to the 672 m crosswind dimension and LY",
+      "resolution": "use three crosswind columns by six downwind rows, with the wind along LY"
+    },
+    {
+      "field": "SWF maximum-capacity-factor results",
+      "paper": "the objective is part of the stated method but is omitted from SWF figures only for clarity",
+      "resolution": "retain maximum capacity factor as a target objective for both TIL and SWF"
+    }
+  ],
+  "missing_information": [
+    "target MATLAB source and release",
+    "55 of 61 turbine identities and their manufacturer curves",
+    "all fifth-degree power-curve coefficients",
+    "fifth-degree CT(CPe) coefficients and source samples",
+    "per-turbine cut-in and cut-out speeds",
+    "exact partial-overlap corner convention",
+    "MATLAB population size, elite, crossover, mutation, stall, and parallel options",
+    "random states, repeat count, trajectories, and machine-readable optimum layouts"
+  ],
+  "completion_decisions": [
+    "Anchor the six published turbine rows exactly and complete all other codes with a deterministic, nondecreasing rated-power catalog spanning the published diameter and rated-speed ranges.",
+    "Use a monotone quintic smoothstep from cut-in to rated power as the missing fifth-degree manufacturer-curve completion.",
+    "Use a bounded fifth-degree CT(CPe) curve as the missing generic thrust-coefficient completion.",
+    "Use the paper's Frandsen-expanded Jensen wake, exact circle-intersection overlap fraction, log-law shear, and quadratic wake-deficit superposition.",
+    "Use population 256, 5 percent elites, 0.8 scattered crossover, bounded per-gene mixed-variable mutation, and a 50-generation stall window as declared MATLAB-ga-lineage completions.",
+    "Use counter-keyed random events, fixed-index writes, stable sorting, and ordered elitist commits to preserve one/all-core scientific identity.",
+    "Exclude cited or plotted non-target comparison baselines; all three objectives and all paper problem roles remain targets."
+  ],
+  "problem_semantic_id": "t67_til_swf_power_cf_tciop_162role_declared_v1",
+  "method_semantic_id": "t67_matlab_ga_mixed_turbine_height_declared_v1",
+  "protocol_semantic_id": "t67_3000gen_25seed_162role_v1",
+  "problem_roles": {
+    "layouts": [
+      "six turbines in line with variable downwind locations",
+      "fixed 18-turbine array",
+      "fixed 18-turbine staggered array"
+    ],
+    "spacing_multipliers": [3, 4, 5],
+    "reference_speed_mps_at_60m": [8, 10, 12],
+    "terrain": {
+      "onshore_roughness_m": 0.3,
+      "offshore_roughness_m": 0.0002
+    },
+    "objectives_optimized_separately": [
+      "maximum total power",
+      "maximum farm capacity factor",
+      "minimum total cost index per output power"
+    ],
+    "registered_role_count": 162,
+    "unique_problem_instance_count": 162
+  },
+  "decision_and_constraints": {
+    "turbine_in_line": "six continuous y positions, six integer turbine codes, and six integer hub heights",
+    "small_wind_farm": "18 integer turbine codes and 18 integer hub heights at fixed positions",
+    "turbine_code": "integer 1 through 61, nondecreasing in rated power",
+    "hub_height_m": "integer 80 through 140",
+    "line_bounds_m": "0 through (N-1)*S*112",
+    "minimum_line_spacing_m": 336.0,
+    "small_farm_crosswind_length_m": 672.0
+  },
+  "physics_and_cost": {
+    "air_density_kg_per_m3": 1.225,
+    "wind": "single constant direction along +Y",
+    "wake": "Frandsen-expanded Jensen radius, log-law expansion coefficient, exact partial rotor-wake overlap, and root-sum-square deficits",
+    "power": "commercial turbine-specific declared quintic completion below rated speed and rated power above rated speed",
+    "capacity_factor": "sum output power divided by sum rated power",
+    "onshore_om_fraction": 0.15,
+    "offshore_om_fraction": 0.25,
+    "onshore_tower_capital_share": 0.12,
+    "offshore_tower_capital_share": 0.0565,
+    "reference_hub_height_m": 80.0
+  },
+  "algorithm": {
+    "lineage": "MATLAB ga mixed-variable declared completion",
+    "population_size": 256,
+    "elite_fraction": 0.05,
+    "crossover_probability": 0.8,
+    "mutation": "independent per-gene probability 1/dimension; turbine-code redraw, bounded integer hub-height step, and bounded continuous TIL displacement",
+    "maximum_generations": 3000,
+    "tolerance_function": 1e-15,
+    "stall_generations_completion": 50
+  },
+  "physical_fes_ledger": {
+    "unit": "one complete commercial-turbine, height-dependent wake, power, capacity-factor, cost, and constraint evaluation of one physical layout",
+    "initial_population": 256,
+    "offspring_per_generation": 243,
+    "maximum_complete_work": 729256,
+    "variation_and_selection": "do not consume physical wind-farm FES"
+  },
+  "hpc_execution": {
+    "backend": "pure C++20 CPU-HPC",
+    "single_run": "one persistent all-core worker team parallelizes population initialization, mixed-variable offspring construction, and full physical layout evaluations",
+    "ordered_semantics": "counter-keyed random events, fixed-index writes, stable ordering, and ordered elite commits preserve one/all-worker scientific identity",
+    "irreducible_control": "generation termination and deterministic population ordering remain serial control dependencies",
+    "formal_resource_rule": "one optimization process owns every Waffle CPU core; cases and 25 seeds run sequentially without nested oversubscription",
+    "timings": "physical evaluator, algorithm-only, and end-to-end wall times are reported separately"
+  },
+  "paper_native_formal_protocol": {
+    "seeds_per_configuration": 25,
+    "paper_case_roles": 162,
+    "required_target_runs": 4050,
+    "maximum_generations": 3000,
+    "formal_stopping": "TolFun=1e-15 over the declared 50-generation stall window, otherwise the 3000-generation maximum",
+    "h6_case": "staggered, S=4, Uref=10 m/s, offshore, minimum TCIOP",
+    "h6_fixed_complete_physical_layout_evaluations": 729256,
+    "excluded_non_target_comparators": [],
+    "formal_outputs": [
+      "best mixed-variable decision and complete physical evaluation",
+      "generation and physical-FES ledger",
+      "evaluator, algorithm, and end-to-end timings",
+      "worker receipt and scientific hash",
+      "source commit and executable hash"
+    ]
+  },
+  "claim_boundary": "academic flexible reconstruction of the paper's target method and complete problem-role matrix; not author source, native 61-turbine curves, original MATLAB random stream, raw optima, or exact numerical replay"
+}

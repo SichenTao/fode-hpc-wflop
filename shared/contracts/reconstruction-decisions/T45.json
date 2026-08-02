@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T45",
+  "doi": "10.1016/j.swevo.2025.102018",
+  "paper_sha256": "770b56c0dccbd7683e3c33652d7062c385eb2f00c126d2e9f2a3b7129fdc5872",
+  "profiles": [
+    "alga_attention_declared_reconstruction_v1",
+    "alga_guishan_planar_transfer"
+  ],
+  "completion_status": "distinct_M3_reconstruction_complete_original_ALGA_and_3D_problem_blocked",
+  "decisions": [
+    {
+      "field": "attention_training_objective",
+      "completed_transition": "Eqs. 19-23 and Algorithm 1 state that the network learns from every generation without a target, loss, optimizer, or schedule",
+      "selected_value_or_rule": "one fixed-order full-batch gradient-descent update per generation minimizes MSE to min-max normalized current fitness at learning rate 1e-3",
+      "authority_type": "paper_structure_plus_declared_reproducibility_completion",
+      "immutable_authority": "T45 Eqs. 19-23 Algorithm 1 Table 2 and shared/contracts/alga_attention_declared_reconstruction_contract.json",
+      "rejected_alternatives": [
+        "instantiate an untrained random attention model",
+        "hide an unspecified offline training corpus",
+        "use an unledgered deep-learning framework default"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines every learned weight and therefore attention scores masks offspring and final layouts",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_declared_reconstruction"
+    },
+    {
+      "field": "attention_architecture",
+      "completed_transition": "the paper states shallow eight-head attention but omits key width and layer dimensions",
+      "selected_value_or_rule": "each head uses scalar query key and value projections over the layout sequence followed by one linear scalar output and no feed-forward block",
+      "authority_type": "paper_equations_plus_minimal_declared_completion",
+      "immutable_authority": "T45 Eqs. 19-23 and Table 2",
+      "rejected_alternatives": [
+        "invent a multi-layer feed-forward network",
+        "select a wider hidden state after observing optimization results"
+      ],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "controls attention capacity training cost and cell-potential estimates",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_declared_reconstruction"
+    },
+    {
+      "field": "elite_and_genetic_controls",
+      "completed_transition": "Table 2 fixes population 30 crossover 0.8 and mutation 0.1 while E and exact discrete operators are omitted",
+      "selected_value_or_rule": "use six elites fitness tournaments one-point crossover one-point mutation and deterministic common feasibility repair",
+      "authority_type": "paper_cited_lineage_and_public_predecessor_source",
+      "immutable_authority": "T45 Algorithm 1 Table 2; WFLO-GGA commit 6ce41326e6c1d3685a01e038baf6d1d07aa46126 alg/AGA.m sha256 3a12fdf7acd9b168739e9379a67aa3a17506611bac50f9b9334e01d001c676d8",
+      "rejected_alternatives": [
+        "use a different elite fraction without source lineage",
+        "replace one-point crossover with uniform crossover",
+        "allow duplicate or unavailable cells"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "sets survivor pressure offspring composition and physical-FES per complete generation",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_declared_reconstruction"
+    },
+    {
+      "field": "attention_mask_transition",
+      "completed_transition": "Equation 24 defines masked replacement but omits score aggregation mask cardinality high-potential construction and conflict repair",
+      "selected_value_or_rule": "average received multi-head attention with normalized fitness aggregate by cell and replace ceil(0.1D) lowest-score child genes using highest-score unoccupied elite cells before deterministic repair",
+      "authority_type": "paper_equation_parameter_linkage_plus_declared_completion",
+      "immutable_authority": "T45 Eq. 24 Algorithm 1 and Table 2 mutation degree 0.1",
+      "rejected_alternatives": [
+        "replace an unspecified random number of genes",
+        "copy occupied cells and repair silently",
+        "derive masks from unevaluated future fitness"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines the attention-guided state transition and diversity of every non-elite offspring",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_declared_reconstruction"
+    },
+    {
+      "field": "problem_scope",
+      "completed_transition": "the original 3D terrain seasonal wind turbine and Gaussian-wake arrays are unavailable while public WFLO-GGA supplies a different planar Guishan annual wind distribution",
+      "selected_value_or_rule": "keep the original problem blocked and admit a frozen P3 composite transfer using the paper-visible ideal grid public Guishan annual wind and audited FODE evaluator",
+      "authority_type": "target_paper_plus_public_same_domain_asset_declared_proxy",
+      "immutable_authority": "T45 paper sha256 770b56c0dccbd7683e3c33652d7062c385eb2f00c126d2e9f2a3b7129fdc5872; WFLO-GGA Guishan wind sha256 ba42d364a0c3623cbdd0271aa47a2f13a4e43b08d9ced000a1d4d72a7eae9718; transfer hash fnv1a64:7b33990a4305cdf7",
+      "rejected_alternatives": [
+        "label public planar WFLO-GGA data as the paper's 3D seasonal case",
+        "digitize wind-rose figures and claim exact inputs",
+        "reuse an arbitrary FODE case under the Guishan problem name"
+      ],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "changes the complete physical objective and prevents any paper-result reproduction claim",
+      "sensitivity_test_required": false,
+      "adjudication_status": "selected_for_declared_reconstruction"
+    },
+    {
+      "field": "parallel_backend",
+      "completed_transition": "the paper gives complexity but no parallel schedule or accelerator implementation",
+      "selected_value_or_rule": "use one persistent deterministic CPU team for population transitions repair and complete evaluation; keep attention reductions ordered; recognize hybrid and GPU interfaces but fail closed",
+      "authority_type": "platform_HPC_contract_plus_declared_backend_completion",
+      "immutable_authority": "shared/contracts/alga_attention_declared_reconstruction_contract.json and evidence/development/alga_attention_declared_reconstruction_admission_spark_20260729.json",
+      "rejected_alternatives": [
+        "silently fall back from GPU to CPU",
+        "claim throughput admission from the contended local Spark timing",
+        "parallelize floating-point reductions in a worker-dependent order"
+      ],
+      "classification": "implementation_only",
+      "expected_downstream_effect": "preserves exact worker-count scientific state while leaving formal throughput claims pending",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_declared_reconstruction"
+    }
+  ]
+}

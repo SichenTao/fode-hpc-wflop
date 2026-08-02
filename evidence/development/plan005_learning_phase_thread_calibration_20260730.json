@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "status": "accepted_phase_specific_cpu_thread_profiles",
+  "host": "spark-9b6f",
+  "outer_cpp_workers": 20,
+  "torch_interop_threads": 1,
+  "methods": {
+    "TAAE": {
+      "corpus_id": "Y36",
+      "calibration_physical_fes": 350,
+      "candidate_torch_intraop_threads": [1, 2, 4, 8, 10],
+      "internal_seconds": [
+        21.892565291,
+        15.798862228,
+        13.012680009,
+        15.233072192,
+        18.397437701
+      ],
+      "selected_torch_intraop_threads": 4,
+      "selected_relative_to_one_thread_speedup": 1.682402,
+      "scientific_check": {
+        "front_hash_exact_across_candidates": true,
+        "science_payload_hash_exact_across_candidates": true,
+        "parameter_count": 850385,
+        "l2_norm_exact_at_reported_precision": true,
+        "linf_norm_exact_at_reported_precision": true,
+        "maximum_weighted_checksum_relative_difference": 2.4e-15,
+        "raw_parameter_hash_exact": false,
+        "interpretation": "parallel floating-point reduction order changes raw parameter bits but not the selected layouts, front, objectives, or reported parameter norms"
+      }
+    },
+    "RLPSO": {
+      "corpus_id": "T42",
+      "candidate_torch_intraop_threads": [1, 2, 4, 8, 10],
+      "internal_seconds": [
+        11.226184629,
+        8.35780969,
+        7.120639302,
+        8.514273355,
+        8.893086739
+      ],
+      "selected_torch_intraop_threads": 4,
+      "selected_relative_to_one_thread_speedup": 1.576570,
+      "scientific_check": {
+        "best_objective_exact_across_candidates": true,
+        "learning_decision_hash_exact_across_candidates": true,
+        "learned_state_hash_exact_across_candidates": true,
+        "science_payload_hash_exact_across_candidates": true
+      }
+    },
+    "ALGA": {
+      "corpus_id": "T45",
+      "candidate_torch_intraop_threads": [1, 2, 4, 8, 10],
+      "internal_seconds": [
+        0.068784884,
+        0.072778965,
+        0.073960794,
+        0.078968174,
+        0.081891994
+      ],
+      "selected_torch_intraop_threads": 1,
+      "selected_relative_to_one_thread_speedup": 1.0,
+      "scientific_check": {
+        "best_objective_exact_across_candidates": true,
+        "learning_decision_hash_exact_across_candidates": true,
+        "learned_state_hash_exact_across_candidates": true,
+        "science_payload_hash_exact_across_candidates": true
+      }
+    }
+  },
+  "decision": "Use all 20 visible CPUs for persistent C++ population and evaluator work, with phase-specific LibTorch C++ intra-op threads TAAE=4, RLPSO=4, and ALGA=1. More tensor threads are slower because these batches are too small to amortize synchronization.",
+  "claim_boundary": "Short representative CPU calibration for backend selection only; not a worker-scaling study, formal quality result, CUDA performance claim, or author-exact numerical reproduction."
+}

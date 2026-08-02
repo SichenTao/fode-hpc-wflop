@@ -1,0 +1,58 @@
+{
+  "schema_version": 1,
+  "status": "pass",
+  "corpus_id": "Y16",
+  "paper_doi": "10.1109/TSTE.2026.3686029",
+  "method_semantic_id": "y16_imm_bmm_bounded_dinkelbach_highs_reconstruction_v1",
+  "problem_semantic_id": "y16_regular_seabed_ti_lcoe_figure_proxy_v1",
+  "protocol_semantic_id": "y16_native_31role_deterministic_v1",
+  "checks": {
+    "project_owned_strict_warning_build": "pass",
+    "third_party_highs_warning_scope": "excluded_from_project_owned_werror",
+    "cpp_regression": "pass",
+    "python_independent_validation": "pass",
+    "paper_native_role_count": 31,
+    "bmm_role_count": 9,
+    "imm_role_count": 22,
+    "objectives": [
+      "minimum_lcoe",
+      "minimum_annual_cost",
+      "maximum_aep",
+      "minimum_capital_lcoe"
+    ],
+    "turbine_dimension_interpretation": "155_90_263m_as_diameters",
+    "five_d_spacing_and_exact_turbine_count": "pass",
+    "one_four_worker_layout_objective_physics_and_hash_identity": true,
+    "full_worker_participation_observed_in_h5": 2,
+    "evaluator_rejected_subproblems": 0,
+    "strict_binary_sha256": "14b378bace487fc6f866e00816106852452487c4f630db6d792321f695e570a0"
+  },
+  "local_h6_candidate": {
+    "work": "same 4 angles x 5 safety-valid patterns for the Case-1 Type-3 40-WT IMM minimum-annual-cost role",
+    "identical_subproblem_tasks": 20,
+    "comparison": "same pure-C++ executable with one versus twenty Spark workers",
+    "one_worker_end_to_end_seconds": 56.616182047,
+    "twenty_worker_end_to_end_seconds": 6.815446808,
+    "end_to_end_speedup": 8.307038942853122,
+    "twenty_worker_observed_workers": 20,
+    "twenty_worker_summed_mip_seconds": 72.13790455300001,
+    "twenty_worker_effective_mip_concurrency": 10.58447180136807,
+    "same_layout_objective_physics_and_hash": true,
+    "one_worker_feasible_subproblems": 13,
+    "twenty_worker_feasible_subproblems": 13,
+    "evaluator_rejected_subproblems": 0,
+    "status": "local_candidate_pending_immutable_waffle_confirmation"
+  },
+  "local_full_task_diagnostic": {
+    "work": "all 18 angles x ten pre-correction pattern indices for one min-annual-cost role",
+    "requested_workers": 20,
+    "observed_workers": 20,
+    "summed_mip_seconds": 1722.1906931429994,
+    "end_to_end_seconds": 93.604990064999996,
+    "effective_mip_concurrency": 18.3985,
+    "incumbent_subproblems": 33,
+    "evaluator_rejected_subproblems": 0,
+    "status": "local_diagnostic_not_final_h6"
+  },
+  "claim_boundary": "H5 validates the source-backed flexible reconstruction, complete 31-role interface, corrected equations, exact-count/spacing evaluator, BDA schedule and local performance candidate; it does not claim author source, private arrays, Gurobi replay, Waffle confirmation, private-case global certificates or numerical replay."
+}

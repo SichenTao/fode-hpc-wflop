@@ -1,3 +1,19 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: shared parameterized scalar/discrete WFLOP C++ evaluator
+Paper title and DOI: thirteen scalar WFLOP packages; see
+docs/scalar_problem_package_registry.tsv
+Paper/source basis: Jensen/Park equations and per-case physical constants
+Public asset: paper/source authority is recorded by each case contract
+Missing/conflicts: legacy FODE defaults remain literal when fields are absent
+Reconstruction: cache-aware deterministic equations and parallel batches
+Method/problem semantic IDs: not_applicable_shared_infrastructure;
+registry_defined
+Controlling contract and claim boundary:
+docs/scalar_problem_package_registry.tsv; expected power in kW, not raw AEP
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "fode/evaluator.hpp"
 
 #include <algorithm>
@@ -12,11 +28,6 @@
 
 namespace fode {
 namespace {
-
-constexpr double kRotorDiameter = 77.0;
-constexpr double kHubHeight = 80.0;
-constexpr double kSurfaceRoughness = 0.25 * 0.001;
-constexpr double kRotorRadius = kRotorDiameter / 2.0;
 
 template <typename Task>
 void execute_stage(
@@ -73,32 +84,225 @@ double interaction_area(double dx, double radius, double wake_radius) {
     return std::numbers::pi * radius * radius;
 }
 
-double deficiency(double dx, double dy) {
+double deficiency(const CaseData& data, double dx, double dy) {
     if (dy == 0.0) {
         return 0.0;
     }
-    static const double entrainment =
-        0.5 / std::log(kHubHeight / kSurfaceRoughness);
-    const double wake_radius = kRotorRadius + entrainment * dy;
-    const double area = interaction_area(dx, kRotorRadius, wake_radius);
-    return (2.0 / 3.0)
-        * (kRotorRadius * kRotorRadius)
+    const double rotor_radius = data.rotor_diameter / 2.0;
+    const double entrainment =
+        0.5 / std::log(data.hub_height / data.surface_roughness);
+    const double wake_radius = rotor_radius + entrainment * dy;
+    const double area = interaction_area(dx, rotor_radius, wake_radius);
+    return data.wake_deficit_coefficient
+        * (rotor_radius * rotor_radius)
         / (wake_radius * wake_radius)
         * area
-        / (std::numbers::pi * kRotorRadius * kRotorRadius);
+        / (std::numbers::pi * rotor_radius * rotor_radius);
 }
 
-double turbine_power(double velocity) {
-    if (velocity < 2.0) {
+double turbine_power(const CaseData& data, double velocity) {
+    if (velocity < data.power_curve_cutin_mps) {
         return 0.0;
     }
-    if (velocity < 12.8) {
-        return 0.3 * velocity * velocity * velocity;
+    if (velocity < data.power_curve_rated_mps) {
+        if (data.power_curve_model == "cutin_shifted_cubic") {
+            const double cutin3 =
+                data.power_curve_cutin_mps
+                * data.power_curve_cutin_mps
+                * data.power_curve_cutin_mps;
+            const double rated3 =
+                data.power_curve_rated_mps
+                * data.power_curve_rated_mps
+                * data.power_curve_rated_mps;
+            const double velocity3 = velocity * velocity * velocity;
+            return data.power_curve_rated_kw
+                * (velocity3 - cutin3) / (rated3 - cutin3);
+        }
+        return data.power_curve_cubic_coefficient
+            * velocity * velocity * velocity;
     }
-    if (velocity < 18.0) {
-        return 629.1;
+    if (velocity < data.power_curve_cutout_mps) {
+        return data.power_curve_rated_kw;
     }
     return 0.0;
+}
+
+double gaussian_deficiency(
+    const CaseData& data,
+    double downstream,
+    double crosswind,
+    double vertical
+) {
+    if (!(downstream > 0.0)) {
+        return 0.0;
+    }
+    const double rotor_radius = 0.5 * data.rotor_diameter;
+    const double wake_radius =
+        rotor_radius + data.gaussian_wake_expansion * downstream;
+    const double sigma = wake_radius / 1.98;
+    const double radial_square =
+        crosswind * crosswind + vertical * vertical;
+    return data.wake_deficit_coefficient
+        * (rotor_radius * rotor_radius)
+        / (wake_radius * wake_radius)
+        * std::exp(-radial_square / (2.0 * sigma * sigma));
+}
+
+void evaluate_terrain_gaussian_states(
+    const std::vector<double>& indices,
+    int batch_size,
+    const CaseData& data,
+    PersistentExecutor& executor,
+    EvaluationDetail detail,
+    Evaluation& result
+) {
+    const int n = data.turbine_count;
+    const int directions = static_cast<int>(data.theta.size());
+    const int speeds = static_cast<int>(data.velocity.size());
+    const int state_count = batch_size * directions;
+    std::vector<double> x(static_cast<std::size_t>(batch_size * n));
+    std::vector<double> y(static_cast<std::size_t>(batch_size * n));
+    std::vector<double> z(static_cast<std::size_t>(batch_size * n));
+    for (int row = 0; row < batch_size; ++row) {
+        for (int turbine = 0; turbine < n; ++turbine) {
+            const int cell_1based = static_cast<int>(std::llround(
+                indices[static_cast<std::size_t>(row * n + turbine)]
+            ));
+            const int cell = cell_1based - 1;
+            const int grid_row = cell / data.cols;
+            const int grid_col = cell % data.cols;
+            const std::size_t target =
+                static_cast<std::size_t>(row * n + turbine);
+            x[target] = (
+                static_cast<double>(grid_col) + 0.5
+            ) * data.cell_width;
+            y[target] = (
+                static_cast<double>(grid_row) + 0.5
+            ) * data.cell_width;
+            z[target] = data.hub_height + (
+                data.terrain_elevation_m.empty()
+                    ? 0.0
+                    : data.terrain_elevation_m[
+                        static_cast<std::size_t>(cell)
+                    ]
+            );
+        }
+    }
+
+    std::vector<double> wake_fraction(
+        static_cast<std::size_t>(state_count * n),
+        0.0
+    );
+    auto evaluate_state = [&](int state) {
+        const int row = state / directions;
+        const int direction = state % directions;
+        const double cosine = std::cos(data.theta[direction]);
+        const double sine = std::sin(data.theta[direction]);
+        const std::size_t row_offset = static_cast<std::size_t>(row * n);
+        const std::size_t state_offset =
+            static_cast<std::size_t>(state * n);
+        std::vector<double> downwind(static_cast<std::size_t>(n));
+        std::vector<double> crosswind(static_cast<std::size_t>(n));
+        for (int turbine = 0; turbine < n; ++turbine) {
+            const std::size_t source =
+                row_offset + static_cast<std::size_t>(turbine);
+            downwind[static_cast<std::size_t>(turbine)] =
+                cosine * x[source] + sine * y[source];
+            crosswind[static_cast<std::size_t>(turbine)] =
+                -sine * x[source] + cosine * y[source];
+        }
+        for (int target = 0; target < n; ++target) {
+            double squared_sum = 0.0;
+            for (int source = 0; source < n; ++source) {
+                if (source == target) {
+                    continue;
+                }
+                const double fraction = gaussian_deficiency(
+                    data,
+                    downwind[static_cast<std::size_t>(target)]
+                        - downwind[static_cast<std::size_t>(source)],
+                    crosswind[static_cast<std::size_t>(target)]
+                        - crosswind[static_cast<std::size_t>(source)],
+                    z[row_offset + static_cast<std::size_t>(target)]
+                        - z[row_offset + static_cast<std::size_t>(source)]
+                );
+                squared_sum += fraction * fraction;
+            }
+            wake_fraction[
+                state_offset + static_cast<std::size_t>(target)
+            ] = std::min(1.0, std::sqrt(squared_sum));
+        }
+    };
+    if (state_count >= executor.thread_count()) {
+        executor.parallel_for(0, state_count, evaluate_state);
+    } else {
+        for (int state = 0; state < state_count; ++state) {
+            evaluate_state(state);
+        }
+    }
+
+    for (int row = 0; row < batch_size; ++row) {
+        std::vector<double> turbine_power_kw(
+            static_cast<std::size_t>(n),
+            0.0
+        );
+        for (int turbine = 0; turbine < n; ++turbine) {
+            const std::size_t point =
+                static_cast<std::size_t>(row * n + turbine);
+            const double shear = std::pow(
+                std::max(z[point] / data.hub_height, 1.0e-12),
+                data.terrain_shear_exponent
+            );
+            for (int direction = 0;
+                 direction < directions;
+                 ++direction) {
+                const double fraction = wake_fraction[
+                    static_cast<std::size_t>(
+                        (row * directions + direction) * n + turbine
+                    )
+                ];
+                for (int speed = 0; speed < speeds; ++speed) {
+                    const double ambient =
+                        data.velocity[static_cast<std::size_t>(speed)]
+                        * shear;
+                    turbine_power_kw[static_cast<std::size_t>(turbine)] +=
+                        data.probability[static_cast<std::size_t>(
+                            direction * speeds + speed
+                        )]
+                        * turbine_power(data, ambient * (1.0 - fraction));
+                }
+            }
+        }
+        std::vector<double> ordered = turbine_power_kw;
+        std::stable_sort(ordered.begin(), ordered.end());
+        result.fitness[static_cast<std::size_t>(row)] =
+            std::accumulate(ordered.begin(), ordered.end(), 0.0);
+        if (detail == EvaluationDetail::TotalAndPerTurbine) {
+            std::vector<int> order(static_cast<std::size_t>(n));
+            std::iota(order.begin(), order.end(), 0);
+            std::stable_sort(
+                order.begin(),
+                order.end(),
+                [&](int left, int right) {
+                    return turbine_power_kw[static_cast<std::size_t>(left)]
+                        < turbine_power_kw[static_cast<std::size_t>(right)];
+                }
+            );
+            for (int rank = 0; rank < n; ++rank) {
+                const int turbine = order[static_cast<std::size_t>(rank)];
+                const std::size_t target =
+                    static_cast<std::size_t>(row * n + rank);
+                result.accumulated_turbine_power_kw[target] =
+                    turbine_power_kw[static_cast<std::size_t>(turbine)];
+                result.turbine_position_order_1based[target] =
+                    static_cast<int>(std::llround(
+                        indices[static_cast<std::size_t>(
+                            row * n + turbine
+                        )]
+                    ));
+            }
+        }
+    }
 }
 
 void evaluate_fused_states(
@@ -192,7 +396,7 @@ void evaluate_fused_states(
                     transformed_y[static_cast<std::size_t>(downstream)]
                     - transformed_y[static_cast<std::size_t>(upstream)]
                 );
-                const double value = deficiency(dx, dy);
+                const double value = deficiency(data, dx, dy);
                 squared_sum += value * value;
             }
             wake[state_offset + static_cast<std::size_t>(downstream)] =
@@ -227,7 +431,7 @@ void evaluate_fused_states(
                 for (int speed = 0; speed < speeds; ++speed) {
                     const double actual_velocity =
                         (1.0 - loss) * data.velocity[speed];
-                    power += turbine_power(actual_velocity)
+                    power += turbine_power(data, actual_velocity)
                         * data.probability[
                             static_cast<std::size_t>(
                                 direction * speeds + speed
@@ -356,6 +560,20 @@ Evaluation evaluate_population_hpc(
     result.observed_workers = executor.thread_count();
 
     const auto started = std::chrono::steady_clock::now();
+    if (data.wake_model == "terrain_gaussian_rss") {
+        evaluate_terrain_gaussian_states(
+            indices,
+            batch_size,
+            data,
+            executor,
+            detail,
+            result
+        );
+        result.elapsed_seconds = std::chrono::duration<double>(
+            std::chrono::steady_clock::now() - started
+        ).count();
+        return result;
+    }
     if (schedule == EvaluationSchedule::GranularityAware) {
         evaluate_fused_states(
             indices,
@@ -477,7 +695,7 @@ Evaluation evaluate_population_hpc(
                     state_offset + static_cast<std::size_t>(upstream)
                 ]
             );
-            const double value = deficiency(dx, dy);
+            const double value = deficiency(data, dx, dy);
             squared_sum += value * value;
         }
         wake[state_offset + static_cast<std::size_t>(downstream)] =
@@ -504,7 +722,7 @@ Evaluation evaluate_population_hpc(
             for (int speed = 0; speed < speeds; ++speed) {
                 const double actual_velocity =
                     (1.0 - loss) * data.velocity[speed];
-                power += turbine_power(actual_velocity)
+                power += turbine_power(data, actual_velocity)
                     * data.probability[
                         static_cast<std::size_t>(
                             direction * speeds + speed

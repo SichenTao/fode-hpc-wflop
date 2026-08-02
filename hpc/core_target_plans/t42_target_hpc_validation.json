@@ -1,0 +1,102 @@
+{
+  "H5_bounded_equivalence": {
+    "candidate_backends": [
+      "libtorch_cpu_hpc_v1"
+    ],
+    "comparison_scope": "independent oracle/formula comparison plus bounded target optimizer execution; backend self-agreement alone is not accepted as equivalence",
+    "coverage": {
+      "all_named_parameter_gradients": "passed",
+      "artifact_driven_transition": "passed",
+      "artifact_reload": "passed",
+      "forward_tensors": "passed",
+      "losses": "passed",
+      "one_optimizer_step": "passed",
+      "physical_fes": "passed",
+      "random_event_ownership": "passed",
+      "terminal_partial_work": "passed"
+    },
+    "full_optimizer_test": "plan004_learning_full_optimizer_artifacts",
+    "independent_reference": {
+      "ctest_names": [
+        "plan004_rlpso_reference_equivalence"
+      ],
+      "description": "independent direct-formula C++ tensor/loss/gradient reference",
+      "does_not_call_candidate": true,
+      "implementation_or_oracle": "hpc/learning_libtorch/tests/reference_equivalence_test.cpp",
+      "primary_test_output_sha256": "a4ae15f5b604463b31237bf2590dfbde506b31d102e54a07a59771f76379127f"
+    },
+    "learning_method": "rlpso",
+    "numerical_comparison": {
+      "absolute_tolerance_per_tensor": 2e-10,
+      "maximum_absolute_error": 5.273559366969494e-16,
+      "observed_result": {
+        "absolute_tolerance_per_tensor": 2e-10,
+        "coverage": {
+          "all_named_parameter_gradients": "passed",
+          "artifact_driven_transition": "passed",
+          "artifact_reload": "passed",
+          "forward_tensors": "passed",
+          "losses": "passed",
+          "one_optimizer_step": "passed"
+        },
+        "does_not_call_candidate": true,
+        "errors": {
+          "all_named_parameter_gradients": 4.996003610813204e-16,
+          "artifact_driven_transition": 0,
+          "artifact_reload": 0,
+          "forward_tensors": 5.273559366969494e-16,
+          "losses": 5.551115123125783e-17,
+          "one_optimizer_step": 1.1102230246251565e-16
+        },
+        "maximum_absolute_error": 5.273559366969494e-16,
+        "method": "rlpso",
+        "named_parameter_count": 12,
+        "reference": "independent_direct_formula_cpp",
+        "status": "pass",
+        "tolerances": {
+          "all_named_parameter_gradients": 2e-10,
+          "artifact_driven_transition": 2e-10,
+          "artifact_reload": 2e-10,
+          "forward_tensors": 2e-10,
+          "losses": 2e-10,
+          "one_optimizer_step": 2e-10
+        }
+      },
+      "passed": true
+    },
+    "physical_fes_ledger": "bounded target runtime checks exact physical objective work; learning artifact training is outside that ledger",
+    "reference_backend": "independent_reference_v1",
+    "runtime_test": "plan004_learning_full_optimizer_artifacts",
+    "runtime_test_output_sha256": "6046bee06ada58fd0d59854c57556f271ecde0da69ef12d400011e466cfd3962",
+    "runtime_test_receipt": "evidence/development/plan004_h5_independent_reference_receipts_20260730.json",
+    "runtime_test_receipt_sha256": "66fbcfbeec589cd69e9d2e07916a8686a538dcc7cbd322a7641b437401689219",
+    "status": "accepted_h5"
+  },
+  "H6_performance_validation": {
+    "accepted_backend": "cpu_hpc_full_visible_v1",
+    "all_visible_characterized": true,
+    "all_visible_workers": 20,
+    "claim_boundary": "Measured fixed-work highest-performance-profile H6 only; a full worker-scaling curve is not required and no formal quality claim is made.",
+    "measured_serial_fraction": null,
+    "minimum_named_h0_stage_attribution": 1.0,
+    "performance_receipt": "evidence/performance/plan005_h6_performance_first_summary_20260730.json",
+    "performance_receipt_sha256": "5519c51eeb300a47647c39f6ba2700681d321c74bac94fb93c443517ece4ef6d",
+    "raw_observation_receipt": "evidence/performance/plan005_h6_performance_first_raw_observations_20260730.jsonl",
+    "selected_workers": 20,
+    "status": "accepted_h6",
+    "worker_scaling_characterized": false
+  },
+  "analysis_path": "hpc/core_target_plans/t42_target_hpc_analysis.json",
+  "analysis_sha256": "1ed21f7c47e6042e1545db70ce07196776749f32ced828484a14798a045f5155",
+  "claim_boundary": "H5 accepts bounded independent-reference equivalence only. No backend is selected before exact-pair H6 and no formal-quality claim is made.",
+  "corpus_id": "T42",
+  "method_semantic_id": "rlpso_paper_corrected_training_reconstruction_v1",
+  "native_asset": ".source-cache/generated/rpso_source_problem/benchmark_cases.json",
+  "native_asset_sha256": "d060c6bed80bc5a0654701f9b5a8dc7e45430ce5712c481099b9e23cee261663",
+  "overall_status": "accepted_h5_h6",
+  "pair_id": "T42__rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4__target",
+  "paper_protocol_id": "energy2024_rlpso_native_25_v1",
+  "problem_semantic_id": "rpso2024_source_problem_ws1_ws4",
+  "schema_version": 2,
+  "validation_id": "plan004_h5__T42__rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4__target__spark_20260730"
+}

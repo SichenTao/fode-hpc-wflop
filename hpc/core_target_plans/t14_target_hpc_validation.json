@@ -1,0 +1,20 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T14",
+  "H5": {
+    "status": "pass",
+    "basis": "independent paper-equation AEP oracle, all 21 case-representation structural checks, feasibility checks and deterministic decoder tests"
+  },
+  "H6": {
+    "status": "pass",
+    "host": "waffle",
+    "source_commit": "e9fe0d4",
+    "observed_workers": 17,
+    "admission_workload": "central paper case for direct, grid and boundary-grid representations",
+    "formal_receipt": "evidence/core99/formal/T14_formal_quality.json",
+    "formal_runs": 2100,
+    "formal_total_physical_fes": 448000,
+    "formal_source_commit": "cb467dc",
+    "evidence_boundary": "the formal matrix validates the registered deterministic reconstruction and does not claim author-SNOPT numerical replay"
+  }
+}

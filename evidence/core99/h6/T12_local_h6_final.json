@@ -1,0 +1,59 @@
+{
+  "schema_version": 1,
+  "evidence_scope": "local_h6_admission_before_waffle_formal_campaign",
+  "corpus_id": "T12",
+  "paper_doi": "10.1016/j.renene.2018.03.052",
+  "generated_at": "2026-08-02T18:33:19+09:00",
+  "source_commit": "4396576e3a955aa5c44bcdfd80564c61af84bc0c",
+  "binary_sha256": "9a23e3be078f385a183881a19e3b51f82f97fe1083f8cb4c66037eb3f5331d0d",
+  "environment": {
+    "host": "spark-9b6f",
+    "kernel": "Linux 6.14.0-1015-nvidia aarch64",
+    "logical_cpus": 20,
+    "compiler": "g++ 11.5.0",
+    "build": "Release -O3 -march=native -ffp-contract=off"
+  },
+  "fixed_work": {
+    "problem_id": "t12_windflo_s1",
+    "algorithm_id": "t12_3s_mde",
+    "seed": 20260731,
+    "physical_fes": 2000
+  },
+  "observations": {
+    "workers_1": {
+      "observed_workers": 1,
+      "best_energy_cost": 0.001161686041800517,
+      "best_constraint_violation_m": 0.0,
+      "evaluator_seconds": 71.26117022299997,
+      "algorithm_seconds": 3.7254057020000317,
+      "end_to_end_seconds": 74.986577141,
+      "scientific_hash": "19640d22845566a8",
+      "output_sha256": "0293030a0c853e08a0a3899464453748c0a97a933f5e5b9f069c034d89b73d70"
+    },
+    "workers_20": {
+      "observed_workers": 20,
+      "best_energy_cost": 0.001161686041800517,
+      "best_constraint_violation_m": 0.0,
+      "evaluator_seconds": 6.032391685999998,
+      "algorithm_seconds": 0.47466973500000265,
+      "end_to_end_seconds": 6.507660356,
+      "scientific_hash": "19640d22845566a8",
+      "output_sha256": "72e9fd13415bf5576fcfe6ad221019b6e74ea4761f660f2b85e14d0eab90f571"
+    }
+  },
+  "speedup_workers_1_to_20": {
+    "end_to_end": 11.522817,
+    "evaluator": 11.813087,
+    "algorithm": 7.848416
+  },
+  "acceptance": {
+    "fixed_work_equal": true,
+    "scientific_hash_equal": true,
+    "best_result_equal": true,
+    "constraint_result_equal": true,
+    "release_tests": "4_of_4_pass",
+    "address_undefined_behavior_tests": "4_of_4_pass",
+    "status": "pass"
+  },
+  "claim_boundary": "local all-core H6 admission; Waffle formal campaign remains separately required"
+}

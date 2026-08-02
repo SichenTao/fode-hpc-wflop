@@ -1,0 +1,103 @@
+{
+  "schema_version": 1,
+  "campaign_id": "core99_t14_paper_native_100start_v1",
+  "corpus_id": "T14",
+  "paper_doi": "10.5194/wes-4-663-2019",
+  "host": "waffle",
+  "source_commit": "cb467dc",
+  "status": "pass",
+  "formal_protocol": {
+    "paper_cases": 7,
+    "representations": 3,
+    "independent_starts_per_case_representation": 100,
+    "total_runs": 2100,
+    "completed_runs": 2100,
+    "failed_runs": 0,
+    "reused_h6_runs": 3,
+    "new_formal_runs": 2097,
+    "workers_per_optimization": 17,
+    "total_physical_fes": 448000
+  },
+  "quality": {
+    "all_receipts_passed": true,
+    "all_runs_used_declared_workers": true,
+    "unique_scientific_hashes": 2100,
+    "maximum_constraint_violation_m": 3.908837697963463e-09,
+    "boundary_grid_median_winner_cases": 7,
+    "paper_cases_compared": 7
+  },
+  "timing": {
+    "sum_end_to_end_seconds": 18835.841024195,
+    "median_run_end_to_end_seconds": 8.9229961795,
+    "minimum_run_end_to_end_seconds": 8.583628114,
+    "maximum_run_end_to_end_seconds": 9.995978433
+  },
+  "representation_summaries": {
+    "t14_boundary_grid": {
+      "runs": 700,
+      "physical_fes": 168000,
+      "median_final_aep_gwh_across_all_cases": 1266.8199156224182,
+      "median_end_to_end_seconds": 8.9355279695,
+      "maximum_constraint_violation_m": 7.40176437586315e-12
+    },
+    "t14_direct": {
+      "runs": 700,
+      "physical_fes": 112000,
+      "median_final_aep_gwh_across_all_cases": 1186.605778089278,
+      "median_end_to_end_seconds": 8.895815759000001,
+      "maximum_constraint_violation_m": 3.908837697963463e-09
+    },
+    "t14_grid": {
+      "runs": 700,
+      "physical_fes": 168000,
+      "median_final_aep_gwh_across_all_cases": 1194.9605762254173,
+      "median_end_to_end_seconds": 8.786945215,
+      "maximum_constraint_violation_m": 0.0
+    }
+  },
+  "case_median_final_aep_gwh": {
+    "t14_spacing4_amalia_north_island": {
+      "t14_boundary_grid": 1167.774117603319,
+      "t14_direct": 1099.0273423300046,
+      "t14_grid": 1110.8812668266826
+    },
+    "t14_spacing4_amalia_ukiah": {
+      "t14_boundary_grid": 1266.8199156224182,
+      "t14_direct": 1186.605778089278,
+      "t14_grid": 1194.9605762254173
+    },
+    "t14_spacing4_amalia_victorville": {
+      "t14_boundary_grid": 1374.5447542605689,
+      "t14_direct": 1307.9987494932,
+      "t14_grid": 1316.9244607445016
+    },
+    "t14_spacing4_circle_north_island": {
+      "t14_boundary_grid": 1182.1960583247142,
+      "t14_direct": 1122.3227815860264,
+      "t14_grid": 1131.6790150371328
+    },
+    "t14_spacing4_square_north_island": {
+      "t14_boundary_grid": 1178.4167249926643,
+      "t14_direct": 1113.1019088586295,
+      "t14_grid": 1126.5177128154082
+    },
+    "t14_spacing6_amalia_north_island": {
+      "t14_boundary_grid": 1292.2818403967276,
+      "t14_direct": 1257.8951191169567,
+      "t14_grid": 1257.2785666390744
+    },
+    "t14_spacing8_amalia_north_island": {
+      "t14_boundary_grid": 1345.9291075481092,
+      "t14_direct": 1324.530205613683,
+      "t14_grid": 1323.3208962426174
+    }
+  },
+  "provenance": {
+    "remote_result_root": "/home/gp.sc.cc.tohoku.ac.jp/niko/research/fode-hpc-wflop-core99/results/core99/formal/T14/cb467dc",
+    "raw_manifest_sha256": "0aa90284729b104117f9fc39dc307754e3e2c19692c62429e3b4ebd1bb251af4",
+    "runner_log_sha256": "d0ec491e2ea509879abd3cfaab1c2b5286dc49653f330d0113ce6b6c2dded24e",
+    "runner_exit_receipt_sha256": "d62aef0415869d55c6049f9713c9943d0f6084b9dc9bec3da48d5adcb54a8534",
+    "runner_exit_code": 0
+  },
+  "claim_boundary": "Academic declared reproduction of the target parameterization and paper-native case/start matrix using a deterministic feasibility-first parallel evolution strategy. The receipt does not claim author-SNOPT, exact-gradient, RNG, or numerical replay; representation rankings are evidence for this registered reconstruction."
+}

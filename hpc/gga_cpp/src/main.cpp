@@ -1,3 +1,55 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: shared production C++ executable for GGA offshore
+layout/cable source replay and T-MOEA Nysted reconstruction
+Paper titles and DOIs: A Geometry-Guided Genetic Algorithm for Integrated
+Offshore Wind Farm Layout and Electrical Cable Routing Optimization,
+10.1016/j.apenergy.2026.127895; A Topology-Driven Multi-Objective Evolutionary
+Algorithm for Offshore Wind Farm Layout Optimization,
+10.1109/CPEEE69412.2026.11521465
+Public source/data and pinned revision: https://github.com/zbh0528/WFLO-GGA,
+commit 6ce41326e6c1d3685a01e038baf6d1d07aa46126; no public T-MOEA method source
+was found
+Paper/source-provided components: GGA MATLAB behavior, eight offshore problem
+snapshots, layout/cable evaluator, geometric operators, and router; the T-MOEA
+paper provides Jensen wake Eqs. (2)-(3), biobjective formulation, NSGA-II
+selection, single-point crossover, topology mutation including Eq. (16),
+random swap, population 30, and 3000 complete fitness evaluations
+Known missing information: GGA source has no standard redistribution license
+and does not freeze every runtime seed; T-MOEA omits its original candidate
+set, seed, cable transition/router identity, k, variation probabilities,
+duplicate repair, parent-equality rule, tie rules, and reference front
+Known paper/source conflicts: the related GGA assets are same-author evidence
+for T-MOEA but are not proven identical to the unavailable T-MOEA experiment;
+the historical T-MOEA transition used an Eq. (16) complement interpretation
+that required correction
+Resolution and reconstruction: pin GGA source behavior and problem snapshots
+as a non-vendored oracle; keep the historical T-MOEA identity; add a separate
+paper-Eq.16-v2 identity that excludes every pre-mutation site and freezes all
+omitted controls, exact physical FES, counter randomness, and CPU receipts
+Method evidence tier: M3_DECLARED_COMPLETION.
+Problem evidence tier: P2_CITATION_SAME_AUTHOR.
+Method semantic IDs: gga_source_replay_v1;
+tmoea_nysted_gga_asset_reconstruction_v1 (historical);
+tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2 (corrected R4)
+Problem semantic IDs: gga2026_layout_cable;
+geojson_radians_ct_rss_repaired_v1 on the historical
+nysted_gga_asset_reconstruction problem; or
+tmoea_nysted_paper_wake_gga_router_problem_v1 on the corrected
+nysted_tmoea_paper_wake_gga_router_reconstruction problem.
+Training semantic ID: not_applicable.
+Production backend: optimized pure C++ persistent-worker CPU; no Python
+execution path.
+Controlling contracts:
+shared/contracts/gga_problem_semantics.json,
+shared/contracts/tmoea_nysted_reconstruction_execution_contract.json and
+shared/contracts/tmoea_nysted_paper_eq16_r4_execution_contract.json
+Claim boundary: GGA is a pinned behavior/problem replay under its source
+license boundary; both T-MOEA profiles are academically fixed Nysted
+reconstructions using same-author GGA assets.
+Last evidence audit date: 2026-07-29
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "fode/executor.hpp"
 #include "fode/rng.hpp"
 
@@ -17,6 +69,7 @@
 #include <sstream>
 #include <stdexcept>
 #include <string>
+#include <thread>
 #include <utility>
 #include <vector>
 
@@ -961,7 +1014,96 @@ struct RunResult {
     int observed_workers = 0;
     double total_seconds = 0.0;
     double evaluator_seconds = 0.0;
+    struct StageReceipt {
+        double wall_seconds = 0.0;
+        std::uint64_t parallel_regions = 0;
+        std::uint64_t task_items = 0;
+        std::uint64_t participant_activations = 0;
+        int distinct_participants = 0;
+        int peak_region_participants = 0;
+    };
+    struct TmoeaWorkReceipt {
+        std::uint64_t complete_layout_evaluations = 0;
+        std::uint64_t initial_layouts = 0;
+        std::uint64_t offspring_layouts = 0;
+        std::uint64_t ranked_individuals = 0;
+        std::uint64_t tournament_candidates = 0;
+        std::uint64_t parent_equality_resolutions = 0;
+        std::uint64_t crossover_offspring = 0;
+        std::uint64_t duplicate_repairs = 0;
+        std::uint64_t topology_mutation_trials = 0;
+        std::uint64_t topology_relocations = 0;
+        std::uint64_t random_swap_trials = 0;
+        std::uint64_t random_swaps = 0;
+        std::uint64_t environmental_candidates = 0;
+    };
+    StageReceipt initialization_stage;
+    StageReceipt variation_stage;
+    StageReceipt evaluator_stage;
+    StageReceipt selection_stage;
+    TmoeaWorkReceipt tmoea_work;
+    std::string final_population_hash;
+    std::string nondominated_front_hash;
 };
+
+void add_stage(
+    RunResult::StageReceipt& total,
+    const RunResult::StageReceipt& addition
+) {
+    total.wall_seconds += addition.wall_seconds;
+    total.parallel_regions += addition.parallel_regions;
+    total.task_items += addition.task_items;
+    total.participant_activations += addition.participant_activations;
+    total.distinct_participants = std::max(
+        total.distinct_participants,
+        addition.distinct_participants
+    );
+    total.peak_region_participants = std::max(
+        total.peak_region_participants,
+        addition.peak_region_participants
+    );
+}
+
+RunResult::StageReceipt stage_receipt(
+    double seconds,
+    const fode::PersistentExecutor& executor
+) {
+    const fode::ExecutorWorkReceipt source = executor.work_receipt();
+    return {
+        seconds,
+        source.parallel_regions,
+        source.task_items,
+        source.participant_activations,
+        source.distinct_participants,
+        source.peak_region_participants
+    };
+}
+
+std::string fnv1a64_text(const std::string& text) {
+    std::uint64_t hash = 1469598103934665603ULL;
+    for (const unsigned char byte : text) {
+        hash ^= static_cast<std::uint64_t>(byte);
+        hash *= 1099511628211ULL;
+    }
+    std::ostringstream output;
+    output << "fnv1a64:" << std::hex << std::setfill('0')
+           << std::setw(16) << hash;
+    return output.str();
+}
+
+std::string population_layout_hash(
+    const std::vector<std::vector<int>>& population
+) {
+    std::ostringstream canonical;
+    for (const auto& layout : population) {
+        canonical << '[';
+        for (const int candidate : layout) {
+            canonical << candidate << ',';
+        }
+        canonical << ']';
+    }
+    return fnv1a64_text(canonical.str());
+}
 
 using BiObjectives = std::array<double, 2>;
 
@@ -1126,9 +1268,53 @@ int bi_tournament(
     return std::min(left, right);
 }
 
-void tmoea_topology_mutation(
+int tmoea_replacement_candidate(
+    const std::vector<int>& pre_mutation_layout,
+    int isolated,
+    const Point& centroid,
+    const Problem& problem,
+    bool paper_equation_16
+) {
+    std::vector<char> used(problem.candidates.size(), 0);
+    for (const int candidate : pre_mutation_layout) {
+        used[static_cast<std::size_t>(candidate)] = 1;
+    }
+    if (!paper_equation_16) {
+        used[static_cast<std::size_t>(
+            pre_mutation_layout[static_cast<std::size_t>(isolated)]
+        )] = 0;
+    }
+    std::vector<std::pair<double, int>> available;
+    available.reserve(
+        problem.candidates.size() - pre_mutation_layout.size()
+        + (paper_equation_16 ? 0U : 1U)
+    );
+    for (int candidate = 0;
+         candidate < static_cast<int>(problem.candidates.size());
+         ++candidate) {
+        if (used[static_cast<std::size_t>(candidate)] != 0) {
+            continue;
+        }
+        const Point& point =
+            problem.candidates[static_cast<std::size_t>(candidate)];
+        available.emplace_back(
+            std::hypot(point.x - centroid.x, point.y - centroid.y),
+            candidate
+        );
+    }
+    if (available.empty()) {
+        throw std::runtime_error(
+            "T-MOEA topology mutation has no Eq. (16) complement candidate"
+        );
+    }
+    std::stable_sort(available.begin(), available.end());
+    return available.front().second;
+}
+
+bool tmoea_topology_mutation(
     std::vector<int>& layout,
-    const Problem& problem
+    const Problem& problem,
+    bool paper_equation_16
 ) {
     constexpr int nearest_neighbors = 5;
     const int size = static_cast<int>(layout.size());
@@ -1239,35 +1425,16 @@ void tmoea_topology_mutation(
             best_isolation = isolation;
         }
     }
-    std::vector<char> used(problem.candidates.size(), 0);
-    for (const int candidate : layout) {
-        used[static_cast<std::size_t>(candidate)] = 1;
-    }
-    used[static_cast<std::size_t>(
-        layout[static_cast<std::size_t>(isolated)]
-    )] = 0;
-    std::vector<std::pair<double, int>> available;
-    available.reserve(
-        problem.candidates.size() - layout.size() + 1
-    );
-    for (int candidate = 0;
-         candidate < static_cast<int>(problem.candidates.size());
-         ++candidate) {
-        if (used[static_cast<std::size_t>(candidate)] != 0) {
-            continue;
-        }
-        const Point& point =
-            problem.candidates[static_cast<std::size_t>(candidate)];
-        available.emplace_back(
-            std::hypot(point.x - centroid.x, point.y - centroid.y),
-            candidate
+    const int previous = layout[static_cast<std::size_t>(isolated)];
+    layout[static_cast<std::size_t>(isolated)] =
+        tmoea_replacement_candidate(
+            layout,
+            isolated,
+            centroid,
+            problem,
+            paper_equation_16
         );
-    }
-    std::stable_sort(available.begin(), available.end());
-    if (!available.empty()) {
-        layout[static_cast<std::size_t>(isolated)] =
-            available.front().second;
-    }
+    return layout[static_cast<std::size_t>(isolated)] != previous;
 }
 
 RunResult optimize(
@@ -1703,7 +1870,8 @@ RunResult optimize_tmoea(
     const Problem& problem,
     std::uint64_t budget,
     std::uint64_t seed,
-    int workers
+    int workers,
+    bool paper_equation_16
 ) {
     const auto started = Clock::now();
     constexpr int population_size = 30;
@@ -1724,15 +1892,25 @@ RunResult optimize_tmoea(
     std::vector<std::vector<int>> population(
         static_cast<std::size_t>(population_size)
     );
+    executor.reset_work_receipt();
+    const auto initialization_started = Clock::now();
     executor.parallel_for(0, population_size, [&](int individual) {
         population[static_cast<std::size_t>(individual)] =
             random_ordered_layout(problem, rng, 4000, individual);
     });
+    const RunResult::StageReceipt initialization_stage = stage_receipt(
+        std::chrono::duration<double>(
+            Clock::now() - initialization_started
+        ).count(),
+        executor
+    );
     std::vector<Evaluation> values(static_cast<std::size_t>(population_size));
     double evaluator_seconds = 0.0;
+    RunResult::StageReceipt evaluator_stage;
     auto evaluate_batch = [&](const std::vector<std::vector<int>>& layouts,
                               std::vector<Evaluation>& output,
                               int count) {
+        executor.reset_work_receipt();
         const auto evaluation_started = Clock::now();
         executor.parallel_for(0, count, [&](int row) {
             output[static_cast<std::size_t>(row)] = evaluate(
@@ -1741,19 +1919,35 @@ RunResult optimize_tmoea(
                 EvaluationMode::TmoeaAepAndCable
             );
         });
-        evaluator_seconds += std::chrono::duration<double>(
+        const double seconds = std::chrono::duration<double>(
             Clock::now() - evaluation_started
         ).count();
+        evaluator_seconds += seconds;
+        add_stage(evaluator_stage, stage_receipt(seconds, executor));
     };
     evaluate_batch(population, values, population_size);
     std::uint64_t fes = population_size;
     std::uint64_t generation = 0;
+    RunResult::StageReceipt variation_stage;
+    RunResult::StageReceipt selection_stage;
+    RunResult::TmoeaWorkReceipt work;
+    work.complete_layout_evaluations = population_size;
+    work.initial_layouts = population_size;
     while (fes < budget) {
         ++generation;
         const int count = static_cast<int>(std::min<std::uint64_t>(
             population_size, budget - fes
         ));
+        const auto parent_ranking_started = Clock::now();
         const BiRankedPopulation ranked = bi_rank_and_crowding(values);
+        selection_stage.wall_seconds += std::chrono::duration<double>(
+            Clock::now() - parent_ranking_started
+        ).count();
+        selection_stage.task_items += population_size;
+        selection_stage.participant_activations += 1;
+        selection_stage.distinct_participants = 1;
+        selection_stage.peak_region_participants = 1;
+        work.ranked_individuals += population_size;
         auto select_parent = [&](int child, int which) {
             const int first = rng.integer(
                 0,
@@ -1774,10 +1968,22 @@ RunResult optimize_tmoea(
         std::vector<std::vector<int>> offspring(
             static_cast<std::size_t>(count)
         );
+        std::vector<char> parent_equality(
+            static_cast<std::size_t>(count), 0
+        );
+        std::vector<char> topology_relocated(
+            static_cast<std::size_t>(count), 0
+        );
+        std::vector<char> random_swapped(
+            static_cast<std::size_t>(count), 0
+        );
+        executor.reset_work_receipt();
+        const auto variation_started = Clock::now();
         executor.parallel_for(0, count, [&](int child_index) {
             int first = select_parent(child_index, 0);
             int second = select_parent(child_index, 1);
             if (first == second) {
+                parent_equality[static_cast<std::size_t>(child_index)] = 1;
                 second = (second + 1) % population_size;
             }
             const int cut = rng.integer(
@@ -1812,10 +2018,12 @@ RunResult optimize_tmoea(
                 4006,
                 child_index
             );
-            tmoea_topology_mutation(
-                child,
-                problem
-            );
+            topology_relocated[static_cast<std::size_t>(child_index)] =
+                tmoea_topology_mutation(
+                    child,
+                    problem,
+                    paper_equation_16
+                ) ? 1 : 0;
             if (rng.uniform(
                     generation,
                     4009,
@@ -1843,15 +2051,48 @@ RunResult optimize_tmoea(
                     child[static_cast<std::size_t>(first_position)],
                     child[static_cast<std::size_t>(second_position)]
                 );
+                random_swapped[static_cast<std::size_t>(child_index)] = 1;
             }
             offspring[static_cast<std::size_t>(child_index)] =
                 std::move(child);
         });
+        add_stage(
+            variation_stage,
+            stage_receipt(
+                std::chrono::duration<double>(
+                    Clock::now() - variation_started
+                ).count(),
+                executor
+            )
+        );
+        work.offspring_layouts += static_cast<std::uint64_t>(count);
+        work.tournament_candidates +=
+            static_cast<std::uint64_t>(count) * 4U;
+        work.parent_equality_resolutions += static_cast<std::uint64_t>(
+            std::count(parent_equality.begin(), parent_equality.end(), 1)
+        );
+        work.crossover_offspring += static_cast<std::uint64_t>(count);
+        work.duplicate_repairs += static_cast<std::uint64_t>(count);
+        work.topology_mutation_trials += static_cast<std::uint64_t>(count);
+        work.topology_relocations += static_cast<std::uint64_t>(
+            std::count(
+                topology_relocated.begin(),
+                topology_relocated.end(),
+                1
+            )
+        );
+        work.random_swap_trials += static_cast<std::uint64_t>(count);
+        work.random_swaps += static_cast<std::uint64_t>(
+            std::count(random_swapped.begin(), random_swapped.end(), 1)
+        );
         std::vector<Evaluation> offspring_values(
             static_cast<std::size_t>(count)
         );
         evaluate_batch(offspring, offspring_values, count);
+        work.complete_layout_evaluations +=
+            static_cast<std::uint64_t>(count);
 
+        const auto environmental_selection_started = Clock::now();
         struct Candidate {
             Evaluation value;
             std::vector<int> layout;
@@ -1879,6 +2120,10 @@ RunResult optimize_tmoea(
         }
         const BiRankedPopulation combined_ranked =
             bi_rank_and_crowding(combined_values);
+        work.ranked_individuals +=
+            static_cast<std::uint64_t>(population_size + count);
+        work.environmental_candidates +=
+            static_cast<std::uint64_t>(population_size + count);
         std::vector<int> order(candidates.size());
         std::iota(order.begin(), order.end(), 0);
         std::stable_sort(
@@ -1916,8 +2161,15 @@ RunResult optimize_tmoea(
                     candidates[static_cast<std::size_t>(selected)].layout
                 );
         }
+        selection_stage.wall_seconds += std::chrono::duration<double>(
+            Clock::now() - environmental_selection_started
+        ).count();
+        selection_stage.task_items +=
+            static_cast<std::uint64_t>(population_size + count);
+        selection_stage.participant_activations += 1;
         fes += static_cast<std::uint64_t>(count);
     }
+    const auto final_ranking_started = Clock::now();
     const BiRankedPopulation final_ranked =
         bi_rank_and_crowding(values);
     std::vector<int> front_indices;
@@ -1943,6 +2195,12 @@ RunResult optimize_tmoea(
                 < population[static_cast<std::size_t>(right)];
         }
     );
+    selection_stage.wall_seconds += std::chrono::duration<double>(
+        Clock::now() - final_ranking_started
+    ).count();
+    selection_stage.task_items += population_size;
+    selection_stage.participant_activations += 1;
+    work.ranked_individuals += population_size;
     RunResult result;
     for (const int index : front_indices) {
         result.front.push_back({
@@ -1956,6 +2214,23 @@ RunResult optimize_tmoea(
     result.fes = fes;
     result.generations = generation;
     result.observed_workers = executor.thread_count();
+    result.initialization_stage = initialization_stage;
+    result.variation_stage = variation_stage;
+    result.evaluator_stage = evaluator_stage;
+    result.selection_stage = selection_stage;
+    result.tmoea_work = work;
+    result.final_population_hash = population_layout_hash(population);
+    std::ostringstream canonical_front;
+    canonical_front << std::setprecision(17);
+    for (const auto& member : result.front) {
+        canonical_front << -member.value.aep_kwh << ','
+                        << member.value.cable_cost << ':';
+        for (const int candidate : member.layout) {
+            canonical_front << candidate << ',';
+        }
+        canonical_front << ';';
+    }
+    result.nondominated_front_hash = fnv1a64_text(canonical_front.str());
     result.total_seconds = std::chrono::duration<double>(
         Clock::now() - started
     ).count();
@@ -1968,9 +2243,13 @@ struct Arguments {
     std::filesystem::path output;
     std::string layout_spec;
     std::string algorithm = "gga";
+    std::string tmoea_profile = "historical-v1";
+    std::string execution_mode;
     std::uint64_t seed = 20260316;
     std::uint64_t physical_fes = 3000;
     int workers = 20;
+    int resolved_workers = 20;
+    bool workers_explicit = false;
     bool help = false;
 };
 
@@ -1994,6 +2273,11 @@ Arguments parse_arguments(int argc, char** argv) {
             result.physical_fes = std::stoull(value());
         } else if (flag == "--workers") {
             result.workers = std::stoi(value());
+            result.workers_explicit = true;
+        } else if (flag == "--execution-mode") {
+            result.execution_mode = value();
+        } else if (flag == "--tmoea-profile") {
+            result.tmoea_profile = value();
         } else if (flag == "--evaluate-layout") {
             result.layout_spec = value();
         } else if (flag == "--algorithm") {
@@ -2009,6 +2293,64 @@ Arguments parse_arguments(int argc, char** argv) {
         && result.algorithm != "tmoea") {
         throw std::invalid_argument(
             "--algorithm must be gga, geoga, or tmoea"
+        );
+    }
+    if (result.tmoea_profile != "historical-v1"
+        && result.tmoea_profile != "paper-eq16-v2") {
+        throw std::invalid_argument(
+            "--tmoea-profile must be historical-v1 or paper-eq16-v2"
+        );
+    }
+    if (result.algorithm != "tmoea"
+        && result.tmoea_profile != "historical-v1") {
+        throw std::invalid_argument(
+            "--tmoea-profile is valid only with --algorithm tmoea"
+        );
+    }
+    if (result.algorithm == "tmoea"
+        && result.tmoea_profile == "paper-eq16-v2"
+        && !result.workers_explicit) {
+        result.workers = 0;
+    }
+    if (result.workers < 0) {
+        throw std::invalid_argument("--workers cannot be negative");
+    }
+    if (result.workers == 0) {
+        const unsigned int visible = std::thread::hardware_concurrency();
+        result.resolved_workers =
+            visible == 0U ? 1 : static_cast<int>(visible);
+    } else {
+        result.resolved_workers = result.workers;
+    }
+    if (result.execution_mode.empty()) {
+        result.execution_mode =
+            result.tmoea_profile == "paper-eq16-v2" ? "auto" : "cpu";
+    }
+    if (result.execution_mode == "hybrid"
+        || result.execution_mode == "gpu") {
+        throw std::invalid_argument(
+            "execution mode " + result.execution_mode
+            + " is recognized but unavailable; no hidden CPU fallback "
+              "was performed"
+        );
+    }
+    if (result.execution_mode != "cpu"
+        && result.execution_mode != "auto") {
+        throw std::invalid_argument(
+            "--execution-mode must be cpu, auto, hybrid, or gpu"
+        );
+    }
+    if (
+        result.execution_mode == "auto"
+        && (
+            result.algorithm != "tmoea"
+            || result.tmoea_profile != "paper-eq16-v2"
+        )
+    ) {
+        throw std::invalid_argument(
+            "execution mode auto is recognized but unavailable for this "
+            "profile; it is admitted only for T-MOEA paper-eq16-v2, and no "
+            "hidden CPU fallback was performed"
         );
     }
     return result;
@@ -2027,6 +2369,21 @@ std::vector<int> parse_layout(const std::string& specification) {
     return layout;
 }
 
+std::string stage_to_json(const RunResult::StageReceipt& stage) {
+    std::ostringstream output;
+    output << std::setprecision(17)
+           << "{\"wall_seconds\":" << stage.wall_seconds
+           << ",\"parallel_regions\":" << stage.parallel_regions
+           << ",\"task_items\":" << stage.task_items
+           << ",\"participant_activations\":"
+           << stage.participant_activations
+           << ",\"distinct_participants\":"
+           << stage.distinct_participants
+           << ",\"peak_region_participants\":"
+           << stage.peak_region_participants << '}';
+    return output.str();
+}
+
 std::string to_json(
     const Problem& problem,
     const Arguments& arguments,
@@ -2036,6 +2393,8 @@ std::string to_json(
     const bool evaluation_only = !arguments.layout_spec.empty();
     const bool geoga = arguments.algorithm == "geoga";
     const bool tmoea = arguments.algorithm == "tmoea";
+    const bool tmoea_v2 =
+        tmoea && arguments.tmoea_profile == "paper-eq16-v2";
     output << std::setprecision(17);
     output << "{\n"
            << "  \"schema_version\": 1,\n"
@@ -2048,7 +2407,13 @@ std::string to_json(
                            ? "GEOGA_DECLARED_RECONSTRUCTION_EVALUATOR"
                            : (
                                tmoea
-                                   ? "TMOEA_NYSTED_RECONSTRUCTION_EVALUATOR"
+                                   ? (
+                                       tmoea_v2
+                                           ? "TMOEA_NYSTED_PAPER_WAKE_"
+                                             "GGA_ROUTER_EVALUATOR_V1"
+                                           : "TMOEA_NYSTED_"
+                                             "RECONSTRUCTION_EVALUATOR"
+                                   )
                                    : "GGA_CPP_REPAIRED_EVALUATOR"
                            )
                    )
@@ -2057,7 +2422,13 @@ std::string to_json(
                            ? "GEOGA_DECLARED_RECONSTRUCTION_V1"
                            : (
                                tmoea
-                                   ? "TMOEA_NYSTED_GGA_ASSET_RECONSTRUCTION_V1"
+                                   ? (
+                                       tmoea_v2
+                                           ? "TMOEA_NYSTED_GGA_ASSET_"
+                                             "RECONSTRUCTION_PAPER_EQ16_V2"
+                                           : "TMOEA_NYSTED_GGA_ASSET_"
+                                             "RECONSTRUCTION_V1"
+                                   )
                                    : "GGA_CPP_HPC_FULL"
                            )
                    )
@@ -2071,11 +2442,21 @@ std::string to_json(
                    ? "admitted_gga_problem_asset_proxy"
                    : (
                        tmoea
-                           ? "nysted_gga_asset_reconstruction"
+                           ? (
+                               tmoea_v2
+                                   ? "nysted_tmoea_paper_wake_"
+                                     "gga_router_reconstruction"
+                                   : "nysted_gga_asset_reconstruction"
+                           )
                            : "gga2026_layout_cable"
                    )
            ) << "\",\n"
-           << "  \"problem_semantics_id\": \"" << problem.profile << "\",\n"
+           << "  \"problem_semantics_id\": \""
+           << (
+               tmoea_v2
+                   ? "tmoea_nysted_paper_wake_gga_router_problem_v1"
+                   : problem.profile
+           ) << "\",\n"
            << "  \"case_id\": \"" << problem.case_id << "\",\n"
            << "  \"seed\": " << arguments.seed << ",\n"
            << "  \"physical_fes\": " << result.fes << ",\n"
@@ -2134,8 +2515,69 @@ std::string to_json(
     if (!result.front.empty()) {
         output << "\n  ";
     }
-    output << "],\n"
-           << "  \"timing_seconds\": {\n"
+    output << "],\n";
+    if (tmoea_v2) {
+        output
+            << "  \"method_semantic_id\": "
+               "\"tmoea_nysted_gga_asset_reconstruction_"
+               "paper_eq16_v2\",\n"
+            << "  \"execution_profile_id\": "
+               "\"tmoea_nysted_paper_eq16_cpu_r4_v2\",\n"
+            << "  \"problem_asset_sha256\": "
+               "\"920cb61b0dc1415af4b6908252799d703c884f2eeaec9ba7b9590c42d40791c4\",\n"
+            << "  \"requested_execution_mode\": \""
+            << arguments.execution_mode << "\",\n"
+            << "  \"resolved_execution_mode\": \"cpu\",\n"
+            << "  \"resolved_workers\": "
+            << arguments.resolved_workers << ",\n"
+            << "  \"stage_receipts\": {\n"
+            << "    \"initialization\": "
+            << stage_to_json(result.initialization_stage) << ",\n"
+            << "    \"variation_repair\": "
+            << stage_to_json(result.variation_stage) << ",\n"
+            << "    \"evaluator\": "
+            << stage_to_json(result.evaluator_stage) << ",\n"
+            << "    \"selection_serialization\": "
+            << stage_to_json(result.selection_stage) << "\n"
+            << "  },\n"
+            << "  \"work_receipt\": {\n"
+            << "    \"complete_layout_evaluations\": "
+            << result.tmoea_work.complete_layout_evaluations << ",\n"
+            << "    \"initial_layouts\": "
+            << result.tmoea_work.initial_layouts << ",\n"
+            << "    \"offspring_layouts\": "
+            << result.tmoea_work.offspring_layouts << ",\n"
+            << "    \"ranked_individuals\": "
+            << result.tmoea_work.ranked_individuals << ",\n"
+            << "    \"tournament_candidates\": "
+            << result.tmoea_work.tournament_candidates << ",\n"
+            << "    \"parent_equality_resolutions\": "
+            << result.tmoea_work.parent_equality_resolutions << ",\n"
+            << "    \"crossover_offspring\": "
+            << result.tmoea_work.crossover_offspring << ",\n"
+            << "    \"duplicate_repairs\": "
+            << result.tmoea_work.duplicate_repairs << ",\n"
+            << "    \"topology_mutation_trials\": "
+            << result.tmoea_work.topology_mutation_trials << ",\n"
+            << "    \"topology_relocations\": "
+            << result.tmoea_work.topology_relocations << ",\n"
+            << "    \"random_swap_trials\": "
+            << result.tmoea_work.random_swap_trials << ",\n"
+            << "    \"random_swaps\": "
+            << result.tmoea_work.random_swaps << ",\n"
+            << "    \"environmental_candidates\": "
+            << result.tmoea_work.environmental_candidates << "\n"
+            << "  },\n"
+            << "  \"final_population_hash\": \""
+            << result.final_population_hash << "\",\n"
+            << "  \"nondominated_front_hash\": \""
+            << result.nondominated_front_hash << "\",\n"
+            << "  \"claim_boundary\": "
+               "\"M3 declared completion on P2 same-author Nysted assets; "
+               "not the unavailable original T-MOEA experiment or reference "
+               "front\",\n";
+    }
+    output << "  \"timing_seconds\": {\n"
            << "    \"end_to_end\": " << result.total_seconds << ",\n"
            << "    \"evaluator\": " << result.evaluator_seconds << ",\n"
            << "    \"algorithm\": "
@@ -2185,10 +2627,12 @@ int main(int argc, char** argv) {
                 << "gga_cpp_hpc --problem CASE.wfp [--physical-fes N] "
                 << "[--workers N] [--seed N] [--output FILE] "
                 << "[--algorithm gga|geoga|tmoea] "
+                << "[--tmoea-profile historical-v1|paper-eq16-v2] "
+                << "[--execution-mode cpu|auto|hybrid|gpu] "
                 << "[--evaluate-layout i0,i1,...]\n";
             return 0;
         }
-        if (arguments.problem.empty() || arguments.workers <= 0
+        if (arguments.problem.empty() || arguments.resolved_workers <= 0
             || arguments.physical_fes == 0) {
             throw std::invalid_argument(
                 "--problem and positive work settings are required"
@@ -2202,21 +2646,22 @@ int main(int argc, char** argv) {
                     problem,
                     arguments.physical_fes,
                     arguments.seed,
-                    arguments.workers
+                    arguments.resolved_workers
                 );
             } else if (arguments.algorithm == "tmoea") {
                 result = optimize_tmoea(
                     problem,
                     arguments.physical_fes,
                     arguments.seed,
-                    arguments.workers
+                    arguments.resolved_workers,
+                    arguments.tmoea_profile == "paper-eq16-v2"
                 );
             } else {
                 result = optimize(
                     problem,
                     arguments.physical_fes,
                     arguments.seed,
-                    arguments.workers
+                    arguments.resolved_workers
                 );
             }
         } else {

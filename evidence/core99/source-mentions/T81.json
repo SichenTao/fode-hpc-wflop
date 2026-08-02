@@ -1,0 +1,16 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [
+    "https://github.com/NREL/floris"
+  ],
+  "corpus_id": "T81",
+  "doi": "10.1016/j.apenergy.2021.117947",
+  "embedded_annotation_asset_urls": [],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "fd0c75fbe49b81d7514f4565c2dd1887834087e7528b63be1d40fa58a5425adc",
+  "private_text_sha256": "4b6262fd7d114714a6756a99afdf365bf2f1516b21e53319d3804d5eeca1e158",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": [
+    "https://github.com/NREL/floris"
+  ]
+}

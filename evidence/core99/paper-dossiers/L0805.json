@@ -1,0 +1,149 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "Retain all four NREL-5MW paper cases, 2D spacing, initial sample counts, target layout-evaluation totals and native repeat counts.",
+    "Use the CC BY-NC-SA arXiv source as a manuscript and figure oracle; it contains no executable code or data.",
+    "Restrict PCE cross-validation to the largest identifiable total degree eight under the paper's 50 samples.",
+    "Replace the underdetermined full quadratic trend by identifiable additive quadratic regression and use rank-one Kriging Cholesky updates.",
+    "Correct printed Equation 21 to standard best-observed EI and declare the omitted DAKOTA variance completion.",
+    "Reconstruct the unavailable wind distribution and use declared Gaussian and ADM-Gaussian proxies without making FLORIS or CFD replay claims.",
+    "Execute 30 runs each for Cases I-III and one Case-IV run with all available Waffle cores after one/all-core H6."
+  ],
+  "corpus_id": "L0805",
+  "dossier_status": "h5_admitted",
+  "formal_status": "runner_ready_for_waffle_after_l0649",
+  "hpc_admission": {
+    "H0": "complete_formula_rank_source_protocol_and_complexity_audit",
+    "H1": "complete_truth_surrogate_acquisition_and_genetic_work_decomposition",
+    "H2": "complete_persistent_team_fixed_slot_and_recursive_surrogate_analysis",
+    "H3": "complete_pure_cpp_pce_kriging_msp_ei_ga_implementation",
+    "H4": "complete_local_caseiii_one_twenty_worker_profile",
+    "H5": "pass_case_contract_pce_accuracy_ei_determinism_and_participation",
+    "H6": "pass_local_provisional_waffle_authoritative_runner_ready"
+  },
+  "missing_information": [
+    "author FLORIS DAKOTA and modified OpenFOAM code plus exact version and option state",
+    "machine-readable wind rose and NREL power-curve revision",
+    "PCE samples basis selected orders and cross-validation partitions",
+    "Kriging kernel trend rank handling nugget posterior variance and DAKOTA state",
+    "GA operators seeds layouts histories and per-run response arrays",
+    "ADM-RANS source mesh fields boundary conditions and all high-fidelity responses"
+  ],
+  "paper": {
+    "authors": "Yixiao Shao and Zhenfan Wang and Shine Win Naung and Kai Zhang and Yufeng Yao and Dai Zhou",
+    "doi": "10.1016/j.energy.2025.138820",
+    "pdf_basename": "2025_Shao_Towards_high_fidelity_wind_farm_layout_optimization_using_polynomial_chaos_expansion_and_Kriging_model.pdf",
+    "pdf_sha256": "eed96b6f8e1264a167fa2990e2c6a0437fcd29db762bbc1c5d3d0807c1113360",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV5",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D",
+    "secondary_review_classes": "REV2",
+    "title": "Towards high-fidelity wind farm layout optimization using polynomial chaos expansion and Kriging model",
+    "venue": "Energy",
+    "year": 2025
+  },
+  "paper_linked_public_asset_candidates": [
+    "https://arxiv.org/abs/2502.11088",
+    "https://www.sciencedirect.com/science/article/pii/S0360544225044627"
+  ],
+  "paper_source_conflicts": [
+    "Printed Equation 21 uses the current prediction instead of the historical best observation required by Equation 20 and standard EI.",
+    "Full quadratic DAKOTA trend term counts exceed the paper initial sample counts for Cases I-III.",
+    "The maximum stated PCE degree ten requires 66 bivariate total-degree terms while only 50 samples are used.",
+    "The manuscript source has no program or arrays and the final paper states that data are available on request.",
+    "The ADM-RANS assets needed for Case IV are absent, so the declared proxy cannot reproduce author CFD numbers."
+    ,"Case IV labels 108.51 MW for eight 5-MW turbines, exceeding the 40-MW instantaneous farm limit; this is treated as an unnormalized direction aggregate or unit-label inconsistency."
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 12,
+    "text_sha256": "33cafae6d16d9dedd0322fd1d1f1f562efd14fb3b16c07e4ca35c1705048fa4d"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [676, 678],
+    "embedded_annotation_urls": [],
+    "status": "public_arxiv_manuscript_source_and_no_code_boundary_audited"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "flexible equation and lifecycle reproduction on declared Gaussian and ADM-Gaussian proxies; not author FLORIS DAKOTA OpenFOAM ADM-CFD random stream layouts numerical tables or timing replay",
+    "execution_wave": "REV5",
+    "package_status": "h5_admitted_h6_and_formal_ready",
+    "scope_status": "paper_paired_hpc_implemented",
+    "target_contribution_type": "scaling_computation_or_reproducible_execution"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "paper_case_table",
+      "resolution": "distinct grid nodes with minimum centre spacing two rotor diameters; deterministic feasible repair",
+      "status": "implemented_and_validated"
+    },
+    "decision_variables": {
+      "authority": "paper",
+      "resolution": "fixed-cardinality selections of 8 16 32 and 8 turbine nodes from 9x9 13x13 17x17 and 9x9 grids",
+      "status": "implemented"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper_plus_declared_completion",
+      "resolution": "canonical sorted grid-node layout encoded as normalized Cartesian coordinates for Kriging",
+      "status": "implemented"
+    },
+    "initialization": {
+      "authority": "paper_plus_declared_completion",
+      "resolution": "deterministic feasible grid LHS with 5d samples for Cases I-III and 10d for Case IV",
+      "status": "implemented"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper_figures_and_text",
+      "resolution": "30 independent runs for Cases I-III and one Case-IV run; record AEP physical work surrogate FES stages history and hashes",
+      "status": "implemented_runner_ready"
+    },
+    "objective_and_direction": {
+      "authority": "paper",
+      "resolution": "maximize PCE or high-fidelity-proxy annual energy production",
+      "status": "implemented"
+    },
+    "paper_native_cases": {
+      "authority": "paper_table_1_and_figures_10_to_16",
+      "resolution": "all four native case sizes with target totals 343 567 839 and 272",
+      "status": "implemented"
+    },
+    "parameters": {
+      "authority": "paper_plus_cited_predecessor_plus_declared_completion",
+      "resolution": "D126m spacing2D PCE50 GA population50 crossover0.95 mutation0.15 generations1000 EI0.1 and explicit surrogate completions",
+      "status": "implemented_and_registered"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper_reported_run_figures",
+      "resolution": "execute to the paper-reported target layout totals and separately count 50 or 8 wake states per truth call",
+      "status": "implemented_and_audited"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "paper_plus_mathematical_completion",
+      "resolution": "fit cross-validated identifiable PCE then additive-quadratic residual Kriging; MSP until repeated candidate then corrected EI",
+      "status": "implemented"
+    },
+    "update_order": {
+      "authority": "paper_lifecycle_plus_declared_ga_completion",
+      "resolution": "freeze surrogate per GA generation parallel predict fixed population ordered best selection then parallel offspring generation",
+      "status": "implemented_and_schedule_validated"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_model_roles_plus_declared_proxy_boundary",
+      "resolution": "Gaussian wake equation proxy for low fidelity and asymmetric ADM-Gaussian response proxy for high fidelity",
+      "status": "implemented_as_declared_proxy"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper_figures_plus_declared_reconstruction",
+      "resolution": "licensed-figure-derived 72 directions truncated-Weibull 22 speeds 50-point common-random LHS and eight Case-IV directions",
+      "status": "implemented_and_disclosed"
+    }
+  }
+}

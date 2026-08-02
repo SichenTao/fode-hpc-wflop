@@ -1,0 +1,26 @@
+{
+  "schema_version": 1,
+  "registry_id": "gao_tao_wflop_scientific_fact_registry_v1",
+  "last_evidence_audit_date": "2026-07-30",
+  "implementation_unit_globs": [
+    "hpc/**/*.cpp",
+    "hpc/**/*.hpp"
+  ],
+  "authoritative_paper_identity": "docs/paper_package_completion.tsv",
+  "authoritative_source_evidence": "docs/source-dossiers/*.json",
+  "authoritative_problem_identity": "docs/problem_package_registry.tsv",
+  "authoritative_reconstruction_decisions": "shared/contracts/reconstruction-decisions/*.json",
+  "authoritative_discrepancies": "docs/semantic_discrepancy_ledger.tsv",
+  "source_view_audit": "scripts/audit_source_fact_declarations.py",
+  "required_source_view_fields": [
+    "implementation unit",
+    "paper title and DOI or shared-infrastructure declaration",
+    "public code/data/model authority",
+    "missing or conflicting fields",
+    "reconstruction action",
+    "method and problem semantic identities",
+    "controlling contract",
+    "claim boundary"
+  ],
+  "policy": "Machine-readable registries are authoritative. The first non-license source comment is an audited human-readable view and must never upgrade the registered evidence tier."
+}

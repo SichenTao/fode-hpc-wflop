@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T82",
+  "paper": {
+    "title": "Wind Farm Layout Optimization to Minimize the Wake-Induced Turbulence Effect on Wind Turbines",
+    "doi": "10.1016/j.apenergy.2022.119599",
+    "pdf_sha256": "a510f421af5a76142d4f0bb5588a7c329f3aaa4ce777a121f9da95bc325b0a68"
+  },
+  "public_source_search": {
+    "date": "2026-07-31",
+    "queries": [
+      "exact title plus code and GitHub",
+      "DOI plus GitHub",
+      "Lichao Cao plus NSGA-II plus wind farm",
+      "Zhuanghe plus NSGA-II plus wind farm code"
+    ],
+    "result": "no paper-linked public implementation located",
+    "paper_data_statement": "supporting data available from the corresponding author upon reasonable request"
+  },
+  "problem_semantic_id": "t82_cao_power_turbulence_three_case_v1",
+  "method_semantic_id": "t82_nsga2_mo_turbulence_declared_reconstruction_v1",
+  "paper_equations": {
+    "added_turbulence": "Eqs. 1-11, including maximum upstream superposition and ambient quadrature",
+    "power": "Eqs. 12-18, MTG wake, Katic squared-deficit superposition, and probability-weighted farm power",
+    "objectives": "maximize Ptotal and minimize maximum comprehensive inflow streamwise turbulence",
+    "ideal_constraints": "continuous real coordinates in 2 km by 2 km; pair distance greater than 5D",
+    "zhuanghe_constraints": "Eq. 27 boundary and pair distance greater than 4 times the larger rotor diameter"
+  },
+  "paper_native_cases": [
+    {
+      "id": "t82_ideal_case_i_n30",
+      "turbines": 30,
+      "farm": "2 km by 2 km square",
+      "wind": "north to south, 12 m/s, probability 1",
+      "diameter_m": 40.0,
+      "hub_height_m": 60.0,
+      "thrust": 0.88,
+      "ambient_turbulence": 0.1,
+      "power_curve": "P=0.3u^3"
+    },
+    {
+      "id": "t82_ideal_case_ii_n39",
+      "turbines": 39,
+      "farm": "2 km by 2 km square",
+      "wind": "36 ten-degree directions by speeds 8, 12, and 17 m/s",
+      "probability_source": "deterministic numerical digitization of paper Fig. 9",
+      "diameter_m": 40.0,
+      "hub_height_m": 60.0,
+      "thrust": 0.88,
+      "ambient_turbulence": 0.1,
+      "power_curve": "P=0.3u^3"
+    },
+    {
+      "id": "t82_zhuanghe_n72",
+      "turbines": 72,
+      "type_counts": {
+        "GW121_3000": 2,
+        "GW140_3300": 49,
+        "GW171_6450": 21
+      },
+      "boundary": "paper Eq. 27",
+      "wind_direction_source": "deterministic numerical digitization of paper Fig. 20b",
+      "wind_speed_source": "shape-2 Weibull reconstruction constrained to paper annual mean 6.9 m/s, six midpoint probability bins",
+      "ambient_turbulence_source": "deterministic analytic digitization of paper Fig. 21",
+      "unpublished_turbine_completion": "CT=0.8 and cubic-to-rating curves with 3/12/25 m/s cut-in/rated/cut-out"
+    }
+  ],
+  "paper_conflicts": [
+    {
+      "field": "small Zhuanghe turbine rating",
+      "paper_prose": "two 2.3 MW turbines",
+      "paper_figure_and_total": "GW121/3000 and 303.15 MW installed total",
+      "resolution": "3.0 MW controls because 2*3.0+49*3.3+21*6.45=303.15 MW"
+    }
+  ],
+  "missing_information": [
+    "author source and random states",
+    "NSGA-II population, generations, crossover, mutation, termination, and repeat count",
+    "exact Case-II numerical probability matrix",
+    "Zhuanghe original coordinates and numerical wind-resource arrays",
+    "Zhuanghe thrust and power curves",
+    "raw Pareto fronts and optimizer traces"
+  ],
+  "declared_completions": {
+    "optimizer": {
+      "population": 100,
+      "generations": 20,
+      "repeats": 25,
+      "crossover": "Deb simulated binary crossover, probability 0.9, distribution index 20",
+      "mutation": "Deb polynomial mutation, per-coordinate probability 1/(2N), distribution index 20",
+      "selection": "binary tournament by nondomination rank then crowding distance",
+      "reason": "standard NSGA-II completion; twenty generations yields 2100 complete-layout evaluations and is consistent with the plotted complete-solution-set order of magnitude"
+    },
+    "rotor_average": "eight deterministic equal-area rotor samples for Eq. 15 and the turbine-level Eq. 11 quantity",
+    "initialization_and_repair": "deterministic feasible reference lattices, counter-keyed perturbations, and rejection repair respecting each paper boundary and spacing rule"
+  },
+  "formal_protocol": {
+    "semantic_id": "t82_three_case_nsga2_25seed_v1",
+    "case_count": 3,
+    "repeats_per_case": 25,
+    "formal_run_count": 75,
+    "complete_layout_evaluations_per_run": 2100,
+    "total_complete_layout_evaluations": 157500,
+    "target_only": true
+  },
+  "hpc": {
+    "backend": "pure C++20 CPU",
+    "executor": "one persistent all-core team",
+    "parallel_regions": [
+      "initial population construction and constraint repair",
+      "offspring construction and mutation",
+      "complete-layout population evaluation",
+      "nondomination relation rows"
+    ],
+    "mathematical_reformulations": [
+      "wind trigonometry computed once per state and layout",
+      "immutable equal-area rotor quadrature",
+      "single sorted downstream sweep jointly propagates turbulence-dependent wake expansion and power",
+      "fixed-order reductions preserve one/all-core scientific identity"
+    ],
+    "formal_resource_rule": "one process owns all twenty Waffle cores; cases and seeds run sequentially to avoid nested oversubscription"
+  },
+  "claim_boundary": "Academic flexible declared reconstruction of the target method and every paper problem; not author-code, private-data, random-bitstream, or numerical-result replay."
+}

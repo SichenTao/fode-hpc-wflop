@@ -1,0 +1,144 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T84",
+  "paper": {
+    "title": "Wake Expansion Continuation: Multi-Modality Reduction in the Wind Farm Layout Optimization Problem",
+    "doi": "10.1002/we.2692",
+    "venue": "Wind Energy 25 (2022) 1364-1386",
+    "pdf_sha256": "b5d89cb66feb4883b9ce3cedd685d2822af7f8e39515ae838b78581f54dbc382"
+  },
+  "author_assets": {
+    "paper_linked_repository": "https://github.com/byuflowlab/thomas2021-wec",
+    "paper_linked_revision": "8ff27d66079591f25619abeedbfc970d70e2b520",
+    "paper_linked_license_observation": "no LICENSE, COPYING, or README file at the pinned revision",
+    "paper_linked_use": "formula, behavior, numeric-input, driver, and result oracle only; executable author source is not copied",
+    "plantenergy_repository": "https://github.com/byuflowlab/PlantEnergy",
+    "plantenergy_revision": "356fafd95d0ff6396f531f8cc05e4526041df12c",
+    "plantenergy_license": "Apache-2.0",
+    "jensen3d_repository": "https://github.com/byuflowlab/jensen3d",
+    "jensen3d_revision": "08c105334991617eea07f74a8118c9ff6e23c31c",
+    "jensen3d_license_observation": "setup.py declares Apache License, Version 2.0; no standalone LICENSE file was found",
+    "numeric_fixture": "shared/data/core99_t84_public_data.bin",
+    "numeric_fixture_sha256": "ef46821e47e4e13a5bc79a77a25660f7b2b58677496506e4dc03a8c1b92a2d8f"
+  },
+  "open_replacement_dependency": {
+    "name": "NLopt 2.11.0",
+    "revision": "88c424d4f458412787df96fcc95218acbca224fd",
+    "use": "pure-C++ Kraft SLSQP replacement for proprietary SNOPT"
+  },
+  "missing_information": [
+    "SNOPT license and author solver state",
+    "Tapenade derivative-generation environment",
+    "pyOptSparse ALPSO dependency revision and complete state",
+    "exact random states and complete software environment",
+    "machine-readable Table 5-9 optimized layouts and complete convergence histories"
+  ],
+  "paper_source_conflicts": [
+    {
+      "fact": "Case-1 wind speed",
+      "paper": "Section 5.1 states 10 m/s",
+      "source": "directional_windrose.txt and final public runs use 8 m/s",
+      "resolution": "paper-first 10 m/s; exclude the conflicting public Case-1 result from the numeric AEP oracle"
+    },
+    {
+      "fact": "ALPSO population",
+      "paper": "Table 3 states 30",
+      "source": "older drivers use 25 while final drivers use 30",
+      "resolution": "use paper and final-driver value 30"
+    },
+    {
+      "fact": "initial versus final spacing",
+      "paper": "Section 6 describes 1D separation for starts and the optimization uses a 2D distance constraint",
+      "source": "public layout generator and optimizer follow those distinct rules",
+      "resolution": "preserve the 200 public starts unchanged and enforce 2D spacing on final optimized layouts"
+    },
+    {
+      "fact": "Jensen speed-height treatment",
+      "paper": "the two wake models are compared under their published model definitions",
+      "source": "Jensen3D consumes tabulated speed directly while PlantEnergy Bastankhah applies 80 m to 70 m shear",
+      "resolution": "retain the model-specific source semantics instead of forcing a shared shear conversion"
+    }
+  ],
+  "completion_decisions": [
+    "Encode factual V80 power/CT curves, four wind resources, boundaries, and all 200 public starts in a compact provenance-pinned binary fixture.",
+    "Implement Bastankhah-Niayifar with local turbulence and the Jensen cosine/Katic source lineage independently in pure C++.",
+    "Use fixed-width forward automatic differentiation for coordinate derivatives and analytic spacing and boundary Jacobians.",
+    "Use pinned NLopt SLSQP as the declared open replacement for SNOPT.",
+    "Reconstruct augmented-Lagrangian PSO independently with the paper population, inner/outer loops, penalty updates, and exact complete-layout call schedules.",
+    "Retain WEC-D factors 3.0, 2.6, 2.2, 1.8, 1.4, and 1.0; restore the paper's final local-TI treatment after continuation.",
+    "Treat WEC-A/WEC-H tuning and prior-literature comparisons as diagnostics rather than target-method formal roles."
+  ],
+  "problem_semantic_id": "t84_wec_four_case_author_data_v1",
+  "method_semantic_ids": [
+    "t84_slsqp_control_v1",
+    "t84_slsqp_wec_v1",
+    "t84_alpso_control_v1",
+    "t84_alpso_wec_v1"
+  ],
+  "protocol_semantic_id": "t84_table5_9_16roles_200starts_v1",
+  "paper_problem_roles": {
+    "case_1": "16 Vestas V80 turbines, 20 directions, square boundary, paper-first 10 m/s",
+    "case_2": "38 Vestas V80 turbines, 12 Nantucket directions, circular boundary",
+    "case_3": "38 Vestas V80 turbines, 36 Nantucket direction-speed states, circular boundary",
+    "case_4": "60 Vestas V80 turbines, 72 Princess Amalia direction-speed states, 14-facet convex boundary",
+    "minimum_final_spacing": "2 rotor diameters = 160 m",
+    "common_start_count_per_case": 200
+  },
+  "physics": {
+    "bastankhah": "PlantEnergy-lineage Gaussian wake, Niayifar local-TI wake expansion, RSS deficits, model-lineage hub-height shear, and tabulated V80 power/CT",
+    "jensen": "Jensen3D cosine-smoothed partial overlap, Katic RSS deficits, source-lineage direct tabulated wind speed, and tabulated V80 power/CT",
+    "annual_energy": "fixed-order probability-weighted 8760-hour directional sum; the published 0.962 mass for Cases 2 and 3 is retained without renormalization"
+  },
+  "algorithm": {
+    "wec_d_schedule": [3.0, 2.6, 2.2, 1.8, 1.4, 1.0],
+    "slsqp": "exact objective derivatives, analytic constraint Jacobians, paper case/stage tolerances, and 220 declared maximum evaluations per stage as a safety cap",
+    "alpso_population": 30,
+    "alpso_complete_layout_call_budgets": {
+      "case1_control": 20130,
+      "case2_control": 21030,
+      "case3_control": 20280,
+      "case4_control": 20430,
+      "case2_wec": 26460
+    }
+  },
+  "formal_protocol": {
+    "final_roles": 16,
+    "common_author_starts_per_role": 200,
+    "required_target_runs": 3200,
+    "role_definition": "Tables 5-9 final SLSQP, SLSQP+WEC, ALPSO, and reported Case-2 ALPSO+WEC/Jensen combinations",
+    "randomness": "the same deterministic seed index is paired across roles for each public start; exact author streams are not claimed",
+    "reported_outputs": [
+      "initial and final AEP and wake loss",
+      "final feasibility and coordinates",
+      "complete-layout function-call ledger",
+      "stage receipt and optimizer status",
+      "evaluator and end-to-end time",
+      "worker receipt, scientific hash, source commit, executable hash, and data hash"
+    ]
+  },
+  "hpc_execution": {
+    "backend": "pure C++20 CPU-HPC",
+    "evaluator_axis": "independent wind states with fixed slots and fixed-order annual reduction",
+    "slsqp_axis": "all wind states and all forward-AD derivative components are evaluated by one persistent worker team",
+    "alpso_axis": "all population particle layouts are evaluated in parallel; PSO state commit and augmented-Lagrangian updates remain ordered",
+    "determinism": "one/all-core runs retain identical physical work, layouts, evaluations, stages, and scientific hashes",
+    "h6": "one versus every Waffle core for complete Case-4 SLSQP+WEC and Case-2 ALPSO+WEC workflows",
+    "formal_resource_mapping": "20 independent single-worker start processes run concurrently; no nested oversubscription"
+  },
+  "development_evidence_20260801": {
+    "author_initial_aep_max_relative_error": 0.015801,
+    "case2_alpso_wec_complete_calls": 26460,
+    "case2_alpso_wec_one_worker_seconds": 5.23615801,
+    "case2_alpso_wec_twenty_worker_seconds": 0.896143572,
+    "case2_alpso_wec_development_speedup": 5.84299,
+    "case2_common_start0_seed2026088399_alpso_control_aep_gwh": 161.51330142199106,
+    "case2_common_start0_seed2026088399_alpso_wec_aep_gwh": 163.85272108029358,
+    "case2_common_start0_wec_branch_is_distinct": true,
+    "case4_slsqp_wec_one_worker_seconds": 4.574284129,
+    "case4_slsqp_wec_twenty_worker_seconds": 0.720764964,
+    "case4_slsqp_wec_development_speedup": 6.34643,
+    "same_scientific_hashes": true,
+    "note": "local Spark probes are admission evidence; Waffle H6 is authoritative"
+  },
+  "claim_boundary": "source-backed flexible academic reproduction of WEC-D, the four target problems, final 16 algorithm-problem roles, and complete 200-start protocol; not author SNOPT, Tapenade, pyOptSparse, exact environment, exact random stream, or numerical-trajectory replay"
+}

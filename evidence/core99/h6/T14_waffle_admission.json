@@ -1,0 +1,40 @@
+{
+  "claim_boundary": "single central paper case H6 admission for all three representations; not the seven-case 100-start formal matrix",
+  "host": "waffle",
+  "method_semantic_id": "t14_boundary_grid_parameterization_v1",
+  "problem_semantic_id": "t14_stanley_2019_seven_unique_cases_v1",
+  "raw_manifest_sha256": "c6168feccd397aa56845bb5f81f73f227194922a9fe14d60690b2f1b64bdae0e",
+  "runs": {
+    "t14_boundary_grid": {
+      "best_constraint_violation_m": 0.0,
+      "best_final_aep_gwh": 1150.5432579272135,
+      "best_optimization_aep_gwh": 1133.3941695280676,
+      "end_to_end_seconds": 9.197071249,
+      "observed_workers": 17,
+      "physical_fes": 240,
+      "scientific_hash": "f3b67c6ed6a9ab63"
+    },
+    "t14_direct": {
+      "best_constraint_violation_m": 2.5894451027852483e-09,
+      "best_final_aep_gwh": 1095.7606440629368,
+      "best_optimization_aep_gwh": 1093.7646207707114,
+      "end_to_end_seconds": 9.19137621,
+      "observed_workers": 17,
+      "physical_fes": 160,
+      "scientific_hash": "97e2948ac8ff4604"
+    },
+    "t14_grid": {
+      "best_constraint_violation_m": 0.0,
+      "best_final_aep_gwh": 1110.0802063109388,
+      "best_optimization_aep_gwh": 1105.3172531687414,
+      "end_to_end_seconds": 9.038708349,
+      "observed_workers": 17,
+      "physical_fes": 240,
+      "scientific_hash": "a0317d3cebbeb562"
+    }
+  },
+  "schema_version": 1,
+  "source_commit": "e9fe0d4",
+  "status": "pass",
+  "workers": 17
+}

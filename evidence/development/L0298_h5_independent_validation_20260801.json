@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0298",
+  "date": "2026-08-01",
+  "strict_cpp_test": "pass",
+  "independent_python_h5": "pass",
+  "paper_profiles_executed": 9,
+  "paper_roles_executed": 29,
+  "one_four_worker_scientific_identity": true,
+  "validated_fields": [
+    "semantic identifiers",
+    "profile and paper-role cardinality",
+    "capacity and active-cell cardinality",
+    "radial cable cardinality, types, flows and lengths",
+    "coupled objective finiteness and feasibility",
+    "fixed 210 MW Model 2",
+    "outer, cable-particle and hourly-wake physical work",
+    "complete one/four-worker roles, layouts, cable trees, objectives and scientific hash"
+  ],
+  "boundary": "Development H5 admission only; immutable Waffle H6 and 25-seed paper-budget campaign remain pending."
+}

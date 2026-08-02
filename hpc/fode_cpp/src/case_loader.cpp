@@ -1,3 +1,19 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: shared parameterized scalar/discrete WFLOP JSON loader
+Paper title and DOI: thirteen scalar WFLOP packages; see
+docs/scalar_problem_package_registry.tsv
+Paper/source basis: paper-native manifests and hashed local source arrays
+Public asset: per-contract source fields and package registry
+Missing/conflicts: optional fields retain FODE defaults for legacy contracts
+Reconstruction: strict JSON, physical-model, probability, and mask validation
+Method/problem semantic IDs: not_applicable_shared_infrastructure;
+registry_defined
+Controlling contract and claim boundary:
+docs/scalar_problem_package_registry.tsv; P3 never becomes original data
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "fode/case.hpp"
 
 #include <algorithm>
@@ -211,6 +227,61 @@ CaseData parse_case(std::string_view object) {
         std::llround(parse_scalar(raw_value(object, "turbine_count")))
     );
     data.cell_width = parse_scalar(raw_value(object, "cell_width"));
+    auto optional_scalar = [&](std::string_view key, double fallback) {
+        const std::string needle = "\"" + std::string(key) + "\"";
+        return object.find(needle) == std::string_view::npos
+            ? fallback
+            : parse_scalar(raw_value(object, key));
+    };
+    auto optional_string = [&](std::string_view key, std::string fallback) {
+        const std::string needle = "\"" + std::string(key) + "\"";
+        return object.find(needle) == std::string_view::npos
+            ? std::move(fallback)
+            : parse_string(raw_value(object, key));
+    };
+    auto optional_numbers = [&](std::string_view key) {
+        const std::string needle = "\"" + std::string(key) + "\"";
+        return object.find(needle) == std::string_view::npos
+            ? std::vector<double>{}
+            : parse_numbers(raw_value(object, key));
+    };
+    data.rotor_diameter = optional_scalar(
+        "rotor_diameter", data.rotor_diameter
+    );
+    data.hub_height = optional_scalar("hub_height", data.hub_height);
+    data.surface_roughness = optional_scalar(
+        "surface_roughness", data.surface_roughness
+    );
+    data.wake_deficit_coefficient = optional_scalar(
+        "wake_deficit_coefficient", data.wake_deficit_coefficient
+    );
+    data.power_curve_cubic_coefficient = optional_scalar(
+        "power_curve_cubic_coefficient",
+        data.power_curve_cubic_coefficient
+    );
+    data.power_curve_rated_kw = optional_scalar(
+        "power_curve_rated_kw", data.power_curve_rated_kw
+    );
+    data.power_curve_cutin_mps = optional_scalar(
+        "power_curve_cutin_mps", data.power_curve_cutin_mps
+    );
+    data.power_curve_rated_mps = optional_scalar(
+        "power_curve_rated_mps", data.power_curve_rated_mps
+    );
+    data.power_curve_cutout_mps = optional_scalar(
+        "power_curve_cutout_mps", data.power_curve_cutout_mps
+    );
+    data.wake_model = optional_string("wake_model", data.wake_model);
+    data.power_curve_model = optional_string(
+        "power_curve_model", data.power_curve_model
+    );
+    data.terrain_shear_exponent = optional_scalar(
+        "terrain_shear_exponent", data.terrain_shear_exponent
+    );
+    data.gaussian_wake_expansion = optional_scalar(
+        "gaussian_wake_expansion", data.gaussian_wake_expansion
+    );
+    data.terrain_elevation_m = optional_numbers("terrain_elevation_m");
     data.theta = parse_numbers(raw_value(object, "wind_directions_rad"));
     data.velocity = parse_numbers(raw_value(object, "wind_speeds_mps"));
     data.probability = parse_numbers(raw_value(object, "joint_probabilities"));
@@ -238,6 +309,11 @@ CaseData parse_case(std::string_view object) {
         data.probability.end(),
         [](double value) { return std::isfinite(value) && value >= 0.0; }
     );
+    const bool finite_terrain = std::all_of(
+        data.terrain_elevation_m.begin(),
+        data.terrain_elevation_m.end(),
+        [](double value) { return std::isfinite(value); }
+    );
     const double probability_sum = std::accumulate(
         data.probability.begin(),
         data.probability.end(),
@@ -245,7 +321,33 @@ CaseData parse_case(std::string_view object) {
     );
     if (data.case_id.empty()
         || data.rows <= 0 || data.cols <= 0 || data.turbine_count <= 0
-        || data.cell_width <= 0.0 || data.theta.empty()
+        || data.cell_width <= 0.0
+        || data.rotor_diameter <= 0.0
+        || data.hub_height <= 0.0
+        || data.surface_roughness <= 0.0
+        || data.wake_deficit_coefficient <= 0.0
+        || data.power_curve_cubic_coefficient <= 0.0
+        || data.power_curve_rated_kw <= 0.0
+        || data.power_curve_cutin_mps < 0.0
+        || data.power_curve_rated_mps <= data.power_curve_cutin_mps
+        || data.power_curve_cutout_mps <= data.power_curve_rated_mps
+        || (
+            data.wake_model != "jensen_park_overlap_rss"
+            && data.wake_model != "terrain_gaussian_rss"
+        )
+        || (
+            data.power_curve_model != "legacy_cubic"
+            && data.power_curve_model != "cutin_shifted_cubic"
+        )
+        || data.terrain_shear_exponent < 0.0
+        || data.gaussian_wake_expansion <= 0.0
+        || !finite_terrain
+        || (
+            !data.terrain_elevation_m.empty()
+            && static_cast<int>(data.terrain_elevation_m.size())
+                != data.rows * data.cols
+        )
+        || data.theta.empty()
         || data.velocity.empty()
         || data.probability.size()
             != data.theta.size() * data.velocity.size()

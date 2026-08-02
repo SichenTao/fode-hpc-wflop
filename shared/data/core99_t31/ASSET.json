@@ -1,0 +1,25 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T31",
+  "dataset_title": "Synthetic Instances for Large Offshore Wind Farm Layout",
+  "dataset_doi": "10.11583/DTU.13134731",
+  "article_doi": "10.1016/j.cor.2021.105588",
+  "authors": [
+    "Davide Cazzaro",
+    "David Pisinger"
+  ],
+  "version": 1,
+  "official_url": "https://data.dtu.dk/articles/dataset/Synthetic_Instances_for_Large_Offshore_Wind_Farm_Layout/13134731",
+  "download_url": "https://ndownloader.figshare.com/files/25210169",
+  "downloaded_file_id": 25210169,
+  "archive_basename": "VNSforLargeOffshoreWindFarmLayoutOptimization_SyntheticInstances.zip",
+  "archive_size_bytes": 4917751,
+  "archive_md5": "994c1c65356e48749ec57a25bd523c45",
+  "archive_sha256": "17b1147b805f679ed4b25384b74f841681a1e7c6e73798533555cab4c16b80af",
+  "license": {
+    "name": "CC BY-NC-SA 4.0",
+    "url": "https://creativecommons.org/licenses/by-nc-sa/4.0/"
+  },
+  "retrieved_at": "2026-07-31",
+  "redistribution_note": "The archive is preserved byte-for-byte with attribution under its dataset license; generated benchmark results must retain this provenance."
+}

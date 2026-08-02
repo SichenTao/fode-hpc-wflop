@@ -1,0 +1,525 @@
+{
+  "authority_registries": [
+    {
+      "path": "docs/author_lineage_registry.tsv",
+      "sha256": "5b35fcc88814c145a3b979ab572b9df4261a198d5bd613c618a68d8c68a1f08a"
+    },
+    {
+      "path": "docs/lineage_scope_contract.json",
+      "sha256": "eb9eefe69dffc9acd16dd704a2ef64970ba23cf50a06f937efe9987d04fc7e7b"
+    },
+    {
+      "path": "evidence/closure/spark2_completed_suite_reference.json",
+      "sha256": "6adab88205ca3fc3566625a94d1246b71b7181eb3e88f0ab3f6988ec4466e887"
+    },
+    {
+      "path": "formal/contracts/declared_reconstruction_formal_suite_v1.json",
+      "sha256": "8eecc3cddb606c4b5257ee13da8c49e5f2172c42f1435696019bd35c5005a3a8"
+    },
+    {
+      "path": "shared/contracts/evidence_authority_schema.json",
+      "sha256": "e07647008635687f97fd9442454cf1a0b0dc1aa4c7bc0e706a13919d61f81f48"
+    },
+    {
+      "path": "shared/contracts/executable_profile_evidence.json",
+      "sha256": "ddbd75060f2d9a38a21e45fcef038714e47bfd994e87cc39b6f44a93d1141999"
+    },
+    {
+      "path": "shared/contracts/global_execution_capability_matrix.json",
+      "sha256": "5f8a38c00924df9c3db2ea061f525039277de52bcfa46e4ae7998db15cb489a6"
+    }
+  ],
+  "decision_ledgers": [
+    {
+      "path": "docs/semantic_discrepancy_ledger.tsv",
+      "sha256": "5acd2804aacb3a9e8ad68cdaa0f74dcbdda1628686a854ba5c9e06b11a1f91be"
+    },
+    {
+      "path": "shared/contracts/paper_implementation_ledger.tsv",
+      "sha256": "7669cb996671eb9e6ee082767bdf263dd2435820c9c968bdd5fc6eb21bcbfc0e"
+    },
+    {
+      "path": "shared/contracts/reconstruction-decisions/L0726.json",
+      "sha256": "7f46fe9616addc7fd447037460a1432b352371eee83a4ea816a7668af4c928b3"
+    },
+    {
+      "path": "shared/contracts/reconstruction-decisions/S04.json",
+      "sha256": "37c0f9199e1149bc6b319086e49c8ce01441502d0a34d203145e5bfc364c5145"
+    },
+    {
+      "path": "shared/contracts/reconstruction-decisions/T36.json",
+      "sha256": "684cae97fee796152a61b3d18a0dc4556d5e4c576b4ce027b8f9614f087b0cf8"
+    },
+    {
+      "path": "shared/contracts/reconstruction-decisions/T42.json",
+      "sha256": "fdabb119e573cdcc8cd24c3869e6b0a722c5e9f52171dad4bede093f4b8b1dad"
+    },
+    {
+      "path": "shared/contracts/reconstruction-decisions/T43.json",
+      "sha256": "6101db36c6eadb19b1f94cd70b1af306f1850c85430f613658956832b73050f8"
+    },
+    {
+      "path": "shared/contracts/reconstruction-decisions/T44.json",
+      "sha256": "207b04495a0957d5757d7725949908d20e474a75701db061d0f943249b5bedd5"
+    },
+    {
+      "path": "shared/contracts/reconstruction-decisions/T45.json",
+      "sha256": "70ea2ceb330c16d8f64cc160f5958c33592c02d22052000900889f86950fa047"
+    },
+    {
+      "path": "shared/contracts/reconstruction-decisions/Y36.json",
+      "sha256": "b8d418b6cc14d8d3d590e37ba240e24ff8ca4982153eda4120f23574cbce7915"
+    },
+    {
+      "path": "shared/contracts/reconstruction_admission_policy.json",
+      "sha256": "e0d74b986ca090d3f2d3e299c830c3a3d28e582ecddd59b1e29a7792a67798de"
+    },
+    {
+      "path": "shared/contracts/uncertainty_decisions.md",
+      "sha256": "886e0662744157d75cfec280485988248afad7968d63dac62b4dd06c6eb7740d"
+    }
+  ],
+  "evidence_schema": [
+    {
+      "path": "shared/contracts/evidence_authority_schema.json",
+      "sha256": "e07647008635687f97fd9442454cf1a0b0dc1aa4c7bc0e706a13919d61f81f48"
+    }
+  ],
+  "formal_campaign": {
+    "claim_boundary": "Closure metadata and audits only; no campaign was launched and no historical result was modified.",
+    "launched_by_step14": false,
+    "results_written_by_step14": false
+  },
+  "formal_contracts": [
+    {
+      "path": "formal/contracts/bde_source_replay_spark2_v1.json",
+      "sha256": "33710c4be0fc539e473a26bda7f18fdc526d55155d681ec216a04ceefdadf773"
+    },
+    {
+      "path": "formal/contracts/bde_source_replay_waffle_v1.json",
+      "sha256": "139062ca5d6aa512c5f02d3334b095ffe571c2638d9291e73ebd4eba7a6de51e"
+    },
+    {
+      "path": "formal/contracts/declared_alga_guishan_reconstruction_v1.json",
+      "sha256": "dbe5752446316b613afdc95b778559a2d571036463c53164cd5c7e44ed7b501e"
+    },
+    {
+      "path": "formal/contracts/declared_bde_ws5_reconstruction_v1.json",
+      "sha256": "5dec4638018ad8c78a2442464ecd73d2cf7c4c847c77bc9eb0e6ce8ddac2667f"
+    },
+    {
+      "path": "formal/contracts/declared_bde_ws6_reconstruction_v1.json",
+      "sha256": "99401efa226e573b06084b70ce57b1813c07bbe27b2ba557626d19c893afd454"
+    },
+    {
+      "path": "formal/contracts/declared_fode_common_reconstructions_v1.json",
+      "sha256": "d08ecb9eb1ce182cd32aeaca3c503d8c23e38e66ef388dd09c70ecc525d6f428"
+    },
+    {
+      "path": "formal/contracts/declared_geoga_anholt_reconstruction_v1.json",
+      "sha256": "97409e92a0e58a59746f0d42797bdd38246e8df454c3b093e8198585f83955d8"
+    },
+    {
+      "path": "formal/contracts/declared_geoga_gga_proxy_reconstruction_v1.json",
+      "sha256": "90fd0e2a420e24e88fb8a05fa304f5d3d0df5f4b672bea08b7163e4cca97103d"
+    },
+    {
+      "path": "formal/contracts/declared_pbea_reconstructions_v1.json",
+      "sha256": "45cec93dd2c20439f360e546a453f412334a9930b150a5ab510d1c234a9b016d"
+    },
+    {
+      "path": "formal/contracts/declared_ppga_nantong_reconstruction_v1.json",
+      "sha256": "55efed4b1ccab12352c71f184048a6eeae63443fbf5523de88a6e9002d5eaa21"
+    },
+    {
+      "path": "formal/contracts/declared_reconstruction_formal_suite_v1.json",
+      "sha256": "8eecc3cddb606c4b5257ee13da8c49e5f2172c42f1435696019bd35c5005a3a8"
+    },
+    {
+      "path": "formal/contracts/declared_rlpso_reconstructions_v1.json",
+      "sha256": "1fd229569d01852c84dec2763280922f1798cb5f83c6fd57a38506c855ae6955"
+    },
+    {
+      "path": "formal/contracts/declared_taae_reconstruction_v1.json",
+      "sha256": "aeff2c0c5db98dfe259189b6731f4fa5988d63d3ce9d9e267d44211f96565bcb"
+    },
+    {
+      "path": "formal/contracts/declared_tmoea_eq16_reconstruction_v1.json",
+      "sha256": "ebf4ae1977c75d13b4c73d0d88d21454315e44491dda82362a935ef70091898c"
+    },
+    {
+      "path": "formal/contracts/eight_algorithm_cpp_hpc_spark2_v2.json",
+      "sha256": "c928ec769a86b4062158cd54469d4087ac7b42f36a2667e9df23ad44bc1504b4"
+    },
+    {
+      "path": "formal/contracts/eighteen_algorithm_cpp_hpc_spark2_v3.json",
+      "sha256": "1c0f8596e5a1072e3d79cf6abc516f1c5d057905d80da342578a08f3117aed84"
+    },
+    {
+      "path": "formal/contracts/eighteen_algorithm_cpp_hpc_waffle_v1.json",
+      "sha256": "1fa347cda11f7c84867068cce82f2372491a896114c1cfea57066f86b664214e"
+    },
+    {
+      "path": "formal/contracts/offshore_cpp_hpc_spark2_v1.json",
+      "sha256": "b8bf906d598db6f543bc0e2f40c7c7e0255cfe3a595a146fc9da7ab2c0225be2"
+    },
+    {
+      "path": "formal/contracts/offshore_cpp_hpc_waffle_v1.json",
+      "sha256": "6c2214c5d28942a95df26b6c275256b0066b714bdad5883d2555f2e5be84c711"
+    },
+    {
+      "path": "formal/contracts/pbea_six_algorithm_spark2_v1.json",
+      "sha256": "6d70f45ca326f2a48cca9401cb4339a8cab7cb26e01760e2e5c5eb7c1fa9d421"
+    },
+    {
+      "path": "formal/contracts/pbea_six_algorithm_waffle_v1.json",
+      "sha256": "6adf7fb8eb91b24780f72610c6bc1d6064cc2831dd8b5a63a909fad3bd3ba4a2"
+    },
+    {
+      "path": "formal/contracts/spark2_campaign_suite_v1.json",
+      "sha256": "da6bf9fe051a281275860d50cb5f8b558f0a7828dfd9dd236ca67f3e3cc627f3"
+    },
+    {
+      "path": "formal/contracts/waffle_campaign_suite_v1.json",
+      "sha256": "38834f04c81625a2df258cfc867d1f3a50c09630b36b44e3af37cfa9908bf9fa"
+    }
+  ],
+  "frozen_binaries": {
+    "bde_ws56_hpc": {
+      "path": "build/full/hpc/bde_ws56_cpp/bde_ws56_hpc",
+      "sha256": "341b8703e66abf066ce1347cf24e9aa75c2967a1664bb4610872a2f1f9292b5d"
+    },
+    "geoga_anholt_hpc": {
+      "path": "build/full/hpc/geoga_cpp/geoga_anholt_hpc",
+      "sha256": "584d3940283194dca648d621365e7c7a93e2598e3bd9c704fae8c3143cb85a8e"
+    },
+    "gga_cpp_hpc": {
+      "path": "build/full/hpc/gga_cpp/gga_cpp_hpc",
+      "sha256": "777b3eeed59cde509af827d0e6a5462e57deae75e2d7c6b2da1db035bfdd214d"
+    },
+    "pbea_cpp_hpc": {
+      "path": "build/full/hpc/pbea_cpp/pbea_cpp_hpc",
+      "sha256": "90107179528faaa34a30bc2225c5aa56502f54f8ce161d15a5d904e489f43390"
+    },
+    "ppga_nantong_hpc": {
+      "path": "build/full/hpc/ppga_cpp/ppga_nantong_hpc",
+      "sha256": "ddfea1d872fd40528c18b3fd275eec3cd34fece6864ebe4e9a44f0497cef3725"
+    },
+    "taae_evolution_hpc": {
+      "path": "build/full/hpc/taae_cpp/taae_evolution_hpc",
+      "sha256": "9f00b9b920f5c35a171d9d8e508e88c180d45d5ac690296f9d38b89f41e9d8b1"
+    },
+    "wflop_cpp_hpc": {
+      "path": "build/full/hpc/wflop_cpp/wflop_cpp_hpc",
+      "sha256": "c2937e74681704ed9c501255e615af4fb97a11e50a048b87d63ff843f26df1e1"
+    }
+  },
+  "generated_artifacts": [
+    {
+      "path": "evidence/closure/step14_project_summary.json",
+      "sha256": "b159c87506e8d8e270c566a6b33c89429a4894df949ddb60e51d070eb620fd0f"
+    },
+    {
+      "generated_block": "<!-- BEGIN GENERATED: STEP14 CLOSURE -->",
+      "path": "README.md"
+    },
+    {
+      "generated_block": "<!-- BEGIN GENERATED: STEP14 INVENTORY -->",
+      "path": "docs/roadmap.md"
+    }
+  ],
+  "generated_at": "2026-07-29T21:40:46+09:00",
+  "generation_host": "spark-9b6f",
+  "generation_time_source": "source_baseline_commit_committer_timestamp",
+  "preservation_contract": {
+    "baseline_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
+    "old_formal_contracts": "Every formal/contracts file present at the baseline is byte-identical.",
+    "spark2_launcher_tree": "Every hpc/wflop_cpp/spark2 file present at the baseline is byte-identical."
+  },
+  "receipt_id": "step14_closure_receipt_v1",
+  "schema_version": 1,
+  "scope": {
+    "paper_count": 23,
+    "registry_files": [
+      {
+        "path": "docs/author_lineage_registry.tsv",
+        "sha256": "5b35fcc88814c145a3b979ab572b9df4261a198d5bd613c618a68d8c68a1f08a"
+      },
+      {
+        "path": "docs/lineage_r0_r4_completion.tsv",
+        "sha256": "08630dd61d3305485fd01ded4bebb1f09ca08ab282b1e0fd36683466dfe6c7be"
+      },
+      {
+        "path": "docs/lineage_scope_contract.json",
+        "sha256": "eb9eefe69dffc9acd16dd704a2ef64970ba23cf50a06f937efe9987d04fc7e7b"
+      },
+      {
+        "path": "docs/problem_package_registry.tsv",
+        "sha256": "2560f6fb98d7a6d7794e53955af0057a8ec531423e1588049b3eb028593bc726"
+      }
+    ],
+    "snapshot_date": "2026-07-29"
+  },
+  "semantic_contracts": [
+    {
+      "path": "shared/contracts/alga_attention_declared_reconstruction_contract.json",
+      "sha256": "f3576a5bc154dbbdbf740040f1506cf9cd0e6c6b1bba66d5018f436690330d71"
+    },
+    {
+      "path": "shared/contracts/alga_guishan_planar_transfer_cases.json",
+      "sha256": "9b4bc82b424da330c70822387b7aab73aebdff0156bac0939e397cfba8034cf1"
+    },
+    {
+      "path": "shared/contracts/algorithm_semantics.json",
+      "sha256": "38315ebf3aaec42f2b78f5b51b60738bed9dd00024768e65b8064901665b5c82"
+    },
+    {
+      "path": "shared/contracts/bde_source_replay_execution_contract.json",
+      "sha256": "8f8d58b95bcfb41c5908b372d6af9ff13e6717f0ae32bab32d8921b91f4bfdd9"
+    },
+    {
+      "path": "shared/contracts/bde_ws56_declared_proxy_cases.json",
+      "sha256": "4a48939117a6dd900842e0aaa948cefd6ec9b5e1d0d02892ffdad2d6d940d2e8"
+    },
+    {
+      "path": "shared/contracts/bde_ws56_declared_proxy_contract.json",
+      "sha256": "431bff40d8b95aa9ba91254766a5c5d9d24da3da39d93597049411591dfed821"
+    },
+    {
+      "path": "shared/contracts/benchmark_cases.json",
+      "sha256": "1b4d7b687f2608c38343ea6252ecea51fff711f8939665ca07a40110127879c5"
+    },
+    {
+      "path": "shared/contracts/benchmark_contract.json",
+      "sha256": "d45f497d2019709070b73e5e3a561a039b7ef703cc246be013b8fdc8582619f2"
+    },
+    {
+      "path": "shared/contracts/execution_contract.json",
+      "sha256": "02577abed191aa505609a30b6f9286083e409c85536716260eb270bc9c30ad41"
+    },
+    {
+      "path": "shared/contracts/fqfode_seeded_training_reconstruction_contract.json",
+      "sha256": "311eb093b6375433f8f6f7de36aa4b38aa6474c6212acbfb913e396ea29d2598"
+    },
+    {
+      "path": "shared/contracts/geoga_anholt_structured_declared_proxy_case.json",
+      "sha256": "c8cdbff6874a0e9991e093bcc50442ba425ad050c0cd312b22e54733083ab38f"
+    },
+    {
+      "path": "shared/contracts/geoga_anholt_structured_declared_proxy_contract.json",
+      "sha256": "5879e0d8c350cfbab13900d7d042e251e87ad396c73fd9e637128651c382103e"
+    },
+    {
+      "path": "shared/contracts/geoga_anholt_structured_execution_contract.json",
+      "sha256": "e69fefeb01b24f736c2e5da19ef6f44e4f1713d4e2eac9b42667a78edaeeb6eb"
+    },
+    {
+      "path": "shared/contracts/geoga_reconstruction_execution_contract.json",
+      "sha256": "3356d9ea850b8623a8786a69428ff3df286db6ac46eec6e32555b20fa6071b70"
+    },
+    {
+      "path": "shared/contracts/gga_execution_contract.json",
+      "sha256": "b1cbcbc01615f0d3367eb1921464b910911208401601f118bdad4ee02d558164"
+    },
+    {
+      "path": "shared/contracts/gga_problem_semantics.json",
+      "sha256": "b083a639bdb0ce0d0e01fcd6d10a757bf6dbccbcd9b9fd6d248587d294867cc6"
+    },
+    {
+      "path": "shared/contracts/pbea_execution_contract.json",
+      "sha256": "900374d0e7be636defed88b5f4a83ec627fc33f021f2407ff8d96591ca426f89"
+    },
+    {
+      "path": "shared/contracts/pbea_problem_semantics.json",
+      "sha256": "3dad5b75e6265cb1485088e833e748d5b01e2df68c61936d7f4beaf1da613651"
+    },
+    {
+      "path": "shared/contracts/ppga_fode_e0_transfer_execution_contract.json",
+      "sha256": "35bac3ae5344119f8ecc2a4ba490a9f94bbbdf91f69f1bb97b42a56920a851e4"
+    },
+    {
+      "path": "shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json",
+      "sha256": "601b9258bc99f763cb66e7a4022b4a6a2e2dcddee691a578a80e5b90dba52283"
+    },
+    {
+      "path": "shared/contracts/ppga_nantong_structured_3d_declared_proxy_contract.json",
+      "sha256": "bf3401a6a38ccdf812255e6b09ac78afe2de9040036347783e8abb83fc2bd26c"
+    },
+    {
+      "path": "shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json",
+      "sha256": "92dcd50e1fce0c13cef70e017ffec10ea3bd619e9d5b6d34e3d12f1930b49eca"
+    },
+    {
+      "path": "shared/contracts/rlpso_reconstruction_execution_contract.json",
+      "sha256": "6b8924d65e4e61e54bb35827cd70afee8307dd77fb09bcf536d06ffcb4200aac"
+    },
+    {
+      "path": "shared/contracts/rpso_source_problem_execution_contract.json",
+      "sha256": "f8773a22c5a5253edc44805299a1909150c16ced78410b45f4390c578807ad0b"
+    },
+    {
+      "path": "shared/contracts/single_objective_reporting_contract.json",
+      "sha256": "0ebbde6d1f774bc633cb1ac7f39bd629253d47dc9316e2a4458af08fb7c2dfee"
+    },
+    {
+      "path": "shared/contracts/taae_formula_fixture_contract.json",
+      "sha256": "7df219f711fc8e70f87e9bf629d950cc34da66b046094971a76a8999dd2c3583"
+    },
+    {
+      "path": "shared/contracts/taae_transformer_declared_reconstruction_contract.json",
+      "sha256": "93119126f95ebc16c601eedba8c45825653191a054e793a97faf8d2d725ffd12"
+    },
+    {
+      "path": "shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json",
+      "sha256": "e8d32c1cabee09c2928a68a863acd6eeb8be7892761eb21ddda11fb1966c5b30"
+    },
+    {
+      "path": "shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json",
+      "sha256": "4cfed3c8393d6d2fada9c21bc4e38dd05e2cab8c3cdd138d0393f7e455a0f37c"
+    },
+    {
+      "path": "shared/contracts/taae_zhangbei_structured_declared_proxy_contract.json",
+      "sha256": "a2cba4b4b098b6dfeddb7aa60bc24e839d866cc0ee6862503746858b9f5f2100"
+    },
+    {
+      "path": "shared/contracts/tmoea_nysted_paper_eq16_r4_execution_contract.json",
+      "sha256": "3ff6aff6e800d08a3a2312895b33738b515c75fb360d643ed1d6da0aec8feba4"
+    },
+    {
+      "path": "shared/contracts/tmoea_nysted_paper_wake_gga_router_problem.json",
+      "sha256": "2716d66b9430ddd8bcc6d903f66be687bc94ccb93d7985a5096e261e6ccff1ee"
+    },
+    {
+      "path": "shared/contracts/tmoea_nysted_reconstruction_execution_contract.json",
+      "sha256": "72b3f9b99a476147b9f399bad5a66d0dd0650df394d8feb33c8777859b2180d1"
+    }
+  ],
+  "source_baseline_commit": "a1061177342c4d26df7746bb6008f760503302d1",
+  "source_dossiers": [
+    {
+      "path": "docs/source-dossiers/L0608.json",
+      "sha256": "438cac2e708efcd44f8218ba588c971b219d12e1320966bc64b5e831ffe5abc1"
+    },
+    {
+      "path": "docs/source-dossiers/L0726.json",
+      "sha256": "8c4d9eaaf646d94df5e6324f3219e9a1b381a5e772db627cc61848f37abc068f"
+    },
+    {
+      "path": "docs/source-dossiers/S01.json",
+      "sha256": "07a3ed0d6bb0430bd31bc68a276088c100da979c44127d70097590a605a16919"
+    },
+    {
+      "path": "docs/source-dossiers/S02.json",
+      "sha256": "16e1e2565e37471a6068f21e04751ed80f6428eb2a113036234276a0b72164c0"
+    },
+    {
+      "path": "docs/source-dossiers/S03.json",
+      "sha256": "b1f8ea48011019c611071529aa7c81bca3966a3c72bb88d9616298ad41c2c8bd"
+    },
+    {
+      "path": "docs/source-dossiers/S04.json",
+      "sha256": "6ff22b23ec7745a8854218d228d183cc11eed11256514510e1ce840fe0010e8a"
+    },
+    {
+      "path": "docs/source-dossiers/S05.json",
+      "sha256": "75f5302c09281f9d79c61cd87dcc49c7e221650264dd749bba29b6eca0116734"
+    },
+    {
+      "path": "docs/source-dossiers/T36.json",
+      "sha256": "acd5a9553007b832fa1c489079f4ea181cf8366ca1b29477e18f0cf46f747ee0"
+    },
+    {
+      "path": "docs/source-dossiers/T37.json",
+      "sha256": "8d7edcebe33c1df500df0bb7c3151fa23ef3eb4d0fbc7ba4a9115b71085f3871"
+    },
+    {
+      "path": "docs/source-dossiers/T38.json",
+      "sha256": "019af741ec50fa1c2c5676a267f2bcce6a925f838d7b9a0e8a87b8920d7fac2f"
+    },
+    {
+      "path": "docs/source-dossiers/T39.json",
+      "sha256": "e54a722522544566b29bad287e96fbc60e2ecff5f49ca6c0bdbbc069adbeada2"
+    },
+    {
+      "path": "docs/source-dossiers/T40.json",
+      "sha256": "7394f993893bd292baa4c75738e31e8e327b0a78c48f687df5cc44d435b569bf"
+    },
+    {
+      "path": "docs/source-dossiers/T41.json",
+      "sha256": "a9e9bc188304a2488d97a1ab62400d2e85cfea3dc5ec57a41ccf86ef16e5f90b"
+    },
+    {
+      "path": "docs/source-dossiers/T42.json",
+      "sha256": "522ce34d6e067464586be74948eb72fb8eef3e227d824bf3c371419eaee987a4"
+    },
+    {
+      "path": "docs/source-dossiers/T43.json",
+      "sha256": "b5aa47155bf87babe18151acbd2a97d6996c8ee2c9d72a292b84c753573f054c"
+    },
+    {
+      "path": "docs/source-dossiers/T44.json",
+      "sha256": "6af61332e69de4961dfb020e001aacc262c35061d516b47c6f4cdc982e0b9a94"
+    },
+    {
+      "path": "docs/source-dossiers/T45.json",
+      "sha256": "9ec4556bf7c0c0d0ec3d7ef4da4f00939b0766d901ec3afc2ef52f7a90353d5f"
+    },
+    {
+      "path": "docs/source-dossiers/T46.json",
+      "sha256": "3eb7f218e65a96c9ff417dc5ef1988d6e267b19c381c1b794afc283cda5c153b"
+    },
+    {
+      "path": "docs/source-dossiers/T47.json",
+      "sha256": "d7b3241f69ade34e4c917fb795f304ffa36d849bf935320dde99ae63594ec919"
+    },
+    {
+      "path": "docs/source-dossiers/Y06.json",
+      "sha256": "bab4843f74f201a854e103b2054a80e0bf561241de3b744a4035741d7883bb37"
+    },
+    {
+      "path": "docs/source-dossiers/Y34.json",
+      "sha256": "043dea338bc2984810fad2a5581ae7f39cfe6da3307e212c2cc709c1bbc58a73"
+    },
+    {
+      "path": "docs/source-dossiers/Y35.json",
+      "sha256": "290234a4d4db5db793672ffc212d8829654e675bae19dac91101969db7a81373"
+    },
+    {
+      "path": "docs/source-dossiers/Y36.json",
+      "sha256": "95ab351236f983e48a7de92a5952ba7777d0f3a92343e09c1d7de3a853a69c51"
+    }
+  ],
+  "test_summary": {
+    "evidence_scope": {
+      "command": "python3 scripts/audit_step14_closure.py --formal-only-evidence",
+      "definition": "Step-14 evidence additions are limited to evidence/closure; no raw machine result is tracked.",
+      "status": "passed"
+    },
+    "formal_contract_audit": {
+      "command": "python3 scripts/audit_formal_suite_contracts.py --require-binaries",
+      "status": "passed"
+    },
+    "full_ctest": {
+      "command": "ctest --test-dir build/full --output-on-failure",
+      "failed": 0,
+      "passed": 56,
+      "status": "passed"
+    },
+    "git_diff_check": {
+      "command": "git diff --check",
+      "status": "passed"
+    },
+    "public_audit": {
+      "command": "bash scripts/public_audit.sh",
+      "status": "passed"
+    },
+    "step14_closure_audit": {
+      "command": "python3 scripts/audit_step14_closure.py",
+      "status": "passed"
+    },
+    "template_self_test": {
+      "command": "python3 benchmark-package-template/scripts/self_test.py",
+      "status": "passed"
+    }
+  }
+}

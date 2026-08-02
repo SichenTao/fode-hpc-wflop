@@ -1,0 +1,28 @@
+Traceback (most recent call last):
+  File "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/run_hpc_core_target_scaling.py", line 1535, in <module>
+    raise SystemExit(main())
+                     ~~~~^^
+  File "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/run_hpc_core_target_scaling.py", line 1466, in main
+    require_immediate_cross_worker_science(
+    ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^
+        row,
+        ^^^^
+        baseline,
+        ^^^^^^^^^
+        observation,
+        ^^^^^^^^^^^^
+    )
+    ^
+  File "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/run_hpc_core_target_scaling.py", line 543, in require_immediate_cross_worker_science
+    require(
+    ~~~~~~~^
+        observed["scientific_output_sha256"]
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+    ...<2 lines>...
+        f"{repetition}",
+        ^^^^^^^^^^^^^^^^
+    )
+    ^
+  File "/home/sichentao/Desktop/projects/04-ENE-wind-farm-layout-optimization/fode-hpc-wflop-executor-003/scripts/run_hpc_core_target_scaling.py", line 100, in require
+    raise RuntimeError(message)
+RuntimeError: Y36__taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1__target: fail-fast scientific output drift at repetition 0

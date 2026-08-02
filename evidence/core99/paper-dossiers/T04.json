@@ -1,0 +1,147 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "Use the paper Cp and induction fits where Fig.4 samples are unavailable.",
+    "Use one-diameter center spacing required by the paper-native dense case.",
+    "Use per-run one-core C++ plus 20 concurrent seeds for the fine-grained full-resource mode.",
+    "Retain the original 3-by-3 validation: reproduced 2.537997 W and 0.732467 versus paper 2.53 W and 0.73."
+  ],
+  "corpus_id": "T04",
+  "dossier_status": "formal_complete",
+  "evidence_receipts": [
+    "evidence/core99/h6/T04_waffle_admission.json",
+    "evidence/core99/formal/T03_T04_formal_quality.json"
+  ],
+  "formal_status": "complete",
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pass"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/uwflo_t04.hpp",
+    "hpc/core99_cpp/src/uwflo_t04.cpp",
+    "shared/contracts/core99_t04_uwflo_cases.json"
+  ],
+  "missing_information": [
+    "author source code",
+    "exact Fig.4 samples",
+    "initial velocity and bound-response rules"
+  ],
+  "paper": {
+    "authors": "Souma Chowdhury and Jie Zhang and Achille Messac and Luciano Castillo",
+    "doi": "10.1016/j.renene.2011.06.033",
+    "pdf_basename": "2012_Chowdhury_Unrestricted_Wind_Farm_Layout_Optimization_Investigating_Key_Factors_Influencing_the_Maximum_Power_Generation.pdf",
+    "pdf_sha256": "978721c33e7cfa4f9d9e0d9bd83fff0a081f9eec24f50ee2b65e29dbd2d4e244",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV1",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "NONE",
+    "title": "Unrestricted Wind Farm Layout Optimization: Investigating Key Factors Influencing the Maximum Power Generation",
+    "venue": "Renewable Energy",
+    "year": 2012
+  },
+  "paper_linked_public_asset_candidates": [],
+  "paper_source_conflicts": [
+    "No author implementation or exact Fig.4 power samples were located.",
+    "Eq.29 printed diameter sums conflict with feasibility of the paper's 18-turbine 7D by 3D case."
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 15,
+    "text_sha256": "cd2ca4e0d28444b8b82dc57dde0cecdb5ac49c134e57c048e5b09fdfccdf3190"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [
+      1008
+    ],
+    "embedded_annotation_urls": [],
+    "status": "no_paper_linked_public_asset_candidate_detected"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "paper-equation academic declared reproduction with original-layout magnitude validation; no author-source or author-exact optimization claim",
+    "execution_wave": "REV1",
+    "package_status": "formal_complete",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "problem_definition_or_comparison_protocol"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "paper_equation_and_case_geometry",
+      "resolution": "bound projection, one-diameter center spacing required by the 18-turbine 7D by 3D case, and Case-2 mean cost",
+      "status": "frozen_with_conflict_resolution"
+    },
+    "decision_variables": {
+      "authority": "paper",
+      "resolution": "continuous x,y coordinates and Case-2 rotor diameters",
+      "status": "frozen"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper",
+      "resolution": "all x, all y, then optional diameter variables",
+      "status": "frozen"
+    },
+    "initialization": {
+      "authority": "paper_plus_declared_completion",
+      "resolution": "uniform bounded positions/diameters and zero initial velocities",
+      "status": "frozen"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper_plus_platform_protocol",
+      "resolution": "power, efficiency, feasibility, physical FES, timings, hash, five paper repeats and 25 platform seeds",
+      "status": "frozen"
+    },
+    "objective_and_direction": {
+      "authority": "paper",
+      "resolution": "maximize effective farm efficiency under geometric and optional cost constraints",
+      "status": "frozen"
+    },
+    "paper_native_cases": {
+      "authority": "paper",
+      "resolution": "Cases 1, 2, Case-3 fixed-area count study and fixed-count area study",
+      "status": "frozen"
+    },
+    "parameters": {
+      "authority": "paper_table",
+      "resolution": "inertia 0.5, local/global 1.4, swarm size five times dimension",
+      "status": "frozen"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper",
+      "resolution": "15000 physical FES for Cases 1/3 and 25000 for Case 2",
+      "status": "frozen"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "paper",
+      "resolution": "non-learning particle swarm",
+      "status": "not_applicable"
+    },
+    "update_order": {
+      "authority": "paper",
+      "resolution": "constrained PSO particle transition, ordered personal-best and global-best commits",
+      "status": "frozen"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_equations",
+      "resolution": "Frandsen/Park wake, analytic overlap, Eq.9 area-weighted squared absolute deficits, Cp/induction fits, and adaptive Case-3 rated power",
+      "status": "frozen"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper",
+      "resolution": "unidirectional 7.0896 m/s Cases 1/2 and 6.2 m/s Case 3",
+      "status": "frozen"
+    }
+  }
+}

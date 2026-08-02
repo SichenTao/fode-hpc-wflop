@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "contract_id": "declared_single_objective_reporting_v1",
+  "primary_quality_metric": {
+    "field": "best_feasible_objective_at_budget_end",
+    "definition": "best feasible objective present when the run has completed exactly physical_fes_per_run complete-layout physical evaluations",
+    "required_run_identity_fields": [
+      "campaign_id",
+      "profile_id",
+      "problem_semantics_id",
+      "case_id",
+      "optimization_seed",
+      "physical_fes_per_run"
+    ],
+    "budget_completion_required": true,
+    "incomplete_runs_excluded": true
+  },
+  "feasibility_reporting": {
+    "required_fields": [
+      "is_feasible",
+      "total_constraint_violation",
+      "constraint_violation_components"
+    ],
+    "feasible_value": {
+      "is_feasible": true,
+      "total_constraint_violation": 0.0
+    },
+    "no_feasible_layout_policy": "primary quality metric is null; retain the least-violation layout and complete violation vector; never silently convert a penalty value into a feasible objective"
+  },
+  "convergence_reporting": {
+    "field": "incumbent_best_feasible_objective",
+    "index": "complete_layout_physical_fes",
+    "checkpoint_fractions_of_exact_budget": [
+      0.01,
+      0.05,
+      0.1,
+      0.2,
+      0.5,
+      0.75,
+      1.0
+    ],
+    "checkpoint_mapping": "ceil(fraction * physical_fes_per_run), deduplicated in ascending complete-layout physical-FES order",
+    "final_checkpoint_equals_exact_budget": true,
+    "training_evaluator_calls_follow_campaign_physical_fes_ledger": true
+  },
+  "timing_reporting": {
+    "required_seconds_fields": [
+      "end_to_end_wall_seconds",
+      "evaluator_wall_seconds",
+      "algorithm_wall_seconds"
+    ],
+    "algorithm_definition": "optimizer, learning, variation, repair, selection, synchronization, and serialization work excluding complete-layout evaluator wall time",
+    "end_to_end_definition": "complete optimization-run wall time including evaluator, algorithm, synchronization, and measured orchestration overhead",
+    "quality_separation_rule": "wall time is reported as performance evidence only and is never used as a quality metric, solution selector, quality rank, or optimization objective"
+  },
+  "per_exact_case_seed_summary": {
+    "seed_count": 25,
+    "grouping_key": [
+      "profile_id",
+      "problem_semantics_id",
+      "case_id",
+      "physical_fes_per_run"
+    ],
+    "required_statistics": [
+      "median",
+      "q1",
+      "q3",
+      "iqr",
+      "mean",
+      "sample_standard_deviation_ddof_1"
+    ],
+    "input": "one terminal best_feasible_objective_at_budget_end per predetermined optimization seed",
+    "cross_case_pooling": false,
+    "cross_problem_semantics_pooling": false
+  },
+  "single_profile_analysis": {
+    "mode": "descriptive_only",
+    "hypothesis_tests": false,
+    "cross_case_pooling": false,
+    "cross_problem_semantics_pooling": false
+  },
+  "multi_profile_seed_paired_analysis": {
+    "mode": "per_exact_case_seed_paired",
+    "pairing_key": [
+      "problem_semantics_id",
+      "case_id",
+      "optimization_seed",
+      "physical_fes_per_run"
+    ],
+    "paired_difference": "direction-normalized objective of profile_ids[1] minus direction-normalized objective of profile_ids[0]",
+    "effect_size": "matched-pairs rank-biserial correlation",
+    "location_effect": "median paired difference",
+    "test": "Wilcoxon signed-rank",
+    "alternative": "two-sided",
+    "zero_difference_rule": "drop exact zero differences and report the effective paired sample size",
+    "p_value_rule": "exact when the effective paired differences contain no ties; otherwise use a deterministic two-sided sign-flip permutation distribution with all permutations when feasible and 1000000 samples keyed by the campaign ID otherwise",
+    "multiplicity_family": "all declared exact-case hypotheses within one campaign and one primary metric",
+    "multiplicity_correction": "Holm step-down",
+    "familywise_alpha": 0.05,
+    "cross_case_pooling": false,
+    "cross_problem_semantics_pooling": false
+  },
+  "global_non_pooling_rule": "No observation, summary, effect size, hypothesis, or adjusted p-value may pool different case IDs or different problem semantic IDs."
+}

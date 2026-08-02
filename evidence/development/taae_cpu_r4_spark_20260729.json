@@ -1,0 +1,185 @@
+{
+  "schema_version": 1,
+  "receipt_id": "taae_cpu_r4_spark_20260729",
+  "date": "2026-07-29",
+  "status": "development_cpu_r4_complete",
+  "approved_source_base_commit": "9036e00e46a9ddcd86c2a899bcb2a95214d45d40",
+  "scope": {
+    "method_semantic_id": "taae_transformer_evolution_declared_reconstruction_v1",
+    "kernel_semantic_id": "taae_transformer_declared_reconstruction_v1",
+    "problem_semantic_id": "taae_zhangbei_structured_declared_proxy_v1",
+    "backend": "pure_cpp_cpu",
+    "gpu": "unsupported_fail_closed",
+    "hybrid": "unsupported_fail_closed",
+    "paper_or_formal_claim": false
+  },
+  "host": {
+    "hostname": "spark-9b6f",
+    "architecture": "aarch64",
+    "visible_logical_cpus": 20,
+    "cpu_groups": [
+      {
+        "model": "ARM Cortex-X925",
+        "cores": 10,
+        "threads_per_core": 1
+      },
+      {
+        "model": "ARM Cortex-A725",
+        "cores": 10,
+        "threads_per_core": 1
+      }
+    ],
+    "compiler": "c++ Ubuntu 11.5.0",
+    "external_load_boundary": "all timings are development diagnostics contaminated by a concurrent RL training process using about 128 percent CPU plus interactive desktop load; they are not formal performance evidence"
+  },
+  "implementation": {
+    "single_persistent_executor": true,
+    "parallel_independent_work": [
+      "per-sample model forward and cache construction",
+      "population encoding",
+      "exact-trajectory speculative autoregressive decoding",
+      "complete-layout evaluation"
+    ],
+    "fixed_order_work": [
+      "loss aggregation",
+      "gradient and backward accumulation",
+      "Adam registry and parameter-index updates",
+      "RNG transitions and metric pairing",
+      "decoded filtering and repair",
+      "selection, hashes, and serialization"
+    ],
+    "cli_default": "omitting --workers records requested_workers=0 and resolves to all 20 visible logical CPUs",
+    "work_receipts": [
+      "per-stage wall seconds",
+      "parallel regions and task items",
+      "participant activations once per participating thread per region",
+      "distinct participants and peak participants",
+      "committed proposal attempts, speculative tasks and discards, repair-RNG invalidations, rejection classes, and refill work"
+    ],
+    "final_release_binary_sha256": "defedb4b806cfda5b90e0ffe64879d02d0b5b32d60f2ee9c1c7ef4ad28d0c228"
+  },
+  "controlled_approved_checkpoint_200_fes": {
+    "seed": 20260729,
+    "checkpoint_sha256": "8bd7bee98b9c975c01e53c26bb7e0cdb563101f6324df89b98b787a6f513418a",
+    "physical_fes": 200,
+    "generations": 1,
+    "approved_pre_r4": {
+      "requested_workers": 1,
+      "internal_wall_seconds": 59.979,
+      "result_sha256": "3257cf763105159caad522041d0dc7c80e1c03296166f3157be32afb7e8aaca9",
+      "time_sha256": "eedaef0b123de10ad97bd10438a09bdd1fe1ebf13d4f64e71e04d0deb8d508b8"
+    },
+    "final_one_worker": {
+      "requested_workers": 1,
+      "resolved_workers": 1,
+      "internal_wall_seconds": 38.56253258,
+      "process_wall_seconds": 38.59,
+      "result_sha256": "b55d3ff905795c7a001ec3f89d10b7becec8bfcf1780e3cc7e5ef4d2f808ae86",
+      "time_sha256": "c79abeb57a2950c98629ec10356a7056ba31f7c97919f4187b8a0e20136617b0"
+    },
+    "final_twenty_workers": {
+      "requested_workers": 20,
+      "resolved_workers": 20,
+      "internal_wall_seconds": 22.445759348,
+      "process_wall_seconds": 22.49,
+      "result_sha256": "4d455ba825ec11f4d02267884f0efacc58b557352c9ebd90f4f20028cda00c55",
+      "time_sha256": "53dcf44eabe01e3376b40fbf43c6ad353c834ef9bb795fa1c39b30afcb0bed28"
+    },
+    "exact_scientific_outputs": {
+      "model_hash": "fnv1a64:b0c2dd602f94c9f1",
+      "population_layout_hash": "fnv1a64:d054ec620944618a",
+      "front_hash": "fnv1a64:a73cbe38318a45a5",
+      "match_approved_pre_r4_and_workers_1_20": true
+    },
+    "committed_algorithm_work_equal_workers_1_20": {
+      "latent_proposal_attempts": 1000,
+      "repair_rng_invalidations": 3,
+      "accepted_latent_offspring": 3,
+      "raw_duplicate_rejects": 997,
+      "pre_repair_parent_rejects": 0,
+      "post_repair_rejects": 0,
+      "refill_attempts": 97,
+      "refill_rejects": 0
+    },
+    "twenty_worker_actual_participation": {
+      "fine_tuning": 20,
+      "population_encoding": 20,
+      "offspring_decode_repair_variation": 20,
+      "evaluator": 20
+    },
+    "development_speedups": {
+      "approved_pre_r4_to_final_one_worker": 1.5553698366560964,
+      "approved_pre_r4_to_final_twenty_workers": 2.672175134290761,
+      "final_one_to_twenty_workers": 1.7180319891220819,
+      "stage_one_to_twenty": {
+        "fine_tuning": 1.085335623348355,
+        "population_encoding": 10.217967397535517,
+        "offspring_decode_repair_variation": 9.371971452565365,
+        "evaluator": 9.283540540337137
+      }
+    }
+  },
+  "canonical_seed1_default_workers_300_fes": {
+    "seed": 1,
+    "physical_fes": 300,
+    "generations": 2,
+    "requested_workers": 0,
+    "resolved_workers": 20,
+    "internal_wall_seconds": 47.678479731,
+    "process_wall_seconds": 47.69,
+    "actual_distinct_participants": {
+      "bounded_pretraining": 20,
+      "fine_tuning": 20,
+      "population_encoding": 20,
+      "offspring_decode_repair_variation": 20,
+      "evaluator": 20
+    },
+    "model_hash": "fnv1a64:fffcd3fa76444328",
+    "population_layout_hash": "fnv1a64:db8d2d0256d8bdda",
+    "front_hash": "fnv1a64:a9267bc69b444088",
+    "result_sha256": "7341abb299d074df47265841bce6a2bd19378552af8ecc002e8724d1ccb5d99c",
+    "time_sha256": "270742e54574f545a1ba8b7e7c580af3ce28d6c7b4abcf2743447e4a9880bf65"
+  },
+  "approved_semantic_300_fes_denominator": {
+    "seed": 20260729,
+    "physical_fes": 300,
+    "approved_9036_one_worker_internal_wall_seconds": 122.493366726,
+    "final_r4_all_visible_internal_wall_seconds": 47.930843225,
+    "development_speedup": 2.5556272012779724,
+    "exact_model_population_front_hashes": true,
+    "model_hash": "fnv1a64:63d2aa866f629be1",
+    "population_layout_hash": "fnv1a64:bf4d2cc3626cd27b",
+    "front_hash": "fnv1a64:04d0ba8dc2469ca3",
+    "approved_binary_sha256": "759e7597457248cc5c9f4e3b44ed128bf3794bc2b0449c0906b0330b7ed8f5b5",
+    "approved_result_sha256": "aaa2599fbd27d2c5f02be04694222d3dc0704a9d9abe2bb82b28707363f0ea3d",
+    "approved_time_sha256": "f437ed2f07f2ef18d2fe4b80ba46531654459e247c3654ae045164a1ee5307bc",
+    "final_result_sha256": "cf0113cf2ff9a746551aaa3c90fb854b3d3693cf346743ebd03de33d62c40a39",
+    "final_time_sha256": "9a52d80237a620c3e79fdef06f54f96dcc4a7856ba2ef2f39850ab8cfe6a1222"
+  },
+  "invalid_historical_denominator": {
+    "result": "/tmp/taae-evolution-canonical-300.json",
+    "internal_wall_seconds": 61.282663938,
+    "result_timestamp": "2026-07-29T15:22:11+09:00",
+    "approved_commit_timestamp": "2026-07-29T15:40:31+09:00",
+    "reason": "the receipt predates the approved 9036 decoded-filtering-order commit and cannot be an approved-semantic denominator",
+    "result_sha256": "12a3e9c851f11a134e7e9214a7766820d2ee2789bc52d7705c3551cd7591bac7",
+    "time_sha256": "8fa78dea91a8ed6aaf3a67ad926f7d321099b9f23d7357ff402eb5b9f48912d2"
+  },
+  "rejected_optimization": {
+    "name": "parallel_Adam_parameter_tasks",
+    "reason": "exact hashes were preserved but the controlled 200-FES absolute timings showed no reproducible gain and the change added 20 executor regions plus 1600 task items",
+    "decision": "removed; fixed registry and parameter-index update order retained"
+  },
+  "validation": {
+    "fresh_release_build": "pass",
+    "model_gradient_training_checkpoint_suite": "pass",
+    "executor_participation_fixture": "pass",
+    "speculative_mid_repair_rng_fixture": "pass",
+    "workers_1_20_exact_evolution_fixture": "pass",
+    "contract_and_fact_audits": "pass",
+    "full_ctest": "39_of_39_pass",
+    "full_ctest_seconds": 9.06,
+    "full_ctest_log_sha256": "b1c5de262675b2bb09b026711d411bc4157a71179a854f9292f381422ad21d46"
+  },
+  "claim_boundary": "Development-only CPU R4 evidence on spark-9b6f under uncontrolled external load. Exact scientific equivalence is verified for the stated fixtures and approved-semantic replay. Timing values do not constitute formal performance, paper reproduction, Zhangbei numerical validation, original-author TAAE evidence, or GPU capability."
+}

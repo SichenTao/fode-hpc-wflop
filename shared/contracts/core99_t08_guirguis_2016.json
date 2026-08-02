@@ -1,0 +1,108 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T08",
+  "paper": {
+    "title": "Toward Efficient Optimization of Wind Farm Layouts: Utilizing Exact Gradient Information",
+    "doi": "10.1016/j.apenergy.2016.06.101",
+    "pdf_sha256": "f3df418e9cdb09f18873b3ee35848068e94634d0cfb771ba569a01df7cd6adf0",
+    "pdf_text_sha256": "586bedcc96ce0125997d263203fbe6f6caeb2d9fdf192446c3ea6306c560235c",
+    "pages": 14
+  },
+  "public_source_audit": {
+    "status": "no_paper_linked_author_source_or_numeric_archive_found",
+    "checked": [
+      "paper data and availability statements",
+      "PDF embedded annotations",
+      "DOI and exact-title web search",
+      "author and institutional exact-title search",
+      "local WFLOP source corpus"
+    ],
+    "resolution": "paper equations first, same-benchmark and same-site versioned data second, figure-calibrated deterministic completion last"
+  },
+  "paper_native_method": {
+    "decision_variables": "two continuous Cartesian coordinates for each fixed turbine",
+    "objective": "maximize probability-weighted one-third cubic effective wind speed",
+    "wake": "Jensen linear expansion with Gaussian angular modulation and root-sum-square multiple deficits",
+    "constraints": "five-diameter pair spacing, coordinate bounds, differentiable polygon/circle land constraints",
+    "optimizer": "nonlinear interior-point method with exact objective and constraint gradients and BFGS Hessian updates",
+    "initialization": "uniform staggered layout, one random Latin-hypercube layout, five random starts or twenty random starts",
+    "missing_optimizer_fields": [
+      "MATLAB release and fmincon options",
+      "barrier and line-search schedules",
+      "BFGS state and termination tolerances",
+      "Latin-hypercube arrays and random states"
+    ],
+    "declared_solver_completion": "pure C++ feasible averaged log-barrier continuation with exact first derivatives, limited-memory BFGS and Armijo backtracking"
+  },
+  "paper_native_problems": {
+    "classical": {
+      "farm": "2 km by 2 km",
+      "turbine": "40 m diameter, 60 m hub, roughness 0.3 m, spacing 200 m",
+      "turbine_counts": [10, 20, 30],
+      "wind_case_1": "one north-to-south state at 12 m/s",
+      "wind_case_2": "36 equal directions at 12 m/s",
+      "wind_case_3": "36 directions and 8, 12 and 17 m/s with figure-only joint probabilities"
+    },
+    "scaling": {
+      "turbine": "Vestas V80 2 MW dimensional lineage, 80 m diameter, 70 m hub, spacing 400 m",
+      "turbine_counts": [37, 50, 100],
+      "densities_per_km2": [4, 5, 6],
+      "farm_side_m": "1000*sqrt(N/density)",
+      "wind": "Figure-5 Horns Rev directional frequencies at stated average 10 m/s"
+    },
+    "land": {
+      "copenhagen": "37 turbines, 2500 by 5000 m displayed domain, 66.2 percent feasible figure-derived polygon, Horns Rev wind",
+      "ring": "20 turbines in a 50 m annulus represented by 750 and 800 m radii, north wind at 10 m/s"
+    }
+  },
+  "missing_information": [
+    "numeric Case-3 wind probability array",
+    "numeric Figure-5 Horns Rev array and direction convention",
+    "Copenhagen boundary vertices and forbidden-zone partitions",
+    "exact ring radii beyond the stated 50 m width and plotted dimensions",
+    "V80 hub and surface roughness values consumed by the authors",
+    "author layouts, gradients, convergence histories and timing environment"
+  ],
+  "conflicts_and_completions": [
+    "Use the versioned T05 same-classical-benchmark Figure digitization for Case 3 and retain a distinct T08 semantic identity.",
+    "Use T25 public Horns Rev directional frequencies, rotate from wind-from to the T08 plotted wind-to convention, normalize and apply the paper-stated 10 m/s.",
+    "Use V80 diameter 80 m and hub 70 m; retain 0.3 m because it is the paper's sole numerical roughness and Sections 4.2-4.3 do not state a replacement. This is a declared nearest-paper completion, not an asserted V80 site fact.",
+    "Digitize Fig. 9 Copenhagen vertices and horizontally affine-calibrate polygon area to exactly 66.2 percent; use signed distance because the paper does not publish dynamic partitions.",
+    "Use visible ring centre 1000/1000 m and radii 750/800 m, preserving the stated 50 m width.",
+    "Map deterministic Latin-hypercube ranks to a strictly feasible staggered lattice, since the paper does not state how infeasible random starts are admitted.",
+    "Interpret Section 4.3 random results as five-start roles while preserving the figures as qualitative one-random-layout evidence."
+  ],
+  "method_semantic_id": "t08_exact_gradient_log_barrier_lbfgs_declared_ipm_v1",
+  "problem_semantic_ids": [
+    "t08_classical_case1_2_3_continuous_v1",
+    "t08_horns_density_scaling_v1",
+    "t08_copenhagen_figure66p2_v1",
+    "t08_ring50m_v1"
+  ],
+  "protocol_semantic_id": "t08_49role_native_multistart_v1",
+  "paper_protocol": {
+    "problem_instances": 20,
+    "named_roles": 49,
+    "formal_optimization_receipts": 211,
+    "derivation": "nine classical problems times USL, 5S and 20S; nine scaling problems times USL and RSL; two land problems times USL and 5S",
+    "repeats": "ten independent repeats for every classical 5S and 20S role; deterministic or single displayed roles once",
+    "target_only_boundary": "GA, HGA and finite-difference diagnostics are paper comparators, not target contribution implementations"
+  },
+  "formal_budgets": {
+    "classical_usl_per_start": 1500,
+    "classical_random_per_start": 1000,
+    "scaling_per_start": 2500,
+    "land_per_start": 3000,
+    "interpretation": "complete objective-plus-exact-gradient physical evaluations, selected to cover the paper-reported exact-gradient work ranges without claiming MATLAB iteration identity"
+  },
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC",
+    "objective_kernel": "one shared traversal computes efficiency and exact coordinate gradient; fixed wind-state/turbine tasks and deterministic chunk reduction",
+    "constraint_kernel": "O(N squared) pair constraints use a measured serial fast path below 20000 pairs and retain a deterministic parallel path for larger extensions",
+    "single_start": "all cores parallelize the objective; lightweight constraints remain serial after measured admission",
+    "multi_start": "fixed worker groups divide all visible cores across 5 or 20 independent barrier solves without nested oversubscription",
+    "required_invariant": "one-worker and all-worker objective, gradient, final layout, feasibility and scientific hash identity"
+  },
+  "physical_fes_definition": "one complete probability-weighted layout objective and simultaneous exact-gradient evaluation; constraint/barrier arithmetic is reported separately",
+  "claim_boundary": "Flexible equation-level academic reproduction of every paper problem and proposed IPM role; not author MATLAB/fmincon source, exact wind or land arrays, partition, random stream, optimizer trajectory, numerical table/timing replay or first parallelization claim."
+}

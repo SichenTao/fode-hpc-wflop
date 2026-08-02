@@ -1,0 +1,31 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T14",
+  "paper_doi": "10.5194/wes-4-663-2019",
+  "H0": {
+    "status": "pass",
+    "bottlenecks": [
+      "candidate by wind-direction by wind-speed by turbine-pair wake evaluation",
+      "360 by 50 by 100 final annual-energy evaluation",
+      "100 independent starts for each case and representation"
+    ]
+  },
+  "H1": {
+    "status": "pass",
+    "authority": "primary paper, paper-linked public source and declared completion for unavailable SNOPT"
+  },
+  "H2": {
+    "status": "pass",
+    "parallel": "candidate batches during optimization, wind states during final evaluation and independent formal starts",
+    "ordered": "feasibility-first selection, topology freezing and deterministic result commits"
+  },
+  "H3": {
+    "status": "pass",
+    "decision": "pure C++ persistent full-resource CPU executor with deterministic indexed reductions"
+  },
+  "H4": {
+    "status": "pass",
+    "implementation": "core99_t14_hpc"
+  },
+  "claim_boundary": "academic declared reproduction; unavailable proprietary SNOPT is replaced by the registered deterministic parallel optimizer"
+}

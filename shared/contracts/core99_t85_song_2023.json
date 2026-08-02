@@ -1,0 +1,150 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T85",
+  "paper": {
+    "title": "Particle Swarm Optimization of a Wind Farm Layout with Active Control of Turbine Yaws",
+    "doi": "10.1016/j.renene.2023.02.058",
+    "arxiv": "2210.02084",
+    "pdf_sha256": "898e441b2d92c3c56d70dc3a6dd89ee27730550ac00e0905de8d7c02ca19ebc5"
+  },
+  "public_source_search": {
+    "date": "2026-07-31",
+    "queries": [
+      "exact title plus code",
+      "DOI plus GitHub",
+      "arXiv 2210.02084 plus GitHub",
+      "Jeonghwan Song active yaw source"
+    ],
+    "result": "complete arXiv manuscript source found; no paper-linked optimizer, wake evaluator, case-data, or result-replay source located",
+    "publisher_data_statement": "No data was used for the research described in the article."
+  },
+  "cited_method_predecessor": {
+    "title": "Adaptive Granularity Learning Distributed Particle Swarm Optimization for Large-Scale Optimization",
+    "doi": "10.1109/TCYB.2020.2977956",
+    "public_pdf": "https://vuir.vu.edu.au/46369/1/Adaptive_Granularity_Learning_Distributed_Particle_Swarm_Optimization_for_Large-Scale_Optimization.pdf",
+    "source_search_result": "no algorithm source located; public paper provides Eqs. 3-9 and Algorithm 1",
+    "used_controls": {
+      "population": 500,
+      "c1": 1.0,
+      "c2": 0.1,
+      "subpopulation_size_interval": "[10,floor(sqrt(N))]",
+      "bucket_count": "0.1N",
+      "inertia": "independent uniform random value per coordinate",
+      "updated_particles": "only the worst particle in each subpopulation"
+    }
+  },
+  "problem_semantic_id": "t85_song_joint_layout_yaw_six_case_v1",
+  "method_semantic_id": "t85_agldpso_joint_yaw_declared_reconstruction_v1",
+  "paper_equations": {
+    "wake": "Eqs. 1-6, three-dimensional yawed Gaussian wake and local-inlet linear velocity-deficit superposition",
+    "atmosphere_and_aep": "Eqs. 11-13, power-law shear, rotor average, power curve, and probability-weighted AEP",
+    "joint_problem": "Eqs. 14-17, x-y position plus one yaw per turbine and wind, reciprocal-AEP minimization, square boundary, and pair spacing greater than D",
+    "target_update": "paper Eq. 10 plus cited AGLDPSO Eqs. 3-9 and Algorithm 1"
+  },
+  "paper_native_cases": [
+    {
+      "id": "t85_wf1_v80_u8_n25",
+      "turbines": 25,
+      "turbine": "Vestas V80",
+      "domain": "1600 m by 1600 m",
+      "wind": "eight equiprobable directions at Uref=8 m/s"
+    },
+    {
+      "id": "t85_wf1_v80_u6_n25",
+      "turbines": 25,
+      "turbine": "Vestas V80",
+      "domain": "1600 m by 1600 m",
+      "wind": "eight equiprobable directions at Uref=6 m/s"
+    },
+    {
+      "id": "t85_wf1_v112_u8_n25",
+      "turbines": 25,
+      "turbine": "Vestas V112",
+      "domain": "1600 m by 1600 m",
+      "wind": "eight equiprobable directions at Uref=8 m/s"
+    },
+    {
+      "id": "t85_wf2_v80_u8_n25",
+      "turbines": 25,
+      "turbine": "Vestas V80",
+      "domain": "1920 m by 1920 m",
+      "wind": "eight equiprobable directions at Uref=8 m/s"
+    },
+    {
+      "id": "t85_wf3_v80_u8_n36",
+      "turbines": 36,
+      "turbine": "Vestas V80",
+      "domain": "2400 m by 2400 m",
+      "wind": "eight equiprobable directions at Uref=8 m/s"
+    },
+    {
+      "id": "t85_wf4_v80_uneven_n25",
+      "turbines": 25,
+      "turbine": "Vestas V80",
+      "domain": "1600 m by 1600 m",
+      "wind": "west 11 m/s at 20 percent; northwest and southwest 9 m/s at 15 percent each; five remaining directions 8 m/s at 10 percent each"
+    }
+  ],
+  "missing_information": [
+    "author in-house source, case arrays, random states, and optimizer traces",
+    "wind-paper population, termination, and repeat count",
+    "yaw-angle bounds and constraint handling",
+    "rotor integration grid",
+    "V80 and V112 machine-readable power and thrust curves",
+    "V112 hub height and rotor-to-hub-center distance",
+    "heterogeneous position-yaw scaling used by LSH"
+  ],
+  "declared_completions": {
+    "wake_and_turbines": {
+      "rotor_quadrature": "eight deterministic equal-area samples",
+      "V80": "D=80 m, hub=70 m, rated power=2 MW",
+      "V112": "D=112 m, hub=84 m, rated power=3 MW",
+      "curves": "deterministic integer-speed digitization of paper Fig. 5 with linear interpolation and 4/25 m/s cut-in/cut-out",
+      "rotor_to_hub_center_distance": "zero because the missing value is not recoverable",
+      "yaw_power_factor": "cos(gamma), following the paper statement that upstream power loss is proportional to cos(gamma)"
+    },
+    "optimizer_and_constraints": {
+      "yaw_bounds_deg": [-30.0, 30.0],
+      "constraint_handler": "deterministic bound clamp and iterative pair-spacing repair",
+      "lsh_scaling": "each heterogeneous coordinate normalized to [0,1]",
+      "population": 500,
+      "physical_fes_limit": 10000,
+      "repeats": 25,
+      "reason": "retain every cited AGLDPSO control that is portable to the wind problem; use an explicit bounded wind-paper completion where the paper provides no termination or repeats"
+    }
+  },
+  "formal_protocol": {
+    "semantic_id": "t85_six_case_agldpso_25seed_v1",
+    "case_count": 6,
+    "repeats_per_case": 25,
+    "formal_run_count": 150,
+    "complete_layout_evaluations_per_run": 10000,
+    "total_complete_layout_evaluations": 1500000,
+    "target_only": true
+  },
+  "hpc": {
+    "backend": "pure C++20 CPU",
+    "executor": "one persistent all-core team",
+    "parallel_regions": [
+      "population initialization and constraint repair",
+      "normalized LSH population projection",
+      "independent subpopulation worst-particle construction",
+      "complete-layout candidate evaluation",
+      "independent subpopulation replacement"
+    ],
+    "mathematical_reformulations": [
+      "wind trigonometry and turbine tables precomputed",
+      "immutable equal-area rotor quadrature",
+      "one stable upstream sweep per wind state",
+      "outer candidate parallelism avoids nested oversubscription",
+      "counter-keyed random events and fixed reductions preserve one/all-core scientific identity"
+    ],
+    "formal_resource_rule": "one process owns all twenty Waffle cores; six cases and 25 seeds run sequentially"
+  },
+  "paper_scale_anchor": {
+    "paper_WF1_joint_AGLD_AEP_GWh": 174.74,
+    "Spark_candidate_seed_20260731_AEP_GWh": 174.70365170061288,
+    "interpretation": "scale consistency only; it is not an author-result replay claim"
+  },
+  "claim_boundary": "Academic flexible declared reconstruction of the target AGLDPSO and all six paper problems; not author-code, private-data, random-bitstream, or numerical-result replay."
+}

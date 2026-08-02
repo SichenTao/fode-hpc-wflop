@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0341",
+  "paper": {
+    "title": "Wind farm layout optimization with a three-dimensional Gaussian wake model",
+    "doi": "10.1016/j.renene.2020.06.003",
+    "year": 2020,
+    "pdf_sha256": "385658381f3af634dc47ceafef8d03ece5cd6c0084eb0289da4810941b72fbd8"
+  },
+  "target_contributions": [
+    "three-dimensional Gaussian wake model and root-sum-square wake synthesis",
+    "uniform and multiple-turbine-type wind-farm layout formulations",
+    "mixed-discrete particle swarm optimization of ten unique paper cases"
+  ],
+  "source_assets": {
+    "target_author_code": "no paper-linked public implementation located",
+    "target_author_data": "no machine-readable Figure 10 or Figure 11 arrays located",
+    "mdpso_predecessor": {
+      "doi": "10.1007/s00158-012-0851-z",
+      "retrieval": "legal publisher PDF",
+      "pdf_sha256": "5ea0011e876de7da09a70847fa6bc3bb1409dc43095e9c31451dd531bdcefeb1"
+    },
+    "single_wake_predecessor": {
+      "doi": "10.1016/j.apenergy.2018.06.027",
+      "retrieval": "legal Elsevier API",
+      "pdf_sha256": "e83ed8170d94375cd82e509aa4cc2868c47fe7c868de639bed89b6422bf2d978"
+    },
+    "multiple_wake_predecessor": {
+      "doi": "10.1016/j.renene.2019.08.122",
+      "retrieval": "legal Elsevier API",
+      "pdf_sha256": "e24faf6782fb69660f75b835fd85a2beb5b7c61aa0ceb30b5e6a80a7600a1b8c"
+    }
+  },
+  "paper_native_cases": {
+    "registered_case_ids": [
+      "l0341_uniform_wfa_a",
+      "l0341_uniform_wfa_b",
+      "l0341_uniform_wfa_c",
+      "l0341_uniform_wfb_c",
+      "l0341_uniform_wfc_c",
+      "l0341_nonuniform_wfa_a",
+      "l0341_nonuniform_wfa_b",
+      "l0341_nonuniform_wfa_c",
+      "l0341_nonuniform_wfb_c",
+      "l0341_nonuniform_wfc_c"
+    ],
+    "farms": {
+      "wfa": "4000 m by 4000 m, 25 MW capacity",
+      "wfb": "6000 m by 6000 m, 45 MW capacity",
+      "wfc": "4000 m by 10000 m, 60 MW capacity"
+    },
+    "wind_scenarios": {
+      "a": "constant 15 m/s from west",
+      "b": "constant 15 m/s with 36 equiprobable directions",
+      "c": "paper Figure 11 variable speed/direction distribution"
+    }
+  },
+  "model_contract": {
+    "wake": "target Eqs. (1)-(15), logarithmic shear, Gaussian radial deficit and root-sum-square multiple-wake synthesis",
+    "power_metrics": "target Eqs. (16)-(19), expected total power, capacity factor and efficiency",
+    "turbines": {
+      "ltw90": "1 MW, 3/9/25 m/s, D=90.3 m, hub=90 m",
+      "v126": "3 MW, 3/12/22.5 m/s, D=126 m, hub=119 m",
+      "g132": "5 MW, 1.5/13/27 m/s, D=132 m, hub=140 m"
+    },
+    "spacing": "at least five times the larger diameter; the visible exactly-5D diagnostic resolves the printed strict inequality",
+    "objective": "maximize expected total power subject to farm, installed-capacity and spacing constraints"
+  },
+  "optimizer_contract": {
+    "method": "mixed-discrete particle swarm optimization Eqs. (25)-(27)",
+    "inertia": 0.5,
+    "local_coefficient": 1.4,
+    "global_coefficient": 1.4,
+    "diversity_coefficient": 10.0,
+    "population": "20 times decision dimension",
+    "uniform_dimensions": "2*Nmax+1",
+    "nonuniform_dimensions": "3*Nmax",
+    "uniform_iterations": 15000,
+    "nonuniform_iterations": 20000,
+    "physical_fes": "population times (iterations plus one initial evaluation)"
+  },
+  "missing_fields": [
+    "machine-readable Figure 10 turbine power/thrust curves",
+    "machine-readable Figure 11 joint wind distribution",
+    "C, k0, I0 and full target wake calibration",
+    "rotor quadrature",
+    "initialization, random seeds and repeat count",
+    "velocity limits and exact constraint handling",
+    "exact variable-cardinality encoding"
+  ],
+  "declared_completions": {
+    "wind_case_c": "versioned Mosetti/Grady-family 36-by-3 joint distribution already audited in this platform",
+    "power_curves": "bounded logistic curves determined by each Table 4 cut-in, rated and cut-out speed",
+    "wake_constants": "C=5.15, axial induction=1/3, expansion=0.075 and isolated source-strength scale=2.10; Table 3 remains a scale validator",
+    "rotor_average": "three vertical points with weights 0.25, 0.5 and 0.25",
+    "uniform_cardinality": "rounded capacity divided by selected turbine rated power",
+    "nonuniform_cardinality": "zero-coded inactive slots with deterministic exact-capacity repair",
+    "initialization": "counter-keyed shifted radical-inverse design",
+    "constraints": "nearest-domain projection and Deb feasibility comparison",
+    "velocity": "half-domain componentwise clamp and reflected boundary completion",
+    "repeat_count": 25
+  },
+  "hpc_contract": {
+    "backend": "pure_cpp_cpu",
+    "evaluation": "wind states factored by direction; population candidates evaluated on one persistent full-core team",
+    "algorithm": "particle position and velocity updates parallelized on the same persistent team; global-best reduction remains deterministically ordered",
+    "randomness": "counter-keyed scheduling-independent events",
+    "formal_resource_policy": "maximum twenty aggregate Waffle CPU workers without nested oversubscription"
+  },
+  "problem_semantic_id": "l0341_three_farm_3d_gaussian_v1",
+  "method_semantic_id": "l0341_mdpso_predecessor_completed_v1",
+  "protocol_semantic_id": "l0341_10case_25repeat_paper_iterations_v1",
+  "claim_boundary": "academic declared reproduction of the target equations, MDPSO and ten unique paper optimization combinations; not author source, exact private figure arrays or curves, exact variable-cardinality encoding or numerical replay"
+}

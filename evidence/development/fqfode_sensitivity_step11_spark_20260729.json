@@ -1,0 +1,399 @@
+{
+  "schema_version": 1,
+  "receipt_id": "fqfode_sensitivity_step11_spark_20260729",
+  "claim_boundary": "Bounded reconstruction sensitivity on the common declared WS2tn50 problem only; no original-author, formal-campaign, post-hoc method-selection, or cross-semantic ranking claim.",
+  "superseded_probe": {
+    "workload": "WS1tn10 at 680 physical FES",
+    "reason": "The first probe ended at 15 generations, did not exercise the after-generation-200 schedule decision, and preceded the exact completed-FES stage hook plus full four-round-per-stage training correction.",
+    "admission": "excluded_and_overwritten"
+  },
+  "predetermined_seeds": [
+    2026072901,
+    2026072902,
+    2026072903
+  ],
+  "problem_id": "fode_e0_common",
+  "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+  "case_id": "WS2tn50",
+  "physical_fes_per_run": 24000,
+  "workers": 20,
+  "compute_backend": "cpu",
+  "binary_path": "build/step10-release/hpc/wflop_cpp/wflop_cpp_hpc",
+  "binary_sha256": "c2937e74681704ed9c501255e615af4fb97a11e50a048b87d63ff843f26df1e1",
+  "independent_stage_artifact": {
+    "path": "evidence/development/fqfode_step11_models/fqfode_independent_stage_ws2tn50_v1.qtable.tsv",
+    "sha256": "f29cc9c5fe4a1d29127585daab6b5e1971e0cbfb39a1a2f36b5348edb4457261",
+    "training_physical_fes": 158800,
+    "seed_manifest_id": "fqfode_independent_stage_seed_manifest_20250911_v1",
+    "qtable_hash": "fnv1a64:9640d54e974f8d69",
+    "training_shape": "4 stages x 4 rounds x 5 predetermined agents x 101 complete interactions"
+  },
+  "profiles": [
+    {
+      "profile_id": "baseline",
+      "effective_semantics_id": "fqfode_seeded_training_declared_reconstruction_v1",
+      "method_id": "FQFODE_SEEDED_TRAINING_DECLARED_RECONSTRUCTION_V1",
+      "runs": [
+        {
+          "seed": 2026072901,
+          "path": "evidence/development/fqfode_step11_runs/baseline-2026072901.json",
+          "sha256": "3002eb98ccdeee6608c037662952bd03b361c6b4b01b03c5d392c1aca9fc53a9",
+          "best_expected_power_kw": 19886.504234867054,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            50,
+            50,
+            50,
+            1641
+          ],
+          "stage_updates": [
+            44,
+            50,
+            50,
+            1641
+          ],
+          "learned_state_hash": "fnv1a64:c79b0b4388cafa85"
+        },
+        {
+          "seed": 2026072902,
+          "path": "evidence/development/fqfode_step11_runs/baseline-2026072902.json",
+          "sha256": "32409770590be527fb83d02e10df0f9681a95f688fe567bf7cb9914d19f8c9a4",
+          "best_expected_power_kw": 19823.30948830366,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            50,
+            50,
+            50,
+            1641
+          ],
+          "stage_updates": [
+            44,
+            50,
+            50,
+            1641
+          ],
+          "learned_state_hash": "fnv1a64:78eff9dbcb2a74a5"
+        },
+        {
+          "seed": 2026072903,
+          "path": "evidence/development/fqfode_step11_runs/baseline-2026072903.json",
+          "sha256": "08403f5cc6c4da8131225a8c6128b55821fbf1cb64e701304b4c6422d60af484",
+          "best_expected_power_kw": 19848.87764269365,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            50,
+            50,
+            50,
+            1641
+          ],
+          "stage_updates": [
+            44,
+            50,
+            50,
+            1641
+          ],
+          "learned_state_hash": "fnv1a64:33e3fce430946d47"
+        }
+      ]
+    },
+    {
+      "profile_id": "multiplicative-action",
+      "effective_semantics_id": "fqfode_seeded_training_multiplicative_sensitivity_v1",
+      "method_id": "fqfode_seeded_training_multiplicative_sensitivity_v1",
+      "runs": [
+        {
+          "seed": 2026072901,
+          "path": "evidence/development/fqfode_step11_runs/multiplicative-action-2026072901.json",
+          "sha256": "328ed93f123364a44d9cbffe178b02d5c38d0f0d19256c261880261ecb96db47",
+          "best_expected_power_kw": 19827.70803258951,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            50,
+            50,
+            50,
+            1641
+          ],
+          "stage_updates": [
+            44,
+            50,
+            50,
+            1641
+          ],
+          "learned_state_hash": "fnv1a64:9e72555df80a82d3"
+        },
+        {
+          "seed": 2026072902,
+          "path": "evidence/development/fqfode_step11_runs/multiplicative-action-2026072902.json",
+          "sha256": "e66b94699953f09158373c6e858c131ddbd01e8459cebafd9a3bc924ec21d8e0",
+          "best_expected_power_kw": 19931.685482717414,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            50,
+            50,
+            50,
+            1641
+          ],
+          "stage_updates": [
+            44,
+            50,
+            50,
+            1641
+          ],
+          "learned_state_hash": "fnv1a64:ba450513d04b14f4"
+        },
+        {
+          "seed": 2026072903,
+          "path": "evidence/development/fqfode_step11_runs/multiplicative-action-2026072903.json",
+          "sha256": "342f7942376e9ec3dc88872c6c6c23c8bf17d0caf0abe80d2728bcfa0e6fd0e0",
+          "best_expected_power_kw": 19834.27416725089,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            50,
+            50,
+            50,
+            1641
+          ],
+          "stage_updates": [
+            44,
+            50,
+            50,
+            1641
+          ],
+          "learned_state_hash": "fnv1a64:306bc8e3c89d3671"
+        }
+      ]
+    },
+    {
+      "profile_id": "fes-normalized-stage",
+      "effective_semantics_id": "fqfode_seeded_training_fes_normalized_stage_sensitivity_v1",
+      "method_id": "fqfode_seeded_training_fes_normalized_stage_sensitivity_v1",
+      "runs": [
+        {
+          "seed": 2026072901,
+          "path": "evidence/development/fqfode_step11_runs/fes-normalized-stage-2026072901.json",
+          "sha256": "cb8b773f3c9c6be82989998e918a15e65df2a568a6e79361e959515c476461e8",
+          "best_expected_power_kw": 19821.15549368615,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            240,
+            310,
+            446,
+            795
+          ],
+          "stage_updates": [
+            234,
+            310,
+            446,
+            795
+          ],
+          "learned_state_hash": "fnv1a64:5f342172574e3ec9"
+        },
+        {
+          "seed": 2026072902,
+          "path": "evidence/development/fqfode_step11_runs/fes-normalized-stage-2026072902.json",
+          "sha256": "33249fd7d488caac61d84616e7019bdcdb0e7c3516a91adfd648ffeb7f8aa070",
+          "best_expected_power_kw": 19893.014257375846,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            240,
+            310,
+            446,
+            795
+          ],
+          "stage_updates": [
+            234,
+            310,
+            446,
+            795
+          ],
+          "learned_state_hash": "fnv1a64:9df6660f6e2e71b6"
+        },
+        {
+          "seed": 2026072903,
+          "path": "evidence/development/fqfode_step11_runs/fes-normalized-stage-2026072903.json",
+          "sha256": "21bce2d2af982c7103d3178280eeb574a421224dc771183228d5937d004abea8",
+          "best_expected_power_kw": 19861.565148843267,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            240,
+            310,
+            446,
+            795
+          ],
+          "stage_updates": [
+            234,
+            310,
+            446,
+            795
+          ],
+          "learned_state_hash": "fnv1a64:90290b7d1e215daa"
+        }
+      ]
+    },
+    {
+      "profile_id": "wrap-after-generation-200",
+      "effective_semantics_id": "fqfode_generation200_wrap_stage_sensitivity_v1",
+      "method_id": "fqfode_generation200_wrap_stage_sensitivity_v1",
+      "runs": [
+        {
+          "seed": 2026072901,
+          "path": "evidence/development/fqfode_step11_runs/wrap-after-generation-200-2026072901.json",
+          "sha256": "1058396da83c8043377fbf890151940ab05f7bf46b4b86fff995e7d26020fb82",
+          "best_expected_power_kw": 19796.501094422834,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            450,
+            450,
+            450,
+            441
+          ],
+          "stage_updates": [
+            444,
+            450,
+            450,
+            441
+          ],
+          "learned_state_hash": "fnv1a64:84f54506e048894a"
+        },
+        {
+          "seed": 2026072902,
+          "path": "evidence/development/fqfode_step11_runs/wrap-after-generation-200-2026072902.json",
+          "sha256": "29219305ac36bafb366ad930d48ca06aea87edb16f55b7009023afb6ff9e884c",
+          "best_expected_power_kw": 19875.505867442287,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            450,
+            450,
+            450,
+            441
+          ],
+          "stage_updates": [
+            444,
+            450,
+            450,
+            441
+          ],
+          "learned_state_hash": "fnv1a64:f1a119b93a4c9c30"
+        },
+        {
+          "seed": 2026072903,
+          "path": "evidence/development/fqfode_step11_runs/wrap-after-generation-200-2026072903.json",
+          "sha256": "51f9beb4913643d64b585f29c78d51e623d14e97f2e4fd39c1aff815309ecf2d",
+          "best_expected_power_kw": 19837.43522658321,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            450,
+            450,
+            450,
+            441
+          ],
+          "stage_updates": [
+            444,
+            450,
+            450,
+            441
+          ],
+          "learned_state_hash": "fnv1a64:cf3fff341f7a7a60"
+        }
+      ]
+    },
+    {
+      "profile_id": "independent-stage-pretraining",
+      "effective_semantics_id": "fqfode_independent_stage_pretraining_sensitivity_v1",
+      "method_id": "fqfode_independent_stage_pretraining_sensitivity_v1",
+      "runs": [
+        {
+          "seed": 2026072901,
+          "path": "evidence/development/fqfode_step11_runs/independent-stage-pretraining-2026072901.json",
+          "sha256": "027eb4eedc2c8f0e44673581a7d52189f64e349964d10ca6d33c76f6ff37b8c5",
+          "best_expected_power_kw": 19832.1183634568,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            50,
+            50,
+            50,
+            1641
+          ],
+          "stage_updates": [
+            44,
+            50,
+            50,
+            1641
+          ],
+          "learned_state_hash": "fnv1a64:7189e96fa64b9ef4"
+        },
+        {
+          "seed": 2026072902,
+          "path": "evidence/development/fqfode_step11_runs/independent-stage-pretraining-2026072902.json",
+          "sha256": "62ef95bd052e20b52d103fe8ffdff2ac2ab76359c1bf85424f9a6af37b4474f5",
+          "best_expected_power_kw": 19933.63662767706,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            50,
+            50,
+            50,
+            1641
+          ],
+          "stage_updates": [
+            44,
+            50,
+            50,
+            1641
+          ],
+          "learned_state_hash": "fnv1a64:d072110889d06c16"
+        },
+        {
+          "seed": 2026072903,
+          "path": "evidence/development/fqfode_step11_runs/independent-stage-pretraining-2026072903.json",
+          "sha256": "154640c421f1f8e49bfb8c3e3be6b776e5a6cf95f4ea14b5f072e29e2cd3a1b3",
+          "best_expected_power_kw": 19842.460172366373,
+          "generations": 1791,
+          "policy_interactions": 1791,
+          "policy_updates": 1785,
+          "stage_interactions": [
+            50,
+            50,
+            50,
+            1641
+          ],
+          "stage_updates": [
+            44,
+            50,
+            50,
+            1641
+          ],
+          "learned_state_hash": "fnv1a64:0639255ed4831a2a"
+        }
+      ]
+    }
+  ],
+  "selection_policy": "All profile IDs, case, budget, workers, and seeds were fixed before the final corrected probe; observed quality never changes the selected baseline."
+}

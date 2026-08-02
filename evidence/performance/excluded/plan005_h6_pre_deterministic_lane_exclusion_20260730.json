@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "exclusion_id": "plan005_h6_pre_deterministic_learning_lane_exclusion_spark_20260730",
+  "status": "excluded_and_partially_reusable",
+  "excluded_campaign": {
+    "campaign_id": "plan005_h6_core_scaling_performance_first_spark_20260730",
+    "source_commit": "e64c9cac935ed759717fc2c688328ef7aa75c973",
+    "raw_observations": {
+      "logical_path": "evidence/performance/excluded/plan005_h6_pre_deterministic_lane_raw_observations_20260730.jsonl",
+      "sha256": "bacf4c23cd74fb544351268ba8cf92f29ccb601f216441dadf77f83439e00061",
+      "record_count": 2,
+      "accepted_observation_count": 1
+    },
+    "environment_sidecar": {
+      "logical_path": "evidence/performance/excluded/plan005_h6_pre_deterministic_lane_environment_sidecar_20260730.json",
+      "sha256": "2251b9b21df0b1c7f4262e17d7f4405a92887a04419ef37605f28ffedf34b9b6"
+    },
+    "stdout": {
+      "logical_path": "evidence/performance/excluded/plan005_h6_pre_deterministic_lane_stdout_20260730.log",
+      "sha256": "5d27a9957f3275a83e0c4127267f597b2d052e97654b68b41fb36e4128568d61"
+    },
+    "stderr": {
+      "logical_path": "evidence/performance/excluded/plan005_h6_pre_deterministic_lane_stderr_20260730.log",
+      "sha256": "e99007a674579d9fbe9166c704a64182696fbbfac9da248a240852e3a05de3a0"
+    }
+  },
+  "diagnostic_candidates": {
+    "worker_dependent_torch_reduction": {
+      "logical_path": "evidence/performance/excluded/plan005_h6_phase_repair_failfast_w2_candidate_raw_20260730.json",
+      "sha256": "cc7b57e5490cc3453f0c3d179b8e2ad09b9b462a5e0e3c898e26638502da9f95",
+      "stderr_logical_path": "evidence/performance/excluded/plan005_h6_phase_repair_failfast_w2_candidate_stderr_20260730.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outer_workers": 2,
+      "torch_intraop_threads": 2,
+      "physical_fes": 10000,
+      "model_hash": "fnv1a64:377a895b3d25fd9c",
+      "front_hash": "fnv1a64:b30c7e5121719a4c",
+      "learning_decision_hash": "fnv1a64:d84a90d702f343cd",
+      "population_layout_hash": "fnv1a64:5164e12a59cd87fa",
+      "total_wall_seconds": 798.736358768,
+      "disposition": "excluded_scientific_trajectory_drift"
+    },
+    "deterministic_learning_lane": {
+      "logical_path": "evidence/performance/excluded/plan005_h6_taae_deterministic_lane_w2_candidate_raw_20260730.json",
+      "sha256": "5f050b1716da0a28f193dbb9621ac35d2910ee2d20be64e1e07bc3edc56f9d2e",
+      "stderr_logical_path": "evidence/performance/excluded/plan005_h6_taae_deterministic_lane_w2_candidate_stderr_20260730.log",
+      "stderr_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "outer_workers": 2,
+      "torch_intraop_threads": 1,
+      "physical_fes": 10000,
+      "model_hash": "fnv1a64:0fc98dd4707d697f",
+      "front_hash": "fnv1a64:70fb8618104d6141",
+      "learning_decision_hash": "fnv1a64:27b57dbfc399241a",
+      "population_layout_hash": "fnv1a64:edcb673b7d84d6f4",
+      "total_wall_seconds": 996.935722525,
+      "disposition": "accepted_semantic_validation_only_missing_h6_process_receipt"
+    }
+  },
+  "cross_worker_validation": {
+    "case_id": "TAAE_Proxy_NC2_Budget600k_tn15",
+    "seed": 2026073000,
+    "physical_fes": 10000,
+    "worker_1_total_wall_seconds": 1219.893615051,
+    "worker_2_total_wall_seconds": 996.935722525,
+    "worker_1_evaluator_wall_seconds": 3.5262658150000004,
+    "worker_2_evaluator_wall_seconds": 1.7978519260000003,
+    "end_to_end_speedup": 1.2236431973380402,
+    "evaluator_speedup": 1.9613772213407523,
+    "exact_fields": [
+      "front",
+      "front_hash",
+      "learning_decision_hash",
+      "population_layout_hash",
+      "model_hash",
+      "numerical_state",
+      "physical_fes",
+      "generations",
+      "scientific_output_sha256"
+    ],
+    "conclusion": "A single deterministic LibTorch intra-op lane preserves the complete tested scientific trajectory while the outer population and evaluator remain parallel."
+  },
+  "reuse_boundary": {
+    "reusable_observation": "the worker-1 observation in the excluded raw JSONL",
+    "required_exact_matches": [
+      "binary SHA-256",
+      "command",
+      "environment SHA-256",
+      "CPU affinity",
+      "scientific payload SHA-256",
+      "deterministic learning thread topology"
+    ],
+    "prohibited_reuse": [
+      "the worker-2 failed campaign result with two LibTorch intra-op threads",
+      "the worker-2 semantic-validation candidate without a complete H6 process receipt"
+    ]
+  },
+  "reason": "The original H6 header allowed the LibTorch intra-op thread count to scale with the outer worker count. At 10000 physical function evaluations this changed the learned model and the downstream optimization trajectory. The replacement campaign fixes the learning lane at one deterministic thread, retains outer population and evaluator parallelism, and requires raw learned-state equality across worker counts.",
+  "claim_boundary": "This exclusion proves a long-horizon semantic failure of the worker-dependent LibTorch reduction on the tested TAAE case and validates the deterministic-lane repair for worker counts 1 and 2. It does not establish full H6 scaling or formal 25-seed quality."
+}

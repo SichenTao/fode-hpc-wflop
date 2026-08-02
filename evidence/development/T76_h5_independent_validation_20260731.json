@@ -1,0 +1,9 @@
+{
+  "independent_fixed_physics_cases": 2,
+  "maximum_absolute_equation_error": 3.552713678800501e-14,
+  "paper_case_roles": 6,
+  "published_turbine_types": 5,
+  "schedule_independent": true,
+  "scientific_hash": "4e90ca27b1c2ee0b",
+  "status": "pass"
+}

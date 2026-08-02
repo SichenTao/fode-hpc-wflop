@@ -1,0 +1,20 @@
+{
+  "case_a_candidate_count": 144,
+  "case_a_fixed_layout_cvar_mwh": 136395.33626608783,
+  "case_a_fixed_layout_expected_aep_mwh": 139189.26634382093,
+  "case_b_candidate_count": 100,
+  "case_b_station_count": 41,
+  "claim_boundary": "academic declared reproduction using the versioned NDAWN proxy; not author data, code, exact GA or numerical replay",
+  "corpus_id": "L0499",
+  "fixture_sha256": "42db407bc52a0c4b72bd1820ae1a6f61aba49f138b2026291e6a48bd8bc95d68",
+  "objective_variants": [
+    "to",
+    "so",
+    "ro"
+  ],
+  "observed_smoke_workers": 4,
+  "paper_case_count": 126,
+  "scientific_hash": "290bf1dd8a7667c6",
+  "smoke_physical_fes": 320,
+  "status": "pass"
+}

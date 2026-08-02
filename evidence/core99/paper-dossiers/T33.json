@@ -1,0 +1,178 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T33",
+  "paper": {
+    "authors": "Davide Cazzaro and David Franz Koza and David Pisinger",
+    "doi": "10.1016/j.ejor.2023.04.046",
+    "pdf_basename": "2023_Cazzaro_Combined_Layout_and_Cable_Optimization_of_Offshore_Wind_Farms.pdf",
+    "pdf_sha256": "1f3cc6f15e2348fad94fa8b33020c11ae01a7de4143d431a0d0d8f7f88924b8d",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV4",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "NONE",
+    "title": "Combined Layout and Cable Optimization of Offshore Wind Farms",
+    "venue": "European Journal of Operational Research",
+    "year": 2023
+  },
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "paper_linked_public_asset_candidates": [
+    {
+      "asset_type": "official_predecessor_dataset",
+      "doi": "10.11583/DTU.13134731",
+      "use": "all ten paper-native sites, geometry, fixed turbines, wind and turbine curves"
+    },
+    {
+      "asset_type": "publisher_article",
+      "url": "https://www.sciencedirect.com/science/article/pii/S0377221723003442",
+      "use": "paper identity and public abstract; no executable source"
+    },
+    {
+      "asset_type": "cited_cable_predecessor",
+      "doi": "10.1002/net.22100",
+      "use": "visibility graph, balanced radial Sweep, exact small strings, Swap and cable set"
+    }
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 15,
+    "text_sha256": "388afb9abdcb4d36f88cdcc33cc1f8aab055c8fec93f9bb2cf05eb6e80d8fa51"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [539],
+    "embedded_annotation_urls": [],
+    "status": "official_predecessor_dataset_consumed_no_target_source_found"
+  },
+  "completion_decisions": [
+    "Consume the official ten-site archive byte-for-byte and use availablePositions.txt as the binary decision set.",
+    "Use paper Eqs. 1-6 and 20-30 for joint NPV, layout, cable flow, capacity, balance and crossing semantics.",
+    "Use the paper-cited predecessor for visibility routing, the 240/336 EUR/m capacity-4/6 cable set, balanced Sweep and exact small strings.",
+    "Place one fixed substation at each zone candidate centroid because the authors' manually placed coordinates are unpublished.",
+    "Assign separable lateral lanes to the planar rooted-path forest when visibility routes share mandatory obstacle corridors because lane widths and offset costs are unpublished.",
+    "Allocate published low-density site totals among zones proportionally to high-density quotas by largest remainder.",
+    "Use ten deterministic Sweep rotations and exact subset dynamic programming for every capacity-six string.",
+    "Use same-lineage 3D/5D/8D radii, 128 one-opt and 16-by-16 two-opt candidates for unpublished neighborhood controls.",
+    "Expose literal 10/24-hour runs and freeze 860/2064 complete VNS cycles for reproducible 25-seed formal experiments.",
+    "Exclude sequential and other paper comparison baselines from target reproduction."
+  ],
+  "missing_information": [
+    "author source and original random states",
+    "manual substation coordinates",
+    "lateral cable lane widths and offset costs in shared obstacle corridors",
+    "exact cable-loss augmentation",
+    "root-string placement rule and Sweep multistart count",
+    "string randomization and all Swap schedules",
+    "candidate radii, caps, shake size and VNS schedule",
+    "Gurobi two-string matheuristic code and tolerances",
+    "full result layouts and trajectories"
+  ],
+  "paper_source_conflicts": [
+    "Paper Table 1 reports total info.json Points as available positions, although the official availablePositions.txt decision files exclude fixed turbines.",
+    "Site A official README reports high-density quotas 26/8, while info.json areas and the paper total 40 imply 26/14."
+  ],
+  "scope": {
+    "claim_boundary": "academic flexible paper/data reconstruction of the target combined heuristic and all twenty paper cases; not author code unpublished manual substations Gurobi bitstream original random stream or numerical replay",
+    "execution_wave": "REV4",
+    "package_status": "paper_pair_h5_validated",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "coupled_or_real_world_problem_and_method"
+  },
+  "semantic_contract": {
+    "decision_variables": {
+      "authority": "paper_Eqs_3_5_18_24",
+      "resolution": "binary candidate-position selection plus balanced radial cable arcs and types",
+      "status": "frozen"
+    },
+    "objective_and_direction": {
+      "authority": "paper_Eqs_1_2_6_8_23",
+      "resolution": "maximize annual AEP times 450 EUR/MWh lifetime factor minus official foundation and cable costs",
+      "status": "frozen"
+    },
+    "constraints_and_repair": {
+      "authority": "paper_Eqs_3_5_9_19_21_22_24_30",
+      "resolution": "exact zone cardinality, 1200 m spacing, balanced capacity-six radial strings, visibility-routed obstacle avoidance and declared separable corridor lanes yielding a planar no-crossing embedding",
+      "status": "frozen"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper_Sections_2_3",
+      "resolution": "sorted official candidate indices decoded jointly with per-zone radial string lists",
+      "status": "frozen"
+    },
+    "initialization": {
+      "authority": "paper_Section_3_1_and_cited_predecessor",
+      "resolution": "PDSP progressive removal plus deterministic spacing repair, then ten-rotation balanced Sweep with exact strings",
+      "status": "frozen"
+    },
+    "update_order": {
+      "authority": "paper_Algorithms_1_2_and_Sections_3_2_3_5",
+      "resolution": "selected-turbine 1-opt, nearby 2-opt fallback, feasible weighted shake, cable recomputation, strict feasible incumbent retention",
+      "status": "frozen"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_Sections_2_1_2_3_and_official_data",
+      "resolution": "T31-verified Jensen packed pair matrix plus official foundations, EPF 0.45 and capacity-priced visibility cable paths",
+      "status": "frozen"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper_Section_4_2_and_official_archive",
+      "resolution": "all 177 positive-probability official RVO_TNW direction-speed states and NREL 15 MW curve",
+      "status": "frozen"
+    },
+    "paper_native_cases": {
+      "authority": "paper_Table_1_and_Sections_4_2_4_3",
+      "resolution": "ten official sites A-J crossed with published low and high density totals",
+      "status": "frozen"
+    },
+    "parameters": {
+      "authority": "paper_then_cited_predecessor_then_declared_completion",
+      "resolution": "EPF 0.45, 25 years, cable capacities/costs 4/240 and 6/336, ten Sweep rotations, 3D/5D/8D radii and frozen candidate caps",
+      "status": "frozen"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper_Sections_4_3_4_8_Table_3_plus_declared_fixed_work",
+      "resolution": "literal 10/24 h profiles exposed; formal uses 860 low and 2064 high complete VNS cycles",
+      "status": "frozen"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper_Tables_2_4_B5_B8_plus_platform_protocol",
+      "resolution": "NPV, AEP/revenue, foundation, cable, feasibility, cycles, candidate/route work, timings and hashes over 25 seeds",
+      "status": "frozen"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "T33 has no learned model",
+      "status": "not_applicable"
+    }
+  },
+  "hpc_admission": {
+    "H0": "pass: O(N squared times wind states) pair construction, PDSP reductions, visibility routing and combined neighborhoods analyzed",
+    "H1": "pass: paper, official data, cited cable predecessor, conflicts, omissions and cases traced",
+    "H2": "pass: immutable preprocessing, packed matrix, PDSP, Sweep, exact strings, candidate deltas and ordered commits decomposed",
+    "H3": "pass: pure C++20, memory-mapped matrix, visibility APSP, persistent executor, stable events and adaptive granularity implemented",
+    "H4": "pass: all twenty cases, CLI, cache, joint VNS, formal runner and resume protocol implemented",
+    "H5": "pass: official counts, NPV equations, foundation sum, cable scale, constraints and one/four-worker trajectory independently validated",
+    "H6": "queued on Waffle after core99-t24-deferred for one/all-twenty-worker paper-work and formal campaign"
+  },
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_waffle_after_t24",
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/cazzaro_t33.hpp",
+    "hpc/core99_cpp/src/cazzaro_t33.cpp",
+    "hpc/core99_cpp/src/cazzaro_t33_main.cpp",
+    "hpc/core99_cpp/tests/cazzaro_t33_test.cpp",
+    "scripts/validate_core99_t33.py",
+    "scripts/run_core99_t33_h6_formal.py",
+    "scripts/run_core99_t33_when_waffle_free.sh",
+    "shared/contracts/core99_t33_cazzaro_combined_2023.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/T33_H0_H4_mathematical_hpc_analysis_20260731.md",
+    "evidence/development/T33_h5_independent_validation_20260731.json"
+  ]
+}

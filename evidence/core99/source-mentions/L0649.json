@@ -1,0 +1,27 @@
+{
+  "availability_mention_line_numbers": [
+    755,
+    1027,
+    1029
+  ],
+  "candidate_public_asset_urls": [
+    "https://github.com/NREL/floris",
+    "https://github.com/locascio-m/flowers",
+    "https://gitlab.windenergy.dtu.dk/TOPFARM/PyWake"
+  ],
+  "corpus_id": "L0649",
+  "doi": "10.1002/we.2954",
+  "embedded_annotation_asset_urls": [
+    "https://github.com/NREL/floris",
+    "https://github.com/locascio-m/flowers",
+    "https://gitlab.windenergy.dtu.dk/TOPFARM/PyWake"
+  ],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "e058017dbbaa6f21831b34097eec239b7ae410513f650eec7206d75dcb7f86fe",
+  "private_text_sha256": "17d3f0420002e522aa5667db11c6602d80ec7952eebd0d07589eea5acefa8ec0",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": [
+    "https://github.com/locascio-m/f",
+    "https://gitlab.w"
+  ]
+}

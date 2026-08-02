@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T76",
+  "paper": {
+    "title": "Investigation into Spacing Restriction and Layout Optimization of Wind Farm with Multiple Types of Wind Turbines",
+    "doi": "10.1016/j.energy.2018.11.073",
+    "pdf_sha256": "dae77490f061fd063361a5f4b10aefba70773c4569b97c4a3c4a3e085860daba"
+  },
+  "author_assets": {
+    "paper_implementation": "MATLAB MPGA",
+    "public_source_status": "exact-title, DOI, author, GitHub, laboratory, and paper-link searches located no target source",
+    "native_data_status": "manufacturer power and CP arrays, Sha Chau 2001-2011 hourly records, joint frequency array, random states, and optimum coordinates unavailable"
+  },
+  "cited_predecessor": {
+    "title": "Wind turbine layout optimization using multi-population genetic algorithm and a case study in Hong Kong offshore",
+    "doi": "10.1016/j.jweia.2015.01.018",
+    "repository_contract": "shared/contracts/core99_t62_gao_2016.json",
+    "use": "MPGA lineage completion and standard Jensen parameter evidence"
+  },
+  "paper_source_conflicts": [
+    {
+      "field": "number of individuals",
+      "paper": "48, while the prose uses individual to mean a turbine coordinate",
+      "resolution": "treat 48 as turbine count and use 20 chromosomes per deme from the audited T62 MPGA lineage"
+    },
+    {
+      "field": "E-44 hub height",
+      "paper": "Table 1 gives 45 m while Case-3 prose says 88 m",
+      "resolution": "use the explicit Table-1 value 45 m"
+    },
+    {
+      "field": "Case-3 wind shear",
+      "paper": "offshore Table-5 value is alpha=0.10, while printed hub-height speeds correspond to alpha=0.40",
+      "resolution": "use alpha=0.40 because it reproduces the paper's numerical Case-3 inputs"
+    },
+    {
+      "field": "directional crosswind restriction",
+      "paper": "prose says 3D and Figure 4 depicts total width 3D",
+      "resolution": "interpret the ratio as total width, giving plus/minus 1.5D"
+    }
+  ],
+  "missing_information": [
+    "target MATLAB source and release",
+    "numerical manufacturer power and power-coefficient curves",
+    "type-specific thrust or axial-induction arrays",
+    "Jensen wake-decay value",
+    "MPGA chromosome count, selection, crossover form, migration period, elite count, and maximum generation safeguard",
+    "random states, repeat count, trajectories, and machine-readable optimum layouts",
+    "Sha Chau 2001-2011 hourly wind records and joint direction-speed frequency matrix"
+  ],
+  "completion_decisions": [
+    "Retain all five Table-1 ENERCON turbine specifications exactly.",
+    "Complete each missing manufacturer curve with a monotone cubic energy-law interpolation anchored to the Case-3 theoretical outputs and rated point.",
+    "Derive one axial-induction value per type from its published power anchor through actuator-disk CP and freeze it outside evaluator loops.",
+    "Use exact circle intersection, root-sum-square deficits, and the lineage-standard Jensen expansion coefficient k=0.075.",
+    "Use the paper's directional and omnidirectional spacing logic, treating directional crosswind ratios as total widths.",
+    "Reconstruct the unavailable Sha Chau speed marginal from Figure 21 and three direction modes from Figure 20 as a deterministic 36-by-27 joint distribution.",
+    "Reuse T62 lineage defaults of 20 chromosomes per deme, tournament-2, one-point crossover, one elite per deme, and 20-generation ring migration.",
+    "Use counter-keyed random events, fixed-index writes, and ordered elite/migration commits to preserve one/all-core scientific identity."
+  ],
+  "problem_semantic_id": "t76_fourcase_directional_multitype_declared_v1",
+  "method_semantic_id": "t76_mpga_directional_heterogeneous_declared_v1",
+  "protocol_semantic_id": "t76_fourcase_25seed_500stall_v1",
+  "problem_roles": {
+    "fixed_reference_roles": [
+      "Case 1 omnidirectional aligned E-82",
+      "Case 1 directional aligned E-82"
+    ],
+    "optimized_roles": [
+      "Case 2 omnidirectional uniform E-82",
+      "Case 2 directional uniform E-82",
+      "Case 3 directional five-type concentrated wind",
+      "Case 4 directional five-type Sha Chau wind climate"
+    ],
+    "registered_role_count": 6
+  },
+  "decision_and_constraints": {
+    "farm": "4 km by 4 km continuous square",
+    "encoding": "20-bit x and 20-bit y coordinate per turbine",
+    "case_1_and_2_turbines": "48 E-82 turbines",
+    "case_3_and_4_turbines": "45 turbines, nine of each of five ENERCON types",
+    "omnidirectional_spacing": "both turbines inactive below 5 times the larger rotor diameter",
+    "directional_spacing": "downstream target inactive within 5 source diameters and the declared total crosswind width"
+  },
+  "physics": {
+    "wind_shear": "paper power law by turbine hub height",
+    "wake": "2-D Jensen with hub-height distance, exact partial overlap, and root-sum-square deficits",
+    "wake_decay_completion": 0.075,
+    "power": "type-specific monotone cubic energy-law completion through published anchor and rated point",
+    "case4_wind_states": 972,
+    "objective": "maximize probability-weighted farm power"
+  },
+  "algorithm": {
+    "lineage": "paper MPGA plus audited T62 declared completions",
+    "demes": 10,
+    "chromosomes_per_deme": 20,
+    "elite_per_deme": 1,
+    "selection": "tournament size 2",
+    "crossover": "one-point bit crossover with deme-specific probability 0.7 through 0.9",
+    "mutation": "independent bit mutation with deme-specific probability 0.001 through 0.05, implemented by geometric skipping",
+    "migration": "best chromosome ring migration every 20 generations",
+    "paper_stopping": "best total output unchanged for 500 generations",
+    "maximum_generations_completion": 5000
+  },
+  "physical_fes_ledger": {
+    "unit": "one complete spacing, wake, power, and feasibility evaluation of one physical layout",
+    "initial_population": 200,
+    "offspring_per_generation": 190,
+    "maximum_complete_work": 950200,
+    "variation_selection_and_migration": "do not consume physical wind-farm FES"
+  },
+  "hpc_execution": {
+    "backend": "pure C++20 CPU-HPC",
+    "single_run": "one persistent all-core worker team parallelizes initialization, offspring construction, and complete physical layout evaluations",
+    "evaluator_optimizations": "direction-grouped geometry, state-type inflow and no-wake-power precomputation, type-level axial precomputation, and exact shared physics",
+    "ordered_semantics": "counter-keyed random events, fixed-index writes, and ordered elite and migration commits preserve one/all-worker scientific identity",
+    "formal_resource_rule": "one optimization process owns every Waffle CPU core; cases and seeds run sequentially",
+    "timings": "physical evaluator, algorithm-only, and end-to-end wall times are reported separately"
+  },
+  "paper_native_formal_protocol": {
+    "fixed_reference_runs": 2,
+    "optimized_case_roles": 4,
+    "seeds_per_optimized_role": 25,
+    "required_target_runs": 100,
+    "h6_case": "Case 2 directional uniform E-82",
+    "h6_fixed_complete_physical_layout_evaluations": 950200,
+    "formal_outputs": [
+      "best layout and complete physical evaluation",
+      "generation and physical-FES ledger",
+      "evaluator, algorithm, and end-to-end timings",
+      "worker receipt and scientific hash",
+      "source commit and executable hash"
+    ]
+  },
+  "claim_boundary": "academic flexible reconstruction of the target MPGA and all six paper problem roles; not author source, native manufacturer/Sha Chau arrays, original MATLAB random stream, raw optima, or exact numerical replay"
+}

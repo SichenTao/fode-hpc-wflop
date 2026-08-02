@@ -1,0 +1,24 @@
+{
+  "campaign_id": "plan005_h6_core_scaling_spark_20260730",
+  "excluded_artifacts": {
+    "header": {
+      "line_count": 1,
+      "logical_path": "evidence/performance/excluded/plan005_h6_numeric_first_topology_discovery_pilot_header_20260730.jsonl",
+      "observation_count": 0,
+      "sha256": "935a06fc12135aa05493af87956d8e7e8da7e49261ec761bb93b74ade6c04e02"
+    },
+    "stderr": {
+      "logical_path": "evidence/performance/excluded/plan005_h6_numeric_first_topology_discovery_pilot_stderr_20260730.log",
+      "sha256": "e71b340523aca0fc75c0a66fe2c0fd7f735acd5476f2e276052f7425a6a08575"
+    },
+    "stdout": {
+      "logical_path": "evidence/performance/excluded/plan005_h6_numeric_first_topology_discovery_pilot_stdout_20260730.log",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    }
+  },
+  "reason": "The numeric CPU-id prefix is not a scientifically comparable worker topology on Spark's heterogeneous 10x Cortex-X925 plus 10x Cortex-A725 processor. The runner was stopped before the first observation and replaced by a fresh architecture-aware performance-first campaign.",
+  "replacement_topology_rule": "Order core-type groups by descending group maximum MHz; within each model order CPUs by descending per-CPU maximum MHz then ascending CPU id. Store selection order separately from the sorted Linux affinity set.",
+  "schema_version": 1,
+  "source_commit": "86c1c1b43fcdd4255a4e2c173e46775228181e7a",
+  "status": "excluded_topology_discovery_only"
+}

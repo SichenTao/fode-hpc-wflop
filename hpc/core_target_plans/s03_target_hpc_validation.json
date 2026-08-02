@@ -1,0 +1,64 @@
+{
+  "H5_bounded_equivalence": {
+    "candidate_backends": [
+      "cpu_hpc_v1"
+    ],
+    "comparison_scope": "independent oracle/formula comparison plus bounded target optimizer execution; backend self-agreement alone is not accepted as equivalence",
+    "independent_reference": {
+      "ctest_names": [
+        "scalar_native_evaluator_oracle"
+      ],
+      "description": "independent Python Jensen/Park complete-layout evaluator",
+      "does_not_call_candidate": true,
+      "implementation_or_oracle": "scripts/validate_scalar_native_evaluator.py",
+      "primary_test_output_sha256": "fb746c1831ac9b0263cad3ed9182286f259f8c94262c380f90ea38723556800d"
+    },
+    "numerical_comparison": {
+      "maximum_absolute_error": 3.637978807091713e-12,
+      "maximum_scaled_absolute_error": 3.497401131706813e-16,
+      "observed_result": {
+        "contracts": 10,
+        "maximum_absolute_error": 3.637978807091713e-12,
+        "maximum_scaled_absolute_error": 3.497401131706813e-16,
+        "scaled_tolerance": 1e-10,
+        "status": "pass"
+      },
+      "passed": true,
+      "scaled_tolerance": 1e-10
+    },
+    "physical_fes_ledger": "bounded target runtime checks exact physical objective work; learning artifact training is outside that ledger",
+    "reference_backend": "independent_reference_v1",
+    "runtime_test": "scalar_native_transition_replay",
+    "runtime_test_output_sha256": "71fd09659a93fa3ff4859c7d795fb1820f16b8557f3b01f6abd3738a315178f8",
+    "runtime_test_receipt": "evidence/development/plan004_h5_independent_reference_receipts_20260730.json",
+    "runtime_test_receipt_sha256": "66fbcfbeec589cd69e9d2e07916a8686a538dcc7cbd322a7641b437401689219",
+    "status": "accepted_h5"
+  },
+  "H6_performance_validation": {
+    "accepted_backend": "cpu_hpc_full_visible_v1",
+    "all_visible_characterized": true,
+    "all_visible_workers": 20,
+    "claim_boundary": "Measured fixed-work highest-performance-profile H6 only; a full worker-scaling curve is not required and no formal quality claim is made.",
+    "measured_serial_fraction": null,
+    "minimum_named_h0_stage_attribution": 1.0,
+    "performance_receipt": "evidence/performance/plan005_h6_performance_first_summary_20260730.json",
+    "performance_receipt_sha256": "5519c51eeb300a47647c39f6ba2700681d321c74bac94fb93c443517ece4ef6d",
+    "raw_observation_receipt": "evidence/performance/plan005_h6_performance_first_raw_observations_20260730.jsonl",
+    "selected_workers": 20,
+    "status": "accepted_h6",
+    "worker_scaling_characterized": false
+  },
+  "analysis_path": "hpc/core_target_plans/s03_target_hpc_analysis.json",
+  "analysis_sha256": "f8a97d5e9c8485195b19bd449c175e905178d9c12de81a976e7ac77cb32ef420",
+  "claim_boundary": "H5 accepts bounded independent-reference equivalence only. No backend is selected before exact-pair H6 and no formal-quality claim is made.",
+  "corpus_id": "S03",
+  "method_semantic_id": "fode_e0_physical_fes",
+  "native_asset": "shared/contracts/benchmark_cases.json",
+  "native_asset_sha256": "1b4d7b687f2608c38343ea6252ecea51fff711f8939665ca07a40110127879c5",
+  "overall_status": "accepted_h5_h6",
+  "pair_id": "S03__fode__fode_wflop_e0_legacy_v1__target",
+  "paper_protocol_id": "math2025_fode_native_25_v1",
+  "problem_semantic_id": "fode_wflop_e0_legacy_v1",
+  "schema_version": 2,
+  "validation_id": "plan004_h5__S03__fode__fode_wflop_e0_legacy_v1__target__spark_20260730"
+}

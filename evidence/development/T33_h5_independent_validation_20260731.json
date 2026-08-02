@@ -1,0 +1,82 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T33",
+  "status": "pass",
+  "validator": "scripts/validate_core99_t33.py",
+  "validator_sha256": "c5724e03cb0b507ca6de26c41f5f0c6e8c8f1cc1a86aea0ca56aed29d081b666",
+  "independence": "Python official-file count and foundation summation plus direct NPV equation recomposition without importing or linking the production C++ implementation",
+  "paper_cases": {
+    "case_count": 20,
+    "sites": 10,
+    "densities": ["low", "high"],
+    "available_position_range": [3196, 21634],
+    "fixed_turbine_range": [8, 75],
+    "low_density_turbine_range": [20, 156],
+    "high_density_turbine_range": [40, 313],
+    "positive_probability_wind_states": 177
+  },
+  "all_reference_routes": {
+    "evaluated_case_count": 20,
+    "spacing_feasible": true,
+    "capacity_balanced_rooted_strings": true,
+    "obstacle_visibility_paths": true,
+    "lane_completed_crossings": 0,
+    "status": "pass"
+  },
+  "official_a_low_reference": {
+    "turbines": 20,
+    "zone_quotas": [13, 7],
+    "feasible": true,
+    "spacing_violation_m": 0.0,
+    "cable_crossings": 0,
+    "aep_mwh": 1604732.5019827441,
+    "lifetime_revenue_eur": 722129625.8922348,
+    "foundation_cost_eur": 53174948.32272143,
+    "cable_cost_eur": 10210610.713047462,
+    "npv_eur": 658744066.8564658,
+    "paper_combined_cable_scale_eur": 13000000,
+    "scale_gate": "within 50 percent; not numerical replay"
+  },
+  "parallel_equivalence": {
+    "case": "official A low density",
+    "cycles": 2,
+    "seed": 330046,
+    "worker_counts": [1, 4],
+    "observed_parallel_workers_minimum": 2,
+    "scientific_trajectory": "bit-identical",
+    "status": "pass"
+  },
+  "spark_full_work_profile": {
+    "case": "official A low density",
+    "cycles": 860,
+    "seed": 330046,
+    "candidate_evaluations": 323539,
+    "sweep_rotations": 8610,
+    "scientific_hash": 2324969962124435034,
+    "one_worker_seconds": {
+      "matrix": 10.390202084,
+      "initialization": 0.032013563,
+      "candidates": 1.990411429,
+      "cable": 1.457084945,
+      "optimization": 3.508214876,
+      "end_to_end": 14.002561976
+    },
+    "twenty_worker_seconds": {
+      "matrix": 0.759817249,
+      "initialization": 0.024204004,
+      "candidates": 0.355459012,
+      "cable": 0.945721112,
+      "optimization": 1.364006514,
+      "end_to_end": 2.17263847
+    },
+    "speedup_twenty_over_one": {
+      "matrix": 13.674606753,
+      "initialization": 1.322655665,
+      "candidates": 5.599552584,
+      "cable": 1.540713141,
+      "optimization": 2.571992758,
+      "end_to_end": 6.444957212
+    }
+  },
+  "claim_boundary": "H5 official-data, equation, scale, constraint and deterministic parallel validation; immutable Waffle H6 and formal 25-seed results remain queued"
+}

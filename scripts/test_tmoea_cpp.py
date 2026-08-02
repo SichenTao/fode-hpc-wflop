@@ -4,6 +4,7 @@
 from __future__ import annotations
 
 import argparse
+import hashlib
 import json
 import subprocess
 import tempfile
@@ -85,6 +86,38 @@ def main() -> int:
             arguments.seed,
             temp_path / "one.json",
         )
+        historical = run(
+            arguments.binary,
+            arguments.problem,
+            1,
+            3000,
+            20260729,
+            temp_path / "historical-v1.json",
+        )
+        historical_science = {
+            key: value
+            for key, value in historical.items()
+            if key not in {
+                "requested_workers",
+                "observed_workers",
+                "timing_seconds",
+            }
+        }
+        historical_hash = hashlib.sha256(
+            json.dumps(
+                historical_science,
+                sort_keys=True,
+                separators=(",", ":"),
+            ).encode("utf-8")
+        ).hexdigest()
+        if (
+            historical_hash
+            != "bf9c4eb51d95632acecb0a06f9c008a4e28e783308b5d0b048a44a8ce390a04c"
+        ):
+            raise RuntimeError(
+                "historical T-MOEA v1 scientific output changed: "
+                f"{historical_hash}"
+            )
         twenty = run(
             arguments.binary,
             arguments.problem,
@@ -166,6 +199,7 @@ def main() -> int:
     print(
         "tmoea_cpp_admission_pass "
         f"physical_fes={arguments.physical_fes} workers=1,20 "
+        "historical_v1_sha256=bf9c4eb51d95632a "
         "profile=nysted_gga_asset_reconstruction"
     )
     return 0

@@ -1,0 +1,163 @@
+{
+  "schema_version": 1,
+  "contract_id": "plan004_alga_attention_architecture_v1",
+  "corpus_id": "T45",
+  "method_semantic_id": "alga_attention_declared_reconstruction_v1",
+  "optimized_module": "AlgaAttention",
+  "evidence_status": {
+    "paper": {
+      "title": "Multi-Attention-Powered Learning Genetic Algorithm for Real-World 3D Wind Farm Layout Optimization",
+      "doi": "10.1016/j.swevo.2025.102018",
+      "sha256": "770b56c0dccbd7683e3c33652d7062c385eb2f00c126d2e9f2a3b7129fdc5872",
+      "local_authoritative_pdf": "private-literature/2025_Yang_Multi_Attention_Powered_Learning_Genetic_Algorithm_for_Real_World_3D_Wind_Farm_Layout_Optimization.pdf",
+      "pages": 22,
+      "contains_appendix_or_supplement": false,
+      "plan004_consumption_receipt": "evidence/development/plan004_learning_pdf_consumption_20260730.json",
+      "full_text_consumed": true
+    },
+    "author_alga_source": {
+      "available": false,
+      "evidence": "docs/source-dossiers/T45.json"
+    },
+    "predecessor_source": {
+      "name": "WFLO-GGA",
+      "commit": "6ce41326e6c1d3685a01e038baf6d1d07aa46126",
+      "role": "one-point crossover and repair convention only"
+    },
+    "reference_implementation": {
+      "kind": "independent_direct_cpp_declared_reconstruction",
+      "path": "hpc/wflop_cpp/src/algorithms/alga_attention_declared_reconstruction.cpp",
+      "isolation_scope": "AttentionModel, attention_forward, and train_one_full_batch_step are independent of LibTorch; the same full optimizer source selects this kernel when no artifact is supplied and the typed LibTorch kernel when an artifact is supplied",
+      "does_not_call_optimized_module": false
+    },
+    "optimized_implementation": {
+      "kind": "typed_libtorch_module",
+      "module": "AlgaAttention",
+      "interface": "hpc/learning_libtorch/include/wflop_learning/models.hpp",
+      "source": "hpc/learning_libtorch/src/models.cpp",
+      "target_executable": "plan004_learning_target_hpc --method alga",
+      "backend_matrix_test": "scripts/test_plan004_learning_backends.py",
+      "step2_receipt": "evidence/development/plan004_learning_libtorch_step2_20260730.json"
+    }
+  },
+  "tensor_contract": {
+    "population_input": {
+      "shape": [30, "turbine_count"],
+      "normalization": "sorted occupied cell index divided by grid cardinality minus 0.5",
+      "evidence": "paper Section 4.2 defines Psi in R^(l by d), describes population-derived generation-updated samples, and Section 4.3 gives O(N D^2 + N^2 h); mapping rows to 30 individuals and normalized grid indices to d features is disclosed because l/d ownership is not unambiguous"
+    },
+    "query_projection": {
+      "shape": [8, "turbine_count"],
+      "per_head_output_width": 1,
+      "evidence": "paper Eqs. 19-20 specifies W_Q in R^(d by d_k); Table 2 specifies eight heads; d_k=1 is disclosed reconstruction"
+    },
+    "key_projection": {
+      "shape": [8, "turbine_count"],
+      "per_head_output_width": 1,
+      "evidence": "paper Eqs. 19-20 specifies W_K in R^(d by d_k); Table 2 specifies eight heads; d_k=1 is disclosed reconstruction"
+    },
+    "value_projection": {
+      "shape": [8, "turbine_count"],
+      "per_head_output_width": 1,
+      "evidence": "paper Eqs. 19 and 22-23; value width one is disclosed reconstruction"
+    },
+    "attention_scores": {
+      "shape": [8, 30, 30],
+      "formula": "query[h,i] * key[h,j]",
+      "scale": 1.0,
+      "normalization": "softmax over source individual j",
+      "evidence": "paper Eqs. 20-21; dimensions [8,30,30] follow the disclosed l=population mapping and d_k=1"
+    },
+    "attended_values": {
+      "shape": [8, 30],
+      "evidence": "paper Eqs. 22-23 under the disclosed l=population mapping"
+    },
+    "prediction": {
+      "shape": [30],
+      "formula": "scalar_bias + sum_h output_weight[h] * attended_values[h,i]",
+      "evidence": "paper Eq. 23 and shallow-network statement; scalar prediction target, output width, and bias are disclosed reconstruction because the paper omits a supervised loss"
+    }
+  },
+  "architecture": {
+    "attention_heads": {
+      "value": 8,
+      "evidence": "paper Table 2"
+    },
+    "network_depth": {
+      "value": "one_multi_head_attention_plus_one_linear_scalar_output",
+      "forbidden": "generic_hidden_mlp",
+      "evidence": "paper Section 4.2 states a shallow simple network and Eqs. 19-23 specify attention; omission of any additional hidden layer is disclosed reconstruction"
+    },
+    "initialization": {
+      "projection_and_output": "counter_keyed_xavier_uniform",
+      "scalar_bias": 0.0,
+      "evidence": "paper does not specify initialization; disclosed reconstruction"
+    }
+  },
+  "loss_and_training": {
+    "target": {
+      "formula": "(fitness-min)/(max-min), all-equal maps to one",
+      "shape": [30],
+      "evidence": "paper does not specify a network target; disclosed reconstruction using already evaluated fitness"
+    },
+    "loss": {
+      "formula": "full-batch mean squared error",
+      "evidence": "paper does not specify a training loss; disclosed reconstruction"
+    },
+    "optimizer": {
+      "type": "vanilla_full_batch_gradient_descent",
+      "learning_rate": 0.001,
+      "updates_per_generation": 1,
+      "fixed_reduction_order": true,
+      "evidence": "paper Table 2 specifies learning rate 1e-3 and Algorithm 1 invokes network learning once per generation; optimizer, batching, and update count are otherwise disclosed reconstruction"
+    }
+  },
+  "evolution_bridge": {
+    "population_size": {
+      "value": 30,
+      "evidence": "paper Section 5.1 and Table 2"
+    },
+    "elite_count": {
+      "value": 6,
+      "evidence": "disclosed 20 percent inheritance from predecessor"
+    },
+    "crossover_probability": {
+      "value": 0.8,
+      "evidence": "paper Table 2 and Eq. 16"
+    },
+    "mutation_probability": {
+      "value": 0.1,
+      "evidence": "paper Table 2 and Eq. 17"
+    },
+    "mask_cardinality": {
+      "formula": "ceil(0.1 * turbine_count)",
+      "evidence": "disclosed reconstruction using paper mutation degree"
+    },
+    "selection_interface": "paper Eq. 24 replaces masked low-attention position elements with a high-potential position sequence; the executable mapping uses mean received multi-head attention plus normalized fitness, aggregates by cell, and sources unoccupied high-attention cells from elites as an explicitly disclosed completion",
+    "artifact_fields": [
+      "method_semantic_id",
+      "problem_semantic_id",
+      "turbine_count",
+      "query",
+      "key",
+      "value",
+      "output_weight",
+      "scalar_bias",
+      "training_generation",
+      "learned_state_fnv1a64",
+      "file_sha256"
+    ],
+    "artifact_trainer": "plan004_learning_target_hpc --method alga --artifact-out",
+    "optimizer_consumer": "wflop_cpp_hpc --algorithm alga_attention_declared_reconstruction_v1 --training-artifact",
+    "consumer_bridge": "train_libtorch_full_batch_step in hpc/wflop_cpp/src/algorithms/alga_attention_declared_reconstruction.cpp drives the real population, attention-ranked cell replacement, crossover, mutation, repair, native evaluation, exact-FES partial offspring, and elitist selection loop",
+    "bounded_e2e_test": "scripts/test_plan004_learning_full_optimizers.py",
+    "physical_fes": "initial 30 plus each evaluated non-elite offspring; attention training adds zero FES"
+  },
+  "backend_contract": {
+    "same_model_and_loss": ["cpu", "cuda", "hybrid"],
+    "cpu_reference_required": true,
+    "cuda_optional_additional_equivalence": true,
+    "generic_backend_compatibility_is_not_target_evidence": true
+  },
+  "claim_boundary": "Paper-guided M3 declared reconstruction on separately identified problem proxies. It is not author ALGA source, data, learned state, or reported-result reproduction."
+}

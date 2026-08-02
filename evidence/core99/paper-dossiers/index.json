@@ -1,0 +1,461 @@
+{
+  "record_count": 76,
+  "records": [
+    {
+      "corpus_id": "T02",
+      "dossier_sha256": "c04b93951103a95e51fc392fdaf95e0e5b24cb2d9278f14cd9fba8bd60ce0c4f",
+      "dossier_status": "formal_complete",
+      "role": "D"
+    },
+    {
+      "corpus_id": "R06",
+      "dossier_sha256": "0d34450f07f1806df66816192492c1088d67eec37776ed31845f94c060217cf0",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "T03",
+      "dossier_sha256": "0404de3c6f9f24b2d27f41c3ba43bbcebbb03dbf4b7fb0ebe475058da72874f3",
+      "dossier_status": "formal_complete",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T01",
+      "dossier_sha256": "3b2e7942db1fa5bd4d15641d0e37ef00f882e47b5947e50cab6b6a06be858f57",
+      "dossier_status": "formal_complete",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T04",
+      "dossier_sha256": "56ea903e80b34da63d102dba87b937e148c4776ee2730eb72de4d373a155bd2a",
+      "dossier_status": "formal_complete",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T22",
+      "dossier_sha256": "923353d5035ae0231f81a178e2a3ccadf6380b7242d48433b2a76d678df0a875",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T14",
+      "dossier_sha256": "2368dad04a504548cfb7dbef9f8457aa90b827a8b4eafac8c172404e080b68d2",
+      "dossier_status": "formal_complete",
+      "role": "D"
+    },
+    {
+      "corpus_id": "R03",
+      "dossier_sha256": "0c76790129cb9a9b389f3935b018f600c5eeaa495607701595a031959aef54a6",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "T12",
+      "dossier_sha256": "bb6bcf73e42ab5c6b6e13e714fc6db9750f1661c69ba46b9537a69bd3f8c67ec",
+      "dossier_status": "formal_complete",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T15",
+      "dossier_sha256": "c77a12acdfac17ed2ccfe5a8ddb07ebe4a152f7b814e3e875d523b4ae7b0f611",
+      "dossier_status": "formal_complete",
+      "role": "D"
+    },
+    {
+      "corpus_id": "R09",
+      "dossier_sha256": "e19315fe4fb6bc3739ef47ade5ec4825979af9d377de700889aaa23c2a500c55",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "R11",
+      "dossier_sha256": "a9ed7a20242b328d2e92b270c6cac96b6678fddcb383961e4591940160af8050",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "T20",
+      "dossier_sha256": "24e4616b8891f19e98ac519529cb692e4f8cfc7dc80a454ca9e5fc2401ed2eb2",
+      "dossier_status": "formal_complete",
+      "role": "D"
+    },
+    {
+      "corpus_id": "R21",
+      "dossier_sha256": "7d1480e30fea176fa88ba7e4e38ad3ff598277e559f88ca250e52e59795ff904",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "R04",
+      "dossier_sha256": "835b83e4eda2c8a5f8f63e27e83705e56684fe5bd2f7cbceab6a395252f92bf7",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "T48",
+      "dossier_sha256": "d913987096c23e5056b63498cd9d685296737d8d2e1ac588c98a78af7679f1c9",
+      "dossier_status": "formal_complete",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T62",
+      "dossier_sha256": "69968846aced02b8804f78be80ffa74adad0b0bf21078f907d83dafdc8bf3146",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "R07",
+      "dossier_sha256": "d7e128c826603bed78eba35ee69f54ee7eca82a05336cf396b53da61e9a6d987",
+      "dossier_status": "review_evidence_audit_ready",
+      "role": "R"
+    },
+    {
+      "corpus_id": "T17",
+      "dossier_sha256": "d1041fc55725303bb8aa9e302f23da4b85b6abac3409b457baab002fe91d66f6",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T63",
+      "dossier_sha256": "81658302dd2f658aac6aac88948c006b3566b79020c4509ee5c79c63159986ab",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T16",
+      "dossier_sha256": "85dea041c8886e88363011005c815bf8776940145ac47e9d437c91933072e3a2",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0124",
+      "dossier_sha256": "0b2b6beb130ff68f7ca592561c2de26d7629dd47c7ab183c565f92ca826c1419",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T87",
+      "dossier_sha256": "2d5b6c894bf202bd6daf38b75582c17871117e45f489e5dabed8d7ec73c4b14e",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0371",
+      "dossier_sha256": "0f85ac9af5c46e42799dec28be0a1478f91e18dee9aeeb1104aed02d22a42152",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0499",
+      "dossier_sha256": "649a84965658da2d428c0d58e91a7a9975ce5d136fef5c200fcb9af35e8fa0f9",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0590",
+      "dossier_sha256": "9b7d25e7f921224459a15118ba558544be590486fcde0e8f49ddf3290029a0d3",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0341",
+      "dossier_sha256": "4914e19fe18c5ebc7ac98608ad695afda522a39a6d103f2d06a935cd7bf19ac0",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0623",
+      "dossier_sha256": "532f25f2afe08b5263f98a2be5197ae27507d08d8db859a375bb221b2019a645",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T80",
+      "dossier_sha256": "5f1c4ef35869097dc446c2b2bea861f73bd0799321301a9f9fb30c8d5db2c47e",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T74",
+      "dossier_sha256": "5736a45a499535d9d3f546a0c25e0703e4d2e3eb185740305e7e9026e0645566",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T05",
+      "dossier_sha256": "7125462de9242541e02378ed11e75274c480eb3912105bc7a0835448cc28736e",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T07",
+      "dossier_sha256": "66d3758cb312883e101c5dfcb1302f0082934978de101c8a196024bdf2d9b656",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T77",
+      "dossier_sha256": "04394b9c4cd497c00fa1d7b3523853a5e2f262bea6edb14fe3388eedc5464f1f",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T31",
+      "dossier_sha256": "a826087e87c7d871a938476e8cbc6cca9ae102e88276db48c22ccc08a4a4b205",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T27",
+      "dossier_sha256": "81fcdffe96bab679cf636a94ef46f1ff0efbff8a167a596d0041a285be026443",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T21",
+      "dossier_sha256": "db96972bafb4f314b826974901fe02e491b19a3d383ad67fbf36188d6d85dd5d",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T72",
+      "dossier_sha256": "d3906aa657000d37520609f86a9301575798c44aa7c271c52d2ea47d76adf3a8",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T60",
+      "dossier_sha256": "9c7f073a0376a62b4c8721548bb6160b53942d6ea09502444897ad78148ec5e9",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T11",
+      "dossier_sha256": "d0a38628d76cea6c3c34b6c4f0d1886eb9638fd884224ada646e81372869f99c",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0259",
+      "dossier_sha256": "ea40ddc11cde1db1a2b3125e0e3d55f9505c40638cae2376e501f978e081e8ab",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T30",
+      "dossier_sha256": "bc45d6cef6a14800e5457f1fccbeb22689ebccd50a791e9245ce94366d53a19f",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T82",
+      "dossier_sha256": "17b52ea51a93364d02c0bb76bc6917737a0539ef91c5192988f82172c94917f1",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T85",
+      "dossier_sha256": "1db42de9b58ca622fb37493eb8b7dcda278ae61ae908d89a286ce2a8444fc1c3",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T24",
+      "dossier_sha256": "05325dc628d629cfe99fc0ce326831fe18a07f9f6655c0df38552ab2866ee000",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T33",
+      "dossier_sha256": "a6b1044d8a75bae9da5f78ed9dbe723ca5d7387314147e4f7a2c5a33aaf7b3a7",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T64",
+      "dossier_sha256": "cf3074d8220302a3c7376add63383d8a7c09cf9e688d2c2825319cbcfa9c5e47",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T67",
+      "dossier_sha256": "50003e82e30e5f53b92728240dcd55529a60e2a267b048c72230b4c19f0fe526",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T76",
+      "dossier_sha256": "8e5ce77021f304ace9362f36e9bf93333539736501f0bb058bb40fd12989958e",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T81",
+      "dossier_sha256": "c64db81ff3952d7a7a9b4ab9a06be65c754ebc69b1c4de40a95f0c797dd84ef7",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T32",
+      "dossier_sha256": "5a94b98ba65f1d5d0771af7b1df7484bfa0f5e5a99e5fbdcfb546e9bade335e5",
+      "dossier_status": "blocked_missing_primary_pdf",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T68",
+      "dossier_sha256": "9963bff9a1d6876e2e495629036bfdeac40ed65c1b676169e3b8cdbd08e54928",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T78",
+      "dossier_sha256": "ed8637c231dd1275c21e4c5d33dc328e3cc8b530ed101e10901236a17ecd861f",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T83",
+      "dossier_sha256": "97ca8c6e5266c207cde85596a6e70ec9ba602daa451a094a07c42f1b87b72911",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T69",
+      "dossier_sha256": "3ea6948d77afe6f868aec2329299cf2ef282ed7654061cb51deed3e3ae9377e9",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T28",
+      "dossier_sha256": "a076951d382663994fb19e9476e944aa97c2bddcd64a789fd6b0afa856a1209b",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0079",
+      "dossier_sha256": "c45c2ab8f3177bdeac385f8f294007ccbfe66165a2570696b334dce13340ed45",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "Y09",
+      "dossier_sha256": "1a0f3baf408b16a58306395f9619bf482f9afced33f1bd1af15e7de37573bf26",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "Y14",
+      "dossier_sha256": "c5a2b7fc659c58b0656deb12ee3b27556b90dfc33cc956a6b2270d796c009353",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "Y16",
+      "dossier_sha256": "a3a9ff1e18eb23fa8ef6835d08493cd2d820219efb0e728109eafb9d7bd3c9de",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0368",
+      "dossier_sha256": "8b082b2b31c035d32a5998fcd826913ccc7a9444c87fb8b413cc4fa68225fd88",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0373",
+      "dossier_sha256": "9eaeada600e1db67cf71e061d5a560715504e1cf756af5659937b961f4de7218",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0298",
+      "dossier_sha256": "b55d5461c31d3de4d2318a7bf748d859ce72fe32e6b5ae7e5cde6269eb667d99",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T73",
+      "dossier_sha256": "ddfc040d5c4beb9fb3c8078f38069c89d1bad40590283c76456e6bf398433a5c",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T18",
+      "dossier_sha256": "71381bf21671299575bd91d7577e8bb811d424abd199fcf8facddecd91ef19c1",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T25",
+      "dossier_sha256": "7f15787d32da9c90e9832ea73a1297352e0fb70bc79f94c5d903d39835e1fb1e",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T19",
+      "dossier_sha256": "12b5e599d120fb9c0dbf543defbe77ec665fdf109323563fbe0e1555a25a999b",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T08",
+      "dossier_sha256": "9c3a32d91ccf6bec25b7f6b9b28fe13a6f6b995ed2dabb7db28e2fe4c7767ce1",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T10",
+      "dossier_sha256": "185b4f206e45b3c3925c55456601915511af466ca50cff18cd4e630ab80791dc",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T84",
+      "dossier_sha256": "adca4f24cfa580f6b313b77fab25b74965e5bb63207a350246939cfb5766d579",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T58",
+      "dossier_sha256": "8861b60b868bc854fae528613b1a333bb5d3cb066ca4f8430464b531a45b3ac9",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "T26",
+      "dossier_sha256": "5ba579a5690a5e8058471dae6f10fb87042a2ed6a550ce8e4736d82cc758b1e1",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "Y13",
+      "dossier_sha256": "38c893f0f462a9abf89d0923cbd35749eebdfc618ff2f31184260826bcf30fe0",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0649",
+      "dossier_sha256": "ad93731730b6c0ce0b9c573e70195906dd317003c98cb3ab1926d79e7905e05b",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0805",
+      "dossier_sha256": "b19e22e820b68fbffd6276b5432bbb03c0a962d8ebc94f23219140a636c9b526",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0581",
+      "dossier_sha256": "a40348da6911e92b2f581e8bb3ce376a5d1ec861c6489abc24cc638fc684c4e0",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    },
+    {
+      "corpus_id": "L0245",
+      "dossier_sha256": "f00cea78678c74be79fe9e1403f4de92e5b136bd70cdbdf6f1ce7aed74512cec",
+      "dossier_status": "h5_admitted",
+      "role": "D"
+    }
+  ]
+}

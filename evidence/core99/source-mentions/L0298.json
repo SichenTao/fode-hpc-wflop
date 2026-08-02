@@ -1,0 +1,16 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [
+    "https://github.com/smkalami/ypea126-nsga3",
+    "https://github.com/MATPOWER/matpower/blob/5f1b70611a573f5455de7a2e5786aed12adfbaf8/data/case24_ieee_rts.m",
+    "https://yarpiz.com/456/ypea126-nsga3"
+  ],
+  "corpus_id": "L0298",
+  "doi": "10.1109/tsg.2020.3022378",
+  "embedded_annotation_asset_urls": [],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "99057161f4efdb2cf0c8a72b82890bba6c7a4ff67fc3c2d71509129e5b8609e6",
+  "private_text_sha256": "816a360b954adcbc792d0841f3050e3cbcd3d7f029e334da4cbb2bb81c3fd0cb",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": []
+}

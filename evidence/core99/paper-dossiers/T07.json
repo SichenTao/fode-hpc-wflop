@@ -1,0 +1,156 @@
+{
+  "authority_ladder": [
+    "paper_and_publisher_manuscript",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    {
+      "authority": "paper_Figure_10_digitization_and_reported_distances",
+      "field": "unpublished exact Horns Rev coordinates and polygon",
+      "resolution": "8x10 7D rhombus with digitized 97.35-degree row orientation"
+    },
+    {
+      "authority": "paper_Eq_12_then_deterministic_quadrature",
+      "field": "unpublished rotor-disc integration rule",
+      "resolution": "four equal-area radial annuli by sixteen midpoint azimuths"
+    },
+    {
+      "authority": "paper_Figure_13_then_Weibull_CDF",
+      "field": "unpublished wind-speed probability-mass convention",
+      "resolution": "integer 0-30 m/s bins with half-open Weibull CDF mass"
+    },
+    {
+      "authority": "paper_Algorithm_1_then_declared_open_solver",
+      "field": "unpublished CVX files and solver settings",
+      "resolution": "explicit trust SCP with damped BFGS and pinned NLopt SLSQP QP solves"
+    }
+  ],
+  "corpus_id": "T07",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_after_predecessor",
+  "hpc_admission": {
+    "H0": "pass: evaluator work derived as O(N_direction*N_turbine^2*N_rotor*N_variable) for the full forward gradient; dense QP and trust state are the serial critical path",
+    "H1": "pass: equations, constants, cases, constraints, source absence, missing fields and Weibull label conflict traced",
+    "H2": "pass: wind bins -> pair wakes -> rotor average -> RSS -> clipped power -> ordered reduction -> gradient -> QP -> trust acceptance -> damped BFGS",
+    "H3": "pass: CPU chosen; persistent task team spans direction-turbine terms, fixed-index ordered reduction preserves determinism, QP/state dependencies remain serial",
+    "H4": "pass: complete pure-C++ production evaluator, forward AD, explicit SCP, QP bridge and CLI",
+    "H5": "pass: separate Python equation oracle, paper initial fixtures, AD finite difference, feasibility and one/four-worker replay",
+    "H6": "queued_on_waffle"
+  },
+  "missing_information": [
+    "author MATLAB/CVX source and exact solver settings were not published",
+    "exact Horns Rev numeric coordinates and boundary polygon were not published",
+    "rotor-disc quadrature and wind-speed probability-mass construction were not published",
+    "initial trust radius, Hessian scale, epsilon and iteration limit were not published",
+    "SOWFA/CFD calibration arrays were acknowledged but not published with the paper"
+  ],
+  "paper": {
+    "authors": "Jinkyoo Park and Kincho H. Law",
+    "doi": "10.1016/j.apenergy.2015.03.139",
+    "pdf_basename": "2015_Park_Layout_Optimization_for_Maximizing_Wind_Farm_Power_Production_Using_Sequential_Convex_Programming.pdf",
+    "pdf_sha256": "3cb643c1aa8585ce539bb170c78dc50f0da36a2cd8dd10734e880e70eba1ced3",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV3",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "NONE",
+    "title": "Layout Optimization for Maximizing Wind Farm Power Production Using Sequential Convex Programming",
+    "venue": "Applied Energy",
+    "year": 2015
+  },
+  "paper_linked_public_asset_candidates": [],
+  "paper_source_conflicts": [
+    {
+      "field": "Weibull Table-2 parameter headings",
+      "paper_fact": "the manuscript labels 8.15-11.50 as shape and 2.05-2.81 as scale",
+      "conflict": "that interpretation cannot produce the Figure-13 curves or realistic Horns Rev speeds",
+      "resolution": "paper-figure-first profile uses 8.15-11.50 as scale and 2.05-2.81 as shape"
+    }
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 15,
+    "text_sha256": "e2b7f8e8e2624602a3523bf4498b2ca6602747c70d98b10edb111ef37aeefd18"
+  },
+  "public_asset_candidate_evidence": {
+    "status": "no_paper_linked_public_asset_candidate_detected"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "academic equation-level reconstruction with declared geometry, quadrature, wind-bin and open-QP completions; not author source or numerical replay",
+    "execution_wave": "REV3",
+    "package_status": "h5_admitted_h6_and_formal_queued",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "optimization_search_or_learning_method"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "paper_Eqs_19_and_Algorithm_1",
+      "resolution": "5D pair spacing, digitized rhombus boundary, linearized QP spacing and Euclidean trust region",
+      "status": "implemented_and_tested"
+    },
+    "decision_variables": {
+      "authority": "paper_Section_4",
+      "resolution": "continuous x/y hub positions for 80 turbines",
+      "status": "implemented_and_tested"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper",
+      "resolution": "160-vector ordered as all x coordinates then all y coordinates",
+      "status": "implemented_and_tested"
+    },
+    "initialization": {
+      "authority": "paper_Figure_10_then_digitization",
+      "resolution": "digitized Horns Rev 1 8x10 7D rhombus",
+      "status": "implemented_and_paper_scale_tested"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper_Tables_1_and_3_then_deterministic_protocol",
+      "resolution": "initial/final efficiency, feasibility, trust trace and timings; one run per deterministic case",
+      "status": "implemented_formal_queued"
+    },
+    "objective_and_direction": {
+      "authority": "paper_Eqs_18_27_29_30",
+      "resolution": "maximize single-condition or expected wind-farm power efficiency",
+      "status": "implemented_and_independently_tested"
+    },
+    "paper_native_cases": {
+      "authority": "paper_Sections_5.1_to_5.3",
+      "resolution": "three single-direction, one expected-wind and five wake-expansion sensitivity cases",
+      "status": "implemented_and_tested"
+    },
+    "parameters": {
+      "authority": "paper_then_declared_completion",
+      "resolution": "NREL-5MW D126 m, 5D spacing, k values 0.030-0.050, acceptance 0.2, expansion 1.1, contraction 0.5, declared q0/B0/tolerance/caps",
+      "status": "implemented_and_frozen"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper_Algorithm_1_then_declared_completion",
+      "resolution": "up to 100 accepted/rejected SCP stages; every full objective-gradient evaluation and QP evaluation reported",
+      "status": "implemented_and_tested"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "no learned model",
+      "status": "not_applicable"
+    },
+    "update_order": {
+      "authority": "paper_Algorithm_1_and_Eqs_24_to_26",
+      "resolution": "objective-gradient, QP, actual/predicted acceptance, trust update, then accepted-step damped BFGS",
+      "status": "implemented_and_tested"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_Eqs_9_12_15_17",
+      "resolution": "continuous Gaussian wake, rotor average, RSS deficits, 0.9 calibration and clipped cubic power",
+      "status": "implemented_and_independently_tested"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper_Table_2_Figure_13_then_declared_bin_mass",
+      "resolution": "12 directions and Figure-13 integer 0-30 m/s Weibull bins with corrected parameter interpretation",
+      "status": "implemented_and_declared"
+    }
+  }
+}

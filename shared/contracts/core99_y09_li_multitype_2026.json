@@ -1,0 +1,104 @@
+{
+  "schema_version": 1,
+  "corpus_id": "Y09",
+  "paper": {
+    "title": "Wind Farm Layout Optimization with Multi-Type Wind Turbines for Minimizing Levelized Cost of Energy",
+    "authors": "Tian Li and Baoshan Yang and Qingshan Yang and Mingming Zhang and Weicheng Hu and Kunpeng Guo",
+    "doi": "10.1016/j.renene.2025.124386",
+    "venue": "Renewable Energy 270, 2026, 124386",
+    "pdf_sha256": "970def94341cb1efeaa828e19d05cf0bb2bc8e1317c19b053f3446b13d496153"
+  },
+  "authority_ladder": [
+    "target journal paper",
+    "first-party CN117473875B patent",
+    "pinned cited-lineage public NREL turbine arrays",
+    "deterministic declared completion"
+  ],
+  "source_search": {
+    "date": "2026-07-31",
+    "target_publisher": "https://doi.org/10.1016/j.renene.2025.124386",
+    "first_party_patent": "https://patents.google.com/patent/CN117473875B/zh",
+    "patent_pdf_sha256": "7f388b57c53ff9f5a97b43033b8771608d18f7a245796827537aa399ef6421fa",
+    "result": "No target implementation, CFD input arrays, turbine-curve archive, random state, seed, repeat ledger or numeric result archive was found."
+  },
+  "semantic_contract": {
+    "site": "5 km by 5 km square divided into 10 by 10 cells; every cell center is a candidate",
+    "encoding": "100 categorical genes: zero empty, one NREL 5 MW, two IEA/NREL 15 MW",
+    "turbines": "5 MW: hub 90 m, rotor radius 63 m, life 20 y; 15 MW: hub 150 m, rotor radius 120 m, life 20 y",
+    "inflow": "steady 12 m/s at 150 m, flow direction selected per case, power-law exponent 0.12 and Iref 0.12",
+    "wake": "paper-corrected three-dimensional Qian-Ishihara velocity and turbulence model, linear velocity deficit and modified overlap-aware turbulence superposition",
+    "fatigue": "paper Eq.55 with maintenance compensation 0.5 and turbulence fatigue coefficient 0.7",
+    "cost": "paper Eqs.30-39, 40 half-year preventive cycles, preventive reduction 0.8, preventive cost 0.01 percent and replacement cost 5 percent of turbine price",
+    "objective": "minimize scalar LCOE equal to construction plus maintenance cost divided by steady total power",
+    "algorithm": "roulette GA, single-point categorical crossover, category-balanced variable mutation",
+    "population": 100,
+    "crossover_rate": 0.08,
+    "total_mutation_rate": 0.01,
+    "maximum_generations": 1000,
+    "formal_stopping": "fixed 1000 generations because the paper states a maximum-iteration limit but publishes no numeric convergence tolerance",
+    "native_repeats": 1,
+    "physical_fes": "one complete wake-fatigue-LCOE evaluation of one 100-cell layout"
+  },
+  "paper_native_cases": [
+    "west_five_only",
+    "west_multi",
+    "west_fifteen_only",
+    "northwest_multi",
+    "southwest_multi",
+    "fatigue_008_multi",
+    "fatigue_012_multi",
+    "fatigue_016_multi",
+    "cost_020_multi",
+    "cost_030_multi",
+    "cost_040_multi",
+    "cost_050_multi"
+  ],
+  "conflicts": [
+    {
+      "field": "site_and_turbine_pair",
+      "journal": "5 km by 5 km; NREL 5 MW and IEA 15 MW",
+      "patent_example": "2 km by 2 km; 2 MW and 5 MW",
+      "resolution": "journal controls the problem; patent only completes omitted GA settings"
+    },
+    {
+      "field": "objective_classification",
+      "journal_narrative": "multi-objective framework",
+      "journal_equation_39": "one scalar LCOE objective",
+      "resolution": "implement and optimize Eq.39; emit power and fatigue as diagnostics"
+    }
+  ],
+  "missing_information_and_completions": [
+    {
+      "field": "author code, CFD arrays, seeds and repeats",
+      "completion": "independent deterministic implementation; one declared run per unique case; no author identity claim"
+    },
+    {
+      "field": "journal GA numeric settings",
+      "completion": "first-party patent population 100, crossover 0.08, mutation 0.01, roulette and category-balanced mutation; declared single-point crossover and fixed 1000-generation formal budget"
+    },
+    {
+      "field": "printed turbine power and thrust curves",
+      "completion": "pinned FLORIS-v2.4 NREL-5-MW CP/CT and public Cazzaro NREL/IEA-15-240 arrays, with source conflict retained in code fact declaration"
+    },
+    {
+      "field": "continuous CFD overlap field",
+      "completion": "paper equations evaluated at turbine hubs using an explicit deterministic full/partial-overlap specialization"
+    }
+  ],
+  "method_semantic_id": "y09_ternary_variable_mutation_ga_declared_v1",
+  "problem_semantic_id": "y09_multitype_mqi_fatigue_lcoe_declared_v1",
+  "protocol_semantic_id": "y09_native_12case_single_run_declared_v1",
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC",
+    "strategy": [
+      "precompute immutable grid, turbine curves and scenario transforms",
+      "prune wake interactions at the paper's fifteen-diameter horizon",
+      "parallel fixed-index population initialization, offspring construction and evaluation on one persistent team",
+      "freeze each GA generation before independent offspring work",
+      "precompute roulette prefix weights once per generation",
+      "counter-key random events and commit the next population in index order"
+    ],
+    "determinism": "one-worker/all-worker layout, metrics, FES and scientific hash identity is mandatory"
+  },
+  "claim_boundary": "Source-backed flexible academic reproduction of the complete paper problem, ternary GA and twelve unique paper-native cases; not author source, unavailable CFD arrays, exact plotted turbine arrays, random trajectory or numerical replay."
+}

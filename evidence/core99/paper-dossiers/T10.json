@@ -1,0 +1,168 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "Implement every paper-native problem, CHT, MOGOMEA variant and NSGA-II variant; exclude algorithms only cited as prior comparison context.",
+    "Treat Table-4 directions as meteorological wind-from and convert to flow-to.",
+    "Use binary MI normalized by ln(2), average-link UPGMA and stable index ties online; use geographic Euclidean distance with the same UPGMA rules offline.",
+    "Infer tau=0.5 from the published cluster-size equation and initial population/cluster values.",
+    "Use an unrestricted exact-deduplicated archive and the published FI threshold as the missing NIS base.",
+    "Use repair, resample and constraint domination respectively for the MOGOMEA, o-MOGOMEA and two NSGA-II multi-resolution roles.",
+    "Execute the full 192 fixed-resolution plus four multi-resolution role matrix with ten independent seeds and one million shared physical layout evaluations per run."
+  ],
+  "corpus_id": "T10",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_waffle",
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pending_waffle"
+  },
+  "missing_information": [
+    "author Python source and random states",
+    "wind-direction convention",
+    "MI normalization, UPGMA and cluster tie rules",
+    "archive capacity and exact duplicate behavior",
+    "numeric NIS base and hypervolume history implementation",
+    "Figure-17 multi-resolution CHT selection",
+    "machine-readable fronts, layouts, convergence arrays and timings"
+  ],
+  "paper": {
+    "authors": "S. Rodrigues and P. Bauer and Peter A.N. Bosman",
+    "doi": "10.1016/j.rser.2016.07.021",
+    "pdf_basename": "2016_Rodrigues_Multi_Objective_Optimization_of_Wind_Farm_LayoutsComplexity_Constraint_Handling_and_Scalability.pdf",
+    "pdf_sha256": "7a3144fb6fc2c584efa04859cea4906b1e05e23ee326af10c4db1b5aebead08d",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV5",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "REV3",
+    "title": "Multi-Objective Optimization of Wind Farm Layouts—Complexity, Constraint Handling and Scalability",
+    "venue": "Renewable and Sustainable Energy Reviews",
+    "year": 2016
+  },
+  "paper_linked_public_asset_candidates": [
+    {
+      "asset_type": "publisher_open_article",
+      "url": "https://www.sciencedirect.com/science/article/pii/S1364032116303458",
+      "use": "primary paper identity and full text; no executable assets"
+    },
+    {
+      "asset_type": "author_institution_open_pdf",
+      "url": "https://ir.cwi.nl/pub/25089/Rodrigues_Renewable_and_Sustainable_Energy_Reviews_2016.pdf",
+      "use": "institutional paper mirror; no executable assets"
+    }
+  ],
+  "paper_source_conflicts": [
+    "The article describes five CHTs but the case-study matrix uses four active CHTs at 2D/4D plus the naturally feasible 8D no-constraint construction; Figs. 13-15 repeat four CHT labels at all resolutions.",
+    "The paper specifies an NIS concept and hypervolume stopping conditions but does not publish a standalone numeric NIS base or exact history implementation."
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 23,
+    "text_sha256": "c52d500485989f8af4010280a560a732126f3ddedc7c1289c30b37a906af86bb"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [],
+    "embedded_annotation_urls": [],
+    "status": "open_paper_only_no_executable_asset_detected"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "academic flexible paper-equation reproduction of all twelve problems, four target algorithms, CHTs and multi-resolution roles; not author Python absent implementation choices random stream fronts trajectories or timings",
+    "execution_wave": "REV5",
+    "package_status": "paper_pair_h5_validated_h6_and_formal_queued",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "scaling_computation_or_reproducible_execution"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "paper_Sections_2_2_and_4_4_plus_declared_ties",
+      "resolution": "8D spacing; no-constraint, domination without physical evaluation, one-ideal-turbine pair penalty, random-removal repair and 100-try resample",
+      "status": "frozen"
+    },
+    "decision_variables": {
+      "authority": "paper_Section_2_3_3_Table_5",
+      "resolution": "binary occupancy over square 2D 4D and 8D candidate grids",
+      "status": "frozen"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper",
+      "resolution": "row-major packed-bit grid; exact coarse-site mapping into finer grids with new variables zero",
+      "status": "frozen"
+    },
+    "initialization": {
+      "authority": "paper_Section_3_3_1",
+      "resolution": "uniform count from one through maximum packing, random first site and repeated farthest feasible site",
+      "status": "frozen"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper_Section_4_6_and_5",
+      "resolution": "normalized hypervolume at reference zero, final front, timing, physical FES, science hash and ten independent seeds",
+      "status": "frozen"
+    },
+    "objective_and_direction": {
+      "authority": "paper_Eqs_8_9",
+      "resolution": "maximize normalized farm energy and installed-turbine efficiency from one shared expected-power numerator",
+      "status": "frozen"
+    },
+    "paper_native_cases": {
+      "authority": "paper_Table_5_Figs_13_17",
+      "resolution": "four areas times three grid steps times four CHT labels plus wind-farm-B 8D-to-4D-to-2D multi-resolution",
+      "status": "frozen"
+    },
+    "parameters": {
+      "authority": "paper_Sections_3_3_4_5_plus_declared_completion",
+      "resolution": "five clusters, initial cluster size four and population 20, tau 0.5, crossover 0.9, bit mutation 1/l, growing population and exact-deduplicated unrestricted archive",
+      "status": "frozen"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper_Section_4_6_plus_declared_NIS_completion",
+      "resolution": "one million complete-layout shared two-objective FES maximum and hypervolume improvement 1e-5 over twice 1+floor(log10(population size)) generations",
+      "status": "frozen"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "paper",
+      "resolution": "not applicable; online mutual-information linkage is rebuilt from the current population and is not a pretrained model",
+      "status": "not_applicable"
+    },
+    "update_order": {
+      "authority": "paper_Sections_3_3_3_6",
+      "resolution": "paper-ordered clustering linkage GOM/FI archive survivor growth and NSGA rank tournament crossover mutation merge selection archive growth",
+      "status": "frozen"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_Eqs_2_9_Tables_3_4",
+      "resolution": "partial-overlap Katic-Jensen with RSS deficits, V164 interpolated power/thrust and shared normalized expected-power objectives",
+      "status": "frozen"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper_Table_4_plus_declared_direction_convention",
+      "resolution": "twelve discrete direction-specific mean speeds and annual frequencies interpreted as meteorological wind-from",
+      "status": "frozen"
+    }
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/rodrigues_t10.hpp",
+    "hpc/core99_cpp/src/rodrigues_t10.cpp",
+    "hpc/core99_cpp/src/rodrigues_t10_main.cpp",
+    "hpc/core99_cpp/tests/rodrigues_t10_test.cpp",
+    "scripts/validate_core99_t10.py",
+    "scripts/run_core99_t10_h6_formal.py",
+    "scripts/run_core99_t10_when_waffle_free.sh",
+    "shared/contracts/core99_t10_rodrigues_2016.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/T10_H0_H4_mathematical_hpc_analysis_20260801.md",
+    "evidence/core99/h5/T10_local_h5.json"
+  ]
+}

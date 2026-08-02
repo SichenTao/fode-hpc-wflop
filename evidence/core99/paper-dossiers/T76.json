@@ -1,0 +1,197 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T76",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_waffle_after_t67",
+  "paper": {
+    "authors": "Haiying Sun, Hongxing Yang, and Xiaoxia Gao",
+    "doi": "10.1016/j.energy.2018.11.073",
+    "pdf_basename": "2019_Sun_Investigation_into_Spacing_Restriction_and_Layout_Optimization_of_Wind_Farm_with_Multiple_Types_of_Wind_Turbines.pdf",
+    "pdf_sha256": "dae77490f061fd063361a5f4b10aefba70773c4569b97c4a3c4a3e085860daba",
+    "primary_asset_status": "local_primary_pdf_hashed_and_consumed",
+    "primary_review_class": "REV4",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D",
+    "title": "Investigation into Spacing Restriction and Layout Optimization of Wind Farm with Multiple Types of Wind Turbines",
+    "venue": "Energy",
+    "year": 2019
+  },
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "author_assets": {
+    "paper_implementation": "MATLAB MPGA",
+    "target_public_source": "not_located",
+    "complete_native_problem_data": "not_located",
+    "search_scope": "exact title, DOI, author, GitHub, laboratory, and paper-link audit"
+  },
+  "cited_predecessor": {
+    "doi": "10.1016/j.jweia.2015.01.018",
+    "repository_unit": "T62",
+    "usage": "MPGA lineage and missing-setting completion"
+  },
+  "missing_information": [
+    "target MATLAB source and environment",
+    "numerical manufacturer power and CP curves",
+    "axial-induction and wake-decay values",
+    "complete MPGA chromosome, variation, migration, and maximum-generation settings",
+    "random states, repeats, trajectories, and machine-readable optimum coordinates",
+    "Sha Chau 2001-2011 hourly records and joint frequency array"
+  ],
+  "paper_source_conflicts": [
+    {
+      "field": "individual count",
+      "paper": "48 uses individual to mean turbine coordinate",
+      "resolution": "48 controls turbine count; T62 controls chromosomes per deme"
+    },
+    {
+      "field": "E-44 hub height",
+      "paper": "Table 1 says 45 m and Case-3 prose says 88 m",
+      "resolution": "Table-1 value 45 m controls"
+    },
+    {
+      "field": "Case-3 alpha",
+      "paper": "offshore table says 0.10 and printed speeds imply 0.40",
+      "resolution": "printed numerical Case-3 inputs control, alpha=0.40"
+    },
+    {
+      "field": "directional crosswind distance",
+      "paper": "3D prose and Figure 4 total width",
+      "resolution": "ratio is interpreted as total crosswind width"
+    }
+  ],
+  "completion_decisions": [
+    "All five published turbine specifications and power anchors are exact.",
+    "Missing power curves use a declared cubic energy-law completion.",
+    "Missing axial induction is derived from each published CP anchor.",
+    "Missing Jensen expansion uses the lineage-standard k=0.075.",
+    "Missing Sha Chau array uses a deterministic figure-informed 36-direction by 27-speed reconstruction.",
+    "Missing MPGA settings use the audited T62 lineage and are repeated in source-top declarations and the controlling contract."
+  ],
+  "semantic_contract": {
+    "paper_native_cases": {
+      "status": "implemented",
+      "resolution": "two aligned reference roles and four optimized MPGA roles"
+    },
+    "decision_variables": {
+      "status": "implemented",
+      "resolution": "20-bit x/y coordinates for 48 uniform or 45 type-fixed turbines"
+    },
+    "encoding_and_decoder": {
+      "status": "implemented",
+      "resolution": "binary coordinate encoding maps deterministically into the 4 km square"
+    },
+    "constraints_and_repair": {
+      "status": "implemented",
+      "resolution": "paper omnidirectional and source-oriented directional inactive-turbine rules"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "status": "implemented_and_independently_validated",
+      "resolution": "wind shear, 2-D Jensen exact overlap, RSS deficits, and type-specific power completions"
+    },
+    "wind_and_scenario_sampling": {
+      "status": "paper_plus_declared_completion",
+      "resolution": "paper constant winds and deterministic Figure-20/21 Sha Chau completion"
+    },
+    "objective_and_direction": {
+      "status": "implemented",
+      "resolution": "maximize probability-weighted farm power"
+    },
+    "initialization": {
+      "status": "declared_completion",
+      "resolution": "counter-keyed uniform 20-bit coordinate initialization"
+    },
+    "update_order": {
+      "status": "paper_lineage_completion",
+      "resolution": "parallel offspring/evaluation followed by ordered elite and ring-migration commits"
+    },
+    "parameters": {
+      "status": "paper_plus_lineage_completion",
+      "resolution": "10 demes, 20 chromosomes each, paper crossover/mutation ranges, 20-generation migration"
+    },
+    "stopping_and_physical_fes": {
+      "status": "implemented",
+      "resolution": "500 unchanged generations, 5000 fail-safe, and one full layout physics call per FES"
+    },
+    "metrics_and_repeats": {
+      "status": "platform_completed",
+      "resolution": "25 seeds per optimized paper role plus fixed references, timings, worker receipt, and hash"
+    },
+    "training_and_inference_lifecycle": {
+      "status": "not_applicable",
+      "resolution": "T76 has no trained model"
+    }
+  },
+  "semantic_ids": {
+    "problem": "t76_fourcase_directional_multitype_declared_v1",
+    "method": "t76_mpga_directional_heterogeneous_declared_v1",
+    "protocol": "t76_fourcase_25seed_500stall_v1"
+  },
+  "hpc_admission": {
+    "H0": "complete_paper_source_missing_data_and_conflict_audit",
+    "H1": "complete_mathematical_decomposition",
+    "H2": "complete_complexity_parallelism_and_physical_fes_analysis",
+    "H3": "complete_persistent_all_core_cpp_implementation",
+    "H4": "complete_spark_fixed_work_profile",
+    "H5": "pass_independent_equation_anchor_and_schedule_validation",
+    "H6": "pass_spark_provisional_queued_waffle_after_t67"
+  },
+  "h5_evidence": {
+    "status": "pass",
+    "paper_case_roles": 6,
+    "published_turbine_types": 5,
+    "independent_fixed_physics_cases": 2,
+    "maximum_absolute_equation_error": 3.552713678800501e-14,
+    "schedule_independent": true
+  },
+  "paper_anchor_evidence": {
+    "directional_output_paper_mw": 38.68,
+    "directional_output_reconstruction_mw": 38.642109547007806,
+    "directional_minimum_paper_kw": 787,
+    "directional_minimum_reconstruction_kw": 785.9003893596064,
+    "omnidirectional_output_paper_mw": 32.88,
+    "omnidirectional_output_reconstruction_mw": 33.60165954135546
+  },
+  "h6_development_admission": {
+    "host": "spark",
+    "case": "Case 2 directional uniform E-82",
+    "physical_layout_evaluations": 950200,
+    "one_worker_seconds": {
+      "evaluator": 24.68793112600008,
+      "algorithm": 1.2601590589999212,
+      "end_to_end": 25.948090185
+    },
+    "twenty_worker_seconds": {
+      "evaluator": 2.018264749000003,
+      "algorithm": 0.46104845699999686,
+      "end_to_end": 2.479313206
+    },
+    "speedup": {
+      "evaluator": 12.232256020045089,
+      "algorithm": 2.733246451359298,
+      "end_to_end": 10.465837927295743
+    },
+    "same_scientific_hash_and_result": true,
+    "claim_boundary": "development-host admission; Waffle H6 remains authoritative"
+  },
+  "formal_protocol": {
+    "fixed_reference_cases": 2,
+    "optimized_case_roles": 4,
+    "seeds_per_optimized_role": 25,
+    "required_target_runs": 100,
+    "workers_per_run": 20,
+    "execution": "one all-core optimization at a time",
+    "runner": "scripts/run_core99_t76_h6_formal.py",
+    "status": "queued_waffle_after_t67"
+  },
+  "evidence": [
+    "shared/contracts/core99_t76_sun_2019.json",
+    "evidence/development/T76_H0_H4_mathematical_hpc_analysis_20260731.md",
+    "evidence/development/T76_h5_independent_validation_20260731.json"
+  ],
+  "claim_boundary": "academic flexible reconstruction of the target MPGA and all six paper problem roles; not author code, native manufacturer/Sha Chau arrays, original random stream, raw optima, or exact numerical replay"
+}

@@ -6,19 +6,35 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_EXTENSIONS OFF)
 
 find_package(OpenMP REQUIRED)
+find_package(Threads REQUIRED)
 
-add_executable(fode_cpp_hpc
+add_library(fode_core STATIC
     src/case_loader.cpp
     src/executor.cpp
     src/evaluator.cpp
-    src/main.cpp
     src/optimizer.cpp
 )
 
-target_include_directories(fode_cpp_hpc PRIVATE include)
-target_link_libraries(fode_cpp_hpc PRIVATE OpenMP::OpenMP_CXX)
+target_include_directories(fode_core PUBLIC include)
+target_link_libraries(fode_core PUBLIC
+    OpenMP::OpenMP_CXX
+    Threads::Threads
+)
+target_compile_options(fode_core PRIVATE
+    -O3
+    -ffp-contract=off
+    -Wall
+    -Wextra
+    -Wpedantic
+    -Wconversion
+    -Wshadow
+)
+
+add_executable(fode_cpp_hpc src/main.cpp)
+target_link_libraries(fode_cpp_hpc PRIVATE fode_core)
 target_compile_options(fode_cpp_hpc PRIVATE
     -O3
+    -ffp-contract=off
     -Wall
     -Wextra
     -Wpedantic

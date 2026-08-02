@@ -33,7 +33,10 @@
         "three budget thresholds and two noise-monitor configurations shown as figures",
         "3D wake, noise, cost, Transformer, loss, and latent-DE equations",
         "population 100, maximum 10000 complete objective evaluations, 16 runs",
-        "pretraining and fine-tuning hyperparameters reported in prose"
+        "pretraining and fine-tuning hyperparameters reported in prose",
+        "six-layer encoder and decoder, four encoder heads, token and latent dimensions 64",
+        "lambda_reg 30 and lambda_smooth 1",
+        "latent DE F 0.3, polynomial mutation probability 1/64, and eta 20"
       ],
       "missing_problem_identity": [
         "400-cell Zhangbei elevation array",
@@ -47,12 +50,16 @@
         "pretraining layout corpus or its deterministic generator seed",
         "pretrained checkpoint",
         "complete Transformer feed-forward dimensions, normalization, dropout, and initialization settings",
-        "lambda_reg and lambda_smooth",
         "fine-tuning batch construction and random seed contract",
         "decoder token tie-breaking and complete duplicate-refill policy"
       ],
-      "safe_next_profile": "taae_formula_fixture_v1",
-      "safe_next_profile_meaning": "Formula and tensor-shape tests only; not a reproduction of the Zhangbei study."
+      "admitted_problem_proxy": "taae_zhangbei_structured_declared_proxy_v1",
+      "admitted_formula_fixture": "taae_formula_fixture_v1",
+      "admitted_distinct_profile_id": "taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1",
+      "admitted_distinct_method_semantics_id": "taae_transformer_evolution_declared_reconstruction_v1",
+      "admitted_distinct_problem_semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+      "admitted_distinct_status": "development_admitted_reconstruction",
+      "admitted_distinct_profile_meaning": "Distinct M3 bounded deterministic end-to-end Transformer-training and latent-evolution reconstruction on the admitted P3 proxy; the original TAAE method, Zhangbei problem, author checkpoint, and paper results remain blocked at R1/R2."
     },
     "T45": {
       "paper_doi": "10.1016/j.swevo.2025.102018",
@@ -87,8 +94,10 @@
         "WFLO-GGA provides a planar Guishan boundary and annual wind distribution",
         "those assets do not provide the ALGA terrain or four seasonal wind scenarios"
       ],
-      "safe_next_profile": "alga_attention_formula_fixture_v1",
-      "safe_next_profile_meaning": "Attention equation tests only; not the reported trained ALGA."
+      "safe_next_profile": "alga_attention_declared_reconstruction_v1",
+      "safe_next_profile_meaning": "M3 fitness-supervised shallow-attention engineering reconstruction with every missing training, mask, and repair choice frozen; not the reported trained ALGA.",
+      "admitted_transfer_problem": "alga_guishan_planar_transfer",
+      "admitted_transfer_problem_meaning": "P3 declared composite transfer using the paper-visible ideal grid, public WFLO-GGA Guishan annual wind, and the audited FODE evaluator; not the original 3D Guishan experiment."
     },
     "T44": {
       "paper_doi": "10.1016/j.energy.2025.137885",
@@ -113,7 +122,14 @@
         "author adjudication of the stated 10000 evaluations versus source initialization plus 400 half-population generations"
       ],
       "safe_next_profile": "bde2025_source_replay_ws1_ws4_v1",
-      "safe_next_profile_meaning": "Official-source replay of WS1 through WS4 with the executed 231 m spacing; not the complete six-scenario paper reproduction."
+      "safe_next_profile_meaning": "Official-source replay of WS1 through WS4 with the executed 231 m spacing; not the complete six-scenario paper reproduction.",
+      "admitted_distinct_problem_proxies": [
+        "bde2025_ws5_paper250_declared_proxy_v1",
+        "bde2025_ws6_paper250_declared_proxy_v1"
+      ],
+      "admitted_distinct_method": "bde_paper_equations_imax400_exact_fes_v1",
+      "distinct_profile_status": "P3_DECLARED_PROXY composite_proxy with M2_CITATION_PREDECESSOR paper_equation_direct_source_resolved CPU R4 development evidence",
+      "comparison_boundary": "Never pool or rank the declared WS5/WS6 composite cases with official-source WS1 through WS4."
     },
     "T43": {
       "paper_doi": "10.1109/JAS.2025.125351",
@@ -143,8 +159,12 @@
         "elite cardinality k and parent-offspring survivor details",
         "physical-FES accounting for perturbation and candidate repair"
       ],
-      "safe_next_profile": "ppga_declared_reconstruction_v1",
-      "safe_next_profile_meaning": "A fully ledgered engineering reconstruction may run on an admitted external problem, but is not the Nantong reproduction."
+      "admitted_problem_proxy": "ppga_nantong_structured_3d_declared_proxy_v1",
+      "admitted_distinct_profile_id": "ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1",
+      "admitted_distinct_method_semantics_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
+      "admitted_distinct_problem_semantics_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+      "admitted_distinct_status": "development_admitted_reconstruction",
+      "admitted_distinct_profile_meaning": "Distinct corrected M3 PPGA v2 bounded reconstruction on the admitted Nantong-structured P3 proxy; v1 is invalidated, while the original Nantong problem, author transitions, and paper results remain blocked at R1/R2."
     },
     "T36": {
       "paper_doi": "10.1109/CPEEE69412.2026.11521465",
@@ -177,8 +197,11 @@
         "WFLO-GGA provides machine-readable Nysted boundary, wind, turbine, substation, and cable arrays",
         "the public assets are a candidate reconstruction authority, not proof of identity with T-MOEA"
       ],
-      "safe_next_profile": "tmoea_nysted_gga_asset_reconstruction_v1",
-      "safe_next_profile_meaning": "T-MOEA equations completed with explicitly frozen WFLO-GGA Nysted assets and routing; not the inaccessible original implementation."
+      "historical_profile": "tmoea_nysted_gga_asset_reconstruction_v1",
+      "historical_profile_status": "preserved under canonical scientific output hash; earlier M2 evidence label is superseded for new work because omitted controls are declared engineering choices",
+      "safe_next_profile": "tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2",
+      "safe_next_problem_semantics": "tmoea_nysted_paper_wake_gga_router_problem_v1",
+      "safe_next_profile_meaning": "M3 T-MOEA equation-led completion with Eq.16 corrected, explicitly frozen WFLO-GGA Nysted P2 assets and routing, exact CPU work and receipts; not the inaccessible original implementation or reference front."
     },
     "L0726": {
       "paper_doi": "10.1109/CBD69312.2025.00059",
@@ -205,8 +228,12 @@
         "duplicate repair after one-point crossover",
         "whether initialization evaluations are included in the stated 10000 physical evaluations"
       ],
-      "safe_next_profile": "geoga_declared_reconstruction_v1",
-      "safe_next_profile_meaning": "Paper operators plus ledgered conventional GA controls on an admitted irregular problem; not the Anholt reproduction."
+      "completed_declared_profiles": [
+        "geoga_declared_reconstruction_v1 on the historical admitted GGA-asset proxy",
+        "geoga_declared_reconstruction_v1 on geoga_anholt_structured_declared_proxy_v1 with execution profile geoga_anholt_structured_p3_execution_v1"
+      ],
+      "safe_next_profile": "geoga_anholt_structured_p3_execution_v1",
+      "safe_next_profile_meaning": "The admitted GeoGA operators on a synthetic irregular polygon with declared Poisson, wind, turbine, wake, actual-layout blocking, and exact selected-case physical-FES semantics; not the original Anholt experiment."
     }
   },
   "prohibited_claims": [

@@ -1,0 +1,370 @@
+{
+  "schema_version": 1,
+  "matrix_id": "gao_tao_wflop_global_execution_capability_matrix_step10_v1",
+  "baseline_commit": "8ec2181672a406abae01cd1e4242403044ba83f2",
+  "scope_contract": "docs/lineage_scope_contract.json",
+  "profile_registry": "shared/contracts/executable_profile_evidence.json",
+  "lineage_completion": "docs/lineage_r0_r4_completion.tsv",
+  "claim_boundary": "This matrix records executable development capability and evidence bindings. It does not change historical identities, admit an original guarded method, modify a formal suite, or constitute a Step 11 quality, sensitivity, performance, or multi-seed admission.",
+  "execution_mode_meanings": {
+    "cpu": "A real pure C++ CPU path exists.",
+    "auto": "Supported only when the CLI resolves auto to an already supported backend and records that resolution.",
+    "hybrid": "Supported only by a real concurrent CPU plus accelerator implementation.",
+    "gpu": "Supported only by a real accelerator-resident implementation."
+  },
+  "packages": {
+    "wflop_common": {
+      "binary_target": "wflop_cpp_hpc",
+      "binary_relative_path": "hpc/wflop_cpp/wflop_cpp_hpc",
+      "cli_source": "hpc/wflop_cpp/src/main.cpp",
+      "cli_template": "--algorithm {algorithm_id} --problem fode_e0_common --cases shared/contracts/benchmark_cases.json --case WS1tn10 --seed {seed} --physical-fes {fes} --workers {workers} --compute-backend cpu",
+      "smoke_arguments": ["--algorithm","fode","--problem","fode_e0_common","--cases","shared/contracts/benchmark_cases.json","--case","WS1tn10","--seed","1","--physical-fes","480","--workers","1","--compute-backend","cpu"],
+      "backend_cli": {"selector":"--compute-backend","cpu":"cpu","auto":"auto","hybrid":"hybrid","gpu":"gpu","compatibility_aliases":{"hybrid":["cpu+gpu"]}},
+      "contract_paths": [
+        "shared/contracts/benchmark_contract.json",
+        "shared/contracts/algorithm_semantics.json"
+      ],
+      "oracle_or_test_paths": [
+        "hpc/wflop_cpp/src/main.cpp",
+        "scripts/smoke.sh"
+      ],
+      "ctest_names": ["registered_algorithm_smoke"],
+      "asset_requirements": [],
+      "execution_modes": {
+        "cpu": {"supported": true, "status": "pure_cpp_cpu"},
+        "auto": {"supported": false, "status": "fails_closed"},
+        "hybrid": {"supported": false, "status": "fails_closed"},
+        "gpu": {"supported": false, "status": "fails_closed"}
+      }
+    },
+    "wflop_alga_transfer": {
+      "binary_target": "wflop_cpp_hpc",
+      "binary_relative_path": "hpc/wflop_cpp/wflop_cpp_hpc",
+      "cli_source": "hpc/wflop_cpp/src/main.cpp",
+      "cli_template": "--algorithm alga_attention_declared_reconstruction_v1 --problem alga_guishan_planar_transfer --cases shared/contracts/alga_guishan_planar_transfer_cases.json --case ALGA_GuishanPlanarTransfer_tn40 --seed {seed} --physical-fes {fes} --workers {workers} --compute-backend cpu",
+      "smoke_arguments": ["--algorithm","alga_attention_declared_reconstruction_v1","--problem","alga_guishan_planar_transfer","--cases","shared/contracts/alga_guishan_planar_transfer_cases.json","--case","ALGA_GuishanPlanarTransfer_tn40","--seed","1","--physical-fes","50","--workers","1","--compute-backend","cpu"],
+      "backend_cli": {"selector":"--compute-backend","cpu":"cpu","auto":"auto","hybrid":"hybrid","gpu":"gpu","compatibility_aliases":{"hybrid":["cpu+gpu"]}},
+      "contract_paths": [
+        "shared/contracts/alga_attention_declared_reconstruction_contract.json",
+        "shared/contracts/alga_guishan_planar_transfer_cases.json"
+      ],
+      "oracle_or_test_paths": ["scripts/test_alga_attention_reconstruction.py"],
+      "ctest_names": ["alga_attention_declared_reconstruction"],
+      "asset_requirements": [],
+      "execution_modes": {
+        "cpu": {"supported": true, "status": "pure_cpp_cpu"},
+        "auto": {"supported": false, "status": "fails_closed"},
+        "hybrid": {"supported": false, "status": "fails_closed"},
+        "gpu": {"supported": false, "status": "fails_closed"}
+      }
+    },
+    "wflop_rpso": {
+      "binary_target": "wflop_cpp_hpc",
+      "binary_relative_path": "hpc/wflop_cpp/wflop_cpp_hpc",
+      "cli_source": "hpc/wflop_cpp/src/main.cpp",
+      "cli_template": "--algorithm {algorithm_id} --problem rpso2024_source_problem_ws1_ws4 --cases .source-cache/generated/rpso_source_problem/benchmark_cases.json --case RPSO-WS1-tn30 --seed {seed} --physical-fes {fes} --workers {workers} --compute-backend cpu",
+      "smoke_arguments": ["--algorithm","rlpso_compact_policy_declared_reconstruction_v1","--problem","rpso2024_source_problem_ws1_ws4","--cases",".source-cache/generated/rpso_source_problem/benchmark_cases.json","--case","RPSO-WS1-tn30","--seed","1","--physical-fes","50","--workers","1","--compute-backend","cpu"],
+      "backend_cli": {"selector":"--compute-backend","cpu":"cpu","auto":"auto","hybrid":"hybrid","gpu":"gpu","compatibility_aliases":{"hybrid":["cpu+gpu"]}},
+      "contract_paths": [
+        "shared/contracts/rpso_source_problem_execution_contract.json",
+        "shared/contracts/rlpso_reconstruction_execution_contract.json"
+      ],
+      "oracle_or_test_paths": [
+        "scripts/validate_rpso_source_problem.py",
+        "scripts/test_rlpso_reconstruction.py"
+      ],
+      "ctest_names": ["rpso_source_problem", "rlpso_reconstruction"],
+      "asset_requirements": [".source-cache/generated/rpso_source_problem/benchmark_cases.json"],
+      "execution_modes": {
+        "cpu": {"supported": true, "status": "pure_cpp_cpu"},
+        "auto": {"supported": false, "status": "fails_closed"},
+        "hybrid": {"supported": false, "status": "fails_closed"},
+        "gpu": {"supported": false, "status": "fails_closed"}
+      }
+    },
+    "wflop_bde_source": {
+      "binary_target": "wflop_cpp_hpc",
+      "binary_relative_path": "hpc/wflop_cpp/wflop_cpp_hpc",
+      "cli_source": "hpc/wflop_cpp/src/main.cpp",
+      "cli_template": "--algorithm bde --problem bde2025_source_replay_ws1_ws4 --cases .source-cache/generated/bde_source_replay/benchmark_cases.json --case BDE-S-WS1-tn30 --seed {seed} --physical-fes {fes} --workers {workers} --compute-backend cpu",
+      "smoke_arguments": ["--algorithm","bde","--problem","bde2025_source_replay_ws1_ws4","--cases",".source-cache/generated/bde_source_replay/benchmark_cases.json","--case","BDE-S-WS1-tn30","--seed","1","--physical-fes","50","--workers","1","--compute-backend","cpu"],
+      "backend_cli": {"selector":"--compute-backend","cpu":"cpu","auto":"auto","hybrid":"hybrid","gpu":"gpu","compatibility_aliases":{"hybrid":["cpu+gpu"]}},
+      "contract_paths": ["shared/contracts/bde_source_replay_execution_contract.json"],
+      "oracle_or_test_paths": ["scripts/validate_bde_source_replay.py"],
+      "ctest_names": ["bde_source_replay"],
+      "asset_requirements": [".source-cache/generated/bde_source_replay/benchmark_cases.json"],
+      "execution_modes": {
+        "cpu": {"supported": true, "status": "pure_cpp_cpu"},
+        "auto": {"supported": false, "status": "fails_closed"},
+        "hybrid": {"supported": false, "status": "fails_closed"},
+        "gpu": {"supported": false, "status": "fails_closed"}
+      }
+    },
+    "taae_bounded": {
+      "binary_target": "taae_evolution_hpc",
+      "binary_relative_path": "hpc/taae_cpp/taae_evolution_hpc",
+      "cli_source": "hpc/taae_cpp/src/main.cpp",
+      "cli_template": "--cases shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json --case TAAE_Proxy_NC1_Budget800k_tn15 --profile bounded --seed {seed} --physical-fes {fes} --workers {workers} --backend cpu",
+      "smoke_arguments": ["--cases","shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json","--case","TAAE_Proxy_NC1_Budget800k_tn15","--profile","bounded","--seed","1","--physical-fes","100","--workers","1","--backend","cpu"],
+      "backend_cli": {"selector":"--backend","cpu":"cpu","auto":"auto","hybrid":"hybrid","gpu":"gpu"},
+      "contract_paths": [
+        "shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json",
+        "shared/contracts/taae_zhangbei_structured_declared_proxy_contract.json"
+      ],
+      "oracle_or_test_paths": [
+        "hpc/wflop_cpp/tests/taae_problem_test.cpp",
+        "hpc/taae_cpp/tests/evolution_test.cpp"
+      ],
+      "ctest_names": ["taae_problem_fixture", "taae_transformer_evolution"],
+      "asset_requirements": [],
+      "execution_modes": {
+        "cpu": {"supported": true, "status": "pure_cpp_cpu"},
+        "auto": {"supported": false, "status": "fails_closed"},
+        "hybrid": {"supported": false, "status": "fails_closed"},
+        "gpu": {"supported": false, "status": "fails_closed"}
+      }
+    },
+    "ppga_nantong": {
+      "binary_target": "ppga_nantong_hpc",
+      "binary_relative_path": "hpc/ppga_cpp/ppga_nantong_hpc",
+      "cli_source": "hpc/ppga_cpp/src/main.cpp",
+      "cli_template": "--cases shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json --case PPGA_NantongStructured_WS1_tn20 --seed {seed} --physical-fes {fes} --workers {workers} --backend cpu",
+      "smoke_arguments": ["--cases","shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json","--case","PPGA_NantongStructured_WS1_tn20","--seed","1","--physical-fes","30","--workers","1","--backend","cpu"],
+      "backend_cli": {"selector":"--backend","cpu":"cpu","auto":"auto","hybrid":"hybrid","gpu":"gpu"},
+      "contract_paths": [
+        "shared/contracts/ppga_nantong_structured_3d_declared_reconstruction_contract.json",
+        "shared/contracts/ppga_nantong_structured_3d_declared_proxy_contract.json"
+      ],
+      "oracle_or_test_paths": [
+        "hpc/ppga_cpp/tests/problem_test.cpp",
+        "hpc/ppga_cpp/tests/evolution_test.cpp"
+      ],
+      "ctest_names": ["ppga_nantong_problem", "ppga_nantong_evolution"],
+      "asset_requirements": [],
+      "execution_modes": {
+        "cpu": {"supported": true, "status": "pure_cpp_cpu"},
+        "auto": {"supported": false, "status": "fails_closed"},
+        "hybrid": {"supported": false, "status": "fails_closed"},
+        "gpu": {"supported": false, "status": "fails_closed"}
+      }
+    },
+    "bde_ws56": {
+      "binary_target": "bde_ws56_hpc",
+      "binary_relative_path": "hpc/bde_ws56_cpp/bde_ws56_hpc",
+      "cli_source": "hpc/bde_ws56_cpp/src/main.cpp",
+      "cli_template": "--cases shared/contracts/bde_ws56_declared_proxy_cases.json --case {case_id} --seed {seed} --physical-fes {fes} --workers {workers} --execution-mode cpu",
+      "smoke_arguments": ["--cases","shared/contracts/bde_ws56_declared_proxy_cases.json","--case","BDEWS5P3STDtn30","--seed","1","--physical-fes","50","--workers","1","--execution-mode","cpu"],
+      "backend_cli": {"selector":"--execution-mode","cpu":"cpu","auto":"auto","hybrid":"hybrid","gpu":"gpu"},
+      "contract_paths": ["shared/contracts/bde_ws56_declared_proxy_contract.json"],
+      "oracle_or_test_paths": [
+        "scripts/validate_bde_ws56_declared_proxy.py",
+        "hpc/bde_ws56_cpp/tests/evolution_test.cpp"
+      ],
+      "ctest_names": ["bde_ws56_declared_proxy_evolution", "bde_ws56_independent_oracle"],
+      "asset_requirements": [],
+      "execution_modes": {
+        "cpu": {"supported": true, "status": "pure_cpp_cpu"},
+        "auto": {"supported": true, "status": "resolves_to_cpu"},
+        "hybrid": {"supported": false, "status": "fails_closed"},
+        "gpu": {"supported": false, "status": "fails_closed"}
+      }
+    },
+    "gga_repaired": {
+      "binary_target": "gga_cpp_hpc",
+      "binary_relative_path": "hpc/gga_cpp/gga_cpp_hpc",
+      "cli_source": "hpc/gga_cpp/src/main.cpp",
+      "cli_template": "--problem .source-cache/generated/gga_repaired/Netherlands_Egmond_aan_Zee.wfp --algorithm gga --seed {seed} --physical-fes {fes} --workers {workers} --execution-mode cpu",
+      "smoke_arguments": ["--problem",".source-cache/generated/gga_repaired/Netherlands_Egmond_aan_Zee.wfp","--algorithm","gga","--seed","1","--physical-fes","50","--workers","1","--execution-mode","cpu"],
+      "backend_cli": {"selector":"--execution-mode","cpu":"cpu","auto":"auto","hybrid":"hybrid","gpu":"gpu"},
+      "contract_paths": [
+        "shared/contracts/gga_execution_contract.json",
+        "shared/contracts/gga_problem_semantics.json"
+      ],
+      "oracle_or_test_paths": [
+        "scripts/validate_gga_problem_assets.py",
+        "scripts/validate_gga_cpp_evaluator.py",
+        "scripts/test_gga_cpp_determinism.py"
+      ],
+      "ctest_names": ["gga_generated_asset_validation", "gga_cpp_evaluator_oracle", "gga_cpp_determinism"],
+      "asset_requirements": [".source-cache/generated/gga_repaired/manifest.json"],
+      "execution_modes": {
+        "cpu": {"supported": true, "status": "pure_cpp_cpu"},
+        "auto": {"supported": false, "status": "fails_closed"},
+        "hybrid": {"supported": false, "status": "fails_closed"},
+        "gpu": {"supported": false, "status": "fails_closed"}
+      }
+    },
+    "geoga_gga_proxy": {
+      "binary_target": "gga_cpp_hpc",
+      "binary_relative_path": "hpc/gga_cpp/gga_cpp_hpc",
+      "cli_source": "hpc/gga_cpp/src/main.cpp",
+      "cli_template": "--problem .source-cache/generated/gga_repaired/UK_London_Array.wfp --algorithm geoga --seed {seed} --physical-fes {fes} --workers {workers} --execution-mode cpu",
+      "smoke_arguments": ["--problem",".source-cache/generated/gga_repaired/UK_London_Array.wfp","--algorithm","geoga","--seed","1","--physical-fes","50","--workers","1","--execution-mode","cpu"],
+      "backend_cli": {"selector":"--execution-mode","cpu":"cpu","auto":"auto","hybrid":"hybrid","gpu":"gpu"},
+      "contract_paths": ["shared/contracts/geoga_reconstruction_execution_contract.json"],
+      "oracle_or_test_paths": [
+        "scripts/validate_gga_cpp_evaluator.py",
+        "scripts/test_geoga_cpp.py"
+      ],
+      "ctest_names": ["gga_cpp_evaluator_oracle", "geoga_cpp_declared_reconstruction"],
+      "asset_requirements": [".source-cache/generated/gga_repaired/manifest.json"],
+      "execution_modes": {
+        "cpu": {"supported": true, "status": "pure_cpp_cpu"},
+        "auto": {"supported": false, "status": "fails_closed"},
+        "hybrid": {"supported": false, "status": "fails_closed"},
+        "gpu": {"supported": false, "status": "fails_closed"}
+      }
+    },
+    "geoga_anholt": {
+      "binary_target": "geoga_anholt_hpc",
+      "binary_relative_path": "hpc/geoga_cpp/geoga_anholt_hpc",
+      "cli_source": "hpc/geoga_cpp/src/main.cpp",
+      "cli_template": "--case shared/contracts/geoga_anholt_structured_declared_proxy_case.json --seed {seed} --physical-fes {fes} --workers {workers} --backend cpu",
+      "smoke_arguments": ["--case","shared/contracts/geoga_anholt_structured_declared_proxy_case.json","--seed","1","--physical-fes","50","--workers","1","--backend","cpu"],
+      "backend_cli": {"selector":"--backend","cpu":"cpu","auto":"auto","hybrid":"hybrid","gpu":"gpu"},
+      "contract_paths": [
+        "shared/contracts/geoga_anholt_structured_declared_proxy_contract.json",
+        "shared/contracts/geoga_anholt_structured_execution_contract.json"
+      ],
+      "oracle_or_test_paths": [
+        "hpc/geoga_cpp/tests/problem_test.cpp",
+        "hpc/geoga_cpp/tests/evolution_test.cpp"
+      ],
+      "ctest_names": ["geoga_anholt_structured_problem", "geoga_anholt_structured_evolution"],
+      "asset_requirements": [],
+      "execution_modes": {
+        "cpu": {"supported": true, "status": "pure_cpp_cpu"},
+        "auto": {"supported": false, "status": "fails_closed"},
+        "hybrid": {"supported": false, "status": "fails_closed"},
+        "gpu": {"supported": false, "status": "fails_closed"}
+      }
+    },
+    "tmoea_historical": {
+      "binary_target": "gga_cpp_hpc",
+      "binary_relative_path": "hpc/gga_cpp/gga_cpp_hpc",
+      "cli_source": "hpc/gga_cpp/src/main.cpp",
+      "cli_template": "--problem .source-cache/generated/gga_repaired/Denmark_Nysted.wfp --algorithm tmoea --tmoea-profile historical-v1 --seed {seed} --physical-fes {fes} --workers {workers} --execution-mode cpu",
+      "smoke_arguments": ["--problem",".source-cache/generated/gga_repaired/Denmark_Nysted.wfp","--algorithm","tmoea","--tmoea-profile","historical-v1","--seed","1","--physical-fes","30","--workers","1","--execution-mode","cpu"],
+      "backend_cli": {"selector":"--execution-mode","cpu":"cpu","auto":"auto","hybrid":"hybrid","gpu":"gpu"},
+      "contract_paths": ["shared/contracts/tmoea_nysted_reconstruction_execution_contract.json"],
+      "oracle_or_test_paths": ["scripts/test_tmoea_cpp.py"],
+      "ctest_names": ["tmoea_cpp_nysted_reconstruction"],
+      "asset_requirements": [".source-cache/generated/gga_repaired/manifest.json"],
+      "execution_modes": {
+        "cpu": {"supported": true, "status": "historical_pure_cpp_cpu"},
+        "auto": {"supported": false, "status": "fails_closed"},
+        "hybrid": {"supported": false, "status": "fails_closed"},
+        "gpu": {"supported": false, "status": "fails_closed"}
+      }
+    },
+    "tmoea_eq16_v2": {
+      "binary_target": "gga_cpp_hpc",
+      "binary_relative_path": "hpc/gga_cpp/gga_cpp_hpc",
+      "cli_source": "hpc/gga_cpp/src/main.cpp",
+      "cli_template": "--problem .source-cache/generated/gga_repaired/Denmark_Nysted.wfp --algorithm tmoea --tmoea-profile paper-eq16-v2 --execution-mode cpu --seed {seed} --physical-fes {fes} --workers {workers}",
+      "smoke_arguments": ["--problem",".source-cache/generated/gga_repaired/Denmark_Nysted.wfp","--algorithm","tmoea","--tmoea-profile","paper-eq16-v2","--seed","1","--physical-fes","30","--workers","1","--execution-mode","cpu"],
+      "backend_cli": {"selector":"--execution-mode","cpu":"cpu","auto":"auto","hybrid":"hybrid","gpu":"gpu"},
+      "preserved_semantic_slice": {
+        "source": "hpc/gga_cpp/src/main.cpp",
+        "start_token": "RunResult optimize_tmoea(",
+        "end_token": "struct Arguments {",
+        "baseline_commit": "8ec2181672a406abae01cd1e4242403044ba83f2",
+        "sha256": "02bdc89cb8eaa674552918219e620af94720f9e5e11e5c48afb5a1cfee1fcb34"
+      },
+      "contract_paths": [
+        "shared/contracts/tmoea_nysted_paper_eq16_r4_execution_contract.json",
+        "shared/contracts/tmoea_nysted_paper_wake_gga_router_problem.json"
+      ],
+      "oracle_or_test_paths": [
+        "scripts/validate_tmoea_nysted_r4.py",
+        "hpc/gga_cpp/tests/tmoea_topology_test.cpp"
+      ],
+      "ctest_names": ["tmoea_nysted_r4_independent_oracle", "tmoea_topology_eq16_fixture"],
+      "asset_requirements": [".source-cache/generated/gga_repaired/manifest.json"],
+      "execution_modes": {
+        "cpu": {"supported": true, "status": "pure_cpp_cpu"},
+        "auto": {"supported": true, "status": "resolves_to_cpu"},
+        "hybrid": {"supported": false, "status": "fails_closed"},
+        "gpu": {"supported": false, "status": "fails_closed"}
+      }
+    },
+    "pbea_three_objective": {
+      "binary_target": "pbea_cpp_hpc",
+      "binary_relative_path": "hpc/pbea_cpp/pbea_cpp_hpc",
+      "cli_source": "hpc/pbea_cpp/src/main.cpp",
+      "cli_template": "--algorithm {algorithm_id} --seed {seed} --population {population} --generations {generations} --workers {workers} --execution-mode cpu",
+      "physical_fes_mapping": "population multiplied by generations plus one, including the evaluated initial population",
+      "smoke_arguments": ["--algorithm","moead_p","--scenario","ws1","--turbines","15","--population","3","--generations","0","--workers","1","--seed","1","--execution-mode","cpu"],
+      "backend_cli": {"selector":"--execution-mode","cpu":"cpu","auto":"auto","hybrid":"hybrid","gpu":"gpu"},
+      "contract_paths": [
+        "shared/contracts/pbea_execution_contract.json",
+        "shared/contracts/pbea_problem_semantics.json"
+      ],
+      "oracle_or_test_paths": [
+        "scripts/validate_pbea_cpp_evaluator.py",
+        "scripts/test_pbea_cpp_determinism.py",
+        "scripts/test_pbea_cpp_fronts.py"
+      ],
+      "ctest_names": ["pbea_cpp_evaluator_oracle", "pbea_cpp_determinism", "pbea_cpp_front_artifacts"],
+      "asset_requirements": [],
+      "execution_modes": {
+        "cpu": {"supported": true, "status": "pure_cpp_cpu"},
+        "auto": {"supported": false, "status": "fails_closed"},
+        "hybrid": {"supported": false, "status": "fails_closed"},
+        "gpu": {"supported": false, "status": "fails_closed"}
+      }
+    }
+  },
+  "profile_bindings": [
+    {"profile_id":"fode__fode_e0_common","corpus_id":"S03","package_id":"wflop_common","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"aga__fode_e0_common","corpus_id":null,"package_id":"wflop_common","training_state":"not_applicable","formal_status":"supporting_profile_outside_23_paper_scope","admission_status":"development_admitted"},
+    {"profile_id":"sugga__fode_e0_common","corpus_id":null,"package_id":"wflop_common","training_state":"frozen_author_lineage_surrogate_assets","formal_status":"supporting_profile_outside_23_paper_scope","admission_status":"development_admitted"},
+    {"profile_id":"ise__fode_e0_common","corpus_id":"T39","package_id":"wflop_common","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"agpso__fode_e0_common","corpus_id":"T37","package_id":"wflop_common","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"cgpso__fode_e0_common","corpus_id":"T40","package_id":"wflop_common","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"lshade__fode_e0_common","corpus_id":null,"package_id":"wflop_common","training_state":"not_applicable","formal_status":"supporting_profile_outside_23_paper_scope","admission_status":"development_admitted"},
+    {"profile_id":"clshade__fode_e0_common","corpus_id":"T38","package_id":"wflop_common","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"cede__fode_e0_common","corpus_id":"S01","package_id":"wflop_common","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"msshade__fode_e0_common","corpus_id":"S02","package_id":"wflop_common","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"bde__fode_e0_common","corpus_id":"T44","package_id":"wflop_common","training_state":"not_applicable","formal_status":"algorithm_transfer_pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"hgpso__fode_e0_common","corpus_id":"Y35","package_id":"wflop_common","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"aiga__fode_e0_common","corpus_id":"T41","package_id":"wflop_common","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"ciga__fode_e0_common","corpus_id":"T47","package_id":"wflop_common","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"lsde__fode_e0_common","corpus_id":"Y34","package_id":"wflop_common","training_state":"not_applicable","formal_status":"algorithm_transfer_pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"wfadde__fode_e0_common","corpus_id":"S05","package_id":"wflop_common","training_state":"not_applicable","formal_status":"algorithm_transfer_pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"alshade__fode_e0_common","corpus_id":"L0608","package_id":"wflop_common","training_state":"not_applicable","formal_status":"algorithm_transfer_pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"ppga__fode_e0_common","corpus_id":"T43","package_id":"wflop_common","training_state":"not_applicable","formal_status":"algorithm_transfer_pending_waffle_existing","admission_status":"development_admitted","additional_contract_paths":["shared/contracts/ppga_fode_e0_transfer_execution_contract.json"],"additional_oracle_or_test_paths":["scripts/test_ppga_cpp.py"]},
+    {"profile_id":"alga_attention_declared_reconstruction_v1__fode_e0_common","corpus_id":"T45","package_id":"wflop_common","training_state":"deterministic_online_fitness_supervision_not_author_state","formal_status":"development_only_original_blocked","admission_status":"development_admitted_reconstruction","additional_contract_paths":["shared/contracts/alga_attention_declared_reconstruction_contract.json"],"additional_oracle_or_test_paths":["scripts/test_alga_attention_reconstruction.py"]},
+    {"profile_id":"fqfode_seeded_training_declared_reconstruction_v1__fode_e0_common","corpus_id":"S04","package_id":"wflop_common","training_state":"frozen_declared_seeded_qtable_not_author_state","formal_status":"development_only_original_blocked","admission_status":"development_admitted_reconstruction","additional_contract_paths":["shared/contracts/fqfode_seeded_training_reconstruction_contract.json"],"additional_oracle_or_test_paths":["scripts/test_rlfode_seeded_reconstruction.py"]},
+    {"profile_id":"alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer","corpus_id":"T45","package_id":"wflop_alga_transfer","training_state":"deterministic_online_fitness_supervision_not_author_state","formal_status":"development_only_original_blocked","admission_status":"development_admitted_reconstruction"},
+    {"profile_id":"cgpso__rpso2024_source_problem_ws1_ws4","corpus_id":"T42","package_id":"wflop_rpso","training_state":"not_applicable_evaluator_probe","formal_status":"development_problem_probe_only","admission_status":"development_admitted_probe"},
+    {"profile_id":"rlpso_compact_policy_declared_reconstruction_v1__rpso2024_source_problem_ws1_ws4","corpus_id":"T42","package_id":"wflop_rpso","training_state":"seeded_online_compact_policy_not_author_state","formal_status":"development_only_original_blocked","admission_status":"development_admitted_reconstruction"},
+    {"profile_id":"rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4","corpus_id":"T42","package_id":"wflop_rpso","training_state":"seeded_online_ppo_not_author_checkpoint","formal_status":"development_only_original_blocked","admission_status":"development_admitted_reconstruction"},
+    {"profile_id":"bde__bde2025_source_replay_ws1_ws4","corpus_id":"T44","package_id":"wflop_bde_source","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1","corpus_id":"Y36","package_id":"taae_bounded","training_state":"bounded_deterministic_state_paper_scale_checkpoint_blocked","formal_status":"development_only_original_blocked","admission_status":"development_admitted_reconstruction"},
+    {"profile_id":"ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1","corpus_id":"T43","package_id":"ppga_nantong","training_state":"not_applicable","formal_status":"development_only_original_blocked_v1_invalidated","admission_status":"development_admitted_reconstruction"},
+    {"profile_id":"bde__bde2025_ws5_paper250_declared_proxy_v1","corpus_id":"T44","package_id":"bde_ws56","training_state":"not_applicable","formal_status":"development_only_original_full_profile_blocked","admission_status":"development_admitted_reconstruction"},
+    {"profile_id":"bde__bde2025_ws6_paper250_declared_proxy_v1","corpus_id":"T44","package_id":"bde_ws56","training_state":"not_applicable","formal_status":"development_only_original_full_profile_blocked","admission_status":"development_admitted_reconstruction"},
+    {"profile_id":"gga__gga2026_layout_cable","corpus_id":"Y06","package_id":"gga_repaired","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"geoga__admitted_gga_problem_asset_proxy","corpus_id":"L0726","package_id":"geoga_gga_proxy","training_state":"not_applicable","formal_status":"pending_waffle_existing_original_anholt_blocked","admission_status":"development_admitted_historical_reconstruction"},
+    {"profile_id":"geoga__geoga_anholt_structured_declared_proxy_v1","corpus_id":"L0726","package_id":"geoga_anholt","training_state":"not_applicable","formal_status":"development_only_original_anholt_blocked","admission_status":"development_admitted_reconstruction"},
+    {"profile_id":"tmoea__nysted_gga_asset_reconstruction","corpus_id":"T36","package_id":"tmoea_historical","training_state":"not_applicable","formal_status":"pending_waffle_existing_original_tmoea_blocked","admission_status":"historical_development_admission_preserved"},
+    {"profile_id":"tmoea__nysted_paper_eq16_cpu_r4_v2","corpus_id":"T36","package_id":"tmoea_eq16_v2","training_state":"not_applicable","formal_status":"development_only_original_tmoea_blocked","admission_status":"development_admitted_reconstruction"},
+    {"profile_id":"moead_p__zhang2025_three_objective","corpus_id":"T46","package_id":"pbea_three_objective","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"moead__zhang2025_three_objective","corpus_id":"T46","package_id":"pbea_three_objective","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted_reconstruction"},
+    {"profile_id":"nsgaii__zhang2025_three_objective","corpus_id":"T46","package_id":"pbea_three_objective","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"mopso__zhang2025_three_objective","corpus_id":"T46","package_id":"pbea_three_objective","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted"},
+    {"profile_id":"morime__zhang2025_three_objective","corpus_id":"T46","package_id":"pbea_three_objective","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted_reconstruction"},
+    {"profile_id":"armoea__zhang2025_three_objective","corpus_id":"T46","package_id":"pbea_three_objective","training_state":"not_applicable","formal_status":"pending_waffle_existing","admission_status":"development_admitted_reconstruction"}
+  ],
+  "blocked_original_identities": [
+    {"corpus_id":"Y36","guarded_algorithm_id":"taae","status":"blocked_original_r1_r2","reconstruction_profile_id":"taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1"},
+    {"corpus_id":"T45","guarded_algorithm_id":"alga","status":"blocked_original_r1_r2","reconstruction_profile_id":"alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer"},
+    {"corpus_id":"T42","guarded_algorithm_id":"rlpso","status":"blocked_original_r2","reconstruction_profile_id":"rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4"},
+    {"corpus_id":"S04","guarded_algorithm_id":"rlfode","status":"blocked_original_r2","reconstruction_profile_id":"fqfode_seeded_training_declared_reconstruction_v1__fode_e0_common"},
+    {"corpus_id":"T43","guarded_algorithm_id":"ppga_original_nantong","status":"blocked_original_r1_r2","reconstruction_profile_id":"ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1"},
+    {"corpus_id":"T44","guarded_algorithm_id":"bde_original_full_ws1_ws6","status":"blocked_original_full_profile","reconstruction_profile_id":"bde__bde2025_ws6_paper250_declared_proxy_v1"},
+    {"corpus_id":"L0726","guarded_algorithm_id":"geoga_original_anholt","status":"blocked_original_r1","reconstruction_profile_id":"geoga__geoga_anholt_structured_declared_proxy_v1"},
+    {"corpus_id":"T36","guarded_algorithm_id":"tmoea_original","status":"blocked_original_r1_r2","reconstruction_profile_id":"tmoea__nysted_paper_eq16_cpu_r4_v2"}
+  ]
+}

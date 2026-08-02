@@ -1,0 +1,24 @@
+{
+  "claim_boundary": "paper-equation academic reproduction with declared missing-parameter completions; not author code or numerical replay",
+  "corpus_id": "L0341",
+  "diagnostic_table3_relative_errors": {
+    "u12_q0": 0.04239993319485291,
+    "u8_q0": 0.07357486577485586,
+    "u8_q30": 0.10889087291490612
+  },
+  "nonuniform_reference": {
+    "dimension": 180,
+    "generations": 20000,
+    "population": 3600
+  },
+  "observed_smoke_workers": 4,
+  "paper_case_count": 10,
+  "scientific_hash": "4016e17d9df3cf29",
+  "smoke_physical_fes": 256,
+  "status": "pass",
+  "uniform_reference": {
+    "dimension": 51,
+    "generations": 15000,
+    "population": 1020
+  }
+}

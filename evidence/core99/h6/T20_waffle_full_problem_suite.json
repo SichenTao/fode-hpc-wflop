@@ -1,0 +1,100 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T20",
+  "source_commit": "b42ed25",
+  "host": "waffle",
+  "run_date": "2026-07-31",
+  "status": "pass",
+  "scope": "all four paper-native problems at one full paper physical budget; throughput/admission profile for the problem package, not a replay of twelve comparison algorithms",
+  "resource_context": {
+    "physical_cpu_cores": 20,
+    "cores_reserved_by_preexisting_T12_T22_jobs": 3,
+    "requested_available_workers": 17,
+    "observed_workers_each_case": 17
+  },
+  "paper_protocol": {
+    "complete_farm_evaluations_per_case": 25000,
+    "wind_directions_per_evaluation": 36,
+    "cases": 4,
+    "total_physical_fes": 100000
+  },
+  "results": [
+    {
+      "problem_id": "t20_case1_variable_hub",
+      "physical_fes": 25000,
+      "requested_workers": 17,
+      "observed_workers": 17,
+      "evaluator_seconds": 0.262458432,
+      "algorithm_seconds": 0.0108897,
+      "end_to_end_seconds": 0.273348132,
+      "best_objective": 0.0014567519243579899,
+      "best_power_kw": 19266.694847999555,
+      "constraint_violation": 0.0,
+      "scientific_hash": "e914ba07993bacb",
+      "user_seconds": 4.43,
+      "system_seconds": 0.02,
+      "cpu_percent": 1581,
+      "max_rss_kb": 25276,
+      "raw_json_sha256": "caae3f65e32c526fa3ade9147a9b9ee72383ebc0e24dfd1c7367d59c0a3cc80c"
+    },
+    {
+      "problem_id": "t20_case2_variable_partial",
+      "physical_fes": 25000,
+      "requested_workers": 17,
+      "observed_workers": 17,
+      "evaluator_seconds": 0.328347162,
+      "algorithm_seconds": 0.009682207,
+      "end_to_end_seconds": 0.338029369,
+      "best_objective": 0.0014364519986959136,
+      "best_power_kw": 19945.19292025696,
+      "constraint_violation": 0.0,
+      "scientific_hash": "2501389e0342a4cc",
+      "user_seconds": 5.55,
+      "system_seconds": 0.01,
+      "cpu_percent": 1620,
+      "max_rss_kb": 25444,
+      "raw_json_sha256": "2c409ba859f6e5e989f882c0cb7362ffb4d6b6517525bfc0d258b79a0fede83a"
+    },
+    {
+      "problem_id": "t20_case3_fixed39_hub",
+      "physical_fes": 25000,
+      "requested_workers": 17,
+      "observed_workers": 17,
+      "evaluator_seconds": 0.210596263,
+      "algorithm_seconds": 0.004171356,
+      "end_to_end_seconds": 0.214767619,
+      "best_objective": 0.0014537721250352049,
+      "best_power_kw": 18518.47941079193,
+      "constraint_violation": 0.0,
+      "scientific_hash": "fe2b02bc02eea6e0",
+      "user_seconds": 3.56,
+      "system_seconds": 0.01,
+      "cpu_percent": 1540,
+      "max_rss_kb": 13260,
+      "raw_json_sha256": "629de80b5c68b68e0a741736d4ab0a0a1f6ac3d2192a690ad21e1c332814a759"
+    },
+    {
+      "problem_id": "t20_case4_fixed39_partial",
+      "physical_fes": 25000,
+      "requested_workers": 17,
+      "observed_workers": 17,
+      "evaluator_seconds": 0.260469125,
+      "algorithm_seconds": 0.0042478,
+      "end_to_end_seconds": 0.264716925,
+      "best_objective": 0.0014361099573499026,
+      "best_power_kw": 18746.231113895356,
+      "constraint_violation": 0.0,
+      "scientific_hash": "f9826f8c25e2fcc8",
+      "user_seconds": 4.42,
+      "system_seconds": 0.0,
+      "cpu_percent": 1557,
+      "max_rss_kb": 13328,
+      "raw_json_sha256": "4c4e1a4e5b51f4a754024a156b4375d14892a2154f942dbc6cfca4034f071dff"
+    }
+  ],
+  "admission_decision": {
+    "H6": "pass",
+    "formal_status": "complete_problem_definition_and_comparison_interface",
+    "claim_boundary": "problem evaluator and generic population interface complete; the random indexed batch is a deterministic throughput carrier and is not an optimization-quality baseline"
+  }
+}

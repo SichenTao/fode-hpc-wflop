@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T30",
+  "H5": {
+    "status": "pass",
+    "basis": [
+      "C++ objective recomputation and minimum-spacing assertion",
+      "packed-matrix identity across worker counts",
+      "fixed-work objective and scientific-hash identity across one and twenty workers",
+      "simplified and complete proximity models both exercised"
+    ],
+    "published_number_identity": "not testable because the author instances and private wind clusters are unavailable"
+  },
+  "H6": {
+    "status": "local_candidate_pass_waffle_formal_queued",
+    "region": "uncached 20000-site packed-matrix construction",
+    "one_worker_seconds": 4.394682145,
+    "twenty_worker_seconds": [0.732340915, 0.71552062],
+    "speedup_range": [6.000871, 6.141939],
+    "formal_rule": "repeat limited one-worker reference and all-core observations on Waffle, then run every paper-native proxy case with twenty workers"
+  }
+}

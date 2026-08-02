@@ -1,0 +1,16 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [
+    "https://github.com/byuflowlab/iea37-wflo-casestudies"
+  ],
+  "corpus_id": "T15",
+  "doi": "10.2514/6.2019-0540",
+  "embedded_annotation_asset_urls": [],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "94bf1070222d01cb8ad1875da47919fac4e0d3e6f59425a1aa25dddc7420dcfc",
+  "private_text_sha256": "6b7f5beba4e08eda0312701dcfa99ccd008aa47f7ea3cb0653a2dd742caa34ee",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": [
+    "https://github.com/byuflowlab/iea37-wflo-casestudies"
+  ]
+}

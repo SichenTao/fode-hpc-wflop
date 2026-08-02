@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T81",
+  "paper": {
+    "title": "Layout Optimization of Offshore Wind Farm Considering Spatially Inhomogeneous Wave Loads",
+    "doi": "10.1016/j.apenergy.2021.117947",
+    "venue": "Applied Energy 306 (2022) 117947",
+    "pdf_sha256": "fd0c75fbe49b81d7514f4565c2dd1887834087e7528b63be1d40fa58a5425adc"
+  },
+  "author_assets": {
+    "paper_implementation": "Python SciPy Multistart-SLSQP coupled to FLORIS 2.4 and a precomputed wave-load chart",
+    "paper_linked_source": "https://github.com/NREL/floris",
+    "paper_linked_source_scope": "FLORIS wake-model dependency only; the target optimizer, cases, and wave arrays are absent",
+    "target_public_source_status": "exact-title, DOI, author, GitHub, laboratory, and paper-link searches on 2026-07-31 located no target source",
+    "native_data_status": "Case-2 bathymetry, 75737-element mesh, NCEP wind array, MIKE21/SWAN setup, wave-load chart, layouts, and histories unavailable"
+  },
+  "open_replacement_dependency": {
+    "name": "NLopt 2.11.0",
+    "commit": "88c424d4f458412787df96fcc95218acbca224fd",
+    "use": "pure-C++ Kraft SLSQP replacement for the paper's SciPy SLSQP wrapper"
+  },
+  "missing_information": [
+    "target Python source and exact SciPy/FLORIS environment",
+    "SLSQP finite-difference step, tolerances, maximum evaluations, and random states",
+    "native Case-2 NCEP wind-frequency and speed arrays",
+    "native Case-2 polygon coordinates, bathymetry, 75737-element mesh, and MIKE21/SWAN setup",
+    "native Case-1 and Case-2 wave-load chart samples",
+    "optimized coordinates, per-start histories, and repeat protocol"
+  ],
+  "completion_decisions": [
+    "Retain the paper's 16- and 20-turbine cases, NREL 5 MW dimensions, 2D spacing, 24 wind sectors, Gauss wake, RSS deficits, two-stage formulation, and four alpha0 values.",
+    "Use FLORIS-v2.4 NREL 5 MW CP/CT arrays and legacy-Gauss parameters from the cited public dependency.",
+    "Reconstruct Case 1 from the published mild-slope, dispersion, shoaling, Stokes, Morison, breaking-impact equations and figure-informed smooth breaker completion.",
+    "Digitize the plotted Case-2 polygon, wind rose, and spatial wave-risk topology deterministically because the native arrays are unavailable.",
+    "Retain the paper's precomputed wave-load-chart architecture using a 0.25 m Case-1 linear table and 25 m Case-2 bilinear table.",
+    "Use bound-aware central finite differences with 0.5 m step and one-sided completion at active bounds, 15 starts, relative x tolerance 1e-7, and 300 SLSQP evaluations per start as declared completions.",
+    "Use raw AEP and wave-load physical objectives; normalized AEP is used only for the paper's alpha0 inequality.",
+    "Retain a feasible incumbent between successively relaxed alpha0 stages and retain every start when SLSQP returns a worse or infeasible point."
+  ],
+  "problem_semantic_id": "t81_twofarm_inhomogeneous_wave_declared_v1",
+  "method_semantic_id": "t81_multistart_slsqp_wave_aep_declared_v1",
+  "protocol_semantic_id": "t81_twofarm_4alpha_25seed_15start_v1",
+  "paper_problem_roles": {
+    "roles": [
+      "Case 1: 16 NREL 5 MW turbines in a 3 km by 3 km mild-slope farm",
+      "Case 2: 20 NREL 5 MW turbines in a polygonal complex-terrain farm"
+    ],
+    "registered_role_count": 2,
+    "optimization_stages_per_role": 5
+  },
+  "decision_and_constraints": {
+    "decision": "continuous x/y coordinate for every turbine",
+    "minimum_spacing": "2 rotor diameters, 252 m",
+    "case1_boundary": "x in [0,3000] m and y in [-1500,1500] m",
+    "case2_boundary": "declared six-vertex figure-informed convex polygon",
+    "stage1": "maximize annual energy production",
+    "stage2": "minimize total extreme-wave load subject to AEP divided by Stage-1 AEP being at least alpha0",
+    "alpha0": [0.99, 0.98, 0.95, 0.0]
+  },
+  "physics": {
+    "wind": "24 directions; Case 1 has 8 m/s equal probability and Case 2 uses a deterministic digitization of Figure 10",
+    "wake": "FLORIS-v2.4-lineage Bastankhah Gaussian wake with root-sum-square deficit combination",
+    "power": "FLORIS-v2.4 NREL 5 MW CP curve with 5 MW rating",
+    "case1_wave": "published depth, dispersion, shoaling, Stokes/Morison, and breaking-impact equations plus declared smooth figure completion",
+    "case2_wave": "declared deterministic figure-informed polygonal spatial load topology",
+    "wave_hpc": "immutable precomputed chart followed by linear or bilinear interpolation"
+  },
+  "algorithm": {
+    "family": "two-stage Multistart-SLSQP",
+    "solver": "pinned NLopt Kraft SLSQP",
+    "starts": 15,
+    "finite_difference": "0.5 m bound-aware central difference with one-sided completion at an active bound",
+    "relative_x_tolerance": 1e-7,
+    "maximum_solver_evaluations_per_start": 300,
+    "incumbent_rule": "retain the best feasible start and propagate the best coupled layout through relaxed alpha0 stages"
+  },
+  "physical_fes_ledger": {
+    "unit": "one complete boundary, spacing, 24-state Gaussian-wake AEP, and interpolated wave-load evaluation of one layout",
+    "finite_differences": "each plus or minus perturbed complete layout is one physical FES",
+    "selection_solver_bookkeeping": "does not consume physical wind-farm FES",
+    "runtime_ledger": "reported per run because SLSQP convergence determines the actual physical FES"
+  },
+  "hpc_execution": {
+    "backend": "pure C++20 CPU-HPC",
+    "theory": "the 15 mathematically independent SLSQP starts are parallelized by one persistent worker team; the immutable wave chart removes repeated dispersion and Morison integration from every physical FES",
+    "ordered_semantics": "every start has a deterministic seed and writes a fixed result slot; best-start reduction is ordered, preserving one/all-worker identity",
+    "h6_rule": "same source, seed, 15 starts, solver limits, physical FES, and scientific hash with one versus 15 workers",
+    "formal_resource_rule": "two paper-case runs execute concurrently with half of Waffle's cores each, filling all 20 cores while retaining 15 starts per paper case",
+    "timings": "evaluator critical-path estimate, algorithm-only residual, and end-to-end wall time are reported separately"
+  },
+  "paper_native_formal_protocol": {
+    "paper_case_roles": 2,
+    "seeds_per_role_platform_completion": 25,
+    "required_target_runs": 50,
+    "stages_per_run": 5,
+    "starts_per_stage": 15,
+    "formal_outputs": [
+      "Stage-1 AEP baseline and four coupled layouts",
+      "alpha0, realized alpha1, beta, feasibility, and complete coordinates",
+      "physical-FES ledger and SLSQP-start success counts",
+      "evaluator, algorithm, and end-to-end timings",
+      "worker receipt, scientific hash, source commit, and executable hash"
+    ]
+  },
+  "development_evidence_20260731": {
+    "case1_one_worker_seconds": 38.495025096,
+    "case1_fifteen_worker_seconds": 4.720783146,
+    "case1_end_to_end_speedup": 8.154372676198332,
+    "case1_physical_fes": 908481,
+    "same_scientific_hash": true,
+    "case2_reconstructed_beta": [0.7305545782, 0.7070628050, 0.5885640106, 0.5162686067],
+    "case2_paper_beta": [0.799, 0.643, 0.595, 0.507]
+  },
+  "claim_boundary": "academic flexible reconstruction of the target Multistart-SLSQP and both paper problem roles; not author source, SciPy trajectory, native NCEP/bathymetry/mesh/MIKE21/SWAN arrays, or exact numerical optimum replay"
+}

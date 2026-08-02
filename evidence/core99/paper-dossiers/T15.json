@@ -1,0 +1,167 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "Register T15 as a benchmark/comparison-protocol paper, not a fictitious target optimizer.",
+    "Fully reproduce the case-study-1 common evaluator and paper participants 1-10 plus examples.",
+    "Retain case-study-2 layouts and the paper 5x5 cross-model matrix without fabricating unavailable participant wake models.",
+    "Exclude archive participants 11-12 from the paper-native 2019 matrix.",
+    "Preserve and report constraint violations in public submitted layouts rather than silently repairing published comparison assets."
+  ],
+  "corpus_id": "T15",
+  "evidence_receipts": [
+    "evidence/core99/h6/T15_waffle_full_matrix.json"
+  ],
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/iea37_t15.hpp",
+    "hpc/core99_cpp/src/iea37_t15.cpp",
+    "shared/contracts/core99_t15_iea37_2019.json"
+  ],
+  "dossier_status": "formal_complete",
+  "formal_status": "complete_deterministic_full_matrix",
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pass"
+  },
+  "missing_information": [
+    "Participant optimizer implementations are not released.",
+    "Case-study-2 participant wake-model implementations are not released by design.",
+    "Participant run-level FES and timing reports are inconsistent and cannot be normalized from the paper."
+  ],
+  "paper": {
+    "authors": "Nicholas F. Baker and Andrew P. Stanley and Jared J. Thomas and Andrew Ning and Katherine Dykes",
+    "doi": "10.2514/6.2019-0540",
+    "pdf_basename": "2019_Baker_Best_Practices_for_Wake_Model_and_Optimization_Algorithm_Selection_in_Wind_Farm_Layout_Optimization.pdf",
+    "pdf_sha256": "94bf1070222d01cb8ad1875da47919fac4e0d3e6f59425a1aa25dddc7420dcfc",
+    "primary_asset_status": "local_primary_pdf_hashed_and_consumed",
+    "primary_review_class": "REV1",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "REV2,REV3",
+    "title": "Best Practices for Wake Model and Optimization Algorithm Selection in Wind Farm Layout Optimization",
+    "venue": "AIAA SciTech 2019 Forum",
+    "year": 2019
+  },
+  "paper_linked_public_asset": {
+    "revision": "af88908d22795030ac2dfbe37bc38e912aee8ed6",
+    "status": "consumed_and_semantically_audited",
+    "tag": "v2.0.1",
+    "url": "https://github.com/byuflowlab/iea37-wflo-casestudies"
+  },
+  "paper_source_conflicts": [
+    {
+      "field": "participant_scope",
+      "paper": "participants 1-10 in case-study-1 tables",
+      "public_source": "current archive also contains participants 11-12",
+      "resolution": "paper-native result uses participants 1-10; later assets remain provenance only"
+    },
+    {
+      "field": "case_study_2_units",
+      "paper": "cross-comparison table values are MWh around 2.4e5-2.6e5",
+      "public_source": "at least one YAML default is 1000 times the paper table value",
+      "resolution": "paper tables control the cross-model matrix"
+    },
+    {
+      "field": "submitted_layout_feasibility",
+      "paper": "minimum spacing is 2D",
+      "public_source": "several submitted layouts contain material 2D spacing violations",
+      "resolution": "retain layouts and rankings, calculate and disclose violations"
+    }
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 19,
+    "text_sha256": "6b7f5beba4e08eda0312701dcfa99ccd008aa47f7ea3cb0653a2dd742caa34ee"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "academic reproduction of benchmark problems, common evaluator, released layouts, rankings, and cross-model protocol; not participant methods",
+    "execution_wave": "REV1",
+    "package_status": "formal_complete",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "problem_definition_or_comparison_protocol"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "paper",
+      "resolution": "circular radius and 2D spacing; fixed submitted layouts are diagnosed but never repaired",
+      "status": "frozen"
+    },
+    "decision_variables": {
+      "authority": "paper",
+      "resolution": "x,y hub coordinates for 16,36,64 turbines in case study 1 and 9 turbines in case study 2",
+      "status": "frozen"
+    },
+    "encoding_and_decoder": {
+      "authority": "public_source",
+      "resolution": "direct Cartesian YAML coordinates",
+      "status": "frozen"
+    },
+    "initialization": {
+      "authority": "not_applicable_fixed_layout_protocol",
+      "resolution": "public examples and participant submissions are the evaluated assets",
+      "status": "frozen"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper_plus_public_source",
+      "resolution": "AEP, rank, archive error, feasibility, timing, and worker receipt over the complete deterministic matrix",
+      "status": "frozen"
+    },
+    "objective_and_direction": {
+      "authority": "paper",
+      "resolution": "maximize AEP",
+      "status": "frozen"
+    },
+    "paper_native_cases": {
+      "authority": "paper",
+      "resolution": "case study 1: 16/36/64 turbines with radii 1300/2000/3000m; case study 2: 9 turbines and 900m radius",
+      "status": "frozen"
+    },
+    "parameters": {
+      "authority": "public_source",
+      "resolution": "D=130m, cut-in=4m/s, rated=9.8m/s, cut-out=25m/s, rated power=3.35MW",
+      "status": "frozen"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "not_applicable_fixed_layout_protocol",
+      "resolution": "one common-evaluator call per public layout; participant optimization histories are unavailable",
+      "status": "frozen"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "no learned model",
+      "status": "frozen"
+    },
+    "update_order": {
+      "authority": "platform",
+      "resolution": "parallel layout evaluation followed by deterministic per-size ranking",
+      "status": "frozen"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "public_source",
+      "resolution": "case-study-1 simplified Gaussian common evaluator; case-study-2 models remain heterogeneous unavailable assets",
+      "status": "frozen"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "public_source",
+      "resolution": "16 directions, released frequencies, constant 9.8m/s",
+      "status": "frozen"
+    }
+  },
+  "validation": {
+    "cpp_test": "core99_t15_cpp pass",
+    "formal_receipt": "evidence/core99/h6/T15_waffle_full_matrix.json",
+    "h5_oracle": "core99_t15_h5 pass",
+    "h5_scope": "all 33 case-study-1 layouts reproduce archive AEP within 1e-5 MWh; participant 4 wins all three paper sizes"
+  }
+}

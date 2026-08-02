@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "method_semantic_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
+  "problem_semantic_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+  "problem_semantic_hash": "ee06013d8778fd7e",
+  "wake_combination": "root-sum-square",
+  "case_id": "PPGA_NantongStructured_WS1_tn20",
+  "seed": 2026072903,
+  "physical_fes": 60,
+  "generations": 1,
+  "backend": "cpu",
+  "requested_workers": 20,
+  "resolved_workers": 20,
+  "total_wall_seconds": 0.0025863209999999999,
+  "best": {
+    "layout_1based": [4, 18, 39, 53, 59, 90, 100, 106, 131, 141, 147, 195, 218, 251, 317, 322, 328, 360, 373, 395],
+    "expected_power_kw": 38671.75179670316,
+    "ideal_expected_power_kw": 42138.991859030095,
+    "conversion_efficiency": 0.91771896029392241,
+    "cost_per_expected_power": 0.00043073225406255059,
+    "layout_hash": "91ee2447f68fb42a"
+  },
+  "population_layout_hash": "d41214dc67c14284",
+  "stage_receipts": {
+    "initialization": {"wall_seconds": 0.00048191999999999999, "parallel_regions": 1, "task_items": 30, "participant_activations": 18, "distinct_participants": 18, "peak_region_participants": 18},
+    "diversity_adaptation": {"wall_seconds": 0.000132576, "parallel_regions": 2, "task_items": 60, "participant_activations": 14, "distinct_participants": 13, "peak_region_participants": 13},
+    "variation_repair": {"wall_seconds": 3.1520999999999999e-05, "parallel_regions": 1, "task_items": 30, "participant_activations": 8, "distinct_participants": 8, "peak_region_participants": 8},
+    "evaluator": {"wall_seconds": 0.00152856, "parallel_regions": 2, "task_items": 60, "participant_activations": 38, "distinct_participants": 20, "peak_region_participants": 20},
+    "selection_other": {"wall_seconds": 6.224e-06, "parallel_regions": 0, "task_items": 90, "participant_activations": 0, "distinct_participants": 0, "peak_region_participants": 0}
+  },
+  "work_receipt": {
+    "pairwise_layout_distances": 435,
+    "crossover_gene_choices": 560,
+    "mutation_gene_trials": 30,
+    "mutation_events": 3,
+    "perturbation_gate_draws": 0,
+    "perturbed_individuals": 0,
+    "power_law_gene_steps": 0,
+    "stagnation_parent_offspring_comparisons": 30,
+    "duplicate_repairs": 6
+  }
+}

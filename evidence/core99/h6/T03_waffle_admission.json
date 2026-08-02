@@ -1,0 +1,490 @@
+{
+  "claim_boundary": "bounded H6 admission only; not a paper-scale formal timing claim",
+  "generated_at_utc": "2026-07-30T16:20:07.403257+00:00",
+  "host": "waffle",
+  "hpc": {
+    "median_seconds": {
+      "algorithm": 0.024590855999999994,
+      "end_to_end": 0.082361911,
+      "evaluator": 0.05745996599999999
+    },
+    "objective_field": "best_expected_power_kw",
+    "objective_value": 2851.435764276328,
+    "observed_workers": [
+      20
+    ],
+    "physical_fes": 12120,
+    "raw_observations": [
+      {
+        "algorithm_id": "t03_kusiak_spea_es",
+        "algorithm_seconds": 0.029088820999999987,
+        "best_constraint_violation": 0,
+        "best_expected_power_kw": 2851.435764276328,
+        "best_inverse_power": 0.0003507005181488955,
+        "best_layout_xy_m": [
+          [
+            300.9397668272012,
+            392.01282005896866
+          ],
+          [
+            466.57627355755,
+            61.333710775467154
+          ],
+          [
+            35.343173535278424,
+            -483.7313218681349
+          ],
+          [
+            -304.0525510407275,
+            371.2621630845628
+          ],
+          [
+            -270.42618774891463,
+            59.83828036235338
+          ],
+          [
+            -157.5185360923737,
+            -235.8652405369102
+          ]
+        ],
+        "end_to_end_seconds": 0.093486897,
+        "evaluator_seconds": 0.06439807600000001,
+        "method_semantic_id": "t03_kusiak_spea_es_declared_v1",
+        "mode": "optimization",
+        "observed_workers": 20,
+        "physical_fes": 12120,
+        "problem_id": "t03_kusiak_s2_n6",
+        "problem_semantic_id": "t03_kusiak_circular_expected_power_v1",
+        "requested_workers": 20,
+        "scientific_hash": "7bff623aef9dda63",
+        "seed": 20260731
+      },
+      {
+        "algorithm_id": "t03_kusiak_spea_es",
+        "algorithm_seconds": 0.025922568000000007,
+        "best_constraint_violation": 0,
+        "best_expected_power_kw": 2851.435764276328,
+        "best_inverse_power": 0.0003507005181488955,
+        "best_layout_xy_m": [
+          [
+            300.9397668272012,
+            392.01282005896866
+          ],
+          [
+            466.57627355755,
+            61.333710775467154
+          ],
+          [
+            35.343173535278424,
+            -483.7313218681349
+          ],
+          [
+            -304.0525510407275,
+            371.2621630845628
+          ],
+          [
+            -270.42618774891463,
+            59.83828036235338
+          ],
+          [
+            -157.5185360923737,
+            -235.8652405369102
+          ]
+        ],
+        "end_to_end_seconds": 0.083382534,
+        "evaluator_seconds": 0.05745996599999999,
+        "method_semantic_id": "t03_kusiak_spea_es_declared_v1",
+        "mode": "optimization",
+        "observed_workers": 20,
+        "physical_fes": 12120,
+        "problem_id": "t03_kusiak_s2_n6",
+        "problem_semantic_id": "t03_kusiak_circular_expected_power_v1",
+        "requested_workers": 20,
+        "scientific_hash": "7bff623aef9dda63",
+        "seed": 20260731
+      },
+      {
+        "algorithm_id": "t03_kusiak_spea_es",
+        "algorithm_seconds": 0.024590855999999994,
+        "best_constraint_violation": 0,
+        "best_expected_power_kw": 2851.435764276328,
+        "best_inverse_power": 0.0003507005181488955,
+        "best_layout_xy_m": [
+          [
+            300.9397668272012,
+            392.01282005896866
+          ],
+          [
+            466.57627355755,
+            61.333710775467154
+          ],
+          [
+            35.343173535278424,
+            -483.7313218681349
+          ],
+          [
+            -304.0525510407275,
+            371.2621630845628
+          ],
+          [
+            -270.42618774891463,
+            59.83828036235338
+          ],
+          [
+            -157.5185360923737,
+            -235.8652405369102
+          ]
+        ],
+        "end_to_end_seconds": 0.082361911,
+        "evaluator_seconds": 0.057771055,
+        "method_semantic_id": "t03_kusiak_spea_es_declared_v1",
+        "mode": "optimization",
+        "observed_workers": 20,
+        "physical_fes": 12120,
+        "problem_id": "t03_kusiak_s2_n6",
+        "problem_semantic_id": "t03_kusiak_circular_expected_power_v1",
+        "requested_workers": 20,
+        "scientific_hash": "7bff623aef9dda63",
+        "seed": 20260731
+      },
+      {
+        "algorithm_id": "t03_kusiak_spea_es",
+        "algorithm_seconds": 0.023955389,
+        "best_constraint_violation": 0,
+        "best_expected_power_kw": 2851.435764276328,
+        "best_inverse_power": 0.0003507005181488955,
+        "best_layout_xy_m": [
+          [
+            300.9397668272012,
+            392.01282005896866
+          ],
+          [
+            466.57627355755,
+            61.333710775467154
+          ],
+          [
+            35.343173535278424,
+            -483.7313218681349
+          ],
+          [
+            -304.0525510407275,
+            371.2621630845628
+          ],
+          [
+            -270.42618774891463,
+            59.83828036235338
+          ],
+          [
+            -157.5185360923737,
+            -235.8652405369102
+          ]
+        ],
+        "end_to_end_seconds": 0.08123858,
+        "evaluator_seconds": 0.057283191000000004,
+        "method_semantic_id": "t03_kusiak_spea_es_declared_v1",
+        "mode": "optimization",
+        "observed_workers": 20,
+        "physical_fes": 12120,
+        "problem_id": "t03_kusiak_s2_n6",
+        "problem_semantic_id": "t03_kusiak_circular_expected_power_v1",
+        "requested_workers": 20,
+        "scientific_hash": "7bff623aef9dda63",
+        "seed": 20260731
+      },
+      {
+        "algorithm_id": "t03_kusiak_spea_es",
+        "algorithm_seconds": 0.022432309000000004,
+        "best_constraint_violation": 0,
+        "best_expected_power_kw": 2851.435764276328,
+        "best_inverse_power": 0.0003507005181488955,
+        "best_layout_xy_m": [
+          [
+            300.9397668272012,
+            392.01282005896866
+          ],
+          [
+            466.57627355755,
+            61.333710775467154
+          ],
+          [
+            35.343173535278424,
+            -483.7313218681349
+          ],
+          [
+            -304.0525510407275,
+            371.2621630845628
+          ],
+          [
+            -270.42618774891463,
+            59.83828036235338
+          ],
+          [
+            -157.5185360923737,
+            -235.8652405369102
+          ]
+        ],
+        "end_to_end_seconds": 0.079472158,
+        "evaluator_seconds": 0.057039849,
+        "method_semantic_id": "t03_kusiak_spea_es_declared_v1",
+        "mode": "optimization",
+        "observed_workers": 20,
+        "physical_fes": 12120,
+        "problem_id": "t03_kusiak_s2_n6",
+        "problem_semantic_id": "t03_kusiak_circular_expected_power_v1",
+        "requested_workers": 20,
+        "scientific_hash": "7bff623aef9dda63",
+        "seed": 20260731
+      }
+    ],
+    "repeats": 5,
+    "scientific_hash": "7bff623aef9dda63"
+  },
+  "platform": "Linux-7.0.0-28-generic-x86_64-with-glibc2.39",
+  "receipt_sha256": "8dcdf5cc151aa984b38dfe4f282e3886a9e8da6aeb02448668a0d931ea631e0e",
+  "receipt_type": "core99_h6_bounded_admission",
+  "schema_version": 1,
+  "serial": {
+    "median_seconds": {
+      "algorithm": 0.01888926600000007,
+      "end_to_end": 0.822447997,
+      "evaluator": 0.8035977589999996
+    },
+    "objective_field": "best_expected_power_kw",
+    "objective_value": 2851.435764276328,
+    "observed_workers": [
+      1
+    ],
+    "physical_fes": 12120,
+    "raw_observations": [
+      {
+        "algorithm_id": "t03_kusiak_spea_es",
+        "algorithm_seconds": 0.01888926600000007,
+        "best_constraint_violation": 0,
+        "best_expected_power_kw": 2851.435764276328,
+        "best_inverse_power": 0.0003507005181488955,
+        "best_layout_xy_m": [
+          [
+            300.9397668272012,
+            392.01282005896866
+          ],
+          [
+            466.57627355755,
+            61.333710775467154
+          ],
+          [
+            35.343173535278424,
+            -483.7313218681349
+          ],
+          [
+            -304.0525510407275,
+            371.2621630845628
+          ],
+          [
+            -270.42618774891463,
+            59.83828036235338
+          ],
+          [
+            -157.5185360923737,
+            -235.8652405369102
+          ]
+        ],
+        "end_to_end_seconds": 0.826867559,
+        "evaluator_seconds": 0.8079782929999999,
+        "method_semantic_id": "t03_kusiak_spea_es_declared_v1",
+        "mode": "optimization",
+        "observed_workers": 1,
+        "physical_fes": 12120,
+        "problem_id": "t03_kusiak_s2_n6",
+        "problem_semantic_id": "t03_kusiak_circular_expected_power_v1",
+        "requested_workers": 1,
+        "scientific_hash": "7bff623aef9dda63",
+        "seed": 20260731
+      },
+      {
+        "algorithm_id": "t03_kusiak_spea_es",
+        "algorithm_seconds": 0.018921717999999976,
+        "best_constraint_violation": 0,
+        "best_expected_power_kw": 2851.435764276328,
+        "best_inverse_power": 0.0003507005181488955,
+        "best_layout_xy_m": [
+          [
+            300.9397668272012,
+            392.01282005896866
+          ],
+          [
+            466.57627355755,
+            61.333710775467154
+          ],
+          [
+            35.343173535278424,
+            -483.7313218681349
+          ],
+          [
+            -304.0525510407275,
+            371.2621630845628
+          ],
+          [
+            -270.42618774891463,
+            59.83828036235338
+          ],
+          [
+            -157.5185360923737,
+            -235.8652405369102
+          ]
+        ],
+        "end_to_end_seconds": 0.832984868,
+        "evaluator_seconds": 0.8140631500000001,
+        "method_semantic_id": "t03_kusiak_spea_es_declared_v1",
+        "mode": "optimization",
+        "observed_workers": 1,
+        "physical_fes": 12120,
+        "problem_id": "t03_kusiak_s2_n6",
+        "problem_semantic_id": "t03_kusiak_circular_expected_power_v1",
+        "requested_workers": 1,
+        "scientific_hash": "7bff623aef9dda63",
+        "seed": 20260731
+      },
+      {
+        "algorithm_id": "t03_kusiak_spea_es",
+        "algorithm_seconds": 0.018850238000000408,
+        "best_constraint_violation": 0,
+        "best_expected_power_kw": 2851.435764276328,
+        "best_inverse_power": 0.0003507005181488955,
+        "best_layout_xy_m": [
+          [
+            300.9397668272012,
+            392.01282005896866
+          ],
+          [
+            466.57627355755,
+            61.333710775467154
+          ],
+          [
+            35.343173535278424,
+            -483.7313218681349
+          ],
+          [
+            -304.0525510407275,
+            371.2621630845628
+          ],
+          [
+            -270.42618774891463,
+            59.83828036235338
+          ],
+          [
+            -157.5185360923737,
+            -235.8652405369102
+          ]
+        ],
+        "end_to_end_seconds": 0.822447997,
+        "evaluator_seconds": 0.8035977589999996,
+        "method_semantic_id": "t03_kusiak_spea_es_declared_v1",
+        "mode": "optimization",
+        "observed_workers": 1,
+        "physical_fes": 12120,
+        "problem_id": "t03_kusiak_s2_n6",
+        "problem_semantic_id": "t03_kusiak_circular_expected_power_v1",
+        "requested_workers": 1,
+        "scientific_hash": "7bff623aef9dda63",
+        "seed": 20260731
+      },
+      {
+        "algorithm_id": "t03_kusiak_spea_es",
+        "algorithm_seconds": 0.018905316999999977,
+        "best_constraint_violation": 0,
+        "best_expected_power_kw": 2851.435764276328,
+        "best_inverse_power": 0.0003507005181488955,
+        "best_layout_xy_m": [
+          [
+            300.9397668272012,
+            392.01282005896866
+          ],
+          [
+            466.57627355755,
+            61.333710775467154
+          ],
+          [
+            35.343173535278424,
+            -483.7313218681349
+          ],
+          [
+            -304.0525510407275,
+            371.2621630845628
+          ],
+          [
+            -270.42618774891463,
+            59.83828036235338
+          ],
+          [
+            -157.5185360923737,
+            -235.8652405369102
+          ]
+        ],
+        "end_to_end_seconds": 0.818277945,
+        "evaluator_seconds": 0.799372628,
+        "method_semantic_id": "t03_kusiak_spea_es_declared_v1",
+        "mode": "optimization",
+        "observed_workers": 1,
+        "physical_fes": 12120,
+        "problem_id": "t03_kusiak_s2_n6",
+        "problem_semantic_id": "t03_kusiak_circular_expected_power_v1",
+        "requested_workers": 1,
+        "scientific_hash": "7bff623aef9dda63",
+        "seed": 20260731
+      },
+      {
+        "algorithm_id": "t03_kusiak_spea_es",
+        "algorithm_seconds": 0.018876672000000316,
+        "best_constraint_violation": 0,
+        "best_expected_power_kw": 2851.435764276328,
+        "best_inverse_power": 0.0003507005181488955,
+        "best_layout_xy_m": [
+          [
+            300.9397668272012,
+            392.01282005896866
+          ],
+          [
+            466.57627355755,
+            61.333710775467154
+          ],
+          [
+            35.343173535278424,
+            -483.7313218681349
+          ],
+          [
+            -304.0525510407275,
+            371.2621630845628
+          ],
+          [
+            -270.42618774891463,
+            59.83828036235338
+          ],
+          [
+            -157.5185360923737,
+            -235.8652405369102
+          ]
+        ],
+        "end_to_end_seconds": 0.81627795,
+        "evaluator_seconds": 0.7974012779999997,
+        "method_semantic_id": "t03_kusiak_spea_es_declared_v1",
+        "mode": "optimization",
+        "observed_workers": 1,
+        "physical_fes": 12120,
+        "problem_id": "t03_kusiak_s2_n6",
+        "problem_semantic_id": "t03_kusiak_circular_expected_power_v1",
+        "requested_workers": 1,
+        "scientific_hash": "7bff623aef9dda63",
+        "seed": 20260731
+      }
+    ],
+    "repeats": 5,
+    "scientific_hash": "7bff623aef9dda63"
+  },
+  "source_commit": "4661a973743ccce5f984bc255a6f23ceff788703",
+  "speedup_serial_to_hpc": {
+    "algorithm": 0.7681418654153428,
+    "end_to_end": 9.985780890878067,
+    "evaluator": 13.985350409013465
+  },
+  "stem": "t03-s2-n6"
+}

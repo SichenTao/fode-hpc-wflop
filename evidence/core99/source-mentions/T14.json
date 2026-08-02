@@ -1,0 +1,20 @@
+{
+  "availability_mention_line_numbers": [
+    681
+  ],
+  "candidate_public_asset_urls": [
+    "https://doi.org/10.5281/zenodo.3523383"
+  ],
+  "corpus_id": "T14",
+  "doi": "10.5194/wes-4-663-2019",
+  "embedded_annotation_asset_urls": [
+    "https://doi.org/10.5281/zenodo.3523383"
+  ],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "37f4b2804490f22bd46bb8e67fa318363f80bcfc67ddb521ee8406ebaf339c11",
+  "private_text_sha256": "c3f35361e888c49fc5c25e7b00e6b12b4a4dcfc9032dad830010d9fa68aa4232",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": [
+    "https://doi.org/10.5281/zenodo.3523383"
+  ]
+}

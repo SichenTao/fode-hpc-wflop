@@ -1,0 +1,48 @@
+{
+  "schema_version": 1,
+  "package_id": "REQUIRED_PACKAGE_ID",
+  "problem_id": "REQUIRED_PROBLEM_ID",
+  "problem_semantics_id": "REQUIRED_PROBLEM_SEMANTICS_ID",
+  "problem_evidence_tier": "REQUIRED_P0_TO_P4",
+  "decision_space": {
+    "encoding": "REQUIRED_ENCODING",
+    "dimension_or_cardinality_rule": "REQUIRED_RULE",
+    "bounds_or_candidate_set": "REQUIRED_MACHINE_READABLE_REFERENCE"
+  },
+  "objective": {
+    "sense": "REQUIRED_MINIMIZE_OR_MAXIMIZE",
+    "quantity": "REQUIRED_PHYSICAL_QUANTITY",
+    "unit": "REQUIRED_UNIT",
+    "aggregation": "REQUIRED_WIND_STATE_AGGREGATION"
+  },
+  "constraints": {
+    "feasibility_rules": ["REQUIRED_RULE"],
+    "repair_or_rejection": "REQUIRED_EXACT_RULE",
+    "constraint_violation_normalization": "REQUIRED_RULE_OR_NOT_APPLICABLE"
+  },
+  "physical_models": {
+    "wake": "REQUIRED_MODEL_AND_PARAMETERS",
+    "turbine": "REQUIRED_CURVES_AND_INTERPOLATION",
+    "wind_resource": "REQUIRED_DIRECTIONS_SPEEDS_PROBABILITIES_AND_SAMPLING",
+    "terrain_cable_acoustic_or_other": "REQUIRED_MODEL_OR_NOT_APPLICABLE"
+  },
+  "assets": [
+    {
+      "asset_id": "REQUIRED_ASSET_ID",
+      "relative_path": "REQUIRED_RELATIVE_PATH",
+      "sha256": "REQUIRED_SHA256",
+      "license_or_use_boundary": "REQUIRED_BOUNDARY",
+      "redistributable": false
+    }
+  ],
+  "physical_fes": {
+    "unit": "one complete evaluation of every active objective and constraint for one complete layout",
+    "initialization_included": true,
+    "training_evaluator_calls": "REQUIRED_INCLUDED_SEPARATE_OR_NOT_APPLICABLE",
+    "budget_per_run": "REQUIRED_POSITIVE_INTEGER",
+    "overshoot": "forbidden",
+    "partial_terminal_batch": "evaluate exactly the remaining layouts and stop"
+  },
+  "case_semantic_hash_rule": "Hash every numerical input and rule that can change objective or feasibility; never pool different hashes.",
+  "claim_boundary": "REQUIRED_PROBLEM_CLAIM_BOUNDARY"
+}

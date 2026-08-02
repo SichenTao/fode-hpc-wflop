@@ -1,0 +1,91 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0373",
+  "paper": {
+    "title": "Joint optimization of wind farm layout considering optimal control",
+    "doi": "10.1016/j.renene.2021.10.032",
+    "pdf_sha256": "a0e5b3c2fe2a24e870e7b17c0220d71a644e96e6fd87b4087f3fb9d0c6555f50",
+    "pdf_text_sha256": "72122fbd2c6358182606c6cf78c793900cf6fac43e2ba3818566a594ae1a5cdd",
+    "pages": 16
+  },
+  "source_search": {
+    "date": "2026-08-01",
+    "target_result": "No target DBHM implementation, optimizer settings, numeric wind rose, layouts, controls, seeds, traces or result archive found by exact-title, DOI, author, DBHM and GitHub searches.",
+    "paper_source": {
+      "identifier": "arXiv:2107.11620",
+      "archive_sha256": "6c5dd1b686f0501051974d4d464a44ca5283847b34a459d6e4daf5535bcbef9c",
+      "contents": "complete TeX and original paper figures; no executable code"
+    },
+    "cited_public_dependency": {
+      "repository": "https://github.com/TUDelft-DataDrivenControl/FLORISSE_M",
+      "license": "MIT",
+      "commit": "36cb0a0295d2a1e05640fdbbcb9bb361ac8d592e",
+      "archive_sha256": "451150ba62b242353f9bdaa5e5bef10cad5d63e0e3841d625838572d9f0c1f75",
+      "zenodo_doi": "10.5281/zenodo.4458669",
+      "target_relationship": "cited wake-model lineage and missing near-wake completion only; not target DBHM source"
+    }
+  },
+  "paper_native_protocol": {
+    "profiles": [
+      "three-turbine unrestricted illustration",
+      "three-turbine 4D-constrained illustration",
+      "16 turbines and 36 wind directions",
+      "16 turbines and 360 wind directions",
+      "80 Horns-Rev turbines and 12 wind directions",
+      "80 Horns-Rev turbines and 180 wind directions"
+    ],
+    "main_case_roles": [
+      "initial layout and greedy control",
+      "initial layout and optimized control",
+      "optimized layout and greedy control",
+      "optimized layout and sequential optimized control",
+      "joint layout-control DBHM"
+    ],
+    "formal_runs_per_profile": 1,
+    "pso_trials": 10,
+    "population_completion": 40,
+    "pso_iteration_completion": 30,
+    "control_pass_completion": 5,
+    "dbhm_iteration_completion": 12,
+    "penalty_factor": 100000.0,
+    "dbhm_mu": 10.0,
+    "consensus_tolerance_m": 10.0
+  },
+  "literal_problem_data": {
+    "turbine": "NREL-5MW-scale rotor126m, air density1.29kg/m3 and freestream9m/s",
+    "controls": "yaw -30 to 30 degrees and axial induction 0.1 to 1/3",
+    "wake": "paper Eqs.1-7 FLORIS Gaussian yaw/induction model with root-sum-square deficits",
+    "layout_constraints": "paper Eqs.8-10 rectangular bounds and 4D minimum separation; Horns-Rev initial lattice sides are approximately 7D",
+    "decomposition": "paper Eqs.16-31 DBHM scenario subproblems, analytic consensus and multiplier update",
+    "paper_result_anchors": "three illustration AEPs and five AEP roles for each 16/80-turbine direction study"
+  },
+  "conflicts_and_completions": [
+    "Eq.1 prints a positive Gaussian exponent; production restores the physically required negative exponent.",
+    "Eq.8 includes i=j and would make positive minimum spacing infeasible; production uses unique i<j pairs.",
+    "Eq.15 includes self-pairs and double-counts unordered pairs; production applies PF once to each violated i<j pair.",
+    "Eq.3 has dimensionally ambiguous empirical scaling relative to FLORISSE_M. Production retains the printed two-dimensional form and labels it a declared paper-literal adaptation.",
+    "The broad nonconvex-ADMM convergence paragraph requires assumptions beyond compactness and linear consensus. Production claims deterministic stationary search, not unconditional or global convergence.",
+    "The paper says each scenario subproblem has 4N variables although auxiliary epsilon is also written; production eliminates epsilon into the augmented objective.",
+    "The target x0, turbulence intensity and near-wake implementation are absent. Production uses the pinned FLORISSE_M x0 relationship and the turbulence level implied by paper ky=0.0229.",
+    "The 36-bin wind rose is digitized and normalized from the original arXiv figure; 12 bins aggregate and 180/360 bins periodically subdivide it.",
+    "The 16-turbine 1900x1700m rectangle and 80-turbine Horns-Rev 10x8 parallelogram are reconstructed from text and original figures. The Horns initial side length is 7D, while the minimum feasible separation remains the paper's 4D rather than being incorrectly tightened to 7D.",
+    "The PSO and subproblem budgets are absent. Production declares ten trials, population40, 30 PSO iterations, five projected control passes and at most12 DBHM iterations."
+  ],
+  "method_semantic_id": "l0373_pso_warm_dbhm_projected_declared_v1",
+  "problem_semantic_id": "l0373_joint_layout_yaw_induction_floris_declared_v1",
+  "protocol_semantic_id": "l0373_native_illustrative_16_36_360_80_12_180_v1",
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC",
+    "strategy": [
+      "one persistent all-core executor per optimization",
+      "parallel complete PSO individuals with fixed-index writes and ordered commits",
+      "parallel independent wind-scenario control and DBHM subproblems",
+      "direct realization of the paper's explicit statement that its sequential DBHM subproblems can be parallelized for further savings",
+      "immutable wind/model constants and counter-keyed schedule-independent random events",
+      "serial per-state physics to prevent nested teams and oversubscription"
+    ],
+    "dominant_complexity": "layout/control candidates times wind scenarios times turbine-count squared times nine rotor samples",
+    "required_invariant": "one-worker and all-worker cases, controls, layouts, work counts and scientific hash identity"
+  },
+  "claim_boundary": "Flexible academic reconstruction of the target joint layout-control problem, DBHM and all paper-native profiles and roles; not author target code, exact MATLAB/FLORISSE-M adaptation, private arrays, trajectories or numerical replay."
+}

@@ -1,0 +1,16 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [
+    "https://backend.orbit.dtu.dk/ws/portalfiles/portal/51814036/ris_r_1768.pdf",
+    "https://backend.orbit.dtu.dk/ws/portalfiles/portal/122941920/Simple_analytical_wake_model_final_10.pdf",
+    "https://gitlab.windenergy.dtu.dk/TOPFARM/TopFarm2"
+  ],
+  "corpus_id": "T58",
+  "doi": "10.1002/we.1667",
+  "embedded_annotation_asset_urls": [],
+  "interpretation": "the first two official DTU URLs are paper-cited primary model/method reports; TopFarm2 is audited later lineage only and is not the target 2014 source",
+  "paper_pdf_sha256": "779feb21b1943d300e5752e7613b5fda60eb679df00cceb1bf6b6b2940628065",
+  "private_text_sha256": "b09b7a08d25715449ac5f48fe1083e2e20fbc2a482ae9febd14a1b3ecfbc515e",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": []
+}

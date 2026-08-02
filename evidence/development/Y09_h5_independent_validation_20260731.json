@@ -1,0 +1,47 @@
+{
+  "status": "pass",
+  "corpus_id": "Y09",
+  "paper_doi": "10.1016/j.renene.2025.124386",
+  "method_semantic_id": "y09_ternary_variable_mutation_ga_declared_v1",
+  "problem_semantic_id": "y09_multitype_mqi_fatigue_lcoe_declared_v1",
+  "protocol_semantic_id": "y09_native_12case_single_run_declared_v1",
+  "checks": {
+    "strict_warning_cpp_build": "pass",
+    "cpp_regression": "pass",
+    "python_independent_validation": "pass",
+    "paper_native_unique_case_count": 12,
+    "candidate_count": 100,
+    "site_side_m": 5000.0,
+    "five_mw_hub_and_rotor_m": [90.0, 126.0],
+    "fifteen_mw_hub_and_rotor_m": [150.0, 240.0],
+    "population": 100,
+    "crossover_rate": 0.08,
+    "total_mutation_rate": 0.01,
+    "mutation_expectation_identity": true,
+    "one_four_worker_fixed_work_identity": true,
+    "full_worker_participation_observed": 4,
+    "runner_all_twelve_case_preview": "pass"
+  },
+  "local_h6_candidate": {
+    "fixed_population": 100,
+    "fixed_generations": 50,
+    "physical_fes_per_case": 5100,
+    "comparison": "same pure-C++ executable with one worker versus twenty workers",
+    "all_twelve_cases_same_layout_metrics_fes_and_hash": true,
+    "minimum_evaluator_speedup": 8.78833982664833,
+    "maximum_evaluator_speedup": 10.024720915595204,
+    "minimum_end_to_end_speedup": 8.184105283197175,
+    "maximum_end_to_end_speedup": 9.53431901424155,
+    "status": "local_candidate_pending_immutable_waffle_confirmation"
+  },
+  "paper_parameter_local_preview": {
+    "fixed_generations": 1000,
+    "physical_fes_per_case": 100100,
+    "completed_cases": 12,
+    "west_multi_reduction_percent_versus_five_only": 5.007684004409909,
+    "west_multi_reduction_percent_versus_fifteen_only": 0.4908373134132369,
+    "qualitative_dual_baseline_benefit": true,
+    "status": "local_preview_not_formal_evidence"
+  },
+  "claim_boundary": "H5 validates a source-backed flexible academic reconstruction, complete twelve-case interface, fixed-work identity and local performance candidate; it does not claim author source, unavailable CFD arrays, exact curves, Waffle confirmation or numerical replay."
+}

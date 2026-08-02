@@ -1,0 +1,64 @@
+{
+  "H5_bounded_equivalence": {
+    "candidate_backends": [
+      "cpu_hpc_v1"
+    ],
+    "comparison_scope": "independent oracle/formula comparison plus bounded target optimizer execution; backend self-agreement alone is not accepted as equivalence",
+    "independent_reference": {
+      "ctest_names": [
+        "plan004_tmoea_nysted_r4_numerical_receipt"
+      ],
+      "description": "independent Python/SciPy scalar, biobjective, and front oracle",
+      "does_not_call_candidate": true,
+      "implementation_or_oracle": "scripts/validate_tmoea_nysted_r4.py",
+      "primary_test_output_sha256": "9e45d6e84a096ec232db6c0b220309b2d7f5c3a147299bd6b055ccba919e2ba3"
+    },
+    "numerical_comparison": {
+      "maximum_absolute_error": 4.76837158203125e-07,
+      "maximum_scaled_absolute_error": 4.129936584590176e-16,
+      "observed_result": {
+        "maximum_absolute_error": 4.76837158203125e-07,
+        "maximum_scaled_absolute_error": 4.129936584590176e-16,
+        "oracle": "scripts/validate_tmoea_nysted_r4.py",
+        "scaled_tolerance": 2e-12,
+        "status": "pass"
+      },
+      "passed": true,
+      "scaled_tolerance": 2e-12
+    },
+    "physical_fes_ledger": "bounded target runtime checks exact physical objective work; learning artifact training is outside that ledger",
+    "reference_backend": "independent_reference_v1",
+    "runtime_test": "tmoea_cpp_nysted_reconstruction",
+    "runtime_test_output_sha256": "c16090dfe9e4eda4038fa5acd1a895024dd23022eb7bcc1981135d698c9a3d9f",
+    "runtime_test_receipt": "evidence/development/plan004_h5_independent_reference_receipts_20260730.json",
+    "runtime_test_receipt_sha256": "66fbcfbeec589cd69e9d2e07916a8686a538dcc7cbd322a7641b437401689219",
+    "status": "accepted_h5"
+  },
+  "H6_performance_validation": {
+    "accepted_backend": "cpu_hpc_full_visible_v1",
+    "all_visible_characterized": true,
+    "all_visible_workers": 20,
+    "claim_boundary": "Measured fixed-work highest-performance-profile H6 only; a full worker-scaling curve is not required and no formal quality claim is made.",
+    "measured_serial_fraction": null,
+    "minimum_named_h0_stage_attribution": 0.9913754696006811,
+    "performance_receipt": "evidence/performance/plan005_h6_performance_first_summary_20260730.json",
+    "performance_receipt_sha256": "5519c51eeb300a47647c39f6ba2700681d321c74bac94fb93c443517ece4ef6d",
+    "raw_observation_receipt": "evidence/performance/plan005_h6_performance_first_raw_observations_20260730.jsonl",
+    "selected_workers": 20,
+    "status": "accepted_h6",
+    "worker_scaling_characterized": false
+  },
+  "analysis_path": "hpc/core_target_plans/t36_target_hpc_analysis.json",
+  "analysis_sha256": "cfe6748e4a9ccaa01ed97ed969c862732d879ab0ee4043fb9aa12d4c2e41ee74",
+  "claim_boundary": "H5 accepts bounded independent-reference equivalence only. No backend is selected before exact-pair H6 and no formal-quality claim is made.",
+  "corpus_id": "T36",
+  "method_semantic_id": "tmoea_nysted_paper_eq16_v2",
+  "native_asset": "shared/contracts/tmoea_nysted_paper_wake_gga_router_problem.json",
+  "native_asset_sha256": "2716d66b9430ddd8bcc6d903f66be687bc94ccb93d7985a5096e261e6ccff1ee",
+  "overall_status": "accepted_h5_h6",
+  "pair_id": "T36__tmoea__nysted_paper_eq16_cpu_r4_v2__target",
+  "paper_protocol_id": "cpeee2026_tmoea_native_25_v1",
+  "problem_semantic_id": "nysted_paper_eq16_cpu_r4_v2",
+  "schema_version": 2,
+  "validation_id": "plan004_h5__T36__tmoea__nysted_paper_eq16_cpu_r4_v2__target__spark_20260730"
+}

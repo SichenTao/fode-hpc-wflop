@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T01",
+  "H5": {
+    "status": "pass",
+    "basis": [
+      "independent Python wake and objective oracle",
+      "C++ isolated, crosswind, downwind and multi-state semantic tests",
+      "shared implementation one-worker and twenty-worker scientific-hash identity"
+    ]
+  },
+  "H6": {
+    "status": "pass_shared_code_path_and_native_formal",
+    "shared_code_path_receipt": "evidence/core99/h6/T01_T02_waffle_admission.json",
+    "shared_source_commit": "808d222c8b48fe204d5ef02620aa77148c916bcc",
+    "shared_workload": "the same historical-grid evaluator and GA state machine under the T02 Case C profile",
+    "shared_speedup": {
+      "evaluator": 17.692864337837644,
+      "algorithm": 2.2838908272002145,
+      "end_to_end": 16.898096689654054
+    },
+    "native_formal_receipt": "evidence/core99/formal/T01_T02_formal_quality.json",
+    "native_formal_cases": 3,
+    "native_formal_repeats_per_case": 25,
+    "evidence_boundary": "T01 objective quality uses only T01 formal cases; the shared T02 workload is used only to admit the identical implementation path's one-vs-all-core execution."
+  }
+}

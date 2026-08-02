@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T64",
+  "status": "pass",
+  "tests": [
+    "core99_t64_cpp",
+    "core99_t64_h5",
+    "core99_t72_cpp_regression",
+    "core99_t72_h5_regression"
+  ],
+  "validator": "scripts/validate_core99_t64.py",
+  "validator_sha256": "3e95d6720d47638328edb87418ce57434321572fe76167ed0def4e38fc73e8d6",
+  "paper_case_roles": 13,
+  "unique_problem_instances": 12,
+  "constraint_parameterizations": 5,
+  "checked_quantities": [
+    "reconstructed sampled land availability",
+    "forbidden-polygon and receptor presence",
+    "feasible reference layout AEP and maximum SPL",
+    "paper-specific 0.3u^3 kW power and constant Lw=100 dB source equations",
+    "four distinct centered-discrepancy uniformity values",
+    "static C1 and C2 trajectories",
+    "dynamic C1 and C2 trajectories",
+    "death rejection and physical replacement accounting",
+    "one-worker/all-worker scientific hash and Pareto-front identity",
+    "exact requested physical-FES consumption",
+    "shared T72 default semantic regression"
+  ],
+  "complete_work_profile": {
+    "host": "Spark",
+    "architecture": "aarch64",
+    "problem": "80 percent land availability, 10 turbines, map 0",
+    "penalty": "dynamic C1",
+    "physical_layout_evaluations": 80000,
+    "generations": 533,
+    "scientific_hash": "8503f7649500921b",
+    "maximum_absolute_equation_error": 1.1723955140041653e-13,
+    "one_worker_seconds": {
+      "evaluator": 7.314069624000002,
+      "algorithm": 0.29405479399999823,
+      "end_to_end": 7.608137442
+    },
+    "twenty_worker_seconds": {
+      "evaluator": 0.5744199410000002,
+      "algorithm": 0.15672279899999986,
+      "end_to_end": 0.731157012
+    },
+    "speedup_twenty_over_one": {
+      "evaluator": 12.732966079253853,
+      "algorithm": 1.8762732408830862,
+      "end_to_end": 10.40561372883339
+    },
+    "scientific_front_identity": true
+  },
+  "claim_boundary": "independent paper-role, equation-invariant, constraint-mode, exact-work, and deterministic-parallel validation of the declared reconstruction; not native author arrays, raw fronts, or numerical replay"
+}

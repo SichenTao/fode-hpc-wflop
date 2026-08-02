@@ -1,0 +1,123 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T27",
+  "paper": {
+    "title": "Wind Farm Layout Optimization with Diffusion Models",
+    "doi": "10.1145/3711896.3737181",
+    "pdf_sha256": "d4edfb7fc417909141bfcc616d2ed941af6e7c055f738d0b11e635c128a4a26c"
+  },
+  "public_source": {
+    "url": "https://github.com/dbsxodud-11/layopt",
+    "revision": "19ff38950ec6d23b6241875c1e5936878508a10d",
+    "license": "none_found_do_not_redistribute",
+    "official_simulator": "FLORIS 4.1.1",
+    "official_simulator_revision": "2c3be8fd91fdb2ce519e2f3139444a7045f50473",
+    "official_simulator_license": "BSD-3-Clause"
+  },
+  "paper_problem": {
+    "decision_variables": "N continuous two-dimensional unit-square turbine coordinates scaled by side length L",
+    "objective": "maximize annual energy production under one fixed or sampled wind-speed/direction condition",
+    "constraints": "rectangular boundary and minimum pairwise spacing 2D=252 m",
+    "turbine_and_wake": "NREL 5 MW, 126 m nominal rotor, FLORIS 4.1.1 GCH configuration",
+    "fixed_cases": [
+      {"turbines": 30, "side_length_m": 3000},
+      {"turbines": 40, "side_length_m": 4000},
+      {"turbines": 50, "side_length_m": 5000}
+    ],
+    "fixed_wind": {"speed_mps": 8, "direction_degrees": 60},
+    "diverse_training_wind": {
+      "speed_mps": [6, 10],
+      "direction_degrees": [0, 120]
+    },
+    "diverse_targets": [[8, 60], [10, 120], [12, 150]],
+    "appendix_turbine_counts": [10, 20, 50, 100],
+    "appendix_side_lengths_m": [2000, 3000, 4000]
+  },
+  "method": {
+    "semantic_id": "shin2025_conditional_edm_gat_paper_profile_v1",
+    "initial_dataset": 5000,
+    "rounds": 10,
+    "generated_per_round": 1000,
+    "training_steps_per_round": 10000,
+    "batch_size": 256,
+    "learning_rate": 0.0005,
+    "score_conditioning": "per-current-cumulative-dataset min-max AEP",
+    "wind_conditioning": "speed/10 and direction/180",
+    "denoiser": "three fully connected single-head GAT layers, hidden width 1024, paper LeakyReLU profile",
+    "edm": {
+      "sample_steps": 128,
+      "sigma_min": 0.002,
+      "sigma_max": 80,
+      "sigma_data": 1,
+      "rho": 7,
+      "p_mean": -1.2,
+      "p_std": 1.2,
+      "churn": 80,
+      "churn_min": 0.05,
+      "churn_max": 50,
+      "sampling_noise": 1.003,
+      "guidance": 2,
+      "condition_drop_probability": 0.1
+    },
+    "source_completed_parameters": {
+      "ema_decay": 0.995,
+      "ema_update_every": 10,
+      "repair_optimizer": "Adam",
+      "repair_steps": 1000,
+      "repair_learning_rate": 0.001
+    }
+  },
+  "paper_source_conflicts": [
+    {
+      "field": "initial layouts, steps and learning rate",
+      "paper": "5000, 10000 per round, 5e-4",
+      "source_default": "1000, 5000, 1e-4",
+      "resolution": "paper values are production defaults"
+    },
+    {
+      "field": "activation",
+      "paper": "LeakyReLU",
+      "source": "GATConv internal LeakyReLU followed by GELU",
+      "resolution": "paper LeakyReLU is primary; source GELU is separately named"
+    },
+    {
+      "field": "training lifecycle",
+      "source": "milestone and cumulative dataset transitions are not closed",
+      "resolution": "persist optimizer/model/EMA and append every valid evaluated round to a cumulative dataset"
+    }
+  ],
+  "formal_protocol": {
+    "semantic_id": "shin2025_three_seed_paper_cases_v1",
+    "seeds": [0, 1, 2],
+    "primary_cases": "fixed 30/40/50; diverse targets; transfer 30-to-40/50; GNN-vs-MLP and guidance 1/2/4/5 ablations",
+    "baseline_boundary": "non-contribution comparison algorithms are not package blockers under Plan006",
+    "execution": "paper-scale CUDA if admitted; all-core CPU remains compatible but is not used to conceal infeasible paper-scale training time"
+  },
+  "hpc": {
+    "learning_backend": "LibTorch C++ optimized CPU/CUDA",
+    "evaluator_backend": "native multi-core C++ FLORIS-4.1.1 GCH reconstruction",
+    "parallel_regions": [
+      "batched dense complete-graph attention",
+      "batched EDM forward/backward and Heun sampling",
+      "batched differentiable spacing repair",
+      "independent native GCH layout evaluations"
+    ],
+    "ordered_dependencies": [
+      "AdamW parameter commits",
+      "EMA updates",
+      "repair optimizer steps",
+      "evaluate then cumulative-dataset append",
+      "round transition"
+    ],
+    "local_h5": {
+      "maximum_fixed_fixture_farm_power_relative_error": 0.002031,
+      "deterministic_100_layout_checksum_relative_error": 0.017154
+    },
+    "local_h6": {
+      "native_20_vs_1_evaluator_speedup_10000_layouts_five_observation_median": 9.436625477772834,
+      "official_floris_python_to_native_20_worker_ratio_100_layouts": 1428.7,
+      "cuda_bounded_lifecycle": "pass"
+    }
+  },
+  "claim_boundary": "Academic paper-first reconstruction trained from scratch; not author-original software, private-data replay, checkpoint replay, or bitwise FLORIS identity."
+}

@@ -1,0 +1,148 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T83",
+  "paper": {
+    "title": "Multi-Scale Optimization of the Design of Offshore Wind Farms",
+    "doi": "10.1016/j.apenergy.2022.118830",
+    "venue": "Applied Energy 314, 2022",
+    "license": "CC BY",
+    "pdf_sha256": "dc23a662b903ea807779d654e39d4597ed74ab83473c486077d26d270b2fb58b"
+  },
+  "authority_ladder": [
+    "paper_and_appendices",
+    "paper_cited_predecessor_and_official_data",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "public_source_search": {
+    "date": "2026-07-31",
+    "queries": [
+      "exact title plus code and data",
+      "DOI plus GitHub",
+      "Davide Cazzaro multi-scale offshore wind farm code",
+      "WFASP UK Round 4 dataset"
+    ],
+    "target_result": "No paper-linked target implementation or machine-readable UK instance was located.",
+    "cited_predecessor": {
+      "title": "Variable Neighborhood Search for Large Offshore Wind Farm Layout Optimization",
+      "doi": "10.1016/j.cor.2021.105588",
+      "dataset_doi": "10.11583/DTU.13134731",
+      "dataset_archive_sha256": "17b1147b805f679ed4b25384b74f841681a1e7c6e73798533555cab4c16b80af",
+      "dataset_license": "CC BY-NC-SA 4.0",
+      "use": "official NREL-15MW, RVO wind, fixed-wake, depth/foundation, legal offshore candidate and cited VNS completion authority"
+    }
+  },
+  "paper_contribution": {
+    "problem": "wind farm area selection problem joining macro location screening, meso area and shape construction, and micro turbine placement",
+    "primary_novelty": "new meso-scale constructive shape heuristic and first integrated macro-meso-micro framework",
+    "objective": "maximize 25-year discounted NPV from energy revenue less CAPEX and OPEX",
+    "decision_scales": [
+      "macro: local cell, rectangle orientation and side ratio",
+      "meso: iterative turbine placement and resulting convex-hull shape",
+      "micro: discrete turbine positions inside the fixed shape"
+    ],
+    "constraints": [
+      "100 NREL 15 MW turbines and at most 1.5 GW",
+      "area at most 500 km2",
+      "installed density at least 3 MW/km2",
+      "perimeter divided by square root of area at most 5",
+      "one connected shape contained in a bidding region",
+      "at least 7 km from existing, planned and restricted areas",
+      "avoid seabed and corridor obstacles"
+    ],
+    "physics_and_economics": {
+      "wake": "Jensen within and from nearby wind farms up to 60 km",
+      "wind": "five years of hourly ERA5 data at 0.25 degrees",
+      "bathymetry": "GEBCO 2020 at 15 arc-seconds",
+      "turbine": "NREL 15 MW with full power and thrust curves",
+      "lifetime_years": 25,
+      "discount_rate": 0.06,
+      "energy_price_eur_per_mwh": 39.59,
+      "interarray_cables": [
+        {"cross_section_mm2": 400, "cost_eur_per_m": 240},
+        {"cross_section_mm2": 630, "cost_eur_per_m": 336}
+      ],
+      "export_cable_eur_per_m": 1500
+    }
+  },
+  "paper_native_cases": [
+    {"seed": "A", "latitude": 54.60, "longitude": 1.55, "region": "Dogger Bank", "shape_npv_meur": 4734.0, "pta": 4.98, "density": 3.11, "rectangle_npv_meur": 4705.9},
+    {"seed": "B", "latitude": 54.40, "longitude": 2.10, "region": "Dogger Bank", "shape_npv_meur": 4702.3, "pta": 4.97, "density": 3.11, "rectangle_npv_meur": 4675.2},
+    {"seed": "C", "latitude": 53.51, "longitude": 1.40, "region": "Eastern", "shape_npv_meur": 4504.9, "pta": 4.98, "density": 3.10, "rectangle_npv_meur": 4501.4},
+    {"seed": "D", "latitude": 52.20, "longitude": 2.00, "region": "Eastern", "shape_npv_meur": 4021.6, "pta": 4.36, "density": 3.13, "rectangle_npv_meur": 3955.7},
+    {"seed": "E", "latitude": 50.75, "longitude": 0.85, "region": "South East", "shape_npv_meur": 4045.0, "pta": 4.73, "density": 3.08, "rectangle_npv_meur": 4019.6},
+    {"seed": "F", "latitude": 50.65, "longitude": 0.40, "region": "South East", "shape_npv_meur": 3987.8, "pta": 4.77, "density": 3.06, "rectangle_npv_meur": 3929.7},
+    {"seed": "G", "latitude": 53.65, "longitude": -3.28, "region": "Northern Wales", "shape_npv_meur": 4044.3, "pta": 4.71, "density": 3.14, "rectangle_npv_meur": 3991.9},
+    {"seed": "H", "latitude": 54.50, "longitude": -3.75, "region": "Northern Wales", "shape_npv_meur": 4040.6, "pta": 4.60, "density": 3.14, "rectangle_npv_meur": 3932.0}
+  ],
+  "target_method": {
+    "semantic_id": "t83_macro_meso_random_conic_vns_declared_v1",
+    "macro": "3 by 3 local 0.0625-degree-equivalent cells, six orientations and five side ratios; every rectangle contains 100 regularly targeted turbines mapped to legal candidates",
+    "meso": "place the first turbine at the seed and repeatedly choose the highest partial-NPV legal candidate in the union of 15-kilometre disks; before every ordered commit retain enough mutually compatible positions from the feasible macro reserve to prove 100-turbine completion; shape is the final convex hull",
+    "meso_objective": "energy and foundation terms plus explicit PtA, density and area penalties; export and inter-array terms are constant during construction as stated by the paper",
+    "micro": "cited Basic VNS completion with 3D, 5D and 8D neighborhoods, counter-keyed random-conic shake, 128 one-opt candidates and incumbent retention",
+    "comparison": "apply equal micro optimizer and time limit to the constructed shape and best macro rectangle"
+  },
+  "missing_information_and_declared_completions": [
+    {"field": "target source, seeds and layouts", "completion": "reconstruct the paper equations and cited VNS with counter-keyed events and publish every output layout"},
+    {"field": "UK polygons, restrictions, existing farms, ERA5 and GEBCO arrays", "completion": "map roles A-G to official cited-lineage sites D-J; role H uses an independently offset seed and macro-cell role on site I because only seven public fields support 100 turbines at 1.2 km spacing; preserve target coordinates/regions and emit every proxy identity"},
+    {"field": "fine-grid resolution", "completion": "deterministically retain the official legal point nearest each 800 m cell centre"},
+    {"field": "meso radius", "completion": "use 15 km, the paper-tested upper end of its 2.5 to 15 km interval, because the declared legal proxy fields contain separated obstacle components that stall at 5 km"},
+    {"field": "macro orientation, ratio and local-cell sets", "completion": "six 30-degree orientations, ratios 0.5, 0.75, 1, 1.5 and 2, and a 3 by 3 local 4 km-cell screen"},
+    {"field": "shape penalties", "completion": "lexicographic 100000 MEUR per normalized violation while validating final feasibility independently"},
+    {"field": "greedy construction dead ends on proxy obstacle components", "completion": "use the best feasible macro layout only as a completion certificate; admit a meso candidate only when enough mutually compatible reserve positions remain to reach 100 turbines, without forcing the final shape to equal the rectangle"},
+    {"field": "complete CAPEX/OPEX and shore data", "completion": "use published cable costs, official foundation costs, minimum-spanning-tree cable length, a fixed latitude-role export distance and one layout-independent per-seed offset calibrated only to the published rectangle NPV"},
+    {"field": "cable type flows", "completion": "use the mean 288 EUR/m during T83 layout optimization; exact capacity-six routing remains available in T33 and is not claimed as T83 target detail"},
+    {"field": "VNS implementation parameters", "completion": "inherit the directly cited T31 random-conic family, 3D/5D/8D radii and 128 one-opt cap"},
+    {"field": "time-to-work mapping", "completion": "retain literal 1800 seconds per design in formal runs and use fixed cycles only for H5/H6 deterministic validation"}
+  ],
+  "method_semantic_id": "t83_macro_meso_random_conic_vns_declared_v1",
+  "problem_semantic_id": "t83_round4_eightseed_same_lineage_proxy_v1",
+  "protocol_semantic_id": "t83_native_8seed_shape_rectangle_30min_v1",
+  "formal_protocol": {
+    "seed_roles": 8,
+    "design_roles_per_seed": 2,
+    "formal_design_roles": 16,
+    "micro_seconds_per_design": 1800,
+    "total_micro_seconds": 28800,
+    "repeat_count": "the paper reports one result per seed and does not report independent repeats",
+    "resource_rule": "one seed run owns every Waffle core; the constructed-shape and rectangle micro searches execute sequentially",
+    "metrics": [
+      "NPV, AEP, foundation, inter-array and export cable costs",
+      "area, perimeter, PtA, density, spacing and all violations",
+      "macro rectangle count, pair construction, meso and micro candidate counts",
+      "phase runtimes, worker receipt, source fingerprint and scientific hash"
+    ]
+  },
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC",
+    "executor": "one persistent all-core team per problem construction and optimization",
+    "mathematical_reformulations": [
+      "precompute immutable fixed-farm wake contribution for every legal candidate",
+      "compress the linearized Jensen layout objective to diagonal free energy plus a packed symmetric pair matrix",
+      "evaluate macro rectangle choices independently",
+      "update meso candidate marginal energy by one pair column after every ordered turbine commit",
+      "evaluate all turbine-slot micro neighborhoods in parallel and use O(N) pair deltas rather than full wake recomputation",
+      "reuse one immutable legal geometry and pair matrix across both micro shape roles",
+      "retain only fixed-index parallel writes, stable comparisons and ordered state commits"
+    ],
+    "adaptive_granularity": "small delta sets execute in the caller; the expensive slot-candidate enumeration and sufficiently large delta sets use every worker",
+    "determinism": "counter-keyed events and ordered macro, meso, VNS and incumbent commits preserve fixed-work one/all-worker identity",
+    "local_h6_candidate_20260731": {
+      "case": "A",
+      "fixed_micro_cycles_per_design": 50,
+      "one_worker_end_to_end_seconds": 0.715374036,
+      "twenty_worker_end_to_end_seconds": 0.085496877,
+      "end_to_end_speedup": 8.367253414414192,
+      "source_preprocessing_speedup": 9.105401609959312,
+      "pair_matrix_speedup": 12.757130611650469,
+      "macro_speedup": 13.50184003646391,
+      "meso_speedup": 2.157761790117152,
+      "shape_micro_speedup": 6.147590530355687,
+      "rectangle_micro_speedup": 5.66992349508824,
+      "same_layouts_evaluations_and_hash": true,
+      "status": "local_candidate_pending_immutable_waffle_confirmation"
+    }
+  },
+  "claim_boundary": "Academic flexible reconstruction of the complete three-scale method and eight paper roles using an explicit same-lineage offshore proxy; not author code, exact UK arrays, target layouts, random stream or numerical optimum replay."
+}

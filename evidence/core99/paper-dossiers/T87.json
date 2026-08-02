@@ -1,0 +1,160 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "The target package is the Qianjiang four-case problem plus IGA-PSO, not the paper's Greedy, IGA-only or Greedy-PSO comparison baselines.",
+    "The paper explicitly withholds its measured and CFD data and no author source was located; the implementation is an independent paper, figure and predecessor reconstruction.",
+    "Hashed Fig. 9 yields 522/7585=6.882% feasible candidates, closing against the printed 6.9%; AEH ranks are anchored to 2000-2500 h.",
+    "Hashed Fig. 5 yields 49 nonzero normalized direction-speed states and hashed Fig. 2 yields the WD156-3300 power/Ct curves.",
+    "A deterministic four-diameter packing produces 16 turbines, closing against Table 2's 15-18 turbine scale without inserting a hidden turbine-count bound.",
+    "The target's omitted wake, PSO, operator and economic values are completed from direct predecessors or explicitly declared Table-2-scale assumptions.",
+    "All candidate wake coefficients are full-core precomputed; unique IGA layouts and PSO particles are evaluated by one persistent C++ team.",
+    "The paper does not state an independent-repeat count; ten declared seeds will characterize stochastic uncertainty without changing paper-native algorithm sizes."
+  ],
+  "corpus_id": "T87",
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_after_h6_predecessors",
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "queued"
+  },
+  "missing_information": [
+    "private measured one-year mast time series and observation coordinates",
+    "private CFD fields, terrain mesh and correction arrays",
+    "author source, environment, seeds, initial populations, final layouts and histories",
+    "wake diffusion coefficient and DGWM rmin",
+    "PSO c1/c2, crossover cut law and mutation granularity",
+    "all numerical NAV inputs"
+  ],
+  "paper": {
+    "authors": "Weicheng Hu and Qingshan Yang and Ziting Yuan and Fucheng Yang",
+    "doi": "10.1016/j.energy.2023.129745",
+    "pdf_basename": "2023_Hu_Wind_Farm_Layout_Optimization_in_Complex_Terrain_Based_on_CFD_and_IGA_PSO.pdf",
+    "pdf_sha256": "83182bf0fa4e7e604543e9a89a682be76ef3f4264fe1aa3c0b2de78a34a85ec6",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV2",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D",
+    "secondary_review_classes": "REV4",
+    "title": "Wind Farm Layout Optimization in Complex Terrain Based on CFD and IGA-PSO",
+    "venue": "Energy",
+    "year": 2023
+  },
+  "paper_linked_public_asset_candidates": [],
+  "paper_source_conflicts": [
+    "The paper explicitly says the authors do not have permission to share data.",
+    "Fig. 2 displays Ct above one while Eqs. 16-18 contain sqrt(1-Ct).",
+    "Table 2 and Section 4.2 report case-2 IGA-PSO as 1.3881e5 and 1.3804e5 MWh.",
+    "The paper omits kd, rmin, PSO c1/c2, crossover cut law, mutation granularity and every numerical NAV input."
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 13,
+    "text_sha256": "57ed3f6faa6f5f3fda7a7066548cb94affecab94c97a6437c71668739b32e54d"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [812],
+    "embedded_annotation_urls": [],
+    "status": "target_explicitly_withholds_data_no_author_code_located"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "academic declared reproduction of the four paper problems and predecessor-completed IGA-PSO on a versioned figure-derived proxy; not author CFD/data/source/random state or exact numerical replay",
+    "execution_wave": "REV2",
+    "package_status": "implemented_h5_admitted_h6_and_formal_queued",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "wake_power_cost_or_physical_evaluator"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "target paper and direct IGA predecessor",
+      "resolution": "all turbine pairs must be at least four rotor diameters apart; infeasible layouts receive feasibility-first ranking and no hidden repair",
+      "status": "registered"
+    },
+    "decision_variables": {
+      "authority": "target paper Sections 2.8-2.9",
+      "resolution": "IGA selects a variable-size subset of 522 candidate locations; PSO refines two continuous coordinates per IGA-selected turbine within plus/minus one rotor diameter",
+      "status": "registered"
+    },
+    "encoding_and_decoder": {
+      "authority": "target paper plus direct IGA predecessor",
+      "resolution": "522-bit IGA string decoded to candidate indices, followed by a 2N real PSO vector",
+      "status": "registered"
+    },
+    "initialization": {
+      "authority": "direct IGA predecessor plus target PSO description",
+      "resolution": "one uniform Bernoulli assignment probability per IGA individual; PSO particle zero is the exact IGA optimum and others are independently perturbed inside plus/minus D",
+      "status": "registered"
+    },
+    "metrics_and_repeats": {
+      "authority": "target Table 2 plus declared stochastic completion",
+      "resolution": "AEP or NAV, turbine count, wake efficiency, feasibility, proposed/physical-unique FES and timing; ten declared independent seeds because target gives no repeat count",
+      "status": "registered"
+    },
+    "objective_and_direction": {
+      "authority": "target Eqs. 21-22",
+      "resolution": "maximize AEP in cases 1-3 or maximize declared Table-2-scale NAV in case 4",
+      "status": "registered"
+    },
+    "paper_native_cases": {
+      "authority": "target Table 1",
+      "resolution": "Jensen/AEP, GWM/AEP, DGWM/AEP and Jensen/NAV on one Qianjiang complex-terrain candidate field",
+      "status": "registered"
+    },
+    "parameters": {
+      "authority": "target paper, direct predecessors and declared completions",
+      "resolution": "D=156 m, hub=100 m, spacing=4D, IGA 300x1000 Pc=0.9 Pm=0.1-0.2, PSO 100x200 w=0.4-0.9 c1=c2=2 and plus/minus D",
+      "status": "registered"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "target paper plus unique-evaluation statement",
+      "resolution": "320400 proposed candidates; physical unique FES counts each per-generation unique IGA mask and each PSO particle call",
+      "status": "registered"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not applicable",
+      "resolution": "no learned component",
+      "status": "not_applicable"
+    },
+    "update_order": {
+      "authority": "target Sections 2.8-2.9 plus direct predecessor",
+      "resolution": "unique parallel IGA evaluation, roulette selection, pair crossover, individual-level variable mutation, elite retention; then PSO velocity, bounded position, parallel evaluation, personal/global best update",
+      "status": "registered"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "target Eqs. 14-22, Figs. 2/9 and direct wake predecessors",
+      "resolution": "digitized WD156 power/Ct, candidate AEH speed calibration, Jensen/GWM/DGWM rotor averaging, RSS superposition, AEP and declared NAV completion",
+      "status": "registered"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "target Figs. 5 and 9",
+      "resolution": "49 nonzero digitized direction-speed states normalized to probability one and 522 image-derived candidate AEH values",
+      "status": "registered"
+    }
+  },
+  "implementation": {
+    "analysis": "hpc/core99_cpp/analysis/t87_hpc_analysis.md",
+    "contract": "shared/contracts/core99_t87_hu_iga_pso_2024.json",
+    "fixture": "shared/data/core99_t87_figure_proxy.bin",
+    "fixture_notice": "shared/data/core99_t87_figure_proxy_NOTICE.md",
+    "fixture_builder": "scripts/prepare_core99_t87_figure_proxy.py",
+    "header": "hpc/core99_cpp/include/core99/hu_t87.hpp",
+    "source": "hpc/core99_cpp/src/hu_t87.cpp",
+    "cli": "hpc/core99_cpp/src/hu_t87_main.cpp",
+    "test": "hpc/core99_cpp/tests/hu_t87_test.cpp",
+    "independent_validator": "scripts/validate_core99_t87.py",
+    "formal_runner": "scripts/run_core99_t87_admission.py",
+    "deferred_waffle_runner": "scripts/run_core99_t87_when_waffle_free.sh",
+    "h5_receipt": "evidence/core99/h5/T87_local_h5.json"
+  }
+}

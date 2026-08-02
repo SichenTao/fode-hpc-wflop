@@ -1,0 +1,74 @@
+{
+  "schema_version": 1,
+  "admission_id": "fqfode_declared_reconstruction_admission_spark_20260729",
+  "status": "passed_development",
+  "host_role": "development_only",
+  "host": {
+    "hostname": "spark-9b6f",
+    "visible_processors": 20
+  },
+  "source_base_commit": "7858a897b6f32664a76db7bb2e7217f9798cdc1d",
+  "algorithm_id": "fqfode_seeded_training_declared_reconstruction_v1",
+  "problem_id": "fode_e0_common",
+  "method_evidence_tier": "M3_DECLARED_COMPLETION",
+  "claim_boundary": "Paper-guided deterministic reconstruction with declared missing-field completions. This is not the unavailable author Q-table, an exact FQFODE reproduction, a Waffle formal result, or publication-level performance evidence.",
+  "fode_core_characterization": {
+    "case_id": "WS2tn50",
+    "physical_fes": 480,
+    "fractional_order": 0.8,
+    "baseline_and_controlled_objective_layout_fes_generation_population_identity": "pass"
+  },
+  "offline_artifact": {
+    "training_case_id": "WS2tn50",
+    "agents": 5,
+    "rounds_per_agent": 4,
+    "interactions_per_round": 101,
+    "training_physical_fes": 39700,
+    "seed_manifest_id": "fqfode_seed_manifest_20250911_v1",
+    "qtable_hash": "fnv1a64:8c082977549728f3",
+    "artifact_sha256": "9d047125f775a940a4c80eff50fa622c30be20b5b3cfcd55aa74f0ff614ba126",
+    "one_worker_twenty_worker_byte_identity": "pass",
+    "nonzero_entries_across_four_copies": 124,
+    "four_stage_initializers_are_identical_qinit_copies": true
+  },
+  "formal_semantic_smoke": {
+    "cases": ["WS2tn50", "WS2tn80"],
+    "physical_fes_per_case": 480,
+    "workers": [1, 20],
+    "worker_invariant_objective_layout_fes_policy_counts_and_hashes": "pass",
+    "training_physical_fes_inside_formal_budget": 0,
+    "offline_training_receipt_exposed": true,
+    "pretrained_and_final_online_hashes_separate": true,
+    "generation_k_update_count_equals_interactions_minus_six": true,
+    "turbine_80_initial_population": 3,
+    "turbine_80_generations_positive_and_fes_exact": true
+  },
+  "bounded_timing_probe": {
+    "case_id": "WS2tn50",
+    "physical_fes_per_run": 24000,
+    "seed": 20260728,
+    "sequential_repetitions_per_worker_count": 7,
+    "fqfode": {
+      "objective_kw": 19888.265002068427,
+      "generations": 1791,
+      "policy_updates": 1785,
+      "median_seconds_1_worker": 0.272498837,
+      "median_seconds_20_workers": 0.224254963,
+      "median_speedup_1_to_20": 1.2151295710677315
+    },
+    "fixed_fode_reference": {
+      "objective_kw": 19881.344291156267,
+      "generations": 1791,
+      "median_seconds_1_worker": 0.280885097,
+      "median_seconds_20_workers": 0.21307932,
+      "median_speedup_1_to_20": 1.3182184784520619
+    },
+    "interpretation": "The controlled FQFODE path retains the same HPC evaluator and core as FODE. The local 20-worker speedup is positive but modest because small late-generation populations increase thread-dispatch overhead. Formal host timing remains required."
+  },
+  "validation": {
+    "ctest_passed": 31,
+    "ctest_total": 31,
+    "public_audit": "pass",
+    "development_binary_sha256": "e9ff1e34882e81f0ef3d632ca7092f486131564d8ebc3713c94b11d4072cb4b1"
+  }
+}

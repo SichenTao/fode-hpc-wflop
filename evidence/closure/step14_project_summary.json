@@ -1,0 +1,853 @@
+{
+  "complete_information_identity_preservation": {
+    "definition": "Profiles with M0/M1 method evidence and P0/P1 problem evidence retain their registered profile, method, and problem identities.",
+    "profile_count": 14,
+    "profile_ids": [
+      "fode__fode_e0_common",
+      "aga__fode_e0_common",
+      "sugga__fode_e0_common",
+      "ise__fode_e0_common",
+      "agpso__fode_e0_common",
+      "cgpso__fode_e0_common",
+      "lshade__fode_e0_common",
+      "clshade__fode_e0_common",
+      "cede__fode_e0_common",
+      "msshade__fode_e0_common",
+      "bde__fode_e0_common",
+      "hgpso__fode_e0_common",
+      "cgpso__rpso2024_source_problem_ws1_ws4",
+      "bde__bde2025_source_replay_ws1_ws4"
+    ]
+  },
+  "completed_spark2_result_reuse": {
+    "accepted_artifact_integrity": [
+      {
+        "campaign_id": "eighteen_algorithm_cpp_hpc_spark2_v3",
+        "expected_manifest_entries": 25,
+        "status": "all_content_hashes_match",
+        "verified_manifest_entries": 25
+      },
+      {
+        "campaign_id": "bde_source_replay_spark2_v1",
+        "expected_manifest_entries": 27,
+        "status": "all_content_hashes_match",
+        "verified_manifest_entries": 27
+      },
+      {
+        "campaign_id": "pbea_six_algorithm_spark2_v1",
+        "expected_result_files": 9600,
+        "status": "all_front_and_summary_files_match",
+        "verification_fields": [
+          "bytes",
+          "sha256"
+        ],
+        "verified_result_files": 9600
+      },
+      {
+        "campaign_id": "offshore_cpp_hpc_spark2_v1",
+        "expected_manifest_entries": 426,
+        "status": "all_content_hashes_match",
+        "verified_manifest_entries": 426
+      }
+    ],
+    "claim_boundary": "This lightweight reference records completion, byte identity, counts, and exact-semantic deduplication only. It does not copy raw results and does not create a new quality or performance claim.",
+    "completed_optimization_source_commit": "2299a13d4de6e5d8e4b324ed27ce92f2ab3e99b1",
+    "evidence_id": "spark2_completed_suite_reference_v1",
+    "excluded_completed_profile_ids": [
+      "moead__zhang2025_three_objective",
+      "morime__zhang2025_three_objective",
+      "armoea__zhang2025_three_objective",
+      "geoga__admitted_gga_problem_asset_proxy"
+    ],
+    "runtime_state": "completed"
+  },
+  "evidence_dimensions": {
+    "execution_facets": [
+      {
+        "count": 7,
+        "definition": "M0 author-source method plus P0 author-asset authority only; this label does not by itself reproduce an original paper result.",
+        "facet": "original"
+      },
+      {
+        "count": 1,
+        "definition": "Profiles explicitly identified as literal source-replay problem behavior.",
+        "facet": "source-replay"
+      },
+      {
+        "count": 7,
+        "definition": "Profiles with an M1 method or P1 problem; this is not an original-asset count.",
+        "facet": "paper-complete"
+      },
+      {
+        "count": 12,
+        "definition": "Profiles using M2 or P2 cited/predecessor authority under a distinct identity.",
+        "facet": "citation-derived"
+      },
+      {
+        "count": 19,
+        "definition": "Profiles using an M3 declared completion or P3 declared problem proxy.",
+        "facet": "declared-proxy"
+      },
+      {
+        "count": 0,
+        "definition": "Profiles limited to M4/P4 equation or scalar fixtures.",
+        "facet": "fixture-only"
+      }
+    ],
+    "method": [
+      {
+        "count": 7,
+        "definition": "Author-released executable source and, where applicable, author-released learned state.",
+        "tier": "M0_AUTHOR_SOURCE"
+      },
+      {
+        "count": 7,
+        "definition": "A clean-room implementation uniquely specified by the paper and supplement.",
+        "tier": "M1_PAPER_COMPLETE"
+      },
+      {
+        "count": 10,
+        "definition": "Missing choices are completed from explicitly cited methods, author-linked predecessor code, or documented direct lineage.",
+        "tier": "M2_CITATION_PREDECESSOR"
+      },
+      {
+        "count": 16,
+        "definition": "Remaining choices are completed by registered engineering decisions with alternatives and sensitivity obligations.",
+        "tier": "M3_DECLARED_COMPLETION"
+      },
+      {
+        "count": 0,
+        "definition": "Equation or operator fixtures only; no optimization-quality or original-method claim.",
+        "tier": "M4_FORMULA_FIXTURE"
+      }
+    ],
+    "non_additive": true,
+    "note": "Method tiers, problem tiers, and execution-form facets are separate dimensions and must not be added into one total.",
+    "problem": [
+      {
+        "count": 24,
+        "definition": "Author-released machine-readable case assets.",
+        "tier": "P0_AUTHOR_ASSET"
+      },
+      {
+        "count": 0,
+        "definition": "The paper and supplement uniquely define every numerical input affecting objective or feasibility.",
+        "tier": "P1_PAPER_COMPLETE"
+      },
+      {
+        "count": 9,
+        "definition": "Cited, predecessor, or same-author problem-family assets under a distinct semantic identifier.",
+        "tier": "P2_CITATION_SAME_AUTHOR"
+      },
+      {
+        "count": 7,
+        "definition": "A documented external or synthetic problem carrying the required mathematical structure.",
+        "tier": "P3_DECLARED_PROXY"
+      },
+      {
+        "count": 0,
+        "definition": "Scalar or unit fixtures only; no optimization-quality claim.",
+        "tier": "P4_FORMULA_FIXTURE"
+      }
+    ]
+  },
+  "executable_inventory": {
+    "algorithm_count": 33,
+    "pairs": [
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "fode",
+        "claim_boundary": "Archived executable FODE on the frozen FODE-E0-L problem.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M0_AUTHOR_SOURCE",
+        "method_semantics_id": "fode_e0_physical_fes",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "fode__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "aga",
+        "claim_boundary": "Paper-first AGA completed by archived source details.",
+        "formal_status": "supporting_profile_outside_23_paper_scope",
+        "method_evidence_tier": "M0_AUTHOR_SOURCE",
+        "method_semantics_id": "aga_paper_first_e0_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "aga__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "sugga",
+        "claim_boundary": "Archived SUGGA with frozen case-specific surrogate assets.",
+        "formal_status": "supporting_profile_outside_23_paper_scope",
+        "method_evidence_tier": "M0_AUTHOR_SOURCE",
+        "method_semantics_id": "sugga_frozen_surrogate_e0_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "sugga__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "ise",
+        "claim_boundary": "Paper-derived ISE on the frozen common problem.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M1_PAPER_COMPLETE",
+        "method_semantics_id": "ise_paper_derived_e0_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "ise__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "agpso",
+        "claim_boundary": "Paper-staged AGPSO completed by archived source omissions.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M0_AUTHOR_SOURCE",
+        "method_semantics_id": "agpso_paper_staged_parallel_e0_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "agpso__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "cgpso",
+        "claim_boundary": "Paper-staged CGPSO completed by archived source details.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M0_AUTHOR_SOURCE",
+        "method_semantics_id": "cgpso_paper_staged_parallel_e0_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "cgpso__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "lshade",
+        "claim_boundary": "Paper-first L-SHADE completed by archived MATLAB source.",
+        "formal_status": "supporting_profile_outside_23_paper_scope",
+        "method_evidence_tier": "M0_AUTHOR_SOURCE",
+        "method_semantics_id": "lshade_paper_first_e0_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "lshade__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "clshade",
+        "claim_boundary": "Paper-derived CLSHADE with registered completion.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M1_PAPER_COMPLETE",
+        "method_semantics_id": "clshade_paper_derived_e0_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "clshade__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "cede",
+        "claim_boundary": "Paper-equation CEDE profile with source differences registered.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M1_PAPER_COMPLETE",
+        "method_semantics_id": "cede_paper_equations_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "cede__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "msshade",
+        "claim_boundary": "Paper-equation MS-SHADE profile with source differences registered.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M1_PAPER_COMPLETE",
+        "method_semantics_id": "msshade_paper_equations_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "msshade__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "bde",
+        "claim_boundary": "Paper-equation BDE transfer on the common problem.",
+        "formal_status": "algorithm_transfer_pending_waffle_existing",
+        "method_evidence_tier": "M1_PAPER_COMPLETE",
+        "method_semantics_id": "bde_paper_equations_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "bde__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "hgpso",
+        "claim_boundary": "Paper-first HGPSO with registered source discrepancies.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M1_PAPER_COMPLETE",
+        "method_semantics_id": "hgpso_paper_equations_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "hgpso__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "aiga",
+        "claim_boundary": "Declared AIGA reconstruction transferred to the common problem.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "aiga_paper_derived_e0_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "aiga__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "ciga",
+        "claim_boundary": "Declared CIGA reconstruction transferred to the common problem.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "ciga_paper_derived_e0_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "ciga__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "lsde",
+        "claim_boundary": "Declared LSDE reconstruction transferred to the common problem.",
+        "formal_status": "algorithm_transfer_pending_waffle_existing",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "lsde_paper_derived_e0_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "lsde__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "wfadde",
+        "claim_boundary": "Declared preprint-derived WFADDE transfer on the common problem.",
+        "formal_status": "algorithm_transfer_pending_waffle_existing",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "wfadde_preprint_derived_e0_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "wfadde__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "alshade",
+        "claim_boundary": "Declared A-LSHADE reconstruction transferred to the common problem.",
+        "formal_status": "algorithm_transfer_pending_waffle_existing",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "alshade_paper_derived_e0_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "alshade__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "ppga",
+        "claim_boundary": "Declared PPGA algorithm transfer; no Nantong 3D reproduction claim.",
+        "formal_status": "algorithm_transfer_pending_waffle_existing",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "ppga_declared_reconstruction_fode_e0_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "ppga__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted_probe",
+        "algorithm_id": "cgpso",
+        "claim_boundary": "CGPSO evaluator probe on official RPSO WS1-WS4 assets; no RLPSO reproduction claim.",
+        "formal_status": "development_problem_probe_only",
+        "method_evidence_tier": "M0_AUTHOR_SOURCE",
+        "method_semantics_id": "cgpso_paper_staged_parallel_e0_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "rpso2024_source_problem_ws1_ws4",
+        "problem_semantics_id": "rpso2024_source_problem_ws1_ws4_v1",
+        "profile_id": "cgpso__rpso2024_source_problem_ws1_ws4"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "rlpso_compact_policy_declared_reconstruction_v1",
+        "claim_boundary": "RPSO-derived compact policy engineering proxy; no source replay, full PPO, or RLPSO reproduction claim.",
+        "formal_status": "development_only_original_blocked",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "rlpso_compact_policy_declared_reconstruction_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "rpso2024_source_problem_ws1_ws4",
+        "problem_semantics_id": "rpso2024_source_problem_ws1_ws4_v1",
+        "profile_id": "rlpso_compact_policy_declared_reconstruction_v1__rpso2024_source_problem_ws1_ws4"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "rlpso_paper_corrected_training_reconstruction_v1",
+        "claim_boundary": "Paper-corrected seeded PPO training reconstruction with complete physical-FES ledger; no author checkpoint, literal source replay, or reported-result reproduction claim.",
+        "formal_status": "development_only_original_blocked",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "rlpso_paper_corrected_training_reconstruction_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "rpso2024_source_problem_ws1_ws4",
+        "problem_semantics_id": "rpso2024_source_problem_ws1_ws4_v1",
+        "profile_id": "rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "fqfode_seeded_training_declared_reconstruction_v1",
+        "claim_boundary": "Paper-guided FQFODE reconstruction reusing the audited FODE core and one declared shared offline Q-table; no author checkpoint or reported-result reproduction claim.",
+        "formal_status": "development_only_original_blocked",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "fqfode_seeded_training_declared_reconstruction_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "fqfode_seeded_training_declared_reconstruction_v1__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "bde",
+        "claim_boundary": "BDE on official-source WS1-WS4 with executed 231 m spacing; no WS5/WS6 claim.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M1_PAPER_COMPLETE",
+        "method_semantics_id": "bde_paper_equations_physical_fes_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "bde2025_source_replay_ws1_ws4",
+        "problem_semantics_id": "bde2025_source_replay_ws1_ws4_v1",
+        "profile_id": "bde__bde2025_source_replay_ws1_ws4"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "bde",
+        "claim_boundary": "Development-only WS5 composite proxy; exact original arrays and paper results remain blocked; never pool with WS1-WS4. Stable CLI resolves auto to CPU and fails closed for hybrid/GPU.",
+        "formal_status": "development_only_original_full_profile_blocked",
+        "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+        "method_semantics_id": "bde_paper_equations_imax400_exact_fes_v1",
+        "problem_evidence_tier": "P3_DECLARED_PROXY",
+        "problem_id": "bde2025_ws5_declared_composite",
+        "problem_semantics_id": "bde2025_ws5_paper250_declared_proxy_v1",
+        "profile_id": "bde__bde2025_ws5_paper250_declared_proxy_v1"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "bde",
+        "claim_boundary": "Development-only WS6 composite proxy; exact original arrays and paper results remain blocked; never pool with WS1-WS4. Stable CLI resolves auto to CPU and fails closed for hybrid/GPU.",
+        "formal_status": "development_only_original_full_profile_blocked",
+        "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+        "method_semantics_id": "bde_paper_equations_imax400_exact_fes_v1",
+        "problem_evidence_tier": "P3_DECLARED_PROXY",
+        "problem_id": "bde2025_ws6_declared_composite",
+        "problem_semantics_id": "bde2025_ws6_paper250_declared_proxy_v1",
+        "profile_id": "bde__bde2025_ws6_paper250_declared_proxy_v1"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "gga",
+        "claim_boundary": "Paper and official-source-derived repaired GGA problem profile.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+        "method_semantics_id": "gga_geometry_repaired_problem_physical_fes_v1",
+        "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+        "problem_id": "gga2026_layout_cable",
+        "problem_semantics_id": "geojson_radians_ct_rss_repaired_v1",
+        "profile_id": "gga__gga2026_layout_cable"
+      },
+      {
+        "admission_status": "development_admitted_historical_reconstruction",
+        "algorithm_id": "geoga",
+        "claim_boundary": "GeoGA operators on admitted GGA assets; no Anholt reproduction claim.",
+        "formal_status": "pending_waffle_existing_original_anholt_blocked",
+        "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+        "method_semantics_id": "geoga_declared_reconstruction_v1",
+        "problem_evidence_tier": "P3_DECLARED_PROXY",
+        "problem_id": "admitted_gga_problem_asset_proxy",
+        "problem_semantics_id": "geojson_radians_ct_rss_repaired_v1",
+        "profile_id": "geoga__admitted_gga_problem_asset_proxy"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "geoga",
+        "claim_boundary": "Admitted GeoGA operators on a distinct Anholt-structured declared proxy; original site, actual-layout comparison, and paper results remain blocked.",
+        "formal_status": "development_only_original_anholt_blocked",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "geoga_declared_reconstruction_v1",
+        "problem_evidence_tier": "P3_DECLARED_PROXY",
+        "problem_id": "zhang2025_irregular_offshore",
+        "problem_semantics_id": "geoga_anholt_structured_declared_proxy_v1",
+        "profile_id": "geoga__geoga_anholt_structured_declared_proxy_v1"
+      },
+      {
+        "admission_status": "historical_development_admission_preserved",
+        "algorithm_id": "tmoea",
+        "claim_boundary": "Same-author Nysted reconstruction; no original T-MOEA reproduction claim.",
+        "formal_status": "pending_waffle_existing_original_tmoea_blocked",
+        "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+        "method_semantics_id": "tmoea_nysted_gga_asset_reconstruction_v1",
+        "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+        "problem_id": "nysted_gga_asset_reconstruction",
+        "problem_semantics_id": "geojson_radians_ct_rss_repaired_v1",
+        "profile_id": "tmoea__nysted_gga_asset_reconstruction"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "tmoea",
+        "claim_boundary": "Corrected Eq.16 declared reconstruction on same-author Nysted assets; original candidate set, router, controls, seed, reference front, and paper results remain blocked. Pure CPU and auto-to-CPU only; hybrid/GPU fail closed.",
+        "formal_status": "development_only_original_tmoea_blocked",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2",
+        "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+        "problem_id": "nysted_tmoea_paper_wake_gga_router_reconstruction",
+        "problem_semantics_id": "tmoea_nysted_paper_wake_gga_router_problem_v1",
+        "profile_id": "tmoea__nysted_paper_eq16_cpu_r4_v2"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "moead_p",
+        "claim_boundary": "Paper-first MOEA/D-P on the repaired three-objective profile.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+        "method_semantics_id": "moead_p_three_objective_paper_repaired_physical_fes_v1",
+        "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+        "problem_id": "zhang2025_three_objective",
+        "problem_semantics_id": "three_objective_paper_repaired_v1",
+        "profile_id": "moead_p__zhang2025_three_objective"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "moead",
+        "claim_boundary": "Canonical MOEA/D reconstruction on the repaired three-objective profile.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+        "method_semantics_id": "moead_three_objective_paper_repaired_physical_fes_v1",
+        "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+        "problem_id": "zhang2025_three_objective",
+        "problem_semantics_id": "three_objective_paper_repaired_v1",
+        "profile_id": "moead__zhang2025_three_objective"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "nsgaii",
+        "claim_boundary": "Local-source NSGA-II on the repaired three-objective profile.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+        "method_semantics_id": "nsgaii_three_objective_paper_repaired_physical_fes_v1",
+        "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+        "problem_id": "zhang2025_three_objective",
+        "problem_semantics_id": "three_objective_paper_repaired_v1",
+        "profile_id": "nsgaii__zhang2025_three_objective"
+      },
+      {
+        "admission_status": "development_admitted",
+        "algorithm_id": "mopso",
+        "claim_boundary": "Local-source MOPSO with repaired state on the three-objective profile.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+        "method_semantics_id": "mopso_three_objective_paper_repaired_physical_fes_v1",
+        "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+        "problem_id": "zhang2025_three_objective",
+        "problem_semantics_id": "three_objective_paper_repaired_v1",
+        "profile_id": "mopso__zhang2025_three_objective"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "morime",
+        "claim_boundary": "Declared MORIME state reconstruction on the repaired three-objective profile.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "morime_three_objective_paper_repaired_physical_fes_v1",
+        "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+        "problem_id": "zhang2025_three_objective",
+        "problem_semantics_id": "three_objective_paper_repaired_v1",
+        "profile_id": "morime__zhang2025_three_objective"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "armoea",
+        "claim_boundary": "PlatEMO-authority AR-MOEA reconstruction on the repaired profile.",
+        "formal_status": "pending_waffle_existing",
+        "method_evidence_tier": "M2_CITATION_PREDECESSOR",
+        "method_semantics_id": "armoea_three_objective_paper_repaired_physical_fes_v1",
+        "problem_evidence_tier": "P2_CITATION_SAME_AUTHOR",
+        "problem_id": "zhang2025_three_objective",
+        "problem_semantics_id": "three_objective_paper_repaired_v1",
+        "profile_id": "armoea__zhang2025_three_objective"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "alga_attention_declared_reconstruction_v1",
+        "claim_boundary": "Fitness-supervised shallow attention engineering reconstruction on a composite planar transfer; no author ALGA, 3D Guishan, paper-result reproduction, local Spark speedup, or throughput-admission claim.",
+        "formal_status": "development_only_original_blocked",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "alga_attention_declared_reconstruction_v1",
+        "problem_evidence_tier": "P3_DECLARED_PROXY",
+        "problem_id": "alga_guishan_planar_transfer",
+        "problem_semantics_id": "alga_guishan_planar_wind_fode_evaluator_transfer_v1",
+        "profile_id": "alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "alga_attention_declared_reconstruction_v1",
+        "claim_boundary": "Platform-stress transfer only, including 80-turbine worker-invariance smoke; no author ALGA, reported-result reproduction, local Spark speedup, or throughput-admission claim.",
+        "formal_status": "development_only_original_blocked",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "alga_attention_declared_reconstruction_v1",
+        "problem_evidence_tier": "P0_AUTHOR_ASSET",
+        "problem_id": "fode_e0_common",
+        "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+        "profile_id": "alga_attention_declared_reconstruction_v1__fode_e0_common"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "taae_transformer_evolution_declared_reconstruction_v1",
+        "claim_boundary": "Bounded deterministic end-to-end TAAE engineering reconstruction on the declared P3 proxy; original TAAE, Zhangbei arrays, author checkpoint, paper-scale learned state, reported fronts, formal results, and GPU execution remain blocked.",
+        "formal_status": "development_only_original_blocked",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "taae_transformer_evolution_declared_reconstruction_v1",
+        "problem_evidence_tier": "P3_DECLARED_PROXY",
+        "problem_id": "taae_zhangbei_structured_declared_proxy_v1",
+        "problem_semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+        "profile_id": "taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
+        "claim_boundary": "Corrected bounded PPGA v2 engineering reconstruction on 16 declared-proxy benchmark cases (4 wind scenarios × 4 turbine counts); original Nantong arrays, author transitions, paper results, formal results, hybrid, and GPU remain blocked.",
+        "formal_status": "development_only_original_blocked_v1_invalidated",
+        "method_evidence_tier": "M3_DECLARED_COMPLETION",
+        "method_semantics_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
+        "problem_evidence_tier": "P3_DECLARED_PROXY",
+        "problem_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+        "problem_semantics_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+        "profile_id": "ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1"
+      }
+    ],
+    "problem_count": 14,
+    "profile_pair_count": 40
+  },
+  "formal_campaign_launched_by_step14": false,
+  "frozen_binaries": {
+    "bde_ws56_hpc": {
+      "path": "build/full/hpc/bde_ws56_cpp/bde_ws56_hpc",
+      "sha256": "341b8703e66abf066ce1347cf24e9aa75c2967a1664bb4610872a2f1f9292b5d"
+    },
+    "geoga_anholt_hpc": {
+      "path": "build/full/hpc/geoga_cpp/geoga_anholt_hpc",
+      "sha256": "584d3940283194dca648d621365e7c7a93e2598e3bd9c704fae8c3143cb85a8e"
+    },
+    "gga_cpp_hpc": {
+      "path": "build/full/hpc/gga_cpp/gga_cpp_hpc",
+      "sha256": "777b3eeed59cde509af827d0e6a5462e57deae75e2d7c6b2da1db035bfdd214d"
+    },
+    "pbea_cpp_hpc": {
+      "path": "build/full/hpc/pbea_cpp/pbea_cpp_hpc",
+      "sha256": "90107179528faaa34a30bc2225c5aa56502f54f8ce161d15a5d904e489f43390"
+    },
+    "ppga_nantong_hpc": {
+      "path": "build/full/hpc/ppga_cpp/ppga_nantong_hpc",
+      "sha256": "ddfea1d872fd40528c18b3fd275eec3cd34fece6864ebe4e9a44f0497cef3725"
+    },
+    "taae_evolution_hpc": {
+      "path": "build/full/hpc/taae_cpp/taae_evolution_hpc",
+      "sha256": "9f00b9b920f5c35a171d9d8e508e88c180d45d5ac690296f9d38b89f41e9d8b1"
+    },
+    "wflop_cpp_hpc": {
+      "path": "build/full/hpc/wflop_cpp/wflop_cpp_hpc",
+      "sha256": "c2937e74681704ed9c501255e615af4fb97a11e50a048b87d63ff843f26df1e1"
+    }
+  },
+  "frozen_binary_count": 7,
+  "generated_at": "2026-07-29T21:40:46+09:00",
+  "generation_host": "spark-9b6f",
+  "generation_time_source": "source_baseline_commit_committer_timestamp",
+  "identity_guards": {
+    "distinct_reconstruction_profile_count": 8,
+    "guarded_original_count": 8,
+    "guarded_originals": [
+      {
+        "corpus_id": "T45",
+        "guarded_algorithm_id": "alga",
+        "reconstruction_profile_id": "alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer",
+        "status": "blocked_original_r1_r2"
+      },
+      {
+        "corpus_id": "T44",
+        "guarded_algorithm_id": "bde_original_full_ws1_ws6",
+        "reconstruction_profile_id": "bde__bde2025_ws6_paper250_declared_proxy_v1",
+        "status": "blocked_original_full_profile"
+      },
+      {
+        "corpus_id": "L0726",
+        "guarded_algorithm_id": "geoga_original_anholt",
+        "reconstruction_profile_id": "geoga__geoga_anholt_structured_declared_proxy_v1",
+        "status": "blocked_original_r1"
+      },
+      {
+        "corpus_id": "T43",
+        "guarded_algorithm_id": "ppga_original_nantong",
+        "reconstruction_profile_id": "ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1",
+        "status": "blocked_original_r1_r2"
+      },
+      {
+        "corpus_id": "S04",
+        "guarded_algorithm_id": "rlfode",
+        "reconstruction_profile_id": "fqfode_seeded_training_declared_reconstruction_v1__fode_e0_common",
+        "status": "blocked_original_r2"
+      },
+      {
+        "corpus_id": "T42",
+        "guarded_algorithm_id": "rlpso",
+        "reconstruction_profile_id": "rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4",
+        "status": "blocked_original_r2"
+      },
+      {
+        "corpus_id": "Y36",
+        "guarded_algorithm_id": "taae",
+        "reconstruction_profile_id": "taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1",
+        "status": "blocked_original_r1_r2"
+      },
+      {
+        "corpus_id": "T36",
+        "guarded_algorithm_id": "tmoea_original",
+        "reconstruction_profile_id": "tmoea__nysted_paper_eq16_cpu_r4_v2",
+        "status": "blocked_original_r1_r2"
+      }
+    ]
+  },
+  "learning_reconstructions": {
+    "profile_count": 6,
+    "profiles": [
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "alga_attention_declared_reconstruction_v1",
+        "claim_boundary": "Fitness-supervised shallow attention engineering reconstruction on a composite planar transfer; no author ALGA, 3D Guishan, paper-result reproduction, local Spark speedup, or throughput-admission claim.",
+        "formal_status": "development_only_original_blocked",
+        "profile_id": "alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer",
+        "training_state": "deterministic_online_fitness_supervision_not_author_state"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "alga_attention_declared_reconstruction_v1",
+        "claim_boundary": "Platform-stress transfer only, including 80-turbine worker-invariance smoke; no author ALGA, reported-result reproduction, local Spark speedup, or throughput-admission claim.",
+        "formal_status": "development_only_original_blocked",
+        "profile_id": "alga_attention_declared_reconstruction_v1__fode_e0_common",
+        "training_state": "deterministic_online_fitness_supervision_not_author_state"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "fqfode_seeded_training_declared_reconstruction_v1",
+        "claim_boundary": "Paper-guided FQFODE reconstruction reusing the audited FODE core and one declared shared offline Q-table; no author checkpoint or reported-result reproduction claim.",
+        "formal_status": "development_only_original_blocked",
+        "profile_id": "fqfode_seeded_training_declared_reconstruction_v1__fode_e0_common",
+        "training_state": "frozen_declared_seeded_qtable_not_author_state"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "rlpso_compact_policy_declared_reconstruction_v1",
+        "claim_boundary": "RPSO-derived compact policy engineering proxy; no source replay, full PPO, or RLPSO reproduction claim.",
+        "formal_status": "development_only_original_blocked",
+        "profile_id": "rlpso_compact_policy_declared_reconstruction_v1__rpso2024_source_problem_ws1_ws4",
+        "training_state": "seeded_online_compact_policy_not_author_state"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "rlpso_paper_corrected_training_reconstruction_v1",
+        "claim_boundary": "Paper-corrected seeded PPO training reconstruction with complete physical-FES ledger; no author checkpoint, literal source replay, or reported-result reproduction claim.",
+        "formal_status": "development_only_original_blocked",
+        "profile_id": "rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4",
+        "training_state": "seeded_online_ppo_not_author_checkpoint"
+      },
+      {
+        "admission_status": "development_admitted_reconstruction",
+        "algorithm_id": "taae_transformer_evolution_declared_reconstruction_v1",
+        "claim_boundary": "Bounded deterministic end-to-end TAAE engineering reconstruction on the declared P3 proxy; original TAAE, Zhangbei arrays, author checkpoint, paper-scale learned state, reported fronts, formal results, and GPU execution remain blocked.",
+        "formal_status": "development_only_original_blocked",
+        "profile_id": "taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1",
+        "training_state": "bounded_deterministic_state_paper_scale_checkpoint_blocked"
+      }
+    ]
+  },
+  "schema_version": 1,
+  "snapshot": {
+    "date": "2026-07-29",
+    "paper_count": 23,
+    "scope": "Every public citable paper that directly studies wind-farm layout optimization and is signed by Shangce Gao or Sichen Tao.",
+    "source_dossier_count": 23,
+    "source_dossiers": [
+      "docs/source-dossiers/L0608.json",
+      "docs/source-dossiers/L0726.json",
+      "docs/source-dossiers/S01.json",
+      "docs/source-dossiers/S02.json",
+      "docs/source-dossiers/S03.json",
+      "docs/source-dossiers/S04.json",
+      "docs/source-dossiers/S05.json",
+      "docs/source-dossiers/T36.json",
+      "docs/source-dossiers/T37.json",
+      "docs/source-dossiers/T38.json",
+      "docs/source-dossiers/T39.json",
+      "docs/source-dossiers/T40.json",
+      "docs/source-dossiers/T41.json",
+      "docs/source-dossiers/T42.json",
+      "docs/source-dossiers/T43.json",
+      "docs/source-dossiers/T44.json",
+      "docs/source-dossiers/T45.json",
+      "docs/source-dossiers/T46.json",
+      "docs/source-dossiers/T47.json",
+      "docs/source-dossiers/Y06.json",
+      "docs/source-dossiers/Y34.json",
+      "docs/source-dossiers/Y35.json",
+      "docs/source-dossiers/Y36.json"
+    ],
+    "unique_doi_count": 23
+  },
+  "source_baseline_commit": "a1061177342c4d26df7746bb6008f760503302d1",
+  "suite_manifests": [
+    {
+      "active_profile_count": 11,
+      "campaign_count": 9,
+      "claim_boundary": null,
+      "observed_runtime_state": "no_completion_receipt_in_step14_reference",
+      "path": "formal/contracts/declared_reconstruction_formal_suite_v1.json",
+      "reused_completed_profile_count": 4,
+      "status": "contract_frozen_not_launched",
+      "suite_id": "declared_reconstruction_formal_suite_v1",
+      "total_optimization_runs": 4025
+    },
+    {
+      "active_profile_count": null,
+      "campaign_count": 4,
+      "claim_boundary": "The four campaigns have different mathematical problems and provenance levels. Their quality results and reproduction claims remain separate even though they share the C++ HPC infrastructure.",
+      "observed_runtime_state": "completed",
+      "path": "formal/contracts/spark2_campaign_suite_v1.json",
+      "reused_completed_profile_count": 0,
+      "status": "approved_for_spark2_formal_execution",
+      "suite_id": "spark2_campaign_suite_v1",
+      "total_optimization_runs": 28325
+    },
+    {
+      "active_profile_count": null,
+      "campaign_count": 4,
+      "claim_boundary": "The four campaigns have different mathematical problems and provenance levels. Their quality results and reproduction claims remain separate even though they share the C++ HPC infrastructure.",
+      "observed_runtime_state": "no_completion_receipt_in_step14_reference",
+      "path": "formal/contracts/waffle_campaign_suite_v1.json",
+      "reused_completed_profile_count": 0,
+      "status": "development_admitted_waiting_for_waffle",
+      "suite_id": "waffle_campaign_suite_v1",
+      "total_optimization_runs": 28325
+    }
+  ],
+  "summary_id": "step14_project_summary_v1"
+}

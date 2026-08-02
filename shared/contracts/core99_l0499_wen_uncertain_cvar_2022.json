@@ -1,0 +1,96 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0499",
+  "paper": {
+    "title": "Wind farm layout optimization with uncertain wind condition",
+    "doi": "10.1016/j.enconman.2022.115347",
+    "year": 2022,
+    "pdf_sha256": "268c05c8a936f1b13cfb48515f25df402c533a28f372bdf152addb523bafa184"
+  },
+  "target_contributions": [
+    "Dirichlet-Multinomial model of uncertain yearly wind relative frequencies",
+    "normal-approximation analytical AEP CVaR objective",
+    "fixed-count binary-GA WFLO on simulated and measured-wind cases"
+  ],
+  "source_assets": {
+    "author_code": "no paper-linked public source located",
+    "author_data": "no paper-linked machine-readable NDAWN archive located",
+    "customized_ga_predecessor": {
+      "doi": "10.1109/CCTA41146.2020.9206378",
+      "fulltext_status": "legal retrieval attempted; full text unavailable at audit date"
+    }
+  },
+  "paper_native_cases": {
+    "case_a": {
+      "grid": "12x12 candidate points spanning a 2000 m square",
+      "turbines": 50,
+      "directions_degrees": [0, 30, 60, 90, 120],
+      "dirichlet_alpha": [50, 100, 200, 100, 50]
+    },
+    "case_b": {
+      "grid": "10x10 candidate points spanning a 1550 m square",
+      "turbines": 50,
+      "station_count": 41,
+      "historical_years": 10,
+      "future_validation_years": 10,
+      "directions_degrees": [0, 30, 60, 90, 120, 150, 180, 210, 240, 270, 300, 330],
+      "data_status": "deterministic declared proxy"
+    },
+    "objective_variants": ["to_expected_aep", "so_cvar_0_8", "ro_minimum_sector_power"],
+    "registered_case_count": 126
+  },
+  "model_contract": {
+    "wake": "target Eqs. (1)-(2), Jensen expansion with partial rotor/wake overlap and RSS superposition",
+    "wind_speed_mps": 8.0,
+    "hub_height_m": 65.0,
+    "rotor_radius_m": 43.043,
+    "wake_expansion": 0.0707,
+    "minimum_distance_m": 172.172,
+    "aep_hours": 8760,
+    "cvar_confidence": 0.8,
+    "normal_approximation": "target Eqs. (14)-(18)"
+  },
+  "optimizer_contract": {
+    "encoding": "fixed-count binary occupancy vector",
+    "fixed_count": 50,
+    "paper_repeat_count": 20,
+    "missing_fields": [
+      "population size",
+      "generation count",
+      "selection rule",
+      "crossover probability and exact operator",
+      "mutation probability and exact operator",
+      "elitism",
+      "random seeds"
+    ],
+    "declared_completion": {
+      "population": 64,
+      "generations_after_initialization": 312,
+      "physical_fes": 20032,
+      "selection": "binary tournament",
+      "crossover": "fixed-count intersection and shuffled symmetric-difference fill, probability 0.9",
+      "mutation": "one occupied/unoccupied swap per offspring",
+      "survival": "best 64 from parents plus offspring"
+    }
+  },
+  "fixture": {
+    "path": "shared/data/core99_l0499_proxy.bin",
+    "sha256": "42db407bc52a0c4b72bd1820ae1a6f61aba49f138b2026291e6a48bd8bc95d68",
+    "builder": "scripts/prepare_core99_l0499_proxy.py",
+    "claim_boundary": "versioned source-backed proxy, not author NDAWN data"
+  },
+  "hpc_contract": {
+    "backend": "pure_cpp_cpu",
+    "precomputation": "all direction/source-candidate/target-candidate wake ratios",
+    "inner_parallelism": "persistent full-core population evaluation in every generation",
+    "outer_parallelism": "formal case/seed concurrency selected when it gives higher aggregate Waffle throughput",
+    "randomness": "counter-keyed schedule-independent events",
+    "formal_resource_policy": "maximum twenty aggregate Waffle CPU workers without nested oversubscription"
+  },
+  "problem_semantic_ids": [
+    "l0499_case_a_dm_cvar_grid_v1",
+    "l0499_case_b_ndawn41_proxy_dm_cvar_grid_v1"
+  ],
+  "method_semantic_id": "l0499_fixed_count_binary_ga_completed_v1",
+  "claim_boundary": "academic declared reproduction of the paper equations, all objective variants and all 42 problem records; not author code, NDAWN arrays, exact GA settings, random state or numerical replay"
+}

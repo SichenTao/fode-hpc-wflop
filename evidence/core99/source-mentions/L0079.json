@@ -1,0 +1,17 @@
+{
+  "availability_mention_line_numbers": [
+    283,
+    399,
+    404,
+    515
+  ],
+  "candidate_public_asset_urls": [],
+  "corpus_id": "L0079",
+  "doi": "10.1016/j.oceaneng.2017.04.049",
+  "embedded_annotation_asset_urls": [],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "38f5f9b607d9d1d96fe72a6b1b7e57144691736a1dda368cd630762ebaacd863",
+  "private_text_sha256": "8d45f62ecce5b60509fdc488e589239c6b96a9eed15fbd0a8a5ee2ae72211fa0",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": []
+}

@@ -1,0 +1,395 @@
+{
+  "schema_version": 1,
+  "receipt_id": "step11_quality_sensitivity_profiles_spark_20260729",
+  "predetermined_seeds": [
+    2026072901,
+    2026072902,
+    2026072903
+  ],
+  "compute_backend": "cpu",
+  "workers": 20,
+  "claim_boundary": "Predetermined bounded sensitivity profiles only. Baselines remain selected independent of observed quality. Same-problem method variants are reported without retroactive selection; distinct problem semantics are never pooled, ranked, or compared as if one benchmark.",
+  "binaries": {
+    "wflop": {
+      "path": "build/step10-release/hpc/wflop_cpp/wflop_cpp_hpc",
+      "sha256": "c2937e74681704ed9c501255e615af4fb97a11e50a048b87d63ff843f26df1e1"
+    },
+    "ppga": {
+      "path": "build/step10-release/hpc/ppga_cpp/ppga_nantong_hpc",
+      "sha256": "ddfea1d872fd40528c18b3fd275eec3cd34fece6864ebe4e9a44f0497cef3725"
+    },
+    "taae": {
+      "path": "build/step10-release/hpc/taae_cpp/taae_evolution_hpc",
+      "sha256": "9f00b9b920f5c35a171d9d8e508e88c180d45d5ac690296f9d38b89f41e9d8b1"
+    }
+  },
+  "families": {
+    "T45": {
+      "decision_field": "attention_architecture",
+      "case_id": "ALGA_GuishanPlanarTransfer_tn40",
+      "physical_fes_per_run": 1000,
+      "problem_comparison_rule": "same problem semantic; method profiles remain separate and are not used for retroactive selection",
+      "profiles": [
+        {
+          "profile_id": "width1",
+          "method_semantics_id": "alga_attention_declared_reconstruction_v1",
+          "method_id": "ALGA_ATTENTION_DECLARED_RECONSTRUCTION_V1",
+          "problem_semantics_id": "alga_guishan_planar_wind_fode_evaluator_transfer_v1",
+          "attention_hidden_width": 1,
+          "runs": [
+            {
+              "seed": 2026072901,
+              "path": "evidence/development/alga_step11_sensitivity_runs/width1-2026072901.json",
+              "sha256": "f068a600b7a22a58b1d3e702a7cf52914dadb368443b4ce2f106458d78b739d2",
+              "physical_fes": 1000,
+              "generations": 41,
+              "best_expected_power_kw": 7143.68428808739,
+              "learned_state_hash": "fnv1a64:c19f283b69832625"
+            },
+            {
+              "seed": 2026072902,
+              "path": "evidence/development/alga_step11_sensitivity_runs/width1-2026072902.json",
+              "sha256": "9688b5e4216005838c1d3606bd9ebcdff33434498deed87005c9883659fb09bb",
+              "physical_fes": 1000,
+              "generations": 41,
+              "best_expected_power_kw": 7178.815811964254,
+              "learned_state_hash": "fnv1a64:f7da4eee1899667e"
+            },
+            {
+              "seed": 2026072903,
+              "path": "evidence/development/alga_step11_sensitivity_runs/width1-2026072903.json",
+              "sha256": "eb2fb001a121c42b020cbd43a5b60ff6e18ea1a6b036208e076ab0be9475f9da",
+              "physical_fes": 1000,
+              "generations": 41,
+              "best_expected_power_kw": 7085.031298712088,
+              "learned_state_hash": "fnv1a64:9408cfb9b41974ab"
+            }
+          ]
+        },
+        {
+          "profile_id": "width2",
+          "method_semantics_id": "alga_attention_width2_sensitivity_v1",
+          "method_id": "alga_attention_width2_sensitivity_v1",
+          "problem_semantics_id": "alga_guishan_planar_wind_fode_evaluator_transfer_v1",
+          "attention_hidden_width": 2,
+          "runs": [
+            {
+              "seed": 2026072901,
+              "path": "evidence/development/alga_step11_sensitivity_runs/width2-2026072901.json",
+              "sha256": "6a3e7ea6394fd357bc5f54fc21fb984f2394a764665645c127302708e54e3556",
+              "physical_fes": 1000,
+              "generations": 41,
+              "best_expected_power_kw": 7143.68428808739,
+              "learned_state_hash": "fnv1a64:c7ed27ddc96a5505"
+            },
+            {
+              "seed": 2026072902,
+              "path": "evidence/development/alga_step11_sensitivity_runs/width2-2026072902.json",
+              "sha256": "254dbf97536e2d7b35bfcf135a21970d882c7a6df86efe4c3a4151a95f34dd90",
+              "physical_fes": 1000,
+              "generations": 41,
+              "best_expected_power_kw": 7178.815811964254,
+              "learned_state_hash": "fnv1a64:d93b82dd0cb4ca3e"
+            },
+            {
+              "seed": 2026072903,
+              "path": "evidence/development/alga_step11_sensitivity_runs/width2-2026072903.json",
+              "sha256": "6d4ea81ae6a5234c5f942657522117527c6274bf0ef1addba3f1d7b16f0bd976",
+              "physical_fes": 1000,
+              "generations": 41,
+              "best_expected_power_kw": 7085.031298712088,
+              "learned_state_hash": "fnv1a64:ebac9c3835326fc1"
+            }
+          ]
+        }
+      ]
+    },
+    "T43": {
+      "decision_field": "three_dimensional_wake_completion",
+      "case_id": "PPGA_NantongStructured_WS1_tn20",
+      "physical_fes_per_run": 60,
+      "problem_comparison_rule": "root-sum-square and multiplicative wakes are distinct problem semantics; no cross-semantic pooling or ranking",
+      "profiles": [
+        {
+          "profile_id": "rss",
+          "method_semantics_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
+          "problem_semantics_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+          "problem_semantic_hash": "ee06013d8778fd7e",
+          "wake_combination": "root-sum-square",
+          "runs": [
+            {
+              "seed": 2026072901,
+              "path": "evidence/development/ppga_step11_sensitivity_runs/rss-2026072901.json",
+              "sha256": "631e4a2a3b0c7c4da2e767ba00216b0c44b55d75b4137a1c4405e62ed8c778c3",
+              "physical_fes": 60,
+              "generations": 1,
+              "best_expected_power_kw": 38986.32034941903,
+              "layout_hash": "31b0cfb5f1ce60e1"
+            },
+            {
+              "seed": 2026072902,
+              "path": "evidence/development/ppga_step11_sensitivity_runs/rss-2026072902.json",
+              "sha256": "376401938f6a152e10d8d039f92e16643dd546925a1675885c34852aa04db7ec",
+              "physical_fes": 60,
+              "generations": 1,
+              "best_expected_power_kw": 38409.19302183244,
+              "layout_hash": "c0fdee1ebb72b885"
+            },
+            {
+              "seed": 2026072903,
+              "path": "evidence/development/ppga_step11_sensitivity_runs/rss-2026072903.json",
+              "sha256": "3cdd450b074157750f23f557dc481a657abc578379abf136e624db41ee65f339",
+              "physical_fes": 60,
+              "generations": 1,
+              "best_expected_power_kw": 38671.75179670316,
+              "layout_hash": "91ee2447f68fb42a"
+            }
+          ]
+        },
+        {
+          "profile_id": "multiplicative",
+          "method_semantics_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
+          "problem_semantics_id": "ppga_nantong_structured_3d_multiplicative_wake_sensitivity_v1",
+          "problem_semantic_hash": "4ec1944aac0f61d3",
+          "wake_combination": "multiplicative",
+          "runs": [
+            {
+              "seed": 2026072901,
+              "path": "evidence/development/ppga_step11_sensitivity_runs/multiplicative-2026072901.json",
+              "sha256": "5f421b33d6ddfa317ead5009a6e246fe81ec740a626e73b101e6a545fd67fb8a",
+              "physical_fes": 60,
+              "generations": 1,
+              "best_expected_power_kw": 38680.07653916689,
+              "layout_hash": "31b0cfb5f1ce60e1"
+            },
+            {
+              "seed": 2026072902,
+              "path": "evidence/development/ppga_step11_sensitivity_runs/multiplicative-2026072902.json",
+              "sha256": "cb9d83d0f237c198398fe4b25a8d28f8a9410ce924401a88befe24c2f871c376",
+              "physical_fes": 60,
+              "generations": 1,
+              "best_expected_power_kw": 38149.1760889232,
+              "layout_hash": "3fd76b12315d1c02"
+            },
+            {
+              "seed": 2026072903,
+              "path": "evidence/development/ppga_step11_sensitivity_runs/multiplicative-2026072903.json",
+              "sha256": "ba65e00bb183ea873c1593d5e7aa81ebc9d25501382c93923972121104e1cdc1",
+              "physical_fes": 60,
+              "generations": 1,
+              "best_expected_power_kw": 38389.96910311422,
+              "layout_hash": "91ee2447f68fb42a"
+            }
+          ]
+        }
+      ]
+    },
+    "Y36": {
+      "decision_fields": [
+        "multi_wake_and_terrain_shear_completion",
+        "transformer_training_objectives_and_work"
+      ],
+      "case_id": "TAAE_Proxy_NC1_Budget800k_tn15",
+      "physical_fes_per_run": 200,
+      "problem_comparison_rule": "loss variants share one problem semantic but remain separate methods; wake variants are distinct problem semantics with no cross-semantic pooling or ranking",
+      "profiles": [
+        {
+          "profile_id": "baseline",
+          "method_semantics_id": "taae_transformer_evolution_declared_reconstruction_v1",
+          "problem_semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+          "problem_semantic_hash": "fnv1a64:d2e0cb41e02ce9c4",
+          "wake_combination": "root-sum-square",
+          "fine_tune_loss_weights": {
+            "reconstruction": 1,
+            "regression": 30,
+            "metric_smoothness": 1
+          },
+          "runs": [
+            {
+              "seed": 2026072901,
+              "path": "evidence/development/taae_step11_sensitivity_runs/baseline-2026072901.json",
+              "sha256": "8744b0e68f218ec3043d04577958c73b96059bc0ea07e82ee7a4f27aab37950e",
+              "physical_fes": 200,
+              "generations": 1,
+              "front_count": 9,
+              "front_hash": "fnv1a64:64a2874f885ef336",
+              "model_hash": "fnv1a64:1a766d8a576c28ef",
+              "metric_values": {
+                "min_reciprocal_expected_power_per_kw": 0.0002626951168508238,
+                "max_reciprocal_expected_power_per_kw": 0.00029487824050852086,
+                "min_average_a_weighted_noise_dba": 35.32236879400738,
+                "max_average_a_weighted_noise_dba": 42.518355562204,
+                "max_normalized_constraint_violation": 0
+              }
+            },
+            {
+              "seed": 2026072902,
+              "path": "evidence/development/taae_step11_sensitivity_runs/baseline-2026072902.json",
+              "sha256": "ba8a701578723b620343d418eac8210acbdb5c8440a9eae0e34d46014a39d253",
+              "physical_fes": 200,
+              "generations": 1,
+              "front_count": 9,
+              "front_hash": "fnv1a64:cef50493cab39119",
+              "model_hash": "fnv1a64:61fbdf6c95cb2bf4",
+              "metric_values": {
+                "min_reciprocal_expected_power_per_kw": 0.0002591412568030893,
+                "max_reciprocal_expected_power_per_kw": 0.0002886711901328001,
+                "min_average_a_weighted_noise_dba": 35.8143255189977,
+                "max_average_a_weighted_noise_dba": 38.794524674374436,
+                "max_normalized_constraint_violation": 0
+              }
+            },
+            {
+              "seed": 2026072903,
+              "path": "evidence/development/taae_step11_sensitivity_runs/baseline-2026072903.json",
+              "sha256": "02e74c0949721dbb401e2609dbd120385232c537ef88550fe568b7199d44ea10",
+              "physical_fes": 200,
+              "generations": 1,
+              "front_count": 3,
+              "front_hash": "fnv1a64:c00a634d68a0f4cd",
+              "model_hash": "fnv1a64:371d911ac4f5ce00",
+              "metric_values": {
+                "min_reciprocal_expected_power_per_kw": 0.0002601873428196872,
+                "max_reciprocal_expected_power_per_kw": 0.0002996521488225874,
+                "min_average_a_weighted_noise_dba": 35.672507160832396,
+                "max_average_a_weighted_noise_dba": 36.273391797610564,
+                "max_normalized_constraint_violation": 0
+              }
+            }
+          ]
+        },
+        {
+          "profile_id": "regression-half",
+          "method_semantics_id": "taae_transformer_evolution_regression15_sensitivity_v1",
+          "problem_semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+          "problem_semantic_hash": "fnv1a64:d2e0cb41e02ce9c4",
+          "wake_combination": "root-sum-square",
+          "fine_tune_loss_weights": {
+            "reconstruction": 1,
+            "regression": 15,
+            "metric_smoothness": 1
+          },
+          "runs": [
+            {
+              "seed": 2026072901,
+              "path": "evidence/development/taae_step11_sensitivity_runs/regression-half-2026072901.json",
+              "sha256": "a269f10a8f76822af1c7b9d0496e3bb76b0ec9540613529816adc70971d452ae",
+              "physical_fes": 200,
+              "generations": 1,
+              "front_count": 9,
+              "front_hash": "fnv1a64:64a2874f885ef336",
+              "model_hash": "fnv1a64:aa2b48fc9288e302",
+              "metric_values": {
+                "min_reciprocal_expected_power_per_kw": 0.0002626951168508238,
+                "max_reciprocal_expected_power_per_kw": 0.00029487824050852086,
+                "min_average_a_weighted_noise_dba": 35.32236879400738,
+                "max_average_a_weighted_noise_dba": 42.518355562204,
+                "max_normalized_constraint_violation": 0
+              }
+            },
+            {
+              "seed": 2026072902,
+              "path": "evidence/development/taae_step11_sensitivity_runs/regression-half-2026072902.json",
+              "sha256": "3afe397c195de8564efab28db9a1fe3148c4f6e75cc2718f23a69aedb08bb9cc",
+              "physical_fes": 200,
+              "generations": 1,
+              "front_count": 8,
+              "front_hash": "fnv1a64:25d89f912b206f4e",
+              "model_hash": "fnv1a64:d04debea24f7d8c5",
+              "metric_values": {
+                "min_reciprocal_expected_power_per_kw": 0.0002591412568030893,
+                "max_reciprocal_expected_power_per_kw": 0.0002822378036817713,
+                "min_average_a_weighted_noise_dba": 35.734258203952876,
+                "max_average_a_weighted_noise_dba": 38.794524674374436,
+                "max_normalized_constraint_violation": 0
+              }
+            },
+            {
+              "seed": 2026072903,
+              "path": "evidence/development/taae_step11_sensitivity_runs/regression-half-2026072903.json",
+              "sha256": "0a5a8ef7944dab8ce279f84357b7809aaec42963dfe915848c2c418df4f685cf",
+              "physical_fes": 200,
+              "generations": 1,
+              "front_count": 3,
+              "front_hash": "fnv1a64:c00a634d68a0f4cd",
+              "model_hash": "fnv1a64:33184f00ccd63d16",
+              "metric_values": {
+                "min_reciprocal_expected_power_per_kw": 0.0002601873428196872,
+                "max_reciprocal_expected_power_per_kw": 0.0002996521488225874,
+                "min_average_a_weighted_noise_dba": 35.672507160832396,
+                "max_average_a_weighted_noise_dba": 36.273391797610564,
+                "max_normalized_constraint_violation": 0
+              }
+            }
+          ]
+        },
+        {
+          "profile_id": "multiplicative-wake",
+          "method_semantics_id": "taae_transformer_evolution_declared_reconstruction_v1",
+          "problem_semantics_id": "taae_zhangbei_structured_multiplicative_wake_sensitivity_v1",
+          "problem_semantic_hash": "fnv1a64:78ce12d30c7b07ca",
+          "wake_combination": "multiplicative",
+          "fine_tune_loss_weights": {
+            "reconstruction": 1,
+            "regression": 30,
+            "metric_smoothness": 1
+          },
+          "runs": [
+            {
+              "seed": 2026072901,
+              "path": "evidence/development/taae_step11_sensitivity_runs/multiplicative-wake-2026072901.json",
+              "sha256": "fd65bf2eac36a9ed9e5b86aba6d4726654cb6578bafcd1983d4223608d8eb2c9",
+              "physical_fes": 200,
+              "generations": 1,
+              "front_count": 8,
+              "front_hash": "fnv1a64:73e5d702ce1c9879",
+              "model_hash": "fnv1a64:39270fac6fbeab38",
+              "metric_values": {
+                "min_reciprocal_expected_power_per_kw": 0.00026284325404242633,
+                "max_reciprocal_expected_power_per_kw": 0.0002958481235705536,
+                "min_average_a_weighted_noise_dba": 35.30304044058509,
+                "max_average_a_weighted_noise_dba": 42.51690569385326,
+                "max_normalized_constraint_violation": 0
+              }
+            },
+            {
+              "seed": 2026072902,
+              "path": "evidence/development/taae_step11_sensitivity_runs/multiplicative-wake-2026072902.json",
+              "sha256": "c665fa9f775b9ce729515302d856464174075e5ef16201eed5a90e12f7d282b9",
+              "physical_fes": 200,
+              "generations": 1,
+              "front_count": 8,
+              "front_hash": "fnv1a64:41417b3f417a7ab5",
+              "model_hash": "fnv1a64:8ad2f5f9e1cf5719",
+              "metric_values": {
+                "min_reciprocal_expected_power_per_kw": 0.0002593520331063463,
+                "max_reciprocal_expected_power_per_kw": 0.00027704612737753975,
+                "min_average_a_weighted_noise_dba": 35.74430050115607,
+                "max_average_a_weighted_noise_dba": 38.79054000308795,
+                "max_normalized_constraint_violation": 0
+              }
+            },
+            {
+              "seed": 2026072903,
+              "path": "evidence/development/taae_step11_sensitivity_runs/multiplicative-wake-2026072903.json",
+              "sha256": "308b1ec1bea2c119516ad658ff50968243b901b49514a0f3d6755f6c6bc900f8",
+              "physical_fes": 200,
+              "generations": 1,
+              "front_count": 3,
+              "front_hash": "fnv1a64:61713f13a78b0ffb",
+              "model_hash": "fnv1a64:4765f32ae8898e4d",
+              "metric_values": {
+                "min_reciprocal_expected_power_per_kw": 0.0002609839447446287,
+                "max_reciprocal_expected_power_per_kw": 0.00030019010683709704,
+                "min_average_a_weighted_noise_dba": 35.66438057166156,
+                "max_average_a_weighted_noise_dba": 36.25747091282248,
+                "max_normalized_constraint_violation": 0
+              }
+            }
+          ]
+        }
+      ]
+    }
+  },
+  "selection_policy": "Profile definitions, case, budgets, workers, and seeds were frozen before final runs; observed quality did not select or replace any baseline."
+}

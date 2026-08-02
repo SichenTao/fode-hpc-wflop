@@ -1,0 +1,193 @@
+{
+  "draft_h0_h4_pair_count": 133,
+  "h5_h6_accepted_pair_count": 0,
+  "missing_native_implementation_count": 28,
+  "missing_native_implementation_pairs": [
+    {
+      "algorithm_id": "nsgaii",
+      "corpus_id": "Y36",
+      "pair_id": "Y36__nsgaii__taae_zhangbei_structured_declared_proxy_v1__comparator",
+      "problem_id": "taae_zhangbei_structured_declared_proxy_v1"
+    },
+    {
+      "algorithm_id": "moead",
+      "corpus_id": "Y36",
+      "pair_id": "Y36__moead__taae_zhangbei_structured_declared_proxy_v1__comparator",
+      "problem_id": "taae_zhangbei_structured_declared_proxy_v1"
+    },
+    {
+      "algorithm_id": "gwo",
+      "corpus_id": "T42",
+      "pair_id": "T42__gwo__rpso2024_source_problem_ws1_ws4__comparator",
+      "problem_id": "rpso2024_source_problem_ws1_ws4"
+    },
+    {
+      "algorithm_id": "ga",
+      "corpus_id": "T45",
+      "pair_id": "T45__ga__alga_guishan_3d_declared_proxy_v1__comparator",
+      "problem_id": "alga_guishan_3d_declared_proxy_v1"
+    },
+    {
+      "algorithm_id": "gde3",
+      "corpus_id": "T46",
+      "pair_id": "T46__gde3__zhang2025_three_objective__comparator",
+      "problem_id": "zhang2025_three_objective"
+    },
+    {
+      "algorithm_id": "smpso",
+      "corpus_id": "T46",
+      "pair_id": "T46__smpso__zhang2025_three_objective__comparator",
+      "problem_id": "zhang2025_three_objective"
+    },
+    {
+      "algorithm_id": "de",
+      "corpus_id": "T44",
+      "pair_id": "T44__de__bde2025_standard_daegwallyeong__comparator",
+      "problem_id": "bde2025_standard_daegwallyeong"
+    },
+    {
+      "algorithm_id": "lshade",
+      "corpus_id": "T44",
+      "pair_id": "T44__lshade__bde2025_standard_daegwallyeong__comparator",
+      "problem_id": "bde2025_standard_daegwallyeong"
+    },
+    {
+      "algorithm_id": "clshade",
+      "corpus_id": "T44",
+      "pair_id": "T44__clshade__bde2025_standard_daegwallyeong__comparator",
+      "problem_id": "bde2025_standard_daegwallyeong"
+    },
+    {
+      "algorithm_id": "agpso",
+      "corpus_id": "T44",
+      "pair_id": "T44__agpso__bde2025_standard_daegwallyeong__comparator",
+      "problem_id": "bde2025_standard_daegwallyeong"
+    },
+    {
+      "algorithm_id": "ga",
+      "corpus_id": "T43",
+      "pair_id": "T43__ga__ppga_nantong_structured_3d_declared_proxy_v1__comparator",
+      "problem_id": "ppga_nantong_structured_3d_declared_proxy_v1"
+    },
+    {
+      "algorithm_id": "aga",
+      "corpus_id": "T43",
+      "pair_id": "T43__aga__ppga_nantong_structured_3d_declared_proxy_v1__comparator",
+      "problem_id": "ppga_nantong_structured_3d_declared_proxy_v1"
+    },
+    {
+      "algorithm_id": "sugga",
+      "corpus_id": "T43",
+      "pair_id": "T43__sugga__ppga_nantong_structured_3d_declared_proxy_v1__comparator",
+      "problem_id": "ppga_nantong_structured_3d_declared_proxy_v1"
+    },
+    {
+      "algorithm_id": "de",
+      "corpus_id": "T43",
+      "pair_id": "T43__de__ppga_nantong_structured_3d_declared_proxy_v1__comparator",
+      "problem_id": "ppga_nantong_structured_3d_declared_proxy_v1"
+    },
+    {
+      "algorithm_id": "agpso",
+      "corpus_id": "T43",
+      "pair_id": "T43__agpso__ppga_nantong_structured_3d_declared_proxy_v1__comparator",
+      "problem_id": "ppga_nantong_structured_3d_declared_proxy_v1"
+    },
+    {
+      "algorithm_id": "ga",
+      "corpus_id": "Y06",
+      "pair_id": "Y06__ga__gga2026_layout_cable__comparator",
+      "problem_id": "gga2026_layout_cable"
+    },
+    {
+      "algorithm_id": "de",
+      "corpus_id": "Y06",
+      "pair_id": "Y06__de__gga2026_layout_cable__comparator",
+      "problem_id": "gga2026_layout_cable"
+    },
+    {
+      "algorithm_id": "pso",
+      "corpus_id": "Y06",
+      "pair_id": "Y06__pso__gga2026_layout_cable__comparator",
+      "problem_id": "gga2026_layout_cable"
+    },
+    {
+      "algorithm_id": "saofgde",
+      "corpus_id": "Y06",
+      "pair_id": "Y06__saofgde__gga2026_layout_cable__comparator",
+      "problem_id": "gga2026_layout_cable"
+    },
+    {
+      "algorithm_id": "nsgaii",
+      "corpus_id": "T36",
+      "pair_id": "T36__nsgaii__nysted_paper_eq16_cpu_r4_v2__comparator",
+      "problem_id": "nysted_paper_eq16_cpu_r4_v2"
+    },
+    {
+      "algorithm_id": "moead",
+      "corpus_id": "T36",
+      "pair_id": "T36__moead__nysted_paper_eq16_cpu_r4_v2__comparator",
+      "problem_id": "nysted_paper_eq16_cpu_r4_v2"
+    },
+    {
+      "algorithm_id": "spea2",
+      "corpus_id": "T36",
+      "pair_id": "T36__spea2__nysted_paper_eq16_cpu_r4_v2__comparator",
+      "problem_id": "nysted_paper_eq16_cpu_r4_v2"
+    },
+    {
+      "algorithm_id": "gde3",
+      "corpus_id": "T36",
+      "pair_id": "T36__gde3__nysted_paper_eq16_cpu_r4_v2__comparator",
+      "problem_id": "nysted_paper_eq16_cpu_r4_v2"
+    },
+    {
+      "algorithm_id": "smpso",
+      "corpus_id": "T36",
+      "pair_id": "T36__smpso__nysted_paper_eq16_cpu_r4_v2__comparator",
+      "problem_id": "nysted_paper_eq16_cpu_r4_v2"
+    },
+    {
+      "algorithm_id": "ga",
+      "corpus_id": "L0726",
+      "pair_id": "L0726__ga__geoga_anholt_structured_declared_proxy_v1__comparator",
+      "problem_id": "geoga_anholt_structured_declared_proxy_v1"
+    },
+    {
+      "algorithm_id": "de",
+      "corpus_id": "L0726",
+      "pair_id": "L0726__de__geoga_anholt_structured_declared_proxy_v1__comparator",
+      "problem_id": "geoga_anholt_structured_declared_proxy_v1"
+    },
+    {
+      "algorithm_id": "saofgde",
+      "corpus_id": "L0726",
+      "pair_id": "L0726__saofgde__geoga_anholt_structured_declared_proxy_v1__comparator",
+      "problem_id": "geoga_anholt_structured_declared_proxy_v1"
+    },
+    {
+      "algorithm_id": "pso",
+      "corpus_id": "L0726",
+      "pair_id": "L0726__pso__geoga_anholt_structured_declared_proxy_v1__comparator",
+      "problem_id": "geoga_anholt_structured_declared_proxy_v1"
+    }
+  ],
+  "plan": "002-complete-paper-paired-gao-tao-wflop-hpc-benchmark",
+  "required_pair_registry": {
+    "pair_count": 133,
+    "path": "docs/hpc_required_pairs.tsv",
+    "sha256": "ca5b9b4d498281574f67e303f4cfc4626463693a6df086d46c07127621b0268a"
+  },
+  "schema_version": 1,
+  "scientific_boundary": "No formal campaign may start until every required native pair has an accepted pair-specific H0-H6 chain. Draft dossiers and registered comparators are not performance admission.",
+  "status": "profile_and_dependency_stop",
+  "step": 8,
+  "taae_training_stop": {
+    "measured_probe_seconds": 13.3089,
+    "path": "evidence/development/taae_paper_scale_cpu_feasibility_spark2_20260730.json",
+    "projected_paper_scale_days": 12.038027025462963,
+    "projected_paper_scale_seconds": 1040085.535,
+    "sha256": "dbecf4f09543d1307105697563a984c30dbc8e199607e6785f35df64e5831ebf",
+    "status": "profile_specific_stop"
+  }
+}

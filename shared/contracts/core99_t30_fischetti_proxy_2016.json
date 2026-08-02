@@ -1,0 +1,90 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T30",
+  "paper": {
+    "title": "Proximity Search Heuristics for Wind Farm Optimal Layout",
+    "doi": "10.1007/s10732-015-9283-4",
+    "pdf_sha256": "2dafae36f55cc0e4a03fa9f09a2e8018eab040ce1f27415b52a595cafbf6e498"
+  },
+  "public_source": {
+    "paper_linked_code": null,
+    "paper_linked_instance_data": null,
+    "author_thesis": "https://hdl.handle.net/20.500.12608/17839",
+    "thesis_title": "Mixed Integer Programming Models and Algorithms for Wind Farm Layout"
+  },
+  "paper_problem": {
+    "decision_variables": "binary turbine placement over sampled candidate sites",
+    "objective": "maximize expected standalone power minus cumulative pairwise Jensen interference",
+    "constraints": "3000 m square, 400 m minimum separation, no turbine-count bounds",
+    "turbine": "Siemens SWT-2.3-93, 93 m rotor and 2.3 MW rated power",
+    "wind": "250000+ private real observations clustered to about 500 macro-scenarios",
+    "instances": "10 uniform-random instances at each of 1000, 5000, 10000, 15000 and 20000 sites",
+    "reported_time_checkpoints_seconds": [60, 300, 600, 900, 1200, 1800, 3600]
+  },
+  "method": {
+    "semantic_id": "fischetti2016_proxy_highs_reconstruction_v1",
+    "initial_search": "parameterized O(n) 1-opt with local cardinality oscillation and 10000 consecutive non-improving calls",
+    "cleanup_search": "parameterized 1-opt with 100 consecutive non-improving calls plus conservative 2-opt",
+    "reduction": "retain incumbent sites and sample unselected sites to at most 2000 total candidates",
+    "mip": "compact Glover interference formulation with soft cutoff and Hamming proximity objective",
+    "staging": "simplified model without interference constraints followed by permanent switch to the complete model",
+    "paper_solver": "IBM ILOG CPLEX 12.5.1",
+    "reproduction_solver": "HiGHS revision 04024d701f79feb8e2f18bc3df0dffc04ef05088"
+  },
+  "missing_and_resolutions": [
+    {
+      "field": "author source and original random instances",
+      "missing": "C source, coordinate files, random seeds and bitstreams",
+      "resolution": "deterministic declared seeds and uniform coordinate generator"
+    },
+    {
+      "field": "private wind observations and macro-scenarios",
+      "missing": "250000+ Vattenfall observations and clustering output",
+      "resolution": "frozen 504-state directional Weibull offshore reconstruction"
+    },
+    {
+      "field": "exact turbine power table",
+      "missing": "numerical table for the cited SWT source",
+      "resolution": "paper-endpoint-consistent nonlinear cubic curve over 3-16 m/s"
+    },
+    {
+      "field": "CPLEX implementation and parameter equivalence",
+      "missing": "redistributable CPLEX 12.5.1 runtime and author tuning source",
+      "resolution": "pinned open HiGHS backend, exact compact constraints, zero MIP gap and all available threads"
+    }
+  ],
+  "hpc": {
+    "backend": "pure C++20 plus pinned HiGHS",
+    "parallel_regions": [
+      "O(n^2) packed interference and spacing matrix construction",
+      "HiGHS compact-MIP presolve, relaxations and branch-and-bound"
+    ],
+    "ordered_regions": [
+      "parameterized 1-opt choice and incumbent commit",
+      "2-opt choice and incumbent commit",
+      "simplified-to-complete model switch"
+    ],
+    "rejected_parallel_region": "fine-grained local-move loops changed fixed-work paths and cost more synchronization than useful work",
+    "local_h5": {
+      "worker_count_objective_identity": true,
+      "worker_count_scientific_hash_identity": true,
+      "minimum_spacing_m": 403.49268156271114
+    },
+    "local_h6_candidate": {
+      "workload": "20000 candidate sites, instance 0, uncached packed-matrix construction",
+      "one_worker_seconds": 4.394682145,
+      "twenty_worker_seconds": [0.732340915, 0.71552062],
+      "speedup_range": [6.000871, 6.141939],
+      "claim_boundary": "matrix-construction candidate only; formal Waffle receipt pending"
+    }
+  },
+  "formal_protocol": {
+    "target_algorithm": "proxy only",
+    "excluded_non_target_baselines": ["cpx def", "cpx heu", "loc sea"],
+    "cases": 350,
+    "definition": "5 sizes times 10 instances times 7 paper time checkpoints",
+    "production_workers": 20,
+    "resumability": "one immutable JSON record per case and source commit"
+  },
+  "claim_boundary": "Academic paper-first reconstruction; not author C/CPLEX software, private-data replay, original-instance replay, or published-number identity."
+}

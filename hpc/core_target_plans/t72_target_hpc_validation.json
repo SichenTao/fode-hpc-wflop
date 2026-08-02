@@ -1,0 +1,60 @@
+{
+  "schema_version": 2,
+  "corpus_id": "T72",
+  "pair_id": "T72__chcp_nsga2__energy_noise_voronoi9__target",
+  "method_semantic_id": "t72_chcp_nsga2_declared_reconstruction_v1",
+  "problem_semantic_id": "t72_energy_noise_voronoi9_declared_reconstruction_v1",
+  "paper_protocol_id": "sorkhabi2018_chcp_native_1440_v1",
+  "native_asset": "shared/contracts/core99_t72_sorkhabi_2018.json",
+  "analysis_path": "hpc/core_target_plans/t72_target_hpc_analysis.json",
+  "H5_bounded_equivalence": {
+    "status": "accepted_h5",
+    "reference_backend": "independent_python_paper_equations_and_reconstructed_maps_v1",
+    "candidate_backend": "pure_cpp20_cpu_hpc_chcp_nsga2_reconstruction_v1",
+    "comparison_scope": "all nine paper cases, deterministic reconstructed map geometry, wind probabilities, Jensen/RSS AEP, ISO SPL, spacing and regulatory feasibility, direct population parallelism, bounded repair, and exact one-worker/all-core trajectory identity",
+    "independent_reference": {
+      "implementation": "scripts/validate_core99_t72.py",
+      "does_not_import_candidate": true,
+      "ctest_name": "core99_t72_h5"
+    },
+    "cpp_test": {
+      "implementation": "hpc/core99_cpp/tests/sorkhabi_t72_test.cpp",
+      "ctest_name": "core99_t72_cpp"
+    },
+    "maximum_absolute_equation_error": 4.902744876744691e-13,
+    "receipt": "evidence/development/T72_h5_independent_equation_validation_20260731.json",
+    "physical_fes_ledger": "one complete AEP, maximum SPL, and constraint evaluation of one layout is one physical FES; CHCP repair and NSGA-II control do not add wind-farm FES",
+    "claim_boundary": "independent equation and bounded-runtime agreement, not native-map or author-result identity"
+  },
+  "H6_performance_validation": {
+    "status": "pending_waffle",
+    "selected_workers": 20,
+    "required_checks": [
+      "identical representative MD=100 and MD=10000 trajectories with one worker and all 20 Waffle workers",
+      "separate CHCP repair, physical evaluator, algorithm, and end-to-end speedups",
+      "identical 20-run sequential/all-core campaign and all 20 workers observed",
+      "frozen source commit, binary hash, raw receipts, and no oversubscription"
+    ],
+    "runner": "scripts/run_core99_t72_h6_formal.py",
+    "local_pre_admission": {
+      "md100_end_to_end_speedup": 9.884619177520372,
+      "md100_repair_speedup": 9.96810768112946,
+      "md100_evaluator_speedup": 12.38984914522361,
+      "md10000_end_to_end_speedup": 12.909972558567144,
+      "md10000_repair_speedup": 13.03763622617138,
+      "md10000_evaluator_speedup": 12.810413633123268,
+      "twenty_run_campaign_speedup": 11.951281038807952,
+      "all_core_observed_workers": 20,
+      "status": "development_only_not_waffle_admission"
+    }
+  },
+  "formal_quality": {
+    "status": "pending_h6",
+    "required_target_runs": 1440,
+    "matrix": "nine paper problems by four maximum distances by 20 seeds and two penalty coefficients",
+    "excluded_non_target_comparators": ["dynamic-penalty-only comparator"],
+    "runner": "scripts/run_core99_t72_h6_formal.py --run-formal"
+  },
+  "overall_status": "accepted_h5_h6_and_formal_pending",
+  "claim_boundary": "No H6 or formal claim is admitted before the exact frozen source is run on Waffle."
+}

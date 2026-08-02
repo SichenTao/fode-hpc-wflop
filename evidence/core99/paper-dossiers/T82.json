@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T82",
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "paper": {
+    "authors": "Lichao Cao and Mingwei Ge and Xiaoxia Gao and Bowen Du and Baoliang Li and Zhi Huang and Yongqian Liu",
+    "doi": "10.1016/j.apenergy.2022.119599",
+    "pdf_basename": "2022_Cao_Wind_Farm_Layout_Optimization_to_Minimize_the_Wake_Induced_Turbulence_Effect_on_Wind_Turbines.pdf",
+    "pdf_sha256": "a510f421af5a76142d4f0bb5588a7c329f3aaa4ce777a121f9da95bc325b0a68",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV4",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D",
+    "secondary_review_classes": "REV2",
+    "title": "Wind Farm Layout Optimization to Minimize the Wake-Induced Turbulence Effect on Wind Turbines",
+    "venue": "Applied Energy",
+    "year": 2022
+  },
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 17,
+    "text_sha256": "d712527b5808f11c84e687903642739607c2b31b9fc0a0a3af978545657d97a0"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [
+      919,
+      920
+    ],
+    "embedded_annotation_urls": [],
+    "status": "paper_says_data_on_request_no_public_source_detected"
+  },
+  "paper_linked_public_asset_candidates": [],
+  "same_lineage_public_assets": [],
+  "paper_source_conflicts": [
+    "Zhuanghe prose states two 2.3 MW turbines, while Fig. 19 labels GW121/3000 and only two 3.0 MW turbines produce the stated 303.15 MW total."
+  ],
+  "missing_information": [
+    "author source and random states",
+    "complete NSGA-II controls and repeat count",
+    "exact Case-II numerical probability matrix",
+    "Zhuanghe original coordinates and numerical wind arrays",
+    "Zhuanghe thrust and power curves",
+    "raw Pareto fronts and optimizer traces"
+  ],
+  "completion_decisions": [
+    "Use paper Eqs. (1)-(18) for the coupled MTG velocity and added-turbulence evaluator.",
+    "Use eight deterministic equal-area rotor samples for the Eq. (15) area average and turbine-level Eq. (11) value.",
+    "Digitize Case-II probabilities and Zhuanghe wind direction and turbulence curves from Figs. 9, 20 and 21.",
+    "Use a shape-2 Weibull law constrained to the paper mean 6.9 m/s and six midpoint bins for Zhuanghe wind speed.",
+    "Use the self-consistent GW121/3000 rating, CT=0.8, and declared cubic-to-rating Zhuanghe curves.",
+    "Use standard Deb SBX and polynomial mutation with population 100, twenty generations, and 25 seeds.",
+    "Implement all three paper problems; comparison methods are excluded."
+  ],
+  "semantic_contract": {
+    "decision_variables": {
+      "status": "frozen",
+      "authority": "paper",
+      "resolution": "continuous x-y coordinates; Zhuanghe also permits three turbine types with fixed counts 2,49,21"
+    },
+    "encoding_and_decoder": {
+      "status": "frozen",
+      "authority": "paper",
+      "resolution": "real coordinate vector with immutable turbine-type labels; coordinate movement explores type placement while preserving counts"
+    },
+    "objective_and_direction": {
+      "status": "frozen",
+      "authority": "paper_Eqs_20_22_26",
+      "resolution": "maximize probability-weighted farm power and minimize maximum turbine comprehensive inflow streamwise turbulence"
+    },
+    "constraints_and_repair": {
+      "status": "frozen",
+      "authority": "paper_Eqs_23_27_plus_declared_completion",
+      "resolution": "ideal square plus >5D spacing; exact Zhuanghe piecewise boundary plus >4 max(Di,Dj); deterministic rejection repair"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "status": "frozen",
+      "authority": "paper_Eqs_1_18_plus_declared_unpublished_curve_completion",
+      "resolution": "Li added-turbulence model, maximum-wake turbulence superposition, MTG velocity model, rotor average, Katic RSS, ideal cubic power and declared Zhuanghe cubic-to-rating curves"
+    },
+    "wind_and_scenario_sampling": {
+      "status": "frozen",
+      "authority": "paper_text_figures_and_declared_digitization",
+      "resolution": "Case I one state; Case II 36 directions by 3 speeds; Zhuanghe 16 directions by 6 Weibull midpoint bins with speed-dependent ambient turbulence"
+    },
+    "initialization": {
+      "status": "frozen",
+      "authority": "declared_missing_field_completion",
+      "resolution": "feasible deterministic lattices followed by counter-keyed perturbation and constraint repair"
+    },
+    "update_order": {
+      "status": "frozen",
+      "authority": "paper_NSAGII_description_plus_Deb_standard_completion",
+      "resolution": "rank and crowding, binary tournament, SBX, polynomial mutation, repair, evaluation, parent-offspring merge, elitist environmental selection"
+    },
+    "stopping_and_physical_fes": {
+      "status": "frozen",
+      "authority": "declared_missing_field_completion",
+      "resolution": "100 initial complete-layout evaluations plus 20 generations of 100 offspring = 2100 physical FES per run"
+    },
+    "parameters": {
+      "status": "frozen",
+      "authority": "paper_first_declared_standard_completion",
+      "resolution": "paper physical parameters; population 100, generations 20, SBX p=0.9 eta=20, polynomial mutation p=1/(2N) eta=20"
+    },
+    "training_and_inference_lifecycle": {
+      "status": "not_applicable",
+      "authority": "paper",
+      "resolution": "non-learning NSGA-II"
+    },
+    "paper_native_cases": {
+      "status": "frozen",
+      "authority": "paper_text_tables_figures_and_declared_private_data_completion",
+      "resolution": "ideal Cases I and II plus 72-turbine Zhuanghe"
+    },
+    "metrics_and_repeats": {
+      "status": "frozen",
+      "authority": "paper_objectives_plus_platform_protocol",
+      "resolution": "Pareto-front power and maximum comprehensive turbulence, timings, physical FES, science hashes, and 25 independent seeds per case"
+    }
+  },
+  "scope": {
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "coupled_or_real_world_problem_and_method",
+    "execution_wave": "REV4",
+    "package_status": "paper_pair_h5_validated",
+    "claim_boundary": "academic paper-equation and figure-reconstructed reproduction of NSGA-II and all three paper problems; not author source, private arrays, random states or numerical replay"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/cao_t82.hpp",
+    "hpc/core99_cpp/src/cao_t82.cpp",
+    "hpc/core99_cpp/src/cao_t82_main.cpp",
+    "hpc/core99_cpp/tests/cao_t82_test.cpp",
+    "scripts/validate_core99_t82.py",
+    "scripts/run_core99_t82_h6_formal.py",
+    "shared/contracts/core99_t82_cao_2022.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/T82_H0_H4_mathematical_hpc_analysis_20260731.md",
+    "evidence/development/T82_h5_independent_equation_validation_20260731.json"
+  ],
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pending_waffle"
+  },
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_waffle"
+}

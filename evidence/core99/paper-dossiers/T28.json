@@ -1,0 +1,162 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T28",
+  "paper": {
+    "authors": "Thuy-Hai Nguyen and Julian Quick and Pierre-Elouan Réthoré and Jean-François Toubeau and Emmanuel De Jaeger and François Vallée",
+    "doi": "10.5194/wes-10-1661-2025",
+    "pdf_basename": "2025_Nguyen_Offshore_Wind_Farm_Layout_Optimization_Accounting_for_Participation_in_Secondary_Reserve_Markets.pdf",
+    "pdf_sha256": "576b4149d526aab89f127431145ae70e71c852bc15e9466718f00939b067a2e6",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV4",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "NONE",
+    "title": "Offshore Wind Farm Layout Optimization Accounting for Participation in Secondary Reserve Markets",
+    "venue": "Wind Energy Science",
+    "year": 2025
+  },
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "public_assets": {
+    "author_source_url": "https://github.com/Twitwi96/WINDFLOWER/tree/v1.0.0",
+    "author_source_revision": "427ee84dfdb9fb275b229e8eecf4503071d8fed4",
+    "author_source_license": "AGPL-3.0",
+    "data_doi": "10.5281/zenodo.13946931",
+    "data": "Northwind/Rentel layouts and curves plus 2021-2024 Belgian quarter-hour market and wind scenarios",
+    "status": "paper_source_and_data_consumed"
+  },
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 20,
+    "text_sha256": "57c84a9db652572fbc959496994c1b0c707041ee4ab0970ee98ba50cfa5d20df"
+  },
+  "completion_decisions": [
+    {
+      "field": "installed capacity conflict",
+      "authority": "released curve, source calculation and later paper tables",
+      "resolution": "72 times 3.075 MW = 221.4 MW rather than the prose-only 216 MW"
+    },
+    {
+      "field": "unpublished seeds and initial layouts",
+      "authority": "paper five-repeat protocol",
+      "resolution": "five declared seeds 0 through 4, each reconstructed from scratch"
+    },
+    {
+      "field": "external Crespo-Hernandez kernel",
+      "authority": "paper model plus published Table 1 base-layout AEP",
+      "resolution": "one frozen aggregate interaction factor, under 1% base-AEP error, never retuned by case"
+    }
+  ],
+  "missing_information": [
+    "five author random seeds and random-start layout corpus",
+    "complete author optimization recorders",
+    "standalone source for PyWake delegated added-turbulence gradient kernel"
+  ],
+  "paper_source_conflicts": [
+    {
+      "field": "installed capacity",
+      "fact": "paper prose says 216 MW but source and paper figures/tables imply 221.4 MW",
+      "resolution": "source-consistent 221.4 MW"
+    },
+    {
+      "field": "parallel execution",
+      "fact": "source explicitly fixes n_cpu=1 because gradients and custom functions were not parallel",
+      "resolution": "fused C++/LibTorch CPU/CUDA tensors while retaining objective equations and ordered SGD commits"
+    },
+    {
+      "field": "wind-power modelling error",
+      "fact": "paper includes 3% error but public source comments it out due to its autograd limitation",
+      "resolution": "paper-first 3% differentiable error retained"
+    }
+  ],
+  "scope": {
+    "claim_boundary": "academic paper-first reconstruction using exact author-released data; not author-original software or bitwise PyWake identity",
+    "execution_wave": "REV4",
+    "package_status": "h5_admitted_h6_and_formal_queued",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "coupled_or_real_world_problem_and_method"
+  },
+  "semantic_contract": {
+    "decision_variables": {
+      "authority": "paper Eq. 14-16 and source",
+      "resolution": "continuous x-y positions of 72 Northwind turbines",
+      "status": "implemented_and_tested"
+    },
+    "objective_and_direction": {
+      "authority": "paper Eq. 11 and 14 plus source func_compute_profit",
+      "resolution": "maximize AEP, DAEM expected revenue or joint energy-reserve expected revenue",
+      "status": "implemented_and_tested"
+    },
+    "constraints_and_repair": {
+      "authority": "paper Eq. 15-16 and released Northwind polygon",
+      "resolution": "224 m pair spacing and polygon boundary via differentiable aggregate penalties",
+      "status": "implemented_and_tested"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper Section 2.5",
+      "resolution": "direct continuous Cartesian layout",
+      "status": "implemented"
+    },
+    "initialization": {
+      "authority": "paper five random initial conditions and source random polygon sampler",
+      "resolution": "base-derived feasible perturbation under five declared seeds",
+      "status": "implemented_and_frozen"
+    },
+    "update_order": {
+      "authority": "paper SGD and source EasySGDDriver",
+      "resolution": "sample, forecast, wake, bid search, gradient, constraint aggregate and optimizer commit",
+      "status": "implemented_and_tested"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper Sections 2-3 and source",
+      "resolution": "differentiable Gaussian wake, released V112 curve and exact JERM price/penalty equations",
+      "status": "implemented_and_published_aep_validated"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper Section 3 and released spreadsheets",
+      "resolution": "exact 2023 quarter-hour training data, 2024 unseen data and stated Gaussian forecast errors",
+      "status": "implemented_and_hashed"
+    },
+    "paper_native_cases": {
+      "authority": "paper Sections 4.2-4.5",
+      "resolution": "AEP/DAEM/JERM, K*T 20-150, Rmax 50/117/221.4 MW, 2023 training and 2024 unseen evaluation",
+      "status": "implemented_and_formal_queued"
+    },
+    "parameters": {
+      "authority": "paper and source",
+      "resolution": "2000 iterations, 112 m initial learning rate, multiplier 0.1, S=10 and 1 MW bid step",
+      "status": "implemented_and_frozen"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper Section 3",
+      "resolution": "2000 SGD iterations; sampled quarter-hours, forecasts and wake evaluations reported explicitly",
+      "status": "implemented_and_formal_queued"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper Sections 4-5",
+      "resolution": "expected annual revenue, AEP, supplied-energy-compatible outputs, feasibility, runtime and five seeds",
+      "status": "implemented_and_formal_queued"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "paper train-2023/test-2024 protocol",
+      "resolution": "train each seed from scratch on 2023 and evaluate unseen 2024 scenarios",
+      "status": "implemented_and_formal_queued"
+    }
+  },
+  "hpc_admission": {
+    "H0": "pass: forecast, wake, bid-grid and differentiation dominate each of 2000 iterations",
+    "H1": "pass: paper, source revision, AGPL license, exact data hashes and conflicts recorded",
+    "H2": "pass: scenario/forecast/turbine-pair/bid axes parallel; optimizer commits ordered",
+    "H3": "pass: pure C++ LibTorch all-core CPU/CUDA tensor design",
+    "H4": "pass: objective variants, data years, reserve limits, seeds, counters and resumable CLI implemented",
+    "H5": "pass: published Northwind base AEP error 0.715% and JERM revenue error 2.109%; CPU/CUDA bounded paths pass",
+    "H6": "corrected paper-shape local candidate 20-vs-1 CPU speedup 2.31x with identical objective; Waffle CPU-vs-CUDA selection and repetition queued"
+  },
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_after_predecessor"
+}

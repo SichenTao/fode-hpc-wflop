@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T02",
+  "paper_doi": "10.1016/j.renene.2004.05.007",
+  "H0": {
+    "status": "pass",
+    "bottlenecks": [
+      "600 complete 100-cell layout evaluations per generation",
+      "up to 108 wind direction-speed states per layout",
+      "20 independent 30-member subpopulations over 1000-3000 generations"
+    ]
+  },
+  "H1": {
+    "status": "pass",
+    "authority": "primary paper plus Mosetti predecessor equations",
+    "registered_conflicts": [
+      "40 m radius table label versus 5D equals 200 m text",
+      "Case C 2500 generations in abstract versus 1000 in results body",
+      "unreported island migration and genetic probabilities"
+    ]
+  },
+  "H2": {
+    "status": "pass",
+    "parallel": "complete-layout evaluation and independent island offspring construction",
+    "ordered": "roulette parent choice, elitist island commit and generation barrier"
+  },
+  "H3": {
+    "status": "pass",
+    "decision": "pure C++ packed 100-bit layouts, precomputed wake geometry, counter-based random events and persistent all-core CPU executor"
+  },
+  "H4": {
+    "status": "pass",
+    "implementation": "hpc/core99_cpp core99_historical_grid_hpc",
+    "semantic_id": "t02_grady_island_ga_declared_v1"
+  },
+  "claim_boundary": "HPC analysis and implementation of a declared academic reconstruction, not author runtime or source."
+}

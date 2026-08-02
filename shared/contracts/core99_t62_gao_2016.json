@@ -1,0 +1,83 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T62",
+  "paper": {
+    "title": "Optimization of Wind Turbine Layout Position in a Wind Farm Using a Newly-Developed Two-Dimensional Wake Model",
+    "doi": "10.1016/j.apenergy.2016.04.098",
+    "year": 2016,
+    "pdf_sha256": "7e79a2a5db4f3d1360dfd55d04ee1d266c1e9b324aa9f214dddc7fac2902f1db"
+  },
+  "predecessor": {
+    "title": "Wind turbine layout optimization using multi-population genetic algorithm and a case study in Hong Kong offshore",
+    "doi": "10.1016/j.jweia.2015.01.018",
+    "pdf_sha256": "13ffeac89390e507d2509a5bf0e18d7c2e4bef7e2bff8a20f74bb02829a79408"
+  },
+  "problem_semantic_ids": [
+    "t62_gao_case_b_grid_jensen_gaussian_v1",
+    "t62_gao_case_b_continuous_jensen_gaussian_sensitivity_v1"
+  ],
+  "method_semantic_id": "t62_mpga_declared_reconstruction_v1",
+  "paper_native_cases": {
+    "farm_m": [2000.0, 2000.0],
+    "grid": [10, 10],
+    "grid_pitch_m": 200.0,
+    "wind_speed_mps": 12.0,
+    "equally_weighted_directions": 36,
+    "turbine_counts": [38, 39, 40],
+    "minimum_spacing_rotor_diameters": 5.0
+  },
+  "turbine_and_model": {
+    "hub_height_m": 60.0,
+    "rotor_diameter_m": 40.0,
+    "thrust_coefficient": 0.88,
+    "power_kw": "0.3*u_cubed",
+    "surface_roughness_m": 0.3,
+    "ambient_turbulence_declared_reconstruction": 0.1,
+    "multiple_wakes": "root_sum_square"
+  },
+  "mpga": {
+    "demes": 10,
+    "individuals_per_deme": 20,
+    "coordinate_bits": 20,
+    "crossover_probability_across_demes": [0.7, 0.9],
+    "per_bit_mutation_probability_across_demes": [0.001, 0.05],
+    "unchanged_generation_stop": 500,
+    "safety_maximum_generations": 5000,
+    "declared_reconstruction": {
+      "selection": "tournament_2",
+      "crossover": "one_point",
+      "elite": "one_per_deme",
+      "migration": "one_ring_elite_every_20_generations"
+    }
+  },
+  "conflicts_and_resolutions": [
+    {
+      "conflict": "10x10 grid-centre siting versus continuous 2N 20-bit coordinates",
+      "resolution": "grid is primary; coordinates are decoded, snapped, and uniquely repaired; continuous mode is retained as a sensitivity variant"
+    },
+    {
+      "conflict": "Eq.4 labels 0.5/log(z/z0) as a although a is already axial induction",
+      "resolution": "interpret Eq.4 as wake-decay k"
+    },
+    {
+      "conflict": "predecessor table calls 40 m a radius while Eq.5 uses 20 m",
+      "resolution": "use 40 m diameter because Eq.5 and printed power anchors require it"
+    },
+    {
+      "conflict": "target Fig.6 says population size 20 while predecessor says 40 individuals",
+      "resolution": "use target-paper 20 individuals in each of ten predecessor demes"
+    },
+    {
+      "conflict": "Table 1 N=38 and N=39 fitness values disagree with the printed cost equation and power values",
+      "resolution": "retain conflict; validate equations independently and do not fit code to inconsistent cells"
+    }
+  ],
+  "hpc_contract": {
+    "backend": "pure_cpp_cpu",
+    "parallel_axis": "deme_by_individual_layout",
+    "precomputation": "direction_target_site_source_site_deficit_squared",
+    "state_commit": "fixed_order_generation_elite_and_migration",
+    "full_resource_policy": "use every currently available Waffle CPU core"
+  },
+  "claim_boundary": "academic declared reproduction of the new wake model, paper-native Case (b), and MPGA vehicle; not author-source or author-numerical replay"
+}

@@ -1,0 +1,157 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "The target has no located public implementation or machine-readable Figure 10/11 arrays; every missing field is isolated in the versioned contract.",
+    "The direct MDPSO and 3-D wake predecessors were legally recovered and used before any lower-authority completion.",
+    "The visible exactly-5D diagnostic resolves the paper text's strict-spacing ambiguity in favor of at-least 5D.",
+    "Jensen and Jensen-Gaussian are comparison baselines, not separate target packages.",
+    "Twenty-five independent seeds implement the platform protocol because the paper omits a repeat count."
+  ],
+  "corpus_id": "L0341",
+  "dossier_status": "h5_admitted",
+  "formal_status": "waffle_h6_and_formal_queued",
+  "hpc_admission": {
+    "H0": "pass_problem_and_method_work_units",
+    "H1": "pass_direction_factoring_and_persistent_team",
+    "H2": "pass_particle_update_and_population_evaluation_parallel",
+    "H3": "pass_counter_keyed_randomness_and_fixed_reduction",
+    "H4": "pass_pure_cpp_cpu_backend",
+    "H5": "pass_local_semantic_numerical_and_replay",
+    "H6": "queued_waffle_one_vs_twenty_full_paper_budget"
+  },
+  "missing_information": [
+    "machine-readable Figure 10 turbine curves",
+    "machine-readable Figure 11 wind distribution",
+    "C, k0, I0 and complete target wake calibration",
+    "rotor quadrature",
+    "initialization, random seeds and repeat count",
+    "velocity limits and exact constraint handling",
+    "exact variable-cardinality encoding"
+  ],
+  "paper": {
+    "authors": "Siyu Tao and Qingshan Xu and Andrés Feijóo and Gang Zheng and Jiemin Zhou",
+    "doi": "10.1016/j.renene.2020.06.003",
+    "pdf_basename": "2020_Tao_Wind_farm_layout_optimization_with_a_three_dimensional_Gaussian_wake_model.pdf",
+    "pdf_sha256": "385658381f3af634dc47ceafef8d03ece5cd6c0084eb0289da4810941b72fbd8",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV2",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D",
+    "secondary_review_classes": "REV4",
+    "title": "Wind farm layout optimization with a three-dimensional Gaussian wake model",
+    "venue": "Renewable Energy",
+    "year": 2020
+  },
+  "paper_linked_public_asset_candidates": [],
+  "paper_source_conflicts": [
+    "The spacing equation prints a strict inequality while the paper diagnostic uses exactly 5D."
+  ],
+  "predecessor_assets": [
+    {
+      "doi": "10.1007/s00158-012-0851-z",
+      "role": "direct mixed-discrete PSO predecessor",
+      "pdf_sha256": "5ea0011e876de7da09a70847fa6bc3bb1409dc43095e9c31451dd531bdcefeb1"
+    },
+    {
+      "doi": "10.1016/j.apenergy.2018.06.027",
+      "role": "single-wake equation predecessor",
+      "pdf_sha256": "e83ed8170d94375cd82e509aa4cc2868c47fe7c868de639bed89b6422bf2d978"
+    },
+    {
+      "doi": "10.1016/j.renene.2019.08.122",
+      "role": "multiple-wake equation predecessor",
+      "pdf_sha256": "e24faf6782fb69660f75b835fd85a2beb5b7c61aa0ceb30b5e6a80a7600a1b8c"
+    }
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 17,
+    "text_sha256": "0615d41c5dd251597221e1c181dd934f9556c7c2123948b162b9e5d31005a8ff"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [],
+    "embedded_annotation_urls": [],
+    "status": "no_paper_linked_public_asset_candidate_detected"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "academic declared reproduction of the target equations, MDPSO and ten unique paper optimization combinations; not author source, exact private figure arrays or curves, exact variable-cardinality encoding or numerical replay",
+    "execution_wave": "REV2",
+    "package_status": "implemented_h5_admitted_h6_and_formal_queued",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "wake_power_cost_or_physical_evaluator"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "paper_then_declared_completion",
+      "resolution": "farm and at-least-5D constraints; deterministic exact-capacity repair and Deb comparison",
+      "status": "implemented"
+    },
+    "decision_variables": {
+      "authority": "paper_equations_20_to_24",
+      "resolution": "uniform type plus coordinates; nonuniform type and coordinates per maximum slot",
+      "status": "implemented"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper_then_declared_completion",
+      "resolution": "nearest integer turbine type; zero is an inactive nonuniform slot",
+      "status": "implemented"
+    },
+    "initialization": {
+      "authority": "declared_completion",
+      "resolution": "counter-keyed shifted radical-inverse design",
+      "status": "implemented"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper_equations_16_to_19_then_platform_policy",
+      "resolution": "power, CF and efficiency for 25 independent seeds",
+      "status": "implemented"
+    },
+    "objective_and_direction": {
+      "authority": "paper",
+      "resolution": "maximize expected total wind-farm power",
+      "status": "implemented"
+    },
+    "paper_native_cases": {
+      "authority": "paper_sections_5_and_6",
+      "resolution": "ten unique combinations across uniform/nonuniform design, three farms and three wind scenarios",
+      "status": "implemented"
+    },
+    "parameters": {
+      "authority": "paper_then_predecessor_then_declared_completion",
+      "resolution": "published MDPSO settings and turbine tables; isolated wake, curve and velocity completions",
+      "status": "implemented"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper",
+      "resolution": "population 20D, 15000 uniform or 20000 nonuniform iterations, including initial population evaluations",
+      "status": "implemented"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "not_applicable",
+      "status": "not_applicable"
+    },
+    "update_order": {
+      "authority": "paper_equations_25_to_27_then_hpc_equivalence",
+      "resolution": "generation-global state frozen, particle updates parallel, global-best reduction ordered",
+      "status": "implemented"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_equations_1_to_19_then_predecessor",
+      "resolution": "3-D Gaussian wake, RSS superposition, three-point rotor average and completed turbine curves",
+      "status": "implemented"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper_then_declared_completion",
+      "resolution": "exact A/B descriptions and versioned 36-by-3 same-lineage Figure-11 completion for C",
+      "status": "implemented"
+    }
+  }
+}

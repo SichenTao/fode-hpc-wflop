@@ -1,0 +1,81 @@
+{
+  "schema_version": 1,
+  "campaign_id": "declared_alga_guishan_reconstruction_v1",
+  "suite_id": "declared_reconstruction_formal_suite_v1",
+  "status": "contract_frozen_not_launched",
+  "source_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
+  "capability_matrix_id": "gao_tao_wflop_global_execution_capability_matrix_step10_v1",
+  "package_id": "wflop_alga_transfer",
+  "semantic_group": {
+    "problem_id": "alga_guishan_planar_transfer",
+    "problem_semantics_id": "alga_guishan_planar_wind_fode_evaluator_transfer_v1",
+    "objective_signature": "maximize_joint_probability_weighted_expected_farm_power_kw",
+    "pooling_rule": "Guishan transfer results remain separate from fode_e0_common and every other problem semantic"
+  },
+  "profile_ids": ["alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer"],
+  "profile_records": [
+    {
+      "profile_id": "alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer",
+      "method_semantics_id": "alga_attention_declared_reconstruction_v1",
+      "problem_semantics_id": "alga_guishan_planar_wind_fode_evaluator_transfer_v1",
+      "method_evidence_tier": "M3_DECLARED_COMPLETION",
+      "problem_evidence_tier": "P3_DECLARED_PROXY",
+      "claim_boundary": "Fitness-supervised shallow attention engineering reconstruction on a composite planar transfer; no author ALGA, 3D Guishan, paper-result reproduction, local Spark speedup, or throughput-admission claim."
+    }
+  ],
+  "case_contract": "shared/contracts/alga_guishan_planar_transfer_cases.json",
+  "case_count": 1,
+  "optimization_seed_set_id": "declared_reconstruction_25_v1",
+  "optimization_seed_count": 25,
+  "physical_fes_per_run": 2430,
+  "physical_fes_definition": "one complete Guishan planar-transfer layout evaluation; training evaluations are excluded",
+  "formal_run_count": 25,
+  "formal_complete_layout_evaluations": 60750,
+  "execution": {
+    "device_mode": "cpu",
+    "workers": 20,
+    "processes_at_once": 1,
+    "cpu_work_partition": "one persistent 20-worker team partitions initialization, offspring construction, repair, and independent complete-layout evaluations; ordered model reductions and survival remain deterministic",
+    "gpu_used": false,
+    "binary_target": "wflop_cpp_hpc",
+    "binary_relative_path": "build/full/hpc/wflop_cpp/wflop_cpp_hpc",
+    "environment_contract_id": "spark_9b6f_cpu20_gcc11_release_v1",
+    "binary_source_commit": "3237c300b059f1e5ba7a07a4afbebc87059e78ca",
+    "clean_worktree_required": true,
+    "environment_receipt_required": true,
+    "environment_receipt_fields": ["hostname", "architecture", "os_release", "cpu_model", "visible_logical_cpus", "compiler_id", "compiler_version", "cmake_version", "build_type", "compiler_flags", "link_libraries", "binary_sha256", "source_commit", "git_status_porcelain"]
+  },
+  "training_work_separation": {
+    "optimization_seed_namespace": "optimization/declared_reconstruction_25_v1",
+    "training_seed_namespace": "training/alga_guishan_reconstruction_v1",
+    "namespaces_must_be_disjoint": true,
+    "training_profiles": {
+      "alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer": {
+        "generator": "deterministic online full-batch attention update from already evaluated current population",
+        "seed_source": "the optimization seed under a domain-separated attention-training event namespace",
+        "artifact_hash": "record learned-state hash in every run; no reusable external checkpoint",
+        "training_physical_fes": 0,
+        "inference_physical_fes_per_run": 2430,
+        "total_physical_fes_per_run": 2430
+      }
+    },
+    "training_work_and_training_fes_recorded_separately": true,
+    "training_fes_included_in_optimization_fes": false
+  },
+  "single_objective_reporting": {
+    "contract": "shared/contracts/single_objective_reporting_contract.json",
+    "contract_id": "declared_single_objective_reporting_v1",
+    "objective": {"direction": "maximize", "quantity": "expected_farm_power", "unit": "kW"},
+    "terminal_physical_fes": 2430,
+    "physical_fes_checkpoints": [25, 122, 243, 486, 1215, 1823, 2430],
+    "analysis": {"mode": "descriptive_only", "exact_case_count": 1, "hypothesis_count": 0},
+    "cross_case_pooling": false,
+    "cross_problem_semantics_pooling": false
+  },
+  "resume_policy": {
+    "result_key_fields": ["campaign_id", "profile_id", "problem_semantics_id", "case_id", "optimization_seed", "physical_fes_per_run", "binary_sha256", "environment_sha256", "source_commit"],
+    "reuse_only_complete_validated_results": true,
+    "atomic_commit": "write same-filesystem temporary result, flush and fsync, then rename",
+    "partial_results_are_never_reused": true
+  }
+}

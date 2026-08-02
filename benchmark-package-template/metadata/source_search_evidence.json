@@ -1,0 +1,56 @@
+{
+  "schema_version": 1,
+  "search_id": "REQUIRED_BOUNDED_SOURCE_SEARCH_ID",
+  "search_date_utc": "REQUIRED_YYYY_MM_DD",
+  "permission_ladder": [
+    {
+      "rank": 1,
+      "authority": "paper_and_supplement",
+      "required_effort": "read complete methods, algorithms, equations, tables, appendices, and machine-readable supplements",
+      "status": "REQUIRED_SEARCH_STATUS",
+      "evidence": ["REQUIRED_URL_OR_HASH"]
+    },
+    {
+      "rank": 2,
+      "authority": "author_repository_release_and_project_page",
+      "required_effort": "search author and organization accounts, release assets, branches, tags, archived project pages, and paper links",
+      "status": "REQUIRED_SEARCH_STATUS",
+      "evidence": ["REQUIRED_URL_OR_HASH"]
+    },
+    {
+      "rank": 3,
+      "authority": "publisher_and_data_repository",
+      "required_effort": "search publisher data, Code Ocean, Zenodo, institutional repositories, and DOI-linked datasets",
+      "status": "REQUIRED_SEARCH_STATUS",
+      "evidence": ["REQUIRED_URL_OR_HASH"]
+    },
+    {
+      "rank": 4,
+      "authority": "explicitly_cited_implementation",
+      "required_effort": "inspect every cited implementation that defines a missing transition, parameter, problem asset, or learned state",
+      "status": "REQUIRED_SEARCH_STATUS",
+      "evidence": ["REQUIRED_URL_OR_HASH"]
+    },
+    {
+      "rank": 5,
+      "authority": "same_author_predecessor",
+      "required_effort": "inspect same-author predecessor code and problem families while preserving a distinct semantic identity",
+      "status": "REQUIRED_SEARCH_STATUS",
+      "evidence": ["REQUIRED_URL_OR_HASH"]
+    }
+  ],
+  "bounded_negative_evidence": {
+    "query_log_path": "metadata/source_search_log.json",
+    "query_log_id": "REQUIRED_QUERY_LOG_ID",
+    "query_log_sha256": "REQUIRED_SHA256",
+    "searched_identifiers": ["REQUIRED_DOI", "REQUIRED_TITLE", "REQUIRED_ALGORITHM_NAME"],
+    "search_end_condition": "all five authority ranks inspected and immutable receipts recorded",
+    "unavailable_fields": ["REQUIRED_FIELD_OR_EMPTY_AFTER_COMPLETE_SEARCH"],
+    "negative_claim": "Only the listed fields were not found in the recorded bounded search; absence outside the searched surface is not claimed."
+  },
+  "reconstruction_permission": {
+    "allowed": false,
+    "gate": "Set true only after every permission-ladder row is completed; reconstruct only unavailable fields and preserve all higher-authority fields.",
+    "missing_fields_only": true
+  }
+}

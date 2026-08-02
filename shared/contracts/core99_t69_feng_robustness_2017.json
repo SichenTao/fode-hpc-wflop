@@ -1,0 +1,136 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T69",
+  "paper": {
+    "title": "Wind Farm Power Production in the Changing Wind: Robustness Quantification and Layout Optimization",
+    "authors": "Ju Feng and Wen Zhong Shen",
+    "doi": "10.1016/j.enconman.2017.06.005",
+    "venue": "Energy Conversion and Management 148, 2017",
+    "pdf_sha256": "4bd7222cd3b8399811bf2e9e7825ad7564a0d1f96f99972c2495093ec0f37f6e"
+  },
+  "authority_ladder": [
+    "target paper and accepted manuscript",
+    "directly cited T60 random-search paper",
+    "directly cited three-year joint-wind paper",
+    "pinned same-lineage PyWake Horns and V80 data",
+    "deterministic declared completion"
+  ],
+  "public_source_search": {
+    "date": "2026-07-31",
+    "queries": [
+      "exact title plus code",
+      "DOI plus GitHub",
+      "authors plus robustness layout source"
+    ],
+    "target_result": "DTU Orbit provides the accepted manuscript; no paper-linked implementation or numerical archive was located.",
+    "accepted_manuscript": "https://backend.orbit.dtu.dk/ws/portalfiles/portal/235761670/Accepted_preprint_2_.pdf",
+    "same_lineage_source": {
+      "url": "https://gitlab.windenergy.dtu.dk/TOPFARM/PyWake.git",
+      "revision": "5b07481ec9b3633a74844651648f266ba82a8b32",
+      "use": "Horns Rev 1 coordinates and Vestas V80 tables",
+      "license": "MIT"
+    }
+  },
+  "semantic_contract": {
+    "decision_variables": "continuous x,y coordinates for 80 identical V80-2MW turbines",
+    "constraints": "T60 Horns parallelogram and pairwise Euclidean distance at least 5D=400m",
+    "wake_and_power": "cited T60 Jensen expansion, partial overlap, RSS deficits and pinned V80 power/Ct curves",
+    "wind": "target-cited three-year hub-height Table-1 parameters, 12-sector piecewise joint PDF, 360 directions and integer speeds 3..25m/s",
+    "short_metric": "paper normalized 8-neighbor PSRI and literal Eq.4/6 VoP quadrature",
+    "long_metric": "1000 common lambda=1 Monte Carlo distributions with maximal A,c,f variations 0.2,0.1,0.5 and normalized frequencies",
+    "objectives": "five alpha short, five beta long and five gamma overall robustness cases",
+    "optimizer": "single incumbent; uniformly select a turbine and a random feasible position; strictly improving feasible trial commits",
+    "physical_fes": "one complete feasible layout robustness evaluation, including initial layout; 10000 per paper case",
+    "repeats": "one run per reported weight because the paper states no independent repeat count"
+  },
+  "paper_native_cases": {
+    "weights": [0.0, 0.05, 0.5, 0.95, 1.0],
+    "short_cases": 5,
+    "long_cases": 5,
+    "overall_cases": 5,
+    "physical_fes_each": 10000,
+    "long_scenarios": 1000,
+    "supplementary_conflict_overall_cases": 5
+  },
+  "missing_information_and_completions": [
+    {
+      "field": "author code, random states and numeric outputs",
+      "completion": "independent pure-C++ reconstruction with counter-keyed events and complete emitted layouts"
+    },
+    {
+      "field": "Horns coordinates, boundary and V80 curves",
+      "completion": "reuse pinned same-lineage PyWake assets already audited for T60"
+    },
+    {
+      "field": "which joint-PDF variant from the cited paper",
+      "completion": "use the cited piecewise Eq.8 because it preserves the exact 35 sector parameters varied by T69"
+    },
+    {
+      "field": "Monte Carlo samples and standard-deviation convention",
+      "completion": "one fixed counter-keyed lambda-PDF bank and sample standard deviation shared across every case"
+    },
+    {
+      "field": "power-surface boundary cells",
+      "completion": "3..25m/s target cells, zero-power speed neighbors outside the turbine operating interval and cyclic direction neighbors"
+    },
+    {
+      "field": "three-year ten-minute wind series",
+      "completion": "register as unavailable; do not claim or fabricate the paper's time-series ramp validation"
+    }
+  ],
+  "paper_conflicts": [
+    {
+      "field": "AEP hours",
+      "paper": "Eq.2 prints 8770 and calls it the hours in a year",
+      "resolution": "report both literal 8770-hour AEP and calendar 8760-hour AEP"
+    },
+    {
+      "field": "dimensionless joint density",
+      "paper": "Eq.4 carries the physical PDF unchanged after nondimensionalization",
+      "resolution": "preserve the literal formula, yielding the reported 1e-4 VoP order; document the omitted Jacobian"
+    },
+    {
+      "field": "Table-3 beta",
+      "paper": "Section 5 states beta=0.95 but Table 3 R_long=4.750 equals the beta=0.5 formula",
+      "resolution": "run separately labelled equation_declared and table3_compatible overall profiles"
+    }
+  ],
+  "method_semantic_id": "t69_random_position_rs_v1",
+  "problem_semantic_id": "t69_horns_changing_wind_robustness_declared_v1",
+  "protocol_semantic_id": "t69_native_15case_10000fes_v1",
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC",
+    "mathematical_reformulations": [
+      "one-moved-turbine O(360N) exact Jensen tensor update instead of O(360N^2) full reconstruction",
+      "reuse geometry over all 23 V80 speed states",
+      "exactly aggregate 30 direction cells per piecewise sector before 1000-scenario dot products",
+      "precompute a common immutable scenario weight bank",
+      "parallelize direction, PSRI and scenario axes on one persistent full-core team"
+    ],
+    "determinism": "fixed-index writes, ordered reductions/commits and counter-keyed events require exact one/all-worker fixed-work identity",
+    "local_h6_candidate": {
+      "work": "1000 physical evaluations for each short, long and overall objective",
+      "end_to_end_speedup": {"short": 9.909097147787923, "long": 7.856166492607113, "overall": 8.380153408311864},
+      "wake_speedup": {"short": 4.226396646537886, "long": 4.418230443302896, "overall": 4.21891644240887},
+      "metric_speedup": {"short": 10.947484593237979, "long": 9.085277067212516, "overall": 9.01739890746689},
+      "same_science_hash": true,
+      "status": "local candidate pending immutable Waffle confirmation"
+    }
+  },
+  "paper_reference_anchors": {
+    "mean_power_mw": 79.61,
+    "variability_of_power": 0.000263,
+    "long_term_mean_mw": 78.54,
+    "long_term_std_mw": 3.482,
+    "table3_long_robustness": 4.750
+  },
+  "local_reference_candidate": {
+    "mean_power_mw": 79.8317364327145,
+    "variability_of_power": 0.0002847282689270062,
+    "long_term_mean_mw": 78.83041466460006,
+    "long_term_std_mw": 3.626483840858159,
+    "table3_long_robustness": 4.662340977415658,
+    "status": "H5 candidate, not exact-number claim"
+  },
+  "claim_boundary": "Source-backed flexible academic reproduction of the complete changing-wind problem, robustness metrics, native sweeps and explicit conflict profiles; not author source, random state, unavailable time series or exact numerical replay."
+}

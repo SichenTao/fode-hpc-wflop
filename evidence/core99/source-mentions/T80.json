@@ -1,0 +1,12 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [],
+  "corpus_id": "T80",
+  "doi": "10.1016/j.enconman.2021.115047",
+  "embedded_annotation_asset_urls": [],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "89c73e7f261cbed357fa199f94e91d6c872b7c5227643296364b9608fa720f34",
+  "private_text_sha256": "e97ae4af4d706953065759646c8799fb84d67636189b19a1a64465782b8b3264",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": []
+}

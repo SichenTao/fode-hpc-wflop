@@ -1,0 +1,12 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [],
+  "corpus_id": "T85",
+  "doi": "10.1016/j.renene.2023.02.058",
+  "embedded_annotation_asset_urls": [],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "898e441b2d92c3c56d70dc3a6dd89ee27730550ac00e0905de8d7c02ca19ebc5",
+  "private_text_sha256": "bb2e8a6bce40102681b8d2b6e0eee98f2fe6d51c11247aae2e1587c8806e3751",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": []
+}

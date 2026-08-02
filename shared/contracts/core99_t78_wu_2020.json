@@ -1,0 +1,129 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T78",
+  "paper": {
+    "title": "Optimizing the Layout of Onshore Wind Farms to Minimize Noise",
+    "doi": "10.1016/j.apenergy.2020.114896",
+    "venue": "Applied Energy 267, 2020",
+    "pdf_sha256": "dac0b3af880a68f8497dd92c205aab9418511ced826ab2964edb32dca61d9da3"
+  },
+  "author_assets": {
+    "target_public_source_status": "Exact-title, DOI, author and GitHub repository searches on 2026-07-31 located no target source or machine-readable target arrays.",
+    "target_paper_asset": "The local 15-page Elsevier full text was hashed, rendered and audited.",
+    "cited_hubbard_record": {
+      "source": "NASA Technical Reports Server record 19910070917",
+      "availability": "Public bibliographic record; no downloadable file is attached to the record."
+    },
+    "omitted_noncontribution_baseline": "IA-PSO is unchanged prior work that the target explicitly uses only for calculation-time comparison; it is not a target contribution and does not block this paper-paired reproduction."
+  },
+  "missing_information": [
+    "target implementation and random states",
+    "machine-readable Norwegian wind-speed and direction time series",
+    "machine-readable 80-turbine FINO3 reference and optimized coordinates",
+    "observation-area quantization count m",
+    "DTU-10MW Hubbard blade and spectrum parameters B, phi, C0.7, sigma, S, h, chord, delta-l, Ka and Kb",
+    "Cp, Ct, lambda-opt and rated rotor speed used by the target runs",
+    "traditional-PSO population, c1/c2, velocity bounds and initialization",
+    "numeric values used for the paper's close-to-infinity penalties",
+    "explicit upper dBA boundary for the economically accepted limited slight-noise range"
+  ],
+  "paper_source_conflicts": [
+    "The case text calls FINO3 the reference wind farm although FINO3 is an offshore research platform and the study is framed as onshore.",
+    "The printed A-weighting equation uses natural-log typography although the acoustic-level equations and physical decibel definition require base-10 logarithms."
+  ],
+  "completion_decisions": [
+    "Retain the target contribution as traditional PSO applied to both strict-noise and economic-compensation layout problems.",
+    "Digitize the 80 Figure-4 coordinate markers using the plotted axes and clamp plot-resolution boundary overshoots to the Table-1 construction region.",
+    "Digitize the 12 Figure-5 direction totals, retain five published speed bands through their midpoints and normalize the resulting 60 states.",
+    "Quantize the 500 m square observation zone on a deterministic 5 by 5 grid because m is unpublished.",
+    "Retain the two Hubbard fourth/fifth blade-speed mechanisms, octave A weighting and logarithmic source superposition through a dimensionally consistent spectrum completion.",
+    "Calibrate only the unavailable additive acoustic constants to the published 48.60 dBA reference-layout anchor.",
+    "Calibrate only the unavailable wind-series mass to the published 4015.17 GWh reference-layout anchor.",
+    "Use Ct=0.8, lambda-opt=7.5 and rated rotor speed 9.6 rpm with the published DTU 10 MW cut-in/rated/cut-out and rotor dimensions.",
+    "Use population 100, c1=c2=2, a 10-percent velocity bound and reference-centred normal initialization.",
+    "Use deterministic iterative 4D spacing repair in addition to the target penalty because feasible initialization and repair are unpublished.",
+    "Use 1000000 as the declared finite close-to-infinity coefficient for strict noise and spacing violations.",
+    "Complete the paper's unquantified limited slight-noise range with the 50 dBA upper value of its stated 45--50 dBA recommended range: compensation begins above 45 dBA and the economic case is infeasible above 50 dBA.",
+    "Do not implement IA-PSO because it is an unchanged time-only comparison baseline rather than the target contribution."
+  ],
+  "method_semantic_id": "t78_traditional_pso_declared_v1",
+  "problem_semantic_id": "t78_fino3_noise_layout_two_case_declared_v1",
+  "protocol_semantic_id": "t78_native_2x10_repeat_declared_v1",
+  "paper_problem_roles": {
+    "roles": [
+      "Case A strict noise control: maximize annual energy with maximum observation-zone L10 at most 45 dBA and minimum spacing 4D",
+      "Case B economic compensation: maximize annual energy less 10000 kWh per dBA of excess observation-zone L10, with minimum spacing 4D"
+    ],
+    "registered_role_count": 2,
+    "formal_target_runs": 20
+  },
+  "physics": {
+    "wind": "declared deterministic digitization of Figure 5 into 12 directions by five speed bands",
+    "wake": "published Jensen kd=0.07, exact rotor/wake circle overlap and published linear multiple-deficit superposition",
+    "power": "published DTU 10 MW dimensions and operating bounds with declared cubic MPPT curve and reference-energy scale",
+    "noise": "published two-mechanism Hubbard structure, octave A weighting, logarithmic turbine accumulation, spatial max and probability-weighted L10 with declared missing constants",
+    "constraint": "published rectangular construction region, 4D minimum spacing, 45 dBA strict threshold and 10000 kWh/dBA economic compensation, plus declared 50 dBA economic upper acceptance bound"
+  },
+  "algorithm": {
+    "family": "traditional Kennedy-Eberhart particle swarm optimization",
+    "update": "paper equations v=v+c1*r1*(pbest-x)+c2*r2*(gbest-x), x=x+v without an added inertia term",
+    "declared_parameters": "population 100, c1=c2=2 and componentwise velocity bound at 10 percent of the coordinate range",
+    "initialization": "reference-centred normal perturbations plus deterministic 4D repair",
+    "stopping": "exactly 200 target update iterations"
+  },
+  "physical_fes_ledger": {
+    "unit": "one complete 80-turbine, 60-wind-state partial-wake, MPPT-energy, 25-observation-point Hubbard-spectrum, L10 and constraint evaluation",
+    "population": "every initial or updated particle consumes one physical FES",
+    "formal_run": "100 initial plus 200 by 100 updated evaluations equals 20100 physical FES"
+  },
+  "hpc_execution": {
+    "backend": "pure C++20 CPU-HPC",
+    "population_parallelism": "one persistent worker team evaluates and updates particles",
+    "evaluator_optimization": "fixed-size arrays, preallocated L10 histories, direction-level wake reuse across five speed bins, receiver-distance reuse across 60 states, turbine-state source-spectrum reuse across 25 receivers, and SIMD turbine reductions",
+    "ordered_semantics": "counter-keyed random events and ordered best updates preserve worker-count identity",
+    "h6_rule": "same complete strict-case source, seed, 20100 physical FES, decision, evaluation and hash with one versus all Waffle workers",
+    "formal_rule": "every paper repeat uses all Waffle cores and repeats execute sequentially without oversubscription"
+  },
+  "development_evidence_20260731": {
+    "all_h5_tests_pass": true,
+    "strict_full_scale_seed": 2026087799,
+    "strict_full_scale_workers": 20,
+    "strict_full_scale_physical_fes": 20100,
+    "strict_full_scale_seconds": 1.299875975,
+    "strict_full_scale_energy_gwh": 4033.2051536869185,
+    "strict_full_scale_maximum_l10_dba": 44.81870245746912,
+    "strict_full_scale_feasible": true
+  },
+  "development_h6_20260731": {
+    "case": "strict_noise_control",
+    "dimensions": 160,
+    "population": 100,
+    "generations": 200,
+    "physical_fes": 20100,
+    "one_worker_seconds": 16.708431845,
+    "twenty_worker_seconds": 1.299875975,
+    "evaluator_speedup": 13.15642169626735,
+    "algorithm_speedup": 11.212490543663435,
+    "end_to_end_speedup": 12.853866189041613,
+    "same_best_decision": true,
+    "same_best_evaluation": true,
+    "same_scientific_hash": true,
+    "comparison_boundary": "same pure-C++ implementation with one versus twenty Spark workers; not a MATLAB comparison"
+  },
+  "development_full_campaign_20260731": {
+    "completed_target_runs": 20,
+    "workers_per_run": 20,
+    "strict_repeats": 10,
+    "strict_mean_energy_gwh": 4040.182034333581,
+    "strict_standard_deviation_energy_gwh": 8.106037612629434,
+    "strict_maximum_l10_dba": 44.737378893330934,
+    "strict_median_seconds": 1.309255307,
+    "economic_repeats": 10,
+    "economic_mean_energy_gwh": 4043.319089632375,
+    "economic_standard_deviation_energy_gwh": 7.345408585531835,
+    "economic_maximum_l10_dba": 49.11961397176975,
+    "economic_median_seconds": 1.337200769,
+    "status": "pass"
+  },
+  "claim_boundary": "academic flexible reconstruction of traditional PSO and both paper-native noise-layout problems; not author code, native wind/layout/noise arrays, IA-PSO, random stream, or exact numerical optimum replay"
+}

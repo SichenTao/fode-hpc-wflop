@@ -1,0 +1,170 @@
+{
+  "schema_version": 1,
+  "corpus_id": "Y14",
+  "paper": {
+    "title": "Preference-Oriented Evolutionary Multi-Objective Energy-Noise Optimization for Fast Wind Farm Layout Design",
+    "authors": "Ya-Zhi Zhang and Sheng Huang and Juan Wei and Bing-Chuan Wang and Yun Feng and Yaonan Wang",
+    "doi": "10.1109/tste.2026.3661110",
+    "venue": "IEEE Transactions on Sustainable Energy",
+    "year": 2026,
+    "pdf_basename": "2026_Zhang_Preference_Oriented_Evolutionary_Multi_Objective_Energy_Noise_Optimization_for_Fast_Wind_Farm_Layout_Design.pdf",
+    "pdf_sha256": "1479f6921738c9485f27e181d515e21fcc6e52df67a2d1df8a6bf40e55665a08",
+    "primary_asset_status": "local_primary_pdf_hashed_rendered_and_audited",
+    "primary_review_class": "REV4",
+    "secondary_review_classes": "NONE",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D"
+  },
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 13,
+    "text_sha256": "26d34c54508411c80c4fd74a62c219ae4b076a0b81b37c034956f22497d513cd"
+  },
+  "authority_ladder": [
+    "target_journal_paper",
+    "target_rendered_equations_figures_and_tables",
+    "cited_standard_and_method_lineage",
+    "deterministic_declared_completion"
+  ],
+  "paper_linked_public_asset_candidates": [
+    "https://doi.org/10.1109/TSTE.2026.3661110"
+  ],
+  "public_asset_candidate_evidence": {
+    "status": "target final article found; exact-title DOI method author GitHub-code and institutional searches found no target code, measured arrays, seeds or result archive"
+  },
+  "paper_source_conflicts": [
+    "The nomenclature defines K as Weibull shape and C as scale, while Fig.5 labels K=8.3 and C=2.0; the plotted density peaking near 6m/s is consistent only with scale8.3 and shape2.0, so the figure-consistent interpretation controls.",
+    "Algorithm 1 advances n by NP, while the runtime explanation states infeasible trial vectors are not evaluated; nominal evaluation slots and physical FES are therefore reported separately."
+  ],
+  "missing_information": [
+    "target author source, random state, seeds and numeric result archive",
+    "real-world turbine coordinates and one-year direction-specific wind arrays",
+    "exact octave source spectrum, atmospheric absorption, ground and terrain settings",
+    "DE crossover rate, SFM learning period, overflow rule and detailed tie order"
+  ],
+  "completion_decisions": [
+    "Retain all six unique combinations of three farm sizes and original/adjusted preference stages, with ten formal seeds per role.",
+    "Use the figure-consistent Weibull scale8.3 shape2.0 and a normalized deterministic sixteen-sector digitization.",
+    "Use Table-II turbine/power constants, Table-III site/original reference points and Table-VI adjusted reference points literally.",
+    "Use a declared hard-ground ISO engineering specialization with printed 105dB per-band wording and standard octave attenuation coefficients.",
+    "Complete CR as0.9, LP as50, SFM as Laplace-smoothed rolling success/failure counts and scale clipping as [0.05,1.5].",
+    "Separate paper nominal evaluation slots from actual complete feasible-layout physical FES.",
+    "Use one persistent full-core team for frozen-generation offspring construction, feasible-trial evaluation and dominance rows with ordered commits."
+  ],
+  "dossier_status": "h5_admitted",
+  "formal_status": "ready_for_immutable_waffle_queue",
+  "hpc_admission": {
+    "H0": "complete_target_equation_figure_table_and_source_search_audit",
+    "H1": "complete_six_role_energy_noise_psdrde_fes_decomposition",
+    "H2": "complete_lookup_population_dominance_and_frozen_generation_parallel_analysis",
+    "H3": "complete_pure_cpp_persistent_all_core_implementation",
+    "H4": "complete_role_schedule_and_60run_formal_runner_preview",
+    "H5": "pass_cpp_python_constants_equations_constraints_slots_fes_and_schedule_validation",
+    "H6": "pass_local_six_role_one_twenty_fixed_work_candidate_pending_immutable_waffle_confirmation"
+  },
+  "scope": {
+    "scope_status": "paper_paired_hpc_implemented",
+    "execution_wave": "REV4",
+    "package_status": "h6_admitted_waffle_confirmation_and_formal_ready",
+    "target_contribution_type": "coupled_or_real_world_problem_and_method",
+    "claim_boundary": "source-backed flexible academic reconstruction of every target method component and six paper-native roles; not author code, private Gansu data, exact ISO site replay, random trajectory or numeric replay"
+  },
+  "semantic_contract": {
+    "decision_variables": {
+      "authority": "target_Eq1_and_Algorithm1",
+      "resolution": "2N continuous turbine coordinates",
+      "status": "implemented"
+    },
+    "encoding_and_decoder": {
+      "authority": "target_Section_IVB",
+      "resolution": "direct coordinate-pair layout encoding and local-DE coordinate-population recoding",
+      "status": "implemented_and_validated"
+    },
+    "constraints_and_repair": {
+      "authority": "target_Eq1_Algorithm3_and_Fig3",
+      "resolution": "rotor-radius boundary, sqrt8R pair distance and sequential repair up to N/2 replacements",
+      "status": "implemented_and_validated"
+    },
+    "objective_and_direction": {
+      "authority": "target_Eqs1_2_7",
+      "resolution": "minimize negative AEP and maximum receiver A-weighted SPL",
+      "status": "implemented"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "target_Eqs2_9_TableII_Figs5_6_plus_declared_acoustic_completion",
+      "resolution": "Jensen RSS wake, Gaussian SL113 power, Weibull AEP and ISO-lineage eight-band receiver SPL",
+      "status": "implemented_and_scalar_validated"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "target_Fig5_plus_declared_digitization",
+      "resolution": "sixteen direction probabilities and figure-consistent Weibull scale8.3 shape2.0",
+      "status": "implemented_and_normalization_validated"
+    },
+    "paper_native_cases": {
+      "authority": "target_TablesIII_V_VI_VII",
+      "resolution": "three farm sizes times original and adjusted preference stages",
+      "status": "implemented_and_runner_validated"
+    },
+    "initialization": {
+      "authority": "target_Algorithm1_plus_declared_completion",
+      "resolution": "counter-keyed feasible random coordinate layouts",
+      "status": "implemented_and_schedule_validated"
+    },
+    "parameters": {
+      "authority": "target_TableIV_plus_declared_completion",
+      "resolution": "NP50 Nf10 r=N/2 maxEvas150000; CR0.9 LP50 rolling SFM scale clamp [0.05,1.5]",
+      "status": "implemented"
+    },
+    "update_order": {
+      "authority": "target_Algorithms1_4",
+      "resolution": "partition NSDE localDE dual replacement feasible evaluation then non-r/crowding merge selection",
+      "status": "implemented_and_schedule_validated"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "target_Algorithm1_runtime_discussion_and_TableIV",
+      "resolution": "150000 nominal slots with separately counted feasible complete AEP-SPL physical FES",
+      "status": "implemented_and_formal_ready"
+    },
+    "metrics_and_repeats": {
+      "authority": "target_SectionV_TablesV_VII_plus_platform_contract",
+      "resolution": "preferred front AEP SPL slots FES timing workers hash; ten independent seeds per role",
+      "status": "implemented_and_runner_validated"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "Y14 p-SDRDE has adaptive memory but no trained model",
+      "status": "not_applicable"
+    }
+  },
+  "development_h6_20260801": {
+    "work": "all six roles, population50 and 5000 nominal evaluation slots",
+    "evaluator_speedup_range": {"minimum": 5.875078435905173, "maximum": 9.790447662391598},
+    "end_to_end_speedup_range": {"minimum": 2.440572673091742, "maximum": 6.323915924690746},
+    "all_roles_same_front_physical_fes_and_hash": true,
+    "comparison_boundary": "same pure-C++ implementation with one versus twenty Spark workers; not MATLAB, author-code or Waffle confirmation",
+    "status": "local_candidate_pending_immutable_waffle_confirmation"
+  },
+  "development_paper_parameter_preview_20260801": {
+    "roles": 6,
+    "runs_per_role": 1,
+    "population": 50,
+    "maximum_evaluation_slots": 150000,
+    "completed_runs": 6,
+    "runtime_seconds_range": [1.026694924, 2.60726658],
+    "claim_boundary": "local functional single-seed preview; not the ten-seed formal matrix or author numeric replay"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/zhang_y14.hpp",
+    "hpc/core99_cpp/src/zhang_y14.cpp",
+    "hpc/core99_cpp/src/zhang_y14_main.cpp",
+    "hpc/core99_cpp/tests/zhang_y14_test.cpp",
+    "scripts/validate_core99_y14.py",
+    "scripts/run_core99_y14_h6_formal.py",
+    "scripts/run_core99_y14_when_waffle_free.sh",
+    "shared/contracts/core99_y14_zhang_2026.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/Y14_H0_H4_mathematical_hpc_analysis_20260801.md",
+    "evidence/development/Y14_h5_independent_validation_20260801.json"
+  ]
+}

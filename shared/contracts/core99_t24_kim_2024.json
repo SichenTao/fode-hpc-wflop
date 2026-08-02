@@ -1,0 +1,124 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T24",
+  "paper": {
+    "title": "Optimization of a Wind Farm Layout to Mitigate the Wind Power Intermittency",
+    "doi": "10.1016/j.apenergy.2024.123383",
+    "pdf_sha256": "4c52c0959955919ebb512b6a601eb568bc52fc188030d723fce80bd964194e53"
+  },
+  "public_source_search": {
+    "date": "2026-07-31",
+    "queries": [
+      "exact title plus code",
+      "DOI plus GitHub",
+      "author plus wind power intermittency plus GitHub",
+      "exact title plus arXiv and preprint"
+    ],
+    "result": "publisher article and APS abstract found; no paper-linked optimizer, evaluator, wind arrays, layouts, or result-replay source located"
+  },
+  "paper_internal_provenance_conflict": {
+    "section_3_1": "hourly Korea Meteorological Administration data measured at Marado from 2002 through 2022 were used",
+    "data_availability": "No data was used for the research described in the article.",
+    "resolution": "preserve both statements; do not claim original-data replay"
+  },
+  "problem_semantic_id": "t24_kim_markov_intermittency_six_case_v1",
+  "method_semantic_id": "t24_nsga3_markov_intermittency_declared_reconstruction_v1",
+  "paper_equations": {
+    "wake": "Eqs. 1-6: three-dimensional Gaussian wake, atmospheric log law, and linear local-inlet deficit superposition",
+    "intermittency": "Eqs. 21-22: stationary Markov wind probabilities and thresholded expected absolute power transition",
+    "optimization": "Eqs. 23-26: reciprocal mean-power and intermittency minimization with square and greater-than-3D spacing constraints",
+    "algorithm": "Eqs. 27-28 and Section 3.3: real-coded NSGA-III with uniform reference lines"
+  },
+  "paper_native_optimization_cases": [
+    "uniform_p0",
+    "uniform_p007",
+    "uniform_p015",
+    "real_p0",
+    "real_p007",
+    "real_p015"
+  ],
+  "physics_validation_fixture": {
+    "turbines": 3,
+    "speeds_mps": [7.0, 9.0],
+    "directions_deg": [0.0, 30.0],
+    "upstream_y_over_d": [5.0, 2.1, 3.6]
+  },
+  "paper_fixed_controls": {
+    "turbine": "Vestas V112, D=112 m, hub=84 m, rated=3 MW",
+    "farm": "25 turbines in [0,20D] by [0,20D], spacing greater than 3D",
+    "wind_states": "nine speeds by sixteen directions",
+    "threshold_fractions_of_75MW": [0.0, 0.07, 0.15],
+    "population": 92,
+    "reference_intervals": 91,
+    "crossover_probability": 1.0,
+    "mutation_probability": "1/(2N)=1/50 per coordinate",
+    "convergence": "relative hypervolume change below 0.01 percent after more than 1000 iterations"
+  },
+  "missing_information": [
+    "author in-house source and random states",
+    "raw 2002-2022 hourly Marado wind data",
+    "machine-readable 144-state wind rose and Markov matrices",
+    "machine-readable V112 power and thrust curves and rotor quadrature",
+    "initialization and constraint repair",
+    "R1 and R2 random laws and polynomial mutation distribution index",
+    "hypervolume reference point and maximum non-convergence stopping limit",
+    "repeat count, raw fronts, and optimized coordinates"
+  ],
+  "declared_completions": {
+    "wind": {
+      "speeds_mps": [2.0, 5.0, 7.0, 9.0, 11.0, 13.0, 15.0, 18.0, 23.0],
+      "speed_probabilities": [0.07, 0.21, 0.19, 0.16, 0.13, 0.1, 0.07, 0.05, 0.02],
+      "real_direction_probabilities": [0.025, 0.02, 0.02, 0.02, 0.025, 0.03, 0.04, 0.06, 0.18, 0.12, 0.08, 0.06, 0.08, 0.16, 0.06, 0.04],
+      "uniform_direction_probabilities": "1/16",
+      "transition": "reversible local speed and periodic direction Metropolis kernels whose stationary distribution exactly equals the declared wind rose; direction proposal scale 24.8 degrees",
+      "claim": "figure-constrained deterministic reconstruction, not original Marado arrays"
+    },
+    "wake": {
+      "curve_source": "integer-speed digitization of paper Fig. 5",
+      "rotor_quadrature": "eight deterministic equal-area points",
+      "roughness_height_m": 0.0001,
+      "ambient_turbulence": 0.057,
+      "wake_growth_rate": 0.0256
+    },
+    "algorithm": {
+      "crossover": "Eq. 27 with independent uniform R1 per coordinate",
+      "mutation": "bounded Deb polynomial mutation with index 20 and probability 1/50 per coordinate",
+      "repair": "deterministic clamp and pair-spacing repair with reference-lattice fallback",
+      "minimum_generations": 1000,
+      "maximum_generations": 2000,
+      "formal_generations": 1000,
+      "repeats": 25
+    }
+  },
+  "formal_protocol": {
+    "semantic_id": "t24_six_case_nsga3_25seed_v1",
+    "case_count": 6,
+    "repeats_per_case": 25,
+    "population": 92,
+    "generations": 1000,
+    "complete_layout_evaluations_per_run": 92092,
+    "formal_run_count": 150,
+    "total_complete_layout_evaluations": 13813800,
+    "target_only": true
+  },
+  "hpc": {
+    "backend": "pure C++20 CPU",
+    "executor": "one persistent all-core team",
+    "parallel_regions": [
+      "population initialization and repair",
+      "offspring construction",
+      "complete-layout population evaluation",
+      "dominance rows",
+      "reference-line association"
+    ],
+    "mathematical_reformulations": [
+      "wind geometry sorted once per direction and reused over nine speeds",
+      "sparse reversible Markov transitions replace dense zero-negligible entries",
+      "turbine curves, rotor quadrature, transition weights, and reference lines are immutable",
+      "outer candidate parallelism avoids nested oversubscription",
+      "counter-keyed random events and fixed reductions preserve one/all-core scientific identity"
+    ],
+    "formal_resource_rule": "one process owns all twenty Waffle cores; six cases and 25 seeds execute sequentially"
+  },
+  "claim_boundary": "Academic flexible paper-equation and figure-constrained reconstruction of target NSGA-III and all six paper optimization cases; not author code, original Marado data, private arrays, random states, or numerical replay."
+}

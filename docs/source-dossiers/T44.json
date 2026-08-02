@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T44",
+  "doi": "10.1016/j.energy.2025.137885",
+  "title": "Discrete Bi-Population Differential Evolution for Optimizing Complex Wind Farm Layouts in Diverse Terrains",
+  "query_date": "2026-07-29",
+  "search_basis": [
+    "Shangce Gao homepage corpus refreshed at 2026-07-29T02:36:14Z",
+    "repository source_asset_registry and paper/problem ledgers",
+    "bounded authority ladder recorded below"
+  ],
+  "conclusion": "public_asset_found",
+  "searched_authorities": [
+    {
+      "authority": "official_author_homepage",
+      "url": "https://toyamaailab.github.io/publications.html",
+      "query": "\"10.1016/j.energy.2025.137885\" \"Discrete Bi-Population Differential Evolution for Optimizing Complex Wind Farm Layouts in Diverse Terrains\"",
+      "result": "refreshed_homepage_snapshot_checked"
+    },
+    {
+      "authority": "doi_publisher_supplement_and_data_statement",
+      "url": "https://doi.org/10.1016/j.energy.2025.137885",
+      "query": "10.1016/j.energy.2025.137885",
+      "result": "paper_and_existing_supplement_ledger_checked"
+    },
+    {
+      "authority": "paper_author_or_coauthor_linked_repository",
+      "url": "https://raw.githubusercontent.com/toyamaailab/toyamaailab.github.io/main/resource/BDE-WindFarm_code.zip",
+      "query": "\"10.1016/j.energy.2025.137885\" \"Discrete Bi-Population Differential Evolution for Optimizing Complex Wind Farm Layouts in Diverse Terrains\"",
+      "result": "direct_asset_recorded"
+    },
+    {
+      "authority": "author_coauthor_github",
+      "url": "https://github.com/search?q=10.1016%2Fj.energy.2025.137885&type=repositories",
+      "query": "10.1016/j.energy.2025.137885",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "general_research_data_repositories",
+      "url": "https://zenodo.org/search?q=10.1016%2Fj.energy.2025.137885",
+      "query": "10.1016/j.energy.2025.137885; Figshare; OSF; institutional repository",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "cited_implementation_and_predecessor_work",
+      "url": "https://doi.org/10.1016/j.energy.2025.137885",
+      "query": "Discrete Bi-Population Differential Evolution for Optimizing Complex Wind Farm Layouts in Diverse Terrains cited implementation predecessor",
+      "result": "paper_reference_and_project_ledger_checked"
+    },
+    {
+      "authority": "same_author_problem_or_method_family",
+      "url": "https://toyamaailab.github.io/sourcedata.html",
+      "query": "Jiayi Li; Zihang Zhang; Tao Zheng; Jun Tang; Zhenyu Lei; Shangce Gao wind farm source data",
+      "result": "refreshed_source_page_and_lineage_ledger_checked"
+    }
+  ],
+  "discovered_assets": [
+    {
+      "authority": "official_homepage_archive",
+      "url": "https://raw.githubusercontent.com/toyamaailab/toyamaailab.github.io/main/resource/BDE-WindFarm_code.zip",
+      "revision_or_sha256": "archive:sha256:f4a317d4d727a9d452f76376373e2c8ad5546e35ff19530eda0ba328682dd140;BDE.m:sha256:0a0bf2845857ce91c2d1284233b2ab1963b081d7a2e46ca8314d7b2e32c2d58d",
+      "license_observation": "no_license_file_found",
+      "redistribution_policy": "do_not_redistribute",
+      "relationship": "direct_target_or_project_author_asset"
+    }
+  ],
+  "available_evidence": [
+    "validated_complete",
+    "official_source_hashed_no_license"
+  ],
+  "missing_method_or_problem_fields": [
+    "paper WS5 eight-speed twelve-direction array",
+    "paper WS6 eight-speed sixteen-direction array",
+    "author adjudication of 250 m Daegwallyeong spacing in the paper versus 231 m in main_D.m",
+    "author adjudication of the paper and source fractional scale schedules",
+    "author adjudication of the stated 10000 evaluations versus source initialization plus 400 half-population generations"
+  ],
+  "negative_evidence_boundary": "Search is dated and bounded; later author releases require a new dossier."
+}

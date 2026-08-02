@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T19",
+  "doi": "10.1016/j.energy.2021.120035",
+  "paper_pdf_sha256": "761c90c22671dfe350770cbee2419f80dbab7a48f6f7773904b1544981ce4c6e",
+  "private_text_sha256": "c287fedefaeaf7112e4e8c7591fa7f1b3990186cf04f042306ef7885de4774fc",
+  "availability_mention_line_numbers": [896, 898, 1805, 1807],
+  "embedded_annotation_asset_urls": [],
+  "single_line_text_asset_url_candidates": [
+    "http://pub.ist.ac.at/~vnk/software/SRMP-v1.01.zip",
+    "http://cs.nyu.edu/~dsontag/code/mplp_ver2.tgz"
+  ],
+  "candidate_public_asset_urls": [
+    "https://pub.ist.ac.at/~vnk/software/SRMP-v1.01.zip",
+    "http://cs.nyu.edu/~dsontag/code/mplp_ver2.tgz"
+  ],
+  "audited_supporting_urls": [
+    "https://enricoantonini.com/papers/Dhoot%20et%20al.%20%282021%29%2C%20Optimizing%20wind%20farms%20layouts%20for%20maximum%20energy%20production%20using%20probabilistic%20inference%20-%20Benchmarking%20reveals%20superior%20computational%20efficiency%20and%20scalability.pdf",
+    "https://central.bac-lac.gc.ca/.item?app=Library&id=TC-OTU-72692&oclc_number=1032965484&op=pdf"
+  ],
+  "interpretation": "The paper-linked SRMP v1.01 archive is accessible, hash-pinned and GPL-3.0-or-later. The cited GEMPLP URL returns HTTP 403 and the target authors' modified generator is unpublished. The author manuscript and predecessor thesis were audited as supporting evidence; neither supplies beta, cluster lists, exact rounding or numeric WR-36."
+}

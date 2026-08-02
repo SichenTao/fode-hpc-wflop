@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0373",
+  "status": "pass_local_h5_and_h6_candidate",
+  "paper_pdf_sha256": "a0e5b3c2fe2a24e870e7b17c0220d71a644e96e6fd87b4087f3fb9d0c6555f50",
+  "paper_text_sha256": "72122fbd2c6358182606c6cf78c793900cf6fac43e2ba3818566a594ae1a5cdd",
+  "arxiv_source_archive_sha256": "6c5dd1b686f0501051974d4d464a44ca5283847b34a459d6e4daf5535bcbef9c",
+  "cited_dependency": {
+    "repository": "https://github.com/TUDelft-DataDrivenControl/FLORISSE_M",
+    "license": "MIT",
+    "commit": "36cb0a0295d2a1e05640fdbbcb9bb361ac8d592e",
+    "archive_sha256": "451150ba62b242353f9bdaa5e5bef10cad5d63e0e3841d625838572d9f0c1f75",
+    "relationship": "cited wake-model lineage completion, not target DBHM source"
+  },
+  "binary_sha256": "9e46a3519c1d029830ddb40b0cfd855edc1e61eadf2bea9218ad41285b5fcf4c",
+  "strict_build": "pass with -Wall -Wextra -Wpedantic -Werror",
+  "ctest": {
+    "core99_l0373_cpp": "pass",
+    "core99_l0373_h5": "pass"
+  },
+  "validated": [
+    "six paper-native profile identities and every printed AEP, illustrative-position and computation-time anchor",
+    "36-sector probability normalization and 4D spacing constraint",
+    "independent heterogeneous-control no-wake power sum",
+    "all illustration and Cases1-5 role cardinalities",
+    "feasibility, efficiency and control/joint incumbent relations",
+    "complete layout and single-wind state physical work receipts",
+    "one-worker and multi-worker cases, controls, layouts, work and hash identity",
+    "six-profile resumable formal runner"
+  ],
+  "local_h6_candidate": {
+    "profile": "n16-w36",
+    "pso_trials": 10,
+    "pso_population": 40,
+    "pso_iterations": 30,
+    "complete_layout_evaluations": 12401,
+    "single_wind_state_evaluations": 536219,
+    "one_worker_end_to_end_seconds": 14.42695082,
+    "all_worker_end_to_end_seconds": 1.38705429,
+    "end_to_end_speedup": 10.401143577444254,
+    "isolated_layout_speedup": 10.431652461374464,
+    "control_speedup": 11.409734882515318,
+    "dbhm_speedup": 10.195709788956817,
+    "requested_and_observed_all_workers": [20, 20],
+    "scientific_identity": true,
+    "status": "local_candidate_pending_immutable_waffle_confirmation"
+  },
+  "local_runner_smoke": {
+    "status": "pass",
+    "paper_native_profiles": 6,
+    "profile_shapes": ["3x1", "3x1", "16x36", "16x360", "80x12", "80x180"],
+    "configuration": "one PSO trial, population8, one PSO iteration, one control pass and one DBHM iteration",
+    "purpose": "minimum-work runner and role-coverage gate only"
+  },
+  "local_paper_native_campaign_candidate": {
+    "status": "pass_pending_immutable_waffle_confirmation",
+    "paper_native_profiles": 6,
+    "complete_layout_evaluations": 51988,
+    "single_wind_state_evaluations": 8977948,
+    "summed_end_to_end_seconds": 277.890332634,
+    "all_profiles_and_roles_valid": true
+  },
+  "claim_boundary": "Flexible academic reconstruction; not author target code, exact MATLAB/FLORISSE-M adaptation, private arrays, trajectories or numerical replay."
+}

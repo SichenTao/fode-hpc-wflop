@@ -1,0 +1,18 @@
+{
+  "schema_version": 1,
+  "profile_id": "REQUIRED_PROFILE_ID",
+  "method_semantics_id": "REQUIRED_METHOD_SEMANTICS_ID",
+  "problem_semantics_id": "REQUIRED_PROBLEM_SEMANTICS_ID",
+  "method_evidence_tier": "REQUIRED_M0_TO_M4",
+  "problem_evidence_tier": "REQUIRED_P0_TO_P4",
+  "claim_boundary": "REQUIRED_POSITIVE_DESCRIPTION_AND_EXPLICIT_EXCLUSIONS",
+  "prohibited_claims": ["REQUIRED_UNSUPPORTED_ORIGINAL_REPRODUCTION_CLAIM"],
+  "pooling_key": ["method_semantics_id", "problem_semantics_id", "case_semantic_hash", "objective_signature", "physical_fes_contract_id"],
+  "non_pooling_rules": [
+    "Different method semantic IDs are never merged as one method.",
+    "Different problem semantic IDs or case semantic hashes are never merged as one problem.",
+    "Proxy, transfer, source replay, sensitivity, and original profiles remain distinct.",
+    "Raw objective values from different units, objective signatures, or normalization contracts are never ranked together."
+  ],
+  "formal_admission_status": "template_blocked"
+}

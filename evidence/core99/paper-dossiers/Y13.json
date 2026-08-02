@@ -1,0 +1,146 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "Retain all four paper grids, exactly half-cell turbine cardinality, 5D pitch, NREL 5 MW identity and 36 ten-degree wind directions.",
+    "Use the public accepted manuscript for the cited Frandsen-Gaussian equations and reconstruct the missing Danish scenario values without optimized-result calibration.",
+    "Correct the printed maximization/minimization sign mismatch and add a tight binary implication to the uninstalled-target power-loss row.",
+    "Replace unavailable Gurobi by pinned HiGHS and a 33-tangent epigraph approximation with an explicit x-squared error bound.",
+    "Implement the full l2-box consensus ADMM lifecycle, adaptive rho, deterministic sphere-centre direction and exact-cardinality final rounding.",
+    "Parallelize immutable wake preparation and all 36 scenario subproblems using a persistent all-core C++ team without nested solver threads.",
+    "Execute one deterministic native run for each paper case; count scenario subproblem solves separately from complete-layout evaluations."
+  ],
+  "corpus_id": "Y13",
+  "dossier_status": "h5_admitted",
+  "formal_status": "runner_ready_for_waffle_after_t26",
+  "hpc_admission": {
+    "H0": "complete_formula_source_data_gap_sign_and_complexity_audit",
+    "H1": "complete_four_case_scenario_matrix_and_consensus_work_decomposition",
+    "H2": "complete_memory_sparse_subproblem_and_parallel_axis_analysis",
+    "H3": "complete_pure_cpp_fg_admm_and_pinned_highs_epigraph_implementation",
+    "H4": "complete_local_full_budget_one_twenty_worker_profile",
+    "H5": "pass_four_case_geometry_cardinality_aep_rounding_and_determinism_validation",
+    "H6": "pass_local_provisional_waffle_authoritative_runner_ready"
+  },
+  "missing_information": [
+    "target Gurobi source, version, model, parameters, basis and solver state",
+    "warm-start algorithm, layouts and reported 100-second warm-start artifact",
+    "36 Danish wind probabilities and speeds from cited DOI 10.1109/TII.2025.3538067",
+    "exact NREL 5 MW curve revision, ADMM tolerance, adaptive-rho rule and sphere-centre tie",
+    "complete author layouts, convergence histories and machine timing receipts"
+  ],
+  "paper": {
+    "authors": "Yunfei Du and Xinwei Shen and Yangfan Luo and Zehai Huang and Boan Lu",
+    "doi": "10.1109/tste.2025.3609006",
+    "pdf_basename": "2026_Du_A_Generic_Acceleration_Framework_for_Grid_Based_Wind_Farm_Layout_Optimization.pdf",
+    "pdf_sha256": "7f3e0fefd9467db259b5a221d1e2042b244813d6bd3eaa08ccc645d4769c4a2f",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV5",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "NONE",
+    "title": "A Generic Acceleration Framework for Grid-Based Wind Farm Layout Optimization",
+    "venue": "IEEE Transactions on Sustainable Energy",
+    "year": 2026
+  },
+  "paper_linked_public_asset_candidates": [
+    "https://pure.royalholloway.ac.uk/ws/files/33855968/FINAL_VERSION_Siyu_I.pdf",
+    "https://doi.org/10.1109/TII.2025.3538067"
+  ],
+  "paper_source_conflicts": [
+    "The target prints a maximization Lagrangian with positive squared penalties and then defines the x update by arg-min; the standard convex negative-objective form controls execution.",
+    "Printed Equation 1d remains active for x_i=0 and can reject a valid uninstalled cell; a tight M(1-x_i) implication restores the intended binary semantics.",
+    "No target code exists to resolve the set-valued sphere projection at its centre; the exact-cardinality warm-start direction controls the deterministic tie.",
+    "Pinned HiGHS' active-set QP returns a degeneracy solve error on a verified-feasible generated model; the admitted 33-tangent epigraph realization has an explicit approximation bound."
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 4,
+    "text_sha256": "693aa8c1bec28f59f7904d55685dc40c58ec761f34ec007fa7e9436f05259bcb"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [],
+    "embedded_annotation_urls": [],
+    "status": "no_target_source_or_data_found_one_cited_public_model_manuscript_audited"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "equation-level flexible academic reproduction of four problems and complete l2-box ADMM; not author Gurobi code Danish data warm start numerical table identity trajectory or timing replay",
+    "execution_wave": "REV5",
+    "package_status": "h5_admitted_h6_and_four_run_formal_ready",
+    "scope_status": "paper_paired_hpc_implemented",
+    "target_contribution_type": "scaling_computation_or_reproducible_execution"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "paper_plus_mathematical_consistency_correction",
+      "resolution": "exact half-cell cardinality, bounded continuous copies, l2 sphere and tight implication completion of the uninstalled-target wake row",
+      "status": "implemented_and_validated"
+    },
+    "decision_variables": {
+      "authority": "paper",
+      "resolution": "one binary installation variable and one power variable per grid cell and wind scenario, represented through scenario-local continuous copies plus consensus",
+      "status": "implemented"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper_plus_deterministic_completion",
+      "resolution": "l2-box continuous equivalence during ADMM and stable top-cardinality binary rounding at output",
+      "status": "implemented"
+    },
+    "initialization": {
+      "authority": "paper_plus_declared_completion",
+      "resolution": "paper warm start and 100-second artifact unavailable; use deterministic exact-cardinality boundary-priority layout and zero duals",
+      "status": "implemented_with_declared_reconstruction"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper",
+      "resolution": "one deterministic run for each of four native cases; AEP, rounding, residuals, solver work, timing, layout and hash recorded",
+      "status": "implemented_runner_ready"
+    },
+    "objective_and_direction": {
+      "authority": "paper_equations_1_to_3",
+      "resolution": "maximize probability-duration-weighted annual generation under precomputed pair power loss; execute as minimization of its negative",
+      "status": "implemented"
+    },
+    "paper_native_cases": {
+      "authority": "paper",
+      "resolution": "6x6 with 18, 10x10 with 50, 16x16 with 128, and 20x20 with 200 NREL 5 MW turbines",
+      "status": "implemented"
+    },
+    "parameters": {
+      "authority": "paper_cited_model_and_declared_completion",
+      "resolution": "36 ten-degree directions, 5D pitch, initial rho 0.5, zero duals, ten iterations, cited F-G equations and declared adaptive-rho/tolerance rules",
+      "status": "implemented"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper_plus_explicit_work_ledger",
+      "resolution": "at most ten ADMM iterations; 36 scenario subproblem solves per iteration; two complete-layout evaluations per run; no EA FES label",
+      "status": "implemented_and_audited"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "Y13 has no learned model",
+      "status": "not_applicable"
+    },
+    "update_order": {
+      "authority": "paper_algorithm_1_plus_deterministic_hpc_completion",
+      "resolution": "all scenario x updates then local box/sphere projections then ordered consensus then dual updates; fixed scenario slots and reductions",
+      "status": "implemented_and_schedule_validated"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_and_cited_public_fg_manuscript",
+      "resolution": "Frandsen-Gaussian pair velocity and power loss precomputed for every scenario and grid pair; optimized table values excluded from calibration",
+      "status": "implemented_with_declared_resource_reconstruction"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper_plus_declared_reconstruction",
+      "resolution": "36 directions at exact 10-degree spacing with normalized smooth Danish-sector weights and disclosed direction-dependent rated-region speeds",
+      "status": "implemented_with_declared_reconstruction"
+    }
+  }
+}

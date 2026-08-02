@@ -1,0 +1,102 @@
+{
+  "algorithms": {
+    "c-nsgaii": {
+      "archive_size": 35,
+      "four_worker_scientific_hash": 12374961421690491127,
+      "hypervolume": 0.6775764740764832,
+      "one_worker_scientific_hash": 12374961421690491127,
+      "physical_fes": 220,
+      "worker_identity": true
+    },
+    "mogomea": {
+      "archive_size": 23,
+      "four_worker_scientific_hash": 12782746676748332243,
+      "hypervolume": 0.678118014542222,
+      "one_worker_scientific_hash": 12782746676748332243,
+      "physical_fes": 300,
+      "worker_identity": true
+    },
+    "nsgaii": {
+      "archive_size": 33,
+      "four_worker_scientific_hash": 7455609201616325258,
+      "hypervolume": 0.677238079520266,
+      "one_worker_scientific_hash": 7455609201616325258,
+      "physical_fes": 220,
+      "worker_identity": true
+    },
+    "omogomea": {
+      "archive_size": 25,
+      "four_worker_scientific_hash": 3484510089914051519,
+      "hypervolume": 0.6741214041433419,
+      "one_worker_scientific_hash": 3484510089914051519,
+      "physical_fes": 300,
+      "worker_identity": true
+    }
+  },
+  "case_count": 12,
+  "corpus_id": "T10",
+  "fixed_resolution_role_count": 192,
+  "formal_receipt_count": 1960,
+  "independent_equation_errors": {
+    "t10_A_2": {
+      "efficiency_abs_error": 0.0,
+      "energy_abs_error": 0.0
+    },
+    "t10_A_4": {
+      "efficiency_abs_error": 0.0,
+      "energy_abs_error": 0.0
+    },
+    "t10_A_8": {
+      "efficiency_abs_error": 0.0,
+      "energy_abs_error": 0.0
+    },
+    "t10_B_2": {
+      "efficiency_abs_error": 0.0,
+      "energy_abs_error": 0.0
+    },
+    "t10_B_4": {
+      "efficiency_abs_error": 0.0,
+      "energy_abs_error": 0.0
+    },
+    "t10_B_8": {
+      "efficiency_abs_error": 0.0,
+      "energy_abs_error": 0.0
+    },
+    "t10_C_2": {
+      "efficiency_abs_error": 0.0,
+      "energy_abs_error": 0.0
+    },
+    "t10_C_4": {
+      "efficiency_abs_error": 0.0,
+      "energy_abs_error": 0.0
+    },
+    "t10_C_8": {
+      "efficiency_abs_error": 0.0,
+      "energy_abs_error": 0.0
+    },
+    "t10_D_2": {
+      "efficiency_abs_error": 0.0,
+      "energy_abs_error": 0.0
+    },
+    "t10_D_4": {
+      "efficiency_abs_error": 0.0,
+      "energy_abs_error": 0.0
+    },
+    "t10_D_8": {
+      "efficiency_abs_error": 5.551115123125783e-16,
+      "energy_abs_error": 3.3306690738754696e-16
+    }
+  },
+  "multi_resolution": {
+    "algorithm": "nsgaii",
+    "completed_grid_step_diameters": 2,
+    "four_worker_scientific_hash": 7481589112527860473,
+    "one_worker_scientific_hash": 7481589112527860473,
+    "physical_fes": 1252,
+    "worker_identity": true
+  },
+  "multi_resolution_role_count": 4,
+  "schema_version": 1,
+  "status": "pass",
+  "worker_identity": true
+}

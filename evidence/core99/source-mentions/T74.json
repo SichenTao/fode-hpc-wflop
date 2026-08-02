@@ -1,0 +1,20 @@
+{
+  "availability_mention_line_numbers": [
+    85
+  ],
+  "candidate_public_asset_urls": [
+    "https://github.com/JuXinglong/WFLOP_Python"
+  ],
+  "corpus_id": "T74",
+  "doi": "10.1016/j.apenergy.2019.04.084",
+  "embedded_annotation_asset_urls": [
+    "https://github.com/JuXinglong/WFLOP_Python"
+  ],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "62f93d5942ddbc2fd7e94eebf52544de9da3147b55729fd643034362f5004c6f",
+  "private_text_sha256": "801247c3b2043731175c17cf64f34d048b1870186b7d947b2341baf5280a63d7",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": [
+    "https://github.com/JuXinglong/WFLOP_Python"
+  ]
+}

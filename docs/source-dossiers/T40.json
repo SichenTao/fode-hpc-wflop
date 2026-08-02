@@ -1,0 +1,64 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T40",
+  "doi": "10.1109/jas.2023.123387",
+  "title": "A Chaotic Local Search-Based Particle Swarm Optimizer for Large-Scale Complex Wind Farm Layout Optimization",
+  "query_date": "2026-07-29",
+  "search_basis": [
+    "Shangce Gao homepage corpus refreshed at 2026-07-29T02:36:14Z",
+    "repository source_asset_registry and paper/problem ledgers",
+    "bounded authority ladder recorded below"
+  ],
+  "conclusion": "project_or_paper_asset_recorded",
+  "searched_authorities": [
+    {
+      "authority": "official_author_homepage",
+      "url": "https://toyamaailab.github.io/publications.html",
+      "query": "\"10.1109/jas.2023.123387\" \"A Chaotic Local Search-Based Particle Swarm Optimizer for Large-Scale Complex Wind Farm Layout Optimization\"",
+      "result": "refreshed_homepage_snapshot_checked"
+    },
+    {
+      "authority": "doi_publisher_supplement_and_data_statement",
+      "url": "https://doi.org/10.1109/jas.2023.123387",
+      "query": "10.1109/jas.2023.123387",
+      "result": "paper_and_existing_supplement_ledger_checked"
+    },
+    {
+      "authority": "paper_author_or_coauthor_linked_repository",
+      "url": "not_recorded",
+      "query": "\"10.1109/jas.2023.123387\" \"A Chaotic Local Search-Based Particle Swarm Optimizer for Large-Scale Complex Wind Farm Layout Optimization\"",
+      "result": "no_direct_public_asset_recorded"
+    },
+    {
+      "authority": "author_coauthor_github",
+      "url": "https://github.com/search?q=10.1109%2Fjas.2023.123387&type=repositories",
+      "query": "10.1109/jas.2023.123387",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "general_research_data_repositories",
+      "url": "https://zenodo.org/search?q=10.1109%2Fjas.2023.123387",
+      "query": "10.1109/jas.2023.123387; Figshare; OSF; institutional repository",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "cited_implementation_and_predecessor_work",
+      "url": "https://doi.org/10.1109/jas.2023.123387",
+      "query": "A Chaotic Local Search-Based Particle Swarm Optimizer for Large-Scale Complex Wind Farm Layout Optimization cited implementation predecessor",
+      "result": "paper_reference_and_project_ledger_checked"
+    },
+    {
+      "authority": "same_author_problem_or_method_family",
+      "url": "https://toyamaailab.github.io/sourcedata.html",
+      "query": "Zhenyu Lei; Shangce Gao; Zhiming Zhang; Haichuan Yang; Haotian Li wind farm source data",
+      "result": "refreshed_source_page_and_lineage_ledger_checked"
+    }
+  ],
+  "discovered_assets": [],
+  "available_evidence": [
+    "validated_complete",
+    "source_and_paper_audited"
+  ],
+  "missing_method_or_problem_fields": [],
+  "negative_evidence_boundary": "Search is dated and bounded; later author releases require a new dossier."
+}

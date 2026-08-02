@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "target": {
+    "doi": "10.1109/JAS.2025.125351",
+    "sha256": "92d3eb80a5f6ba3dcf904712f19bd1f81e4432a3d13235b27b74ceda3fece016",
+    "role": "surface problem and method parameters"
+  },
+  "authority_ladder": [
+    {
+      "title": "Wind farm layout optimization with a three-dimensional Gaussian wake model",
+      "year": 2020,
+      "sha256": "385658381f3af634dc47ceafef8d03ece5cd6c0084eb0289da4810941b72fbd8",
+      "role": "cited predecessor authority for root-sum-square multiple-wake superposition and coordinate rotation"
+    },
+    {
+      "title": "Wind farm layout and hub height optimization with a novel wake model",
+      "year": 2023,
+      "sha256": "db8eb9eaf64ba9fe6e3fb9934e7e2536ae57f08294185edeca3d10beff4cebe5",
+      "role": "cited wake-model family context; no Nantong arrays imported"
+    },
+    {
+      "title": "Multi-Attention Powered Learning Genetic Algorithm for Real-World 3D Wind Farm Layout Optimization",
+      "year": 2025,
+      "sha256": "770b56c0dccbd7683e3c33652d7062c385eb2f00c126d2e9f2a3b7129fdc5872",
+      "role": "same-author model-family support for axial induction one third; no Guishan data imported"
+    }
+  ],
+  "p3_decision_rule": "Fields not numerically recoverable from target or authority ladder are explicit declared proxy choices.",
+  "original_nantong_reconstruction_status": "blocked"
+}

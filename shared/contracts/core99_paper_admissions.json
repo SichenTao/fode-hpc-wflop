@@ -1,0 +1,1567 @@
+{
+  "schema_version": 1,
+  "papers": {
+    "T01": {
+      "dossier_status": "formal_complete",
+      "formal_status": "complete",
+      "scope": {
+        "claim_boundary": "paper-equation academic declared reproduction; no author-source or author-exact numerical claim",
+        "package_status": "paper_pair_h6_admitted"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "100 binary occupancy variables on a 10 by 10 grid"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "two-word packed binary layout; row-major cell-center decoder"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "minimize farm cost divided by expected farm power"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "one turbine at most per grid cell; empty layouts repair to one deterministic cell"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_equations_plus_declared_partial_wake_completion",
+          "resolution": "Jensen wake, analytic rotor overlap, root-sum-square deficits, registered power and cost curves"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_figures_cross_checked_by_later_public_digitization",
+          "resolution": "paper Cases A, B, and normalized C joint direction-speed weights"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "deterministic counter-RNG Bernoulli binary population"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "roulette selection, uniform crossover, bit mutation, elitist ordered commit"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper_profile",
+          "resolution": "200 initial evaluations plus 400 populations of 200 equals 80200 physical FES"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_ranges_plus_cited_predecessor_completion",
+          "resolution": "population 200, crossover 0.7, bit mutation 0.01"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning genetic algorithm"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "Mosetti Cases A, B, and C registered as switchable problems"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "objective, power, turbine count, physical FES, stage timings, and scientific hash"
+        }
+      },
+      "paper_source_conflicts": [
+        "No author implementation was located; a later no-license repository was used only as a digitized-wind cross-check.",
+        "The paper does not fully specify partial-wake geometry or every GA control."
+      ],
+      "missing_information": [
+        "author source code",
+        "full partial-wake implementation detail",
+        "exact crossover and mutation choices inside reported ranges"
+      ],
+      "completion_decisions": [
+        "Use analytic circle overlap as the deterministic partial-wake completion.",
+        "Use the paper/cited-lineage population and registered mid-range GA controls.",
+        "Use counter-based random events and ordered commits for worker-count-independent scientific results."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/historical_grid.hpp",
+        "hpc/core99_cpp/src/historical_grid.cpp",
+        "shared/contracts/core99_mosetti_grady_cases.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T01_T02_waffle_admission.json",
+        "evidence/core99/formal/T01_T02_formal_quality.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
+    },
+    "T02": {
+      "dossier_status": "formal_complete",
+      "formal_status": "complete",
+      "scope": {
+        "claim_boundary": "paper-equation academic declared reproduction with explicit conflict profiles; no author-source or author-exact numerical claim",
+        "package_status": "paper_pair_h6_admitted"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "100 binary occupancy variables on a 10 by 10 grid"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "two-word packed binary layout; row-major cell-center decoder"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "minimize farm cost divided by expected farm power"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "one turbine at most per grid cell; empty layouts repair to one deterministic cell"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_equations_plus_declared_conflict_resolution",
+          "resolution": "Jensen wake with 20 m rotor radius, analytic rotor overlap, root-sum-square deficits, registered power and cost curves"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_figures_cross_checked_by_later_public_digitization",
+          "resolution": "paper Cases A, B, and normalized C joint direction-speed weights"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "deterministic counter-RNG Bernoulli binary population partitioned into 20 islands"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "within-island roulette selection, uniform crossover, bit mutation, elitist ordered commit; no invented migration"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen_with_profiles",
+          "authority": "paper_body_and_abstract_conflict",
+          "resolution": "A and B use 1800600 FES; C exposes body-primary 600600 and abstract-alternative 1500600 FES"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "population 600, 20 islands, crossover 0.7, bit mutation 0.01"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning island genetic algorithm"
+        },
+        "paper_native_cases": {
+          "status": "frozen_with_profiles",
+          "authority": "paper",
+          "resolution": "Grady Cases A, B, C-body-1000 and C-abstract-2500 registered as switchable problems"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "objective, power, turbine count, physical FES, stage timings, and scientific hash"
+        }
+      },
+      "paper_source_conflicts": [
+        "Table 1 labels a 40 m rotor radius while the stated five-diameter 200 m grid and cited model imply a 40 m diameter; the implementation registers radius 20 m.",
+        "The abstract reports 2500 generations for Case C while the experiment body reports 1000; both profiles are exposed and the body is primary.",
+        "No author implementation was located and island migration is not specified."
+      ],
+      "missing_information": [
+        "author source code",
+        "full partial-wake implementation detail",
+        "island migration policy",
+        "exact crossover and mutation controls"
+      ],
+      "completion_decisions": [
+        "Use radius 20 m and retain the conflicting paper label in the fact declaration.",
+        "Expose both Case C stopping profiles without silently choosing one.",
+        "Use independent islands without invented migration.",
+        "Use counter-based random events and ordered commits for worker-count-independent scientific results."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/historical_grid.hpp",
+        "hpc/core99_cpp/src/historical_grid.cpp",
+        "shared/contracts/core99_mosetti_grady_cases.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T01_T02_waffle_admission.json",
+        "evidence/core99/formal/T01_T02_formal_quality.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
+    },
+    "T03": {
+      "dossier_status": "formal_complete",
+      "formal_status": "complete",
+      "scope": {
+        "claim_boundary": "paper-equation academic declared reproduction; no author-source or author-exact numerical claim",
+        "package_status": "paper_pair_formal_complete"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "continuous x,y coordinates for each fixed-count turbine"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "ordered continuous coordinate vector with per-coordinate ES strategy values"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "minimize inverse expected power and summed constraint violation"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "500 m circular boundary and 8R pair spacing remain the second SPEA objective"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_equations",
+          "resolution": "Kusiak wake deficits, Weibull expected power quadrature, and paper linear/rated turbine curve"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_tables",
+          "resolution": "both 24-bin direction-conditioned Weibull scenarios"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_rng_completion",
+          "resolution": "uniform coordinate and strategy initialization with counter-keyed events"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_spea_completion",
+          "resolution": "strength-Pareto archive, tournament, arithmetic recombination, log-normal strategy mutation, ordered commits"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "120 initial children plus 100 generations of 120 equals 12120 physical FES"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "20 parents, 120 children, archive 50, tournament 4, strategy bounds 1 to 25 m"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning evolutionary strategy"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "two wind scenarios crossed with fixed turbine counts 2 through 6"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "expected power, inverse power, feasibility, physical FES, stage timings, scientific hash, and 25 formal seeds"
+        }
+      },
+      "paper_source_conflicts": [
+        "No author implementation was located.",
+        "SPEA density, clustering tie cases, and random generator are not executable from the paper."
+      ],
+      "missing_information": [
+        "author source code",
+        "exact SPEA density and clustering edge cases",
+        "author random generator"
+      ],
+      "completion_decisions": [
+        "Use deterministic strength-Pareto scoring and evenly spread archive truncation.",
+        "Use counter-keyed events and fixed-order archive commits.",
+        "Keep the 20-core evaluator despite a small ordered-control slowdown because Waffle end-to-end speedup is 9.99 times and the scientific trajectory is identical."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/kusiak_t03.hpp",
+        "hpc/core99_cpp/src/kusiak_t03.cpp",
+        "shared/contracts/core99_t03_kusiak_cases.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T03_waffle_admission.json",
+        "evidence/core99/formal/T03_T04_formal_quality.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
+    },
+    "T04": {
+      "dossier_status": "formal_complete",
+      "formal_status": "complete",
+      "scope": {
+        "claim_boundary": "paper-equation academic declared reproduction with original-layout magnitude validation; no author-source or author-exact optimization claim",
+        "package_status": "paper_pair_formal_complete"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "continuous x,y coordinates and Case-2 rotor diameters"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "all x, all y, then optional diameter variables"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "maximize effective farm efficiency under geometric and optional cost constraints"
+        },
+        "constraints_and_repair": {
+          "status": "frozen_with_conflict_resolution",
+          "authority": "paper_equation_and_case_geometry",
+          "resolution": "bound projection, one-diameter center spacing required by the 18-turbine 7D by 3D case, and Case-2 mean cost"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_equations",
+          "resolution": "Frandsen/Park wake, analytic overlap, Eq.9 area-weighted squared absolute deficits, Cp/induction fits, and adaptive Case-3 rated power"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "unidirectional 7.0896 m/s Cases 1/2 and 6.2 m/s Case 3"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_completion",
+          "resolution": "uniform bounded positions/diameters and zero initial velocities"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "constrained PSO particle transition, ordered personal-best and global-best commits"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "15000 physical FES for Cases 1/3 and 25000 for Case 2"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_table",
+          "resolution": "inertia 0.5, local/global 1.4, swarm size five times dimension"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning particle swarm"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "Cases 1, 2, Case-3 fixed-area count study and fixed-count area study"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "power, efficiency, feasibility, physical FES, timings, hash, five paper repeats and 25 platform seeds"
+        }
+      },
+      "paper_source_conflicts": [
+        "No author implementation or exact Fig.4 power samples were located.",
+        "Eq.29 printed diameter sums conflict with feasibility of the paper's 18-turbine 7D by 3D case."
+      ],
+      "missing_information": [
+        "author source code",
+        "exact Fig.4 samples",
+        "initial velocity and bound-response rules"
+      ],
+      "completion_decisions": [
+        "Use the paper Cp and induction fits where Fig.4 samples are unavailable.",
+        "Use one-diameter center spacing required by the paper-native dense case.",
+        "Use per-run one-core C++ plus 20 concurrent seeds for the fine-grained full-resource mode.",
+        "Retain the original 3-by-3 validation: reproduced 2.537997 W and 0.732467 versus paper 2.53 W and 0.73."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/uwflo_t04.hpp",
+        "hpc/core99_cpp/src/uwflo_t04.cpp",
+        "shared/contracts/core99_t04_uwflo_cases.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T04_waffle_admission.json",
+        "evidence/core99/formal/T03_T04_formal_quality.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
+    },
+    "T22": {
+      "dossier_status": "h5_admitted",
+      "formal_status": "admission_pending",
+      "scope": {
+        "claim_boundary": "paper-equation and paper-linked-data academic declared reproduction; DEBO is independently reconstructed because executable author DEBO code is absent",
+        "package_status": "paper_pair_h5_validated"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "ordered sequence of 81 continuous turbine coordinates within five disconnected regions"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper_algorithms",
+          "resolution": "100 m admissible grid for greedy allocation followed by progressively refined discrete neighborhoods"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper_and_public_evaluator",
+          "resolution": "maximize annual energy production and report wake-loss fraction"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_and_public_boundaries",
+          "resolution": "inside any of five polygons and at least 396 m inter-turbine distance; only feasible DEBO candidates are evaluated"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_and_public_python_julia_models",
+          "resolution": "simplified Bastankhah Gaussian wake, 8/9 thrust coefficient, 0.0324555 wake expansion, RSS deficits, and IEA 10 MW piecewise power curve"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_linked_public_data",
+          "resolution": "360 one-degree direction bins crossed with 20 direction-conditioned speed bins"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_algorithm_1",
+          "resolution": "upper-right first point, boundary-first potential set, then sequential best-AEP greedy allocation with a no-border fallback"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_algorithms_2_3_plus_declared_rng_completion",
+          "resolution": "counter-keyed Fisher-Yates turbine order, parallel candidate evaluation, strict-improvement and deterministic lexicographic ordered commits"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper_algorithm_3",
+          "resolution": "greedy completion followed by local convergence at each L while L is greater than 5 m; every complete candidate AEP counts as one physical FES"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_algorithm_3",
+          "resolution": "dx=dy=100 m, dmin=396 m, dmax=990 m, L=1000 m, Lmin=5 m, ns=6, rho=0.75"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning greedy and local-search method"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper_and_public_data",
+          "resolution": "IEA Task 37 case study 4 based on Borssele III and IV, 81 turbines and five disconnected regions"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "AEP, wake loss, feasibility, physical FES, stage timings, scientific hash, paper result-layout oracle, and one full DEBO run because the paper states little randomness"
+        }
+      },
+      "paper_source_conflicts": [
+        "The paper-linked repository provides evaluator and result assets but no executable DEBO optimizer or exact shuffle implementation.",
+        "The repository has no license file, so production code independently implements paper equations and copies no author optimizer code.",
+        "The Python evaluator header says case study 3 although the loaded assets and paper are case study 4.",
+        "The DEBO YAML embeds 2861182.50569 MWh, but repository-consistent recalculation gives 2913220.60417 MWh and matches the paper's 2913.221 GWh.",
+        "Rounded baseline coordinates accumulate 1.130514 m polygon residual."
+      ],
+      "missing_information": [
+        "executable author DEBO implementation",
+        "exact author shuffle random generator",
+        "software license file in the paper-linked GitHub repository"
+      ],
+      "completion_decisions": [
+        "Reconstruct Algorithms 1-3 directly from the CC-BY paper with counter-keyed shuffle and declared deterministic tie handling.",
+        "Compile numeric paper-linked data with source revisions and hashes while implementing all equations independently.",
+        "Use repository-consistent equation recalculation rather than stale embedded DEBO AEP metadata.",
+        "Parallelize candidates at each DEBO decision and preserve ordered state commits; use direction parallelism only for standalone fixed-layout evaluation."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/debo_t22.hpp",
+        "hpc/core99_cpp/src/debo_t22.cpp",
+        "scripts/run_core99_t22_h6_formal.py",
+        "shared/contracts/core99_t22_iea37_cs4.json"
+      ],
+      "evidence_receipts": [],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pending"
+      }
+    },
+    "T14": {
+      "dossier_status": "formal_complete",
+      "formal_status": "complete_paper_native_2100_run_matrix",
+      "scope": {
+        "claim_boundary": "academic declared reproduction of the target parameterization and paper-native protocol; not author SNOPT, exact-gradient, RNG, or numerical replay",
+        "package_status": "paper_pair_formal_complete"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "direct 200 variables; grid dx,dy,shear,rotation; boundary-grid adds boundary start"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper_plus_public_source",
+          "resolution": "direct coordinates, fixed-topology inner grid, and equidistant boundary turbines"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "maximize annual energy production"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_plus_public_source",
+          "resolution": "equal-area boundary containment and at least 2D spacing; direct-coordinate mutations use radial projection"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_first_public_source_second",
+          "resolution": "modified Gaussian wake with local-velocity linear wake combination, public thrust curve, and paper power curve"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_plus_public_source",
+          "resolution": "24x5x4 optimization and 360x50x100 final evaluation using three released wind resources"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_reconstruction",
+          "resolution": "100 seed-addressable starts with randomized rotation, boundary start, and perturbed grid variables"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "declared_reconstruction",
+          "resolution": "parallel candidate evaluation followed by deterministic feasibility-first commit"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "declared_reconstruction",
+          "resolution": "every common physical AEP call counts once; default reconstruction budgets are 160 direct and 240 parameterized evaluations"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_first_public_source_second",
+          "resolution": "100 turbines, D=130m, hub=110m, paper power constants, and released thrust curve"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "no learned model"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "seven unique cases across spacing, wind-rose, and equal-area boundary axes with direct, grid, and boundary-grid representations"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "AEP, feasibility, physical FES, timing decomposition, and 100 starts per representation and case"
+        }
+      },
+      "paper_source_conflicts": [
+        "The public archive omits proprietary SNOPT and the legacy Akima dependency.",
+        "Paper and source power-curve, generator-efficiency, and wake-expansion constants conflict.",
+        "The released direction-zero wind-resource bin duplicates a positive half-bin instead of wrapping the negative half-bin."
+      ],
+      "missing_information": [
+        "SNOPT binary and license",
+        "legacy Akima package",
+        "author random states and original result files",
+        "unambiguous root repository license file"
+      ],
+      "completion_decisions": [
+        "Treat boundary-grid parameterization as the paper contribution and direct/grid as intrinsic controls.",
+        "Use paper constants where paper and source conflict and retain every conflict in the contract.",
+        "Replace unavailable SNOPT with a declared deterministic feasibility-first parallel evolution strategy without claiming author-SNOPT replay.",
+        "Use pure-C++ candidate-batch parallelism for optimization and wind-state parallelism for final evaluation."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/stanley_t14.hpp",
+        "hpc/core99_cpp/src/stanley_t14.cpp",
+        "shared/contracts/core99_t14_stanley_2019.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T14_waffle_admission.json",
+        "evidence/core99/formal/T14_formal_quality.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
+    },
+    "T15": {
+      "dossier_status": "formal_complete",
+      "formal_status": "complete_deterministic_full_matrix",
+      "scope": {
+        "claim_boundary": "academic reproduction of benchmark problems, common evaluator, released layouts, rankings, and cross-model protocol; not participant methods",
+        "package_status": "paper_pair_formal_complete"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "Cartesian coordinates for 16, 36, and 64 turbines in case study 1 and 9 turbines in case study 2"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "public_source",
+          "resolution": "direct Cartesian YAML coordinates"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "maximize annual energy production"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "circular boundary and at least 2D spacing; released layouts are diagnosed but never repaired"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "public_source",
+          "resolution": "case-study-1 simplified Gaussian common evaluator; case-study-2 heterogeneous participant models remain unavailable"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "public_source",
+          "resolution": "16 directions with released frequencies and constant 9.8m/s speed"
+        },
+        "initialization": {
+          "status": "not_applicable_fixed_layout_protocol",
+          "authority": "public_source",
+          "resolution": "public examples and participant submissions are the evaluated assets"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "platform",
+          "resolution": "parallel layout evaluation followed by deterministic per-size ranking"
+        },
+        "stopping_and_physical_fes": {
+          "status": "not_applicable_fixed_layout_protocol",
+          "authority": "paper_plus_public_source",
+          "resolution": "one common-evaluator call per released layout; participant optimization histories are unavailable"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "public_source",
+          "resolution": "D=130m, cut-in=4m/s, rated=9.8m/s, cut-out=25m/s, rated power=3.35MW"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "no learned model"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "case study 1 uses 16/36/64 turbines and radii 1300/2000/3000m; case study 2 uses 9 turbines and 900m radius"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_public_source",
+          "resolution": "AEP, rank, archive error, constraint violation, stage timing, worker receipt, and the complete deterministic matrix"
+        }
+      },
+      "paper_source_conflicts": [
+        "The current archive adds participants 11-12 beyond the paper-native participants 1-10.",
+        "At least one case-study-2 YAML value differs from the paper table by a factor of 1000.",
+        "Several released participant layouts materially violate the stated 2D spacing constraint."
+      ],
+      "missing_information": [
+        "participant optimizer implementations",
+        "case-study-2 participant wake-model implementations",
+        "normalized participant run-level FES and timing"
+      ],
+      "completion_decisions": [
+        "Register the work as a benchmark/comparison-protocol paper rather than inventing a target optimizer.",
+        "Reproduce the common evaluator and all paper-native participants 1-10 plus examples.",
+        "Retain the case-study-2 5x5 paper matrix without fabricating unavailable participant models.",
+        "Preserve and report public-layout constraint violations instead of silently repairing comparison assets."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/iea37_t15.hpp",
+        "hpc/core99_cpp/src/iea37_t15.cpp",
+        "shared/contracts/core99_t15_iea37_comparison.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T15_waffle_full_matrix.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
+    },
+    "T20": {
+      "dossier_status": "formal_complete",
+      "formal_status": "complete_problem_definition_and_comparison_interface",
+      "scope": {
+        "claim_boundary": "academic declared reproduction of the four proposed WFLOP problems and comparison interface; not author-code or twelve-baseline numerical replay",
+        "package_status": "paper_pair_formal_complete"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "100 real variables in [0,1] for variable count and 39 real variables in [1,100] for fixed count"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper_prose_plus_declared_conflict_resolution",
+          "resolution": "binary rounding for Cases I-II and iterative Gc(round(x_i)) selection/removal for Cases III-IV"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "minimize Cost divided by average total power"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "2000m square boundary and at least 5D spacing; all-zero variable-count layout is infeasible"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "Jensen wake, root-sum-square deficits, cubic power, and either hub-inside-wake or exact circle-overlap fraction"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "36 directions from 10 to 360 degrees at constant 12m/s"
+        },
+        "initialization": {
+          "status": "algorithm_specific",
+          "authority": "comparison_protocol",
+          "resolution": "not owned by the benchmark; every conforming population method uses the common problem interface"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "platform",
+          "resolution": "parallel independent candidate evaluation, indexed writes, and deterministic fixed-order reduction"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "population 100, 250 iterations, 25000 complete physical evaluations and ten independent runs per comparison method"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "10x10 grid, CT=0.88, h0=0.3m, h=60m, D=40m, efficiency=0.4, density=1.225kg/m3"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "no learned target method"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "variable-count hub-only and partial-overlap cases plus fixed-39 hub-only and partial-overlap cases"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "objective statistics, histories, Wilcoxon protocol, physical FES, timings, worker receipt, and scientific hash"
+        }
+      },
+      "paper_source_conflicts": [
+        "Algorithm 2 step 5 prints Gc(i), while the prose and input-dependent intent specify Gc(round(x_i)).",
+        "The preceding k=0.086 example uses different constants; the four cases provide h and h0 for the paper roughness relation."
+      ],
+      "missing_information": [
+        "author source code and data archive",
+        "author random seeds and histories",
+        "complete result layouts and unrounded outputs"
+      ],
+      "completion_decisions": [
+        "Register T20 as a problem-definition and comparison-protocol contribution with no target optimizer.",
+        "Exclude the twelve ordinary comparison methods from T20-owned implementation scope.",
+        "Use the paper prose decoder and recompute wake decay from the paper relation.",
+        "Execute each of the four problems at the full 25000-physical-evaluation paper budget on every currently available Waffle core."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/kunakote_t20.hpp",
+        "hpc/core99_cpp/src/kunakote_t20.cpp",
+        "shared/contracts/core99_t20_kunakote_2022.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T20_waffle_full_problem_suite.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
+    },
+    "T21": {
+      "dossier_status": "h5_admitted",
+      "formal_status": "admission_pending",
+      "scope": {
+        "claim_boundary": "paper-equation and paper-linked-data academic declared reproduction of the topology method and both native problems; not author MATLAB wrapper, random-state, internal-asymptote, or exact numerical replay",
+        "package_status": "paper_pair_h5_validated"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "one continuous density rho in [0,1] for every potential turbine site; 124 and 709 variables"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_missing_tolerance_completion",
+          "resolution": "RAMP-interpolated continuous densities during optimization and rho greater than 0.5 as the declared installed-turbine postprocessing rule"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper_equations_2_to_6",
+          "resolution": "minimize negative annual energy production using density-weighted turbine power and density-weighted RSS wake losses"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_equations_10_to_16",
+          "resolution": "raw-density minimum and maximum turbine fractions plus rho_i+rho_j-1<=0 for every site pair within 260m; unordered pairs remove only mathematically redundant directed duplicates"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_first_cited_stanley_ning_completion",
+          "resolution": "paper modified 2016 Bastankhah Gaussian model, 8/9 thrust, TI=0.075, RSS deficits, 3.37MW cubic/rated power curve, and declared near-wake continuity completion"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_plus_pinned_iea37_public_source",
+          "resolution": "16 direction bins with the released frequencies and constant 9.8m/s wind speed"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "default uniform densities 0.2 and 0.1805; each random run assigns all sites one common scalar sampled in the paper interval and independently samples q_min and delta_q in [0,1]"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_nlopt_replacement",
+          "resolution": "ordered MMA trajectory with analytical gradients and ten-evaluation q stages; independent starts are hierarchically parallel and commit into fixed start-index slots"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_publisher_omission_completion",
+          "resolution": "at most 1000 complete objective-gradient evaluations, density-change tolerance 1e-8, and convergence within a stable q stage; the PDF visibly omits the numeric q-bar after its equals sign"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_first_public_source_second",
+          "resolution": "q_min=0, delta_q=0.5 every ten evaluations, q_max=10, 0.1 initial MMA step, 200m grid pitch, D=130m, and the two paper count ranges"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning density topology optimization"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper_figures_and_text",
+          "resolution": "radius-1300m 124-site grid with 16-64 turbines and radius-3000m 709-site grid with 64-256 turbines"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "relaxed/discrete AEP, turbine count, feasibility, physical objective evaluations, q path endpoints, stage timings, worker receipts, densities, science hash, and 404 target runs over RAMP/q=0"
+        }
+      },
+      "paper_source_conflicts": [
+        "The paper specifies 3.37MW while the linked IEA37 YAML specifies 3.35MW; the paper controls.",
+        "The paper uses a modified Gaussian model with x0 while the public IEA37 source has a simplified Gaussian model; the paper and its cited lineage control.",
+        "The small grid origin is not numerically printed; the centered 100m half-cell offset reproduces the 124-site Figure-3 grid.",
+        "The published PDF visibly ends the convergence-reference q-bar setting at the equals sign and reports final q values below qmax.",
+        "The official Svanberg MATLAB source is GPLv3; the production Apache-licensed platform uses pinned MIT-licensed NLopt LD_MMA and declares the wrapper/asymptote replacement boundary."
+      ],
+      "missing_information": [
+        "author wind-farm and topology wrapper",
+        "author MMA wrapper and internal asymptote states",
+        "numeric q-bar convergence reference omitted by the published PDF",
+        "author random states",
+        "machine-readable optimized densities and raw 101-run results"
+      ],
+      "completion_decisions": [
+        "Use paper equations and constants first and the pinned IEA37 wind rose second.",
+        "Use the paper-cited Stanley-Ning near-wake continuity rule where the printed Gaussian equation is undefined.",
+        "Use pinned NLopt LD_MMA as a declared same-family open production replacement and retain official Svanberg GPLv3 source only as an audited reference asset.",
+        "Set the NLopt dual tolerance to 1e-8 and dual budget to 500 after profiling proved that its default 1e-14/100000 serial dual solve dominated the high-performance evaluator.",
+        "Parallelize immutable wake precomputation and objective-gradient target blocks within one run, and distribute the paper-native independent starts across all cores for full campaign utilization.",
+        "Execute only the paper target MMA topology method; SQP and GA are non-target comparison baselines."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/pollini_t21.hpp",
+        "hpc/core99_cpp/src/pollini_t21.cpp",
+        "hpc/core99_cpp/src/pollini_t21_main.cpp",
+        "hpc/core99_cpp/tests/pollini_t21_test.cpp",
+        "scripts/validate_core99_t21.py",
+        "scripts/run_core99_t21_h6_formal.py",
+        "scripts/run_core99_t21_when_waffle_free.sh",
+        "shared/contracts/core99_t21_pollini_2022.json"
+      ],
+      "evidence_receipts": [
+        "evidence/development/T21_h5_independent_equation_validation_20260731.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pending"
+      }
+    },
+    "T72": {
+      "dossier_status": "h5_admitted",
+      "formal_status": "admission_pending",
+      "scope": {
+        "claim_boundary": "paper-equation and declared-map academic flexible reproduction of CHCP-NSGA-II and all nine native problem definitions; not author code, IBM CP behavior, native maps, native random states, or exact numerical replay",
+        "package_status": "paper_pair_h5_validated"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "2N continuous turbine coordinates in a 3 km by 3 km square"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_cp_completion",
+          "resolution": "continuous NSGA-II coordinates; only CHCP repair discretizes coordinates to 150 bins"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper_plus_sign_resolution",
+          "resolution": "maximize AEP and minimize maximum expected receptor SPL, implemented as negative AEP and SPL minimization with positive dynamic penalties"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_open_cp_replacement",
+          "resolution": "minimum spacing 5D and forbidden polygons; infeasible layouts enter bounded joint 150-bin CHCP repair before dynamic-penalty fallback"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_plus_consistency_and_iso_completion",
+          "resolution": "Jensen full deficit, RSS wake losses, paper 1.5MW power curve, and ISO 9613 expected SPL"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_figures_and_cited_kusiak_lineage",
+          "resolution": "24 directions by 43 speeds from a direction-conditioned truncated Weibull reconstruction"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_random_state_completion",
+          "resolution": "uniform continuous layouts with schedule-independent counter-keyed random events"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_deb_nsga2_plus_declared_distribution_indices",
+          "resolution": "tournament, SBX, polynomial mutation, CHCP-or-penalty evaluation, dominance/crowding selection, and ordered generation commit"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "at most 80000 complete layout evaluations or last-100 rank-one crowding variance below 0.005; each complete AEP/SPL/constraint call is one physical FES"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_first_predecessor_and_deb_completion_second",
+          "resolution": "population 200/150/100, crossover 0.95, mutation 0.05, eta_c=eta_m=20, penalties 1e4/4e4, and CP maximum distances 50/100/1000/10000 squared bins"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning multi-objective evolutionary optimization"
+        },
+        "paper_native_cases": {
+          "status": "frozen_reconstruction",
+          "authority": "paper_plus_declared_missing_map_completion",
+          "resolution": "nine switchable maps from 70/80/90 percent availability crossed with 5/10/15 turbines"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "1440 target runs, fronts, CP percentage, convergence, physical FES, stage timings, worker receipts, and science hashes"
+        }
+      },
+      "paper_source_conflicts": [
+        "Printed Jensen equations mix induction conventions; standard full deficit controls.",
+        "Printed CP Eq. 20 does not unambiguously constrain several repaired turbines jointly; the reconstruction does.",
+        "Printed AEP penalty sign conflicts with maximization; negative-AEP minimization resolves it.",
+        "Maximum-distance units are omitted after discretization; squared bin coordinates are required by the reported CP percentages."
+      ],
+      "missing_information": [
+        "author C++ and IBM CP implementation",
+        "nine native polygon maps and receptors",
+        "raw wind matrix",
+        "penalty and distribution-index details",
+        "author random states and raw fronts",
+        "complete ISO constants"
+      ],
+      "completion_decisions": [
+        "Reconstruct deterministic similar-area Voronoi maps and Kusiak-lineage wind probabilities.",
+        "Use predecessor penalties and receptor height, Deb eta values, and declared PyWake-cross-checked ISO constants.",
+        "Interpret maximum distance as squared discrete-bin distance.",
+        "Use a declared feasibility-first open CP replacement with 4096 nearest candidates, a 2000-node fallback, ten-second upper bound, and truncation telemetry.",
+        "Parallelize safe repair, evaluator, offspring, dominance, and independent-run regions without oversubscription.",
+        "Exclude the dynamic-penalty-only comparison baseline from target reproduction."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/sorkhabi_t72.hpp",
+        "hpc/core99_cpp/src/sorkhabi_t72.cpp",
+        "hpc/core99_cpp/src/sorkhabi_t72_main.cpp",
+        "hpc/core99_cpp/tests/sorkhabi_t72_test.cpp",
+        "scripts/validate_core99_t72.py",
+        "scripts/run_core99_t72_h6_formal.py",
+        "shared/contracts/core99_t72_sorkhabi_2018.json"
+      ],
+      "evidence_receipts": [
+        "evidence/development/T72_h5_independent_equation_validation_20260731.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pending"
+      }
+    },
+    "T60": {
+      "dossier_status": "h5_admitted",
+      "formal_status": "admission_pending",
+      "scope": {
+        "claim_boundary": "source-backed flexible academic reproduction of Algorithm 1 and every native problem and probe family; not author Fortran, random states, unavailable arrays or exact numerical replay",
+        "package_status": "paper_pair_h5_validated"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "2N continuous coordinates for fixed N=30,39,39 or 80"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "direct continuous coordinates"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper_equations_17_to_19",
+          "resolution": "maximize expected farm power, equivalent to fixed-count target CoE minimization"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_sampler_completion",
+          "resolution": "square or affine parallelogram boundary, pairwise distance >=5D, and infeasible retries outside complete-layout FES"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_equations_plus_same_lineage_curve_completion",
+          "resolution": "Jensen expansion, analytic partial overlap, RSS deficits, ideal cubic/rated curve and pinned public V80 power/CT tables"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_tables_and_figures_plus_declared_quadrature",
+          "resolution": "three ideal cases and measured/constructed Horns Weibull cases using 360 directions and 0.5m/s bins"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_figures_plus_same_lineage_public_coordinates_plus_declared_random_completion",
+          "resolution": "digitized GA or random feasible ideal starts and original public or affine-stratified random Horns starts"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_algorithm_1_plus_declared_outward_ray_completion",
+          "resolution": "one-turbine move, remembered accepted turbine/direction, strict improvement, and random-branch reset after failure or an infeasible outward ray"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "100000 complete feasible layout evaluations including initialization"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_first_declared_missing_field_completion",
+          "resolution": "uniform turbine/direction/bounded step, minimum spacing 5D and 360 Horns sectors"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning random-search optimizer"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "three ideal and three Horns cases, both initializations, direction-preprocessing matrix and Case-1 robustness sweeps"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_hpc_protocol",
+          "resolution": "840 target runs, power statistics, exact FES, move counts, stage timings, worker receipts and science hashes"
+        }
+      },
+      "paper_source_conflicts": [
+        "Target Figure-1 uses a dimensionally doubled ideal domain/rotor/grid scale relative to common predecessor representations.",
+        "Algorithm 1 omits the permanently outward remembered-ray condition.",
+        "Horns boundary enlargement and machine-readable coordinate/curve arrays are absent."
+      ],
+      "missing_information": [
+        "author Fortran source and random states",
+        "exact random-step and random-start laws",
+        "ideal Case-3 numeric array",
+        "Figure-1 coordinate arrays",
+        "Horns coordinate, boundary, curve, quadrature, roughness and robustness increments"
+      ],
+      "completion_decisions": [
+        "Use the target paper's dimensionlessly equivalent 4000m ideal scale and digitized Figure-1 grid occupancies.",
+        "Use the audited predecessor Case-3 array and pinned same-lineage public Horns/V80 assets.",
+        "Use explicit uniform random laws and deterministic feasible samplers.",
+        "Clear an infeasible remembered ray to avoid the paper's undefined infinite loop.",
+        "Preintegrate wind profiles, precision-validate partial-overlap lookup, and update moved-turbine influence in O(S*N).",
+        "Parallelize full wind directions and independent runs without nested oversubscription."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/feng_t60.hpp",
+        "hpc/core99_cpp/src/feng_t60.cpp",
+        "hpc/core99_cpp/src/feng_t60_main.cpp",
+        "hpc/core99_cpp/tests/feng_t60_test.cpp",
+        "scripts/validate_core99_t60.py",
+        "scripts/run_core99_t60_h6_formal.py",
+        "shared/contracts/core99_t60_feng_shen_2015.json"
+      ],
+      "evidence_receipts": [
+        "evidence/development/T60_h5_independent_equation_validation_20260731.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pending"
+      }
+    },
+    "T11": {
+      "dossier_status": "h5_admitted",
+      "formal_status": "queued_waffle",
+      "scope": {
+        "claim_boundary": "source-backed flexible academic reproduction of four BlockCopy methods and all four native problems; not author optimizer source, random stream or exact-number replay",
+        "package_status": "paper_pair_h5_validated"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "2N continuous coordinates for fixed N=100,100,220,710"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "direct coordinates partitioned by the paper BlockCopy grids"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper_equation_and_public_evaluator",
+          "resolution": "minimize expected energy cost per kWh"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_first_plus_public_xml_and_declared_completion",
+          "resolution": "rectangular sites, open obstacles, >=8R spacing, omit invalid copies and uniform fixed-count repair"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "public_evaluator_lineage",
+          "resolution": "24-sector Kusiak/Jensen RSS wake, Weibull power integration and target economics"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "cited_kusiak_tables_and_official_2014_xml",
+          "resolution": "Kusiak-Song 1/2 and official Competition 1/3 arrays"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "declared_missing_field_completion",
+          "resolution": "uniform feasible continuous rejection sampling"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "paper_plus_conventional_es_completion",
+          "resolution": "(1+1) non-worse acceptance and (5,10) best-five offspring comma survival"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "2000 complete wind-farm evaluations including initialization"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_first_public_source_second_declared_completion",
+          "resolution": "paper block grids, equal Both probability, perturbation size 10 and 8R spacing"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "non-learning evolutionary strategies"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper_plus_official_xml",
+          "resolution": "two Kusiak-Song and two 2014 competition cases"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_hpc_protocol",
+          "resolution": "four methods by four problems by 30 runs, 2000 FES each, stage timings and worker/science receipts"
+        }
+      },
+      "paper_source_conflicts": [
+        "Paper omit-invalid-copy rule conflicts with same-author thesis relocation prose.",
+        "Paper table transposes official XML k ranges between Competition 1 and 3.",
+        "Paper caption's 15 bins conflicts with the released 24-sector evaluator.",
+        "Thesis r=0.3 prose conflicts with paper/source r=0.03.",
+        "Paper omits an executable (5,10)-ES survivor lifecycle."
+      ],
+      "missing_information": [
+        "author BlockCopy source and random states",
+        "exact random initialization and tie behavior",
+        "complete (5,10)-ES lifecycle",
+        "machine-readable Kusiak scenario files"
+      ],
+      "completion_decisions": [
+        "Apply paper-first copy handling and target equations.",
+        "Consume exact official Competition XML and audited Kusiak arrays.",
+        "Complete the population method as a conventional comma-ES.",
+        "Exclude TDA and perturbation-only comparison baselines.",
+        "Use exact algebraic cone reformulation, quadrature lookup and changed-coordinate incremental wake updates.",
+        "Parallelize full evaluations, single trajectories and independent formal runs without nested oversubscription."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/blockcopy_t11.hpp",
+        "hpc/core99_cpp/src/blockcopy_t11.cpp",
+        "hpc/core99_cpp/src/blockcopy_t11_main.cpp",
+        "hpc/core99_cpp/tests/blockcopy_t11_test.cpp",
+        "scripts/validate_core99_t11.py",
+        "scripts/run_core99_t11_h6_formal.py",
+        "shared/contracts/core99_t11_blockcopy_2016.json"
+      ],
+      "evidence_receipts": [
+        "evidence/development/T11_H0_H4_mathematical_hpc_analysis_20260731.md",
+        "evidence/development/T11_h5_independent_equation_validation_20260731.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pending_waffle"
+      }
+    },
+    "L0259": {
+      "dossier_status": "h5_admitted",
+      "formal_status": "queued_waffle",
+      "scope": {
+        "claim_boundary": "academic paper/source flexible reproduction of SUGGA and all 117 native problems; not author numerical, trained-model or random-bitstream replay",
+        "package_status": "paper_pair_h5_validated"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper_and_public_source",
+          "resolution": "fixed-cardinality subset of 144 cells with N=15,20,25"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "public_source",
+          "resolution": "sorted occupied-cell set equivalent to source binary chromosome"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper_and_public_source",
+          "resolution": "maximize expected power and report conversion efficiency"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper_figure_and_public_source",
+          "resolution": "one turbine per available cell under exact L0-L12 masks"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_and_public_source",
+          "resolution": "Jensen overlap wake, RSS deficits and GE-1.5sle curve"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "D1-D3 tabulated discrete 13 m/s wind profiles"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper_source_plus_declared_completion",
+          "resolution": "uniform fixed-cardinality layouts over available cells"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "public_source_completion_with_declared_paper_conflict",
+          "resolution": "evaluate, rank, external best, relocate, select, crossover, mutate"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper_and_public_source",
+          "resolution": "10000 training layouts once per problem plus 120x200 truth evaluations per repeat"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_primary_public_source_completion",
+          "resolution": "paper physical values; source population/rates; exact RBF epsilon-SVR settings"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "frozen",
+          "authority": "paper_and_public_source",
+          "resolution": "train one official LIBSVM model per problem and reuse it across 100 repeats"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper_and_public_source",
+          "resolution": "3 wind profiles x 13 landscapes x 3 turbine counts = 117 problems"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_hpc_protocol",
+          "resolution": "100 repeats per problem with efficiency, convergence, timing, FES, workers and hashes"
+        }
+      },
+      "paper_source_conflicts": [
+        "Paper 154 m cells conflict with source 231 m.",
+        "Paper 88 m hub conflicts with source 80 m.",
+        "Paper probability rates conflict with source normal-threshold draws.",
+        "Paper crossover and elite prose conflict with source all-offspring crossover and unused 0.6 rate.",
+        "Paper repeats conflict with source wall-time reseeding."
+      ],
+      "missing_information": [
+        "author initial populations and Monte-Carlo layouts",
+        "trained SVR objects",
+        "author random states and paper-only complete GA lifecycle"
+      ],
+      "completion_decisions": [
+        "Paper-primary physical values and probability events define formal runs.",
+        "A separate source-normal-threshold identity preserves source conflicts.",
+        "The complete source lifecycle resolves underspecified paper steps.",
+        "All stochastic artifacts are regenerated by counter-keyed events.",
+        "Official LIBSVM is trained from scratch for every native problem.",
+        "CGA and AGA are excluded comparison baselines.",
+        "Wake geometry is precomputed and independent truth/individual work is all-core parallel."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/ju_l0259.hpp",
+        "hpc/core99_cpp/src/ju_l0259.cpp",
+        "hpc/core99_cpp/src/ju_l0259_main.cpp",
+        "hpc/core99_cpp/tests/ju_l0259_test.cpp",
+        "scripts/validate_core99_l0259.py",
+        "scripts/run_core99_l0259_h6_formal.py",
+        "shared/contracts/core99_l0259_sugga_2019.json",
+        "third_party/libsvm-l0259/PROVENANCE.md"
+      ],
+      "evidence_receipts": [
+        "evidence/development/L0259_H0_H4_mathematical_hpc_analysis_20260731.md",
+        "evidence/development/L0259_h5_independent_equation_validation_20260731.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pending_waffle"
+      }
+    },
+    "T48": {
+      "dossier_status": "formal_complete",
+      "formal_status": "complete_single_deterministic_paper_demonstration",
+      "scope": {
+        "claim_boundary": "academic declared reproduction of the analytical framework and two-turbine demonstration; not author-source or exact 190-step replay",
+        "package_status": "paper_pair_formal_complete"
+      },
+      "semantic_contract": {
+        "decision_variables": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "continuous Cartesian [x1,y1,x2,y2] turbine positions"
+        },
+        "encoding_and_decoder": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "direct coordinates with opportunity-set projection for reconstructed trials"
+        },
+        "objective_and_direction": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "minimize EPRI-TAG LCOE=(CC*FCR+C_OM)/AEP"
+        },
+        "constraints_and_repair": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "each turbine uses x=[1600,10000]m and y=[-5000,5000]m; coincident hubs are excluded"
+        },
+        "wake_power_cost_or_coupled_model": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_missing_curve_reconstruction",
+          "resolution": "Jensen/RSS wakes scale directional Weibull c; calibrated 1.5MW curve; string-cable, support, turbine, O&M, and fixed-charge costs"
+        },
+        "wind_and_scenario_sampling": {
+          "status": "frozen",
+          "authority": "paper_plus_figure_digitization",
+          "resolution": "periodic PCHIP of 16 digitized c, k, and frequency markers with shore-distance scaling and 360x160 quadrature"
+        },
+        "initialization": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "paper initial layout [9109,-2013,3273,1614]"
+        },
+        "update_order": {
+          "status": "frozen",
+          "authority": "declared_reconstruction",
+          "resolution": "parallel eight-neighbor coordinate trials, fixed-order reductions, ordered best commit, and step halving"
+        },
+        "stopping_and_physical_fes": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_search_reconstruction",
+          "resolution": "190 iterations and 1521 complete two-turbine LCOE evaluations"
+        },
+        "parameters": {
+          "status": "frozen",
+          "authority": "paper_plus_declared_missing_data_reconstruction",
+          "resolution": "1.5MW, D=77m, CT=0.8, wake kappa=0.04, paper costs, digitized wind resource, and calibrated curve"
+        },
+        "training_and_inference_lifecycle": {
+          "status": "not_applicable",
+          "authority": "paper",
+          "resolution": "no learned method"
+        },
+        "paper_native_cases": {
+          "status": "frozen",
+          "authority": "paper",
+          "resolution": "one two-turbine offshore rectangular opportunity-set example"
+        },
+        "metrics_and_repeats": {
+          "status": "frozen",
+          "authority": "paper_plus_platform_protocol",
+          "resolution": "LCOE, capital, AEP, capacity factor, wake loss, physical FES, timings, worker receipt, feasibility, and scientific hash"
+        }
+      },
+      "paper_source_conflicts": [],
+      "missing_information": [
+        "exact Thompson Island 16-sector arrays",
+        "manufacturer 1.5MW power-curve table",
+        "PCHIP coefficients",
+        "gradient-search update and termination details",
+        "author quadrature, seed, and history"
+      ],
+      "completion_decisions": [
+        "Digitize the paper Figure-1 markers and retain them as reconstruction data rather than author numeric data.",
+        "Calibrate the declared power curve to the paper 42 percent isolated-capacity-factor anchor.",
+        "Reconstruct the unspecified method as deterministic bounded coordinate-gradient trials over 190 iterations.",
+        "Flatten candidate, turbine, direction, and no-wake reference integrations onto one persistent full-resource CPU team."
+      ],
+      "implementation_units": [
+        "hpc/core99_cpp/include/core99/lackner_t48.hpp",
+        "hpc/core99_cpp/src/lackner_t48.cpp",
+        "shared/contracts/core99_t48_lackner_2007.json"
+      ],
+      "evidence_receipts": [
+        "evidence/core99/h6/T48_waffle_admission.json"
+      ],
+      "hpc_admission": {
+        "H0": "pass",
+        "H1": "pass",
+        "H2": "pass",
+        "H3": "pass",
+        "H4": "pass",
+        "H5": "pass",
+        "H6": "pass"
+      }
+    }
+  }
+}

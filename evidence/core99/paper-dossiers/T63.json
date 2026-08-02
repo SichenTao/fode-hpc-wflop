@@ -1,0 +1,164 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "The target package is the six-step iterative CFD-to-MIP information lifecycle plus the paper-native discrete Carleton problem.",
+    "Figure 4 and Figure 5 are deterministically digitized because the numeric terrain and wind rose are absent.",
+    "The printed quadratic binary objective is converted to MILP with an exact three-inequality product linearization rather than being silently treated as linear.",
+    "Pinned HiGHS replaces unavailable Gurobi 5.6; each receipt records status, incumbent, dual bound, and gap.",
+    "A Jensen initial row and terrain-aware replacement-row surrogate exercise the information lifecycle but are explicitly not labeled CFD.",
+    "The five relaxation cases and 30-second per-MIP budget are retained; finite termination follows from at most 400 newly known locations plus one final no-new-location solve."
+  ],
+  "corpus_id": "T63",
+  "dossier_status": "h5_admitted",
+  "formal_status": "twelve_iteration_gate_failed_repair_smoke_pass_pending_waffle_h6",
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "Waffle 7545dcf exposed nonconvergence at the unsupported twelve-iteration ceiling; finite-bound and five-case parallel repair passed local full-lifecycle smoke and awaits immutable Waffle confirmation"
+  },
+  "missing_information": [
+    "author 20x20 terrain and numeric twelve-sector wind rose",
+    "no-turbine and single-turbine CFD fields",
+    "flat-terrain wake field",
+    "Gurobi model/source, exact settings, and warm starts",
+    "final cell arrays and per-iteration histories"
+  ],
+  "paper": {
+    "authors": "Jim Y.J. Kuo and David A. Romero and J. Christopher Beck and Cristina H. Amon",
+    "doi": "10.1016/j.apenergy.2016.06.085",
+    "pdf_basename": "2016_Kuo_Wind_Farm_Layout_Optimization_on_Complex_Terrains_Integrating_a_CFD_Wake_Model_with_Mixed_Integer_Programming.pdf",
+    "pdf_sha256": "7c4f515af4da82bb235045871b132f05d66f2760a2de0f61faef38b82aed8155",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV2",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "REV4",
+    "title": "Wind Farm Layout Optimization on Complex Terrains – Integrating a CFD Wake Model with Mixed-Integer Programming",
+    "venue": "Applied Energy",
+    "year": 2016
+  },
+  "open_solver_source": {
+    "name": "HiGHS",
+    "repository": "https://github.com/ERGO-Code/HiGHS.git",
+    "version": "1.15.1",
+    "revision": "04024d701f79feb8e2f18bc3df0dffc04ef05088",
+    "license": "MIT",
+    "role": "replacement open MILP backend, not paper-linked author source"
+  },
+  "paper_linked_public_asset_candidates": [],
+  "paper_source_conflicts": [
+    "The objective displayed as MIP contains binary products and requires an unprinted linearization.",
+    "The private terrain/CFD arrays are essential to author numerical values but are not supplied.",
+    "The paper reports Gurobi 5.6 under 30 seconds but omits tolerances, hardware-equivalent settings, and model source."
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 32,
+    "text_sha256": "2b1280a1f817bc06a6ea42e9e8a3c04013ad8bc3404a9cbff3b584c09a3220e5"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [
+      287,
+      345,
+      546
+    ],
+    "embedded_annotation_urls": [],
+    "status": "no_paper_linked_public_asset_candidate_detected"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "academic declared reproduction of equations, discrete problem, relaxation study, exact MILP linearization, and iterative update lifecycle on a figure/surrogate proxy; not author CFD, Gurobi, or numerical replay",
+    "execution_wave": "REV2",
+    "package_status": "implemented_h5_admitted_h6_repair_pending",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "wake_power_cost_or_physical_evaluator"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "target Eqs. 1b-1d and Section 4",
+      "resolution": "exactly 20 binary cells and pairwise five-diameter conflicts on a 140 m grid",
+      "status": "registered"
+    },
+    "decision_variables": {
+      "authority": "target paper plus explicit linearization",
+      "resolution": "400 cell-selection binaries plus one product binary for every nonzero unordered interaction pair",
+      "status": "registered"
+    },
+    "encoding_and_decoder": {
+      "authority": "target paper",
+      "resolution": "row-major 20x20 cell IDs mapped to 140 m cell centers",
+      "status": "registered"
+    },
+    "initialization": {
+      "authority": "target paper plus solver reconstruction",
+      "resolution": "all rows initially approximate; deterministic feasible high-resource warm start is supplied to HiGHS",
+      "status": "registered"
+    },
+    "metrics_and_repeats": {
+      "authority": "target Table 1",
+      "resolution": "iterations, new and cumulative CFD locations, CFD simulations, final surrogate objective, no-wake upper bound, efficiency, solver status/bounds, and runtime for each relaxation value",
+      "status": "registered"
+    },
+    "objective_and_direction": {
+      "authority": "target Eqs. 1 and 4",
+      "resolution": "maximize probability-weighted kinetic-energy base minus additive directed wake-energy losses",
+      "status": "registered"
+    },
+    "paper_native_cases": {
+      "authority": "target Section 4 plus figure-digitized proxy",
+      "resolution": "2.8 km square, 20x20 cells, 20 turbines, 12 sectors, and C={1,.7,.4,.2,0}",
+      "status": "registered"
+    },
+    "parameters": {
+      "authority": "target paper then declared completion",
+      "resolution": "CT=.8, hub=77 m, D=80 m, rated=1.5 MW, roughness=.1 m, printed Eq.5, Jensen initial row, terrain-aware replacement surrogate",
+      "status": "registered"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "target six-step lifecycle and 30-second MIP report",
+      "resolution": "stop when the selected layout contains no new CFD location; each new location represents twelve single-turbine CFD-row simulations; at most 400 locations plus one final convergence solve",
+      "status": "registered"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not applicable",
+      "resolution": "no learned component",
+      "status": "not_applicable"
+    },
+    "update_order": {
+      "authority": "target steps 3-6",
+      "resolution": "solve MIP, mark newly selected source cells, replace their twelve-sector rows, then solve the next MIP",
+      "status": "registered"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "target Eqs. 1-5 plus declared missing-field surrogates",
+      "resolution": "figure terrain, printed power-law background, relaxed initial rows, terrain-aware replacement rows, and exact binary-product MILP",
+      "status": "registered"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "target Figure 5 and Section 4",
+      "resolution": "twelve 30-degree sectors; probabilities are normalized digitized radial lengths and preserve dominant west",
+      "status": "registered"
+    }
+  },
+  "implementation": {
+    "analysis": "hpc/core99_cpp/analysis/t63_hpc_analysis.md",
+    "contract": "shared/contracts/core99_t63_kuo_2016.json",
+    "proxy_notice": "shared/data/core99_t63_figure_proxy_NOTICE.md",
+    "header": "hpc/core99_cpp/include/core99/kuo_t63.hpp",
+    "source": "hpc/core99_cpp/src/kuo_t63.cpp",
+    "cli": "hpc/core99_cpp/src/kuo_t63_main.cpp",
+    "test": "hpc/core99_cpp/tests/kuo_t63_test.cpp",
+    "independent_validator": "scripts/validate_core99_t63.py",
+    "h5_receipt": "evidence/core99/h5/T63_local_h5.json"
+  }
+}

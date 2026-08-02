@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T30",
+  "paper": {
+    "authors": "Martina Fischetti and Michele Monaci",
+    "doi": "10.1007/s10732-015-9283-4",
+    "pdf_basename": "2016_Fischetti_Proximity_Search_Heuristics_for_Wind_Farm_Optimal_Layout.pdf",
+    "pdf_sha256": "2dafae36f55cc0e4a03fa9f09a2e8018eab040ce1f27415b52a595cafbf6e498",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV3",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D",
+    "secondary_review_classes": "REV5",
+    "title": "Proximity Search Heuristics for Wind Farm Optimal Layout",
+    "venue": "Journal of Heuristics",
+    "year": 2016
+  },
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "public_assets": {
+    "author_source": null,
+    "author_instance_data": null,
+    "author_thesis": "https://hdl.handle.net/20.500.12608/17839",
+    "thesis_title": "Mixed Integer Programming Models and Algorithms for Wind Farm Layout",
+    "status": "paper_and_open_author_thesis_consumed_no_public_code_or_instances"
+  },
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 16,
+    "text_sha256": "1a29891dbf89c41187ce1e45d2440e574cab6e0045426958e3898c26ca1913e1"
+  },
+  "completion_decisions": [
+    {
+      "field": "private wind observations and clusters",
+      "authority": "paper endpoint and distribution facts",
+      "resolution": "frozen 504-state directional Weibull offshore wind reconstruction"
+    },
+    {
+      "field": "unreleased 50 instances and random streams",
+      "authority": "paper uniform-random generation rule",
+      "resolution": "declared deterministic coordinate seeds for ten instances at every paper size"
+    },
+    {
+      "field": "unreleased nonlinear SWT power table",
+      "authority": "paper endpoints and cited turbine identity",
+      "resolution": "frozen cubic 3-16 m/s interpolation with stated cut-in and rated values"
+    },
+    {
+      "field": "commercial CPLEX 12.5.1 backend",
+      "authority": "paper compact formulation and solver protocol",
+      "resolution": "pinned open HiGHS revision with exact model structure and all available threads"
+    }
+  ],
+  "missing_information": [
+    "author C source and CPLEX model builder",
+    "250000+ private Vattenfall wind observations and about 500 clusters",
+    "50 original candidate-coordinate instances and random seeds",
+    "exact Siemens SWT nonlinear power table used by the authors",
+    "original proximity tolerance update and random bitstreams"
+  ],
+  "paper_source_conflicts": [
+    {
+      "field": "public implementation authority",
+      "fact": "the paper and open thesis expose formulas and protocol but no public implementation or instance corpus",
+      "resolution": "paper-first deterministic academic reconstruction with explicit non-author claim boundary"
+    }
+  ],
+  "scope": {
+    "claim_boundary": "academic paper-first reconstruction; not author C/CPLEX code, private-data replay, original-instance replay, or table-number identity",
+    "execution_wave": "REV3",
+    "package_status": "h5_admitted_h6_and_formal_queued",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "optimization_search_or_learning_method"
+  },
+  "semantic_contract": {
+    "decision_variables": {
+      "authority": "paper Section 2",
+      "resolution": "one binary placement variable for every sampled candidate site",
+      "status": "implemented_and_tested"
+    },
+    "objective_and_direction": {
+      "authority": "paper Eqs. 1 and 8-13",
+      "resolution": "maximize standalone turbine power minus summed directional pair interference",
+      "status": "implemented_and_tested"
+    },
+    "constraints_and_repair": {
+      "authority": "paper Eqs. 2-7 and Section 6",
+      "resolution": "400 m minimum spacing in a 3000 m square with no turbine-count limits",
+      "status": "implemented_and_tested"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper Section 2",
+      "resolution": "direct binary site selection over deterministic sampled points",
+      "status": "implemented"
+    },
+    "initialization": {
+      "authority": "paper Section 3",
+      "resolution": "empty layout followed by parameterized best 1-opt flips",
+      "status": "implemented_and_tested"
+    },
+    "update_order": {
+      "authority": "paper Sections 3-5 and Figures 2-3",
+      "resolution": "O(n) delta flip, cardinality oscillation, conservative 2-opt, 2000-site reduction, simplified proximity MIP, true-objective acceptance and complete MIP",
+      "status": "implemented_and_tested"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper Sections 2 and 6",
+      "resolution": "cumulative pairwise Jensen loss and reconstructed SWT-2.3-93 power curve",
+      "status": "implemented_and_semantically_validated"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper Section 6",
+      "resolution": "frozen declared 504-state replacement for unavailable private clustered observations",
+      "status": "implemented_with_missing_asset_boundary"
+    },
+    "paper_native_cases": {
+      "authority": "paper Section 6 and Table 1",
+      "resolution": "ten instances at each of 1000, 5000, 10000, 15000 and 20000 sites, evaluated at seven paper time checkpoints",
+      "status": "implemented_and_formal_queued"
+    },
+    "parameters": {
+      "authority": "paper Sections 3-6",
+      "resolution": "BIG 10000, HUGE 1000000, 10000/100 non-improvement limits, 2000-site MIP reduction and 60 s simplified calls",
+      "status": "implemented_and_frozen"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper Sections 3, 5 and 6",
+      "resolution": "local non-improvement rules plus 60-3600 s paper checkpoints; pair and delta evaluations reported",
+      "status": "implemented_and_formal_queued"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper Section 6",
+      "resolution": "power objective, feasibility, runtime and all ten paper-shaped instances per size",
+      "status": "implemented_and_formal_queued"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "paper",
+      "resolution": "not applicable; every instance starts a fresh optimization",
+      "status": "not_applicable"
+    }
+  },
+  "hpc_admission": {
+    "H0": "pass: quadratic pair preprocessing and repeated reduced MIP solves dominate the large cases",
+    "H1": "pass: primary PDF, open thesis, missing assets and deterministic completions recorded",
+    "H2": "pass: pair construction and MIP internals parallel; ordered local search and incumbent commits explicit",
+    "H3": "pass: packed float matrix, persistent all-core C++ executor and pinned all-thread HiGHS",
+    "H4": "pass: target proxy method, five sizes, ten instances, seven checkpoints, counters and resumable CLI implemented",
+    "H5": "pass: objective recomputation, spacing, matrix identity, fixed-work worker identity and both proximity stages validated",
+    "H6": "local candidate: 20000-site matrix construction 6.00-6.14x with identical scientific result; Waffle formal receipt queued"
+  },
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_after_predecessor"
+}

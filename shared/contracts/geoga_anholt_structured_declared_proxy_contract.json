@@ -1,0 +1,60 @@
+{
+  "schema_version": 1,
+  "contract_id": "geoga_anholt_structured_declared_proxy_contract_v1",
+  "problem_semantic_id": "geoga_anholt_structured_declared_proxy_v1",
+  "evidence_tier": "P3_DECLARED_PROXY",
+  "paper": {
+    "title": "A Geometric Mutation-Based Genetic Algorithm for Irregular Large-Scale Offshore Wind Farm Layout Optimization",
+    "doi": "10.1109/CBD69312.2025.00059",
+    "corpus_id": "L0726",
+    "local_pdf_sha256": "8bdca5f23fc34687ab8069eb0ee8d6c1b3775567ba688fdc9248b91ce5f6fb7c"
+  },
+  "evidence_freeze": {
+    "paper_visible": [
+      "Anholt case identity and irregular planar domain",
+      "111 turbines and approximately 180 candidate points",
+      "Poisson disk candidate generation with random in-domain seed, uniform active point, uniform angle, radius in [d,2d], and a maximum-trials input",
+      "minimum candidate spacing 5D",
+      "twelve joint wind speed-direction-probability bins",
+      "4.2 MW rated power, 91.5 m hub height, 117 m rotor diameter, and 3 to 25 m/s operating range",
+      "air density 1.225 kg/m3, roughness length 0.25 mm, and turbulence intensity 10 percent",
+      "Jensen wake model and sum-of-squares overlap",
+      "AEP-only objective"
+    ],
+    "cited_or_same_author_support": [
+      "Zheng et al. 2024 DOI 10.1007/s42235-024-00498-3 supports the same-author Jensen, integer-layout, roulette, crossover, mutation, and power-curve family but does not supply the Anholt arrays",
+      "Davis et al. 2023, target-paper reference 20, is the paper-cited Global Wind Atlas authority but the paper-used twelve tuples are not published"
+    ],
+    "bounded_missing": [
+      "original boundary coordinates",
+      "original twelve wind tuples",
+      "manufacturer power and thrust curves",
+      "author candidate coordinates",
+      "Poisson seed and maximum trial count",
+      "actual-layout coordinates",
+      "author evaluator source"
+    ]
+  },
+  "declared_completions": [
+    "twelve-vertex synthetic local-meter irregular polygon",
+    "deterministic target-capped Bridson active-list sampling with seed 20250726 and maximum trials 30",
+    "twelve frozen joint wind tuples whose probabilities sum to one",
+    "rated speed 12 m/s and cubic-in-speed-cubed power ramp",
+    "constant thrust coefficient 0.8 and wake expansion 0.05",
+    "Cartesian flow-to angular convention",
+    "8760-hour annualization from probability-weighted expected power to AEP in kWh",
+    "fixed source-order root-sum-square wake accumulation",
+    "stable candidate, turbine, and wind-bin summation order"
+  ],
+  "candidate_generation": {
+    "target_count": 180,
+    "minimum_spacing_m": 585.0,
+    "minimum_spacing_rule": "5D",
+    "radius_law": "uniform on [d,2d], following the target paper pseudocode literally rather than area-uniform annulus sampling",
+    "cardinality_boundary": "The stop-at-180 rule is a declared completion of the paper's approximately 180 statement; it is not asserted to be the author rule."
+  },
+  "actual_layout_comparison_boundary": "Blocked. No actual-layout coordinate array or actual-layout AEP is emitted, and the paper's up-to-one-percent comparison is not replayed.",
+  "case_manifest": "shared/contracts/geoga_anholt_structured_declared_proxy_case.json",
+  "oracle_contract": "shared/contracts/geoga_anholt_structured_declared_proxy_oracle.json",
+  "claim_boundary": "This is a distinct Anholt-structured engineering proxy. It does not reproduce the original Anholt problem or paper results."
+}

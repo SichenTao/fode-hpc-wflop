@@ -1,3 +1,20 @@
+/*
+WFLOP IMPLEMENTATION FACT DECLARATION
+Implementation unit: PBEA/MOEA-D-P three-objective C++ package
+Paper title and DOI: Probabilistic Bootstrap-Based Evolutionary Algorithm for
+Three-Objective Wind Farm Turbine Position Optimization;
+10.1016/j.swevo.2025.101972
+Paper/source basis: paper equations and local MATLAB behavior/problem oracle
+Public asset: local author archive, no redistribution license, not vendored
+Missing/conflicts: partial pcode prevents literal source distribution
+Reconstruction: independent pure C++ evaluator and six-algorithm protocol
+Method/problem semantic IDs: moead_p_repaired_v1 and registered comparators;
+zhang2025_three_objective
+Controlling contract and claim boundary:
+shared/contracts/pbea_execution_contract.json; independent reconstruction only
+Last evidence-audit date: 2026-07-30
+END WFLOP IMPLEMENTATION FACT DECLARATION
+*/
 #include "fode/executor.hpp"
 #include "fode/rng.hpp"
 
@@ -54,6 +71,7 @@ struct Config {
     std::string mode = "run";
     std::string algorithm = "moead_p";
     std::string scenario = "ws1";
+    std::string execution_mode = "cpu";
     std::string layout_text;
     std::string output_front;
     int turbines = 15;
@@ -2429,6 +2447,8 @@ Config parse(int argc, char** argv) {
             config.workers = std::stoi(value());
         } else if (option == "--seed") {
             config.seed = std::stoull(value());
+        } else if (option == "--execution-mode") {
+            config.execution_mode = value();
         } else if (option == "--ipd") {
             config.ipd = std::stoi(value());
         } else if (option == "--mu-c") {
@@ -2440,6 +2460,7 @@ Config parse(int argc, char** argv) {
                    "[--scenario ws1|ws2] [--turbines 15..30] "
                    "[--population 100] [--generations 100] "
                    "[--workers N] [--seed N] [--ipd 1..6] [--mu-c 80] "
+                   "[--execution-mode cpu|auto|hybrid|gpu] "
                    "[--output-front result.json]\n";
             std::exit(0);
         } else {
@@ -2450,6 +2471,23 @@ Config parse(int argc, char** argv) {
         || config.generations < 0 || config.turbines < 3
         || config.turbines > 400) {
         throw std::invalid_argument("invalid numeric option");
+    }
+    if (
+        config.execution_mode != "cpu"
+        && config.execution_mode != "auto"
+        && config.execution_mode != "hybrid"
+        && config.execution_mode != "gpu"
+    ) {
+        throw std::invalid_argument(
+            "--execution-mode must be cpu, auto, hybrid, or gpu"
+        );
+    }
+    if (config.execution_mode != "cpu") {
+        throw std::invalid_argument(
+            "execution mode " + config.execution_mode
+            + " is recognized but unavailable; no hidden CPU fallback "
+              "was performed"
+        );
     }
     return config;
 }

@@ -51,14 +51,23 @@ problem. It does not replace or reproduce the unavailable Nantong 3D terrain
 study. Its conventional completions and problem boundary are frozen in
 `shared/contracts/ppga_fode_e0_transfer_execution_contract.json`.
 
-ALGA, TAAE, RLPSO, and RL-FODE are deliberately not executable identifiers.
-ALGA, TAAE, and RL-FODE lack required problem or learned-state assets. The
+The original ALGA, TAAE, RLPSO, and RL-FODE identifiers are deliberately not
+executable. ALGA, TAAE, and RL-FODE lack required problem or learned-state assets. The
 official RLPSO source is present, but it creates a fresh unseeded PPO policy on
 every outer iteration, performs up to 10,000 unreported complete-layout
 evaluations per call, and executes an update that conflicts with the paper PPO
 equation. Attempts to run these identifiers fail with method-specific R1/R2
 evidence. The removal conditions for these guards are frozen in
 `shared/contracts/blocked_learning_methods_execution_guard.json`.
+The separately named `alga_attention_declared_reconstruction_v1` is an M3
+engineering reconstruction and does not remove or weaken the original `alga`
+guard; its completions and composite transfer boundary are declared in
+`shared/contracts/alga_attention_declared_reconstruction_contract.json`.
+Likewise,
+`taae_zhangbei_structured_declared_proxy_v1` is only a P3 problem proxy and
+`taae_formula_fixture_v1` is only a P4 scalar fixture. Neither makes the
+original `taae` method executable or reproduces the unavailable Zhangbei
+arrays and reported fronts.
 
 ## Build and test
 
@@ -70,6 +79,23 @@ cmake -S . -B build -DCMAKE_BUILD_TYPE=Release
 cmake --build build --parallel
 ctest --test-dir build --output-on-failure
 ```
+
+The Step-12 declared-reconstruction suite freezes its Spark CPU environment,
+canonical `build/full` binary paths, and binary SHA-256 values in
+`formal/contracts/declared_reconstruction_formal_suite_v1.json`. The default
+contract audit supports a clean clone and verifies binary hashes when those
+binaries are present. The formal launch/evidence gate requires the canonical
+Release build and all seven frozen binaries:
+
+```bash
+cmake -S . -B build/full -DCMAKE_BUILD_TYPE=Release
+cmake --build build/full -j20
+python3 scripts/audit_formal_suite_contracts.py --require-binaries
+```
+
+Both modes preserve the older Waffle and Spark2 suite checks. The
+`--require-binaries` mode additionally fails when any canonical binary is
+missing or its SHA-256 differs.
 
 Run one full fixed-work optimization:
 
@@ -88,6 +114,41 @@ OMP_DYNAMIC=FALSE OMP_NUM_THREADS=20 OMP_PROC_BIND=spread OMP_PLACES=threads \
 
 List the canonical algorithm identifiers with
 `build/hpc/wflop_cpp/wflop_cpp_hpc --list-algorithms`.
+
+The isolated BDE WS5/WS6 executable covers the paper-visible 8-by-12 and
+8-by-16 scenario structures under two distinct P3 composite problem IDs. The
+numeric wind arrays are explicit declared constructions. The 28-by-28 mask is
+a manual two-pass transcription of numbered paper Fig. 5, independently
+cross-checked against the hash-frozen author source; Table 1 supplies 250 m,
+while the separately preserved source replay executes 231 m. These results
+must never be pooled or ranked with official-source WS1--WS4:
+
+```bash
+python3 scripts/prepare_bde_ws56_declared_proxy.py
+cmake -S hpc/bde_ws56_cpp -B build/bde_ws56_cpp \
+  -DCMAKE_BUILD_TYPE=Release
+cmake --build build/bde_ws56_cpp -j "$(nproc)"
+
+build/bde_ws56_cpp/bde_ws56_hpc \
+  --cases shared/contracts/bde_ws56_declared_proxy_cases.json \
+  --case BDEWS5P3DAEtn30 \
+  --physical-fes 10000 \
+  --seed 20260729 \
+  --workers 0 \
+  --execution-mode auto
+```
+
+The method ID
+`bde_paper_equations_imax400_exact_fes_v1` keeps paper
+`Imax=2*FES/L=400` inside the scale and crossover schedules. A 10,000-FES
+run includes 50 initialization evaluations and therefore completes 398
+half-population generations. Fusion is source-resolved as 12 superior plus 13
+inferior rows, with the complementary 13 plus 12 rows. Full objective and
+feasible-set hashes, exact selected-case FES, independent layout oracles,
+stage/work receipts, and one/all-visible scientific equivalence are audited by
+`scripts/audit_bde_ws56_contract.py`,
+`scripts/audit_bde_ws56_transition_parity.py`, and
+`scripts/validate_bde_ws56_declared_proxy.py`.
 
 The GGA package uses locally generated snapshots because the upstream
 repository has an academic-use notice but no standard redistribution license:
@@ -128,27 +189,63 @@ build/hpc/gga_cpp/gga_cpp_hpc \
 The exact reconstruction controls and claim boundary are frozen in
 `shared/contracts/geoga_reconstruction_execution_contract.json`.
 
-The GGA executable also provides an equation-led T-MOEA reconstruction on the
-same-author public Nysted asset. It preserves the paper's two objectives,
-Jensen wake equation, NSGA-II environmental selection, single-point crossover,
-topology-isolation mutation, and order-changing index swap. The missing
-nearest-neighbor size, probabilities, cable router, candidate sample, and tie
-rules are explicit reconstruction controls. The complete nondominated front is
-written atomically and every member can be replayed through `--evaluate-layout`:
+An isolated executable also reuses those admitted operator transitions on a
+new Anholt-structured P3 declared proxy. It freezes a synthetic irregular
+polygon, deterministic 180-point Poisson sample, 111 turbines, twelve declared
+joint wind bins, and explicit turbine/wake completions. The original Anholt
+boundary, candidate and wind arrays, actual layout, reported AEP, and
+actual-layout comparison remain blocked:
+
+```bash
+build/hpc/geoga_cpp/geoga_anholt_hpc \
+  --case shared/contracts/geoga_anholt_structured_declared_proxy_case.json \
+  --physical-fes 10000 \
+  --seed 20260729 \
+  --workers 0
+```
+
+Here `--workers 0` resolves to every hardware thread visible to the job. One
+physical FES is one complete layout evaluation over this selected case's twelve
+joint wind states. The problem, operator-parity, oracle, and execution
+boundaries are frozen in the `geoga_anholt_structured_*` contracts.
+
+The GGA executable also preserves the historical v1 T-MOEA Nysted
+reconstruction and exposes a distinct corrected CPU R4 profile. The corrected
+profile uses the paper's Eq. (16) complement set, so the relocated turbine
+cannot return to any site occupied by the complete pre-mutation layout. It has
+the separate method semantic ID
+`tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2` and the complete
+biobjective problem semantic ID
+`tmoea_nysted_paper_wake_gga_router_problem_v1`. The latter binds the paper's
+fixed-deficit Jensen AEP objective to the same-author GGA Nysted feasible set
+and declared cable router; it is distinct from the GGA LCOE problem.
 
 ```bash
 build/hpc/gga_cpp/gga_cpp_hpc \
   --algorithm tmoea \
+  --tmoea-profile paper-eq16-v2 \
+  --execution-mode auto \
   --problem .source-cache/generated/gga_repaired/Denmark_Nysted.wfp \
   --physical-fes 3000 \
   --seed 20260729 \
-  --workers "$(nproc)" \
-  --output results/tmoea_nysted_reconstruction.json
+  --output results/tmoea_nysted_paper_eq16_r4.json
 ```
 
-This command is not the unavailable original T-MOEA experiment. Its
-same-author asset boundary and every conventional completion are frozen in
-`shared/contracts/tmoea_nysted_reconstruction_execution_contract.json`.
+Omitting `--workers` in this corrected profile requests all hardware threads
+visible to the process; `--workers 1` selects serial execution. `cpu` and
+`auto` are admitted, while `hybrid` and `gpu` fail closed. One physical
+fitness evaluation (FES) is one complete AEP-plus-cable layout evaluation,
+including initialization. Output includes actual stage/work receipts and
+population/front hashes. The independent Python oracle re-evaluates every
+stored front member and checks nondominance.
+
+The default `--tmoea-profile historical-v1` retains the earlier output under a
+frozen canonical scientific hash. Both profiles remain declared
+reconstructions: the original T-MOEA candidate set, router, omitted controls,
+seed, and reference front are unavailable. The v1 boundary remains in
+`shared/contracts/tmoea_nysted_reconstruction_execution_contract.json`; the
+corrected profile and its distinct problem are controlled by the
+`tmoea_nysted_paper_*` contracts.
 
 After a target machine, compiler, and worker count have been frozen, run the
 25-seed fixed-work campaign with:
@@ -220,7 +317,8 @@ objective values across different problem profiles.
 It runs one optimization process at a time and uses all processors visible to
 that process internally. The four result families remain separate:
 18 algorithms on the common 50-case problem; BDE on 24 official-source WS1-WS4
-standard/Daegwallyeong cases; six algorithms on the three-objective T46
+standard/Daegwallyeong cases; isolated development-only BDE WS5/WS6 P3 cases
+outside the formal suite and its rankings; six algorithms on the three-objective T46
 problem; and GGA/GeoGA/T-MOEA on their declared offshore profiles. The BDE
 source arrays have no license file and remain outside Git; the campaign
 regenerates its local manifest from a staged authorized archive. ALGA, TAAE,
@@ -341,6 +439,113 @@ T-MOEA study, and GeoGA is frozen in
 automatically checks the Jiayi Li, Baohang Zhang, Chen Zhang, Yuhang Ma, and
 Jiaru Yang coauthor lines named during scope review. The minimum is append-only:
 future official-homepage records can expand it.
+
+The Step 10 machine-audited global capability matrix is
+`shared/contracts/global_execution_capability_matrix.json`. It joins every
+executable profile to the scoped paper where applicable, exact method and
+problem semantic IDs, real C++ binary target, runnable CLI, controlling
+contracts, oracle/tests, training-state boundary, four execution modes, and
+formal status. It covers the independent TAAE, PPGA, BDE, GeoGA, GGA/T-MOEA,
+PBEA, and shared WFLOP executables instead of treating the local
+`wflop_cpp_hpc` registry as global coverage.
+
+## Plan 005 target-native formal campaigns
+
+Plan 005 expands only the 23 registered target algorithm/problem pairs. It
+does not promote the comparison-only algorithms in the source papers into
+completion requirements. The prepared manifest contains 1,153 paper-native
+or explicitly declared-proxy cases and 25 independent optimization seeds per
+case, giving 28,825 optimization runs. Twenty targets are admitted to the CPU
+campaign. TAAE, RLPSO, and ALGA retain validated bounded artifacts but remain
+deferred until their separate paper-scale training receipts exist. FQFODE
+uses one frozen declared-reconstruction Q table produced by 39,700 offline
+training interactions; the same table is then reused by every optimization
+run.
+
+The accepted H6 receipt uses the highest-performance production profile:
+all 20 affinity-visible Spark2 CPUs for the persistent C++ team and
+phase-calibrated LibTorch C++ threads for learning work. LibTorch is called
+directly from C++; no Python/Torch production implementation is required.
+Formal campaigns launch one optimizer process at a time
+(`backend_parallelism=1`), preserve the selected within-optimizer parallelism,
+require exact physical FES, and commit each validated result through a
+same-filesystem temporary file plus `fsync` and atomic rename.
+
+The append-only `plan005_target_native_25_v2` suite additionally samples the
+operating-system thread table during every optimization. It rejects a run
+unless at least 20 worker threads are observed and their combined affinity
+domain exactly covers CPU 0--19. The earlier `v1` launch is excluded because
+`OMP_PROC_BIND=TRUE` caused the persistent `std::thread` team to inherit a
+one-CPU mask. A result is reusable only when its complete result key and this
+runtime worker-affinity receipt still match the frozen method, problem, case,
+seed, budget, binary, environment, source commit, and control-software hashes.
+
+```bash
+# Available before H6 finishes: rebuild-independent prepared-manifest audit.
+python3 scripts/audit_plan005_formal_manifests.py \
+  --scope core --strict --prepared
+
+# Run after the 23-target H6 summary has passed and become immutable.
+python3 scripts/generate_plan005_formal_manifests.py \
+  --scope core --seeds 25
+python3 scripts/audit_plan005_formal_manifests.py \
+  --scope core --strict
+
+# Zero-optimization readiness check followed by resumable execution.
+python3 scripts/run_plan005_formal_campaigns.py \
+  --all-admissible --backend-parallelism 1 --dry-run
+python3 scripts/run_plan005_formal_campaigns.py \
+  --all-admissible --backend-parallelism 1
+
+# Completion and learned-state-boundary audits.
+python3 scripts/audit_plan005_campaigns.py \
+  --all-admissible --seeds 25 --strict
+python3 scripts/audit_plan005_training_resume.py --strict
+```
+
+Future paper, algorithm, and problem packages follow
+[`docs/benchmark_onboarding_contract.md`](docs/benchmark_onboarding_contract.md):
+source-local fact declarations, semantic registration, independent oracles,
+H0--H6 admission, an append-only formal manifest, full target execution, and
+raw-evidence-derived public closure.
+
+Run `python3 scripts/audit_execution_backends.py` for the static audit. After
+a Release build and explicit staging of trusted ignored source assets, add
+`--build-dir BUILD` to execute every bounded CPU CLI, supported auto-to-CPU
+path, and declared hybrid/GPU fail-closed path. Original guarded identities
+remain blocked beside their separately named executable reconstructions.
+Step 11 bounded sensitivity, quality, and performance admission is complete.
+Step 12 contracts are frozen and unlaunched. Seven active scalar campaign
+contracts cover nine scalar profile routes through four distinct C++ binary
+targets. Every route still requires a bounded single-run checkpoint,
+feasibility, and separated-timing instrumentation validator before formal
+launch; no new declared-suite formal result has been produced.
+
+<!-- BEGIN GENERATED: STEP14 CLOSURE -->
+
+## Machine-generated project closure
+
+_Generated by `scripts/generate_step14_closure.py`; edit the registries, not this block._
+
+The `2026-07-29` scope snapshot contains **23 WFLOP papers** and 23 source dossiers. The executable registry contains **40 algorithm–problem profiles**, spanning 33 algorithm IDs and 14 problem IDs. The complete list is generated in [`docs/roadmap.md`](docs/roadmap.md#complete-executable-profile-inventory) and is machine-readable in [`step14_project_summary.json`](evidence/closure/step14_project_summary.json).
+
+Method evidence counts are M0=7, M1=7, M2=10, M3=16, M4=0. Problem evidence counts are P0=24, P1=0, P2=9, P3=7, P4=0. Method tiers, problem tiers, and the execution-form labels `original`, `source-replay`, `paper-complete`, `citation-derived`, `declared-proxy`, and `fixture-only` are separate dimensions; their counts must not be added into one total. Here `original` means only an M0 method plus P0 problem authority combination; it does not automatically establish reproduction of an original paper result.
+
+**Identity boundary.** 8 original method/problem identities remain guarded. Their 8 executable reconstructions use distinct profile IDs. The 14 complete-information profiles (M0/M1 with P0/P1) retain their registered method, problem, and profile identities.
+
+**Exact formal-suite status**
+
+| Exact suite ID | Contract status | Observed runtime state | Active profiles | Reused completed profiles | Campaigns | Contract optimization runs |
+|---|---|---|---:|---:|---:|---:|
+| `declared_reconstruction_formal_suite_v1` | `contract_frozen_not_launched` | `no_completion_receipt_in_step14_reference` | 11 | 4 | 9 | 4025 |
+| `spark2_campaign_suite_v1` | `approved_for_spark2_formal_execution` | `completed` | n/a | 0 | 4 | 28325 |
+| `waffle_campaign_suite_v1` | `development_admitted_waiting_for_waffle` | `no_completion_receipt_in_step14_reference` | n/a | 0 | 4 | 28325 |
+
+The preserved Spark2 suite contract remains byte-identical at `approved_for_spark2_formal_execution`; its separate observed runtime receipt is `completed`. Completed exact PBEA and GeoGA-GGA profiles are reused for analysis and are excluded from the new declared optimization launch.
+
+All 6 executable learning reconstruction profiles retain explicit training-state and claim boundaries in the generated roadmap. Step 11 bounded admission is complete. Step 12 contracts are frozen and unlaunched; seven active scalar campaign contracts covering nine scalar profile routes through four distinct C++ binary targets still require the single-run checkpoint, feasibility, and separated-timing instrumentation gate, so new declared-suite formal results have not been produced.
+
+<!-- END GENERATED: STEP14 CLOSURE -->
 
 ## Licensing
 

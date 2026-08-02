@@ -1,0 +1,36 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T02",
+  "H5": {
+    "status": "pass",
+    "basis": [
+      "independent Python wake and objective oracle",
+      "C++ single-layout and multi-layout semantic tests",
+      "one-worker and twenty-worker scientific-hash identity"
+    ]
+  },
+  "H6": {
+    "status": "pass",
+    "host": "waffle",
+    "source_commit": "808d222c8b48fe204d5ef02620aa77148c916bcc",
+    "workload": "Case C body profile bounded at 12000 complete-layout evaluations",
+    "one_worker_median_seconds": {
+      "evaluator": 1.2950445980000003,
+      "algorithm": 0.009169052000000066,
+      "end_to_end": 1.304185403
+    },
+    "twenty_worker_median_seconds": {
+      "evaluator": 0.07319587,
+      "algorithm": 0.004014662999999988,
+      "end_to_end": 0.077179426
+    },
+    "speedup": {
+      "evaluator": 17.692864337837644,
+      "algorithm": 2.2838908272002145,
+      "end_to_end": 16.898096689654054
+    },
+    "formal_receipt": "evidence/core99/formal/T01_T02_formal_quality.json",
+    "formal_cases": 4,
+    "formal_repeats_per_case": 25
+  }
+}

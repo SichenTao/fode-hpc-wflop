@@ -1,0 +1,28 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T63",
+  "host": "waffle",
+  "source_commit": "7545dcf3e7ecca8b28b5b8d42b8804f797362885",
+  "status": "fail_repaired_pending_confirmation",
+  "failed_gate": "H6 paper-lifecycle convergence",
+  "observed_failure": "all five relaxation cases still selected new CFD locations at the unsupported twelve-iteration ceiling",
+  "paper_evidence": {
+    "stopping_rule": "repeat until no newly promising location is selected",
+    "reported_iterations": {
+      "C=1.0": 3,
+      "C=0.7": 3,
+      "C=0.4": 3,
+      "C=0.2": 3,
+      "C=0.0": 8
+    },
+    "maximum_candidate_locations": 400,
+    "wind_directions_per_location": 12,
+    "maximum_single_turbine_cfd_simulations": 4800
+  },
+  "repair": {
+    "termination": "at most 400 newly known locations plus one final no-new-location solve",
+    "hpc_schedule": "partition twenty Waffle workers across five independent relaxation cases while preserving dependent iterations within each case",
+    "local_smoke": "pass: five cases converged with four workers per case under a bounded 0.05-second MIP diagnostic"
+  },
+  "claim_boundary": "failure and repair receipt; immutable Waffle confirmation remains required"
+}

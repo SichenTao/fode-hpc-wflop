@@ -1,0 +1,171 @@
+{
+  "schema_version": 1,
+  "corpus_id": "Y36",
+  "doi": "10.1109/jas.2026.126233",
+  "paper_sha256": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b",
+  "profiles": [
+    "taae_zhangbei_structured_declared_proxy_v1",
+    "taae_formula_fixture_v1",
+    "taae_transformer_declared_reconstruction_v1",
+    "taae_transformer_evolution_declared_reconstruction_v1"
+  ],
+  "completion_status": "P3_problem_proxy_P4_formula_fixture_trainable_Transformer_kernel_and_bounded_end_to_end_M3_declared_reconstruction_complete_original_TAAE_problem_and_method_blocked_paper_scale_checkpoint_blocked",
+  "decisions": [
+    {
+      "field": "terrain_and_decision_space",
+      "completed_transition": "the paper fixes a 20 by 20 grid and 15 turbines but exposes the Zhangbei terrain only as a figure",
+      "selected_value_or_rule": "retain the 20 by 20 discrete grid and 15 turbines and use the frozen analytic terrain written in the proxy case manifest",
+      "authority_type": "paper_structure_plus_declared_proxy_completion",
+      "immutable_authority": "Y36 paper and shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json",
+      "rejected_alternatives": ["digitize the contour figure and claim the original elevation array", "reuse a planar FODE case under the Zhangbei name"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "changes hub elevations, wake interactions, land geometry, and both objectives",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "multi_wake_and_terrain_shear_completion",
+      "completed_transition": "supplement Eqs. 1-8 define one-upstream 3D velocity but do not uniquely define multiple-wake superposition or terrain-shear composition",
+      "selected_value_or_rule": "apply target-point ambient terrain shear once and subtract the fixed-order root-sum-square of upstream pairwise absolute wake-only deficits",
+      "authority_type": "paper_pairwise_equations_plus_declared_quality_sensitive_completion",
+      "immutable_authority": "Y36 supplement Eqs. 1-8 and shared/contracts/taae_zhangbei_structured_declared_proxy_contract.json",
+      "rejected_alternatives": ["multiply terrain shear again after deriving a pair velocity that already contains shear", "multiply successive wake factors", "sum signed pair velocities"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "changes downstream velocities, expected power, noise source levels, and layout ranking",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "joint_wind_and_monitors",
+      "completed_transition": "the paper reports eight directions and two monitor configurations but no machine-readable probabilities or monitor cells",
+      "selected_value_or_rule": "use the frozen eight-direction by four-speed joint distribution and the two declared four-cell monitor configurations in the manifest",
+      "authority_type": "paper_structure_plus_declared_proxy_completion",
+      "immutable_authority": "shared/contracts/taae_zhangbei_structured_declared_proxy_cases.json and its six full problem-semantic hashes",
+      "rejected_alternatives": ["digitize plotted values and call them author arrays", "silently inherit unrelated benchmark wind states"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines state weights, unavailable cells, energy, and acoustic objective values",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "acoustic_model_completion",
+      "completed_transition": "supplement Eqs. 9-13 provide structure but omit complete spectra, propagation constants, and corrections",
+      "selected_value_or_rule": "preserve source-energy summation and A weighting with three explicitly declared bands, source reference levels, and absorption coefficients",
+      "authority_type": "paper_equations_plus_declared_proxy_completion",
+      "immutable_authority": "shared/contracts/taae_formula_fixture_contract.json and shared/contracts/taae_zhangbei_structured_declared_proxy_contract.json",
+      "rejected_alternatives": ["invent hidden full blade spectra", "omit acoustics while retaining a two-objective label"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines the complete second objective and prevents original-result claims",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "cost_constraint_and_fes",
+      "completed_transition": "supplement Eqs. 14-20 and budgets are visible but the land unit coefficient is unavailable",
+      "selected_value_or_rule": "use the literal turbine and effective-area forms with declared cost scales; count one joint energy-noise-cost evaluation of a complete layout as one physical FES",
+      "authority_type": "paper_equations_plus_platform_work_contract",
+      "immutable_authority": "shared/contracts/taae_zhangbei_structured_declared_proxy_contract.json",
+      "rejected_alternatives": ["count each wind state as one FES", "select the land coefficient after observing optimization results"],
+      "classification": "implementation_only",
+      "expected_downstream_effect": "defines feasibility, comparable work, and budget stopping",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "cpu_parallel_schedule",
+      "completed_transition": "the paper does not prescribe evaluator parallelism",
+      "selected_value_or_rule": "assign independent complete layouts to a configured persistent CPU team and keep every within-layout reduction in fixed order; record requested and resolved team sizes plus actual distinct and peak participant counts",
+      "authority_type": "platform_HPC_contract",
+      "immutable_authority": "hpc/wflop_cpp/tests/taae_problem_test.cpp, hpc/fode_cpp/include/fode/executor.hpp, and evidence/development/taae_problem_proxy_admission_spark_20260729.json",
+      "rejected_alternatives": ["make floating-point results worker-count dependent", "silently claim an unimplemented GPU backend"],
+      "classification": "implementation_only",
+      "expected_downstream_effect": "permits CPU population evaluation while preserving same-binary bitwise scientific equality between one-thread and twenty-thread configurations",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_P3_proxy"
+    },
+    {
+      "field": "transformer_architecture_completion",
+      "completed_transition": "the paper exposes six encoder layers, six autoregressive decoder layers, four heads, 64-dimensional embeddings and latent state, BOS, causal masking, and Adam, but does not expose every engineering choice needed by a trainable implementation",
+      "selected_value_or_rule": "preserve the visible 6 plus 6, 4-head, d_model 64, latent 64 architecture; expose raw compressed latent h to public encode and decoder memory projection, use L2-normalized h-bar only for the two-layer ReLU regression branch and metric alignment, and declare FFN 256, post-norm, dropout zero, deterministic Xavier-uniform initialization, learned BOS, mean encoder pooling, and separate encoder/decoder embeddings",
+      "authority_type": "paper_architecture_plus_declared_method_completion",
+      "immutable_authority": "Y36 paper and shared/contracts/taae_transformer_declared_reconstruction_contract.json",
+      "rejected_alternatives": ["freeze randomly initialized attention", "silently select an undeclared FFN width or normalization order"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines parameter shapes, information flow, initialization state, and the semantic identity of the reconstructed kernel",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_trainable_kernel_only"
+    },
+    {
+      "field": "transformer_training_objectives_and_work",
+      "completed_transition": "the paper names reconstruction and fitness-assisted learning but public source and checkpoint are unavailable and training work must remain distinct from physical wind-farm evaluation",
+      "selected_value_or_rule": "use token cross entropy, two-layer regression MSE, exactly batch-size deterministic sampled pairs over L2-normalized latent distances, lambda_reg 30, lambda_smooth 1, Adam defaults with per-parameter update age, exact decoder freeze, unique sorted layout corpora, 100000-layout 500-epoch batch-64 paper-scale profile, and record training_physical_fes as zero",
+      "authority_type": "paper_loss_structure_plus_declared_method_and_platform_completion",
+      "immutable_authority": "shared/contracts/taae_transformer_declared_reconstruction_contract.json and hpc/taae_cpp/tests/model_test.cpp",
+      "rejected_alternatives": ["use finite differences for training", "count token or optimizer work as physical FES", "freeze random attention and describe it as trained"],
+      "classification": "quality_sensitive",
+      "expected_downstream_effect": "defines gradient flow, update semantics, training-work accounting, and checkpoint replay",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_trainable_kernel_only"
+    },
+    {
+      "field": "transformer_kernel_admission_boundary",
+      "completed_transition": "a verified mathematical autoencoder kernel does not by itself define or validate the paper's complete evolutionary method",
+      "selected_value_or_rule": "admit only the pure C++ trainable kernel under semantic ID taae_transformer_declared_reconstruction_v1; keep the end-to-end M3 method unadmitted and original taae blocked",
+      "authority_type": "reconstruction_admission_policy",
+      "immutable_authority": "shared/contracts/taae_transformer_declared_reconstruction_contract.json",
+      "rejected_alternatives": ["register an executable TAAE algorithm from kernel tests", "create formal optimization evidence or performance claims from the kernel milestone"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "prevents kernel verification from being upgraded to original-method, optimizer, benchmark, CPU-performance, or GPU-performance evidence",
+      "sensitivity_test_required": false,
+      "adjudication_status": "kernel_only_end_to_end_method_blocked"
+    },
+    {
+      "field": "taae_evolution_ranking_and_latent_variation",
+      "completed_transition": "the paper specifies SPEA2 relative fitness, CDP plus NSGA-II selection, latent differential weight 0.3, one mutant crossover dimension, and polynomial mutation but leaves ranking ties, density k, mutation bounds, and zero ranges implicit",
+      "selected_value_or_rule": "use binary tournaments; in CDP one feasible solution beats one infeasible solution, two infeasible solutions compare positive constraint violation, and two feasible solutions compare Pareto dominance, followed by NSGA-II rank, descending crowding, and stable source index; when no feasible solution exists emit and label the deterministic rank-0 least-violation front; SPEA2 k=floor(sqrt(N)); current-population raw-latent min-max bounds; zero-range dimensions unchanged; Deb bounded polynomial mutation with distribution index 20",
+      "authority_type": "paper_algorithm_plus_canonical_SPEA2_NSGAII_and_declared_completion",
+      "immutable_authority": "Y36 Algorithms 1-2 and shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json",
+      "rejected_alternatives": ["use normalized h-bar for latent DE", "mutate against arbitrary fixed latent bounds", "break ranking ties by worker completion order"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "defines parent selection, latent offspring distribution, relative-fitness targets, deterministic environmental survival, and observable no-feasible output",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_bounded_M3_reconstruction"
+    },
+    {
+      "field": "taae_evolution_repair_and_duplicate_refill",
+      "completed_transition": "Algorithm 2 removes duplicate decoded solutions and valid decoded solutions identical to the parent population before Gaussian repair; the paper distinguishes Gaussian repair for at most two conflicts and full reinitialization above two but omits raw-solution key semantics, covariance regularization, nearest-grid ties, attempt limits, post-repair collision handling, duplicate refill, and terminal partial batches",
+      "selected_value_or_rule": "before repair key the decoded integer-token multiset canonically while retaining multiplicity and invalid values, reject repeated raw decoded solutions and valid decoded parent identities without repair RNG, then repair; retain a post-repair parent and accepted-offspring collision guard; visit attempts in ascending order with current parent row attempt modulo N and assign source indices only in accepted order; regularize each covariance diagonal by max(cell_width^2*1e-6,1e-12); use fixed-order Box-Muller sampling, 64 attempts, nearest admissible cell with ascending-cell tie; cap proposals at 10 times requested batch, deterministic feasible refill, and evaluate exactly the remaining terminal FES",
+      "authority_type": "paper_repair_structure_plus_declared_deterministic_completion",
+      "immutable_authority": "Y36 Algorithm 2 and shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json",
+      "rejected_alternatives": ["repair before raw decoded-solution filtering", "collapse duplicate multiplicity in the raw key", "accept monitor-overlap or post-repair duplicate layouts", "retry without a bound", "overshoot 10000 FES with a full final generation"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "preserves Algorithm 2 RNG consumption and decoded-offspring distribution while preventing redundant physical evaluation after repair; also defines termination work and worker-independent layout trajectory",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_distinct_bounded_M3_reconstruction"
+    },
+    {
+      "field": "taae_evolution_training_state_and_execution_boundary",
+      "completed_transition": "the public paper-scale checkpoint is unavailable, while an executable bounded reconstruction needs deterministic pretrained state and per-generation fine-tuning",
+      "selected_value_or_rule": "bounded smoke pretrains 64 unique layouts for 2 epochs in batches of 16; every generation fine-tunes 10 epochs from current evaluated population with decoder frozen and training_physical_fes zero; paper-scale mode requires a supplied immutable SHA-256-matched checkpoint with paper-scale metadata and otherwise fails closed",
+      "authority_type": "paper_training_schedule_plus_reconstruction_admission_policy",
+      "immutable_authority": "shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json",
+      "rejected_alternatives": ["silently label bounded state as paper-scale", "count reused population targets as new FES", "allow unsupported gpu or hybrid execution"],
+      "classification": "identity_critical",
+      "expected_downstream_effect": "separates bounded executable evidence from unavailable paper-scale learned state and preserves physical-work accounting",
+      "sensitivity_test_required": true,
+      "adjudication_status": "bounded_M3_executable_paper_scale_blocked"
+    },
+    {
+      "field": "taae_cpu_r4_exact_execution",
+      "completed_transition": "the approved bounded reconstruction was scientifically exact across worker counts but the model forward path and autoregressive offspring decoding were serial, the CLI required an explicit worker count for all-visible execution, and configured thread count did not prove actual participation",
+      "selected_value_or_rule": "reuse one persistent CPU executor for independent model forward/cache work, population encoding, complete-layout evaluation, and executor-width speculative decoding; commit decoded proposals in exact attempt order and invalidate later speculation whenever repair consumes RNG; retain fixed-order loss and gradient accumulation, Adam registry/index updates, RNG transitions, pairing, repair, selection, and serialization; default an omitted CLI worker option to all visible logical CPUs and emit stage timing, proposal-work, requested/resolved-worker, distinct-participant, and peak-participant receipts",
+      "authority_type": "platform_CPU_execution_contract_with_exact_scientific_equivalence",
+      "immutable_authority": "shared/contracts/taae_transformer_evolution_declared_reconstruction_contract.json, hpc/taae_cpp/tests/evolution_test.cpp, and evidence/development/taae_cpu_r4_spark_20260729.json",
+      "rejected_alternatives": ["parallelize reductions or backward accumulation in a way that changes floating-point order", "commit speculative decoded proposals out of attempt order", "claim GPU or hybrid support", "retain measured Adam parameter-task parallelism after it showed no reproducible absolute gain and added executor work"],
+      "classification": "implementation_only",
+      "expected_downstream_effect": "reduces bounded CPU wall time while preserving exact model, population, front, FES, generation, RNG, repair, and proposal-work semantics across one and all-visible workers; receipts demonstrate actual executor participation without creating a formal or paper-result claim",
+      "sensitivity_test_required": true,
+      "adjudication_status": "selected_for_CPU_R4_development_only"
+    }
+  ]
+}

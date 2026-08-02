@@ -1,0 +1,112 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T28",
+  "paper": {
+    "title": "Offshore Wind Farm Layout Optimization Accounting for Participation in Secondary Reserve Markets",
+    "doi": "10.5194/wes-10-1661-2025",
+    "pdf_sha256": "576b4149d526aab89f127431145ae70e71c852bc15e9466718f00939b067a2e6"
+  },
+  "public_source": {
+    "url": "https://github.com/Twitwi96/WINDFLOWER/tree/v1.0.0",
+    "revision": "427ee84dfdb9fb275b229e8eecf4503071d8fed4",
+    "data_doi": "10.5281/zenodo.13946931",
+    "license": "AGPL-3.0"
+  },
+  "paper_problem": {
+    "decision_variables": "x-y coordinates of 72 Northwind V112-3.075 MW turbines",
+    "objectives": [
+      "maximize AEP",
+      "maximize expected day-ahead-market revenue",
+      "maximize expected joint energy-and-reserve-market revenue"
+    ],
+    "constraints": "released Northwind polygon and minimum spacing 2 rotor diameters = 224 m",
+    "wake": "Bastankhah/Niayifar Gaussian deficit, Crespo-Hernandez added turbulence, linear superposition and released V112 power/Ct curve",
+    "training_year": 2023,
+    "unseen_test_year": 2024,
+    "time_resolution": "quarter-hour",
+    "reserve_limits_mw": [50, 117, 221.4]
+  },
+  "method": {
+    "semantic_id": "nguyen2025_jerm_northwind_v1",
+    "optimizer": "SGD-equivalent Adam implementation with differentiable constraints",
+    "iterations": 2000,
+    "initial_learning_rate_m": 112,
+    "constraint_multiplier": 0.1,
+    "samples_per_iteration": [20, 50, 100, 150],
+    "forecast_samples": 10,
+    "forecast_error": {
+      "wind_speed_relative_std": 0.15,
+      "wind_direction_absolute_std_degrees": 4.2,
+      "day_ahead_price_relative_std": 0.07,
+      "reserve_capacity_price_relative_std": 0.07,
+      "reserve_activation_price_relative_std": 0.1,
+      "activated_volume_relative_std": 0.1,
+      "imbalance_price_relative_std": 0.1
+    },
+    "bid_grid_mw": 1
+  },
+  "missing_and_conflicts": [
+    {
+      "field": "installed capacity",
+      "paper": "216 MW in prose",
+      "source_and_later_paper": "72 times 3.075 MW = 221.4 MW",
+      "resolution": "221.4 MW"
+    },
+    {
+      "field": "random starts",
+      "paper": "five independent initial conditions",
+      "source": "no fixed random seeds or released recorder corpus",
+      "resolution": "declared seeds 0 through 4, trained from scratch"
+    },
+    {
+      "field": "Crespo-Hernandez delegated kernel",
+      "source": "implemented inside external PyWake and not exposed in WINDFLOWER",
+      "resolution": "freeze one aggregate factor against published 2023 base-layout AEP; do not tune per case"
+    },
+    {
+      "field": "wind-power modelling error",
+      "paper": "3% Gaussian modelling error is part of Eq. 3",
+      "source": "implementation line is commented because it does not work with autograd",
+      "resolution": "paper-first 3% error retained through LibTorch autograd"
+    }
+  ],
+  "hpc": {
+    "backend": "pure C++ LibTorch CPU/CUDA",
+    "parallel_regions": [
+      "quarter-hour SGD samples",
+      "Monte Carlo forecast samples",
+      "72-by-72 wake interactions",
+      "integer contracted-power and reserve bid candidates",
+      "automatic differentiation and optimizer tensor updates"
+    ],
+    "ordered_regions": [
+      "sample batch",
+      "evaluate differentiable expected revenue",
+      "backpropagate",
+      "optimizer commit"
+    ],
+    "local_h5": {
+      "paper_base_layout_aep_gwh": 919.78,
+      "native_base_layout_aep_gwh": 926.358666353522,
+      "relative_error": 0.007152434119725
+      ,
+      "paper_base_layout_jerm_eur": 69673500,
+      "native_base_layout_jerm_eur": 71142962.354843125,
+      "jerm_relative_error": 0.021091697059038
+    },
+    "local_h6_candidate": {
+      "workload": "two optimization steps plus 512-quarter-hour JERM evaluation, K*T=150 and S=10",
+      "one_cpu_worker_seconds": 3.512375929,
+      "twenty_cpu_workers_seconds": 1.518916047,
+      "all_core_speedup": 2.312409,
+      "objective_identity": "bitwise equal across CPU worker counts",
+      "cuda_compatibility": "pass"
+    }
+  },
+  "formal_protocol": {
+    "seeds": [0, 1, 2, 3, 4],
+    "paper_cases": "AEP, DAEM and JERM; K*T 20/50/100/150; Rmax 50/117/221.4 MW; 2023 training and 2024 unseen evaluation",
+    "execution": "bounded paper-shape calibration selects the faster of CUDA and all-core CPU on Waffle"
+  },
+  "claim_boundary": "Academic paper-first reconstruction using exact released layouts, curves and market data; not author-original software and not per-number identity."
+}

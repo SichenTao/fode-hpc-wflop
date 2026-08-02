@@ -1,0 +1,165 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T25",
+  "paper": {
+    "title": "Speeding Up Large-Wind-Farm Layout Optimization Using Gradients, Parallelization, and a Heuristic Algorithm for the Initial Layout",
+    "authors": "Rafael Valotta Rodrigues and Mads Mølgaard Pedersen and Jens Peter Schøler and Julian Quick and Pierre-Elouan Réthoré",
+    "doi": "10.5194/wes-9-321-2024",
+    "venue": "Wind Energy Science",
+    "year": 2024,
+    "pdf_basename": "2024_Rodrigues_Speeding_Up_Large_Wind_Farm_Layout_Optimization_Using_Gradients_Parallelization_and_a_Heuristic_Algorithm_for_the_Initial_Layout.pdf",
+    "pdf_sha256": "e61f6caa28512681934f58e26dc04f52149498dd69c058766c145a810021789d",
+    "primary_asset_status": "local_primary_pdf_hashed_rendered_and_audited",
+    "primary_review_class": "REV5",
+    "secondary_review_classes": "REV3",
+    "reading_tier": "KEY40",
+    "role": "D"
+  },
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 21,
+    "text_sha256": "0e9b388df6df9c3d9b1f87d1760b34b62ae084f72dc559dc9a11bbed4f9f7ab0"
+  },
+  "authority_ladder": [
+    "target_publisher_paper",
+    "paper_linked_Zenodo_dataset_and_embedded_git_history",
+    "paper_pinned_PyWake_v2.5.0_source_and_data",
+    "paper_equations_and_algorithm",
+    "deterministic_declared_reconstruction"
+  ],
+  "paper_linked_public_asset_candidates": [
+    "https://doi.org/10.5281/zenodo.10402450",
+    "https://doi.org/10.5281/zenodo.6806136",
+    "https://gitlab.windenergy.dtu.dk/TOPFARM/PyWake"
+  ],
+  "public_asset_candidate_evidence": {
+    "status": "identity revision license checksums and semantics audited; dataset and PyWake model assets admitted",
+    "dataset_archive_md5": "da3192a1b7467ba038c611ec656536b8",
+    "dataset_embedded_revision": "a417a88b2e2a309961397ed0fa093370d65a0662",
+    "dataset_license": "CC-BY-4.0",
+    "pywake_revision": "cd5ff8363ae2615a92860d409e748b4a0431f33d",
+    "pywake_license": "MIT",
+    "pywake_license_sha256": "7da18f39b4df83647b40276d8559a22f4a3d32b87e7d7b7f54eaff2dc69541e7"
+  },
+  "paper_source_conflicts": [
+    "The paper describes the IEA simplified model with physical CT approximately 8/9 and also states equivalence to CT approximately 0.964; PyWake v2.5.0 uses CT=8/9 with D/sqrt(8) initial wake width.",
+    "The public helper defaults to 1000 SLSQP iterations while both public result tensors record max_iter=5000; neither pins the SciPy or TOPFARM revision, so the counter semantics and internal trajectory are not uniquely replayable in NLopt.",
+    "The public archive supplies processed NetCDF results and helper code, but no complete launch scripts, optimized coordinate arrays or Horns Rev timing arrays."
+  ],
+  "missing_information": [
+    "complete environment lock, TOPFARM revision and SLSQP internal trajectory",
+    "all original random bitstreams and optimized coordinate arrays",
+    "exact finite-difference and complex-step steps",
+    "full cluster affinity, scheduler state and memory measurement method"
+  ],
+  "completion_decisions": [
+    "Use exact PyWake v2.5.0 IEA-37, Horns Rev, Bastankhah, turbine and resource assets.",
+    "Freeze direct PyWake v2.5.0 AEP oracles for IEA-37 16/36/64 and Horns Rev 100 before performance admission.",
+    "Use a fixed pure-C++ reverse accumulation for the exact objective gradient and verify it against a 0.05 m central finite difference.",
+    "Use pinned NLopt Kraft SLSQP as the declared open replacement for the unpinned Python solver stack.",
+    "Use the public result tensors' 5000 SciPy-iteration setting only as provenance; separately cap production NLopt at 5000 objective callbacks and report actual objective, gradient and physical-layout counts.",
+    "Implement Algorithm 1 SMAST with the paper's 100-random_percent selection meaning and incremental candidate-state wake-square updates.",
+    "Treat complex-step as a non-target published comparator rather than inventing an unverified complex-valued solver.",
+    "Retain author NetCDF arrays as external validation evidence and run the platform's own 25 seeds from scratch.",
+    "Use all available Waffle cores for production; run one core only at sparse H6 timing points."
+  ],
+  "prior_parallel_boundary": "The paper explicitly studies 1, 4, 16 and 32 CPU flow-case parallelization and recommends top-level multi-start parallelization. The platform claim is a deterministic, auditable pure-C++ realization and measured reproduction, not first parallelization.",
+  "dossier_status": "h5_admitted",
+  "formal_status": "ready_for_immutable_waffle_queue",
+  "hpc_admission": {
+    "H0": "complete_target_dataset_PyWake_revision_license_and_conflict_audit",
+    "H1": "complete_flow_gradient_spacing_SMAST_and_multistart_work_decomposition",
+    "H2": "complete_reverse_gradient_incremental_SMAST_persistent_flow_and_outer_start_parallelism_analysis",
+    "H3": "complete_pure_cpp_persistent_all_core_implementation",
+    "H4": "complete_resumable_H6_and_25_seed_formal_runner",
+    "H5": "pass_strict_cpp_asan_ubsan_pinned_pywake_source_oracles_exact_gradient_and_thread_identity_validation",
+    "H6": "pending_immutable_waffle_one_all_core_identity_and_speedup"
+  },
+  "scope": {
+    "scope_status": "paper_paired_hpc_implemented",
+    "execution_wave": "REV5",
+    "package_status": "h5_admitted_h6_and_formal_ready",
+    "target_contribution_type": "scaling_computation_or_reproducible_execution",
+    "claim_boundary": "source-backed flexible academic reproduction of both problem families SMAST exact-gradient SLSQP flow-case and multi-start parallelization; not author trajectory random stream exact timing/numerical replay complex-step implementation or first parallelization"
+  },
+  "semantic_contract": {
+    "decision_variables": {
+      "authority": "target Eq. 2 and public utils.py",
+      "resolution": "continuous x-y coordinate pair for each turbine",
+      "status": "implemented"
+    },
+    "encoding_and_decoder": {
+      "authority": "target continuous TOPFARM variables",
+      "resolution": "stable turbine-major interleaved real vector",
+      "status": "implemented_and_validated"
+    },
+    "constraints_and_repair": {
+      "authority": "target Eqs. 3-8 and public utils.py",
+      "resolution": "circle or parallelogram boundary; two-diameter spacing during SMAST; boundary only during SLSQP as in the paper",
+      "status": "implemented_and_validated"
+    },
+    "objective_and_direction": {
+      "authority": "target Eq. 2",
+      "resolution": "maximize direction-speed weighted AEP",
+      "status": "implemented_and_independently_validated"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "target Table 1 and pinned PyWake v2.5.0",
+      "resolution": "source-exact IEA simplified and full Bastankhah Gaussian models with squared deficits and source turbine curves",
+      "status": "implemented_source_equation_validated"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "target Table 1 public helper and pinned PyWake",
+      "resolution": "IEA 360 by one; Horns Rev 360 by 23 with source nearest-sector and Weibull-bin semantics",
+      "status": "implemented"
+    },
+    "paper_native_cases": {
+      "authority": "target Table 1 figures and public result dimensions",
+      "resolution": "six IEA sizes and five Horns Rev sizes; 65 deduplicated paper roles mapped, 55 target/platform roles executable and 10 comparator/diagnostic roles observation-only",
+      "status": "implemented_target_roles_and_registered_observation_boundaries"
+    },
+    "initialization": {
+      "authority": "target Algorithm 1 and public utils.py",
+      "resolution": "incremental SMAST at 3R or 5R plus paper-equivalent random feasible initialization",
+      "status": "implemented_and_public_scale_validated"
+    },
+    "parameters": {
+      "authority": "target paper public archive PyWake and declared contract",
+      "resolution": "all published physical values and source settings; every completion is explicit",
+      "status": "implemented"
+    },
+    "update_order": {
+      "authority": "target Algorithm 1 and SLSQP lifecycle",
+      "resolution": "stable sequential turbine placement followed by exact-gradient boundary-constrained SLSQP",
+      "status": "implemented"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "public utils.py plus formal contract",
+      "resolution": "public helper default 1000 iterations, published result tensors max_iter=5000 and tolerance 1e-4; NLopt production cap is separately defined as 5000 objective callbacks, with actual objective, gradient and complete-layout counts emitted",
+      "status": "implemented_and_configurable"
+    },
+    "metrics_and_repeats": {
+      "authority": "target paper public NetCDF arrays and platform protocol",
+      "resolution": "AEP initialization optimization spacing boundaries iterations work counts stage timings workers hash and 25 platform seeds",
+      "status": "implemented_and_runner_validated"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "no learned model or pretrained state",
+      "status": "not_applicable"
+    }
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/rodrigues_t25.hpp",
+    "hpc/core99_cpp/src/rodrigues_t25.cpp",
+    "hpc/core99_cpp/src/rodrigues_t25_main.cpp",
+    "hpc/core99_cpp/tests/rodrigues_t25_test.cpp",
+    "scripts/validate_core99_t25.py",
+    "scripts/run_core99_t25_h6_formal.py",
+    "shared/contracts/core99_t25_rodrigues_2024.json"
+  ],
+  "evidence_units": [
+    "evidence/development/T25_H0_H4_mathematical_hpc_analysis_20260801.md",
+    "evidence/core99/h5/T25_local_h5.json"
+  ]
+}

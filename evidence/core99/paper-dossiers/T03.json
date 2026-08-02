@@ -1,0 +1,144 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "Use deterministic strength-Pareto scoring and evenly spread archive truncation.",
+    "Use counter-keyed events and fixed-order archive commits.",
+    "Keep the 20-core evaluator despite a small ordered-control slowdown because Waffle end-to-end speedup is 9.99 times and the scientific trajectory is identical."
+  ],
+  "corpus_id": "T03",
+  "dossier_status": "formal_complete",
+  "evidence_receipts": [
+    "evidence/core99/h6/T03_waffle_admission.json",
+    "evidence/core99/formal/T03_T04_formal_quality.json"
+  ],
+  "formal_status": "complete",
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pass"
+  },
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/kusiak_t03.hpp",
+    "hpc/core99_cpp/src/kusiak_t03.cpp",
+    "shared/contracts/core99_t03_kusiak_cases.json"
+  ],
+  "missing_information": [
+    "author source code",
+    "exact SPEA density and clustering edge cases",
+    "author random generator"
+  ],
+  "paper": {
+    "authors": "Andrew Kusiak and Zhe Song",
+    "doi": "10.1016/j.renene.2009.08.019",
+    "pdf_basename": "2010_Kusiak_Design_of_Wind_Farm_Layout_for_Maximum_Wind_Energy_Capture.pdf",
+    "pdf_sha256": "929acaea729ee193363563f301664a879e9bd04f7d4623efc81f03d831c0b482",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV1",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D",
+    "secondary_review_classes": "NONE",
+    "title": "Design of Wind Farm Layout for Maximum Wind Energy Capture",
+    "venue": "Renewable Energy",
+    "year": 2010
+  },
+  "paper_linked_public_asset_candidates": [],
+  "paper_source_conflicts": [
+    "No author implementation was located.",
+    "SPEA density, clustering tie cases, and random generator are not executable from the paper."
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 10,
+    "text_sha256": "d1e9841c50e5058ef199e51bfd35cc98a12a214a9112816d465ed911203df1ef"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [],
+    "embedded_annotation_urls": [],
+    "status": "no_paper_linked_public_asset_candidate_detected"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "paper-equation academic declared reproduction; no author-source or author-exact numerical claim",
+    "execution_wave": "REV1",
+    "package_status": "formal_complete",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "problem_definition_or_comparison_protocol"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "paper",
+      "resolution": "500 m circular boundary and 8R pair spacing remain the second SPEA objective",
+      "status": "frozen"
+    },
+    "decision_variables": {
+      "authority": "paper",
+      "resolution": "continuous x,y coordinates for each fixed-count turbine",
+      "status": "frozen"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper",
+      "resolution": "ordered continuous coordinate vector with per-coordinate ES strategy values",
+      "status": "frozen"
+    },
+    "initialization": {
+      "authority": "paper_plus_declared_rng_completion",
+      "resolution": "uniform coordinate and strategy initialization with counter-keyed events",
+      "status": "frozen"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper_plus_platform_protocol",
+      "resolution": "expected power, inverse power, feasibility, physical FES, stage timings, scientific hash, and 25 formal seeds",
+      "status": "frozen"
+    },
+    "objective_and_direction": {
+      "authority": "paper",
+      "resolution": "minimize inverse expected power and summed constraint violation",
+      "status": "frozen"
+    },
+    "paper_native_cases": {
+      "authority": "paper",
+      "resolution": "two wind scenarios crossed with fixed turbine counts 2 through 6",
+      "status": "frozen"
+    },
+    "parameters": {
+      "authority": "paper",
+      "resolution": "20 parents, 120 children, archive 50, tournament 4, strategy bounds 1 to 25 m",
+      "status": "frozen"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper",
+      "resolution": "120 initial children plus 100 generations of 120 equals 12120 physical FES",
+      "status": "frozen"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "paper",
+      "resolution": "non-learning evolutionary strategy",
+      "status": "not_applicable"
+    },
+    "update_order": {
+      "authority": "paper_plus_declared_spea_completion",
+      "resolution": "strength-Pareto archive, tournament, arithmetic recombination, log-normal strategy mutation, ordered commits",
+      "status": "frozen"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_equations",
+      "resolution": "Kusiak wake deficits, Weibull expected power quadrature, and paper linear/rated turbine curve",
+      "status": "frozen"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper_tables",
+      "resolution": "both 24-bin direction-conditioned Weibull scenarios",
+      "status": "frozen"
+    }
+  }
+}

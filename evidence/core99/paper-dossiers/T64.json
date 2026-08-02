@@ -1,0 +1,168 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T64",
+  "paper": {
+    "authors": "Sami Yamani Douzi Sorkhabi and David A. Romero and Gary Kai Yan and Michelle Dao Gu and Joaquin Moran and Michael Morgenroth and Cristina H. Amon",
+    "doi": "10.1016/j.renene.2015.06.026",
+    "pdf_basename": "2016_Sorkhabi_The_Impact_of_Land_Use_Constraints_in_Multi_Objective_Energy_Noise_Wind_Farm_Layout_Optimization.pdf",
+    "pdf_sha256": "6fc92723c93a0cf0eb667e7b21ce4f25525d8a9d04196bbe63b646738943db0f",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV4",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "REV2",
+    "title": "The Impact of Land Use Constraints in Multi-Objective Energy-Noise Wind Farm Layout Optimization",
+    "venue": "Renewable Energy",
+    "year": 2016
+  },
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 12,
+    "text_sha256": "01a88d7d5bebfb2417d7bf87aa10ec975d725f2f2215317d8e42b352e04d11e6"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [],
+    "embedded_annotation_urls": [],
+    "status": "no_author_target_source_or_native_array_package_located"
+  },
+  "paper_linked_public_asset_candidates": [],
+  "same_lineage_public_assets": [
+    {
+      "url": "https://gitlab.windenergy.dtu.dk/TOPFARM/PyWake.git",
+      "revision": "5b07481ec9b3633a74844651648f266ba82a8b32",
+      "license": "MIT",
+      "role": "independent ISO 9613 formula cross-check inherited from T72"
+    }
+  ],
+  "paper_source_conflicts": [
+    "The paper maximizes AEP but printed static and dynamic AEP penalty equations add a positive penalty; the implementation minimizes negative AEP plus positive penalties.",
+    "The printed regulatory-distance equation and extracted inequality are dimensionally ambiguous at polygon boundaries; the reconstruction uses Euclidean sampled distance to available land.",
+    "The paper says each optimization is carried out five times, while merged C1/C2 timing tables report ten runs; the platform keeps each parameterization separate and uses 25 independent seeds."
+  ],
+  "missing_information": [
+    "author in-house C++ source, executable environment, and random states",
+    "225 native random polygon vertices, forbidden identities, and receptor coordinates",
+    "raw 24-by-43 wind probability matrix",
+    "complete octave spectra, atmospheric, ground, and receptor constants",
+    "NSGA-II distribution indices and offspring count",
+    "death-regeneration random lifecycle",
+    "four native uniformity-study maps",
+    "machine-readable trajectories and Pareto fronts"
+  ],
+  "completion_decisions": [
+    "Reuse the independently H5-validated same-lineage T72 Jensen, wind-state, ISO propagation, land, and NSGA-II components without changing default T72 semantics; select the paper's 0.3u^3 kW and constant Lw=100 dB T64 profile.",
+    "Generate deterministic similar-area jittered-Voronoi maps with one receptor at each forbidden seed.",
+    "Reconstruct 24 directions by 43 speeds from the cited Kusiak lineage and use standard full Jensen deficits.",
+    "Use the pinned-PyWake-checked T72 ISO constants, Deb-standard eta_c=eta_m=20, and offspring size equal to population.",
+    "Use counter-keyed feasible construction sequentially within each layout and parallel across population members.",
+    "Count an infeasible death layout and its feasible replacement as two complete physical evaluations.",
+    "Generate four deterministic map variants for the missing native uniformity arrays.",
+    "Reproduce static C1/C2, dynamic C1/C2, and death as target methods; do not add unrelated paper comparator baselines."
+  ],
+  "scope": {
+    "claim_boundary": "academic flexible paper/lineage reconstruction of all target constraint modes and thirteen paper roles; not author code native arrays original random stream raw fronts or numerical replay",
+    "execution_wave": "REV4",
+    "package_status": "paper_pair_h5_validated",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "coupled_or_real_world_problem_and_method"
+  },
+  "semantic_contract": {
+    "decision_variables": {
+      "authority": "paper_Section_4",
+      "resolution": "2N continuous turbine x-y coordinates in a 3 km square",
+      "status": "frozen"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper_Sections_3_4_plus_declared_completion",
+      "resolution": "real-valued NSGA-II coordinates with direct physical decoding",
+      "status": "frozen"
+    },
+    "objective_and_direction": {
+      "authority": "paper_Eqs_17_20_21_plus_penalty_sign_resolution",
+      "resolution": "maximize AEP and minimize maximum expected receptor SPL, implemented as minimize negative AEP and SPL with positive penalties",
+      "status": "frozen"
+    },
+    "constraints_and_repair": {
+      "authority": "paper_Eqs_6_10_18_19_and_Section_4_2",
+      "resolution": "minimum 385 m spacing and no turbine in forbidden polygons; static/dynamic penalize squared violation and death physically rejects and replaces",
+      "status": "frozen"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_Eqs_1_5_20_21_plus_same_lineage_validation",
+      "resolution": "Jensen top-hat full deficit, RSS wake superposition, the paper's 0.3u^3 kW then 1.5 MW power curve, constant Lw=100 dB, and ISO-9613 expected maximum A-weighted SPL",
+      "status": "frozen"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper_Section_5_and_cited_Kusiak_lineage",
+      "resolution": "24 direction bins and 43 speeds from 4 to 25 m/s in 0.5 m/s steps using a direction-conditioned truncated Weibull reconstruction",
+      "status": "frozen"
+    },
+    "initialization": {
+      "authority": "paper_Section_4_plus_declared_random_state_completion",
+      "resolution": "random feasible layouts using counter-keyed rejection sampling, sequential within layout and population-parallel",
+      "status": "frozen"
+    },
+    "update_order": {
+      "authority": "paper_Section_4_1_plus_Deb_NSGAII",
+      "resolution": "binary tournament, SBX, polynomial mutation, selected penalty mode, stable rank/crowding environmental selection, ordered generation commit",
+      "status": "frozen"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper_Sections_4_1_6_1",
+      "resolution": "at most 80000 complete layout evaluations for static/dynamic and 40000 for death preliminary work, or last-100 rank-one crowding variance below 0.005",
+      "status": "frozen"
+    },
+    "parameters": {
+      "authority": "paper_Sections_4_1_4_2_5_plus_Deb_completion",
+      "resolution": "population 200/150/100, crossover 0.95, mutation 0.05, eta_c=eta_m=20, static 1e4/4e4 and dynamic Cgen=ngen/ngen-over-2",
+      "status": "frozen"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "T64 has no learned model",
+      "status": "not_applicable"
+    },
+    "paper_native_cases": {
+      "authority": "paper_Sections_5_6_2_6_3",
+      "resolution": "nine main land-availability by turbine-count cases plus four 80-percent, 10-turbine uniformity roles; 13 roles and 12 unique reconstructed instances",
+      "status": "frozen_reconstruction"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper_Tables_2_3_Figs_4_5_7_plus_platform_protocol",
+      "resolution": "per-run Pareto fronts, AEP/SPL range, front cardinality, convergence, physical FES, uniformity, timings, workers, and hashes over 25 platform seeds per parameterization",
+      "status": "frozen"
+    }
+  },
+  "hpc_admission": {
+    "H0": "pass: target methods, thirteen paper roles, physical-FES ledger, conflicts, omissions, and completions frozen",
+    "H1": "pass: evaluator, population, wind-state, receptor, dominance, initialization, and death-replacement work analyzed",
+    "H2": "pass: persistent-team population evaluation, feasible initialization, variation, death replacement, and dominance decomposed",
+    "H3": "pass: pure C++20 counter-keyed fixed-index implementation preserves one/all-worker scientific identity",
+    "H4": "pass: complete 80000-evaluation Spark profile gives 12.733x evaluator and 10.406x end-to-end twenty-core speedup",
+    "H5": "pass: 13 roles, 12 instances, five parameterizations, paper stopping and physical-work accounting, T72 regression, and one/all-worker results validated",
+    "H6": "queued on Waffle after T33 for complete-work one/all-core admission and 1175 formal runs"
+  },
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_waffle_after_t33",
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/sorkhabi_t64.hpp",
+    "hpc/core99_cpp/src/sorkhabi_t64.cpp",
+    "hpc/core99_cpp/src/sorkhabi_t64_main.cpp",
+    "hpc/core99_cpp/tests/sorkhabi_t64_test.cpp",
+    "scripts/validate_core99_t64.py",
+    "scripts/run_core99_t64_h6_formal.py",
+    "scripts/run_core99_t64_when_waffle_free.sh",
+    "shared/contracts/core99_t64_sorkhabi_2016.json"
+  ],
+  "evidence_receipts": [
+    "evidence/development/T64_H0_H4_mathematical_hpc_analysis_20260731.md",
+    "evidence/development/T64_h5_independent_validation_20260731.json"
+  ]
+}

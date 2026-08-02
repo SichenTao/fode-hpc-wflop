@@ -1,0 +1,14 @@
+{
+  "availability_mention_line_numbers": [704, 706],
+  "candidate_public_asset_urls": [
+    "https://zhanapollo.github.io/zhanzhh/resources.htm"
+  ],
+  "corpus_id": "T26",
+  "doi": "10.1016/j.apenergy.2025.125908",
+  "embedded_annotation_asset_urls": [],
+  "interpretation": "target paper gives no code URL and states data are available on request; the cited GTDE author resource requires an email application for code, so both absences are completed and declared rather than treated as admission blockers",
+  "paper_pdf_sha256": "96c3e1f7a737090d6428a68e56dc8fcfdf2e4d7169acec25e8c0657e97f8c36f",
+  "private_text_sha256": "2b09d7619a77a8b25da34d7ad8258ac6d254bd4104b3dd0d721db98ac02d33d5",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": []
+}

@@ -1,0 +1,113 @@
+{
+  "algorithms": [
+    {
+      "id": "t14_direct",
+      "paper_role": "200-variable direct-coordinate control"
+    },
+    {
+      "id": "t14_grid",
+      "paper_role": "four-variable grid control"
+    },
+    {
+      "id": "t14_boundary_grid",
+      "paper_role": "five-variable target boundary-grid contribution"
+    }
+  ],
+  "case_matrix": {
+    "boundary_axis": {
+      "average_spacing_diameters": 4.0,
+      "boundaries": [
+        "amalia",
+        "circle",
+        "square"
+      ],
+      "wind_rose": "north_island"
+    },
+    "spacing_axis": {
+      "average_spacing_diameters": [
+        4.0,
+        6.0,
+        8.0
+      ],
+      "boundary": "amalia",
+      "wind_rose": "north_island"
+    },
+    "unique_case_count": 7,
+    "wind_axis": {
+      "average_spacing_diameters": 4.0,
+      "boundary": "amalia",
+      "wind_roses": [
+        "north_island",
+        "ukiah",
+        "victorville"
+      ]
+    }
+  },
+  "constraints": {
+    "boundary": "all turbine hubs inside the selected equal-area convex boundary",
+    "minimum_center_spacing_m": 260.0,
+    "minimum_spacing_rotor_diameters": 2.0
+  },
+  "corpus_id": "T14",
+  "experiment": {
+    "formal_random_starts_per_case_and_representation": 100,
+    "paper_optimizer": "SNOPT SQP with exact analytic Tapenade gradients",
+    "reconstruction_optimizer": "deterministic feasibility-first parallel evolution strategy",
+    "reconstruction_reason": "SNOPT is proprietary and is not included in the public archive"
+  },
+  "method_semantic_id": "t14_boundary_grid_parameterization_v1",
+  "model": {
+    "generator_efficiency": {
+      "paper": 0.93,
+      "public_driver": 0.936,
+      "resolved": 0.93
+    },
+    "hub_height_m": 110.0,
+    "power_curve": {
+      "cut_in_mps": {
+        "paper": 3.0,
+        "public_driver": 4.0,
+        "resolved": 3.0
+      },
+      "cut_out_mps": 25.0,
+      "rated_aerodynamic_power_mw": 3.6,
+      "rated_mps": {
+        "paper": 10.0,
+        "public_driver": 9.8,
+        "resolved": 10.0
+      }
+    },
+    "rotor_diameter_m": 130.0,
+    "thrust_curve": "public 51-point IEA 3.35 MW curve",
+    "turbines": 100,
+    "wake": {
+      "free_stream_turbulence_intensity": 0.11,
+      "model": "paper modified 2016 Bastankhah Gaussian with linearized near wake",
+      "wake_combination": "local-velocity linear superposition",
+      "wake_expansion_equation": "k=0.3837*TI+0.003678"
+    }
+  },
+  "paper_doi": "10.5194/wes-4-663-2019",
+  "problem_semantic_id": "t14_stanley_2019_seven_unique_cases_v1",
+  "provenance": {
+    "archive_doi": "10.5281/zenodo.3523383",
+    "license_resolution": "repository lacks root LICENSE; setupRevision.py declares Apache License 2.0; production implementation independently transcribes paper equations and factual arrays",
+    "pdf_sha256": "37f4b2804490f22bd46bb8e67fa318363f80bcfc67ddb521ee8406ebaf339c11",
+    "public_source_revision": "62b590065f9541c4296338b3f1a0ee07cfcd28bc",
+    "public_source_url": "https://github.com/byuflowlab/stanley2019-variable-reduction"
+  },
+  "sampling": {
+    "final": {
+      "directions": 360,
+      "rotor_points": 100,
+      "speed_bins": 50
+    },
+    "optimization": {
+      "directions": 24,
+      "rotor_points": 4,
+      "speed_bins": 5
+    },
+    "weibull_shape": 2.0
+  },
+  "schema_version": 1
+}

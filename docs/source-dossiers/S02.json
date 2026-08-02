@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "corpus_id": "S02",
+  "doi": "10.3390/electronics13163196",
+  "title": "A Multi-Local Search-Based SHADE for Wind Farm Layout Optimization",
+  "query_date": "2026-07-29",
+  "search_basis": [
+    "Shangce Gao homepage corpus refreshed at 2026-07-29T02:36:14Z",
+    "repository source_asset_registry and paper/problem ledgers",
+    "bounded authority ladder recorded below"
+  ],
+  "conclusion": "project_or_paper_asset_recorded",
+  "searched_authorities": [
+    {
+      "authority": "official_author_homepage",
+      "url": "https://toyamaailab.github.io/publications.html",
+      "query": "\"10.3390/electronics13163196\" \"A Multi-Local Search-Based SHADE for Wind Farm Layout Optimization\"",
+      "result": "refreshed_homepage_snapshot_checked"
+    },
+    {
+      "authority": "doi_publisher_supplement_and_data_statement",
+      "url": "https://doi.org/10.3390/electronics13163196",
+      "query": "10.3390/electronics13163196",
+      "result": "paper_and_existing_supplement_ledger_checked"
+    },
+    {
+      "authority": "paper_author_or_coauthor_linked_repository",
+      "url": "not_publicly_redistributed",
+      "query": "\"10.3390/electronics13163196\" \"A Multi-Local Search-Based SHADE for Wind Farm Layout Optimization\"",
+      "result": "no_direct_public_asset_recorded"
+    },
+    {
+      "authority": "author_coauthor_github",
+      "url": "https://github.com/search?q=10.3390%2Felectronics13163196&type=repositories",
+      "query": "10.3390/electronics13163196",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "general_research_data_repositories",
+      "url": "https://zenodo.org/search?q=10.3390%2Felectronics13163196",
+      "query": "10.3390/electronics13163196; Figshare; OSF; institutional repository",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "cited_implementation_and_predecessor_work",
+      "url": "https://doi.org/10.3390/electronics13163196",
+      "query": "A Multi-Local Search-Based SHADE for Wind Farm Layout Optimization cited implementation predecessor",
+      "result": "paper_reference_and_project_ledger_checked"
+    },
+    {
+      "authority": "same_author_problem_or_method_family",
+      "url": "https://toyamaailab.github.io/sourcedata.html",
+      "query": "Yifei Yang; Sichen Tao; Haotian Li; Haichuan Yang; Zheng Tang wind farm source data",
+      "result": "refreshed_source_page_and_lineage_ledger_checked"
+    }
+  ],
+  "discovered_assets": [
+    {
+      "authority": "local_author_project_asset",
+      "url": "not_publicly_redistributed",
+      "revision_or_sha256": "MS_SHADE.m:sha256:17ef6d13b65c166e013bd58cc047393b59cfe9927e67a8004e8800a04fb09727",
+      "license_observation": "no_license_file_found",
+      "redistribution_policy": "do_not_redistribute",
+      "relationship": "direct_target_or_project_author_asset"
+    }
+  ],
+  "available_evidence": [
+    "validated_complete",
+    "local_source_hashed_no_license"
+  ],
+  "missing_method_or_problem_fields": [],
+  "negative_evidence_boundary": "Search is dated and bounded; later author releases require a new dossier."
+}

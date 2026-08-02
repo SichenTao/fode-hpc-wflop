@@ -1,0 +1,130 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T19",
+  "paper": {
+    "title": "Optimizing Wind Farms Layouts for Maximum Energy Production Using Probabilistic Inference: Benchmarking Reveals Superior Computational Efficiency and Scalability",
+    "doi": "10.1016/j.energy.2021.120035",
+    "pdf_sha256": "761c90c22671dfe350770cbee2419f80dbab7a48f6f7773904b1544981ce4c6e",
+    "pdf_text_sha256": "c287fedefaeaf7112e4e8c7591fa7f1b3990186cf04f042306ef7885de4774fc",
+    "pages": 42
+  },
+  "paper_linked_public_source": {
+    "name": "SRMP",
+    "version": "v1.01",
+    "url": "https://pub.ist.ac.at/~vnk/software/SRMP-v1.01.zip",
+    "archive_sha256": "e2bf3376f5d4b68c3ed9c88ef37ede187455f907ee0ee71b8572ae04f4be6848",
+    "author": "Vladimir Kolmogorov",
+    "license": "GPL-3.0-or-later",
+    "paper_reference": 74,
+    "source_defaults": {
+      "maximum_iterations": 10000,
+      "time_limit_seconds": 1200,
+      "epsilon": 1e-8,
+      "solution_period": 10,
+      "sort_flag": 0,
+      "trws_weighting": 1.0
+    },
+    "target_use": "paper uses this source with TRWS_weighting=1, 5000 triplet clusters, one thread and a one-hour cutoff",
+    "audited_compatibility_changes": [
+      "add an empty virtual FactorType destructor because Energy deletes derived factor types through the base pointer; required by ASAN and changes no arithmetic",
+      "project-owned forwarding subclass supplies the legacy SharedPairwiseFactorType flags overload without changing upstream methods",
+      "use source-supported fixed insertion ordering sort_flag=-1 because the author order is unavailable and v1.01 automatic equal-key factor sorting does not terminate safely for the dense triplet graph on the target AArch64 toolchain"
+    ]
+  },
+  "unavailable_triplet_source": {
+    "name": "GEMPLP mplp_ver2",
+    "paper_reference": 75,
+    "paper_url": "http://cs.nyu.edu/~dsontag/code/mplp_ver2.tgz",
+    "availability_audit": "HTTP 403 on 2026-08-01",
+    "target_boundary": "the paper used an unpublished modified version; neither the modification nor the resulting cluster lists are public"
+  },
+  "supporting_assets": {
+    "author_manuscript_pdf": {
+      "url": "https://enricoantonini.com/papers/Dhoot%20et%20al.%20%282021%29%2C%20Optimizing%20wind%20farms%20layouts%20for%20maximum%20energy%20production%20using%20probabilistic%20inference%20-%20Benchmarking%20reveals%20superior%20computational%20efficiency%20and%20scalability.pdf",
+      "sha256": "0c961035ce244f0d2bb7cd0d0dc2a6d8fa4d284e09ec21a857e7a5d719ef53e7",
+      "use": "visual equation/table/figure cross-check only; local primary PDF remains the identity authority"
+    },
+    "predecessor_thesis": {
+      "url": "https://central.bac-lac.gc.ca/.item?app=Library&id=TC-OTU-72692&oclc_number=1032965484&op=pdf",
+      "sha256": "8aaf2c59384900191f1e19b6579e90a40db2fe7c29758f2aabbd070212d2c72e",
+      "use": "confirms the formulation and role grids but does not supply beta, target cluster generator, exact rounding or numerical WR-36"
+    },
+    "nrel_curve_lineage": "FLORIS v2.4 NREL-5MW CP/CT arrays already source-audited and versioned by the platform T81 package"
+  },
+  "paper_native_method": {
+    "objective": "minimize X^T W X subject to binary X and sum(X)=K",
+    "mrf_energy": "X^T W X + beta*(sum(X)-K)^2, with the constant beta*K^2 omitted inside SRMP",
+    "inference": "official sequential TRW-S through SRMP v1.01 with TRWS_weighting=1",
+    "triplets": "5000 consistency triplets for 100/400-cell roles and no triplets for 2500-cell roles",
+    "posterior_decoder": "paper states a simple rounding scheme for 2500 cells but does not publish it",
+    "stopping": "one-hour cutoff; official source maximum 10000 iterations and epsilon 1e-8"
+  },
+  "paper_native_problems": {
+    "historical": {
+      "farm": "2 km by 2 km, 10 by 10 cells, 200 m spacing",
+      "turbine": "R=20 m, H=60 m, CT=0.88, P=0.3*u^3 kW",
+      "roles": ["WR-1 K=26", "WR-1 K=30", "WR-36 K=15", "WR-36 K=39"]
+    },
+    "realistic": {
+      "farm": "7 km by 7 km",
+      "turbine": "NREL 5 MW, R=63 m, H=90 m, source curve",
+      "grids": {
+        "100": {"cell_width_m": 700, "K": [10,20,30,40,50,60,70,80,90,100]},
+        "400": {"cell_width_m": 350, "K": [10,20,30,40,50,60,70,80,90,100,120,140,160,180,200,220,240,260,280,300,320,340,360,380,400]},
+        "2500": {"cell_width_m": 140, "K": [10,20,30,40,50,60,70,80,90,100,120,140,160,180,200,220,240,260,280]}
+      },
+      "spacing": "strictly at least 5R=315 m; explicit pair conflicts are needed only at 2500 cells"
+    },
+    "wind": {
+      "WR-1": "one direction and 12 m/s",
+      "WR-36": "36 directions by 8/12/17 m/s; target provides probabilities only as a figure"
+    },
+    "wake": "Jensen top-hat, alpha=0.1 and root-sum-square multiple deficits"
+  },
+  "paper_protocol": {
+    "registered_roles": 112,
+    "derivation": "4 historical plus two winds times (10 grid100 + 25 grid400 + 19 grid2500)",
+    "repeat_semantics": "deterministic method and no independent repeat count; execute each role once",
+    "formal_iterations": 10000,
+    "formal_time_limit_seconds_per_role": 3600,
+    "formal_triplets": {"100": 5000, "400": 5000, "2500": 0}
+  },
+  "missing_information": [
+    "author wrapper, executable environment, exact ordering and hardware state",
+    "penalty beta and spacing-penalty coefficient",
+    "modified GEMPLP cluster generator, 5000-cluster lists and cluster-generation parameters",
+    "numeric WR-36 joint probability array",
+    "exact NREL CP/CT/power table revision consumed by the authors",
+    "2500-cell rounding algorithm and tie-breaking",
+    "raw layouts, message histories and random/order state"
+  ],
+  "conflicts_and_completions": [
+    "Use the platform's versioned Turner-lineage Figure digitization for WR-36 and identify it as a declared same-benchmark completion.",
+    "Use the versioned FLORIS-v2.4 NREL-5MW CP/CT curve lineage already audited in T81; do not claim the authors' exact numerical table.",
+    "Set beta to 1.01 times the maximum symmetric interaction row sum so a one-cell cardinality deviation is more expensive than any one-cell wake marginal.",
+    "Set each 2500-cell spacing conflict cost to beta*(4*K+4), then enforce exact K and 5R feasibility by deterministic marginal-cost repair.",
+    "Score deterministic triplet candidates from each node's 24 strongest interaction/conflict neighbors, rank unique triangles by summed pair score and fill lexicographically to exactly 5000.",
+    "Report both raw SRMP cardinality and repaired cardinality; apply deterministic feasible one-swap improvement after repair.",
+    "Use fixed insertion ordering sort_flag=-1 for the source/toolchain reason recorded above; never represent it as the unavailable author order."
+  ],
+  "method_semantic_id": "t19_srmp_trws_declared_triplet_reconstruction_v1",
+  "problem_semantic_ids": [
+    "t19_historical_grid100_jensen_v1",
+    "t19_realistic_grid100_400_2500_jensen_nrel5mw_v1"
+  ],
+  "protocol_semantic_id": "t19_112_deterministic_paper_roles_v1",
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC plus official GPL SRMP C++ source",
+    "analysis": {
+      "interaction_assembly": "O(Nwind*Ncell^2), independent source rows",
+      "triplet_candidate_scoring": "parallel strongest-neighbor rows followed by deterministic global ranking",
+      "trws": "ordered forward/backward message dependence; sequential within one role to preserve official semantics",
+      "posterior_aep": "O(Nwind*K^2), independent wind-target tasks with fixed-index reduction",
+      "outer_campaign": "112 independent deterministic roles scheduled across all visible cores; one inner worker per role"
+    },
+    "memory": "no-triplet 2500-cell roles use SharedPairwiseFactorType; triplet roles use source-native general factors because upstream shared factors do not implement MPLP messages",
+    "required_invariant": "one-worker and all-worker interaction, posterior AEP, layout and scientific hash identity"
+  },
+  "physical_fes_definition": "one complete posterior nonlinear AEP evaluation of one complete layout; matrix construction, triplet scoring, message sweeps and repair are separate work",
+  "claim_boundary": "Flexible equation/source-level academic reproduction of the target message-passing method and all 112 paper algorithm/problem roles; not the unavailable modified GEMPLP generator, author beta/order/wrapper, exact layout/numerical/timing replay or first parallelization claim."
+}

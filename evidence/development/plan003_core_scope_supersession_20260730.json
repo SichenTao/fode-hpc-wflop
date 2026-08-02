@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "plan": "003-target-only-fullstack-hpc",
+  "recorded_on": "2026-07-30",
+  "supersedes_blocker_for_plan003": "evidence/development/plan002_step8_blockers_spark2_20260730.json",
+  "preserved_plan002_registry": "docs/hpc_required_pairs.tsv",
+  "plan002_pair_count": 133,
+  "plan003_authority": "docs/hpc_core_target_pairs.tsv",
+  "plan003_target_count": 23,
+  "optional_missing_comparators_ignored": 28,
+  "claim_boundary": "This append-only receipt changes Plan-003 scope authority only. It does not implement, validate, or admit any H0-H6 or formal result."
+}

@@ -1,0 +1,258 @@
+{
+  "binary_receipts_unchanged": {
+    "taae": {
+      "logical_path": "build/plan005-torch/hpc/taae_cpp/taae_evolution_hpc",
+      "sha256": "db228706750efe23d78abd61cc6b3bc13dce76fc11dc014e672a3b74fb483a23"
+    },
+    "trainer": {
+      "logical_path": "build/plan005-torch/hpc/learning_libtorch/plan004_learning_target_hpc",
+      "sha256": "53d3e3d6b3e180b1110e8491a070d546e46b5e91faa864c38b06359bd787424a"
+    },
+    "wflop": {
+      "logical_path": "build/plan005-torch/hpc/wflop_cpp/wflop_cpp_hpc",
+      "sha256": "e8adf0b1339f356f49abfc0795d97c32104eef0d5adc1079bcc0b1cadac21a77"
+    }
+  },
+  "changed_paths_since_prior_h5_source_commit": [
+    "evidence/development/plan005_h5_post_thread_topology_revalidation_20260730.json",
+    "evidence/performance/excluded/plan005_h6_numeric_first_topology_discovery_exclusion_20260730.json",
+    "evidence/performance/excluded/plan005_h6_numeric_first_topology_discovery_pilot_header_20260730.jsonl",
+    "evidence/performance/excluded/plan005_h6_numeric_first_topology_discovery_pilot_stderr_20260730.log",
+    "evidence/performance/excluded/plan005_h6_numeric_first_topology_discovery_pilot_stdout_20260730.log",
+    "scripts/audit_hpc_maturity.py",
+    "scripts/audit_performance_receipts.py",
+    "scripts/audit_plan005_h5_topology_nonsemantic_revalidation.py",
+    "scripts/audit_plan005_h6_receipts.py",
+    "scripts/capture_plan005_h6_environment_sidecar.py",
+    "scripts/record_plan005_h5_topology_nonsemantic_revalidation.py",
+    "scripts/run_hpc_core_target_scaling.py",
+    "scripts/test_plan005_h6_receipt_audit.py"
+  ],
+  "checks": {
+    "h6_receipt_fixture": "plan005_h6_receipt_audit_fixture_pass positive=1 rejected_affinity=1 rejected_topology=1 rejected_attribution=1 rejected_overlap=1 rejected_active_workers=1 rejected_order=1 observations=805",
+    "performance_first_dry_run": {
+      "observation_count": 805,
+      "pair_count": 23,
+      "worker_topology": {
+        "1": {
+          "affinity_set": [
+            19
+          ],
+          "core_type_counts": {
+            "Cortex-X925": 1
+          },
+          "selection_order": [
+            19
+          ]
+        },
+        "12": {
+          "affinity_set": [
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "core_type_counts": {
+            "Cortex-A725": 2,
+            "Cortex-X925": 10
+          },
+          "selection_order": [
+            19,
+            15,
+            16,
+            17,
+            18,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11
+          ]
+        },
+        "16": {
+          "affinity_set": [
+            0,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "core_type_counts": {
+            "Cortex-A725": 6,
+            "Cortex-X925": 10
+          },
+          "selection_order": [
+            19,
+            15,
+            16,
+            17,
+            18,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            0
+          ]
+        },
+        "2": {
+          "affinity_set": [
+            15,
+            19
+          ],
+          "core_type_counts": {
+            "Cortex-X925": 2
+          },
+          "selection_order": [
+            19,
+            15
+          ]
+        },
+        "20": {
+          "affinity_set": [
+            0,
+            1,
+            2,
+            3,
+            4,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "core_type_counts": {
+            "Cortex-A725": 10,
+            "Cortex-X925": 10
+          },
+          "selection_order": [
+            19,
+            15,
+            16,
+            17,
+            18,
+            5,
+            6,
+            7,
+            8,
+            9,
+            10,
+            11,
+            12,
+            13,
+            14,
+            0,
+            1,
+            2,
+            3,
+            4
+          ]
+        },
+        "4": {
+          "affinity_set": [
+            15,
+            16,
+            17,
+            19
+          ],
+          "core_type_counts": {
+            "Cortex-X925": 4
+          },
+          "selection_order": [
+            19,
+            15,
+            16,
+            17
+          ]
+        },
+        "8": {
+          "affinity_set": [
+            5,
+            6,
+            7,
+            15,
+            16,
+            17,
+            18,
+            19
+          ],
+          "core_type_counts": {
+            "Cortex-X925": 8
+          },
+          "selection_order": [
+            19,
+            15,
+            16,
+            17,
+            18,
+            5,
+            6,
+            7
+          ]
+        }
+      }
+    },
+    "prior_h5_audit": "plan005_h5_revalidation_audit_pass full_tests=85 learning_methods=3 topology=controlled"
+  },
+  "claim_boundary": "This receipt proves only that replacing numeric-prefix CPU selection with a frozen architecture-aware affinity policy is a measurement-topology change. It does not rerun or supersede H5.",
+  "prior_h5_revalidation": {
+    "logical_path": "evidence/development/plan005_h5_post_thread_topology_revalidation_20260730.json",
+    "sha256": "8ed635dfb4b5f4f2b4b6a7c5a5f4370370c2cc4a8d0463c30d73cf8b93aafc8a",
+    "source_commit": "1cae96d51674cdc276045c4859531376d00fc266",
+    "status": "accepted_h5_revalidated_after_nonsemantic_thread_control"
+  },
+  "prohibited_semantic_prefixes_absent": [
+    "hpc/",
+    "shared/",
+    ".source-cache/",
+    "docs/hpc_core_target_pairs.tsv"
+  ],
+  "receipt_id": "plan005_h5_performance_first_topology_nonsemantic_revalidation_spark_20260730",
+  "recorded_at": "2026-07-30T06:55:31.554425+09:00",
+  "schema_version": 1,
+  "semantic_invariants": [
+    "method and problem identities unchanged",
+    "random-event ownership and seeds unchanged",
+    "physical-FES budgets unchanged",
+    "H0 stage definitions unchanged",
+    "measured binaries unchanged"
+  ],
+  "source_commit": "9e87d268db227a076e990dc24cb18848c013decb",
+  "status": "accepted_h5_preserved_after_nonsemantic_topology_repair"
+}

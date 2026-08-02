@@ -1,0 +1,22 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T72",
+  "status": "pass",
+  "tests": ["core99_t72_cpp", "core99_t72_h5"],
+  "paper_cases_checked": 9,
+  "independent_oracle": "scripts/validate_core99_t72.py",
+  "candidate": "pure C++20 CPU-HPC implementation",
+  "maximum_absolute_equation_error": 4.902744876744691e-13,
+  "checked_quantities": [
+    "reconstructed sampled land availability",
+    "restricted-area and receptor cardinality",
+    "direction-conditioned wind probability",
+    "Jensen root-sum-square AEP",
+    "ISO 9613 expected maximum A-weighted SPL",
+    "spacing and regulatory feasibility",
+    "one-worker/all-worker scientific hash identity",
+    "physical-FES exactness",
+    "bounded CHCP repair"
+  ],
+  "claim_boundary": "independent equation and declared-reconstruction validation; not author native-map, proprietary CP, raw front, or exact numerical replay"
+}

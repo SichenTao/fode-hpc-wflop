@@ -1,0 +1,163 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "Treat boundary-grid parameterization as the paper target contribution; direct and grid representations are intrinsic controls.",
+    "Collapse the three one-factor experiment axes to seven unique problem cases while retaining every paper comparison.",
+    "Replace unavailable proprietary SNOPT with a declared deterministic feasibility-first parallel evolution strategy; never claim author-SNOPT replay.",
+    "Resolve paper/source turbine constant conflicts in favor of the paper and register both values in the contract.",
+    "Retain the released direction-zero wind-resource behavior and disclose the missing Akima dependency.",
+    "Use pure-C++ candidate-batch parallelism for optimization and wind-state parallelism for final evaluation."
+  ],
+  "corpus_id": "T14",
+  "dossier_status": "formal_complete",
+  "formal_status": "complete_paper_native_2100_run_matrix",
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pass"
+  },
+  "missing_information": [
+    "SNOPT binary and license are not included in the public archive.",
+    "The legacy akima Python package is not included.",
+    "Author random states and original result files are absent.",
+    "The repository has no root LICENSE file; setupRevision.py declares Apache License 2.0."
+  ],
+  "paper": {
+    "authors": "Andrew P. J. Stanley and Andrew Ning",
+    "doi": "10.5194/wes-4-663-2019",
+    "pdf_basename": "2019_Stanley_Massive_Simplification_of_the_Wind_Farm_Layout_Optimization_Problem.pdf",
+    "pdf_sha256": "37f4b2804490f22bd46bb8e67fa318363f80bcfc67ddb521ee8406ebaf339c11",
+    "primary_asset_status": "local_primary_pdf_hashed_and_consumed",
+    "primary_review_class": "REV1",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D",
+    "secondary_review_classes": "REV5",
+    "title": "Massive Simplification of the Wind Farm Layout Optimization Problem",
+    "venue": "Wind Energy Science",
+    "year": 2019
+  },
+  "paper_linked_public_asset": {
+    "archive_doi": "10.5281/zenodo.3523383",
+    "revision": "62b590065f9541c4296338b3f1a0ee07cfcd28bc",
+    "status": "consumed_and_semantically_audited",
+    "url": "https://github.com/byuflowlab/stanley2019-variable-reduction"
+  },
+  "paper_source_conflicts": [
+    {
+      "field": "power_curve_and_efficiency",
+      "paper": "cut-in 3 m/s, rated 10 m/s, generator efficiency 0.93",
+      "public_source": "cut-in 4 m/s, rated 9.8 m/s, generator efficiency 0.936",
+      "resolution": "paper controls; both are retained in the contract"
+    },
+    {
+      "field": "wake_expansion",
+      "paper": "k=0.3837*TI+0.003678 with the stated model",
+      "public_source": "dynamic local-TI path enabled",
+      "resolution": "paper equation controls this semantic baseline"
+    },
+    {
+      "field": "direction_zero_wind_bin",
+      "paper": "24 equally spaced directional bins",
+      "public_source": "positive half-bin is integrated twice rather than wrapping the negative half-bin",
+      "resolution": "released behavior retained and explicitly declared"
+    }
+  ],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 14,
+    "text_sha256": "c3f35361e888c49fc5c25e7b00e6b12b4a4dcfc9032dad830010d9fa68aa4232"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "academic declared reproduction of the target parameterization and paper-native protocol; not author SNOPT, exact-gradient, RNG, or numerical replay",
+    "execution_wave": "REV1",
+    "package_status": "paper_pair_formal_complete",
+    "scope_status": "new_direct_active",
+    "target_contribution_type": "problem_definition_or_comparison_protocol"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "paper_plus_public_source",
+      "resolution": "all hubs inside the equal-area boundary and pair spacing at least 2D; direct-coordinate mutations are radially projected inside",
+      "status": "frozen"
+    },
+    "decision_variables": {
+      "authority": "paper",
+      "resolution": "direct 200; grid dx,dy,shear,rotation; boundary-grid adds boundary start for five variables",
+      "status": "frozen"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper_plus_public_source",
+      "resolution": "equidistant boundary turbines and fixed discrete inner-grid topology selected from the random initial rotation",
+      "status": "frozen"
+    },
+    "initialization": {
+      "authority": "paper_plus_declared_reconstruction",
+      "resolution": "100 deterministic seed-addressable random starts; rotation and boundary start fully randomized and grid variables perturbed",
+      "status": "frozen"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper",
+      "resolution": "AEP, feasibility, physical FES, time decomposition, 100 starts per representation/case",
+      "status": "frozen"
+    },
+    "objective_and_direction": {
+      "authority": "paper",
+      "resolution": "maximize annual energy production",
+      "status": "frozen"
+    },
+    "paper_native_cases": {
+      "authority": "paper",
+      "resolution": "seven unique cases spanning spacing, wind rose, and equal-area boundary axes",
+      "status": "frozen"
+    },
+    "parameters": {
+      "authority": "paper_first_public_source_second",
+      "resolution": "100 IEA 3.35MW-like turbines, D=130m, hub=110m, paper power constants, released thrust curve",
+      "status": "frozen"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "declared_reconstruction",
+      "resolution": "each common physical AEP call counts once; default reconstruction budgets are 160 direct and 240 parameterized evaluations, overrideable by CLI",
+      "status": "frozen"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "no learned model",
+      "status": "frozen"
+    },
+    "update_order": {
+      "authority": "declared_reconstruction",
+      "resolution": "parallel candidate evaluation followed by deterministic feasibility-first commit",
+      "status": "frozen"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_first_public_source_second",
+      "resolution": "modified 2016 Gaussian wake, local-velocity linear wake combination, public thrust curve, paper power curve",
+      "status": "frozen"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper_plus_public_source",
+      "resolution": "24x5x4 optimization and 360x50x100 final evaluation with three released wind resources",
+      "status": "frozen"
+    }
+  },
+  "validation": {
+    "cpp_test": "core99_t14_cpp pass",
+    "formal_receipt": "evidence/core99/formal/T14_formal_quality.json",
+    "formal_scope": "seven paper cases by three intrinsic representations by 100 independent starts; 2100 of 2100 pass",
+    "h6_receipt": "evidence/core99/h6/T14_waffle_admission.json",
+    "h5_oracle": "core99_t14_h5 pass",
+    "h5_scope": "all 21 case-representation reference layouts deterministic; one independent Python-vs-C++ paper-equation AEP oracle"
+  }
+}

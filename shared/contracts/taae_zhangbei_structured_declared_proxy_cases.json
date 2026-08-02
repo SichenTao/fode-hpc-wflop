@@ -1,0 +1,117 @@
+{
+  "schema_version": 1,
+  "profile_id": "taae_zhangbei_structured_declared_proxy_v1",
+  "claim_boundary": "P3 structured proxy preserving a 20 by 20 discrete terrain, 15 turbines, complete multi-state wind-energy evaluation, an A-weighted multi-band acoustic objective, four monitoring cells, and the paper-form cost constraint. The analytic terrain, wind array, monitor cells, acoustic constants, and cost scale are declared project inputs and are not the unavailable Zhangbei arrays.",
+  "paper": {
+    "doi": "10.1109/jas.2026.126233",
+    "sha256": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b"
+  },
+  "full_problem_semantic_hash": {
+    "version_tag": "taae_proxy_full_problem_semantics_hash_v2",
+    "coverage": "all case arrays and budgets plus every compiled objective, wake, terrain, acoustic, cost, constraint, and FES constant or rule named by the controlling problem contract",
+    "case_hashes": {
+      "TAAE_Proxy_NC1_Budget600k_tn15": "fnv1a64:ffdc187163fb6d97",
+      "TAAE_Proxy_NC1_Budget800k_tn15": "fnv1a64:d2e0cb41e02ce9c4",
+      "TAAE_Proxy_NC1_Budget1000k_tn15": "fnv1a64:6e9505ccedf0a578",
+      "TAAE_Proxy_NC2_Budget600k_tn15": "fnv1a64:369f421c373bedec",
+      "TAAE_Proxy_NC2_Budget800k_tn15": "fnv1a64:25c369241a20016f",
+      "TAAE_Proxy_NC2_Budget1000k_tn15": "fnv1a64:47a7700e18311e81"
+    }
+  },
+  "proxy_parameters": {
+    "terrain": "z(row,col)=50+35*sin(2*pi*col/19)*cos(2*pi*row/19)+15*(row+col)/38 metres",
+    "hub_height_m": 80.0,
+    "rotor_radius_m": 38.5,
+    "thrust_coefficient": 0.8,
+    "turbulence_intensity": 0.1,
+    "wind_shear_exponent": 0.14,
+    "acoustic_bands_hz": [250.0, 1000.0, 4000.0],
+    "a_weighting_db": [-8.6, 0.0, 1.0],
+    "air_absorption_db_per_m": [0.0001, 0.0004, 0.0012],
+    "inflow_source_reference_db": [94.0, 91.0, 84.0],
+    "trailing_edge_source_reference_db": [88.0, 94.0, 89.0],
+    "reference_wind_speed_mps": 8.0,
+    "minimum_acoustic_distance_m": 1.0,
+    "turbine_cost_scale": 10000.0,
+    "land_cost_per_square_metre": 0.005,
+    "paper_budget_thresholds": [600000.0, 800000.0, 1000000.0],
+    "noise_monitor_configuration_1_cells_1based": [10, 181, 200, 390],
+    "noise_monitor_configuration_2_cells_1based": [1, 20, 381, 400],
+    "acoustic_boundary": "The optimizer proxy uses the explicit three-band source-level and propagation constants above. This preserves Eqs. 11-13 energy summation and A-weighting structure but does not claim the unavailable Eq. 9-10 Zhangbei blade-spectrum constants."
+  },
+  "case_count": 6,
+  "cases": [
+    {
+      "case_id": "TAAE_Proxy_NC1_Budget600k_tn15",
+      "semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+      "rows": 20,
+      "cols": 20,
+      "turbine_count": 15,
+      "cell_width": 500.0,
+      "unavailable_cells_1based": [10, 181, 200, 390],
+      "wind_directions_rad": [0.0, 0.7853981633974483, 1.5707963267948966, 2.3561944901923449, 3.1415926535897931, 3.9269908169872414, 4.7123889803846897, 5.497787143782138],
+      "wind_speeds_mps": [6.0, 8.0, 10.0, 12.0],
+      "joint_probabilities": [[0.03, 0.07, 0.07, 0.03], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015], [0.0225, 0.0525, 0.0525, 0.0225], [0.0225, 0.0525, 0.0525, 0.0225], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015]]
+    },
+    {
+      "case_id": "TAAE_Proxy_NC1_Budget800k_tn15",
+      "semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+      "rows": 20,
+      "cols": 20,
+      "turbine_count": 15,
+      "cell_width": 500.0,
+      "unavailable_cells_1based": [10, 181, 200, 390],
+      "wind_directions_rad": [0.0, 0.7853981633974483, 1.5707963267948966, 2.3561944901923449, 3.1415926535897931, 3.9269908169872414, 4.7123889803846897, 5.497787143782138],
+      "wind_speeds_mps": [6.0, 8.0, 10.0, 12.0],
+      "joint_probabilities": [[0.03, 0.07, 0.07, 0.03], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015], [0.0225, 0.0525, 0.0525, 0.0225], [0.0225, 0.0525, 0.0525, 0.0225], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015]]
+    },
+    {
+      "case_id": "TAAE_Proxy_NC1_Budget1000k_tn15",
+      "semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+      "rows": 20,
+      "cols": 20,
+      "turbine_count": 15,
+      "cell_width": 500.0,
+      "unavailable_cells_1based": [10, 181, 200, 390],
+      "wind_directions_rad": [0.0, 0.7853981633974483, 1.5707963267948966, 2.3561944901923449, 3.1415926535897931, 3.9269908169872414, 4.7123889803846897, 5.497787143782138],
+      "wind_speeds_mps": [6.0, 8.0, 10.0, 12.0],
+      "joint_probabilities": [[0.03, 0.07, 0.07, 0.03], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015], [0.0225, 0.0525, 0.0525, 0.0225], [0.0225, 0.0525, 0.0525, 0.0225], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015]]
+    },
+    {
+      "case_id": "TAAE_Proxy_NC2_Budget600k_tn15",
+      "semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+      "rows": 20,
+      "cols": 20,
+      "turbine_count": 15,
+      "cell_width": 500.0,
+      "unavailable_cells_1based": [1, 20, 381, 400],
+      "wind_directions_rad": [0.0, 0.7853981633974483, 1.5707963267948966, 2.3561944901923449, 3.1415926535897931, 3.9269908169872414, 4.7123889803846897, 5.497787143782138],
+      "wind_speeds_mps": [6.0, 8.0, 10.0, 12.0],
+      "joint_probabilities": [[0.03, 0.07, 0.07, 0.03], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015], [0.0225, 0.0525, 0.0525, 0.0225], [0.0225, 0.0525, 0.0525, 0.0225], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015]]
+    },
+    {
+      "case_id": "TAAE_Proxy_NC2_Budget800k_tn15",
+      "semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+      "rows": 20,
+      "cols": 20,
+      "turbine_count": 15,
+      "cell_width": 500.0,
+      "unavailable_cells_1based": [1, 20, 381, 400],
+      "wind_directions_rad": [0.0, 0.7853981633974483, 1.5707963267948966, 2.3561944901923449, 3.1415926535897931, 3.9269908169872414, 4.7123889803846897, 5.497787143782138],
+      "wind_speeds_mps": [6.0, 8.0, 10.0, 12.0],
+      "joint_probabilities": [[0.03, 0.07, 0.07, 0.03], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015], [0.0225, 0.0525, 0.0525, 0.0225], [0.0225, 0.0525, 0.0525, 0.0225], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015]]
+    },
+    {
+      "case_id": "TAAE_Proxy_NC2_Budget1000k_tn15",
+      "semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+      "rows": 20,
+      "cols": 20,
+      "turbine_count": 15,
+      "cell_width": 500.0,
+      "unavailable_cells_1based": [1, 20, 381, 400],
+      "wind_directions_rad": [0.0, 0.7853981633974483, 1.5707963267948966, 2.3561944901923449, 3.1415926535897931, 3.9269908169872414, 4.7123889803846897, 5.497787143782138],
+      "wind_speeds_mps": [6.0, 8.0, 10.0, 12.0],
+      "joint_probabilities": [[0.03, 0.07, 0.07, 0.03], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015], [0.0225, 0.0525, 0.0525, 0.0225], [0.0225, 0.0525, 0.0525, 0.0225], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015], [0.015, 0.035, 0.035, 0.015]]
+    }
+  ]
+}

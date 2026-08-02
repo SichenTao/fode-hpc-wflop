@@ -1,0 +1,15 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [
+    "https://www.sciencedirect.com/science/article/pii/S1364032116303458",
+    "https://ir.cwi.nl/pub/25089/Rodrigues_Renewable_and_Sustainable_Energy_Reviews_2016.pdf"
+  ],
+  "corpus_id": "T10",
+  "doi": "10.1016/j.rser.2016.07.021",
+  "embedded_annotation_asset_urls": [],
+  "interpretation": "open publisher and CWI paper copies only; no paper-linked executable implementation or numeric archive found after exact-title, author, institution, GitHub and local-corpus search",
+  "paper_pdf_sha256": "7a3144fb6fc2c584efa04859cea4906b1e05e23ee326af10c4db1b5aebead08d",
+  "private_text_sha256": "c52d500485989f8af4010280a560a732126f3ddedc7c1289c30b37a906af86bb",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": []
+}

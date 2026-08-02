@@ -1,0 +1,93 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0623",
+  "paper": {
+    "title": "An optimization framework for wind farm layout design using CFD-based Kriging model",
+    "doi": "10.1016/j.oceaneng.2023.116644",
+    "arxiv_id": "2309.01387v1",
+    "year": 2024,
+    "pdf_sha256": "5f935a0fe7641d463c9af66baa0087c7bda95c3b3def39a7388f143800be47ea"
+  },
+  "target_contributions": [
+    "adaptive high-fidelity CFD-response dataset with optimum-design infill",
+    "Gaussian-correlation Kriging surrogate coupled to a genetic algorithm",
+    "three discrete eight-turbine flat and Gaussian-hill wind-farm cases"
+  ],
+  "source_assets": {
+    "arxiv_source": {
+      "url": "https://arxiv.org/e-print/2309.01387",
+      "license": "CC BY 4.0",
+      "archive_sha256": "5d6fd208c4ffa5750814d6830344a1f3f7800d7002e4026457cdb52898d7b507",
+      "windrose_png_sha256": "6fdc72d5d9f9332655f3a85e5cefd62d382414b35becd4cc8251ea98b9d549e3",
+      "case1_layout_png_sha256": "144a4cd422172c246a0ce84d490c10d2579ddec7549665d9d79ab45ee420b696",
+      "case2_layout_png_sha256": "516a9f99a0c3e2a80adbcbb9714b01bb2ab457bd7740bb4d9bed2fc55f38cdd3",
+      "case3_layout_png_sha256": "58cd43d21f485f39c0c3a72b41e975a45cbb30b12ab11aec91e07ad53dfefffc"
+    },
+    "author_code": "no paper-linked modified simpleFoam ADM, Kriging or GA source located",
+    "author_data": "no paper-linked mesh, CFD response table, initial LHS or optimization trace located"
+  },
+  "paper_native_cases": {
+    "registered_case_ids": [
+      "l0623_case1_flat_single",
+      "l0623_case2_flat_windrose",
+      "l0623_case3_hill_windrose"
+    ],
+    "common": "8 NREL 5 MW turbines, 81 nodes on an 8D by 8D square, at least 2D spacing",
+    "case1": "flat, one 11.4 m/s west wind state, 437 reported SBO CFD calls",
+    "case2": "flat, eight source-figure wind bins, 400 reported SBO CFD calls",
+    "case3": "150 m Gaussian hill, same eight wind bins, 399 reported SBO CFD calls"
+  },
+  "model_contract": {
+    "objective": "maximize AEP using the paper calendar-hour expression",
+    "truth_target": "ADM-RANS Eqs. (1)-(7) in a circular OpenFOAM domain",
+    "surrogate": "ordinary Kriging Eqs. (8)-(12) with Gaussian correlation and MLE hyperparameter",
+    "adaptive_lifecycle": "360 LHS truth responses, fit Kriging, optimize surrogate, truth-evaluate optimum, append and refit",
+    "turbine": "NREL 5 MW, D=126 m, hub=90 m, rated=11.4 m/s, cut-in=3 m/s, cut-out=25 m/s"
+  },
+  "optimizer_contract": {
+    "population": 50,
+    "crossover_rate": 0.95,
+    "mutation_rate": 0.15,
+    "maximum_generations": 1000,
+    "paper_truth_call_totals": [437, 400, 399]
+  },
+  "missing_fields": [
+    "modified simpleFoam and actuator-disk source",
+    "OpenFOAM dictionaries, meshes and convergence tolerances",
+    "CFD truth-response arrays",
+    "exact LHS realization",
+    "MLE search bounds and optimizer",
+    "GA selection, crossover and mutation operators",
+    "GA and adaptive convergence thresholds",
+    "random seeds and repeat count"
+  ],
+  "declared_completions": {
+    "truth_backend": "non-CFD terrain-aware ADM/Gaussian response proxy; never labeled OpenFOAM or author CFD",
+    "windrose": "eight bins transcribed from the CC-BY source Figure 6 and normalized; west and southwest use paper-printed values",
+    "source_baseline": "eight indices transcribed from source Figure 7(c)",
+    "truth_scale": "isolated deficit and case-response factors calibrated only to the three Table 5 baseline AEP scales",
+    "lhs": "16-dimensional discrete Latin-hypercube strata followed by nearest feasible node repair",
+    "kriging": "constant trend, Gaussian kernel, six-value initial MLE scan, nugget 1e-8 and exact rank-one Cholesky updates",
+    "selection": "binary tournament",
+    "crossover": "feasible random-key selection from the two-parent node union",
+    "mutation": "one-node feasible replacement",
+    "convergence": "25 generations without surrogate-best improvement",
+    "repeat_count": 25
+  },
+  "hpc_contract": {
+    "backend": "pure_cpp_cpu",
+    "truth": "all initial truth calls evaluated on one persistent full-core team",
+    "kriging": "rank-one updates replace repeated cubic refits after the initial factorization",
+    "ga": "surrogate inference and schedule-independent offspring generation parallelized on the persistent team",
+    "randomness": "counter-keyed schedule-independent events",
+    "formal_resource_policy": "maximum twenty aggregate Waffle CPU workers without nested oversubscription"
+  },
+  "problem_semantic_ids": [
+    "l0623_case1_flat_single_proxy_v1",
+    "l0623_case2_flat_windrose_proxy_v1",
+    "l0623_case3_gaussian_hill_windrose_proxy_v1"
+  ],
+  "method_semantic_id": "l0623_adaptive_kriging_ga_completed_v1",
+  "protocol_semantic_id": "l0623_3case_25repeat_paper_truth_calls_v1",
+  "claim_boundary": "academic declared reproduction of the paper problem, adaptive Kriging-GA method and all three cases on a versioned ADM/Gaussian truth proxy; not OpenFOAM CFD, author code/data/meshes, exact operators, random state, AEP or numerical replay"
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": 1,
+  "contract_id": "ppga_nantong_structured_3d_declared_proxy_contract_v1",
+  "problem_semantic_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+  "evidence_tier": "P3_DECLARED_PROXY",
+  "paper": {
+    "title": "Advanced 3D Wind Farm Layout Optimization Framework via Power-Law Perturbation-Based Genetic Algorithm",
+    "doi": "10.1109/JAS.2025.125351",
+    "local_pdf_sha256": "92d3eb80a5f6ba3dcf904712f19bd1f81e4432a3d13235b27b74ceda3fece016"
+  },
+  "paper_preserved": [
+    "16 by 27 grid",
+    "300 m grid spacing",
+    "H171-6.2MW surface parameters",
+    "four scenarios with 16 directions and 7 speeds",
+    "20, 30, 40, and 50 turbine cases",
+    "terrain-aware 3D wake structure",
+    "conversion-efficiency objective"
+  ],
+  "declared_completions": [
+    "analytic gentle seabed with a frozen 0 to 6 m range",
+    "four factorized direction-by-speed distributions",
+    "piecewise cubic-to-rated H171 power curve",
+    "axial induction factor one third",
+    "closed-form Gaussian single-wake deficit",
+    "root-sum-square multiple-wake superposition from Tao 2020",
+    "wind shear exponent 0.1 with 107 m reference height",
+    "stable deterministic layout validation and summation order"
+  ],
+  "blocked_original_claims": [
+    "original 432 Nantong elevations",
+    "original four numerical joint wind arrays",
+    "manufacturer H171 power and thrust curves",
+    "author source code and exact undocumented equations",
+    "reported Nantong efficiencies and layouts"
+  ],
+  "case_manifest": "shared/contracts/ppga_nantong_structured_3d_declared_proxy_cases.json",
+  "oracle_contract": "shared/contracts/ppga_nantong_structured_3d_declared_proxy_oracle.json",
+  "claim_boundary": "This is a distinct Nantong-structured engineering proxy. It does not reproduce the original Nantong data or reported results."
+}

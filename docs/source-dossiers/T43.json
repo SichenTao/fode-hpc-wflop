@@ -1,0 +1,85 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T43",
+  "doi": "10.1109/jas.2025.125351",
+  "title": "Advanced 3D Wind Farm Layout Optimization Framework via Power-Law Perturbation-Based Genetic Algorithm",
+  "query_date": "2026-07-29",
+  "search_basis": [
+    "Shangce Gao homepage corpus refreshed at 2026-07-29T02:36:14Z",
+    "repository source_asset_registry and paper/problem ledgers",
+    "bounded authority ladder recorded below"
+  ],
+  "conclusion": "bounded_no_public_asset_found",
+  "searched_authorities": [
+    {
+      "authority": "official_author_homepage",
+      "url": "https://toyamaailab.github.io/publications.html",
+      "query": "\"10.1109/jas.2025.125351\" \"Advanced 3D Wind Farm Layout Optimization Framework via Power-Law Perturbation-Based Genetic Algorithm\"",
+      "result": "refreshed_homepage_snapshot_checked"
+    },
+    {
+      "authority": "doi_publisher_supplement_and_data_statement",
+      "url": "https://doi.org/10.1109/jas.2025.125351",
+      "query": "10.1109/jas.2025.125351",
+      "result": "paper_and_existing_supplement_ledger_checked"
+    },
+    {
+      "authority": "paper_author_or_coauthor_linked_repository",
+      "url": "not_available",
+      "query": "\"10.1109/jas.2025.125351\" \"Advanced 3D Wind Farm Layout Optimization Framework via Power-Law Perturbation-Based Genetic Algorithm\"",
+      "result": "no_direct_public_asset_recorded"
+    },
+    {
+      "authority": "author_coauthor_github",
+      "url": "https://github.com/search?q=10.1109%2Fjas.2025.125351&type=repositories",
+      "query": "10.1109/jas.2025.125351",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "general_research_data_repositories",
+      "url": "https://zenodo.org/search?q=10.1109%2Fjas.2025.125351",
+      "query": "10.1109/jas.2025.125351; Figshare; OSF; institutional repository",
+      "result": "existing_bounded_search_ledger_checked"
+    },
+    {
+      "authority": "cited_implementation_and_predecessor_work",
+      "url": "https://doi.org/10.1109/jas.2025.125351",
+      "query": "Advanced 3D Wind Farm Layout Optimization Framework via Power-Law Perturbation-Based Genetic Algorithm cited implementation predecessor",
+      "result": "paper_reference_and_project_ledger_checked"
+    },
+    {
+      "authority": "same_author_problem_or_method_family",
+      "url": "https://toyamaailab.github.io/sourcedata.html",
+      "query": "Jiaru Yang; Yaotong Song; Jun Tang; Weiping Ding; Zhenyu Lei; Shangce Gao wind farm source data",
+      "result": "refreshed_source_page_and_lineage_ledger_checked"
+    }
+  ],
+  "discovered_assets": [
+    {
+      "authority": "paper_homepage_crossref_and_github_bounded_search",
+      "url": "not_available",
+      "revision_or_sha256": "paper:sha256:92d3eb80a5f6ba3dcf904712f19bd1f81e4432a3d13235b27b74ceda3fece016",
+      "license_observation": "no_public_case_source_found",
+      "redistribution_policy": "paper_only",
+      "relationship": "direct_target_or_project_author_asset"
+    }
+  ],
+  "available_evidence": [
+    "validated_complete",
+    "bounded_search_no_public_case_or_source_assets"
+  ],
+  "missing_method_or_problem_fields": [
+    "432-cell Nantong elevation array",
+    "four joint wind speed-direction probability arrays",
+    "H171-6.2MW power and thrust curves",
+    "wind-shear exponent, reference height, induction factor, and scenario-specific wake inputs",
+    "fitness normalization used in evolutionary-adaptation degree",
+    "stagnant-individual definition and history length",
+    "distance definition used in diversity",
+    "feature-mapping crossover vector generation",
+    "normalized power-law sampler and boundary/integer repair",
+    "elite cardinality k and parent-offspring survivor details",
+    "physical-FES accounting for perturbation and candidate repair"
+  ],
+  "negative_evidence_boundary": "Search is dated and bounded; later author releases require a new dossier."
+}

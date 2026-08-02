@@ -1,0 +1,49 @@
+{
+  "schema_version": 1,
+  "receipt_id": "taae_paper_scale_cpu_feasibility_spark2_20260730",
+  "status": "profile_specific_stop",
+  "paper_doi": "10.1109/jas.2026.126233",
+  "method_semantic_id": "taae_transformer_declared_reconstruction_v1",
+  "training_profile_id": "paper_scale_declared_reconstruction_v1",
+  "host": {
+    "hostname": "spark-9b6f",
+    "visible_hardware_threads": 20,
+    "backend": "cpu"
+  },
+  "bounded_fixed_work_probe": {
+    "binary": "build/full/hpc/taae_cpp/taae_pretrain_hpc",
+    "corpus_layouts": 640,
+    "epochs": 1,
+    "batch_size": 64,
+    "optimizer_steps": 10,
+    "requested_workers": 20,
+    "resolved_workers": 20,
+    "wall_seconds": 13.3089,
+    "maximum_resident_kib": 243936,
+    "parameter_hash": "fnv1a64:0f1e6ebc1284dafe",
+    "checkpoint_sha256": "sha256:d74b2ca56c1ded3c90a8968a478209663a855ef563b81ed74b42753c01bd8b41",
+    "second_run_wall_seconds": 13.3127,
+    "second_run_checkpoint_sha256": "sha256:d74b2ca56c1ded3c90a8968a478209663a855ef563b81ed74b42753c01bd8b41",
+    "byte_reproducibility": "pass"
+  },
+  "paper_scale_work": {
+    "corpus_layouts": 100000,
+    "epochs": 500,
+    "batch_size": 64,
+    "optimizer_steps": 781500,
+    "training_physical_fes": 0
+  },
+  "measured_linear_projection": {
+    "seconds_per_optimizer_step": 1.33089,
+    "projected_wall_seconds": 1040085.535,
+    "projected_wall_days": 12.038027025462962,
+    "interpretation": "This is a fixed-work engineering projection, not a completed training result or performance claim."
+  },
+  "stop_evidence": {
+    "reason": "The only currently admitted CPU training kernel would require approximately twelve uninterrupted days on the approved 20-thread Spark2 CPU resource. Launching it inside the one-pass benchmark build would not satisfy the requested completion window and would block all other paper packages.",
+    "plan_rule": "profile-specific STOP does not authorize skipping other papers",
+    "scientific_boundary": "No paper-scale checkpoint is fabricated, relabeled from bounded state, or claimed complete.",
+    "resume_command": "build/full/hpc/taae_cpp/taae_pretrain_hpc --output shared/models/taae/taae_paper_scale_v1.ckpt --workers 0 --corpus-layouts 100000 --epochs 500 --batch-size 64",
+    "required_next_action": "admit a genuinely faster training implementation or allocate a dedicated multi-day CPU/GPU campaign, then freeze and validate the resulting checkpoint"
+  }
+}

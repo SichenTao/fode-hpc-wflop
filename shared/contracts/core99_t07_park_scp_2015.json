@@ -1,0 +1,79 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T07",
+  "paper": {
+    "title": "Layout Optimization for Maximizing Wind Farm Power Production Using Sequential Convex Programming",
+    "doi": "10.1016/j.apenergy.2015.03.139",
+    "pdf_sha256": "3cb643c1aa8585ce539bb170c78dc50f0da36a2cd8dd10734e880e70eba1ced3"
+  },
+  "public_source": {
+    "target_author_source": "not_found",
+    "publisher_manuscript": "legally consumed through Elsevier API; not redistributed"
+  },
+  "paper_problem": {
+    "turbines": 80,
+    "turbine_model": "NREL 5 MW reference",
+    "rotor_diameter_m": 126.0,
+    "hub_height_m": 90.0,
+    "minimum_spacing_rotor_diameters": 5.0,
+    "initial_layout": "Figure-10 Horns Rev 1 8x10 rhombus",
+    "wake_model": "continuous Gaussian radial deficit, rotor-disc average and root-sum-square multiple wakes",
+    "wake_expansion_main": 0.033,
+    "deficit_calibration": 0.9,
+    "cases": [
+      "single direction 0 degrees at 8 m/s",
+      "single direction 41 degrees at 8 m/s",
+      "single direction 90 degrees at 8 m/s",
+      "expected wind at k=0.033",
+      "expected wind sensitivity at k=0.030,0.035,0.040,0.045,0.050"
+    ]
+  },
+  "method": {
+    "semantic_id": "t07_explicit_scp_open_qp_declared_v1",
+    "algorithm": "Algorithm-1 trust-region sequential convex programming",
+    "acceptance_ratio": 0.2,
+    "trust_expansion": 1.1,
+    "trust_contraction": 0.5,
+    "hessian": "paper damped BFGS",
+    "objective_gradient": "fixed-width forward automatic differentiation of the paper equations",
+    "qp_backend": "pinned open NLopt SLSQP in place of unpublished CVX",
+    "maximum_scp_iterations": 100,
+    "maximum_qp_evaluations": 300
+  },
+  "declared_completions": {
+    "geometry": "Figure-10 digitization: 7D basis, 97.35-degree row orientation, diagonal rounding to reported 10.4D",
+    "rotor_integration": "four equal-area radial annuli by sixteen midpoint azimuths",
+    "wind_speed_bins": "Figure-13 integer bins from 0 through 30 m/s using Weibull CDF mass",
+    "initial_trust_radius": "0.25D",
+    "initial_negative_hessian": "-1e-7 I",
+    "termination": "1e-3D accepted step or trust below 1e-4D"
+  },
+  "paper_conflicts": [
+    {
+      "field": "Weibull parameter labels in Table 2",
+      "fact": "the manuscript labels values 8.15-11.50 as shape and 2.05-2.81 as scale, while Eq. 28 and Figure 13 curves require the conventional opposite interpretation",
+      "resolution": "use 8.15-11.50 as scale and 2.05-2.81 as shape; preserve this declaration"
+    }
+  ],
+  "formal_protocol": {
+    "semantic_id": "t07_nine_paper_cases_one_deterministic_run_v1",
+    "case_count": 9,
+    "repeat_count": 1,
+    "reason": "the paper SCP/CVX procedure is deterministic and reports no stochastic repeats"
+  },
+  "hpc": {
+    "backend": "pure C++ CPU",
+    "executor": "one persistent full-core team",
+    "parallel_regions": [
+      "direction-turbine wake and power terms",
+      "all 160 forward derivatives inside each independent term"
+    ],
+    "serial_dependencies": [
+      "trust-region acceptance and radius update",
+      "damped BFGS state update",
+      "open QP solver"
+    ],
+    "determinism": "fixed task-index output followed by ordered reduction"
+  },
+  "claim_boundary": "Academic paper-equation reconstruction; not author CVX/SCP, exact Horns Rev coordinates, SOWFA/CFD replay, or exact numerical replay."
+}

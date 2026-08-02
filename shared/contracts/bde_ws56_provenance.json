@@ -1,0 +1,24 @@
+{
+  "schema_version": 1,
+  "provenance_id": "bde2025_ws56_composite_proxy_v1",
+  "audit_date": "2026-07-29",
+  "paper_doi": "10.1016/j.energy.2025.137885",
+  "paper_sha256": "5029841587d4199ab846ddff971a178d52af7ccec0e758a22f5be2eff6626e85",
+  "official_code_url": "https://raw.githubusercontent.com/toyamaailab/toyamaailab.github.io/main/resource/BDE-WindFarm_code.zip",
+  "official_archive_sha256": "f4a317d4d727a9d452f76376373e2c8ad5546e35ff19530eda0ba328682dd140",
+  "official_mask_source_sha256": "91fc345b6910a2df011630ac7cd2d24886879ec9edf977e4e4423af95ab3d7b7",
+  "mask_authority": "manual two-pass row-major digitization of numbered paper Fig.5; official source hash is an independent exact-topology cross-check",
+  "missing_fields": [
+    "original WS5 eight-speed twelve-direction array",
+    "original WS6 eight-speed sixteen-direction array",
+    "author spacing conflict adjudication",
+    "author scale schedule conflict adjudication",
+    "author 10000 versus source 10050 budget adjudication"
+  ],
+  "runtime_dependencies": [
+    "tracked P3 case manifest",
+    "pure C++ evaluator and state machine",
+    "no official archive needed at runtime"
+  ],
+  "claim_boundary": "The source-backed mask topology at paper 250 m and declared wind arrays form a P3 composite proxy, not an original case."
+}

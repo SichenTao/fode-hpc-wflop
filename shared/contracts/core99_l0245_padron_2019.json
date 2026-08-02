@@ -1,0 +1,125 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0245",
+  "paper": {
+    "title": "Polynomial chaos to efficiently compute the annual energy production in wind farm layout optimization",
+    "authors": "Andres Santiago Padron, Jared Thomas, Andrew P. J. Stanley, Juan J. Alonso and Andrew Ning",
+    "doi": "10.5194/wes-4-211-2019",
+    "venue": "Wind Energy Science 4, 211-231, 2019",
+    "pdf_sha256": "2c772d4306fa176afe9ff0e343d7918f2c93f20ff09a77982a37adc1846c6c8d",
+    "official_article": "https://wes.copernicus.org/articles/4/211/2019/"
+  },
+  "paper_linked_public_data": {
+    "doi": "10.5281/zenodo.2667424",
+    "license": "CC BY 4.0",
+    "archive_sha256": "747a642397b577cf45277e59f8365d973d3055db29f8851d2063c99967be1c29",
+    "registered_fixture_sha256": "3632751214850fd502da0c4d88550da7cf2a019fc18ff6e6e4130c9db754596e",
+    "contents": "Grid, Amalia, Optimized and Random 60-turbine layouts plus 72 five-degree wind-direction probabilities"
+  },
+  "public_source": {
+    "author_repository": "https://github.com/pjstanle/OUUoptimizations",
+    "audited_commit": "6944b6b65d9806ce28ac0686944386828ed1643f",
+    "audited_commit_date": "2016-09-22",
+    "license": "not published",
+    "use": "read-only semantic evidence; no source copied",
+    "confirmed_elements": [
+      "four layouts and 14-edge Amalia boundary",
+      "constant-Cp/Ct NREL-5MW abstraction and FLORIS parameters",
+      "meteorological-to-wind-frame transformation",
+      "OpenMDAO, DAKOTA, rectangle and SNOPT lifecycle",
+      "2D spacing and optimizer scaling"
+    ],
+    "target_gap": "repository predates the 2019 two-uncertainty study and its executable examples hard-code one uncertainty and ten points"
+  },
+  "licensed_source_lineage": {
+    "repository": "https://github.com/byuflowlab/PlantEnergy",
+    "commit": "000f68d85163c57fda4b501c8028f5d03db72d9e",
+    "commit_date": "2016-08-12",
+    "license": "Apache-2.0",
+    "license_sha256": "a8ad31b1c3f40dca5a84119351b8fa8ddc868edd77fad8a8ebf6d8f2d16fa4ae",
+    "use": "continuous three-zone FLORIS equations and parameter defaults"
+  },
+  "paper_problem": {
+    "turbines": 60,
+    "turbine": "NREL 5 MW reference abstraction",
+    "rotor_diameter_m": 126.4,
+    "uncertain_variables": ["wind direction", "wind speed"],
+    "independence_assumption": true,
+    "wind_direction": "five-degree measured bins, linearly interpolated and represented by 50 equal-width histogram bins for custom polynomials",
+    "wind_speed": "Weibull shape 1.8 and scale 12.55 m/s truncated and renormalized to 3-25 m/s",
+    "layouts": ["Grid", "Amalia", "Optimized", "Random"],
+    "boundary": "14-edge convex hull of Princess Amalia layout",
+    "minimum_spacing": "2 rotor diameters",
+    "design_variables": 120,
+    "reference_aep_samples": 200000
+  },
+  "paper_method": {
+    "target": "PC-R polynomial chaos with regression",
+    "sampling": "Latin hypercube",
+    "basis": "custom distribution-orthogonal polynomials with total-order truncation",
+    "coefficient_solver": "least squares",
+    "order_selection": "ten-fold cross-validation from total order one through candidate maximum",
+    "gradient": "differentiate the responses and reuse the regression linear system to obtain mean gradients",
+    "optimization": "SNOPT sequential quadratic programming through OpenMDAO and pyOptSparse",
+    "optimization_roles": {
+      "methods": ["PC-R coarse 231", "PC-R fine 630", "rectangle coarse 225", "rectangle fine 625"],
+      "starting_layouts": ["Amalia", "Grid", "Random"],
+      "sample_sets": 10,
+      "required_runs": 120
+    },
+    "paper_result_anchors_not_acceptance_targets": {
+      "pcr_coarse_mean_aep_gwh_by_start": [1359, 1362, 1357],
+      "pcr_fine_mean_aep_gwh_by_start": [1362, 1367, 1363],
+      "rectangle_coarse_mean_aep_gwh_by_start": [1356, 1354, 1349],
+      "rectangle_fine_mean_aep_gwh_by_start": [1360, 1365, 1358]
+    }
+  },
+  "missing_information": [
+    "exact two-variable Latin-hypercube and 200000-sample Monte-Carlo arrays",
+    "final two-variable DAKOTA input and output files and selected polynomial orders",
+    "SNOPT binary, license, version, histories and complete stopping state",
+    "exact optimized layouts, random streams and all 120 trajectories",
+    "exact target FLORISSE revision and compiled dependency environment",
+    "nonzero spline-shift value if one was used"
+  ],
+  "paper_source_conflicts": [
+    "The paper truncates wind speed to 3-25 m/s while the older public driver uses 0-30 m/s.",
+    "The paper reports function precision tolerance 1e-4 while the older source driver requests SNOPT major optimality tolerance 2e-6.",
+    "The older public repository implements one uncertain variable at a time and cannot be labelled the final two-variable program."
+  ],
+  "completion_decisions": [
+    "Use paper two-variable independence, 3-25 m/s truncation and exact coarse/fine sample counts.",
+    "Use deterministic seed-indexed centered Latin hypercubes and disclose that original arrays are absent.",
+    "Generate direction- and speed-specific orthogonal polynomial recurrences numerically, select order deterministically with ten folds and use a disclosed small Cholesky ridge.",
+    "Translate the continuous three-zone FLORIS value equations independently from Apache-2.0 PlantEnergy lineage and use fixed-width forward automatic differentiation.",
+    "Use author-driver constant Cp/Ct, generator efficiency and 5 MW cap; set the unreported spline shift to zero.",
+    "Use open NLopt SLSQP in place of proprietary SNOPT and preserve paper constraints, 1000-evaluation limit and source/paper tolerance provenance.",
+    "Implement 200000-sample Monte Carlo as evaluation-only reference and do not use it as an optimizer.",
+    "Treat paper table values as external anchors rather than numeric acceptance targets."
+  ],
+  "semantic_ids": {
+    "method": "l0245_pcr_cv_gradient_slsqp_declared_v1",
+    "problem": "l0245_amalia60_two_uncertainty_floris_declared_v1",
+    "protocol": "l0245_four_layout_convergence_three_start_10set_v1"
+  },
+  "hpc_contract": {
+    "backend": "pure C++20 CPU-HPC",
+    "persistent_team": "one persistent all-core executor per evaluation or optimization",
+    "parallel_axis": "independent wind-state wake and derivative evaluations",
+    "gradient_kernel": "120 coordinates in fixed eight-lane forward-AD blocks",
+    "determinism": "indexed state writes and ordered regression/AEP reductions give identical one- and all-core scientific receipts",
+    "nonparallel_work": "cross-validation, small dense linear algebra, constraints and SLSQP control remain deterministic serial orchestration",
+    "h6_workload": "630-state PC-R fine AEP plus 120-coordinate gradient, repeated three times at one worker and every available Waffle core",
+    "formal_resource": "all available Waffle CPU cores"
+  },
+  "formal_protocol": {
+    "fixed_layout_method_set_roles": 160,
+    "monte_carlo_layout_references": 4,
+    "optimization_roles": 120,
+    "required_target_runs": 284,
+    "optimization_maximum_evaluations": 1000,
+    "sample_sets": 10,
+    "formal_workers": "all available Waffle CPU cores"
+  },
+  "claim_boundary": "Source-backed flexible academic reproduction of the PC-R method, paper-native two-uncertainty 60-turbine problem and optimization protocol. It is not the author DAKOTA, SNOPT or target FLORISSE execution, original random-state or trajectory replay, or numerical table and timing replay."
+}

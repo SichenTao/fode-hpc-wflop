@@ -1,0 +1,42 @@
+{
+  "schema_version": 1,
+  "method_semantic_id": "tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2",
+  "problem_semantic_id": "tmoea_nysted_paper_wake_gga_router_problem_v1",
+  "asset_sha256": "920cb61b0dc1415af4b6908252799d703c884f2eeaec9ba7b9590c42d40791c4",
+  "scalar_oracle": {
+    "hub_height_m": 91.5,
+    "rotor_diameter_m": 117.0,
+    "downwind_distance_m": 500.0,
+    "wake_expansion": 0.03836258611404279,
+    "single_wake_deficit": 0.378083374882509
+  },
+  "frozen_layout": {
+    "layout_0based": "integers 0 through 71 inclusive",
+    "aep_kwh": 1041510900.4830287,
+    "capacity_factor": 0.3931677857516688,
+    "cable_cost": 9306538.200114219,
+    "oracle": "independent Python SciPy not-a-knot T-MOEA wake plus Python balanced-substation radial routing"
+  },
+  "seeded_150_fes_fixture": {
+    "seed": 20260729,
+    "generations": 4,
+    "nondominated_count": 13,
+    "best_aep_kwh": 1202880758.17586,
+    "best_cable_cost": 10648727.743069429,
+    "final_population_hash": "fnv1a64:385b9c770e00a2dd",
+    "nondominated_front_hash": "fnv1a64:e15e69c38f33b468",
+    "worker_equivalence": "workers 1 and default all-visible exact for every scientific field"
+  },
+  "seeded_3000_fes_fixture": {
+    "seed": 20260729,
+    "generations": 99,
+    "nondominated_count": 28,
+    "best_aep_kwh": 1224977037.287571,
+    "best_cable_cost": 10395718.062718594,
+    "final_population_hash": "fnv1a64:9b97211b41eaf35a",
+    "nondominated_front_hash": "fnv1a64:ee626f1a0882d596",
+    "work_receipt_complete_layout_evaluations": 3000,
+    "worker_equivalence": "workers 1 and workers 0 all-visible exact for every scientific field",
+    "front_replay": "all 28 layouts independently replayed and independently checked for nondominance"
+  }
+}

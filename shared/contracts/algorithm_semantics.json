@@ -1,6 +1,6 @@
 {
-  "schema_version": 9,
-  "semantics_set_id": "fode_e0_paper_first_registered_algorithms_v9",
+  "schema_version": 10,
+  "semantics_set_id": "fode_e0_paper_first_registered_algorithms_v10",
   "problem_semantics": {
     "id": "FODE-E0-L",
     "objective": "maximize joint-direction-speed expected farm power in kW",
@@ -149,6 +149,15 @@
       "evaluation_detail": "TotalOnly",
       "reconstruction_status": "explicit_problem_transfer_no_author_source_or_case_arrays",
       "problem_scope": "algorithm transferred to fode_e0_common; original Nantong 3D problem remains blocked at R1 and original transition identity remains blocked at R2"
+    },
+    "alga_attention_declared_reconstruction_v1": {
+      "method_id": "ALGA_ATTENTION_DECLARED_RECONSTRUCTION_V1",
+      "state_semantics": "paper Eqs. 19-24 and Algorithm 1 with registered normalized-fitness supervision, shallow attention architecture, elite, mask, optimizer, and repair completions",
+      "parallel_semantics": "evaluated generation snapshot; fixed-order attention training and stable ranking barriers; independent offspring crossover mutation attention replacement repair and complete evaluation on one persistent CPU team",
+      "evaluation_detail": "TotalOnly",
+      "reconstruction_status": "M3_declared_engineering_reconstruction_original_author_method_blocked",
+      "problem_scope": "primary P3 composite transfer uses the paper-visible ideal grid, public WFLO-GGA Guishan annual wind, and audited FODE evaluator; fode_e0_common is a separate platform-stress transfer; original 3D Guishan study remains blocked",
+      "worker_equivalence": "exact objective layout physical-FES generation and learned-state hash"
     }
   },
   "unresolved_active_conflicts": 14

@@ -1,0 +1,34 @@
+{
+  "corpus_id": "T28",
+  "data_doi": "10.5281/zenodo.13946931",
+  "inputs": {
+    "Northwind.xlsx": "23de2b4e96ff87e09b56af9da911ce6d36179ea812e73a2c46018b774e5fd519",
+    "data_scenarios.xlsx": "1b359a3d3c30e731f134ffd2d34bbf1829e2d7a0053c5ff064eb6b24bf9bb555"
+  },
+  "license": "AGPL-3.0",
+  "outputs": {
+    "belgium_2023.tsv": {
+      "bytes": 4035921,
+      "sha256": "9929984c028d4ced2c6c7fadbe5a7e958bffd98265ca58fde7b942b8efc0d621"
+    },
+    "belgium_2024.tsv": {
+      "bytes": 2599543,
+      "sha256": "6fe852ebbfaad2dcf619a45da9fe28ed0b202a052a5bba44ba5501f15c4b2007"
+    },
+    "northwind_layout.tsv": {
+      "bytes": 4166,
+      "sha256": "1363470a8295349e859e2953321bbc69d23cdb5ca614bf956f4e2be8b027083d"
+    },
+    "v112_3_power_ct.tsv": {
+      "bytes": 3848,
+      "sha256": "b25cbb3a978fed060c7e0d37b950d3465ca02fe11895fe0b526b2578ce24c985"
+    }
+  },
+  "paper_doi": "10.5194/wes-10-1661-2025",
+  "scenario_rows": {
+    "2023": 35040,
+    "2024": 25892
+  },
+  "schema_version": 1,
+  "source_revision": "427ee84dfdb9fb275b229e8eecf4503071d8fed4"
+}

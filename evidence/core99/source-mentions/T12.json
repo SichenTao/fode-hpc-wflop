@@ -1,0 +1,18 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [
+    "https://github.com/d9w/WindFLO"
+  ],
+  "corpus_id": "T12",
+  "doi": "10.1016/j.renene.2018.03.052",
+  "embedded_annotation_asset_urls": [
+    "https://github.com/d9w/WindFLO"
+  ],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "b5ca7e653598092defe0f91c6c48d0ca8c0832f097f0b389c289287a1d53ddd5",
+  "private_text_sha256": "82738a74813d3159330510c18916d39459531169faf440339bd7f0f6976dcf67",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": [
+    "https://github.com/d9w/WindFLO"
+  ]
+}

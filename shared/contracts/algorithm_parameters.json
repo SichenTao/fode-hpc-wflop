@@ -549,6 +549,39 @@
         "problem_scope": "algorithm transferred to fode_e0_common; unavailable Nantong 3D inputs remain a separately blocked problem package",
         "parallel_semantics": "generation snapshot; independent crossover mutation power-law perturbation repair and evaluation; ordered fitness diversity stagnation and elitist barriers"
       }
+    },
+    "alga_attention_declared_reconstruction_v1": {
+      "display_label": "ALGA attention engineering reconstruction",
+      "implementation_provenance": "paper_guided_citation_predecessor_derived_declared_completion",
+      "formal_admission": "development_only_pending_separate_campaign_approval",
+      "parameter_evidence": [
+        "Yang et al. 2025 Table 2 fixes population 30, crossover 0.8, mutation 0.1, eight heads, and learning rate 1e-3",
+        "Yang et al. 2025 Eqs. 19-23 define scaled dot-product multi-head attention and Eq. 24 defines masked replacement",
+        "Public WFLO-GGA AGA commit 6ce41326e6c1d3685a01e038baf6d1d07aa46126 supplies the closest executable elite, one-point crossover, mutation, and duplicate-repair lineage",
+        "The author ALGA source, training state, training objective, and complete 3D problem assets remain unavailable"
+      ],
+      "hpc": {
+        "population_size": 30,
+        "elite_count": 6,
+        "crossover_rate": 0.8,
+        "mutation_rate": 0.1,
+        "attention_heads": 8,
+        "attention_key_width": 1,
+        "learning_rate": 0.001,
+        "attention_updates_per_generation": 1,
+        "mask_fraction": 0.1,
+        "backend": "cpu"
+      },
+      "derived_rules": {
+        "target": "per-generation min-max normalized complete-layout expected power",
+        "loss_optimizer": "full-batch MSE and one fixed-order vanilla gradient-descent update",
+        "initialization": "counter-keyed Xavier uniform",
+        "mask": "replace ceil(0.1D) lowest-score child genes from highest-score unoccupied elite cells",
+        "survival": "six current elites plus 24 evaluated attention-guided offspring",
+        "problem_scope": "primary alga_guishan_planar_transfer plus separate fode_e0_common platform stress; original 3D Guishan blocked",
+        "parallel_semantics": "persistent CPU team for independent population transitions repair and complete evaluation; ordered attention reductions and elitism",
+        "accelerator_semantics": "cpu+gpu and gpu names are recognized interfaces that fail closed in this build"
+      }
     }
   }
 }

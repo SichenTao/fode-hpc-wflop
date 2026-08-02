@@ -1,0 +1,190 @@
+{
+  "corpus_id": "T11",
+  "equation_checks": {
+    "t11_comp1_n220": {
+      "all_core_science_identity": "exact",
+      "cpp": {
+        "constraint_violation_m": 0,
+        "energy_cost": 0.0009459137302086587,
+        "energy_output_kw": 2369411.837457639,
+        "feasible": true,
+        "wake_free_ratio": 0.9002416686790883
+      },
+      "independent": {
+        "energy_cost": 0.0009459137641333865,
+        "energy_output_kw": 2369411.6738702646,
+        "wake_free_ratio": 0.9002416065251947
+      },
+      "relative_errors": {
+        "energy_cost": 3.5864503841273475e-08,
+        "energy_output_kw": 6.904134267693076e-08,
+        "wake_free_ratio": 6.904134273037263e-08
+      }
+    },
+    "t11_comp3_n710": {
+      "all_core_science_identity": "exact",
+      "cpp": {
+        "constraint_violation_m": 0,
+        "energy_cost": 0.0010441850517442532,
+        "energy_output_kw": 4177946.056571496,
+        "feasible": true,
+        "wake_free_ratio": 0.8448036844745325
+      },
+      "independent": {
+        "energy_cost": 0.0010441851558098529,
+        "energy_output_kw": 4177945.5752683096,
+        "wake_free_ratio": 0.8448035871523795
+      },
+      "relative_errors": {
+        "energy_cost": 9.966201788211789e-08,
+        "energy_output_kw": 1.1520090975432165e-07,
+        "wake_free_ratio": 1.1520090974000761e-07
+      }
+    },
+    "t11_ks1_n100": {
+      "all_core_science_identity": "exact",
+      "cpp": {
+        "constraint_violation_m": 0,
+        "energy_cost": 0.007136681157431554,
+        "energy_output_kw": 85024.09696298666,
+        "feasible": true,
+        "wake_free_ratio": 0.9080060525643141
+      },
+      "independent": {
+        "energy_cost": 0.007136681234916558,
+        "energy_output_kw": 85024.09588942715,
+        "wake_free_ratio": 0.9080060410993467
+      },
+      "relative_errors": {
+        "energy_cost": 1.0857288139010521e-08,
+        "energy_output_kw": 1.2626532379201964e-08,
+        "wake_free_ratio": 1.2626531935007059e-08
+      }
+    },
+    "t11_ks2_n100": {
+      "all_core_science_identity": "exact",
+      "cpp": {
+        "constraint_violation_m": 0,
+        "energy_cost": 0.013505520152686891,
+        "energy_output_kw": 41722.836586552454,
+        "feasible": true,
+        "wake_free_ratio": 0.8555163041914857
+      },
+      "independent": {
+        "energy_cost": 0.013505520421674806,
+        "energy_output_kw": 41722.83568911369,
+        "wake_free_ratio": 0.8555162857897284
+      },
+      "relative_errors": {
+        "energy_cost": 1.991688634548148e-08,
+        "energy_output_kw": 2.15095338870984e-08,
+        "wake_free_ratio": 2.1509534359519934e-08
+      }
+    }
+  },
+  "four_by_four_lifecycle_smoke": {
+    "t11_comp1_n220": {
+      "t11_1plus1_blockcopy_both": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "e82fddb85f0a0e8d"
+      },
+      "t11_1plus1_blockcopy_mutation": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "57ebd0c8c10df835"
+      },
+      "t11_5comma10_blockcopy_crossover": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "ab086dd6a8876749"
+      },
+      "t11_5comma10_blockcopy_mutation": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "201bf665e363a61a"
+      }
+    },
+    "t11_comp3_n710": {
+      "t11_1plus1_blockcopy_both": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "27d01f411579e771"
+      },
+      "t11_1plus1_blockcopy_mutation": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "14646dc53ab16728"
+      },
+      "t11_5comma10_blockcopy_crossover": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "5de0524a7a126f12"
+      },
+      "t11_5comma10_blockcopy_mutation": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "ecb8dae41d000204"
+      }
+    },
+    "t11_ks1_n100": {
+      "t11_1plus1_blockcopy_both": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "ad4982f42edc9143"
+      },
+      "t11_1plus1_blockcopy_mutation": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "4aa979605cbb4480"
+      },
+      "t11_5comma10_blockcopy_crossover": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "acaea5874ddbce9e"
+      },
+      "t11_5comma10_blockcopy_mutation": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "295ff27d9eb49af6"
+      }
+    },
+    "t11_ks2_n100": {
+      "t11_1plus1_blockcopy_both": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "3b45973e231832b5"
+      },
+      "t11_1plus1_blockcopy_mutation": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "b6aa98e4ea1be908"
+      },
+      "t11_5comma10_blockcopy_crossover": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "2c4f6f3ded171505"
+      },
+      "t11_5comma10_blockcopy_mutation": {
+        "feasible": true,
+        "physical_fes": 15,
+        "scientific_hash": "dd10343a119efbc6"
+      }
+    }
+  },
+  "incremental_full_equivalence": {
+    "relative_errors": {
+      "energy_cost": 0.0,
+      "energy_output_kw": 0.0,
+      "wake_free_ratio": 0.0
+    },
+    "status": "pass"
+  },
+  "schedule_independent_replay": {
+    "four_worker_hash": "1add878f5cb94ef4",
+    "one_worker_hash": "1add878f5cb94ef4",
+    "status": "pass"
+  },
+  "schema_version": 1,
+  "status": "pass"
+}

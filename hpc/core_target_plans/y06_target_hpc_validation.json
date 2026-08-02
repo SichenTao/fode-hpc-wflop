@@ -1,0 +1,64 @@
+{
+  "H5_bounded_equivalence": {
+    "candidate_backends": [
+      "cpu_hpc_v1"
+    ],
+    "comparison_scope": "independent oracle/formula comparison plus bounded target optimizer execution; backend self-agreement alone is not accepted as equivalence",
+    "independent_reference": {
+      "ctest_names": [
+        "gga_cpp_evaluator_oracle"
+      ],
+      "description": "independent Python/SciPy wake, routing, and LCOE evaluator",
+      "does_not_call_candidate": true,
+      "implementation_or_oracle": "scripts/validate_gga_cpp_evaluator.py",
+      "primary_test_output_sha256": "52572769adca6392d797cdeeb04007dd2af47354a82242f2defb7f5c49e6c9f9"
+    },
+    "numerical_comparison": {
+      "maximum_absolute_error": 1.430511474609375e-06,
+      "maximum_scaled_absolute_error": 4.441684900785787e-16,
+      "observed_result": {
+        "cases": 8,
+        "maximum_absolute_error": 1.430511474609375e-06,
+        "maximum_scaled_absolute_error": 4.441684900785787e-16,
+        "scaled_tolerance": 2e-12,
+        "status": "pass"
+      },
+      "passed": true,
+      "scaled_tolerance": 2e-12
+    },
+    "physical_fes_ledger": "bounded target runtime checks exact physical objective work; learning artifact training is outside that ledger",
+    "reference_backend": "independent_reference_v1",
+    "runtime_test": "gga_cpp_determinism",
+    "runtime_test_output_sha256": "d6db436ead4660128fc9f5db143c5e3215071742054721a09965f605a96d2107",
+    "runtime_test_receipt": "evidence/development/plan004_h5_independent_reference_receipts_20260730.json",
+    "runtime_test_receipt_sha256": "66fbcfbeec589cd69e9d2e07916a8686a538dcc7cbd322a7641b437401689219",
+    "status": "accepted_h5"
+  },
+  "H6_performance_validation": {
+    "accepted_backend": "cpu_hpc_full_visible_v1",
+    "all_visible_characterized": true,
+    "all_visible_workers": 20,
+    "claim_boundary": "Measured fixed-work highest-performance-profile H6 only; a full worker-scaling curve is not required and no formal quality claim is made.",
+    "measured_serial_fraction": null,
+    "minimum_named_h0_stage_attribution": 1.0,
+    "performance_receipt": "evidence/performance/plan005_h6_performance_first_summary_20260730.json",
+    "performance_receipt_sha256": "5519c51eeb300a47647c39f6ba2700681d321c74bac94fb93c443517ece4ef6d",
+    "raw_observation_receipt": "evidence/performance/plan005_h6_performance_first_raw_observations_20260730.jsonl",
+    "selected_workers": 20,
+    "status": "accepted_h6",
+    "worker_scaling_characterized": false
+  },
+  "analysis_path": "hpc/core_target_plans/y06_target_hpc_analysis.json",
+  "analysis_sha256": "be40790b289760856b3921dbc40cfe8f5c55193829e8698dba36c0c115eb99f8",
+  "claim_boundary": "H5 accepts bounded independent-reference equivalence only. No backend is selected before exact-pair H6 and no formal-quality claim is made.",
+  "corpus_id": "Y06",
+  "method_semantic_id": "gga_source_replay_v1",
+  "native_asset": "shared/contracts/gga_problem_semantics.json",
+  "native_asset_sha256": "b083a639bdb0ce0d0e01fcd6d10a757bf6dbccbcd9b9fd6d248587d294867cc6",
+  "overall_status": "accepted_h5_h6",
+  "pair_id": "Y06__gga__gga2026_layout_cable__target",
+  "paper_protocol_id": "apenergy2026_gga_native_25_v1",
+  "problem_semantic_id": "gga2026_layout_cable",
+  "schema_version": 2,
+  "validation_id": "plan004_h5__Y06__gga__gga2026_layout_cable__target__spark_20260730"
+}

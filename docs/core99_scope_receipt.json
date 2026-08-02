@@ -1,0 +1,23 @@
+{
+  "core_registry_basename": "wflop_review_core_20260727.tsv",
+  "core_registry_sha256": "60342bf2669d26c7706300f746839a1f8d18f224c344786d6a9b732ce56c3d74",
+  "counts": {
+    "direct": 92,
+    "new_direct_ready": 68,
+    "new_direct_skipped": 1,
+    "retained_direct": 23,
+    "reviews": 7,
+    "total": 99
+  },
+  "existing_registry_basename": "paper_package_completion.tsv",
+  "existing_registry_sha256": "6a29eb43a8280158462205efccf48a6a1a8985d8e3b1cae33f808a5ac442e123",
+  "expansion_registry_basename": "core99_expansion_registry.tsv",
+  "expansion_registry_sha256": "c548c9bd7c3f3bcec8023485542cbb028166acf39e2d11ec7c479f2cb5c1e8da",
+  "explicit_skip_ids": [
+    "T32"
+  ],
+  "pdf_root_identity": "private_core99_primary_pdf_collection",
+  "pdf_verification": "basename, PDF signature, and SHA-256",
+  "schema_version": 1,
+  "scope_id": "wflop_core99_expansion_20260731_v1"
+}

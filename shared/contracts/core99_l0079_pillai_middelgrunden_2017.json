@@ -1,0 +1,114 @@
+{
+  "schema_version": 1,
+  "corpus_id": "L0079",
+  "paper": {
+    "title": "Application of an offshore wind farm layout optimization methodology at Middelgrunden wind farm",
+    "authors": "Ajit C. Pillai and John Chick and Mahdi Khorasanchi and Sami Barbouchi and Lars Johanning",
+    "doi": "10.1016/j.oceaneng.2017.04.049",
+    "venue": "Ocean Engineering 139, 2017",
+    "pdf_sha256": "38f5f9b607d9d1d96fe72a6b1b7e57144691736a1dda368cd630762ebaacd863"
+  },
+  "authority_ladder": [
+    "target journal paper",
+    "author doctoral thesis",
+    "direct author predecessor papers",
+    "pinned OpenWAKE Middelgrunden and B76 assets",
+    "deterministic declared completion"
+  ],
+  "source_search": {
+    "date": "2026-07-31",
+    "target_repository": "https://strathprints.strath.ac.uk/60992/",
+    "thesis": "https://era.ed.ac.uk/items/2547b970-79d8-4ec2-90a4-20e483ae8d7f",
+    "result": "No target-linked implementation, native numeric input bundle, random state or result archive was found.",
+    "pinned_data_completion": {
+      "repository": "https://github.com/ImperialCollegeLondon/OpenWAKE",
+      "revision": "cdd23b9155e9d8181d6176a5702d167411d9bcc6",
+      "files": [
+        "openwake/turbine_farm_models/middelgrunden.yml",
+        "openwake/turbine_farm_models/middelgrunden.txt"
+      ]
+    }
+  },
+  "semantic_contract": {
+    "turbines": "20 Bonus B76-2000 turbines",
+    "objective": "minimize discounted lifetime LCOE",
+    "constraint_modes": {
+      "array": "six continuous rectilinear-grid parameters",
+      "binary": "select exactly 20 positions from the journal's 628-position role",
+      "continuous": "20 direct x,y turbine coordinates"
+    },
+    "minimum_spacing_m": 175.0,
+    "wind_states": "12 directions by integer speeds 3 through 25 m/s",
+    "wake": "first-order G. C. Larsen with upstream sequencing and RSS superposition",
+    "algorithms": "adaptive GA and global-best PSO in every constraint mode",
+    "population_or_swarm": 100,
+    "maximum_generations": 1000,
+    "native_repeats": 1,
+    "physical_fes": "one complete LCOE evaluation of one decoded layout"
+  },
+  "paper_native_roles": [
+    "ga_array",
+    "ga_binary",
+    "ga_continuous",
+    "pso_array",
+    "pso_binary",
+    "pso_continuous"
+  ],
+  "conflicts": [
+    {
+      "field": "binary_candidate_count",
+      "target_paper": 628,
+      "doctoral_thesis": 658,
+      "resolution": "formal journal-target profile uses 628; thesis profile remains separately named"
+    },
+    {
+      "field": "AEP_hours",
+      "target_paper": 8766,
+      "resolution": "emit literal 8766 and calendar 8760 values"
+    },
+    {
+      "field": "PSO_velocity",
+      "target_paper": "tuned coefficients omitted and printed notation conflicts with canonical stochastic factors",
+      "resolution": "declared canonical gBest completion: inertia 0.9 to 0.4, c1=c2=2, no neighbourhood/fourth-force term"
+    }
+  ],
+  "missing_information_and_completions": [
+    {
+      "field": "site polygon, SCADA, bathymetry and obstacle arrays",
+      "completion": "5.7 km2 elongated boundary proxy centered on pinned as-built coordinates; pinned public wind rose; no invented obstacle"
+    },
+    {
+      "field": "industry cost and proprietary Gurobi CMST inputs",
+      "completion": "as-built lifetime-cost anchor plus an explicitly labelled deterministic capacity-group MST cable/cost surrogate"
+    },
+    {
+      "field": "real-coded GA operators and tuned PSO coefficients",
+      "completion": "direct-predecessor roulette/uniform GA semantics and declared canonical gBest PSO completion"
+    }
+  ],
+  "method_semantic_ids": {
+    "ga": "l0079_adaptive_ga_three_encoding_declared_v1",
+    "pso": "l0079_gbest_pso_three_encoding_declared_v1"
+  },
+  "problem_semantic_id": "l0079_middelgrunden_lcoe_three_constraint_declared_v1",
+  "protocol_semantic_id": "l0079_native_six_role_single_run_v1",
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC",
+    "strategy": [
+      "precompute immutable wind, turbine and candidate-position tables",
+      "parallel fixed-index population evaluation on one persistent all-core team",
+      "two source-required GA evaluation phases with frozen-parent generation semantics",
+      "synchronous PSO update/evaluate and ordered best commit",
+      "counter-keyed random events and ordered reductions"
+    ],
+    "determinism": "one-worker/all-worker scientific identity is mandatory"
+  },
+  "reference_anchors": {
+    "validation_aep_gwh_at_93_percent_availability": 95.41,
+    "reported_aep_gwh": 96.0,
+    "optimization_existing_aep_mwh": 102000.0,
+    "optimization_existing_lifetime_cost_gbp": 91500000.0,
+    "optimization_existing_lcoe_gbp_per_mwh": 86.63
+  },
+  "claim_boundary": "Source-backed flexible academic reproduction of the complete paper problem and six native optimizer/constraint roles; not author source, unavailable site arrays, proprietary CMST/cost model, random state or exact numerical replay."
+}

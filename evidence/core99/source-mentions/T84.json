@@ -1,0 +1,18 @@
+{
+  "availability_mention_line_numbers": [],
+  "candidate_public_asset_urls": [
+    "https://github.com/byuflowlab/thomas2021-wec"
+  ],
+  "corpus_id": "T84",
+  "doi": "10.1002/we.2692",
+  "embedded_annotation_asset_urls": [
+    "https://github.com/byuflowlab/thomas2021-wec"
+  ],
+  "interpretation": "candidate mentions only; each URL requires identity, revision, license, and paper/source semantic audit before use",
+  "paper_pdf_sha256": "b5d89cb66feb4883b9ce3cedd685d2822af7f8e39515ae838b78581f54dbc382",
+  "private_text_sha256": "ce738780484893b6adf92fdb6312613e371b7544f8138e1eb7509f61d74d330a",
+  "schema_version": 1,
+  "single_line_text_asset_url_candidates": [
+    "https://github.com/byuflowlab/thomas2021-wec"
+  ]
+}

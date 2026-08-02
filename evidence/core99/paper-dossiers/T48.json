@@ -1,0 +1,151 @@
+{
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "completion_decisions": [
+    "Digitize and register the 16 Figure-1 wind-resource markers because author numeric arrays are absent.",
+    "Use periodic monotone cubic Hermite interpolation as specified by the paper.",
+    "Use a declared piecewise-linear 1.5MW curve normalized to the paper 42 percent isolated capacity-factor anchor.",
+    "Reconstruct the unspecified gradient scheme as deterministic bounded coordinate-gradient trials for the paper's 190 iterations.",
+    "Flatten candidate, turbine, and direction work onto one persistent CPU team while keeping reductions and commits ordered."
+  ],
+  "corpus_id": "T48",
+  "evidence_receipts": [
+    "evidence/core99/h6/T48_waffle_admission.json"
+  ],
+  "implementation_units": [
+    "hpc/core99_cpp/include/core99/lackner_t48.hpp",
+    "hpc/core99_cpp/src/lackner_t48.cpp",
+    "shared/contracts/core99_t48_lackner_2007.json"
+  ],
+  "dossier_status": "formal_complete",
+  "formal_status": "complete_single_deterministic_paper_demonstration",
+  "hpc_admission": {
+    "H0": "pass",
+    "H1": "pass",
+    "H2": "pass",
+    "H3": "pass",
+    "H4": "pass",
+    "H5": "pass",
+    "H6": "pass"
+  },
+  "missing_information": [
+    "exact Thompson Island 16-sector arrays",
+    "manufacturer 1.5MW power-curve table",
+    "PCHIP coefficients",
+    "gradient-search update, step, and termination rules",
+    "author numerical quadrature, seed, and search history"
+  ],
+  "paper": {
+    "authors": "Matthew A. Lackner and Christopher N. Elkinton",
+    "doi": "10.1260/030952407780811401",
+    "pdf_basename": "2007_Lackner_An_Analytical_Framework_for_Offshore_Wind_Farm_Layout_Optimization.pdf",
+    "pdf_sha256": "bc304c8cef8ec10326ce45d67320798a38a8e0564b405d028a3c3b4a8fa97d4d",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV1",
+    "reading_tier": "CORE-SUPPORT",
+    "role": "D",
+    "secondary_review_classes": "REV4",
+    "title": "An Analytical Framework for Offshore Wind Farm Layout Optimization",
+    "venue": "Wind Engineering",
+    "year": 2007
+  },
+  "paper_linked_public_asset_candidates": [],
+  "paper_source_conflicts": [],
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 15,
+    "text_sha256": "08e194a88230b92e75315f3e19f19a6a24495d17f5b55b3ce3f1f8304f2d48ec"
+  },
+  "public_asset_candidate_evidence": {
+    "availability_mention_line_numbers": [],
+    "embedded_annotation_urls": [],
+    "status": "no_paper_linked_public_asset_candidate_detected"
+  },
+  "schema_version": 1,
+  "scope": {
+    "claim_boundary": "academic declared reproduction of the analytical framework and two-turbine demonstration; not author-source or exact 190-step replay",
+    "execution_wave": "REV1",
+    "package_status": "formal_complete",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "problem_definition_or_comparison_protocol"
+  },
+  "semantic_contract": {
+    "constraints_and_repair": {
+      "authority": "paper",
+      "resolution": "both turbines lie in x=[1600,10000]m and y=[-5000,5000]m; coincident hubs are excluded",
+      "status": "frozen"
+    },
+    "decision_variables": {
+      "authority": "paper",
+      "resolution": "continuous Cartesian [x1,y1,x2,y2] positions",
+      "status": "frozen"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper",
+      "resolution": "direct continuous coordinates with bound projection for reconstructed search trials",
+      "status": "frozen"
+    },
+    "initialization": {
+      "authority": "paper",
+      "resolution": "paper initial layout [9109,-2013,3273,1614]",
+      "status": "frozen"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper_plus_platform_protocol",
+      "resolution": "LCOE, capital, AEP, capacity factor, wake loss, physical FES, timings, worker receipt, feasibility, and scientific hash",
+      "status": "frozen"
+    },
+    "objective_and_direction": {
+      "authority": "paper",
+      "resolution": "minimize EPRI-TAG LCOE=(CC*FCR+C_OM)/AEP",
+      "status": "frozen"
+    },
+    "paper_native_cases": {
+      "authority": "paper",
+      "resolution": "one two-turbine offshore rectangular opportunity-set example with printed initial and final layouts",
+      "status": "frozen"
+    },
+    "parameters": {
+      "authority": "paper_plus_declared_missing_data_reconstruction",
+      "resolution": "1.5MW, D=77m, CT=0.8, wake kappa=0.04, stated turbine/support/transmission/O&M/FCR costs, digitized wind resource, calibrated curve",
+      "status": "frozen"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper_plus_declared_search_reconstruction",
+      "resolution": "190 iterations; every complete two-turbine LCOE call counts once; reconstructed search uses 1521 physical evaluations",
+      "status": "frozen"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "not_applicable",
+      "resolution": "no learned method",
+      "status": "frozen"
+    },
+    "update_order": {
+      "authority": "declared_reconstruction",
+      "resolution": "parallel eight-neighbor coordinate trials, fixed-order value reductions, deterministic best commit, and step halving without improvement",
+      "status": "frozen"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper_plus_declared_missing_curve_reconstruction",
+      "resolution": "Jensen/RSS wakes scale directional Weibull c; 1.5MW linear curve; string cable, support, turbine, O&M, and fixed-charge cost model",
+      "status": "frozen"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper_plus_figure_digitization",
+      "resolution": "periodic PCHIP of 16 directional c, k, and frequency markers; shore-distance c scaling; 360x160 deterministic quadrature",
+      "status": "frozen"
+    }
+  },
+  "validation": {
+    "cpp_test": "core99_t48_cpp pass",
+    "formal_receipt": "evidence/core99/h6/T48_waffle_admission.json",
+    "h6_scope": "complete 190-iteration, 1521-physical-evaluation search with 17 observed workers and 1663 percent CPU",
+    "h5_oracle": "core99_t48_h5 pass",
+    "h5_scope": "independent cost equations and six printed LCOE, capital, capacity-factor, and wake-loss anchors"
+  }
+}

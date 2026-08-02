@@ -1,0 +1,139 @@
+{
+  "schema_version": 1,
+  "contract_id": "taae_transformer_declared_reconstruction_contract_v1",
+  "corpus_id": "Y36",
+  "paper": {
+    "title": "Transformer Autoencoder-Assisted Evolutionary Framework for Constrained Multiobjective 3D Wind Farm Layout Optimization",
+    "doi": "10.1109/JAS.2026.126233",
+    "sha256": "243dd96dfa94a3d596f375a6c62e58015c735171958778d816b6afdbf99cd35b",
+    "local_authoritative_pdf": "private-literature/2026_Ma_Transformer_Autoencoder_Assisted_Evolutionary_Framework_for_Constrained_Multiobjective_3D_Wind_Farm_Layout_Optimization.pdf",
+    "plan004_full_text_receipt": "evidence/development/plan004_learning_pdf_consumption_20260730.json",
+    "public_author_method_source": "unavailable",
+    "public_author_checkpoint": "unavailable"
+  },
+  "method_semantic_id": "taae_transformer_declared_reconstruction_v1",
+  "method_evidence_tier": "M3_DECLARED_COMPLETION",
+  "implementation_language": "C++20",
+  "kernel_scope": "mathematically trainable Transformer autoencoder kernel only",
+  "admission_status": "kernel_verified_does_not_itself_admit_evolution_method",
+  "blocked_original_algorithm_id": "taae",
+  "paper_visible_architecture": {
+    "input_encoding": "selected 1-based grid-cell indices form an integer token sequence of length Nw; target problem uses a 20 by 20 grid and Nw=15",
+    "encoder_layers": 6,
+    "autoregressive_decoder_layers": 6,
+    "attention_heads": 4,
+    "model_dimension": 64,
+    "token_embedding_dimension": 64,
+    "ffn_width_declared_completion": 256,
+    "latent_dimension": 64,
+    "latent_normalization": "L2_before_regression_and_metric_only; decoder and latent DE use raw h",
+    "regression_branch": "hidden_linear_with_bias_then_ReLU_then_scalar_linear_with_bias",
+    "decoder_start": "paper requires a special start-of-sequence token; learned BOS embedding is the disclosed representation",
+    "decoder_mask": "causal",
+    "public_encode_output": "raw compressed latent h",
+    "decoder_memory": "paper requires raw h to be linearly projected and reshaped into a sequence of static-memory embeddings; exact projection ownership is disclosed",
+    "normalization": "post_norm",
+    "dropout": 0.0,
+    "initialization": "deterministic_Xavier_uniform"
+  },
+  "declared_missing_field_completions": {
+    "encoder_sequence_pooling": "fixed-order arithmetic mean over encoder sequence positions before latent projection",
+    "embedding_ownership": "separate encoder and decoder token and position embeddings; BOS is decoder-owned",
+    "regression_hidden_width": 64,
+    "generic_layout_corpus": "exactly sequence_length unique vocabulary cells in canonical ascending order",
+    "problem_monitor_exclusions": "deferred to the blocked end-to-end M3 problem binding"
+  },
+  "paper_formula_ledger": {
+    "reconstruction_loss": "Section IV-C Eq. 8",
+    "regression_hidden_and_output": "Section IV-C Eqs. 9-10",
+    "regression_loss": "Section IV-C Eq. 11",
+    "metric_alignment_loss": "Section IV-C Eq. 12",
+    "combined_loss": "Section IV-C Eq. 13",
+    "evolution_and_repair": "Section IV-D Algorithm 2 and Eqs. 14-16",
+    "experimental_scale": "Section V-B and embedded supplement Tables S19-S21"
+  },
+  "paper_scale_pretraining": {
+    "layouts": 100000,
+    "epochs": 500,
+    "batch_size": 64,
+    "learning_rate": 0.001,
+    "embedding_dimension": 64,
+    "latent_dimension": 64,
+    "batch_order": "deterministic Fisher-Yates shuffle from batch_seed for each epoch"
+  },
+  "optimizer": {
+    "name": "Adam",
+    "learning_rate": 0.001,
+    "beta1": 0.9,
+    "beta2": 0.999,
+    "epsilon": 1e-08
+  },
+  "losses": {
+    "reconstruction": "mean_token_cross_entropy",
+    "regression": "mean_squared_error",
+    "metric_alignment": "mean_squared_alignment_of_L2_normalized_latent_distance_and_absolute_relative_fitness_distance over exactly batch_size sampled distinct-index pairs",
+    "l2_normalization_epsilon": 1e-12,
+    "metric_pair_sampling": "SplitMix64 seed metric_pair_seed XOR batch_size shifted left 32; sample ordered distinct indices with replacement across pairs",
+    "default_metric_pair_seed_hex": "0x5943365041495253",
+    "combined_fine_tune_weights": {
+      "lambda_reg": 30.0,
+      "lambda_smooth": 1.0
+    },
+    "decoder_freeze": "all decoder-owned parameter gradients are exactly zero and decoder values, moments, and per-parameter Adam age are not advanced"
+  },
+  "training_work_ledger": {
+    "fields": [
+      "corpus_samples",
+      "token_operations",
+      "optimizer_steps",
+      "pretraining_epochs",
+      "fine_tuning_epochs",
+      "training_physical_fes",
+      "wall_seconds"
+    ],
+    "training_physical_fes": 0
+  },
+  "checkpoint": {
+    "format": "TAAE_KERNEL_CHECKPOINT_V2",
+    "parameter_state_hash": "FNV-1a-64 over ordered names and IEEE-754 parameter bytes",
+    "file_hash": "SHA-256",
+    "replay_requirement": "exact parameter hash, per-parameter Adam age, latent output, and reconstruction-loss replay"
+  },
+  "verification": {
+    "analytic_training_gradients": true,
+    "finite_differences_used_for_training": false,
+    "finite_difference_tests": [
+      "LayerNorm input, scale, and shift",
+      "four-head attention inputs and representative query, key, value, and output weights",
+      "64 to 256 to 64 FFN with residual and post-norm",
+      "reconstruction cross entropy",
+      "regression MSE",
+      "two-layer regression head",
+      "L2-normalized metric-alignment loss with exactly batch-size sampled pairs",
+      "assembled total loss through encoder embedding and attention, latent projection, decoder memory, decoder cross-attention, decoder FFN and output, and both regression layers"
+    ],
+    "required_runtime_tests": [
+      "causal mask proof",
+      "default 6 encoder plus 6 decoder forward smoke",
+      "tiny deterministic corpus reconstruction loss decrease",
+      "decoder freeze",
+      "freeze then checkpoint then unfreeze exact replay with decoder Adam age unchanged while frozen",
+      "unique sorted layout-corpus invariant",
+      "paper-scale profile declaration without executing the paper-scale run",
+      "checkpoint exact replay",
+      "training physical FES equals zero"
+    ]
+  },
+  "excluded_scope": [
+    "CLI",
+    "algorithm registry entry",
+    "NSGA-II",
+    "latent differential evolution",
+    "optimizer benchmark run",
+    "formal evidence",
+    "performance claim",
+    "GPU claim",
+    "paper result reproduction"
+  ],
+  "claim_boundary": "This contract verifies the pure C++ trainable mathematical kernel only. The distinct taae_transformer_evolution_declared_reconstruction_v1 method has its own bounded M3 contract; this kernel contract does not unblock original taae, reproduce author results, or establish CPU or GPU performance."
+}

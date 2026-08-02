@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "template_id": "wflop_hpc_benchmark_package_template_v1",
+  "source_baseline_commit": "2e58a8fd2e7c02b525e5c84b9af99a57ccf28673",
+  "numbered_element_count": 16,
+  "numbered_elements": [
+    {"number": 1, "id": "paper_source_identity_dossier", "paths": ["metadata/paper_source_identity.json"]},
+    {"number": 2, "id": "source_search_bounded_negative_evidence", "paths": ["metadata/source_search_evidence.json", "metadata/source_search_log.json"]},
+    {"number": 3, "id": "method_problem_evidence_tier_schema", "paths": ["schemas/evidence_tiers.schema.json"]},
+    {"number": 4, "id": "r0_r4_lifecycle_checklist", "paths": ["metadata/r0_r4_checklist.json"]},
+    {"number": 5, "id": "uncertainty_decision_ledger", "paths": ["metadata/uncertainty_decision_ledger.json"]},
+    {"number": 6, "id": "learned_state_training_contract", "paths": ["metadata/learned_state_training_contract.json"]},
+    {"number": 7, "id": "problem_asset_physical_fes_contract", "paths": ["metadata/problem_physical_fes_contract.json"]},
+    {"number": 8, "id": "scalar_oracle_fixed_layout_fixture", "paths": ["fixtures/scalar_oracle.json", "fixtures/fixed_layout_fixture.json"]},
+    {"number": 9, "id": "deterministic_random_event_contract", "paths": ["metadata/deterministic_random_event_contract.json"]},
+    {"number": 10, "id": "fact_declared_pure_cpp_registration_skeleton", "paths": ["cpp/CMakeLists.txt", "cpp/include/benchmark_template/interfaces.hpp", "cpp/include/benchmark_template/registry.hpp", "cpp/src/registry.cpp", "cpp/src/example_algorithm.cpp", "cpp/src/example_problem.cpp", "cpp/src/main.cpp"]},
+    {"number": 11, "id": "backend_interface_capability_fail_closed", "paths": ["cpp/include/benchmark_template/backend.hpp", "cpp/src/backend.cpp", "metadata/backend_capabilities.json"]},
+    {"number": 12, "id": "semantic_sensitivity_scaling_formal_tests", "paths": ["cpp/tests/semantic_test.cpp", "cpp/tests/sensitivity_test.cpp", "cpp/tests/scaling_test.cpp", "cpp/tests/formal_campaign_test.cpp", "metadata/formal_campaign_contract.json"]},
+    {"number": 13, "id": "claim_boundary_non_pooling", "paths": ["metadata/claim_boundary_non_pooling.json"]},
+    {"number": 14, "id": "pre_code_one_command_audit", "paths": ["scripts/audit_pre_code.py"]},
+    {"number": 15, "id": "post_code_r1_r4_one_command_audit", "paths": ["scripts/audit_r1_r4.py"]},
+    {"number": 16, "id": "reference_only_worked_example", "paths": ["worked-example/fqfode_reference.json"]}
+  ],
+  "prohibited_payloads": [
+    "restricted full text",
+    "third-party source code",
+    "author assets without redistribution permission",
+    "learned-state bytes copied from another package"
+  ]
+}

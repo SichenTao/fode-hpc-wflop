@@ -1,0 +1,563 @@
+{
+  "H0_scientific_state_machine": {
+    "physical_fes_boundary": "one complete evaluation of all registered objectives and constraints for one candidate layout",
+    "random_events": "seed, generation, member, coordinate, operator, and draw own counter-keyed schedule-independent random events",
+    "stages": [
+      "T0_rlpso_rollout",
+      "T1_rlpso_actor_critic_forward",
+      "T2_rlpso_clipped_ppo_update",
+      "S0_rlpso_swarm_initialize",
+      "S1_rlpso_complete_evaluation",
+      "S2_rlpso_action_swarm_transition",
+      "S3_rlpso_pbest_gbest_commit"
+    ],
+    "terminal_partial_work": "only the remaining physical FES prefix is evaluated and committed in stable member order",
+    "training_lifecycle": "corpus_or_rollout -> forward/loss -> backward -> deterministic gradient aggregation -> Adam -> artifact -> inference -> optimization"
+  },
+  "H1_work_and_data_movement": {
+    "actual_values": {
+      "largest": {
+        "B": 50,
+        "C": 0,
+        "D": 40,
+        "FES": 24000,
+        "M": 1,
+        "Nd": 12,
+        "Ns": 80,
+        "Nt": 40,
+        "Nv": 6
+      },
+      "representative": {
+        "B": 50,
+        "C": 0,
+        "D": 30,
+        "FES": 24000,
+        "M": 1,
+        "Nd": 12,
+        "Ns": 80,
+        "Nt": 30,
+        "Nv": 4
+      },
+      "smallest": {
+        "B": 50,
+        "C": 0,
+        "D": 30,
+        "FES": 24000,
+        "M": 1,
+        "Nd": 12,
+        "Ns": 80,
+        "Nt": 30,
+        "Nv": 3
+      }
+    },
+    "data_layout": "contiguous row-major/SoA populations, reused objective buffers, thread-local repair scratch, stable output arrays",
+    "defined_variables": {
+      "B": "population or training batch size",
+      "C": "number of explicit constraint aggregates",
+      "D": "decision-vector length",
+      "FES": "complete physical layout-evaluation budget",
+      "M": "number of objectives",
+      "Nd": "number of wind-direction states",
+      "Ns": "offline or on-policy training samples",
+      "Nt": "number of turbines in one complete layout",
+      "Nv": "number of wind-speed states per direction"
+    },
+    "native_size_provenance": {
+      "derivation": "case dimensions are parsed from the frozen native contract; population follows the target source/parameter rule",
+      "selected_native_cases": {
+        "largest": "RPSO-WS4-tn40",
+        "representative": "RPSO-WS3-tn30",
+        "smallest": "RPSO-WS1-tn30"
+      },
+      "source_paths": [
+        ".source-cache/generated/rpso_source_problem/benchmark_cases.json"
+      ],
+      "source_sha256": {
+        ".source-cache/generated/rpso_source_problem/benchmark_cases.json": "d060c6bed80bc5a0654701f9b5a8dc7e45430ce5712c481099b9e23cee261663"
+      }
+    },
+    "proposed_work_model": {
+      "S0_rlpso_swarm_initialize": "B*D",
+      "S1_rlpso_complete_evaluation": "B*Nd*Nv*Nt*Nt",
+      "S2_rlpso_action_swarm_transition": "B*D",
+      "S3_rlpso_pbest_gbest_commit": "B*D",
+      "T0_rlpso_rollout": "Ns*D",
+      "T1_rlpso_actor_critic_forward": "Ns*D*D",
+      "T2_rlpso_clipped_ppo_update": "Ns*D*D"
+    },
+    "reuse_proofs": [
+      "T42 coordinate, mask, terrain, and candidate lookups are layout-state functions and are reused across registered wind states.",
+      "rlpso_paper_corrected_training_reconstruction_v1 immutable generation inputs permit member-local scratch; only stable selection and artifact commits cross member boundaries."
+    ],
+    "source_work_model": {
+      "S0_rlpso_swarm_initialize": "B*D",
+      "S1_rlpso_complete_evaluation": "B*Nd*Nv*Nt*Nt",
+      "S2_rlpso_action_swarm_transition": "B*D",
+      "S3_rlpso_pbest_gbest_commit": "B*D",
+      "T0_rlpso_rollout": "Ns*D",
+      "T1_rlpso_actor_critic_forward": "Ns*D*D",
+      "T2_rlpso_clipped_ppo_update": "Ns*D*D"
+    },
+    "stage_ledger": [
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.022222222222222223,
+            "available_parallelism_W_over_S": 80.0,
+            "bytes_transferred": 144000.0,
+            "critical_path_units": 40.0,
+            "peak_live_memory_bytes": 48000.0,
+            "task_count": 80.0,
+            "work_units": 3200.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.022222222222222223,
+            "available_parallelism_W_over_S": 80.0,
+            "bytes_transferred": 108000.0,
+            "critical_path_units": 30.0,
+            "peak_live_memory_bytes": 36000.0,
+            "task_count": 80.0,
+            "work_units": 2400.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.022222222222222223,
+            "available_parallelism_W_over_S": 80.0,
+            "bytes_transferred": 108000.0,
+            "critical_path_units": 30.0,
+            "peak_live_memory_bytes": 36000.0,
+            "task_count": 80.0,
+            "work_units": 2400.0
+          }
+        },
+        "classification": "ordered_interactions",
+        "equation_or_rule": "state r1,r2, four actions, every reward consumes one physical FES",
+        "id": "T0_rlpso_rollout",
+        "parallel_space": "PPO transitions",
+        "physical_fes": "0",
+        "source_symbol": "hpc/wflop_cpp/src/algorithms/rlpso.cpp::optimize_rlpso_training_reconstruction",
+        "span": "D",
+        "symbol_role": "on-policy environment rollout",
+        "work": "Ns*D"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.8888888888888888,
+            "available_parallelism_W_over_S": 80.0,
+            "bytes_transferred": 144000.0,
+            "critical_path_units": 1600.0,
+            "peak_live_memory_bytes": 48000.0,
+            "task_count": 80.0,
+            "work_units": 128000.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.6666666666666666,
+            "available_parallelism_W_over_S": 80.0,
+            "bytes_transferred": 108000.0,
+            "critical_path_units": 900.0,
+            "peak_live_memory_bytes": 36000.0,
+            "task_count": 80.0,
+            "work_units": 72000.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.6666666666666666,
+            "available_parallelism_W_over_S": 80.0,
+            "bytes_transferred": 108000.0,
+            "critical_path_units": 900.0,
+            "peak_live_memory_bytes": 36000.0,
+            "task_count": 80.0,
+            "work_units": 72000.0
+          }
+        },
+        "classification": "batched_candidate",
+        "equation_or_rule": "2-256-64 actor and critic",
+        "id": "T1_rlpso_actor_critic_forward",
+        "parallel_space": "rollout states",
+        "physical_fes": "0",
+        "source_symbol": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::evaluate",
+        "span": "D*D",
+        "symbol_role": "actor and critic inference",
+        "work": "Ns*D*D"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.8888888888888888,
+            "available_parallelism_W_over_S": 80.0,
+            "bytes_transferred": 144000.0,
+            "critical_path_units": 1600.0,
+            "peak_live_memory_bytes": 48000.0,
+            "task_count": 80.0,
+            "work_units": 128000.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.6666666666666666,
+            "available_parallelism_W_over_S": 80.0,
+            "bytes_transferred": 108000.0,
+            "critical_path_units": 900.0,
+            "peak_live_memory_bytes": 36000.0,
+            "task_count": 80.0,
+            "work_units": 72000.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.6666666666666666,
+            "available_parallelism_W_over_S": 80.0,
+            "bytes_transferred": 108000.0,
+            "critical_path_units": 900.0,
+            "peak_live_memory_bytes": 36000.0,
+            "task_count": 80.0,
+            "work_units": 72000.0
+          }
+        },
+        "classification": "ordered_optimizer",
+        "equation_or_rule": "gamma=.99, epsilon=.2, K=80, Adam",
+        "id": "T2_rlpso_clipped_ppo_update",
+        "parallel_space": "rollout samples",
+        "physical_fes": "0",
+        "source_symbol": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::update",
+        "span": "D*D",
+        "symbol_role": "clipped actor, critic, Adam",
+        "work": "Ns*D*D"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 50.0,
+            "bytes_transferred": 48000.0,
+            "critical_path_units": 40.0,
+            "peak_live_memory_bytes": 16000.0,
+            "task_count": 50.0,
+            "work_units": 2000.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 50.0,
+            "bytes_transferred": 36000.0,
+            "critical_path_units": 30.0,
+            "peak_live_memory_bytes": 12000.0,
+            "task_count": 50.0,
+            "work_units": 1500.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 50.0,
+            "bytes_transferred": 36000.0,
+            "critical_path_units": 30.0,
+            "peak_live_memory_bytes": 12000.0,
+            "task_count": 50.0,
+            "work_units": 1500.0
+          }
+        },
+        "classification": "independent",
+        "equation_or_rule": "population 50 and zero velocities",
+        "id": "S0_rlpso_swarm_initialize",
+        "parallel_space": "particles",
+        "physical_fes": "0",
+        "source_symbol": "hpc/wflop_cpp/src/algorithms/rlpso.cpp::initialize",
+        "span": "D",
+        "symbol_role": "population and pbest initialization",
+        "work": "B*D"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 90.0,
+            "available_parallelism_W_over_S": 50.0,
+            "bytes_transferred": 64000.0,
+            "critical_path_units": 115200.0,
+            "peak_live_memory_bytes": 16000.0,
+            "task_count": 600.0,
+            "work_units": 5760000.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 45.0,
+            "available_parallelism_W_over_S": 50.0,
+            "bytes_transferred": 48000.0,
+            "critical_path_units": 43200.0,
+            "peak_live_memory_bytes": 12000.0,
+            "task_count": 600.0,
+            "work_units": 2160000.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 33.75,
+            "available_parallelism_W_over_S": 50.0,
+            "bytes_transferred": 48000.0,
+            "critical_path_units": 32400.0,
+            "peak_live_memory_bytes": 12000.0,
+            "task_count": 600.0,
+            "work_units": 1620000.0
+          }
+        },
+        "classification": "independent",
+        "equation_or_rule": "training and inference FES share one exact ledger",
+        "id": "S1_rlpso_complete_evaluation",
+        "parallel_space": "layouts and wind states",
+        "physical_fes": "B complete evaluations",
+        "source_symbol": "hpc/fode_cpp/src/evaluator.cpp::evaluate_population_hpc",
+        "span": "Nd*Nv*Nt*Nt",
+        "symbol_role": "paper-source complete evaluator",
+        "work": "B*Nd*Nv*Nt*Nt"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 50.0,
+            "bytes_transferred": 48000.0,
+            "critical_path_units": 40.0,
+            "peak_live_memory_bytes": 16000.0,
+            "task_count": 50.0,
+            "work_units": 2000.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 50.0,
+            "bytes_transferred": 36000.0,
+            "critical_path_units": 30.0,
+            "peak_live_memory_bytes": 12000.0,
+            "task_count": 50.0,
+            "work_units": 1500.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 50.0,
+            "bytes_transferred": 36000.0,
+            "critical_path_units": 30.0,
+            "peak_live_memory_bytes": 12000.0,
+            "task_count": 50.0,
+            "work_units": 1500.0
+          }
+        },
+        "classification": "independent",
+        "equation_or_rule": "paper action step 0.001 then swarm update",
+        "id": "S2_rlpso_action_swarm_transition",
+        "parallel_space": "particles and coordinates",
+        "physical_fes": "0",
+        "source_symbol": "hpc/wflop_cpp/src/algorithms/rlpso.cpp::optimize_rlpso_paper_corrected_training_reconstruction",
+        "span": "D",
+        "symbol_role": "action-conditioned coefficients",
+        "work": "B*D"
+      },
+      {
+        "actual_case_substitutions": {
+          "largest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 40.0,
+            "bytes_transferred": 48000.0,
+            "critical_path_units": 50.0,
+            "peak_live_memory_bytes": 16000.0,
+            "task_count": 50.0,
+            "work_units": 2000.0
+          },
+          "representative": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 36000.0,
+            "critical_path_units": 50.0,
+            "peak_live_memory_bytes": 12000.0,
+            "task_count": 50.0,
+            "work_units": 1500.0
+          },
+          "smallest": {
+            "arithmetic_intensity_work_per_byte": 0.041666666666666664,
+            "available_parallelism_W_over_S": 30.0,
+            "bytes_transferred": 36000.0,
+            "critical_path_units": 50.0,
+            "peak_live_memory_bytes": 12000.0,
+            "task_count": 50.0,
+            "work_units": 1500.0
+          }
+        },
+        "classification": "ordered_reduction",
+        "equation_or_rule": "strict fitness improvement and stable particle order",
+        "id": "S3_rlpso_pbest_gbest_commit",
+        "parallel_space": "particles",
+        "physical_fes": "0",
+        "source_symbol": "hpc/wflop_cpp/src/algorithms/rlpso.cpp::optimize_rlpso_training_reconstruction",
+        "span": "B",
+        "symbol_role": "personal/global best reduction",
+        "work": "B*D"
+      }
+    ]
+  },
+  "H2_dependency_and_parallel_width": {
+    "barriers": [
+      "after complete-layout evaluation",
+      "before ordered selection/archive visibility",
+      "before artifact/result serialization"
+    ],
+    "cpu_decomposition": "one persistent team over layouts, wind states, members, coordinates, and training samples where independent",
+    "dependency_edges": [
+      [
+        "T0_rlpso_rollout",
+        "T1_rlpso_actor_critic_forward"
+      ],
+      [
+        "T1_rlpso_actor_critic_forward",
+        "T2_rlpso_clipped_ppo_update"
+      ],
+      [
+        "T2_rlpso_clipped_ppo_update",
+        "S0_rlpso_swarm_initialize"
+      ],
+      [
+        "S0_rlpso_swarm_initialize",
+        "S1_rlpso_complete_evaluation"
+      ],
+      [
+        "S1_rlpso_complete_evaluation",
+        "S2_rlpso_action_swarm_transition"
+      ],
+      [
+        "S2_rlpso_action_swarm_transition",
+        "S3_rlpso_pbest_gbest_commit"
+      ]
+    ],
+    "gpu_decomposition": "training tensor work is material; CUDA and hybrid are proposed candidates whose acceptance requires Step-4/5 bounded validation and Step-6 measurement",
+    "ordered_sections": [
+      "T0_rlpso_rollout",
+      "T2_rlpso_clipped_ppo_update",
+      "S3_rlpso_pbest_gbest_commit"
+    ],
+    "parallel_spaces": [
+      "PPO transitions",
+      "rollout states",
+      "rollout samples",
+      "particles",
+      "layouts and wind states",
+      "particles and coordinates",
+      "particles"
+    ],
+    "random_contract": "counter-keyed and schedule independent",
+    "reductions": [
+      "fitness and objective reductions use fixed index order",
+      "selection ties use the registered stable secondary key"
+    ]
+  },
+  "H3_performance_and_granularity": {
+    "backend_decision": {
+      "acceptance_gate": "H5 bounded equivalence plus H6 exact-pair performance",
+      "accepted_backend": null,
+      "maturity": "candidate_pre_h6",
+      "proposed_backend": "hybrid_cpu_gpu_hpc_v1"
+    },
+    "cache_vectorization_batching": "contiguous doubles, reused allocations, direction-major wake geometry, batched model tensors",
+    "dispatch_crossover_source": "bounded one/all-worker evidence is remeasured in Plan-003 H6 for this exact pair; no historical speedup is reused",
+    "gpu_suitability": "training tensor work is material; CUDA and hybrid are proposed candidates whose acceptance requires Step-4/5 bounded validation and Step-6 measurement",
+    "granularity_rule": "serial below the measured persistent-team dispatch crossover; otherwise adaptive chunks target at least four tasks per active worker",
+    "measurements_required": [
+      "workers 1,2,4,8,12,16,20 with five balanced repetitions",
+      "at least 95 percent stage attribution",
+      "median, dispersion, bootstrap 95 percent CI, speedup, efficiency, active workers, barriers, and imbalance"
+    ],
+    "parallel_ceiling_model": "1/(s+(1-s)/P)",
+    "serial_fraction_model": "ordered selection visibility, optimizer commit, and serialization divided by measured end-to-end wall time",
+    "transfer_cost_model": "host pack + optional pinned H2D + kernel + D2H receipt; CPU-only targets record zero device transfers"
+  },
+  "H4_implementation_mapping": {
+    "accepted_backend_id": null,
+    "allocation_policy": "population/objective/scratch buffers allocated once per run and reused across generations",
+    "backend_candidates": [
+      "rlpso_paper_corrected_training_reconstruction_v1__hybrid_cpu_gpu_hpc_v1"
+    ],
+    "deterministic_reduction": "parallel independent work writes fixed slots; one stable ordered reduction/commit consumes them",
+    "evaluator_symbol": "hpc/fode_cpp/src/evaluator.cpp::evaluate_population_hpc",
+    "instrumentation": "per-stage wall time, task count, active participants, barriers, physical FES, layout/front/artifact hash",
+    "pair_specific_composition": {
+      "method_semantic_id": "rlpso_paper_corrected_training_reconstruction_v1",
+      "ordered_stage_ids": [
+        "T0_rlpso_rollout",
+        "T1_rlpso_actor_critic_forward",
+        "T2_rlpso_clipped_ppo_update",
+        "S0_rlpso_swarm_initialize",
+        "S1_rlpso_complete_evaluation",
+        "S2_rlpso_action_swarm_transition",
+        "S3_rlpso_pbest_gbest_commit"
+      ],
+      "stage_ledger_sha256": "303cd0ce26268273f726924c21533d2dff8209c24de0bb356c4f4e6d20970b21"
+    },
+    "persistent_team_symbol": "hpc/fode_cpp/src/executor.cpp::PersistentExecutor",
+    "primary_symbol": "hpc/wflop_cpp/src/algorithms/rlpso.cpp::optimize_rlpso_paper_corrected_training_reconstruction",
+    "shared_components": {
+      "paper_native_evaluator": {
+        "path": "hpc/fode_cpp/src/evaluator.cpp",
+        "sha256": "b16ca96d8f87419daaaa1b9689e45ab107d8369ee2c48130790ca1e68e54ef42"
+      },
+      "persistent_executor": {
+        "path": "hpc/fode_cpp/src/executor.cpp",
+        "sha256": "40973d74edf97691e19f5236216a195eaa373df5e000157749c62a35c4f2a486"
+      }
+    },
+    "stage_symbols": {
+      "S0_rlpso_swarm_initialize": "hpc/wflop_cpp/src/algorithms/rlpso.cpp::initialize",
+      "S1_rlpso_complete_evaluation": "hpc/fode_cpp/src/evaluator.cpp::evaluate_population_hpc",
+      "S2_rlpso_action_swarm_transition": "hpc/wflop_cpp/src/algorithms/rlpso.cpp::optimize_rlpso_paper_corrected_training_reconstruction",
+      "S3_rlpso_pbest_gbest_commit": "hpc/wflop_cpp/src/algorithms/rlpso.cpp::optimize_rlpso_training_reconstruction",
+      "T0_rlpso_rollout": "hpc/wflop_cpp/src/algorithms/rlpso.cpp::optimize_rlpso_training_reconstruction",
+      "T1_rlpso_actor_critic_forward": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::evaluate",
+      "T2_rlpso_clipped_ppo_update": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::update"
+    }
+  },
+  "algorithm_id": "rlpso_paper_corrected_training_reconstruction_v1",
+  "analysis_id": "plan003_hpc_analysis__T42__rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4__target__v1",
+  "architecture": {
+    "architecture_id": "spark2_cpu20_gb10_plan003_v1",
+    "compiler_flags": "-O3 -DNDEBUG -ffp-contract=off",
+    "gpu": "NVIDIA GB10 CUDA 13",
+    "hostname": "spark-9b6f",
+    "machine": "aarch64",
+    "processor_model": "Cortex-X925\nCortex-A725",
+    "visible_hardware_threads": 20
+  },
+  "corpus_id": "T42",
+  "dossier_maturity": "accepted_pair_specific_h0_h4",
+  "implementation_status": "executable_baseline",
+  "method_semantic_id": "rlpso_paper_corrected_training_reconstruction_v1",
+  "pair_id": "T42__rlpso_paper_corrected_training_reconstruction_v1__rpso2024_source_problem_ws1_ws4__target",
+  "pair_specific_boundary": "T42:rlpso_paper_corrected_training_reconstruction_v1 on rpso2024_source_problem_ws1_ws4; comparator assets are outside this dossier and never enter readiness",
+  "paper_protocol_id": "energy2024_rlpso_native_25_v1",
+  "paper_protocol_summary": {
+    "case_matrix": "WS1-WS4 x turbines 30,35,40",
+    "objective": "maximize expected farm power",
+    "physical_budget": "24000 complete layout evaluations"
+  },
+  "problem_id": "rpso2024_source_problem_ws1_ws4",
+  "problem_semantic_id": "rpso2024_source_problem_ws1_ws4",
+  "review_status": "reviewed_plan003_target_specific",
+  "role": "target",
+  "schema_version": 3,
+  "training_subdossier": {
+    "artifact": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::parameter_hash",
+    "backend_status": {
+      "accepted": null,
+      "current": "custom_cpu",
+      "maturity": "candidate_pre_h6",
+      "proposed": [
+        "libtorch_cpu",
+        "libtorch_cuda",
+        "hybrid_cpu_gpu"
+      ]
+    },
+    "backward": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::update",
+    "corpus_or_environment": "hpc/wflop_cpp/src/algorithms/rlpso.cpp::optimize_rlpso_training_reconstruction",
+    "forward": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::evaluate",
+    "gradient_aggregation": "current custom CPU implementation uses fixed source/batch order; LibTorch CPU/CUDA deterministic equivalence remains a Step-4/5 gate",
+    "inference": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::sample_action",
+    "input": "float64 [rollout,2] state, int64 action, reward, old logp",
+    "kind": "rlpso_ppo",
+    "loss": "clipped PPO actor + squared critic - entropy bonus",
+    "model": "2-256-64 actor and critic",
+    "optimization_loop": "hpc/wflop_cpp/src/algorithms/rlpso.cpp::optimize_rlpso_paper_corrected_training_reconstruction",
+    "optimizer": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::update",
+    "source_symbols": {
+      "artifact": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::parameter_hash",
+      "backward": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::update",
+      "corpus_or_environment": "hpc/wflop_cpp/src/algorithms/rlpso.cpp::optimize_rlpso_training_reconstruction",
+      "forward": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::evaluate",
+      "inference": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::sample_action",
+      "optimization_loop": "hpc/wflop_cpp/src/algorithms/rlpso.cpp::optimize_rlpso_paper_corrected_training_reconstruction",
+      "optimizer": "hpc/wflop_cpp/src/algorithms/ppo.cpp::SeededPpo::update"
+    }
+  }
+}

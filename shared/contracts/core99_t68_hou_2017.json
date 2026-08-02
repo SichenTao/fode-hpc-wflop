@@ -1,0 +1,138 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T68",
+  "paper": {
+    "title": "Offshore Wind Farm Layout Design Considering Optimized Power Dispatch Strategy",
+    "doi": "10.1109/TSTE.2016.2614266",
+    "venue": "IEEE Transactions on Sustainable Energy 8(2), 2017",
+    "pdf_sha256": "945236109aaab4dd20b8362a69abffd370b4ec1079c1005fc67d92ce39baa962"
+  },
+  "author_assets": {
+    "target_public_source_status": "Exact-title, DOI, author, GitHub and repository searches on 2026-07-31 located no target source or machine-readable target arrays.",
+    "target_paper_asset": "The local 10-page IEEE full text was hashed and audited.",
+    "cited_apso": {
+      "doi": "10.1109/TSMCB.2009.2015956",
+      "source": "University of Glasgow institutional author manuscript",
+      "sha256": "0c05afe651979f05801c0fdfa42918549fe8d608acaa2bb0917865877deb863d"
+    },
+    "cited_hou_2015": {
+      "doi": "10.1109/TSTE.2015.2429912",
+      "source": "Aalborg University institutional author manuscript",
+      "sha256": "714c094d0c00344cb70b1e94eb9099b16a464abe453275ffc0ec257f6562b966"
+    },
+    "cited_lundberg_2003": {
+      "source": "Chalmers institutional report",
+      "sha256": "b832d90271e4f716ba9f15875eaef1774e1136f8780cacc461680a25ed21deed"
+    },
+    "unavailable_cited_fulltexts": [
+      "Optimized Power Dispatch Strategy for Offshore Wind Farms, doi:10.1049/iet-rpg.2015.0176",
+      "Optimization of Electrical System for Offshore Wind Farms via Genetic Algorithm, doi:10.1049/iet-rpg:20070112"
+    ]
+  },
+  "missing_information": [
+    "target implementation and random states",
+    "machine-readable FINO3 12-direction by 5-speed wind array",
+    "cable cost coefficients Ap, Bp and Cp, current limits, OAM, discount rate and lifetime",
+    "target CP(beta,lambda), CT and optimized-power-dispatch control arrays",
+    "beta maximum, TE, Num_c, and native optimized row and column intervals",
+    "velocity bounds and maximum iteration for direction-only optimization",
+    "resolution of Table III's 10-trial header versus the text's 20-trial statement"
+  ],
+  "paper_source_conflicts": [
+    "Opt4 is defined at every turbine and time index, while only an aggregated 12 by 5 wind rose is published.",
+    "Table III says average of 10 trials, while the case-study text explicitly says the Scenarios I-IV program is run 20 times."
+  ],
+  "completion_decisions": [
+    "Retain all five target roles: direction-only and Scenarios I-IV.",
+    "Digitize Figure 6 deterministically into 12 directions and 5 speed bins, then normalize the 60 masses.",
+    "Represent the 10-row by 8-column regular farm by seven within-row gaps, nine between-row gaps and an optional center rotation.",
+    "Map every time-indexed Opt4 control to each turbine in each of the 60 published wind states, producing 4800 pitch variables and 4817 joint variables.",
+    "Decode Opt4 as nonnegative pitch beyond a rotor-feasible MPPT baseline and use a smooth NREL-rated-power/12.1-rpm CP surface completion with induction-consistent CT.",
+    "Retain partial-overlap Jensen wakes, RSS multiple wakes, hierarchical collection and export cable losses, LPC, the 1000000 penalty factor and 504--2520 m gap bounds.",
+    "Calibrate otherwise unavailable wind, loss, cable and OAM scales to the theta=0 Table-II anchors without calibrating optimized solutions.",
+    "Use the complete Zhan APSO evolutionary factor, four memberships, sigmoid inertia, state-dependent c1/c2 control and Gaussian elitist learning.",
+    "Use a 20-percent velocity bound, sparse pitch initialization around the zero additional-dispatch incumbent and 100 direction-only maximum iterations.",
+    "Use the text-authoritative 20 repeats for each Scenario I-IV and 10 repeats for direction-only."
+  ],
+  "method_semantic_id": "t68_zhan_apso_offshore_codesign_declared_v1",
+  "problem_semantic_id": "t68_fino3_layout_dispatch_lpc_5role_declared_v1",
+  "protocol_semantic_id": "t68_native_10plus4x20_repeat_declared_v1",
+  "paper_problem_roles": {
+    "roles": [
+      "Direction only: one theta variable, population 15, 10 repeats",
+      "Scenario I: 16 row/column gaps, population 30, 50 iterations, 20 repeats",
+      "Scenario II: 16 gaps plus theta, population 35, 70 iterations, 20 repeats",
+      "Scenario III: 80 turbines by 60 wind-state pitch controls, population 100, 120 iterations, 20 repeats",
+      "Scenario IV: 16 gaps, theta and 4800 pitch controls, population 120, 230 iterations, 20 repeats"
+    ],
+    "registered_role_count": 5,
+    "formal_target_runs": 90
+  },
+  "physics": {
+    "wind": "deterministic normalized digitization of the published 12-direction by 5-speed Figure-6 wind rose",
+    "wake": "published Jensen radius growth kd=0.04, exact rotor/wake circle overlap and root-sum-square multiple deficits",
+    "power": "NREL 5 MW dimensions and operating bounds, reconstructed smooth CP(beta,lambda), induction-consistent CT and 5 MW cap",
+    "control": "rotor-feasible MPPT baseline plus nonnegative per-turbine/per-wind-state additional pitch",
+    "loss": "published hierarchical three-phase I-squared-R collection topology plus the reported 55 km export cable",
+    "cost": "published cable/LPC structure with Table-II anchored unavailable coefficients and OAM"
+  },
+  "algorithm": {
+    "family": "Zhan Adaptive Particle Swarm Optimization",
+    "evolutionary_factor": "exact mean Euclidean particle distances and normalized global-best distance",
+    "state": "four published fuzzy membership functions with stable cyclic transition preference",
+    "inertia": "1/(1+1.5 exp(-2.6f))",
+    "acceleration": "uniform delta in [0.05,0.1], state-dependent c1/c2 changes, each clamped to [1.5,2.5] and normalized to sum at most 4",
+    "elitist_learning": "one random global-best dimension, Gaussian sigma linearly from 1.0 to 0.1, accept as best or replace the current worst",
+    "stopping": "paper maximum-iteration receipt or 50 unchanged best-objective iterations"
+  },
+  "physical_fes_ledger": {
+    "unit": "one complete 80-turbine, 60-wind-state wake, power, hierarchical cable-loss, cost, pitch-constraint and LPC evaluation",
+    "population": "every initial or updated particle consumes one physical FES",
+    "elitist_learning": "every convergence-state candidate consumes one physical FES",
+    "distance_and_parameter_control": "algorithm bookkeeping does not consume physical wind-farm FES"
+  },
+  "hpc_execution": {
+    "backend": "pure C++20 CPU-HPC",
+    "particle_parallelism": "one persistent worker team evaluates and updates particles",
+    "apso_state_parallelism": "the exact upper triangle of the particle-distance matrix is computed once per pair in parallel, mirrored, then reduced by row",
+    "ordered_semantics": "counter-keyed random events and ordered best/personal-best reductions preserve worker-count identity",
+    "h6_rule": "same full 4800-variable Scenario-III source, seed, population, iterations, physical FES, decision, evaluation and hash with one versus all Waffle workers",
+    "formal_rule": "two concurrent 10-worker paper runs occupy all 20 Waffle cores"
+  },
+  "development_evidence_20260731": {
+    "all_h5_tests_pass": true,
+    "direction_seconds": 5.08256851,
+    "direction_theta_deg": 8.194579460364443,
+    "direction_paper_sign_equivalent_theta_deg": -8.18,
+    "scenario_i_seconds": 3.10093198,
+    "scenario_ii_seconds": 5.438854663,
+    "scenario_ii_theta_deg": -15.031140671626618,
+    "scenario_iii_seconds": 18.217734702,
+    "scenario_iii_dimensions": 4800,
+    "scenario_iii_physical_fes": 12179,
+    "scenario_iii_mppt_lpc": 173.50044627,
+    "scenario_iii_optimized_lpc": 173.43539536645196,
+    "scenario_iv_seconds": 43.490543871,
+    "scenario_iv_dimensions": 4817,
+    "scenario_iv_physical_fes": 27918,
+    "scenario_iv_optimized_lpc": 169.10690819486763,
+    "all_development_runs_observed_20_workers": true
+  },
+  "development_h6_20260731": {
+    "case": "scenario_iii_pitch",
+    "dimensions": 4800,
+    "population": 100,
+    "generations": 120,
+    "physical_fes": 12179,
+    "one_worker_seconds": 221.53675569,
+    "twenty_worker_seconds": 18.771073656,
+    "evaluator_speedup": 11.876472412139089,
+    "algorithm_speedup": 6.5692048385516735,
+    "end_to_end_speedup": 11.802029002171,
+    "same_best_decision": true,
+    "same_best_evaluation": true,
+    "same_scientific_hash": true,
+    "comparison_boundary": "same pure-C++ implementation with one versus twenty Spark workers; not a MATLAB comparison"
+  },
+  "claim_boundary": "academic flexible reconstruction of APSO and all five paper-native problem roles; not author code, native FINO3/cable/control arrays, original random stream, or exact numerical optimum replay"
+}

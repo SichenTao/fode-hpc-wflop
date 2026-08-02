@@ -1,0 +1,99 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T73",
+  "paper": {
+    "title": "Integrated Optimization of Offshore Wind Farm Layout Design and Turbine Opportunistic Condition-Based Maintenance",
+    "doi": "10.1016/j.cie.2018.04.051",
+    "pdf_sha256": "d4ff6a796b03a3d187921addb2c661b035755d5385081ef9b24c8afff554e2c5",
+    "pdf_text_sha256": "f23b0b4cf00b8067e459de98e989ed295dbb1a6e213b1f9cd4e30d66cc7027ca",
+    "pages": 10
+  },
+  "source_search": {
+    "date": "2026-08-01",
+    "target_result": "Exact-title, DOI, author, repository and GitHub code searches found no target implementation, data archive, random states or raw results.",
+    "publisher_record": "https://doi.org/10.1016/j.cie.2018.04.051",
+    "paper_designated_predecessor": {
+      "title": "Two-stage simulation optimization for optimal development of offshore wind farm under wind uncertainty",
+      "doi": "10.1109/WSC.2016.7822324",
+      "official_pdf": "https://www.informs-sim.org/wsc16papers/254.pdf",
+      "pdf_sha256": "3fc8b66a9cc171ead6f99e27682639339495b2fd29be21d840426e923b6b371c",
+      "relationship": "same two-stage GA and pattern-search layout lineage with distinct 132-candidate 7 km by 3 km problem"
+    }
+  },
+  "paper_native_protocol": {
+    "layout_stage_1_part_1": "binary GA over candidate occupancy",
+    "layout_stage_1_part_2": "continuous coordinate pattern search",
+    "maintenance_stage_2": "k-means plus Monte Carlo periodic opportunistic condition-based maintenance",
+    "wind_samples_per_layout": 40,
+    "published_ga_generations_from_predecessor": 50,
+    "published_pattern_iterations_from_predecessor": 200,
+    "inspection_intervals_days": [200, 250, 332, 350, 400],
+    "native_reported_roles_per_seed": 12,
+    "formal_platform_seeds": 25
+  },
+  "literal_problem_data": {
+    "site": "approximately 3 km by 1.5 km New Jersey offshore polygon",
+    "candidate_locations": 342,
+    "reported_selected_turbines": 232,
+    "minimum_continuous_spacing_m": 100,
+    "turbine": {
+      "hub_height_m": 60,
+      "thrust_coefficient": 0.88,
+      "surface_roughness_m": 0.3,
+      "rotor_radius_m": 20,
+      "cut_in_mps": 3,
+      "cut_out_mps": 22,
+      "power_kw": "0.3 times wind speed cubed"
+    },
+    "wind": {
+      "direction": "log(theta) follows N(5.3566, 0.1184 squared)",
+      "daypart_1_weibull_shape_scale": [3.0523, 10.5787],
+      "daypart_2_weibull_shape_scale": [2.5042, 9.6388],
+      "coastward_speed_reduction": 0.2
+    },
+    "maintenance": {
+      "contract_years": 25,
+      "components": ["rotor", "main bearing", "gearbox", "generator"],
+      "opportunistic_costs": [1000, 750, 1500, 900],
+      "condition_costs": [2000, 1500, 3000, 1800],
+      "replacement_costs": [4000, 3250, 5500, 3700]
+    }
+  },
+  "missing_information": [
+    "target source, exact 342 coordinates and field polygon, random states, raw layouts, traces and repeat count",
+    "2014 ten-minute wind observations and price, capacity-revenue, random-outage and preventive-maintenance traces",
+    "GA population, selection, crossover and mutation; target pattern-search options and k-means initialization",
+    "component degradation distributions, failure/on-condition/opportunistic thresholds and Monte Carlo replication count",
+    "inspection cost, downtime rate, maintenance weather-delay rule and numeric cluster assignment"
+  ],
+  "conflicts_and_completions": [
+    "Sections 3.1 and 5.1 and Figure 1 state 342 candidate locations while Section 3.5 prints M=232; use 342 decision bits and treat 232 as the reported optimized turbine count.",
+    "Section 3.1 gives 100 m adjacent candidate spacing while Section 5.1 says 400 m; use 100 m because it is consistent with the stated 3 km by 1.5 km site, 342 candidates and 232 selected turbines.",
+    "Section 5.2 says four clusters while the Figure-8 caption says two; execute four clusters as primary and retain an explicit two-cluster conflict profile.",
+    "Figure 7 calls the continuous result Stage 2, but Sections 3.5 and 5.1 and Table 3 call it Part 2 of Stage 1; use the latter stage identity.",
+    "Use a deterministic irregular 342-point subset of the stated 100 m lattice; it is a declared mask, not the unavailable author coordinates.",
+    "Use 100 binary-GA individuals, uniform crossover, tournament selection, one-over-342 bit mutation and two elites; 50 generations are inherited from the cited public predecessor.",
+    "Use 200 deterministic rotating five-turbine coordinate-poll iterations with adaptive 1 to 50 m mesh; the iteration count is inherited from the predecessor and the poll realization is a declared completion.",
+    "Use deterministic k-means; 1000 Monte Carlo replications; thresholds 0.65, 0.85 and 1.0; lognormal random degradation rates with mean lives 18, 14, 11 and 13 years; 25000 USD farm inspection and 20000 USD per downtime day.",
+    "Complete the qualitative weather restriction with a declared Weibull inspection-day wind draw and a one-to-five-day delay above 15 m/s.",
+    "Use 60 USD per MWh, 45000 USD capacity revenue per turbine-year and 160000 USD annualized unit capital scale to instantiate missing economics; no completion is calibrated to Tables 3-5.",
+    "Use 25 platform seeds because the paper gives no independent repeat count."
+  ],
+  "method_semantic_id": "t73_ga_pattern_kmeans_ocbm_declared_v1",
+  "problem_semantic_id": "t73_nj342_layout_maintenance_declared_v1",
+  "protocol_semantic_id": "t73_table3_table5_12roles_25seed_v1",
+  "hpc": {
+    "backend": "pure C++20 CPU-HPC",
+    "strategy": [
+      "one persistent all-core executor per integrated optimization",
+      "parallel complete binary-GA candidate evaluation with immutable population reads and fixed-index result writes",
+      "parallel independent continuous pattern-poll candidates with deterministic best-move commit",
+      "parallel fixed-index Monte Carlo maintenance replications and ordered statistical reduction",
+      "precomputed counter-keyed wind scenarios and trigonometry",
+      "counter-keyed schedule-independent evolutionary and degradation events"
+    ],
+    "dominant_complexity": "GA and pattern-poll complete layouts times 40 wind scenarios times selected-turbine-count squared, plus intervals times replications times turbines times four components times inspections",
+    "required_invariant": "one-worker and all-worker layouts, clusters, all twelve roles, physical-work counts and scientific hash identity"
+  },
+  "claim_boundary": "Source-backed flexible academic reconstruction of the target coupled problem, target method sequence and all twelve native paper roles; not author source, unavailable New Jersey, wind or degradation arrays, or numerical replay."
+}

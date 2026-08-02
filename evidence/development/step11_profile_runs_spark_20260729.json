@@ -1,0 +1,954 @@
+{
+  "schema_version": 1,
+  "receipt_id": "step11_profile_runs_spark_20260729",
+  "baseline_commit": "f4cf564e60cfc2fbba804c49d0866f3aff82de59",
+  "claim_boundary": "Bounded three-seed and 1/20/20-worker development observations on shared Spark only. No formal, original-paper, universal-speedup, or cross-problem ranking claim.",
+  "provenance_corrections": [
+    {
+      "profile_id": "geoga__admitted_gga_problem_asset_proxy",
+      "field": "problem_semantics_id",
+      "recorded_value": "gga2026_layout_cable_repaired_v1",
+      "corrected_value": "geojson_radians_ct_rss_repaired_v1",
+      "authority": [
+        "shared/contracts/gga_problem_semantics.json#canonical_semantics_id",
+        "shared/contracts/gga_execution_contract.json#problem_semantics_id"
+      ],
+      "scope": "metadata identity correction only; raw development observations, scientific fields, and hashes are unchanged"
+    }
+  ],
+  "host": {
+    "hostname": "spark-9b6f",
+    "architecture": "aarch64",
+    "visible_workers": 20,
+    "compiler": "c++ (Ubuntu 11.5.0-1ubuntu1~24.04.1) 11.5.0",
+    "build_type": "Release",
+    "measured_mode": "cpu",
+    "gpu_used": false
+  },
+  "seeds": [
+    2026072901,
+    2026072902,
+    2026072903
+  ],
+  "timing_order": [
+    "evaluator",
+    "algorithm_or_training",
+    "serialization",
+    "end_to_end"
+  ],
+  "quality_metric_schemas": {
+    "scalar_expected_power": [
+      {
+        "name": "best_expected_power",
+        "unit": "kW",
+        "direction": "maximize"
+      }
+    ],
+    "scalar_aep": [
+      {
+        "name": "best_aep",
+        "unit": "kWh/year",
+        "direction": "maximize"
+      }
+    ],
+    "structured_aep_capacity": [
+      {
+        "name": "best_aep",
+        "unit": "kWh/year",
+        "direction": "maximize"
+      },
+      {
+        "name": "capacity_factor",
+        "unit": "dimensionless",
+        "direction": "maximize"
+      }
+    ],
+    "taae_two_objective_front": [
+      {
+        "name": "reciprocal_expected_power",
+        "unit": "1/kW",
+        "direction": "minimize"
+      },
+      {
+        "name": "average_a_weighted_noise",
+        "unit": "dBA",
+        "direction": "minimize"
+      },
+      {
+        "name": "normalized_constraint_violation",
+        "unit": "dimensionless",
+        "direction": "minimize"
+      }
+    ],
+    "tmoea_two_objective_front": [
+      {
+        "name": "aep",
+        "unit": "kWh/year",
+        "direction": "maximize"
+      },
+      {
+        "name": "cable_cost",
+        "unit": "contract_currency",
+        "direction": "minimize"
+      }
+    ],
+    "pbea_three_objective_front": [
+      {
+        "name": "inverse_power",
+        "unit": "1/kW",
+        "direction": "minimize"
+      },
+      {
+        "name": "land_area",
+        "unit": "grid_area_units",
+        "direction": "minimize"
+      },
+      {
+        "name": "total_cost",
+        "unit": "contract_cost_units",
+        "direction": "minimize"
+      }
+    ]
+  },
+  "profile_quality_schema": {
+    "alga_attention_declared_reconstruction_v1__fode_e0_common": "scalar_expected_power",
+    "fqfode_seeded_training_declared_reconstruction_v1__fode_e0_common": "scalar_expected_power",
+    "alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer": "scalar_expected_power",
+    "taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1": "taae_two_objective_front",
+    "ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1": "scalar_expected_power",
+    "bde__bde2025_ws5_paper250_declared_proxy_v1": "scalar_expected_power",
+    "bde__bde2025_ws6_paper250_declared_proxy_v1": "scalar_expected_power",
+    "geoga__admitted_gga_problem_asset_proxy": "scalar_aep",
+    "geoga__geoga_anholt_structured_declared_proxy_v1": "structured_aep_capacity",
+    "tmoea__nysted_paper_eq16_cpu_r4_v2": "tmoea_two_objective_front",
+    "moead__zhang2025_three_objective": "pbea_three_objective_front",
+    "morime__zhang2025_three_objective": "pbea_three_objective_front",
+    "armoea__zhang2025_three_objective": "pbea_three_objective_front"
+  },
+  "profiles": [
+    {
+      "profile_id": "alga_attention_declared_reconstruction_v1__fode_e0_common",
+      "method_semantics_id": "alga_attention_declared_reconstruction_v1",
+      "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+      "physical_fes": 120,
+      "repeat": {
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "science": "cafaa65b5ebbe680779d1acfb418d7cef21dfae8e9d092e81856054e4335adab",
+        "raw": [
+          "578625136a8441b81a8e4f2a32e3da466d0def8bfa94b6997a1a41e72ae40104",
+          "54efe8478541e140c0b018157fbbd821c62bf971d1587cacc1efc6d8ea76e38f",
+          "df01a5154718fd83f85bec0fed3d8d73972a0c009af28d87cadf1f7621a8650d"
+        ],
+        "raw_paths": [
+          "evidence/development/step11_profile_raw/alga-fode-repeat-w1.json",
+          "evidence/development/step11_profile_raw/alga-fode-repeat-w20a.json",
+          "evidence/development/step11_profile_raw/alga-fode-repeat-w20b.json"
+        ],
+        "t1": [
+          0.00015259199999999998,
+          0.000981344,
+          null,
+          0.001133936
+        ],
+        "t20": [
+          0.001967346,
+          0.001872192,
+          null,
+          0.003839538
+        ]
+      },
+      "quality": [
+        {
+          "s": 2026072901,
+          "raw_path": "evidence/development/step11_profile_raw/alga-fode-quality-2026072901.json",
+          "raw_sha256": "b232b902ecab378e95f6c1a3cf2500ea535aa00797aa3945b2b1919c11c4fa96",
+          "metric_values": 4255.894123586708,
+          "h": "cafaa65b5ebbe680779d1acfb418d7cef21dfae8e9d092e81856054e4335adab"
+        },
+        {
+          "s": 2026072902,
+          "raw_path": "evidence/development/step11_profile_raw/alga-fode-quality-2026072902.json",
+          "raw_sha256": "62e840e96b6fc3dde5164fb77debb7350c17a812493c1339f3ae44901fa01b95",
+          "metric_values": 4255.894123586708,
+          "h": "d99534d74b226852de1edd9add7aecba9b1bf731ffca204cd663286cb18d1db6"
+        },
+        {
+          "s": 2026072903,
+          "raw_path": "evidence/development/step11_profile_raw/alga-fode-quality-2026072903.json",
+          "raw_sha256": "f7be1000b0250786a2dfab36af26ccb603b5ead23ed64cac7899825ad959f74a",
+          "metric_values": 4255.894123586708,
+          "h": "2763483977a54645ddbf71388036de68e5d0c1de346aeced8cd47b60e29d888e"
+        }
+      ]
+    },
+    {
+      "profile_id": "fqfode_seeded_training_declared_reconstruction_v1__fode_e0_common",
+      "method_semantics_id": "fqfode_seeded_training_declared_reconstruction_v1",
+      "problem_semantics_id": "fode_wflop_e0_legacy_v1",
+      "physical_fes": 120,
+      "repeat": {
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "science": "7b9bc2857e17488646abec03f39cb36d040b67b56e7eccee7e63e0904ac6a35f",
+        "raw": [
+          "757f4196a78512803978d7dcb58a9601d0fbe2eca11085a1de26e01de684d806",
+          "7b964134404d8bef28791cc4a8a592cc53802d9da2b22a57f9ad5a4d87808624",
+          "4d60489e304ddf78611bd795fd6c5b82104e7738a0dcdbebf38826b9a9bde5fd"
+        ],
+        "raw_paths": [
+          "evidence/development/step11_profile_raw/fqfode-fode-repeat-w1.json",
+          "evidence/development/step11_profile_raw/fqfode-fode-repeat-w20a.json",
+          "evidence/development/step11_profile_raw/fqfode-fode-repeat-w20b.json"
+        ],
+        "t1": [
+          7.768e-05,
+          0.00047465699999999997,
+          null,
+          0.000552337
+        ],
+        "t20": [
+          0.000358032,
+          0.0011768809999999998,
+          null,
+          0.001534913
+        ]
+      },
+      "quality": [
+        {
+          "s": 2026072901,
+          "raw_path": "evidence/development/step11_profile_raw/fqfode-fode-quality-2026072901.json",
+          "raw_sha256": "8fecdd4399aeb496bd0f47a8d482bd9bcc618633d094ce9df006e6bb38bda1db",
+          "metric_values": 4255.894123586708,
+          "h": "7b9bc2857e17488646abec03f39cb36d040b67b56e7eccee7e63e0904ac6a35f"
+        },
+        {
+          "s": 2026072902,
+          "raw_path": "evidence/development/step11_profile_raw/fqfode-fode-quality-2026072902.json",
+          "raw_sha256": "fb8d60a9f9068a9d79bf2e5c0296b02ea599207e1ea46331eed4b07372d64fdd",
+          "metric_values": 4244.762890101694,
+          "h": "5190bfbbabab3b25a64edaa530f36459794e35d574177e8a0c73f95adf4f6fe1"
+        },
+        {
+          "s": 2026072903,
+          "raw_path": "evidence/development/step11_profile_raw/fqfode-fode-quality-2026072903.json",
+          "raw_sha256": "f3237ab6fd6c27cd9052cda4c788cdeb8bd179427ee5cb4c10f35f6b2a71ded9",
+          "metric_values": 4244.762890101694,
+          "h": "d9eef009ee35b1b62af898dd13d927ae6fe8d142ab3e6b8f4477dc56bda4537d"
+        }
+      ]
+    },
+    {
+      "profile_id": "alga_attention_declared_reconstruction_v1__alga_guishan_planar_transfer",
+      "method_semantics_id": "alga_attention_declared_reconstruction_v1",
+      "problem_semantics_id": "alga_guishan_planar_wind_fode_evaluator_transfer_v1",
+      "physical_fes": 120,
+      "repeat": {
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "science": "bde95a2097525c4c5bed883847d8f7a270668b7329bb976a935e74d8e0663c06",
+        "raw": [
+          "fd972c2bdee109b01448b1e032f9dcfe3ed69c7b51b21e8a1d9fe758242e26a9",
+          "69b9c3ac1dee3f6497dc59eab7bd2c9faf90cf82ecd41d19c9e3153403de7f85",
+          "74bd4c367ed606832a88cb5e0cf3768dc4d4bb745ea60b7e6795bce75b2d926e"
+        ],
+        "raw_paths": [
+          "evidence/development/step11_profile_raw/alga-guishan-repeat-w1.json",
+          "evidence/development/step11_profile_raw/alga-guishan-repeat-w20a.json",
+          "evidence/development/step11_profile_raw/alga-guishan-repeat-w20b.json"
+        ],
+        "t1": [
+          0.004897427,
+          0.0010105599999999998,
+          null,
+          0.005907987
+        ],
+        "t20": [
+          0.005937459,
+          0.0025864959999999998,
+          null,
+          0.008523955
+        ]
+      },
+      "quality": [
+        {
+          "s": 2026072901,
+          "raw_path": "evidence/development/step11_profile_raw/alga-guishan-quality-2026072901.json",
+          "raw_sha256": "d6e409fc5c764a0d0372452e20185e0aa9e20a0b56048ef45a961ae87994a508",
+          "metric_values": 6986.292724303674,
+          "h": "bde95a2097525c4c5bed883847d8f7a270668b7329bb976a935e74d8e0663c06"
+        },
+        {
+          "s": 2026072902,
+          "raw_path": "evidence/development/step11_profile_raw/alga-guishan-quality-2026072902.json",
+          "raw_sha256": "39d02c2ae06a9e7d21c8e946a899a332fa8534954cf20524999951f064b1f600",
+          "metric_values": 7010.239077126854,
+          "h": "7eec0df825c0bf6fb96be48f57657ad9b5fea87a0dfa0887f6203a8dbaf4922b"
+        },
+        {
+          "s": 2026072903,
+          "raw_path": "evidence/development/step11_profile_raw/alga-guishan-quality-2026072903.json",
+          "raw_sha256": "ac430f568c034e0ebdcad6dbd644abb4390228849d1190c8b673f68bbc32bb25",
+          "metric_values": 6979.3062502352395,
+          "h": "73bfc3c1992c3ded0977572ea5d7d00e6ebfab9861426065276c2a1be668e13d"
+        }
+      ]
+    },
+    {
+      "profile_id": "taae_transformer_evolution_declared_reconstruction_v1__taae_zhangbei_structured_declared_proxy_v1",
+      "method_semantics_id": "taae_transformer_evolution_declared_reconstruction_v1",
+      "problem_semantics_id": "taae_zhangbei_structured_declared_proxy_v1",
+      "physical_fes": 100,
+      "quality_physical_fes": 200,
+      "quality_schema": "taae_two_objective_front",
+      "repeat": {
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "science": "2095e72967a98b243a0213b1bf922671a2d49b44692b510be10ac2f5419f462a",
+        "raw": [
+          "8fbeba3242ab356e5b55ddc15b0e6ce7cebfaf1b0dc5d3d30a87db60e96a132b",
+          "af86151717ee4d38dd604bad51fc0e5fbc0480b3ee7d615659502d317eb9179c",
+          "566e3f1ce95df4e2a3d9d7320190085b84c00f0d82f06dd53c88b18731a9593e"
+        ],
+        "raw_paths": [
+          "evidence/development/step11_profile_raw/taae-repeat-w1.json",
+          "evidence/development/step11_profile_raw/taae-repeat-w20a.json",
+          "evidence/development/step11_profile_raw/taae-repeat-w20b.json"
+        ],
+        "t1": [
+          0.035256896,
+          2.9006117860000002,
+          null,
+          2.935868682
+        ],
+        "t20": [
+          0.003305121,
+          2.7256534930000003,
+          null,
+          2.728958614
+        ]
+      },
+      "quality": [
+        {
+          "s": 2026072901,
+          "raw_path": "evidence/development/step11_profile_raw/taae-quality-2026072901.json",
+          "raw_sha256": "270451cb9869fa0a1193958620a703de6d28885053e070c4d0039bb2392b2bcc",
+          "completed_generations": 1,
+          "front_count": 9,
+          "front_hash": "fnv1a64:64a2874f885ef336",
+          "science_sha256": "222d7cc0cc2138d96e046253ec5a9bc2d787c63fa0f5d953d0a9723ff19faed2",
+          "metric_values": {
+            "min_reciprocal_expected_power_per_kw": 0.0002626951168508238,
+            "max_reciprocal_expected_power_per_kw": 0.00029487824050852086,
+            "min_average_a_weighted_noise_dba": 35.32236879400738,
+            "max_average_a_weighted_noise_dba": 42.518355562204,
+            "max_normalized_constraint_violation": 0
+          }
+        },
+        {
+          "s": 2026072902,
+          "raw_path": "evidence/development/step11_profile_raw/taae-quality-2026072902.json",
+          "raw_sha256": "9aa8adf6a3adfe1eeccf1e308e5ec40139a499ac0ba5513a4d6129f4d434bef9",
+          "completed_generations": 1,
+          "front_count": 9,
+          "front_hash": "fnv1a64:cef50493cab39119",
+          "science_sha256": "5c657592c2d9f9ef83d9c60c50415ec00e4804387c876749a4fc870eccf8a917",
+          "metric_values": {
+            "min_reciprocal_expected_power_per_kw": 0.0002591412568030893,
+            "max_reciprocal_expected_power_per_kw": 0.0002886711901328001,
+            "min_average_a_weighted_noise_dba": 35.8143255189977,
+            "max_average_a_weighted_noise_dba": 38.794524674374436,
+            "max_normalized_constraint_violation": 0
+          }
+        },
+        {
+          "s": 2026072903,
+          "raw_path": "evidence/development/step11_profile_raw/taae-quality-2026072903.json",
+          "raw_sha256": "702446fa4e65e88eb9053f838f132d890ddbdbf0a15fc3fa52e5ffb5a4ca8a53",
+          "completed_generations": 1,
+          "front_count": 3,
+          "front_hash": "fnv1a64:c00a634d68a0f4cd",
+          "science_sha256": "95d76666b57e802bb47878ab005bd79dfff78fdd0ea8f66b46a82d2ee20df7ac",
+          "metric_values": {
+            "min_reciprocal_expected_power_per_kw": 0.0002601873428196872,
+            "max_reciprocal_expected_power_per_kw": 0.0002996521488225874,
+            "min_average_a_weighted_noise_dba": 35.672507160832396,
+            "max_average_a_weighted_noise_dba": 36.273391797610564,
+            "max_normalized_constraint_violation": 0
+          }
+        }
+      ]
+    },
+    {
+      "profile_id": "ppga_nantong_structured_3d_declared_reconstruction_v2__ppga_nantong_structured_3d_declared_proxy_v1",
+      "method_semantics_id": "ppga_nantong_structured_3d_declared_reconstruction_v2",
+      "problem_semantics_id": "ppga_nantong_structured_3d_declared_proxy_v1",
+      "physical_fes": 60,
+      "repeat": {
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "science": "733daf5a180e3053ce8fd6d8ce3a91186e634349710ad4beaa31f55a163da6b6",
+        "raw": [
+          "2f418b28296f5de3446d6bdcf3742c6e6afa2984ecb47d32277c7ba7bdae2302",
+          "fcc9f0d1c027ae5c0b32e4878f66d22bae953415965c4609e4d927cc2ec035cd",
+          "250597cfbdc3bd75be0aba533ad78e1419fe9f5977f04eb69ed0fc19c74b3973"
+        ],
+        "raw_paths": [
+          "evidence/development/step11_profile_raw/ppga-repeat-w1.json",
+          "evidence/development/step11_profile_raw/ppga-repeat-w20a.json",
+          "evidence/development/step11_profile_raw/ppga-repeat-w20b.json"
+        ],
+        "t1": [
+          0.012092133000000001,
+          9.716799999999817e-05,
+          null,
+          0.012189301
+        ],
+        "t20": [
+          0.001638945,
+          0.0019852489999999997,
+          null,
+          0.003624194
+        ]
+      },
+      "quality": [
+        {
+          "s": 2026072901,
+          "raw_path": "evidence/development/step11_profile_raw/ppga-quality-2026072901.json",
+          "raw_sha256": "4f00f59499493f904be670649169c3d4e562f480c8abdb71339d1c353633222e",
+          "metric_values": 38986.32034941903,
+          "h": "733daf5a180e3053ce8fd6d8ce3a91186e634349710ad4beaa31f55a163da6b6"
+        },
+        {
+          "s": 2026072902,
+          "raw_path": "evidence/development/step11_profile_raw/ppga-quality-2026072902.json",
+          "raw_sha256": "1b2520da24e384cdc2cfda3ef6fb0370379110692559628005dd771446cfe5de",
+          "metric_values": 38409.19302183244,
+          "h": "6ede44b00a8498ff595c30a0c331974c078bddeb1ed72e0af2f425ce9cc93b2e"
+        },
+        {
+          "s": 2026072903,
+          "raw_path": "evidence/development/step11_profile_raw/ppga-quality-2026072903.json",
+          "raw_sha256": "96f04072d3e9eb634e56b6fab197c1933f90597c8a2aa179af1c15268abafdea",
+          "metric_values": 38671.75179670316,
+          "h": "6bd4ea5a0add3c9f5dbc21170a2e7d872c1e88d91f29c4124a6e00ea265cc838"
+        }
+      ]
+    },
+    {
+      "profile_id": "bde__bde2025_ws5_paper250_declared_proxy_v1",
+      "method_semantics_id": "bde_paper_equations_imax400_exact_fes_v1",
+      "problem_semantics_id": "bde2025_ws5_paper250_declared_proxy_v1",
+      "physical_fes": 100,
+      "repeat": {
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "science": "3a4995a15366b3b31bd40aa176011091140ff43464c87abfb459bf7684601c37",
+        "raw": [
+          "5904cb032e5bbe20973b9c23acf47168ae3d44f6bf0779a656afd872e2585831",
+          "dbdb87a2403f65d20e5aa33e327df4f1db43d7cdca2e0c78a05324275ce98010",
+          "44f06eb3cf49dc95280f4d692c6dd6dc57be2c8bc92c7ce0a23601c53832a2fc"
+        ],
+        "t1": [
+          0.0023516,
+          0.000840071,
+          null,
+          0.003191671
+        ],
+        "t20": [
+          0.000729138,
+          0.0011933529999999999,
+          null,
+          0.001922491
+        ]
+      },
+      "quality": [
+        {
+          "s": 2026072901,
+          "metric_values": 9958.416965633203,
+          "h": "3a4995a15366b3b31bd40aa176011091140ff43464c87abfb459bf7684601c37"
+        },
+        {
+          "s": 2026072902,
+          "metric_values": 10018.969614649897,
+          "h": "0c57e39ae821bbe73634bd6976f61f5fdcf83b9372aaed518f894d53eb24366b"
+        },
+        {
+          "s": 2026072903,
+          "metric_values": 9919.002851886875,
+          "h": "e5dd20f4185b13a51eb750552ea0256525d7d5e29a98c94381ef539af7b7ca71"
+        }
+      ]
+    },
+    {
+      "profile_id": "bde__bde2025_ws6_paper250_declared_proxy_v1",
+      "method_semantics_id": "bde_paper_equations_imax400_exact_fes_v1",
+      "problem_semantics_id": "bde2025_ws6_paper250_declared_proxy_v1",
+      "physical_fes": 100,
+      "repeat": {
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "science": "9b813e000003871baa4d595d0c0224b0618dd5deaeaf58dbd14a575f9c8c41e8",
+        "raw": [
+          "11525e13498d1db89f82dd4bd91ee49c49a46d83a2e2d2ee8db3b91324db9eba",
+          "e3e00b0b3e15bb6ef4bbec69a4a25196b84b2e427e54f38aa3044c6d2745fb47",
+          "bbf54f6adadb0dffb32e512735a3f66ee5f511b8525f1e6b9e1a34b7b55c8781"
+        ],
+        "t1": [
+          0.002921835,
+          0.000828535,
+          null,
+          0.00375037
+        ],
+        "t20": [
+          0.001312687,
+          0.0005682829999999999,
+          null,
+          0.00188097
+        ]
+      },
+      "quality": [
+        {
+          "s": 2026072901,
+          "metric_values": 9864.540969992413,
+          "h": "9b813e000003871baa4d595d0c0224b0618dd5deaeaf58dbd14a575f9c8c41e8"
+        },
+        {
+          "s": 2026072902,
+          "metric_values": 9903.103227240908,
+          "h": "107abbee2289afd432ce144b7c2e328372412c436fc89d0b3394845ee0b0b99a"
+        },
+        {
+          "s": 2026072903,
+          "metric_values": 9858.03224037394,
+          "h": "356dafbb1d741db6111f2149ea772d3b9bab3f1bf647ec25f20fb167d8694175"
+        }
+      ]
+    },
+    {
+      "profile_id": "geoga__admitted_gga_problem_asset_proxy",
+      "method_semantics_id": "geoga_declared_reconstruction_v1",
+      "problem_semantics_id": "geojson_radians_ct_rss_repaired_v1",
+      "physical_fes": 100,
+      "repeat": {
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "science": "a3d9939a07bcb4ae7bb938c63cbba5583c75d552cdf0c37ab1959f2335589106",
+        "raw": [
+          "03d554318e1ed1a5abeb7687699333858eb865e637aa5a320d2bb446d38d9a56",
+          "84c595ba0b96b702d22a7a08670982788aad27e76fc15d596de165f2e4200230",
+          "34cf5f0a2b5408e356338309cf2b64d8f6e5ebd2271b45eb7fedaae62f6ad17b"
+        ],
+        "t1": [
+          0.09785125,
+          0.001938460000000003,
+          null,
+          0.09978971
+        ],
+        "t20": [
+          0.007821123,
+          0.0012045530000000006,
+          null,
+          0.009025676
+        ]
+      },
+      "quality": [
+        {
+          "s": 2026072901,
+          "metric_values": 3484884469.97964,
+          "h": "a3d9939a07bcb4ae7bb938c63cbba5583c75d552cdf0c37ab1959f2335589106"
+        },
+        {
+          "s": 2026072902,
+          "metric_values": 3491054519.9009266,
+          "h": "50a10550862b9a337dcbebe28e4babcbd6d0e29d3a3687a05b726eda3878cfe9"
+        },
+        {
+          "s": 2026072903,
+          "metric_values": 3486511720.480115,
+          "h": "f71c02d3533a9b464c6273694f9888408b3bb18579aff440ce0b8f2f342bd030"
+        }
+      ]
+    },
+    {
+      "profile_id": "geoga__geoga_anholt_structured_declared_proxy_v1",
+      "method_semantics_id": "geoga_declared_reconstruction_v1",
+      "problem_semantics_id": "geoga_anholt_structured_declared_proxy_v1",
+      "physical_fes": 100,
+      "repeat": {
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "science": "cad40c827d91b0072cb20f329c58ede5fd7600262b0f74040711932fe097ce94",
+        "raw": [
+          "686e1f67d800bcbd528b8594ce16c51c2fa810d80521a69254b8cd883038ae36",
+          "edaaa5258f37a52a4ce31f484089e13927c2d7602621e7510b04566487b29149",
+          "e5ba9769cfd4596497519314319e7440df43f94b5fcfe517c506b49a065cd136"
+        ],
+        "t1": [
+          0.047560529000000004,
+          0.0007904529999999965,
+          null,
+          0.048350982
+        ],
+        "t20": [
+          0.002933755,
+          0.001000271,
+          null,
+          0.003934026
+        ]
+      },
+      "quality": [
+        {
+          "s": 2026072901,
+          "metric_values": {
+            "best_aep_kwh_per_year": 1984996674.384155,
+            "capacity_factor": 0.48605275392421654
+          },
+          "layout_hash": "9b71c5a299930381",
+          "h": "cad40c827d91b0072cb20f329c58ede5fd7600262b0f74040711932fe097ce94"
+        },
+        {
+          "s": 2026072902,
+          "metric_values": {
+            "best_aep_kwh_per_year": 1980257345.62703,
+            "capacity_factor": 0.4848922664413508
+          },
+          "layout_hash": "cf115f9d55972452",
+          "h": "6e83fa12d8fbf6805b0ae089c4a4514c63dfded2e979d4ffb111e4bc0143d47a"
+        },
+        {
+          "s": 2026072903,
+          "metric_values": {
+            "best_aep_kwh_per_year": 1979138756.4636822,
+            "capacity_factor": 0.4846183650538215
+          },
+          "layout_hash": "97d7a12448bc3b97",
+          "h": "7a9a702a904843cf65baa7e97e675a7312dec3031dc6e39470d07d533436b409"
+        }
+      ]
+    },
+    {
+      "profile_id": "tmoea__nysted_paper_eq16_cpu_r4_v2",
+      "method_semantics_id": "tmoea_nysted_gga_asset_reconstruction_paper_eq16_v2",
+      "problem_semantics_id": "tmoea_nysted_paper_wake_gga_router_problem_v1",
+      "physical_fes": 60,
+      "repeat": {
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "science": "a36a4a66e1fe8ad640c3cc998efb261cee81d55a5e35bd4c52c69b6ede24cd09",
+        "raw": [
+          "241bd3dcb56a9f2eebad52ddb5e6b56bd3ea7ae4aadb4aec55ad3eb57d797594",
+          "0e3b386e97c479a700c0df52dada777da41cf40265bfa36a2157df770ea024f9",
+          "6a108b4b234fc2d65c0fe9ede52a91dcde5f06d55374e9a5c3c5f22421a5e141"
+        ],
+        "t1": [
+          0.020645699,
+          0.003731265000000001,
+          null,
+          0.024376964
+        ],
+        "t20": [
+          0.0026101559999999998,
+          0.0012086170000000004,
+          null,
+          0.003818773
+        ]
+      },
+      "quality": [
+        {
+          "s": 2026072901,
+          "metric_values": {
+            "min_aep_kwh_per_year": 1154086766.2690654,
+            "max_aep_kwh_per_year": 1200447736.81249,
+            "min_cable_cost": 9886959.876076046,
+            "max_cable_cost": 10563339.110128015
+          },
+          "front_count": 4,
+          "front_hash": "fnv1a64:021a5e06784a057c",
+          "h": "a36a4a66e1fe8ad640c3cc998efb261cee81d55a5e35bd4c52c69b6ede24cd09"
+        },
+        {
+          "s": 2026072902,
+          "metric_values": {
+            "min_aep_kwh_per_year": 1118508278.8803003,
+            "max_aep_kwh_per_year": 1206301389.9104605,
+            "min_cable_cost": 9665016.847273594,
+            "max_cable_cost": 10782418.041967873
+          },
+          "front_count": 11,
+          "front_hash": "fnv1a64:eb7b8f023379ac38",
+          "h": "57bb8967eb37f1277c84832b06e2a45b81ca8cab50351a00215c763e557ae832"
+        },
+        {
+          "s": 2026072903,
+          "metric_values": {
+            "min_aep_kwh_per_year": 1143664129.06501,
+            "max_aep_kwh_per_year": 1191812320.6938834,
+            "min_cable_cost": 9836792.458074266,
+            "max_cable_cost": 11092324.475919617
+          },
+          "front_count": 6,
+          "front_hash": "fnv1a64:664f3345b8b1022c",
+          "h": "39ec9bf4f5612f618b98d5435dc9a113c3ef7d2fc54e8bdef3a9536b4969a33d"
+        }
+      ]
+    },
+    {
+      "profile_id": "moead__zhang2025_three_objective",
+      "method_semantics_id": "moead_three_objective_paper_repaired_physical_fes_v1",
+      "problem_semantics_id": "three_objective_paper_repaired_v1",
+      "physical_fes": 20,
+      "repeat": {
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "science": "8cd9c954ac08fb98470da02738dbec0afb03575abc08b225e707fe75bf4d8a32",
+        "raw": [
+          "63eb4591ce7b5bb1460adfa80f8de9bf51690a2f0be200133a50b1d5e6729948",
+          "604115be850728938c22d0012d291b5078f9a85c1712da5a4047f3bbb37605c1",
+          "883acc3b8a188f659e4694f59b84288189e101b4ff7fe72de1644647f6be3d23"
+        ],
+        "t1": [
+          5.0273e-05,
+          4.593e-06,
+          null,
+          5.4866e-05
+        ],
+        "t20": [
+          0.000129367,
+          5.1698e-05,
+          null,
+          0.000181065
+        ]
+      },
+      "quality": [
+        {
+          "s": 2026072901,
+          "metric_values": {
+            "minimum_inverse_power_per_kw": 0.0002164015000788037,
+            "minimum_land_area_grid_units": 203,
+            "minimum_total_cost_contract_units": 33.6802102524735,
+            "maximum_inverse_power_per_kw": 0.00021880825078240965,
+            "maximum_land_area_grid_units": 244.5,
+            "maximum_total_cost_contract_units": 37.8302102524735
+          },
+          "front_artifact_sha256": "bbb0a948d4cd9b3678f5dc6d1bb49bbbf2f3c2cdd52ed68907e499792941c014",
+          "front_count": 3,
+          "h": "8cd9c954ac08fb98470da02738dbec0afb03575abc08b225e707fe75bf4d8a32"
+        },
+        {
+          "s": 2026072902,
+          "metric_values": {
+            "minimum_inverse_power_per_kw": 0.0002151508895989357,
+            "minimum_land_area_grid_units": 219.25,
+            "minimum_total_cost_contract_units": 35.3052102524735,
+            "maximum_inverse_power_per_kw": 0.00022151987758878354,
+            "maximum_land_area_grid_units": 260.75,
+            "maximum_total_cost_contract_units": 39.4552102524735
+          },
+          "front_artifact_sha256": "72e3b7bbda79aab1a768d369fc3138e65616f68cedfcd257d23ad90e5dcbea7e",
+          "front_count": 3,
+          "h": "d6bf091647e6ac7db4ce3ee220721c3bdf7f37e0f440564b924c153a3e035640"
+        },
+        {
+          "s": 2026072903,
+          "metric_values": {
+            "minimum_inverse_power_per_kw": 0.00021685409316762728,
+            "minimum_land_area_grid_units": 219.5,
+            "minimum_total_cost_contract_units": 35.3302102524735,
+            "maximum_inverse_power_per_kw": 0.00022715719249558018,
+            "maximum_land_area_grid_units": 225.5,
+            "maximum_total_cost_contract_units": 35.9302102524735
+          },
+          "front_artifact_sha256": "dff0c48edb834f71dcfe4e6e2e4d8d841475d27553152f777a88c8760be19d43",
+          "front_count": 3,
+          "h": "176651a83a309ccda7fe6da20ab56279498fc7036a7f555e478e33e7bdf56449"
+        }
+      ]
+    },
+    {
+      "profile_id": "morime__zhang2025_three_objective",
+      "method_semantics_id": "morime_three_objective_paper_repaired_physical_fes_v1",
+      "problem_semantics_id": "three_objective_paper_repaired_v1",
+      "physical_fes": 20,
+      "repeat": {
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "science": "0b31773da6a7a64ed232c43575076820c2e4d4abbbe4f0cb28f4fa54be79c990",
+        "raw": [
+          "f9ba822257162f073624e66d1314e092ba6517ef347a7a2a2f6f014ea7f5aaf7",
+          "74fa03cff9d96680d17241ae7c524b53e77184971125bfba662177ea2d19e7dc",
+          "b0c8c02bfcbd74290b1540d35d26f52dd96b62e7ba86f3dd0a9a58b257e3f4a6"
+        ],
+        "t1": [
+          4.2259e-05,
+          1.4768e-05,
+          null,
+          5.7027e-05
+        ],
+        "t20": [
+          0.000154167,
+          4.0258e-05,
+          null,
+          0.000194425
+        ]
+      },
+      "quality": [
+        {
+          "s": 2026072901,
+          "metric_values": {
+            "minimum_inverse_power_per_kw": 0.0002159277362317341,
+            "minimum_land_area_grid_units": 230.75,
+            "minimum_total_cost_contract_units": 36.4552102524735,
+            "maximum_inverse_power_per_kw": 0.00021881426979011192,
+            "maximum_land_area_grid_units": 265,
+            "maximum_total_cost_contract_units": 39.880210252473496
+          },
+          "front_artifact_sha256": "66f8785d166d44992a1ca7726d4b05a5b5194e2df7bc968bf134bf7a02e63c4e",
+          "front_count": 3,
+          "h": "0b31773da6a7a64ed232c43575076820c2e4d4abbbe4f0cb28f4fa54be79c990"
+        },
+        {
+          "s": 2026072902,
+          "metric_values": {
+            "minimum_inverse_power_per_kw": 0.00021802057864300106,
+            "minimum_land_area_grid_units": 226,
+            "minimum_total_cost_contract_units": 35.9802102524735,
+            "maximum_inverse_power_per_kw": 0.00021802057864300106,
+            "maximum_land_area_grid_units": 226,
+            "maximum_total_cost_contract_units": 35.9802102524735
+          },
+          "front_artifact_sha256": "2d4cbe13c3a8abb3fd8642554e699242289ac514a7cce798429fe5f31388556f",
+          "front_count": 1,
+          "h": "e59dca70e3c4ceb9911cf5c9f74d42161146289cd851f7511efbbeb5808a5485"
+        },
+        {
+          "s": 2026072903,
+          "metric_values": {
+            "minimum_inverse_power_per_kw": 0.00021871586400031877,
+            "minimum_land_area_grid_units": 219.5,
+            "minimum_total_cost_contract_units": 35.3302102524735,
+            "maximum_inverse_power_per_kw": 0.00022715719249558018,
+            "maximum_land_area_grid_units": 284.5,
+            "maximum_total_cost_contract_units": 41.8302102524735
+          },
+          "front_artifact_sha256": "2fa9c3c49a87acd5371f5edd309d989c2c3a4b637097c8b7bab248d04b5a359c",
+          "front_count": 4,
+          "h": "8c39d47bddaec987433fb777f5d88ddb0a29f1402704326ffc70e678297ba1dc"
+        }
+      ]
+    },
+    {
+      "profile_id": "armoea__zhang2025_three_objective",
+      "method_semantics_id": "armoea_three_objective_paper_repaired_physical_fes_v1",
+      "problem_semantics_id": "three_objective_paper_repaired_v1",
+      "physical_fes": 20,
+      "repeat": {
+        "workers": [
+          1,
+          20,
+          20
+        ],
+        "science": "a868220dc2b12de5e7c75738e5314c2c707df090ea1fa9ebf6060c3d9b6a8bfc",
+        "raw": [
+          "915a9d935f92f88f4fc7f67568892ef3119c7bda3de906e9f69fad83789e3420",
+          "3f6cb2c60248bcb1189aa912c13f65fdd2c4fb9070aa8d5b8171bb8a4b86748f",
+          "445add6881eacfe4606bb6b38733d63af97ffade45f8cd5a08096f4c6dda5bff"
+        ],
+        "t1": [
+          4.933e-05,
+          1.813e-05,
+          null,
+          6.746e-05
+        ],
+        "t20": [
+          0.000124838,
+          8.1076e-05,
+          null,
+          0.000205914
+        ]
+      },
+      "quality": [
+        {
+          "s": 2026072901,
+          "metric_values": {
+            "minimum_inverse_power_per_kw": 0.00021461506524945846,
+            "minimum_land_area_grid_units": 170.75,
+            "minimum_total_cost_contract_units": 30.455210252473496,
+            "maximum_inverse_power_per_kw": 0.00022078977351710856,
+            "maximum_land_area_grid_units": 175,
+            "maximum_total_cost_contract_units": 30.880210252473496
+          },
+          "front_artifact_sha256": "55a6ada7b655e4dc9d397173861714f9bd09fee3b52f10e9e8bb0ca6ada1ba5e",
+          "front_count": 2,
+          "h": "a868220dc2b12de5e7c75738e5314c2c707df090ea1fa9ebf6060c3d9b6a8bfc"
+        },
+        {
+          "s": 2026072902,
+          "metric_values": {
+            "minimum_inverse_power_per_kw": 0.00021451385594782894,
+            "minimum_land_area_grid_units": 169.75,
+            "minimum_total_cost_contract_units": 30.355210252473498,
+            "maximum_inverse_power_per_kw": 0.0002256211197482837,
+            "maximum_land_area_grid_units": 285.75,
+            "maximum_total_cost_contract_units": 41.9552102524735
+          },
+          "front_artifact_sha256": "5490384021b6b8297e61de188b0c3592e246222e921e1515614047f5c14fab49",
+          "front_count": 6,
+          "h": "85015c502bf8670a6f33bac7bfa23a61cffee3656df2193697ac80e05b174694"
+        },
+        {
+          "s": 2026072903,
+          "metric_values": {
+            "minimum_inverse_power_per_kw": 0.00021641708650213109,
+            "minimum_land_area_grid_units": 137.5,
+            "minimum_total_cost_contract_units": 27.130210252473496,
+            "maximum_inverse_power_per_kw": 0.00022392626724722605,
+            "maximum_land_area_grid_units": 291,
+            "maximum_total_cost_contract_units": 42.4802102524735
+          },
+          "front_artifact_sha256": "f631464d2f00efb67486307a1ea7bd659bfdaac83f073d150349fc96e545838b",
+          "front_count": 4,
+          "h": "d518266a292aa79c8ce570b9d559ecfd1d2c497249b2a0f6a0b4b76deb118ab2"
+        }
+      ]
+    }
+  ],
+  "ranking_policy": "Each profile receives an individual bounded admission. Only profiles with exactly identical problem_semantics_id may be descriptively compared; no completion was selected from these results.",
+  "science_canonicalization": "SHA-256 of sorted compact JSON after recursively removing worker-count and timing-only fields: requested_workers, observed_workers, resolved_workers, timing_seconds, total_wall_seconds, evaluator_wall_seconds, stage_receipts, and wall_seconds."
+}

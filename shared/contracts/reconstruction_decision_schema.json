@@ -1,0 +1,21 @@
+{
+  "schema_version": 1,
+  "schema_id": "wflop_reconstruction_decision_schema_v1",
+  "required_decision_fields": [
+    "field",
+    "completed_transition",
+    "selected_value_or_rule",
+    "authority_type",
+    "immutable_authority",
+    "rejected_alternatives",
+    "classification",
+    "expected_downstream_effect",
+    "sensitivity_test_required",
+    "adjudication_status"
+  ],
+  "classifications": [
+    "identity_critical",
+    "quality_sensitive",
+    "implementation_only"
+  ]
+}

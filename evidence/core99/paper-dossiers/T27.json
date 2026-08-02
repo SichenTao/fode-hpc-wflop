@@ -1,0 +1,176 @@
+{
+  "schema_version": 1,
+  "corpus_id": "T27",
+  "paper": {
+    "authors": "Yujin Shin and Taeyoung Yun and Sujin Yun and Sungpil Woo and Sunhwan Lim and Jinkyoo Park",
+    "doi": "10.1145/3711896.3737181",
+    "pdf_basename": "2025_Shin_Wind_Farm_Layout_Optimization_with_Diffusion_Models.pdf",
+    "pdf_sha256": "d4edfb7fc417909141bfcc616d2ed941af6e7c055f738d0b11e635c128a4a26c",
+    "primary_asset_status": "local_primary_pdf_hashed",
+    "primary_review_class": "REV3",
+    "reading_tier": "KEY40",
+    "role": "D",
+    "secondary_review_classes": "REV5",
+    "title": "Wind Farm Layout Optimization with Diffusion Models",
+    "venue": "ACM SIGKDD 2025",
+    "year": 2025
+  },
+  "authority_ladder": [
+    "paper_and_supplement",
+    "paper_linked_public_source_and_data",
+    "cited_predecessor",
+    "same_lineage_public_source",
+    "deterministic_declared_reconstruction"
+  ],
+  "public_assets": {
+    "author_source_url": "https://github.com/dbsxodud-11/layopt",
+    "author_source_revision": "19ff38950ec6d23b6241875c1e5936878508a10d",
+    "author_source_license": "none_found_do_not_redistribute",
+    "author_data_or_checkpoints": "not_provided",
+    "official_simulator": "FLORIS 4.1.1",
+    "official_simulator_revision": "2c3be8fd91fdb2ce519e2f3139444a7045f50473",
+    "official_simulator_license": "BSD-3-Clause",
+    "status": "paper_and_source_semantics_consumed; independent implementation"
+  },
+  "private_fulltext_receipt": {
+    "consumed": true,
+    "page_count": 12,
+    "text_sha256": "1036233e72bf80be6da3412ce15cab6864b0c83ed675226d5a6c9831df253431"
+  },
+  "completion_decisions": [
+    {
+      "field": "missing dataset and checkpoint",
+      "authority": "paper algorithm and public architecture",
+      "resolution": "generate every constrained layout, evaluate it, and train from scratch per formal seed"
+    },
+    {
+      "field": "EMA and repair controls absent from paper",
+      "authority": "paper-linked public source",
+      "resolution": "EMA 0.995/every 10 steps and Adam repair 1000 steps at lr 1e-3"
+    },
+    {
+      "field": "round lifecycle not executable literally",
+      "authority": "paper iterative algorithm over source intent",
+      "resolution": "retain model/optimizer/EMA and append every valid evaluated batch to a cumulative dataset"
+    },
+    {
+      "field": "diverse case turbine count and side length",
+      "authority": "paper experiment context and comparable AEP scale",
+      "resolution": "30 turbines in a 3000 m square, explicitly declared"
+    }
+  ],
+  "missing_information": [
+    "author training datasets and checkpoints",
+    "complete software dependency lock",
+    "exact author random bitstreams and hardware runtime environment",
+    "explicit diverse-case N and L statement",
+    "some optimizer and EMA controls in the paper text"
+  ],
+  "paper_source_conflicts": [
+    {
+      "field": "initial layouts, training steps and learning rate",
+      "fact": "paper gives 5000, 10000 and 5e-4; source defaults give 1000, 5000 and 1e-4",
+      "resolution": "paper values are primary production defaults"
+    },
+    {
+      "field": "activation",
+      "fact": "paper says LeakyReLU; source applies GATConv attention LeakyReLU then GELU",
+      "resolution": "paper activation is primary and source activation has a separate named profile"
+    },
+    {
+      "field": "checkpoint and dataset lifecycle",
+      "fact": "source can request a milestone not saved by the preceding loop and later pairs accumulated layouts with only current-round winds",
+      "resolution": "repair both transitions while preserving the paper's iterative intent"
+    },
+    {
+      "field": "CPU selection",
+      "fact": "source --use_gpu is store_true with default true and cannot select false",
+      "resolution": "production CLI explicitly supports cpu, cuda and auto"
+    }
+  ],
+  "scope": {
+    "claim_boundary": "academic paper-first train-from-scratch reconstruction; not author-original software, private-data/checkpoint replay or bitwise FLORIS identity",
+    "execution_wave": "REV3",
+    "package_status": "h5_admitted_h6_and_formal_queued",
+    "scope_status": "new_direct_ready",
+    "target_contribution_type": "optimization_search_or_learning_method"
+  },
+  "semantic_contract": {
+    "decision_variables": {
+      "authority": "paper Sections 3.1 and 4.1",
+      "resolution": "N continuous two-dimensional coordinates in a unit square scaled by L",
+      "status": "implemented_and_tested"
+    },
+    "objective_and_direction": {
+      "authority": "paper Sections 2 and 4",
+      "resolution": "maximize FLORIS annual energy under the selected wind condition",
+      "status": "implemented_and_independently_validated"
+    },
+    "constraints_and_repair": {
+      "authority": "paper Eq. 9 and public repair routine",
+      "resolution": "rectangular bounds and 252 m unordered pair spacing via batched differentiable Adam repair",
+      "status": "implemented_and_tested"
+    },
+    "encoding_and_decoder": {
+      "authority": "paper Sections 3.2-3.3 and source architecture",
+      "resolution": "coordinate graph, complete directed adjacency, EDM coordinate decoder and MLP ablation",
+      "status": "implemented_and_tested"
+    },
+    "initialization": {
+      "authority": "paper Algorithm 1 and Section 4.1",
+      "resolution": "5000 random repaired layouts evaluated before training",
+      "status": "implemented_and_frozen"
+    },
+    "update_order": {
+      "authority": "paper Algorithm 1",
+      "resolution": "train, sample, repair, evaluate, append cumulative data, preserve optimizer and EMA, repeat ten rounds",
+      "status": "implemented_and_tested"
+    },
+    "wake_power_cost_or_coupled_model": {
+      "authority": "paper Section 4 and pinned FLORIS 4.1.1 GCH configuration",
+      "resolution": "native zero-yaw GCH equation reconstruction and NREL 5 MW power/thrust curve",
+      "status": "implemented_and_official_fixture_validated"
+    },
+    "wind_and_scenario_sampling": {
+      "authority": "paper Sections 4.1-4.3",
+      "resolution": "fixed 8 m/s 60 degrees or initial uniform 6-10 m/s and 0-120 degrees, with target/OOD evaluations",
+      "status": "implemented_and_tested"
+    },
+    "paper_native_cases": {
+      "authority": "paper Sections 4.1-4.5 and Appendix",
+      "resolution": "fixed 30/40/50, diverse targets, GNN transfer 30-to-40/50, GNN/MLP and guidance ablations",
+      "status": "implemented_and_formal_queued"
+    },
+    "parameters": {
+      "authority": "paper values first, source-only completions second",
+      "resolution": "all published EDM/training parameters retained and discrepancies selectable",
+      "status": "implemented_and_frozen"
+    },
+    "stopping_and_physical_fes": {
+      "authority": "paper Algorithm 1",
+      "resolution": "ten rounds by 10000 optimizer steps; 5000 plus valid generated layout evaluations reported",
+      "status": "implemented_and_formal_queued"
+    },
+    "metrics_and_repeats": {
+      "authority": "paper Section 4",
+      "resolution": "AEP, initial/best AEP, physical layout evaluations, optimizer steps, phase timings and three seeds",
+      "status": "implemented_and_formal_queued"
+    },
+    "training_and_inference_lifecycle": {
+      "authority": "paper Algorithm 1 with source conflicts repaired",
+      "resolution": "train from scratch per seed, persistent AdamW/EMA across cumulative rounds, size-invariant GNN zero-shot transfer",
+      "status": "implemented_and_bounded_cpu_cuda_tested"
+    }
+  },
+  "hpc_admission": {
+    "H0": "pass: dense all-pairs graph learning, EDM, repair and repeated FLORIS evaluation are material workloads",
+    "H1": "pass: paper, source revision, official simulator, missing assets and every conflict traced",
+    "H2": "pass: generation-evaluation-training-sampling-repair-evaluation-append decomposition and ordered commits frozen",
+    "H3": "pass: LibTorch C++ optimized CPU/CUDA tensors plus native all-core C++ GCH evaluator",
+    "H4": "pass: GNN, MLP, diverse wind, guidance, zero-shot transfer, CPU/CUDA CLI, counters and resumable runner implemented",
+    "H5": "pass: four official FLORIS fixtures max 0.2031% farm-power error; complete CPU and CUDA bounded lifecycle tests pass",
+    "H6": "local candidate passed; five-observation all-core and CUDA availability admission queued on Waffle"
+  },
+  "dossier_status": "h5_admitted",
+  "formal_status": "queued_after_predecessor_or_machine_readable_cuda_deferred"
+}

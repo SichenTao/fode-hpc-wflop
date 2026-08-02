@@ -1,2 +1,10 @@
 *.tsv whitespace=-blank-at-eol
 *.svr.tsv whitespace=-blank-at-eol
+evidence/development/plan003_h5_ctest_receipts_20260730.json export-ignore
+evidence/development/plan004_h5_independent_reference_receipts_20260730.json export-ignore
+evidence/development/plan004_learning_pdf_consumption_20260730.json export-ignore
+evidence/development/plan005_h5_post_deterministic_learning_lane_revalidation_20260730.json export-ignore
+evidence/development/plan005_h5_post_learning_phase_topology_revalidation_20260730.json export-ignore
+evidence/development/plan005_h5_post_thread_topology_revalidation_20260730.json export-ignore
+evidence/performance/excluded/** export-ignore
+evidence/performance/plan005_h6_performance_first_raw_observations_20260730.jsonl export-ignore
