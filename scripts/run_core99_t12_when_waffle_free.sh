@@ -8,7 +8,7 @@
 # the five long 3s-MDE roles execute last and every role is independently
 # resumable. Facts, missing data, conflicts, reconstruction and claim boundary:
 # hpc/core99_cpp/include/core99/windflo_t12.hpp.
-# Last evidence-audit date: 2026-08-01
+# Last evidence-audit date: 2026-08-02
 # END WFLOP IMPLEMENTATION FACT DECLARATION
 set -euo pipefail
 
@@ -33,7 +33,7 @@ cmake -S . -B build-waffle-t12 \
 cmake --build build-waffle-t12 \
     --target core99_t12_hpc core99_t12_test -j "${workers}"
 ctest --test-dir build-waffle-t12 \
-    -R '^core99_t12_(cpp|h5|runner)$' --output-on-failure
+    -R '^core99_t12_(cpp|h5|runner|mde_progress)$' --output-on-failure
 python3 scripts/run_core99_t12_admission.py \
     --binary build-waffle-t12/hpc/core99_cpp/core99_t12_hpc \
     --output-root "${output_root}" \
