@@ -12,11 +12,11 @@
     "The printed quadratic binary objective is converted to MILP with an exact three-inequality product linearization rather than being silently treated as linear.",
     "Pinned HiGHS replaces unavailable Gurobi 5.6; each receipt records status, incumbent, dual bound, and gap.",
     "A Jensen initial row and terrain-aware replacement-row surrogate exercise the information lifecycle but are explicitly not labeled CFD.",
-    "The five relaxation cases and 30-second per-MIP budget are retained; a twelve-iteration safety ceiling completes the omitted nonconvergence behavior."
+    "The five relaxation cases and 30-second per-MIP budget are retained; finite termination follows from at most 400 newly known locations plus one final no-new-location solve."
   ],
   "corpus_id": "T63",
   "dossier_status": "h5_admitted",
-  "formal_status": "not_started_until_h6_admission",
+  "formal_status": "twelve_iteration_gate_failed_repair_smoke_pass_pending_waffle_h6",
   "hpc_admission": {
     "H0": "pass",
     "H1": "pass",
@@ -24,7 +24,7 @@
     "H3": "pass",
     "H4": "pass",
     "H5": "pass",
-    "H6": "pending"
+    "H6": "Waffle 7545dcf exposed nonconvergence at the unsupported twelve-iteration ceiling; finite-bound and five-case parallel repair passed local full-lifecycle smoke and awaits immutable Waffle confirmation"
   },
   "missing_information": [
     "author 20x20 terrain and numeric twelve-sector wind rose",
@@ -79,7 +79,7 @@
   "scope": {
     "claim_boundary": "academic declared reproduction of equations, discrete problem, relaxation study, exact MILP linearization, and iterative update lifecycle on a figure/surrogate proxy; not author CFD, Gurobi, or numerical replay",
     "execution_wave": "REV2",
-    "package_status": "implemented_h5_admitted_h6_pending",
+    "package_status": "implemented_h5_admitted_h6_repair_pending",
     "scope_status": "new_direct_ready",
     "target_contribution_type": "wake_power_cost_or_physical_evaluator"
   },
@@ -126,7 +126,7 @@
     },
     "stopping_and_physical_fes": {
       "authority": "target six-step lifecycle and 30-second MIP report",
-      "resolution": "stop when the selected layout contains no new CFD location; each new location represents twelve single-turbine CFD-row simulations; twelve-iteration safety ceiling",
+      "resolution": "stop when the selected layout contains no new CFD location; each new location represents twelve single-turbine CFD-row simulations; at most 400 locations plus one final convergence solve",
       "status": "registered"
     },
     "training_and_inference_lifecycle": {

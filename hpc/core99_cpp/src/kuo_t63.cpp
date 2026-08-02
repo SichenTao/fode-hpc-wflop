@@ -12,9 +12,9 @@ Semantic IDs: t63_carleton_figure_proxy_cfd_surrogate_v1;
 t63_iterative_cfd_mip_highs_reconstruction_v1
 Controlling contract: shared/contracts/core99_t63_kuo_2016.json
 HPC design: all source-target approximate and terrain-aware rows are generated
-once over a persistent full-core team; compact row-major arrays feed an exact
+once over a persistent case-local team; compact row-major arrays feed an exact
 binary-product MILP linearization; sequential MIP iterations preserve the
-paper lifecycle and each HiGHS solve receives the full worker budget
+paper lifecycle while five independent relaxation cases partition node cores
 Claim boundary: academic declared proxy reproduction, not author CFD/Gurobi
 Last evidence-audit date: 2026-07-31
 END WFLOP IMPLEMENTATION FACT DECLARATION

@@ -59,15 +59,16 @@
     "background": "digitized elevation plus printed power-law Eq. 5",
     "initial_row": "declared straight Jensen wake using printed CT and geometry",
     "replacement_row": "declared terrain-aware single-turbine surrogate with slope-driven turn, expansion, and vertical separation",
-    "important_boundary": "the replacement row exercises the CFD-to-MIP information lifecycle but is not labeled CFD or author data"
+    "important_boundary": "the replacement row exercises the CFD-to-MIP information lifecycle but is not labeled CFD or author data",
+    "finite_termination_bound": "at most 400 locations can become newly known; one final solve establishes that no new location remains"
   },
   "hpc_contract": {
     "backend": "pure_cpp_cpu_plus_pinned_highs_cpp",
     "field_parallel_axis": "400 independent source-cell rows, each aggregating 400 targets and twelve sectors",
-    "mip_parallelism": "HiGHS receives every available worker for each sequential iteration",
+    "mip_parallelism": "each HiGHS solve receives its relaxation case worker partition; five independent cases execute concurrently",
     "storage": "contiguous source-major approximate and terrain-aware pair arrays",
-    "formal_axis": "five relaxation cases run sequentially on all currently available Waffle cores",
-    "full_resource_policy": "use the entire Waffle CPU allocation without concurrent solver oversubscription"
+    "formal_axis": "five independent relaxation cases run concurrently; the available Waffle cores are partitioned across cases while each case preserves its sequential CFD-MIP lifecycle",
+    "full_resource_policy": "partition the entire Waffle CPU allocation across the five independent cases without nested oversubscription"
   },
   "problem_semantic_id": "t63_carleton_figure_proxy_cfd_surrogate_v1",
   "method_semantic_id": "t63_iterative_cfd_mip_highs_reconstruction_v1",

@@ -24,8 +24,8 @@ MILP with HiGHS; retain paper relaxation values and convergence lifecycle
 Problem semantic ID: t63_carleton_figure_proxy_cfd_surrogate_v1
 Method semantic ID: t63_iterative_cfd_mip_highs_reconstruction_v1
 Production backend: pure C++ CPU plus pinned HiGHS C++ MILP; pair-field
-generation uses the persistent full-core executor and HiGHS receives the full
-worker budget for each sequential MIP
+generation uses a persistent executor, each case preserves sequential MIP
+updates, and the five independent relaxation cases partition the node budget
 Controlling contract: shared/contracts/core99_t63_kuo_2016.json
 Claim boundary: academic declared reproduction of equations, discrete problem,
 relaxation study, exact MILP linearization, and iterative update lifecycle on
@@ -60,7 +60,9 @@ struct IterationReceipt {
 struct RunConfig {
     double relaxation = 0.2;
     int workers = 20;
-    int maximum_iterations = 12;
+    // At most 400 locations can become newly known. One final solve proves
+    // that no new location remains, so 401 is the finite semantic ceiling.
+    int maximum_iterations = 401;
     double mip_time_limit_seconds = 30.0;
 };
 

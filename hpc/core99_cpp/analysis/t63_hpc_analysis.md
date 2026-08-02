@@ -24,11 +24,14 @@ iteration selects a row by a Boolean CFD-known mask rather than recomputing
 physics.
 
 HiGHS 1.15.1 is pinned by immutable revision and linked directly as C++.
-Each sequential MIP receives all Waffle workers, a feasible warm start, the
-paper's 30-second limit, zero requested MIP gap, and deterministic random
-seed. The receipt distinguishes proven optimal, time-limited incumbent, dual
-bound, and gap. Iterations are not run concurrently because each consumes the
-previous layout and wake-row state.
+Each sequential MIP receives its case's worker partition, a feasible warm
+start, the paper's 30-second limit, zero requested MIP gap, and deterministic
+random seed. The receipt distinguishes proven optimal, time-limited incumbent,
+dual bound, and gap. Iterations inside one relaxation case are not concurrent
+because each consumes the previous layout and wake-row state. The five paper
+relaxation cases are independent, so the Waffle allocation is partitioned
+across those cases to expose the available outer parallelism without solver
+oversubscription.
 
 ## H5-H6 admission
 
@@ -38,8 +41,9 @@ background speed, 20-cell cardinality, five-diameter spacing, 12 CFD
 simulations per newly selected location, and feasible time-limited incumbent.
 
 H6 executes all five paper relaxation values on Waffle, using all available
-cores and a 30-second limit for every MIP. It runs until no new cell is selected
-or the declared twelve-iteration safety ceiling is reached. Admission requires
+cores and a 30-second limit for every MIP. It runs until no new cell is selected.
+The finite ceiling is 401 solves: at most 400 locations can become newly known,
+and one final solve then proves that no new location remains. Admission requires
 a feasible 20-cell incumbent at every iteration, exact lifecycle accounting,
 finite final surrogate objective, no-wake upper-bound ordering, and explicit
 solver status/bounds. Printed Table-1 values are context anchors only because

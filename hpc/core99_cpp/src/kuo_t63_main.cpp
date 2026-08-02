@@ -31,7 +31,7 @@ struct Arguments {
     std::string output;
     double relaxation = 0.2;
     int workers = 20;
-    int maximum_iterations = 12;
+    int maximum_iterations = 401;
     double mip_time_limit_seconds = 30.0;
 };
 

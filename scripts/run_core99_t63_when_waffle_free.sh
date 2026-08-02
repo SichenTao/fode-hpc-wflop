@@ -3,7 +3,8 @@
 # Unit: T63 non-interfering Waffle five-case H6/formal queue
 # Paper/DOI: Kuo et al.; 10.1016/j.apenergy.2016.06.085
 # Source/reconstruction/claim: shared/contracts/core99_t63_kuo_2016.json;
-# scheduler only, declared proxy reproduction, not author CFD/Gurobi replay
+# scheduler only, declared proxy reproduction, not author CFD/Gurobi replay;
+# the five independent relaxation cases partition all twenty Waffle cores
 # Last evidence-audit date: 2026-07-31
 # END WFLOP IMPLEMENTATION FACT DECLARATION
 set -euo pipefail
@@ -38,5 +39,5 @@ python3 scripts/run_core99_t63_admission.py \
     --output-root "${output_root}" \
     --source-commit "${source_commit}" \
     --workers 20 \
-    --maximum-iterations 12 \
+    --maximum-iterations 401 \
     --mip-time-limit-seconds 30
