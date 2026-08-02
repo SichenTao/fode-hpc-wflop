@@ -61,7 +61,7 @@
     "scope_status": "new_direct_ready",
     "execution_wave": "REV1",
     "target_contribution_type": "problem_definition_or_comparison_protocol",
-    "package_status": "h5_admitted_h6_and_formal_ready",
+        "package_status": "formal_complete",
     "claim_boundary": "academic declared reproduction of the paper problem and four main methods; not author-exact numerical or runtime reproduction"
   },
   "semantic_contract": {
@@ -142,7 +142,8 @@
         "scripts/test_core99_t12_mde_progress.py"
     ],
     "evidence_receipts": [
-        "evidence/core99/h6/T12_local_h6_final.json"
+        "evidence/core99/h6/T12_local_h6_final.json",
+        "evidence/core99/formal/T12_waffle_formal_manifest.json"
     ],
   "hpc_admission": {
     "H0": "pass",
@@ -151,10 +152,10 @@
     "H3": "pass",
     "H4": "pass",
     "H5": "pass",
-        "H6": "local_20_core_pass_11.522817x_waffle_formal_confirmation_pending"
-  },
-  "dossier_status": "h5_admitted",
-  "formal_status": "all_core_20_role_runner_ready_replacing_legacy_two_worker_partial",
+        "H6": "pass"
+    },
+    "dossier_status": "formal_complete",
+    "formal_status": "complete",
   "private_fulltext_receipt": {
     "consumed": true,
     "page_count": 28,
