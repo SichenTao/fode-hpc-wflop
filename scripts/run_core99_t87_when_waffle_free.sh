@@ -7,9 +7,12 @@
 # Last evidence-audit date: 2026-07-31
 # END WFLOP IMPLEMENTATION FACT DECLARATION
 set -euo pipefail
-: "${CORE99_SOURCE_COMMIT:?set CORE99_SOURCE_COMMIT to the deployed commit}"
+project_root=${1:?project root required}
+source_commit=${2:?source commit required}
+output_root=${3:?output root required}
+cd "${project_root}"
 observed_commit=$(git rev-parse HEAD)
-[[ "${observed_commit}" == "${CORE99_SOURCE_COMMIT}" ]] || exit 2
+[[ "${observed_commit}" == "${source_commit}" ]] || exit 2
 
 # L0124 already waits for T16 and all earlier approved work. T87 begins only
 # after L0124 exits, preserving the existing Waffle queue.
@@ -30,8 +33,8 @@ ctest --test-dir build-core99-t87-waffle \
 python3 scripts/run_core99_t87_admission.py \
     --binary build-core99-t87-waffle/hpc/core99_cpp/core99_t87_hpc \
     --data shared/data/core99_t87_figure_proxy.bin \
-    --output-root "results/core99/formal/T87/${CORE99_SOURCE_COMMIT}" \
-    --source-commit "${CORE99_SOURCE_COMMIT}" \
+    --output-root "${output_root}" \
+    --source-commit "${source_commit}" \
     --workers 20 \
     --iga-population 300 \
     --iga-generations 1000 \

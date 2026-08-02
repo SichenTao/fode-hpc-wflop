@@ -7,9 +7,12 @@
 # Last evidence-audit date: 2026-07-31
 # END WFLOP IMPLEMENTATION FACT DECLARATION
 set -euo pipefail
-: "${CORE99_SOURCE_COMMIT:?set CORE99_SOURCE_COMMIT to the deployed commit}"
+project_root=${1:?project root required}
+source_commit=${2:?source commit required}
+output_root=${3:?output root required}
+cd "${project_root}"
 observed_commit=$(git rev-parse HEAD)
-[[ "${observed_commit}" == "${CORE99_SOURCE_COMMIT}" ]] || exit 2
+[[ "${observed_commit}" == "${source_commit}" ]] || exit 2
 
 # T16 itself waits for every earlier approved Waffle campaign. L0124 begins
 # only after T16 has exited, preserving the already approved queue.
@@ -30,8 +33,8 @@ ctest --test-dir build-core99-l0124-waffle \
 # without nested oversubscription.
 python3 scripts/run_core99_l0124_admission.py \
     --binary build-core99-l0124-waffle/hpc/core99_cpp/core99_l0124_hpc \
-    --output-root "results/core99/formal/L0124/${CORE99_SOURCE_COMMIT}" \
-    --source-commit "${CORE99_SOURCE_COMMIT}" \
+    --output-root "${output_root}" \
+    --source-commit "${source_commit}" \
     --workers-per-run 1 \
     --concurrent-runs 20 \
     --population 600 \

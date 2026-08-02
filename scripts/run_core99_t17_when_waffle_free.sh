@@ -7,9 +7,12 @@
 # Last evidence-audit date: 2026-07-31
 # END WFLOP IMPLEMENTATION FACT DECLARATION
 set -euo pipefail
-: "${CORE99_SOURCE_COMMIT:?set CORE99_SOURCE_COMMIT to the deployed commit}"
+project_root=${1:?project root required}
+source_commit=${2:?source commit required}
+output_root=${3:?output root required}
+cd "${project_root}"
 observed_commit=$(git rev-parse HEAD)
-[[ "${observed_commit}" == "${CORE99_SOURCE_COMMIT}" ]] || exit 2
+[[ "${observed_commit}" == "${source_commit}" ]] || exit 2
 
 # Preserve all already-approved Waffle work. T17 starts only after those
 # sessions and the queued T62 admission release the shared twenty CPU cores.
@@ -29,8 +32,8 @@ ctest --test-dir build-core99-t17-waffle \
 python3 scripts/run_core99_t17_admission.py \
     --binary build-core99-t17-waffle/hpc/core99_cpp/core99_t17_hpc \
     --proxy shared/data/core99_t17_pywake_proxy.bin \
-    --output-root "results/core99/h6/T17/${CORE99_SOURCE_COMMIT}" \
-    --source-commit "${CORE99_SOURCE_COMMIT}" \
+    --output-root "${output_root}" \
+    --source-commit "${source_commit}" \
     --workers-per-run 10 \
     --concurrent-runs 2 \
     --stage1-fes 500 \
