@@ -47,7 +47,9 @@ FAST_ALGORITHMS = (
 )
 EXPENSIVE_ALGORITHMS = ("t12_3s_mde",)
 ALGORITHMS = (*FAST_ALGORITHMS, *EXPENSIVE_ALGORITHMS)
-SCENARIOS = tuple(range(5))
+# Paper and C++ identifiers are one-based (scenarios 1 through 5). Keeping the
+# campaign representation one-based prevents a runner/binary boundary offset.
+SCENARIOS = tuple(range(1, 6))
 PAPER_COST_ANCHORS = {
     "t12_3s_mde": [
         1.164422e-3, 1.00929e-3, 6.26867e-4, 6.53861e-4, 1.142309e-3,
@@ -105,7 +107,7 @@ def valid_role(
         return False
     return (
         value.get("algorithm_id") == algorithm
-        and value.get("problem_id") == f"t12_windflo_s{scenario + 1}"
+        and value.get("problem_id") == f"t12_windflo_s{scenario}"
         and value.get("method_semantic_id") == METHOD
         and value.get("problem_semantic_id") == PROBLEM
         and value.get("protocol_semantic_id") == PROTOCOL
@@ -126,7 +128,7 @@ def run_role(
     algorithm: str,
     scenario: int,
 ) -> tuple[dict[str, Any], bool]:
-    output = root / "roles" / f"scenario-{scenario + 1:02d}" / (
+    output = root / "roles" / f"scenario-{scenario:02d}" / (
         f"{algorithm}.json"
     )
     binary_hash = sha256(args.binary)
@@ -164,7 +166,7 @@ def run_role(
         "corpus_id": "T12",
         "protocol_semantic_id": PROTOCOL,
         "campaign_role": "paper_native_method_scenario",
-        "campaign_scenario": scenario + 1,
+        "campaign_scenario": scenario,
         "campaign_algorithm": algorithm,
         "campaign_seed": args.seed,
         "source_commit": args.source_commit,
@@ -172,7 +174,7 @@ def run_role(
     })
     require(payload["method_semantic_id"] == METHOD, "T12 method identity")
     require(payload["problem_semantic_id"] == PROBLEM, "T12 problem identity")
-    require(payload["problem_id"] == f"t12_windflo_s{scenario + 1}",
+    require(payload["problem_id"] == f"t12_windflo_s{scenario}",
             "T12 scenario identity")
     require(payload["requested_workers"] == args.workers,
             "T12 all-core request")
@@ -243,14 +245,14 @@ def main() -> int:
         )
         records.append(receipt(row, reused))
         print(
-            f"t12_formal completed={index}/20 scenario={scenario + 1} "
+            f"t12_formal completed={index}/20 scenario={scenario} "
             f"algorithm={algorithm} wall={row['end_to_end_seconds']:.6f}",
             flush=True,
         )
 
     require(len(records) == 20, "T12 formal role matrix incomplete")
     require({(row["algorithm_id"], row["scenario"]) for row in records}
-            == {(algorithm, scenario + 1)
+            == {(algorithm, scenario)
                 for algorithm in ALGORITHMS for scenario in SCENARIOS},
             "T12 formal role identities differ")
     manifest = {

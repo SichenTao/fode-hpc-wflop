@@ -33,7 +33,7 @@ cmake -S . -B build-waffle-t12 \
 cmake --build build-waffle-t12 \
     --target core99_t12_hpc core99_t12_test -j "${workers}"
 ctest --test-dir build-waffle-t12 \
-    -R '^core99_t12_(cpp|h5)$' --output-on-failure
+    -R '^core99_t12_(cpp|h5|runner)$' --output-on-failure
 python3 scripts/run_core99_t12_admission.py \
     --binary build-waffle-t12/hpc/core99_cpp/core99_t12_hpc \
     --output-root "${output_root}" \

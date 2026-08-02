@@ -1686,6 +1686,12 @@ if(BUILD_TESTING)
             --contract
                 ${CMAKE_CURRENT_SOURCE_DIR}/../../shared/contracts/core99_t12_windflo_2015.json
     )
+    add_test(
+        NAME core99_t12_runner
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/test_core99_t12_runner.py
+            --binary $<TARGET_FILE:core99_t12_hpc>
+    )
     add_executable(core99_t14_test tests/stanley_t14_test.cpp)
     target_link_libraries(core99_t14_test PRIVATE core99_t14_core)
     add_test(NAME core99_t14_cpp COMMAND core99_t14_test)
