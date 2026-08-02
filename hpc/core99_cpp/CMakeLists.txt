@@ -1692,6 +1692,12 @@ if(BUILD_TESTING)
             ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/test_core99_t12_runner.py
             --binary $<TARGET_FILE:core99_t12_hpc>
     )
+    add_test(
+        NAME core99_t12_mde_progress
+        COMMAND ${Python3_EXECUTABLE}
+            ${CMAKE_CURRENT_SOURCE_DIR}/../../scripts/test_core99_t12_mde_progress.py
+            --binary $<TARGET_FILE:core99_t12_hpc>
+    )
     add_executable(core99_t14_test tests/stanley_t14_test.cpp)
     target_link_libraries(core99_t14_test PRIVATE core99_t14_core)
     add_test(NAME core99_t14_cpp COMMAND core99_t14_test)

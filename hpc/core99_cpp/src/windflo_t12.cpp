@@ -12,9 +12,11 @@ Controlling contract: shared/contracts/core99_t12_windflo_2015.json
 Independent oracle: scripts/validate_core99_t12.py
 HPC design: persistent workers evaluate independent candidate layouts; a
 single coarse layout evaluates its 24 wind directions in parallel; search
-state and FES are committed in deterministic paper order
+state and FES are committed in deterministic paper order; counter-keyed MDE
+index rejection advances a unique retry key and has a finite ordered fallback
+because replaying one counter key would repeat one excluded index indefinitely
 Claim boundary: academic declared reproduction, not author-exact RNG replay
-Last evidence-audit date: 2026-07-31
+Last evidence-audit date: 2026-08-02
 END WFLOP IMPLEMENTATION FACT DECLARATION
 */
 #include "core99/windflo_t12.hpp"
@@ -28,7 +30,9 @@ END WFLOP IMPLEMENTATION FACT DECLARATION
 #include <chrono>
 #include <cmath>
 #include <cstddef>
+#include <cstdlib>
 #include <deque>
+#include <iostream>
 #include <limits>
 #include <map>
 #include <numbers>
@@ -1193,6 +1197,67 @@ double rhomboid_surrogate_score(
         std::ceil(surrogate.distances.back()
                   / std::min(parameter[2], parameter[3]))
     ) + 2;
+    // Two-dimensional Gauss reduction finds a short vector of the rhomboid
+    // lattice in constant time.  A rejection is accepted only when the same
+    // integer coefficient pair lies inside the paper-order finite scan and a
+    // direct displacement check proves that it violates the spacing rule.
+    // Therefore this fast path removes only work whose original loop would
+    // deterministically reject; all surviving scores retain the source scan
+    // and floating-point reduction order.
+    struct ReducedVector {
+        Point value;
+        long long first_coefficient = 0;
+        long long second_coefficient = 0;
+    };
+    ReducedVector left{first, 1, 0};
+    ReducedVector right{second, 0, 1};
+    const auto squared_norm = [](const Point& value) {
+        return value.x * value.x + value.y * value.y;
+    };
+    for (int reduction = 0; reduction < 64; ++reduction) {
+        if (squared_norm(right.value) < squared_norm(left.value)) {
+            std::swap(left, right);
+        }
+        const double denominator = squared_norm(left.value);
+        if (denominator <= 1.0e-18) {
+            break;
+        }
+        const long long multiple = std::llround(
+            (left.value.x * right.value.x
+             + left.value.y * right.value.y) / denominator
+        );
+        if (multiple == 0) {
+            break;
+        }
+        right.value.x -= static_cast<double>(multiple) * left.value.x;
+        right.value.y -= static_cast<double>(multiple) * left.value.y;
+        right.first_coefficient -= multiple * left.first_coefficient;
+        right.second_coefficient -= multiple * left.second_coefficient;
+    }
+    const auto proves_violation = [&](const ReducedVector& candidate) {
+        if (
+            candidate.first_coefficient == 0
+            && candidate.second_coefficient == 0
+        ) {
+            return false;
+        }
+        if (
+            std::abs(candidate.first_coefficient) > reach
+            || std::abs(candidate.second_coefficient) > reach
+        ) {
+            return false;
+        }
+        const Point direct{
+            static_cast<double>(candidate.first_coefficient) * first.x
+                + static_cast<double>(candidate.second_coefficient) * second.x,
+            static_cast<double>(candidate.first_coefficient) * first.y
+                + static_cast<double>(candidate.second_coefficient) * second.y
+        };
+        return std::hypot(direct.x, direct.y) < kMinimumSpacing;
+    };
+    if (proves_violation(left) || proves_violation(right)) {
+        return -kInvalid;
+    }
     for (int i = -reach; i <= reach; ++i) {
         for (int j = -reach; j <= reach; ++j) {
             if (i == 0 && j == 0) {
@@ -1401,7 +1466,18 @@ Candidate run_3s_mde(
     SearchContext& context,
     const fode::CounterRng& rng
 ) {
+    auto stage_start = Clock::now();
+    const bool trace_stages = std::getenv("CORE99_T12_PROFILE") != nullptr;
+    auto trace = [&](const char* stage) {
+        if (trace_stages) {
+            std::cerr << "t12_3s_stage=" << stage
+                      << " seconds=" << seconds_since(stage_start)
+                      << " fes=" << context.fes << '\n';
+        }
+        stage_start = Clock::now();
+    };
     Surrogate surrogate = build_surrogate(context, rng);
+    trace("surrogate_build");
     const double area = usable_area(context.problem);
     if (context.fes >= context.limit) {
         Candidate empty;
@@ -1431,16 +1507,26 @@ Candidate run_3s_mde(
             15000
         );
     });
-    std::vector<std::vector<Point>> layouts;
-    for (std::size_t member = 0; member < initial_size; ++member) {
-        layouts.push_back(rhomboid_layout(
+    trace("initial_trajectory_search");
+    std::vector<std::vector<Point>> layouts(initial_size);
+    context.executor.parallel_for(0, static_cast<int>(initial_size), [&](int raw) {
+        const std::size_t member = static_cast<std::size_t>(raw);
+        layouts[member] = rhomboid_layout(
             context.problem,
             parameters[member],
             rng,
             600 + member
-        ));
-    }
+        );
+    });
     const auto values = context.evaluate(layouts);
+    std::vector<double> parameter_scores(initial_size, -kInvalid);
+    context.executor.parallel_for(0, static_cast<int>(initial_size), [&](int raw) {
+        const std::size_t member = static_cast<std::size_t>(raw);
+        parameter_scores[member] = rhomboid_surrogate_score(
+            context.problem, parameters[member], surrogate, area
+        );
+    });
+    trace("initial_decode_and_physical_evaluation");
     struct Individual {
         std::array<double, 4> parameter{};
         std::vector<Point> layout;
@@ -1455,9 +1541,7 @@ Candidate run_3s_mde(
             parameters[member],
             layouts[member],
             values[member],
-            rhomboid_surrogate_score(
-                context.problem, parameters[member], surrogate, area
-            )
+            parameter_scores[member]
         });
         if (better(values[member], global.evaluation)) {
             global = {layouts[member], values[member]};
@@ -1487,28 +1571,66 @@ Candidate run_3s_mde(
             static_cast<int>(population.size()),
             [&](int raw) {
                 const std::size_t member = static_cast<std::size_t>(raw);
-                auto select = [&](std::uint64_t draw) {
-                    std::size_t selected;
-                    do {
-                        selected = static_cast<std::size_t>(rng.integer(
-                            0,
-                            static_cast<int>(population.size()),
-                            generation,
-                            540 + draw,
-                            member
-                        ));
-                    } while (selected == member);
-                    return selected;
+                // Counter-keyed random draws must advance the draw key on a
+                // rejection.  Reusing one key would return the same excluded
+                // index forever.  The bounded retry loop preserves the first
+                // paper/source draw keys (540, 541, and 560), adds a unique
+                // key per retry, and uses a deterministic finite fallback.
+                const auto select_distinct = [&, member](
+                    std::uint64_t first_draw,
+                    const std::array<std::size_t, 3>& excluded,
+                    std::size_t excluded_count
+                ) {
+                    const auto allowed = [&](std::size_t selected) {
+                        const auto excluded_end = excluded.begin()
+                            + static_cast<std::ptrdiff_t>(excluded_count);
+                        return std::find(
+                            excluded.begin(),
+                            excluded_end,
+                            selected
+                        ) == excluded_end;
+                    };
+                    for (std::uint64_t retry = 0; retry < 64; ++retry) {
+                        const std::size_t selected =
+                            static_cast<std::size_t>(rng.integer(
+                                0,
+                                static_cast<int>(population.size()),
+                                generation,
+                                540 + first_draw + 64ULL * retry,
+                                member
+                            ));
+                        if (allowed(selected)) {
+                            return selected;
+                        }
+                    }
+                    for (
+                        std::size_t selected = 0;
+                        selected < population.size();
+                        ++selected
+                    ) {
+                        if (allowed(selected)) {
+                            return selected;
+                        }
+                    }
+                    throw std::logic_error(
+                        "T12 MDE cannot select a distinct population index"
+                    );
                 };
-                const std::size_t r1 = select(0);
-                std::size_t r2 = select(1);
-                while (r2 == r1) {
-                    r2 = select(2 + r2);
-                }
-                std::size_t r3 = select(20);
-                while (r3 == r1 || r3 == r2) {
-                    r3 = select(21 + r3);
-                }
+                const std::size_t r1 = select_distinct(
+                    0,
+                    {member, 0, 0},
+                    1
+                );
+                const std::size_t r2 = select_distinct(
+                    1,
+                    {member, r1, 0},
+                    2
+                );
+                const std::size_t r3 = select_distinct(
+                    20,
+                    {member, r1, r2},
+                    3
+                );
                 auto trial = population[member].parameter;
                 const int mandatory = rng.integer(
                     0, 4, generation, 560, member
@@ -1564,17 +1686,24 @@ Candidate run_3s_mde(
         std::vector<std::vector<Point>> decoded_trials(trials.size());
         std::vector<double> approximate_scores(trials.size(), -kInvalid);
         std::vector<bool> admitted(trials.size(), false);
+        context.executor.parallel_for(
+            0,
+            static_cast<int>(trials.size()),
+            [&](int raw) {
+                const std::size_t member = static_cast<std::size_t>(raw);
+                decoded_trials[member] = rhomboid_layout(
+                    context.problem,
+                    trials[member],
+                    rng,
+                    generation * 1000ULL + member
+                );
+                approximate_scores[member] = rhomboid_surrogate_score(
+                    context.problem, trials[member], surrogate, area
+                );
+            }
+        );
         for (std::size_t member = 0; member < trials.size(); ++member) {
-            decoded_trials[member] = rhomboid_layout(
-                context.problem,
-                trials[member],
-                rng,
-                generation * 1000ULL + member
-            );
-            const double approximate = rhomboid_surrogate_score(
-                context.problem, trials[member], surrogate, area
-            );
-            approximate_scores[member] = approximate;
+            const double approximate = approximate_scores[member];
             if (
                 !std::isfinite(global.evaluation.energy_cost)
                 // Source admits a trial when its surrogate cost is no more
@@ -1633,7 +1762,11 @@ Candidate run_3s_mde(
             }
         }
         ++generation;
+        if (trace_stages && generation % 10U == 0U) {
+            trace("mde_generation_block");
+        }
     }
+    trace("mde_stage_complete");
     // Paper stage 3: use remaining physical evaluations for simultaneous
     // bounded turbine perturbations; candidate generation is independent and
     // therefore evaluated as all-core batches.
@@ -1681,6 +1814,7 @@ Candidate run_3s_mde(
         }
         ++local_iteration;
     }
+    trace("local_stage_complete");
     return global;
 }
 

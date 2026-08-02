@@ -27,7 +27,10 @@ generation under the paper's 1.20 filter, the best surrogate-ranked trials
 deterministically fill half the batch so the declared physical budget advances
 Each long surrogate-only local trajectory uses a counter-keyed,
 trajectory-owned SplitMix stream, avoiding repeated full event hashing while
-preserving schedule-independent uniform draws
+preserving schedule-independent uniform draws; MDE distinct-index rejection
+uses a new deterministic counter key on every retry plus a finite ordered
+fallback, since reusing one counter key would reproduce the excluded index and
+could not terminate
 Method/problem/protocol semantic IDs: t12_four_competition_methods_v1;
 t12_windflo_2015_five_scenarios_v1;
 t12_five_scenarios_four_methods_single_competition_run_v1
